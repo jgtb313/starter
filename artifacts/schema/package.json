@@ -1,0 +1,42 @@
+{
+  "name": "@starter/schema",
+  "version": "1.0.1",
+  "author": "João <jgtb313@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite build --watch",
+    "generate:schema": "yarn plop schema",
+    "build": "vite build",
+    "build:watch": "vite build --watch",
+    "type-check": "tsc --project tsconfig.json --pretty --noEmit",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:watch": "vitest --watch --coverage"
+  },
+  "dependencies": {
+    "@anatine/zod-openapi": "^2.2.5",
+    "@starter/shared": "*",
+    "@swc/core": "^1.2.165",
+    "i18next": "^23.14.0",
+    "plop": "^4.0.1",
+    "typescript": "5.0.4",
+    "vite": "^5.3.3",
+    "vite-plugin-dts": "^3.9.1",
+    "zod": "3.23.8",
+    "zod-i18n-map": "^2.27.0"
+  },
+  "main": "dist/schema.umd.js",
+  "module": "dist/schema.es.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/schema.umd.js",
+      "import": "./dist/schema.es.js"
+    }
+  },
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ]
+}

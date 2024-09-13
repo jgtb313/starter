@@ -1,0 +1,145 @@
+/**
+ * @name {{pascalCase name}}
+ * @description This module exposes functions
+ *              related to the `/{{kebabCase namePlural}}` path
+ *
+ * @module {{pascalCase name}}
+ **/
+import {
+  {{pascalCase name}},
+  Index{{pascalCase name}}Input,
+  Index{{pascalCase name}}Output,
+  List{{pascalCase name}}Input,
+  List{{pascalCase name}}Output,
+  Get{{pascalCase name}}ByIdInput,
+  Get{{pascalCase name}}ByIdOutput,
+  Create{{pascalCase name}}Input,
+  Create{{pascalCase name}}Output,
+  Update{{pascalCase name}}Input,
+  Update{{pascalCase name}}Output,
+  Active{{pascalCase name}}Input,
+  Active{{pascalCase name}}Output,
+  Inactive{{pascalCase name}}Input,
+  Inactive{{pascalCase name}}Output,
+  Delete{{pascalCase name}}Input,
+  Delete{{pascalCase name}}Output
+} from '@starter/schema'
+
+import client from '@/request'
+import { withFields } from '@/support'
+
+/**
+ * `GET /{{kebabCase namePlural}}/index`
+ * Makes a request to /{{kebabCase namePlural}}/index
+ *
+ * @param {Object} body The body for the request.
+ * @param {Object} [body.fields] The fields.
+ *
+ * @returns Resolves to the result of the request or an error
+ */
+export const index = withFields<Index{{pascalCase name}}Input, Index{{pascalCase name}}Output, {{pascalCase name}}>((params) =>
+  client.get('/{{kebabCase namePlural}}/index', {
+    params
+  })
+)
+
+/**
+ * `GET /{{kebabCase namePlural}}`
+ * Makes a request to /{{kebabCase namePlural}}
+ *
+ * @param {Object} body The body for the request.
+ * @param {Object} [body.fields] The fields.
+ *
+ * @returns Resolves to the result of the request or an error
+ */
+export const list = withFields<List{{pascalCase name}}Input, List{{pascalCase name}}Output, {{pascalCase name}}>((params) =>
+  client.get('/{{kebabCase namePlural}}', {
+    params
+  })
+)
+
+/**
+ * `GET /{{kebabCase namePlural}}/:id`
+ * Makes a request to /{{kebabCase namePlural}}/:id
+ *
+ * @param {Object} body The body for the request.
+ * @param {Object} [body.fields] The fields.
+ *
+ * @returns Resolves to the result of the request or an error
+ */
+export const getById = withFields<Get{{pascalCase name}}ByIdInput, Get{{pascalCase name}}ByIdOutput>(({ id, ...params }) =>
+  client.get(`/{{kebabCase namePlural}}/${id}`, {
+    params
+  })
+)
+
+/**
+ * `POST /{{kebabCase namePlural}}`
+ * Makes a request to /{{kebabCase namePlural}}
+ *
+ * @param {Object} body The body for the request.
+ * @param {Object} [body.fields] The fields.
+ *
+ * @returns Resolves to the result of the request or an error
+ */
+export const create = withFields<Create{{pascalCase name}}Input, Create{{pascalCase name}}Output>(({ fields, ...input }) =>
+  client.post('/{{kebabCase namePlural}}', input, {
+    params: { fields }
+  })
+)
+
+/**
+ * `PATCH /{{kebabCase namePlural}}/:id`
+ * Makes a request to /{{kebabCase namePlural}}/:id
+ *
+ * @param {Object} body The body for the request.
+ * @param {Object} [body.fields] The fields.
+ *
+ * @returns Resolves to the result of the request or an error
+ */
+export const update = withFields<Update{{pascalCase name}}Input, Update{{pascalCase name}}Output>(({ id, fields, ...input }) =>
+  client.patch<Update{{pascalCase name}}Input, Update{{pascalCase name}}Output>(`{{pascalCase name}}s/${id}`, input, { params: { fields } })
+)
+
+/**
+ * `PATCH /{{kebabCase namePlural}}/:id/active`
+ * Makes a request to /{{kebabCase namePlural}}/:id/active
+ *
+ * @param {Object} body The body for the request.
+ * @param {Object} [body.fields] The fields.
+ *
+ * @returns Resolves to the result of the request or an error
+ */
+export const active = withFields<Active{{pascalCase name}}Input, Active{{pascalCase name}}Output>(({ id, fields }) =>
+  client.patch(`{{kebabCase namePlural}}/${id}/active`, {}, { params: { fields } })
+)
+
+/**
+ * `PATCH /{{kebabCase namePlural}}/:id/inactive`
+ * Makes a request to /{{kebabCase namePlural}}/:id/inactive
+ *
+ * @param {Object} body The body for the request.
+ * @param {Object} [body.fields] The fields.
+ *
+ * @returns Resolves to the result of the request or an error
+ */
+export const inactive = withFields<Inactive{{pascalCase name}}Input, Inactive{{pascalCase name}}Output>(({ id, fields }) =>
+  client.patch(`/{{kebabCase namePlural}}/${id}/inactive`, {
+    params: { fields }
+  })
+)
+
+/**
+ * `DELETE /{{kebabCase namePlural}}/:id`
+ * Makes a request to /{{kebabCase namePlural}}/:id
+ *
+ * @param {Object} body The body for the request.
+ * @param {Object} [body.fields] The fields.
+ *
+ * @returns Resolves to the result of the request or an error
+ */
+export const destroy = withFields<Delete{{pascalCase name}}Input, Delete{{pascalCase name}}Output>(({ id, fields }) =>
+  client.delete(`/{{kebabCase namePlural}}/${id}`, {
+    params: { fields }
+  })
+)

@@ -1,0 +1,15 @@
+import { z } from '@/zod'
+
+import { ID, DeletedAtSchema, CreatedAtSchema, UpdatedAtSchema } from '@/shared'
+import { {{pascalCase name}}StatusEnum } from './{{pascalCase name}}.enums'
+
+const Status = z.nativeEnum({{pascalCase name}}StatusEnum)
+
+export const {{pascalCase name}}Schema = z.object({
+  id: ID,
+  status: Status,
+  deletedAt: DeletedAtSchema,
+  createdAt: CreatedAtSchema,
+  updatedAt: UpdatedAtSchema
+})
+export type {{pascalCase name}} = z.infer<typeof {{pascalCase name}}Schema>

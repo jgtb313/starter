@@ -1,0 +1,113 @@
+{
+  "errors": {
+    "invalid_type": "Deve ser do tipo {{expected}}, porém foi enviado {{received}}",
+    "invalid_type_received_undefined": "Campo obrigatório",
+    "invalid_type_received_null": "Campo obrigatório",
+    "invalid_literal": "Valor inválido, era esperado {{expected}}",
+    "unrecognized_keys": "Chave(s) não reconhecida(s) no objeto: {{- keys}}",
+    "invalid_union": "Inválido",
+    "invalid_union_discriminator": "Valor discriminador inválido. Foi esperado {{- options}}",
+    "invalid_enum_value": "Enum no formato inválido. Foi esperado {{- options}}, porém foi recebido '{{received}}'",
+    "invalid_arguments": "Argumento da função inválido",
+    "invalid_return_type": "Retorno da função inválido",
+    "invalid_date": "Data inválida",
+    "custom": "Inválido",
+    "invalid_intersection_types": "Valores de interseção não poderam ser mesclados",
+    "not_multiple_of": "Deve ser múltiplo de {{multipleOf}}",
+    "not_finite": "Não pode ser infinito",
+    "invalid_string": {
+      "email": "E-mail inválido",
+      "url": "URL inválida",
+      "uuid": "UUID inválido",
+      "cuid": "CUID inválido",
+      "regex": "Combinação inválida",
+      "datetime": "Inválido",
+      "startsWith": "Deve iniciar com \"{{startsWith}}\"",
+      "endsWith": "Deve terminar com \"{{endsWith}}\""
+    },
+    "too_small": {
+      "array": {
+        "exact": "Deve conter exatamente {{minimum}} elemento(s)",
+        "inclusive": "Deve conter no mínimo {{minimum}} elemento(s)",
+        "not_inclusive": "Deve conter mais de {{minimum}} elemento(s)"
+      },
+      "string": {
+        "exact": "Deve conter exatamente {{minimum}} caracter(es)",
+        "inclusive": "Deve conter pelo menos {{minimum}} caracter(es)",
+        "not_inclusive": "Deve conter mais de {{minimum}} caracter(es)"
+      },
+      "number": {
+        "exact": "Deve conter exatamente {{minimum}} caracter(es)",
+        "inclusive": "Deve ser maior ou igual a {{minimum}}",
+        "not_inclusive": "Deve ser maior que {{minimum}}"
+      },
+      "set": {
+        "exact": "Inválido",
+        "inclusive": "Inválido",
+        "not_inclusive": "Inválido"
+      },
+      "date": {
+        "exact": "Deve ser exatamente {{- maximum, datetime}}",
+        "inclusive": "Deve ser maior ou igual a {{- minimum, datetime}}",
+        "not_inclusive": "Deve ser maior que {{- minimum, datetime}}"
+      }
+    },
+    "too_big": {
+      "array": {
+        "exact": "Deve conter exatamente {{maximum}} elemento(s)",
+        "inclusive": "Deve conter no máximo {{maximum}} elemento(s)",
+        "not_inclusive": "Deve conter menos de {{maximum}} elemento(s)"
+      },
+      "string": {
+        "exact": "Deve conter exatamente {{maximum}} caracter(es)",
+        "inclusive": "Pode conter no máximo {{maximum}} caracter(es)",
+        "not_inclusive": "Deve conter menos que {{maximum}} caracter(es)"
+      },
+      "number": {
+        "exact": "Deve conter exatamente {{maximum}} caracter(es)",
+        "inclusive": "Deve ser menor ou igual a {{maximum}}",
+        "not_inclusive": "Deve ser menor que {{maximum}}"
+      },
+      "set": {
+        "exact": "Inválido",
+        "inclusive": "Inválido",
+        "not_inclusive": "Inválido"
+      },
+      "date": {
+        "exact": "Deve ser exatamente {{- maximum, datetime}}",
+        "inclusive": "Deve ser menor ou igual a {{- maximum, datetime}}",
+        "not_inclusive": "Deve ser menor que {{- maximum, datetime}}"
+      }
+    }
+  },
+  "validations": {
+    "email": "email",
+    "url": "url",
+    "uuid": "uuid",
+    "cuid": "cuid",
+    "regex": "regex",
+    "datetime": "datetime"
+  },
+  "types": {
+    "function": "function",
+    "number": "number",
+    "string": "string",
+    "nan": "nan",
+    "integer": "integer",
+    "float": "float",
+    "boolean": "boolean",
+    "date": "date",
+    "bigint": "bigint",
+    "undefined": "undefined",
+    "symbol": "symbol",
+    "null": "null",
+    "array": "array",
+    "object": "object",
+    "unknown": "unknown",
+    "promise": "promise",
+    "void": "void",
+    "never": "never",
+    "map": "map",
+    "set": "set"
+  }
+}

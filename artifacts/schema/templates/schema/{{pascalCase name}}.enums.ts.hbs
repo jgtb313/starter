@@ -1,0 +1,22 @@
+import { createEnumOptions } from '@/support'
+
+export enum {{pascalCase name}}StatusEnum {
+  ACTIVE = 'ACTIVE',
+  INACTIVE = 'INACTIVE',
+  DELETED = 'DELETED'
+}
+
+export const {{pascalCase name}}Status = createEnumOptions<{{pascalCase name}}StatusEnum>([
+  {
+    label: 'Ativo',
+    value: {{pascalCase name}}StatusEnum.ACTIVE
+  },
+  {
+    label: 'Inativo',
+    value: {{pascalCase name}}StatusEnum.INACTIVE
+  },
+  {
+    label: 'Deletado',
+    value: {{pascalCase name}}StatusEnum.DELETED
+  }
+])

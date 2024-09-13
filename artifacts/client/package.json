@@ -1,0 +1,36 @@
+{
+  "name": "@starter/client",
+  "version": "1.0.0",
+  "author": "João <jgtb313@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite build --watch",
+    "generate:resource": "yarn plop resource",
+    "build": "vite build",
+    "build:watch": "vite build --watch",
+    "type-check": "tsc --project tsconfig.json --pretty --noEmit"
+  },
+  "dependencies": {
+    "@starter/schema": "*",
+    "@starter/shared": "*",
+    "@swc/core": "^1.2.165",
+    "axios": "0.27.2",
+    "plop": "^4.0.1",
+    "typescript": "5.0.4",
+    "vite": "^5.3.3",
+    "vite-plugin-dts": "^3.9.1"
+  },
+  "main": "dist/client.umd.js",
+  "module": "dist/client.es.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/client.umd.js",
+      "import": "./dist/client.es.js"
+    }
+  },
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ]
+}
