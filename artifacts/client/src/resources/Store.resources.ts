@@ -19,7 +19,6 @@ import {
 
 import client from '@/request'
 import { withFields } from '@/support'
-import { parseApiStore, ApiStore, ApiListOutput } from '@/api-mapping'
 
 /**
  * `GET /stores`
@@ -31,20 +30,9 @@ import { parseApiStore, ApiStore, ApiListOutput } from '@/api-mapping'
  * @returns Resolves to the result of the request or an error
  */
 export const list = withFields<ListStoreInput, ListStoreOutput, Store>((params) =>
-  client
-    .get<{}, ApiListOutput<ApiStore>>('/store/index', {
-      params
-    })
-    .then((response) => {
-      const items: Store[] = response.items.map(parseApiStore)
-
-      return {
-        values: items,
-        offset: 0,
-        limit: 10,
-        total: response.estimatedCount
-      }
-    })
+  client.get('/stores', {
+    params
+  })
 )
 
 /**
@@ -56,22 +44,10 @@ export const list = withFields<ListStoreInput, ListStoreOutput, Store>((params) 
  *
  * @returns Resolves to the result of the request or an error
  */
-export const create = withFields<CreateStoreInput, CreateStoreOutput>(({ fields, rcky, document, ...input }) =>
-  client
-    .post<{}, ApiStore>(
-      '/store/create',
-      {
-        ...input,
-        rcky: Number(rcky),
-        cnpj: document.number
-      },
-      {
-        params: { fields }
-      }
-    )
-    .then((response) => {
-      return parseApiStore(response)
-    })
+export const create = withFields<CreateStoreInput, CreateStoreOutput>(({ fields, ...input }) =>
+  client.post('/stores', input, {
+    params: { fields }
+  })
 )
 
 /**
@@ -83,20 +59,8 @@ export const create = withFields<CreateStoreInput, CreateStoreOutput>(({ fields,
  *
  * @returns Resolves to the result of the request or an error
  */
-export const update = withFields<UpdateStoreInput, UpdateStoreOutput>(({ id, rcky, document, fields, ...input }) =>
-  client
-    .patch<{}, ApiStore>(
-      '/store/update',
-      {
-        ...input,
-        rcky: rcky ? Number(rcky) : undefined,
-        cnpj: document?.number
-      },
-      { params: { id, fields } }
-    )
-    .then((response) => {
-      return parseApiStore(response)
-    })
+export const update = withFields<UpdateStoreInput, UpdateStoreOutput>(({ id, fields, ...input }) =>
+  client.patch(`/stores/${id}`, input, { params: { fields } })
 )
 
 /**
@@ -109,7 +73,7 @@ export const update = withFields<UpdateStoreInput, UpdateStoreOutput>(({ id, rck
  * @returns Resolves to the result of the request or an error
  */
 export const destroy = withFields<DeleteStoreInput, DeleteStoreOutput>(({ id, fields }) =>
-  client.delete('store/delete', {
-    params: { id, fields }
+  client.delete(`stores/${id}`, {
+    params: { fields }
   })
 )

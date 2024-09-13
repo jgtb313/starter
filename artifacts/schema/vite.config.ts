@@ -20,8 +20,8 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@': resolve(__dirname, './src'),
-      '@/common': resolve(__dirname, './src/@common')
+      '@/common': resolve(__dirname, './src/@common'),
+      '@': resolve(__dirname, './src')
     }
   }
 })

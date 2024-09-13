@@ -1,6 +1,5 @@
 export enum EnvEnum {
   LOCAL = 'local',
-  OFFLINE = 'offline',
   DEV = 'dev',
   STG = 'stg',
   PRD = 'prd'
@@ -10,10 +9,9 @@ export type Env = keyof typeof EnvEnum
 
 export const BASE_URLS = {
   [EnvEnum.LOCAL]: 'http://127.0.0.1:4000',
-  [EnvEnum.OFFLINE]: 'http://localhost:4001/dev',
-  [EnvEnum.DEV]: 'https://api.smartstockapp.com.br', // https://api.dev.smartstockapp.com.br
-  [EnvEnum.STG]: 'https://api.stg.smartstockapp.com.br',
-  [EnvEnum.PRD]: 'https://api.smartstockapp.com.br'
+  [EnvEnum.DEV]: 'https://api.starter.com.br',
+  [EnvEnum.STG]: 'https://api.stg.starter.com.br',
+  [EnvEnum.PRD]: 'https://api.starter.com.br'
 }
 
 export const state: State = {

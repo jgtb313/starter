@@ -1,6 +1,6 @@
 import { z } from '@/zod'
 
-import { PaginationSchema, BasePaginationSchemaOutput } from '@/@common'
+import { PaginationSchema, BasePaginationSchemaOutput } from '@/common'
 import { StoreSchema } from './Store.schema'
 
 export const ListStoreSchema = StoreSchema.pick({}).and(PaginationSchema)

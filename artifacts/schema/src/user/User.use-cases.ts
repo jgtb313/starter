@@ -1,6 +1,6 @@
 import { z } from '@/zod'
 
-import { ID, PaginationSchema, BasePaginationSchemaOutput } from '@/@common'
+import { ID, PaginationSchema, BasePaginationSchemaOutput } from '@/common'
 import { StoreSchema } from '..//store/Store.schema'
 import { UserSchema } from './User.schema'
 

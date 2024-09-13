@@ -9,7 +9,6 @@ import { GetPlanByIdInput, GetPlanByIdOutput } from '@starter/schema'
 
 import client from '@/request'
 import { withFields } from '@/support'
-import { parseApiPlan, ApiPlan } from '@/api-mapping'
 
 /**
  * `GET /plans/:id`
@@ -21,11 +20,7 @@ import { parseApiPlan, ApiPlan } from '@/api-mapping'
  * @returns Resolves to the result of the request or an error
  */
 export const getById = withFields<GetPlanByIdInput, GetPlanByIdOutput>(({ id, ...params }) =>
-  client
-    .get<{}, ApiPlan>(`/checkout/plan?id=${id}`, {
-      params
-    })
-    .then((response) => {
-      return parseApiPlan(response)
-    })
+  client.get(`/plans/${id}`, {
+    params
+  })
 )

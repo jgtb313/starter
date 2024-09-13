@@ -3,8 +3,8 @@ import path from 'path'
 export default {
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, 'src'),
-      '@/common': path.resolve(__dirname, './src/@common')
+      '@/common': path.resolve(__dirname, './src/@common'),
+      '@': path.resolve(__dirname, 'src')
     }
   }
 }

@@ -17,13 +17,11 @@ import {
   UpdateUserInput,
   UpdateUserOutput,
   DeleteUserInput,
-  DeleteUserOutput,
-  Store
+  DeleteUserOutput
 } from '@starter/schema'
 
 import client from '@/request'
 import { withFields, WithoutId } from '@/support'
-import { parseApiUser, parseApiStore, ApiUser, ApiListOutput } from '@/api-mapping'
 
 /**
  * `GET /users`
@@ -35,80 +33,9 @@ import { parseApiUser, parseApiStore, ApiUser, ApiListOutput } from '@/api-mappi
  * @returns Resolves to the result of the request or an error
  */
 export const list = withFields<ListUserInput, ListUserOutput, User>((params) =>
-  client
-    .get('/user/index', {
-      params
-    })
-    .then((response) => {
-      const data = response as unknown as ApiListOutput<ApiUser>
-
-      const items: User[] = data.items.map(parseApiUser)
-
-      return {
-        values: items,
-        offset: 0,
-        limit: 10,
-        total: data.estimatedCount
-      }
-    })
-)
-
-/**
- * `POST /users`
- * Makes a request to /users
- *
- * @param {Object} body The body for the request.
- * @param {Object} [body.fields] The fields.
- *
- * @returns Resolves to the result of the request response or an error
- */
-export const create = withFields<CreateUserInput, CreateUserOutput>(({ relationships, ...input }) =>
-  client
-    .post('/user/create', {
-      user: {
-        ...input
-      },
-      roles: relationships.map((relationship) => ({
-        store: +relationship.storeId,
-        role: +relationship.roleId
-      }))
-    })
-    .then((response) => {
-      const data = response as unknown as ApiUser
-
-      return parseApiUser(data)
-    })
-)
-
-/**
- * `PATCH /users/:id`
- * Makes a request to /users/:id
- *
- * @param {Object} body The body for the request.
- * @param {Object} [body.fields] The fields.
- *
- * @returns Resolves to the result of the request response or an error
- */
-export const update = withFields<UpdateUserInput, UpdateUserOutput>(({ fields, id, relationships, ...input }) =>
-  client
-    .patch<{}, ApiUser>(
-      'users/update',
-      {
-        user: {
-          ...input
-        },
-        roles: relationships.map((relationship) => ({
-          store: +relationship.storeId,
-          role: +relationship.roleId
-        }))
-      },
-      {
-        params: { id, fields }
-      }
-    )
-    .then((response) => {
-      return parseApiUser(response)
-    })
+  client.get('/user', {
+    params
+  })
 )
 
 /**
@@ -121,16 +48,35 @@ export const update = withFields<UpdateUserInput, UpdateUserOutput>(({ fields, i
  * @returns Resolves to the result of the request response or an error
  */
 export const me = withFields<WithoutId<GetUserMeInput>, GetUserMeOutput>(({ fields }) =>
-  client
-    .get<{}, ApiUser>('user/user-me', {
-      params: { fields }
-    })
-    .then((response) => {
-      return {
-        store: response.userStores[0] ? parseApiStore(response.userStores[0].store) : ({} as Store),
-        user: parseApiUser(response)
-      }
-    })
+  client.get('user:me', {
+    params: { fields }
+  })
+)
+
+/**
+ * `POST /users`
+ * Makes a request to /users
+ *
+ * @param {Object} body The body for the request.
+ * @param {Object} [body.fields] The fields.
+ *
+ * @returns Resolves to the result of the request response or an error
+ */
+export const create = withFields<CreateUserInput, CreateUserOutput>(({ fields, ...input }) => client.post('/user', input, { params: { fields } }))
+
+/**
+ * `PATCH /users/:id`
+ * Makes a request to /users/:id
+ *
+ * @param {Object} body The body for the request.
+ * @param {Object} [body.fields] The fields.
+ *
+ * @returns Resolves to the result of the request response or an error
+ */
+export const update = withFields<UpdateUserInput, UpdateUserOutput>(({ fields, id, ...input }) =>
+  client.patch('users', input, {
+    params: { id, fields }
+  })
 )
 
 /**
@@ -142,4 +88,4 @@ export const me = withFields<WithoutId<GetUserMeInput>, GetUserMeOutput>(({ fiel
  *
  * @returns Resolves to the result of the request response or an error
  */
-export const destroy = withFields<DeleteUserInput, DeleteUserOutput>(({ id, fields }) => client.delete('/user/delete', { params: { id, fields } }))
+export const destroy = withFields<DeleteUserInput, DeleteUserOutput>(({ id, fields }) => client.delete('/user', { params: { id, fields } }))

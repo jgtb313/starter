@@ -14,18 +14,17 @@ export default defineConfig({
     emptyOutDir: false,
     sourcemap: false,
     rollupOptions: {
-      external: ['date-fns', 'brazilian-values', 'v4-uuid'],
+      external: ['date-fns', 'brazilian-values'],
       output: {
         exports: 'named',
         globals: {
           'date-fns': 'date-fns',
-          'brazilian-values': 'brazilian-values',
-          'v4-uuid': 'v4-uuid'
+          'brazilian-values': 'brazilian-values'
         }
       }
     }
   },
   optimizeDeps: {
-    include: ['date-fns', 'brazilian-values', 'v4-uuid']
+    include: ['date-fns', 'brazilian-values']
   }
 })

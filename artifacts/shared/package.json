@@ -27,7 +27,6 @@
     "omit-deep-lodash": "^1.1.7",
     "pick-deep": "^1.0.0",
     "typescript": "5.0.4",
-    "uuidv4": "^6.2.13",
     "vite": "^5.3.3",
     "vite-plugin-dts": "^3.9.1",
     "vitest": "^0.24.3"
@@ -45,8 +44,5 @@
   "files": [
     "dist",
     "src"
-  ],
-  "devDependencies": {
-    "@types/uuidv4": "^5.0.0"
-  }
+  ]
 }

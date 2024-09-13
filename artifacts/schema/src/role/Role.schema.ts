@@ -1,6 +1,6 @@
 import { z } from '@/zod'
 
-import { ID, CreatedAtSchema, UpdatedAtSchema } from '@/@common'
+import { ID, CreatedAtSchema, UpdatedAtSchema } from '@/common'
 import { RoleTypeEnum } from './Role.enums'
 
 const Name = z.string().min(1)

@@ -5,7 +5,7 @@
  *
  * @module Subscription
  **/
-import { CreateSubscriptionInput, CreateSubscriptionOutput, SubscriptionPaymentMethodEnum } from '@starter/schema'
+import { CreateSubscriptionInput, CreateSubscriptionOutput } from '@starter/schema'
 
 import client from '@/request'
 import { withFields } from '@/support'
@@ -20,22 +20,8 @@ import { withFields } from '@/support'
  * @returns Resolves to the result of the request or an error
  */
 
-export const create = withFields<CreateSubscriptionInput, CreateSubscriptionOutput>(({ planId, customer, paymentMethod, cardToken, fields }) =>
-  client.post(
-    '/checkout/payment',
-    {
-      planId,
-
-      name: customer.name,
-      email: customer.email,
-      cpf_cnpj: customer.document.number.replace(/[.-]/g, ''),
-
-      method: paymentMethod,
-
-      token: paymentMethod === SubscriptionPaymentMethodEnum.CREDIT_CARD ? cardToken : undefined
-    },
-    {
-      params: { fields }
-    }
-  )
+export const create = withFields<CreateSubscriptionInput, CreateSubscriptionOutput>(({ fields, ...input }) =>
+  client.post('/subscriptions', input, {
+    params: { fields }
+  })
 )

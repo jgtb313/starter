@@ -1,7 +1,7 @@
 import { z } from '@/zod'
 import { formatToCapitalized } from '@starter/shared'
 
-import { ID, EmailSchema, PasswordSchema, DeletedAtSchema, CreatedAtSchema, UpdatedAtSchema } from '@/@common'
+import { ID, EmailSchema, PasswordSchema, DeletedAtSchema, CreatedAtSchema, UpdatedAtSchema } from '@/common'
 import { StoreSchema } from '../store/Store.schema'
 import { RoleSchema } from '../role/Role.schema'
 import { UserStatusEnum } from './User.enums'

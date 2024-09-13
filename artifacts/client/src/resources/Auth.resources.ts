@@ -14,13 +14,11 @@ import {
   RecoverPasswordOutput,
   AccountActivationInput,
   AccountActivationOutput,
-  WithRecaptcha,
-  Store
+  WithRecaptcha
 } from '@starter/schema'
 
 import client from '@/request'
 import { withFields } from '@/support'
-import { parseApiStore, parseApiUser, ApiLogin } from '@/api-mapping'
 
 /**
  * `POST /auth:sign-in`
@@ -31,13 +29,7 @@ import { parseApiStore, parseApiUser, ApiLogin } from '@/api-mapping'
  *
  */
 export const signIn = withFields<WithRecaptcha<SignInInput>, SignInOutput>(({ fields, ...input }) =>
-  client.post<{}, ApiLogin>('/auth/login', input, { params: { fields } }).then((response) => {
-    return {
-      token: response.hash,
-      store: response.userStores.length ? parseApiStore(response.userStores[0].store) : ({} as Store),
-      user: parseApiUser(response)
-    }
-  })
+  client.post('/auth:sign-in', input, { params: { fields } })
 )
 
 /**
@@ -49,9 +41,7 @@ export const signIn = withFields<WithRecaptcha<SignInInput>, SignInOutput>(({ fi
  *
  */
 export const forgotPassword = withFields<WithRecaptcha<ForgotPasswordInput>, ForgotPasswordOutput>(({ fields, ...input }) =>
-  client.post('/auth/forgot-password', input, { params: { fields } }).catch(() => {
-    return {} as any
-  })
+  client.post('/auth:forgot-password', input, { params: { fields } })
 )
 
 /**
@@ -63,7 +53,7 @@ export const forgotPassword = withFields<WithRecaptcha<ForgotPasswordInput>, For
  *
  */
 export const recoverPassword = withFields<WithRecaptcha<RecoverPasswordInput>, RecoverPasswordOutput>(({ fields, ...input }) =>
-  client.post('/auth/recover-password', input, { params: { fields } })
+  client.post('/auth:recover-password', input, { params: { fields } })
 )
 
 /**
@@ -75,5 +65,5 @@ export const recoverPassword = withFields<WithRecaptcha<RecoverPasswordInput>, R
  *
  */
 export const accountActivation = withFields<WithRecaptcha<AccountActivationInput>, AccountActivationOutput>(({ fields, ...input }) =>
-  client.post('/auth/recover-password', input, { params: { fields } })
+  client.post('/auth:account-activation', input, { params: { fields } })
 )

@@ -1,6 +1,6 @@
 import { z } from '@/zod'
 
-import { ID, EmailSchema, DocumentExclusiveSchema, CreditCardSafeSchema, DeletedAtSchema, CreatedAtSchema, UpdatedAtSchema } from '@/@common'
+import { ID, EmailSchema, DocumentExclusiveSchema, CreditCardSafeSchema, DeletedAtSchema, CreatedAtSchema, UpdatedAtSchema } from '@/common'
 import { PlanSchema } from '../plan'
 import { SubscriptionPaymentMethodEnum, SubscriptionStatusEnum } from './Subscription.enums'
 
