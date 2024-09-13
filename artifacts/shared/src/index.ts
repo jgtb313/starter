@@ -23,5 +23,3 @@ export * from './isURL'
 export * from './isValidDate'
 
 export * from './types'
-
-export * from '../assets/countries-phone'

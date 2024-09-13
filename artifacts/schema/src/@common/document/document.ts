@@ -1,7 +1,7 @@
 import { z } from '@/zod'
 import { clearSpecialChars, isCNPJ, isCPF, isCPFOrCNPJ } from '@starter/shared'
 
-import { DocumentTypeSchema, DocumentTypeCNPJSchema, DocumentTypeCPFSchema, DocumentTypeEnum } from '../documentType'
+import { DocumentTypeSchema, DocumentTypeCNPJSchema, DocumentTypeCPFSchema, DocumentTypeEnum } from '../document-type'
 
 export const DocumentSchema = z.string().min(1).refine(isCPFOrCNPJ, { message: 'Documento inválido' }).transform(clearSpecialChars)
 export type DocumentInput = z.infer<typeof DocumentSchema>
