@@ -11,9 +11,7 @@ export type IStoreRepository = () => {
   index(data: StoreFindInput): Promise<Store[]>
   find(data: StoreFindInput): Promise<PaginationOutput<Store>>
   findById(id: string): Promise<Store>
-  findByRcky(rcky: StoreRepository['rcky']): Promise<Store | undefined>
   findByDocument(document: StoreRepository['document']): Promise<Store | undefined>
-  rckyExists(rcky: StoreRepository['rcky'], opts?: { exclude?: string }): Promise<boolean>
   documentExists(document: StoreRepository['document'], opts?: { exclude?: string }): Promise<boolean>
   create(data: Store): Promise<Store>
   updateById(id: string, data: Partial<Store>): Promise<Store>
