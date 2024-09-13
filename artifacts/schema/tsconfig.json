@@ -3,7 +3,8 @@
   "compilerOptions": {
     "resolveJsonModule": true,
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@/common": ["./src/@common"]
     },
     "typeRoots": ["**/*.d.ts"]
   }

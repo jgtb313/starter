@@ -1,6 +1,6 @@
 import { z } from '@/zod'
 
-import { ID, DeletedAtSchema, CreatedAtSchema, UpdatedAtSchema } from '@/shared'
+import { ID, DeletedAtSchema, CreatedAtSchema, UpdatedAtSchema } from '@/@common'
 import { PlanIntervalEnum, PlanStatusEnum } from './Plan.enums'
 
 const IntegrationId = z.string().min(1)

@@ -1,6 +1,6 @@
 import { z } from '@/zod'
 
-import { ID } from '@/shared'
+import { ID } from '@/@common'
 import { OTPSchema } from './OTP.schema'
 
 export const SendOTPSchema = OTPSchema.pick({

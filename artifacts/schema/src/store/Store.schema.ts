@@ -1,7 +1,7 @@
 import { z } from '@/zod'
 import { formatToCapitalized } from '@starter/shared'
 
-import { ID, DocumentCNPJSchema, CreatedAtSchema, UpdatedAtSchema } from '@/shared'
+import { ID, DocumentCNPJSchema, CreatedAtSchema, UpdatedAtSchema } from '@/@common'
 import { StoreStatusEnum } from './Store.enums'
 
 const Name = z

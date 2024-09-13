@@ -1,6 +1,6 @@
 import { z } from '@/zod'
 
-import { ID, DateSchema, EmailSchema, CreatedAtSchema, UpdatedAtSchema } from '@/shared'
+import { ID, DateSchema, EmailSchema, CreatedAtSchema, UpdatedAtSchema } from '@/common'
 import { OTPContextEnum } from './OTP.enums'
 
 const StoreId = ID.nullish()
