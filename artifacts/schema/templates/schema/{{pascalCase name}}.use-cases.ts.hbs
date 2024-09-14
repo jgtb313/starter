@@ -1,6 +1,6 @@
 import { z } from '@/zod'
 
-import { PaginationSchema, BasePaginationSchemaOutput, SortSchema } from '@/shared'
+import { FilterableSchema, PaginationSchema, BasePaginationSchemaOutput, SortSchema } from '@/common'
 import { {{pascalCase name}}Schema } from './{{pascalCase name}}.schema'
 
 export const Index{{pascalCase namePlural}}Schema = {{pascalCase name}}Schema.pick({})
@@ -8,7 +8,7 @@ export const Index{{pascalCase namePlural}}Schema = {{pascalCase name}}Schema.pi
   .and(SortSchema)
   .and(
     z.object({
-      filter: z.string()
+      filter: FilterableSchema(['name'], { example: 'example' })
     }).partial()
   )
 export const Index{{pascalCase namePlural}}SchemaOutput = z.array({{pascalCase name}}Schema)
@@ -20,7 +20,7 @@ export const List{{pascalCase namePlural}}Schema = {{pascalCase name}}Schema.pic
   .and(SortSchema)
   .and(
     z.object({
-      filter: z.string()
+      filter: FilterableSchema(['name'], { example: 'example' })
     }).partial()
   )
 export const List{{pascalCase namePlural}}SchemaOutput = BasePaginationSchemaOutput.extend({ values: z.array({{pascalCase name}}Schema).default([]) })

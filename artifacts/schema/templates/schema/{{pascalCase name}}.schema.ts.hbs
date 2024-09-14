@@ -1,6 +1,6 @@
 import { z } from '@/zod'
 
-import { ID, DeletedAtSchema, CreatedAtSchema, UpdatedAtSchema } from '@/shared'
+import { ID, DeletedAtSchema, CreatedAtSchema, UpdatedAtSchema } from '@/common'
 import { {{pascalCase name}}StatusEnum } from './{{pascalCase name}}.enums'
 
 const Status = z.nativeEnum({{pascalCase name}}StatusEnum)

@@ -7,13 +7,13 @@ export const ID = z.string().openapi({
   example: '2i27UIp5E4Wz6ZI8bfpBcgaRiez'
 })
 
-export const FilterableSchema = (fields: string[], example: string) =>
+export const FilterableSchema = (fields: string[], options: { example: string }) =>
   z
     .string()
     .nullish()
     .openapi({
       description: `Generic filter that can match against \n ${fields.map((field) => '- '.concat(field)).join('\n')}`,
-      example
+      example: options.example
     })
 
 export const BooleanSchema = z
