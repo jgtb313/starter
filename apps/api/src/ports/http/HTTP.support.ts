@@ -1,7 +1,7 @@
-import { z, RoleTypeEnum } from '@starter/schema'
+import { z } from '@starter/schema'
 import { deepPick, deepOmit, first, isNumber } from '@starter/shared'
 
-import { DefaultError, AuthError, ConflictError } from '@/support/errors'
+import { AuthError, DefaultError } from '@/support/errors'
 import { IContext } from '@/core/shared/types'
 import { Auth } from '@/core/auth/support/token'
 
@@ -156,50 +156,8 @@ export const withError = (error: Error) => {
   }
 }
 
-export const ACL = ({ role }: Auth) => ({
-  role: (...roles: RoleTypeEnum[]) => {
-    if (roles.includes(role)) {
-      return
-    }
-
-    throw new AuthError('Não autorizado')
-  }
-})
-
-export const checkIfIsOwner = ({ role }: Auth) => {
-  if (role === RoleTypeEnum.OWNER) {
-    return
-  }
-
-  throw new AuthError('Não autorizado')
-}
-
-export const checkIfIsStock: (value: Auth) => asserts value is Auth = ({ role }: Auth) => {
-  if (role === RoleTypeEnum.STOCK) {
-    return
-  }
-
-  throw new AuthError('Não autorizado')
-}
-
-export const checkIfIsInventory: (value: Auth) => asserts value is Auth = ({ role }: Auth) => {
-  if (role === RoleTypeEnum.INVENTORY) {
-    return
-  }
-
-  throw new AuthError('Não autorizado')
-}
-
-export const checkIfIsStockInventory: (value: Auth) => asserts value is Auth = ({ role }: Auth) => {
-  if (role === RoleTypeEnum.STOCK_INVENTORY) {
-    return
-  }
-
-  throw new AuthError('Não autorizado')
-}
-
 export const requiresAuthorization: (value: IContext) => asserts value is IContext & { auth: Auth; authorization: string } = ({ auth }) => {
   if (!auth) {
-    throw new ConflictError('Autenticação obrigatória')
+    throw new AuthError()
   }
 }

@@ -3,7 +3,7 @@ import { ForgotPasswordSchema, ForgotPasswordInput, ForgotPasswordOutput } from 
 import { createUseCase } from '@/support/utilities'
 import { IUseCaseExecute } from '@/core/shared/types'
 
-const execute: IUseCaseExecute<ForgotPasswordInput, ForgotPasswordOutput> = () => () => {
+const execute: IUseCaseExecute<ForgotPasswordInput, ForgotPasswordOutput> = () => async () => {
   return {} as unknown as ForgotPasswordOutput
 }
 

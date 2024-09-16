@@ -7,7 +7,7 @@ const execute: IUseCaseExecute<RequestFilenameInput, RequestFilenameOutput> =
   ({ Storage }) =>
   async ({ context, filename }) => {
     const contexts: Record<FileContextEnum, string> = {
-      [FileContextEnum.STORE_LOGO]: 'stores/logo',
+      [FileContextEnum.ORGANIZATION_LOGO]: 'organizations/logo',
       [FileContextEnum.USER_AVATAR]: 'users/avatar'
     }
 

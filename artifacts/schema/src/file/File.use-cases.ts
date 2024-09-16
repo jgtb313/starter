@@ -14,4 +14,4 @@ export const RequestFilenameSchemaOutput = z.object({
   })
 })
 export type RequestFilenameInput = z.infer<typeof RequestFilenameSchema>
-export type RequestFilenameOutput = Promise<z.infer<typeof RequestFilenameSchemaOutput>>
+export type RequestFilenameOutput = z.infer<typeof RequestFilenameSchemaOutput>

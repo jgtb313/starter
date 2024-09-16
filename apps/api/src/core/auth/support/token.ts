@@ -1,15 +1,11 @@
-import { User, RoleTypeEnum } from '@starter/schema'
+import { User } from '@starter/schema'
 
 export type Auth = {
   userId: string
-  storeId: string
-  role: RoleTypeEnum
 }
 
-export const createToken = (user: User, role: User['roles'][number]): Auth => {
+export const createToken = (user: User): Auth => {
   return {
-    userId: user.id,
-    storeId: role.storeId,
-    role: role.role.type
+    userId: user.id
   }
 }

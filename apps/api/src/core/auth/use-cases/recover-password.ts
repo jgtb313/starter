@@ -3,7 +3,7 @@ import { RecoverPasswordSchema, RecoverPasswordInput, RecoverPasswordOutput } fr
 import { createUseCase } from '@/support/utilities'
 import { IUseCaseExecute } from '@/core/shared/types'
 
-const execute: IUseCaseExecute<RecoverPasswordInput, RecoverPasswordOutput> = () => () => {
+const execute: IUseCaseExecute<RecoverPasswordInput, RecoverPasswordOutput> = () => async () => {
   return {} as unknown as RecoverPasswordOutput
 }
 

@@ -1,3 +1,5 @@
 const fs = require('fs')
 
-fs.copyFileSync('../../.env', './.env')
+console.log('Oi')
+
+fs.copyFileSync('../../.env', '.env')

@@ -5,7 +5,7 @@ import { IUseCaseExecute } from '@/core/shared/types'
 import { OTP } from '@/core/otp/domain'
 import { MailTemplateEnum } from '@/ports/mail'
 
-const execute: IUseCaseExecute<SendOTPInput, Promise<SendOTPOutput>> =
+const execute: IUseCaseExecute<SendOTPInput, SendOTPOutput> =
   ({ Repositories, Mail }) =>
   async ({ context, email }) => {
     const otp = new OTP({

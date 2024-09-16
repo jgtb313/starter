@@ -1,5 +1,4 @@
 import { describe, test, expect } from 'vitest'
-import { RoleTypeEnum } from '@starter/schema'
 
 import { makeMatch } from './MongoDB.match'
 
@@ -9,7 +8,7 @@ describe('MongoDB.match', () => {
       name: 'Name'
     }
 
-    const $match = makeMatch(input, { shouldCheckRecaptcha: false, auth: { userId: '1', storeId: '123', role: RoleTypeEnum.OWNER } })
+    const $match = makeMatch(input, { shouldCheckRecaptcha: false, auth: { userId: '1' } })
 
     expect($match['name']).toBe('Name')
     expect($match['storeId']).toBe('123')

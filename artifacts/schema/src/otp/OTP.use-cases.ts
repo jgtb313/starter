@@ -19,4 +19,4 @@ export const ValidateOTPSchema = OTPSchema.pick({
   code: true
 })
 export type ValidateOTPInput = z.infer<typeof ValidateOTPSchema>
-export type ValidateOTPOutput = Promise<void>
+export type ValidateOTPOutput = void

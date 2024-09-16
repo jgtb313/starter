@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 type Env =
   | 'STAGE'
   | 'SERVER_PORT'
@@ -10,6 +12,7 @@ type Env =
   | 'AWS_S3_FILE_BUCKET'
 
 export const env = (value: Env) => {
+  console.log('env', process.env)
   const prop = process.env[value]
 
   if (prop === undefined) {

@@ -1,5 +1,5 @@
 import { Filter, Document } from 'mongodb'
-import { flatten, set, clearSpecialChars, isUndefined, isString } from '@starter/shared'
+import { flatten, clearSpecialChars, isUndefined, isString } from '@starter/shared'
 
 import { IContext } from '@/core/shared/types'
 
@@ -9,14 +9,10 @@ const checkIfKeyIsSearch = (value: string) => value.split('.').reverse()?.[1] ==
 
 const normalizeSearchKey = (value: string) => new RegExp(clearSpecialChars(value).toLowerCase(), 'i')
 
-export const makeMatch = (input: Record<string, any>, context?: IContext): Filter<Document> => {
+export const makeMatch = (input: Record<string, any>, _context?: IContext): Filter<Document> => {
   const inputFlattened = flatten<Record<string, any>, Record<string, any>>(input)
 
   const resultFlattened: Record<string, any> = {}
-
-  if (context?.auth?.storeId) {
-    set(resultFlattened, 'storeId', context.auth?.storeId)
-  }
 
   for (const [key, value] of Object.entries(inputFlattened)) {
     if (isUndefined(value)) {
