@@ -48,6 +48,7 @@
     "plop": "^4.0.1",
     "qs": "^6.11.2",
     "redis": "^4.6.6",
+    "sucrase-node": "^3.35.0",
     "write-yaml": "^1.0.0"
   },
   "devDependencies": {
