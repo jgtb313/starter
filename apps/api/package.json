@@ -4,7 +4,6 @@
   "author": "João <jgtb313@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "prebuild": "sucrase-node scripts/load-envs.js",
     "start": "node dist/src/index.js",
     "server": "nodemon --exec sucrase-node src/index.ts",
     "dev": "node concurrently.js",
