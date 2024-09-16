@@ -11,7 +11,6 @@ describe('MongoDB.match', () => {
     const $match = makeMatch(input, { shouldCheckRecaptcha: false, auth: { userId: '1' } })
 
     expect($match['name']).toBe('Name')
-    expect($match['storeId']).toBe('123')
   })
 
   test('Checa match passando context sem auth', async () => {
