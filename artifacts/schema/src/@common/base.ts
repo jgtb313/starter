@@ -10,7 +10,7 @@ export const ID = z.string().openapi({
 export const FilterableSchema = (fields: string[], options: { example: string }) =>
   z
     .string()
-    .nullish()
+    .optional()
     .openapi({
       description: `Generic filter that can match against \n ${fields.map((field) => '- '.concat(field)).join('\n')}`,
       example: options.example

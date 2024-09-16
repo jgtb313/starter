@@ -1,22 +1,32 @@
 import { createEnumOptions } from '@/support'
 
 export enum InvoiceStatusEnum {
-  ACTIVE = 'ACTIVE',
-  INACTIVE = 'INACTIVE',
-  DELETED = 'DELETED'
+  WAITING_PAYMENT = 'WAITING_PAYMENT',
+  PAID = 'PAID',
+  SCHEDULED = 'SCHEDULED',
+  FAILED = 'FAILED',
+  CANCELED = 'CANCELED'
 }
 
 export const InvoiceStatus = createEnumOptions<InvoiceStatusEnum>([
   {
-    label: 'Ativo',
-    value: InvoiceStatusEnum.ACTIVE
+    label: 'Esperando pagamento',
+    value: InvoiceStatusEnum.WAITING_PAYMENT
   },
   {
-    label: 'Inativo',
-    value: InvoiceStatusEnum.INACTIVE
+    label: 'Pago',
+    value: InvoiceStatusEnum.PAID
   },
   {
-    label: 'Deletado',
-    value: InvoiceStatusEnum.DELETED
+    label: 'Agendado',
+    value: InvoiceStatusEnum.SCHEDULED
+  },
+  {
+    label: 'Falha',
+    value: InvoiceStatusEnum.FAILED
+  },
+  {
+    label: 'Cancelado',
+    value: InvoiceStatusEnum.CANCELED
   }
 ])

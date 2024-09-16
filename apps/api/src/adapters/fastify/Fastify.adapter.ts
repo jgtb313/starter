@@ -29,7 +29,7 @@ const checkAuthorization = (dependencies: IDependencies) => (authorization?: str
 
 export const setupRoutes = (instance: FastifyInstance, routes: typeof Modules, dependencies: IDependencies) => {
   instance.get('/', (_, reply) => {
-    reply.send({ message: 'SmartStock API' })
+    reply.send({ message: 'Starter API' })
   })
 
   instance.get('/health', (_, reply) => {
@@ -93,6 +93,8 @@ export const Server: IServer = {
   async start(dependencies) {
     try {
       setupRoutes(server, Modules, dependencies)
+
+      await server.ready()
 
       await server.listen({ port: +PORT, host: '0.0.0.0' })
 

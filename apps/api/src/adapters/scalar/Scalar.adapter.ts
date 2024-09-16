@@ -116,6 +116,11 @@ const paths = Schemas.reduce((state, schema) => {
             description: value.description,
             content: {
               'application/json': {
+                schema: {
+                  oneOf: value.examples.map((item) =>
+                    item.schema ? { ...generateSchemaProperties(zodSchemaToInstance(item.schema)), description: item.description } : null
+                  )
+                },
                 examples: Object.fromEntries(
                   value.examples.map((item) => [
                     item.description,
@@ -218,7 +223,7 @@ const schemas = Schemas.reduce((state, { schemas }) => {
 const document = {
   openapi: '3.1.0',
   info: {
-    title: 'Smart Stock API',
+    title: 'Starter API',
     version: '1.0.0',
     description: '',
     license: {
@@ -227,8 +232,7 @@ const document = {
   },
   servers: [
     {
-      url: 'http://localhost:4000',
-      description: 'DEV'
+      url: 'http://localhost:4000'
     }
   ],
 
@@ -259,7 +263,7 @@ export const Docs = {
     configuration: {
       hideDownloadButton: true,
       metaData: {
-        title: 'Smart Stock API'
+        title: 'Starter API'
       },
       defaultOpenAllTags: true,
       spec: {

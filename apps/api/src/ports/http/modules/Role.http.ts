@@ -7,7 +7,7 @@ import { IRouter } from '@/ports/http'
 export const RoleRouter = (dependencies: IDependencies): IRouter => ({
   name: 'Roles',
 
-  description: 'Roles Description',
+  description: '',
 
   schemas: {
     Role: {

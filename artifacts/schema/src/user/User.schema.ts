@@ -2,21 +2,7 @@ import { z } from '@/zod'
 import { formatToCapitalized } from '@starter/shared'
 
 import { ID, EmailSchema, PasswordSchema, DeletedAtSchema, CreatedAtSchema, UpdatedAtSchema } from '@/common'
-import { StoreSchema } from '../store/Store.schema'
-import { RoleSchema } from '../role/Role.schema'
 import { UserStatusEnum } from './User.enums'
-
-const Roles = z
-  .array(
-    z.object({
-      id: ID,
-      storeId: ID,
-      store: StoreSchema,
-      roleId: ID,
-      role: RoleSchema
-    })
-  )
-  .min(1)
 
 const Name = z
   .string()
@@ -29,15 +15,13 @@ const Social = z
   .object({
     google: z
       .object({
-        id: ID,
-        lastSignIn: z.date()
+        id: ID
       })
       .nullish()
       .transform((value) => value ?? null),
     facebook: z
       .object({
-        id: ID,
-        lastSignIn: z.date()
+        id: ID
       })
       .nullish()
       .transform((value) => value ?? null)
@@ -49,18 +33,14 @@ const Social = z
 
 const Password = PasswordSchema
 
-const Onboarding = z.boolean().default(false)
-
 const Status = z.nativeEnum(UserStatusEnum).default(UserStatusEnum.ACTIVE)
 
 export const UserSchema = z.object({
   id: ID,
-  roles: Roles,
   name: Name,
   email: Email,
   social: Social,
   password: Password,
-  onboarding: Onboarding,
   status: Status,
   deletedAt: DeletedAtSchema,
   createdAt: CreatedAtSchema,

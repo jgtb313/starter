@@ -1,4 +1,4 @@
-import { PlanSchema, GetPlanByIdSchema, GetPlanByIdSchemaOutput } from '@starter/schema'
+import { PlanSchema, IndexPlanSchema, IndexPlanSchemaOutput } from '@starter/schema'
 
 import { IDependencies } from '@/core/shared/types'
 import { IRouter } from '@/ports/http'
@@ -6,7 +6,7 @@ import { IRouter } from '@/ports/http'
 export const PlanRouter = (dependencies: IDependencies): IRouter => ({
   name: 'Plans',
 
-  description: 'Module to manage file storage and access using cloud integration services.',
+  description: '',
 
   schemas: {
     Plan: {
@@ -15,26 +15,27 @@ export const PlanRouter = (dependencies: IDependencies): IRouter => ({
   },
 
   paths: {
-    getById: {
-      summary: 'Get Plan',
-      description: 'Returns a plan.',
+    listAvailablePlans: {
+      summary: 'List Plans',
+      description: 'Retrieves a list of all available subscription plans for users.',
 
       method: 'GET',
 
-      path: '/plans/:id',
+      path: '/plans::available',
 
       parameters: {
-        params: GetPlanByIdSchema
+        query: IndexPlanSchema
       },
 
       responses: {
         200: {
-          schema: GetPlanByIdSchemaOutput,
-          description: '200'
+          description: 'OK',
+          schema: IndexPlanSchemaOutput
         }
       },
 
       execute() {
+        console.log(dependencies)
         return {}
       }
     }

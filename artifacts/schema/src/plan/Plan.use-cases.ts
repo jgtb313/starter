@@ -1,10 +1,15 @@
 import { z } from '@/zod'
 
+import { FilterableSchema } from '@/common'
 import { PlanSchema } from './Plan.schema'
 
-export const GetPlanByIdSchema = PlanSchema.pick({
-  id: true
-})
-export const GetPlanByIdSchemaOutput = PlanSchema
-export type GetPlanByIdInput = z.infer<typeof GetPlanByIdSchema>
-export type GetPlanByIdOutput = z.infer<typeof GetPlanByIdSchemaOutput>
+export const IndexPlanSchema = PlanSchema.pick({}).and(
+  z
+    .object({
+      filter: FilterableSchema(['name'], { example: 'Plano Básico' })
+    })
+    .partial()
+)
+export const IndexPlanSchemaOutput = z.array(PlanSchema)
+export type IndexPlanInput = z.infer<typeof IndexPlanSchema>
+export type IndexPlanOutput = Promise<z.infer<typeof IndexPlanSchemaOutput>>

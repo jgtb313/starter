@@ -1,6 +1,5 @@
 import { z } from '@/zod'
 
-import { StoreSchema } from '../store/Store.schema'
 import { UserSchema } from '../user/User.schema'
 import { SocialSignInEnum } from './Auth.enums'
 
@@ -9,9 +8,7 @@ export const SignInSchema = z.object({
   password: z.string().min(1)
 })
 export const SignInSchemaOutput = z.object({
-  token: z.string(),
-  store: StoreSchema,
-  user: UserSchema
+  token: z.string()
 })
 export type SignInInput = z.infer<typeof SignInSchema>
 export type SignInOutput = z.infer<typeof SignInSchemaOutput>
@@ -21,12 +18,21 @@ export const SocialSignInSchema = z.object({
   token: z.string().min(1)
 })
 export const SocialSignInSchemaOutput = z.object({
-  token: z.string(),
-  store: StoreSchema,
-  user: UserSchema
+  token: z.string()
 })
 export type SocialSignInhInput = z.infer<typeof SocialSignInSchema>
 export type SocialSignInhOutput = z.infer<typeof SocialSignInSchemaOutput>
+
+export const SignUpSchema = UserSchema.pick({
+  name: true,
+  email: true,
+  password: true
+})
+export const SignUpSchemaOutput = z.object({
+  token: z.string()
+})
+export type SignUpInput = z.infer<typeof SignUpSchema>
+export type SignUpOutput = z.infer<typeof SignUpSchemaOutput>
 
 export const ForgotPasswordSchema = z.object({
   email: z.string().min(1).email()
@@ -40,10 +46,3 @@ export const RecoverPasswordSchema = z.object({
 })
 export type RecoverPasswordInput = z.infer<typeof RecoverPasswordSchema>
 export type RecoverPasswordOutput = void
-
-export const AccountActivationSchema = z.object({
-  accountActivationToken: z.string().min(1),
-  password: z.string().min(1)
-})
-export type AccountActivationInput = z.infer<typeof AccountActivationSchema>
-export type AccountActivationOutput = void

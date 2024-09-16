@@ -1,7 +1,7 @@
 import { z } from '@/zod'
 
 import { ID, PaginationSchema, BasePaginationSchemaOutput } from '@/common'
-import { StoreSchema } from '..//store/Store.schema'
+import { WorkspaceSchema } from '../workspace/Workspace.schema'
 import { UserSchema } from './User.schema'
 
 export const ListUserSchema = UserSchema.pick({}).and(PaginationSchema)
@@ -20,7 +20,7 @@ export const GetUserMeSchema = UserSchema.pick({
   id: true
 })
 export const GetUserMeSchemaOutput = z.object({
-  store: StoreSchema,
+  workspace: WorkspaceSchema,
   user: UserSchema
 })
 export type GetUserMeInput = z.infer<typeof GetUserMeSchema>

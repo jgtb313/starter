@@ -3,6 +3,8 @@ import {
   SignInSchemaOutput,
   SocialSignInSchema,
   SocialSignInSchemaOutput,
+  SignUpSchema,
+  SignUpSchemaOutput,
   ForgotPasswordSchema,
   RecoverPasswordSchema
 } from '@starter/schema'
@@ -33,18 +35,19 @@ export const AuthRouter = (dependencies: IDependencies): IRouter => ({
       responses: {
         200: {
           schema: SignInSchemaOutput,
-          description: '200'
+          description: 'OK'
         }
       },
 
-      execute({ body }) {
+      execute() {
+        console.log(dependencies)
         return {}
       }
     },
 
     socialSignIn: {
       summary: 'Social Sign In',
-      description: 'Authenticates a user by validating their email and password.',
+      description: 'Allows users to authenticate their accounts using third-party services for a seamless sign-in experience.',
 
       method: 'POST',
 
@@ -61,7 +64,33 @@ export const AuthRouter = (dependencies: IDependencies): IRouter => ({
         }
       },
 
-      execute({ body }) {
+      execute() {
+        console.log(dependencies)
+        return {}
+      }
+    },
+
+    signUp: {
+      summary: 'Sign Up',
+      description: 'Creates an account on the free tier.',
+
+      method: 'POST',
+
+      path: '/auth::sign-up',
+
+      parameters: {
+        body: SignUpSchema
+      },
+
+      responses: {
+        200: {
+          schema: SignUpSchemaOutput,
+          description: 'OK'
+        }
+      },
+
+      execute() {
+        console.log(dependencies)
         return {}
       }
     },
@@ -80,11 +109,12 @@ export const AuthRouter = (dependencies: IDependencies): IRouter => ({
 
       responses: {
         204: {
-          description: '204'
+          description: 'OK'
         }
       },
 
-      execute({ body }) {
+      execute() {
+        console.log(dependencies)
         return {}
       }
     },
@@ -103,11 +133,12 @@ export const AuthRouter = (dependencies: IDependencies): IRouter => ({
 
       responses: {
         204: {
-          description: '204'
+          description: 'OK'
         }
       },
 
-      execute({ body }) {
+      execute() {
+        console.log(dependencies)
         return {}
       }
     }

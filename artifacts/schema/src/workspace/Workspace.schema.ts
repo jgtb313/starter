@@ -7,12 +7,15 @@ const Name = z.string().min(1)
 
 const Domain = z.string().min(1).url()
 
+const Onboarding = z.boolean().default(false)
+
 const Status = z.nativeEnum(WorkspaceStatusEnum)
 
 export const WorkspaceSchema = z.object({
   id: ID,
   name: Name,
   domain: Domain,
+  onboarding: Onboarding,
   status: Status,
   deletedAt: DeletedAtSchema,
   createdAt: CreatedAtSchema,
