@@ -26,10 +26,8 @@
     "client:build": "yarn workspace @starter/client build",
     "schema:build": "yarn workspace @starter/schema build",
     "shared:build": "yarn workspace @starter/shared build",
-    "api:build:artifacts": "yarn workspace @starter/api build:artifacts",
+    "api:artifacts:build": "yarn workspace @starter/api artifacts:build",
     "api:build": "yarn workspace @starter/api build",
-    "api:deploy": "yarn workspace @starter/api deploy",
-    "api:destroy": "yarn workspace @starter/api destroy",
     "clean": "npm exec --workspaces -- npx rimraf node_modules && npx rimraf node_modules"
   },
   "devDependencies": {
