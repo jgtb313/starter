@@ -1,3 +1,4 @@
+import { ClientSession } from 'mongodb'
 import { WorkspaceSchema } from '@starter/schema'
 
 import { NotFoundError } from '@/support/errors'
@@ -86,16 +87,21 @@ export const workspace: IWorkspaceRepository = () => ({
     return parseDomain(model)
   },
 
-  async create({ state }) {
+  async create({ state }, options) {
     const input = WorkspaceSchema.parse({
       ...state,
       ...MongoDB.createTimestamps()
     })
 
-    await MongoDB.Collections.workspace.insertOne({
-      ...input,
-      search: WorkspaceSearch(state)
-    })
+    await MongoDB.Collections.workspace.insertOne(
+      {
+        ...input,
+        search: WorkspaceSearch(state)
+      },
+      {
+        session: options?.session as ClientSession
+      }
+    )
 
     return this.findById(state.id)
   },

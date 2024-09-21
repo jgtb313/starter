@@ -2,6 +2,7 @@ import { PaginationInput, SortInput, PaginationOutput } from '@starter/schema'
 
 import { Workspace } from '@/core/workspace/domain'
 import { DatabaseFilterInput } from '../Database.support'
+import { IRepositoriesMethodOptions } from '../Database.port'
 
 type WorkspaceRepository = Workspace['state']
 
@@ -11,7 +12,7 @@ export type IWorkspaceRepository = () => {
   index(data: WorkspaceFindInput): Promise<Workspace[]>
   find(data: WorkspaceFindInput): Promise<PaginationOutput<Workspace>>
   findById(id: string): Promise<Workspace>
-  create(data: Workspace): Promise<Workspace>
+  create(data: Workspace, options?: IRepositoriesMethodOptions): Promise<Workspace>
   updateById(id: string, data: Partial<Workspace>): Promise<Workspace>
   deleteById(id: string): Promise<Workspace>
 }

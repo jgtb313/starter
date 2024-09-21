@@ -6,7 +6,7 @@ import { client, MongoDB } from './MongoDB.support'
 
 const MONGODB_URL = env('MONGODB_URL')
 
-const createSession = async () => {
+const createSession = () => {
   const session = MongoDB.startSession()
 
   session.startTransaction()

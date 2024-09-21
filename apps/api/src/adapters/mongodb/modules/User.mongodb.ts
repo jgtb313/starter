@@ -1,3 +1,4 @@
+import { ClientSession } from 'mongodb'
 import { UserSchema } from '@starter/schema'
 
 import { NotFoundError } from '@/support/errors'
@@ -86,16 +87,21 @@ export const user: IUserRepository = () => ({
     return parseDomain(model)
   },
 
-  async create({ state }) {
+  async create({ state }, options) {
     const input = UserSchema.parse({
       ...state,
       ...MongoDB.createTimestamps()
     })
 
-    await MongoDB.Collections.user.insertOne({
-      ...input,
-      search: UserSearch(state)
-    })
+    await MongoDB.Collections.user.insertOne(
+      {
+        ...input,
+        search: UserSearch(state)
+      },
+      {
+        session: options?.session as ClientSession
+      }
+    )
 
     return this.findById(state.id)
   },
