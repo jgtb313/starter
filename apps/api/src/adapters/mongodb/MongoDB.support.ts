@@ -1,5 +1,5 @@
 import { Db, MongoClient, Document, Collection, CreateIndexesOptions } from 'mongodb'
-import { OTP, Role, User } from '@starter/schema'
+import { OTP, Role, Workspace, User } from '@starter/schema'
 import { clearSpecialChars, get, set } from '@starter/shared'
 
 import { makeMatch } from './MongoDB.match'
@@ -11,6 +11,7 @@ type Searchable<T> = T & {
 export type CollectionsTypes = {
   otp: OTP
   role: Role
+  workspace: Searchable<Workspace>
   user: Searchable<User>
 }
 
@@ -47,10 +48,12 @@ const startSession = () => {
 const Collections: {
   otp: Collection<CollectionsTypes['otp']>
   role: Collection<CollectionsTypes['role']>
+  workspace: Collection<CollectionsTypes['workspace']>
   user: Collection<CollectionsTypes['user']>
 } = {
   otp: {} as Collection<CollectionsTypes['otp']>,
   role: {} as Collection<CollectionsTypes['role']>,
+  workspace: {} as Collection<CollectionsTypes['workspace']>,
   user: {} as Collection<CollectionsTypes['user']>
 }
 
@@ -69,6 +72,7 @@ const connect = async (uri: string) => {
 
     Collections.otp = await createCollectionMongoDB<CollectionsTypes['otp']>('otps')
     Collections.role = await createCollectionMongoDB<CollectionsTypes['role']>('roles')
+    Collections.workspace = await createCollectionMongoDB<CollectionsTypes['workspace']>('workspaces')
     Collections.user = await createCollectionMongoDB<CollectionsTypes['user']>('users')
 
     console.log(`Connected on MongoDB: ${uri}`)

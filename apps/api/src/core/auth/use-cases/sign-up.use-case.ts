@@ -7,25 +7,29 @@ import { Workspace } from '@/core/workspace/domain'
 import { User } from '@/core/user/domain'
 
 const execute: IUseCaseExecute<SignUpInput, SignUpOutput> =
-  ({ JWT }) =>
+  ({ Repositories, JWT }) =>
   async ({ name, email, password }) => {
-    const workspace = new Workspace({
-      onboarding: true,
-      status: WorkspaceStatusEnum.ACTIVE
-    })
+    const workspace = await Repositories.workspace.create(
+      new Workspace({
+        onboarding: true,
+        status: WorkspaceStatusEnum.ACTIVE
+      })
+    )
 
-    const user = new User({
-      workspaceId: workspace.state.id,
-      workspace: workspace.state,
-      name,
-      email,
-      password,
-      social: {
-        facebook: null,
-        google: null
-      },
-      status: UserStatusEnum.ACTIVE
-    })
+    const user = await Repositories.user.create(
+      new User({
+        workspaceId: workspace.state.id,
+        workspace: workspace.state,
+        name,
+        email,
+        password,
+        social: {
+          facebook: null,
+          google: null
+        },
+        status: UserStatusEnum.ACTIVE
+      })
+    )
 
     const token = JWT.generate(getTokenPayload(user.state))
 

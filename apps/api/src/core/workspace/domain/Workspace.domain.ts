@@ -26,7 +26,7 @@ export class Workspace {
       state: setupDomain(
         {
           name: customName,
-          domain: `${slugify(customName)}-${generateRandomNumberString}`,
+          domain: `${slugify(customName)}-${generateRandomNumberString()}`,
           ...workspace
         },
         WorkspaceSchema

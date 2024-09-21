@@ -24,7 +24,7 @@ type PickNotNullable<T> = {
   [P in keyof T as null extends T[P] ? never : P]: T[P]
 }
 
-export type SetupDomain<T, P extends keyof T = keyof T> = {
+export type SetupDomain<T, P extends keyof T = never> = {
   [K in keyof PickNullable<Omit<T, 'id' | 'createdAt' | 'updatedAt' | P>>]?: Exclude<T[K], null> | null
 } & {
   [K in keyof PickNotNullable<Omit<T, 'id' | 'createdAt' | 'updatedAt' | P>>]: T[K]
@@ -33,5 +33,5 @@ export type SetupDomain<T, P extends keyof T = keyof T> = {
 }
 
 export const setupDomain = <T>(value: T, schema: ReturnType<typeof z.object>) => {
-  return schema.parse({ id: KSUID.randomSync().string, createdAt: new Date(), updatedAt: new Date(), deletedAt: null, ...value })
+  return schema.parse({ id: KSUID.randomSync().string, createdAt: new Date(), updatedAt: new Date(), ...value })
 }

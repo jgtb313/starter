@@ -26,4 +26,7 @@ export const CreatedAtSchema = z.date()
 
 export const UpdatedAtSchema = z.date()
 
-export const DeletedAtSchema = z.date().nullable()
+export const DeletedAtSchema = z
+  .date()
+  .nullish()
+  .transform((value) => (value === undefined ? null : value))
