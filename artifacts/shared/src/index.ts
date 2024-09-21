@@ -21,5 +21,6 @@ export * from './isNumericString'
 export * from './isPhone'
 export * from './isURL'
 export * from './isValidDate'
+export * from './slugify'
 
 export * from './types'

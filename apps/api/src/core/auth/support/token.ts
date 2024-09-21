@@ -4,7 +4,7 @@ export type Auth = {
   userId: string
 }
 
-export const createToken = (user: User): Auth => {
+export const getTokenPayload = (user: User): Auth => {
   return {
     userId: user.id
   }

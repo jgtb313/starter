@@ -10,6 +10,7 @@ import {
 } from '@starter/schema'
 
 import { IDependencies } from '@/core/shared/types'
+import { signUp } from '@/core/auth/use-cases/sign-up.use-case'
 import { IRouter } from '@/ports/http'
 
 export const AuthRouter = (dependencies: IDependencies): IRouter => ({
@@ -89,9 +90,8 @@ export const AuthRouter = (dependencies: IDependencies): IRouter => ({
         }
       },
 
-      execute() {
-        console.log(dependencies)
-        return {}
+      execute({ body }) {
+        return signUp(dependencies)(body)
       }
     },
 

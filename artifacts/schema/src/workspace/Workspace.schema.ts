@@ -5,7 +5,7 @@ import { WorkspaceStatusEnum } from './Workspace.enums'
 
 const Name = z.string().min(1)
 
-const Domain = z.string().min(1).url()
+const Domain = z.string().min(1)
 
 const Onboarding = z.boolean().default(false)
 
