@@ -1,19 +1,77 @@
 version: '3.7'
 
 services:
-  mongodb:
-    container_name: starter-mongodb
+  mongo1:
     image: mongo:6.0
-    volumes:
-      - starter-mongodb-data:/data/db
+    container_name: mongo1
+    restart: always
     ports:
       - '27017:27017'
     environment:
       - MONGO_INITDB_ROOT_USERNAME=admin
       - MONGO_INITDB_ROOT_PASSWORD=admin
-      - MONGO_INITDB_DATABASE=admin
+    command: mongod --replSet rs0 --bind_ip_all
+    volumes:
+      - starter-mongo1-data:/data/db
     networks:
-      - network
+      - mongo-cluster
+
+  mongo2:
+    image: mongo:6.0
+    container_name: mongo2
+    restart: always
+    ports:
+      - '27018:27017'
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=admin
+    command: mongod --replSet rs0 --bind_ip_all
+    volumes:
+      - starter-mongo2-data:/data/db
+    networks:
+      - mongo-cluster
+
+  mongo3:
+    image: mongo:6.0
+    container_name: mongo3
+    restart: always
+    ports:
+      - '27019:27017'
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=admin
+    command: mongod --replSet rs0 --bind_ip_all
+    volumes:
+      - starter-mongo3-data:/data/db
+    networks:
+      - mongo-cluster
+
+  mongo-init-replica:
+    image: mongo:6.0
+    container_name: mongo-init-replica
+    depends_on:
+      - mongo1
+      - mongo2
+      - mongo3
+    entrypoint: >
+      bash -c "
+        sleep 10;
+        echo 'Iniciando Replica Set';
+        mongo --host mongo1:27017 -u admin -p admin --authenticationDatabase admin <<EOF
+        rs.initiate({
+          _id: 'rs0',
+          version: 1,
+          members: [
+            { _id: 0, host: 'mongo1:27017' },
+            { _id: 1, host: 'mongo2:27017' },
+            { _id: 2, host: 'mongo3:27017' }
+          ]
+        });
+        rs.status();
+        EOF
+      "
+    networks:
+      - mongo-cluster
 
   redis:
     container_name: starter-redis
@@ -23,11 +81,15 @@ services:
       - '6379:6379'
     volumes:
       - starter-redis-data:/data
+    networks:
+      - mongo-cluster
 
 networks:
-  network:
+  mongo-cluster:
     driver: bridge
 
 volumes:
+  starter-mongo1-data:
+  starter-mongo2-data:
+  starter-mongo3-data:
   starter-redis-data:
-  starter-mongodb-data:

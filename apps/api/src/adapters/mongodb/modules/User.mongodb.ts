@@ -81,7 +81,7 @@ export const user: IUserRepository = () => ({
     const [model] = await MongoDB.Collections.user.aggregate<Document>([{ $match }, ...Pipelines]).toArray()
 
     if (!model) {
-      throw new NotFoundError('Loja não encontrada')
+      throw new NotFoundError(`User ${id} not found`)
     }
 
     return parseDomain(model)

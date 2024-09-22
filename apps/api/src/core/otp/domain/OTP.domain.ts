@@ -6,11 +6,11 @@ import { setupDomain, SetupDomain } from '@/support/utilities'
 
 export type OTPDomain = SetupDomain<IOTP>
 
-export const getContext = (type?: OTPContextEnum) => {
+export const getContext = (type: OTPContextEnum) => {
   const context = OTPContexts.find((otpContext) => otpContext.context === type)
 
   if (!context) {
-    throw new NotFoundError('Contexto inválido')
+    throw new NotFoundError(`OTP Context ${type} not found`)
   }
 
   return context
@@ -49,7 +49,7 @@ export class OTP {
     const canResend = isBefore(addSeconds(new Date(mostRecent.state.createdAt), resendTime), new Date())
 
     if (!canResend) {
-      throw new ConflictError('Tempo de reenvio insuficiente, tente mais tarde')
+      throw new ConflictError('Insufficient resend time, please try again later')
     }
   }
 
@@ -57,7 +57,7 @@ export class OTP {
     const hasValidContext = this.state.context === context
 
     if (!hasValidContext) {
-      throw new ConflictError('Dados de acesso inválidos', {
+      throw new ConflictError('Invalid access data', {
         metadata: {
           context: 'invalid'
         }
@@ -70,8 +70,7 @@ export class OTP {
 
     if (!hasValidCode) {
       this.increaseAttempt()
-
-      throw new ConflictError('Código inválido')
+      throw new ConflictError('Invalid code')
     }
   }
 
@@ -79,7 +78,7 @@ export class OTP {
     const hasReachedDailyLimit = dailyCount >= this.state.dailyLimitAttempts
 
     if (hasReachedDailyLimit) {
-      throw new ConflictError('Limite diário de tentativas foi excedido')
+      throw new ConflictError('Daily attempt limit exceeded')
     }
   }
 
@@ -87,7 +86,7 @@ export class OTP {
     const attemptsHasExpired = this.state.attempts >= this.state.maxAttempts
 
     if (attemptsHasExpired) {
-      throw new ConflictError('Tentativas expiradas')
+      throw new ConflictError('Attempts expired')
     }
   }
 
@@ -95,7 +94,7 @@ export class OTP {
     const hasExpired = !isFuture(new Date(this.state.expiresIn))
 
     if (hasExpired) {
-      throw new ConflictError('Expirado')
+      throw new ConflictError('Expired')
     }
   }
 }
