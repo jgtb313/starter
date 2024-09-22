@@ -49,6 +49,8 @@ export const UserRepositoryInMemory: ReturnType<IUserRepository> = {
   }),
 
   create: vi.fn(async ({ state }) => {
+    console.log(users)
+
     const user = new User(state)
 
     users[user.state.id] = user
