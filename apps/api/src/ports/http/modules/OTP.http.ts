@@ -1,7 +1,7 @@
 import { ValidateOTPSchema } from '@starter/schema'
 
 import { IDependencies } from '@/core/shared/types'
-import { validateOTP } from '@/core/otp/use-cases/validate-otp'
+import { validateOTP } from '@/core/otp/use-cases/validate-otp.use-case'
 import { IRouter } from '@/ports/http'
 
 export const OTPRouter = (dependencies: IDependencies): IRouter => ({

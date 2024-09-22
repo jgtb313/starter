@@ -1,7 +1,7 @@
 import { RequestFilenameSchema, RequestFilenameSchemaOutput } from '@starter/schema'
 
 import { IDependencies } from '@/core/shared/types'
-import { requestFilename } from '@/core/file/use-cases/request-filename'
+import { requestFilename } from '@/core/file/use-cases/request-filename.use-case'
 import { IRouter } from '@/ports/http'
 
 export const FileRouter = (dependencies: IDependencies): IRouter => ({

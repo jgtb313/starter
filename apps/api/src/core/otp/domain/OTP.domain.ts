@@ -1,20 +1,11 @@
-import { OTPSchema, OTP as IOTP, OTPContexts, OTPContextEnum } from '@starter/schema'
+import { OTPSchema, OTP as IOTP } from '@starter/schema'
 import { random, addSeconds, isBefore, isFuture, PartialExcept } from '@starter/shared'
 
-import { ConflictError, NotFoundError } from '@/support/errors'
+import { ConflictError } from '@/support/errors'
 import { setupDomain, SetupDomain } from '@/support/utilities'
+import { getContext } from './OTP.support'
 
 export type OTPDomain = SetupDomain<IOTP>
-
-export const getContext = (type: OTPContextEnum) => {
-  const context = OTPContexts.find((otpContext) => otpContext.context === type)
-
-  if (!context) {
-    throw new NotFoundError(`OTP Context ${type} not found`)
-  }
-
-  return context
-}
 
 export class OTP {
   state!: IOTP

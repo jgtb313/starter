@@ -3,7 +3,7 @@ import { vi } from 'vitest'
 import { IDependencies } from '@/core/shared/types'
 import { ISession } from '@/ports/database'
 
-import { JWTInMemory, EncryptInMemory, RepositoriesInMemory, clearRepositoriesMocks } from './in-memory'
+import { JWTInMemory, EncryptInMemory, StorageInMemory, RepositoriesInMemory, clearRepositoriesMocks } from './in-memory'
 
 export const TestDependencies = (): IDependencies => {
   clearRepositoriesMocks()
@@ -22,9 +22,7 @@ export const TestDependencies = (): IDependencies => {
       getInfosByToken: vi.fn()
     },
 
-    Storage: {
-      getSignedUrl: vi.fn()
-    },
+    Storage: StorageInMemory,
 
     Database: {
       createSession: vi.fn(() => {
