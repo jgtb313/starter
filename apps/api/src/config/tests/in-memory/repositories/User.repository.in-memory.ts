@@ -5,7 +5,7 @@ import { NotFoundError } from '@/support/errors'
 import { User } from '@/core/user/domain'
 import { IUserRepository } from '@/ports/database/modules/User.repository'
 
-const users: Record<string, User> = {}
+let users: Record<string, User> = {}
 
 export const UserRepositoryInMemory: ReturnType<IUserRepository> = {
   index: vi.fn(async () => {
@@ -38,6 +38,16 @@ export const UserRepositoryInMemory: ReturnType<IUserRepository> = {
     return user
   }),
 
+  findOne: vi.fn(async ({ email }) => {
+    const user = Object.values(users).find((user) => user.state.email === email)
+
+    if (!user) {
+      return
+    }
+
+    return user
+  }),
+
   create: vi.fn(async ({ state }) => {
     const user = new User(state)
 
@@ -64,4 +74,8 @@ export const UserRepositoryInMemory: ReturnType<IUserRepository> = {
 
     return user
   })
+}
+
+export const clearUserRepositoryInMemory = () => {
+  users = {}
 }

@@ -27,5 +27,6 @@ export {
   sumBy,
   debounce,
   random,
-  capitalize
+  capitalize,
+  cloneDeep
 } from 'lodash-es'

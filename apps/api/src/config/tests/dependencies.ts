@@ -3,7 +3,7 @@ import { vi } from 'vitest'
 import { IDependencies } from '@/core/shared/types'
 import { ISession } from '@/ports/database'
 
-import { JWTInMemory, EncryptInMemory, RepositoriesInMemory } from './in-memory'
+import { JWTInMemory, EncryptInMemory, RepositoriesInMemory, clearRepositoriesMocks } from './in-memory'
 
 export const TestDependencies: IDependencies = {
   JWT: JWTInMemory,
@@ -36,4 +36,8 @@ export const TestDependencies: IDependencies = {
   },
 
   Repositories: RepositoriesInMemory
+}
+
+export const clearAllMocks = () => {
+  clearRepositoriesMocks()
 }

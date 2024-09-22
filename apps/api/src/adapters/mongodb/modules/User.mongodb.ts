@@ -87,6 +87,20 @@ export const user: IUserRepository = () => ({
     return parseDomain(model)
   },
 
+  async findOne(input) {
+    const $match = MongoDB.makeMatch({
+      ...input
+    })
+
+    const [model] = await MongoDB.Collections.user.aggregate<Document>([{ $match }, ...Pipelines]).toArray()
+
+    if (!model) {
+      return
+    }
+
+    return parseDomain(model)
+  },
+
   async create({ state }, options) {
     const input = UserSchema.parse({
       ...state,

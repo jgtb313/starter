@@ -4,7 +4,7 @@ import { NotFoundError } from '@/support/errors'
 import { OTP } from '@/core/otp/domain'
 import { IOTPRepository } from '@/ports/database/modules/OTP.repository'
 
-const otps: Record<string, OTP> = {}
+let otps: Record<string, OTP> = {}
 
 export const OTPRepositoryInMemory: ReturnType<IOTPRepository> = {
   findById: vi.fn(async (id) => {
@@ -54,4 +54,8 @@ export const OTPRepositoryInMemory: ReturnType<IOTPRepository> = {
 
     return otps[id]
   })
+}
+
+export const clearOTPRepositoryInMemory = () => {
+  otps = {}
 }

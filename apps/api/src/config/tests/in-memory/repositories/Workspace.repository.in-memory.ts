@@ -5,7 +5,7 @@ import { NotFoundError } from '@/support/errors'
 import { Workspace } from '@/core/workspace/domain'
 import { IWorkspaceRepository } from '@/ports/database/modules/Workspace.repository'
 
-const workspaces: Record<string, Workspace> = {}
+let workspaces: Record<string, Workspace> = {}
 
 export const WorkspaceRepositoryInMemory: ReturnType<IWorkspaceRepository> = {
   index: vi.fn(async () => {
@@ -64,4 +64,8 @@ export const WorkspaceRepositoryInMemory: ReturnType<IWorkspaceRepository> = {
 
     return workspace
   })
+}
+
+export const clearWorkspaceRepositoryInMemory = () => {
+  workspaces = {}
 }
