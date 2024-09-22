@@ -1,9 +1,9 @@
-import { describe, test, expect } from 'vitest'
+import { describe, it, expect } from 'vitest'
 
 import { makeMatch } from './MongoDB.match'
 
 describe('MongoDB.match', () => {
-  test('Checa match passando context com auth', async () => {
+  it('Checks match with context having auth', async () => {
     const input = {
       name: 'Name'
     }
@@ -13,7 +13,7 @@ describe('MongoDB.match', () => {
     expect($match['name']).toBe('Name')
   })
 
-  test('Checa match passando context sem auth', async () => {
+  it('Checks match with context without auth', async () => {
     const input = {
       name: 'Name'
     }
@@ -24,7 +24,7 @@ describe('MongoDB.match', () => {
     expect($match['storeId']).toBe(undefined)
   })
 
-  test('Checa input simples', async () => {
+  it('Checks simple input', async () => {
     const input = {
       name: 'Name'
     }
@@ -34,7 +34,7 @@ describe('MongoDB.match', () => {
     expect($match['name']).toBe('Name')
   })
 
-  test('Checa input search simples', async () => {
+  it('Checks simple search input', async () => {
     const input = {
       search: {
         name: 'Name'
@@ -46,7 +46,7 @@ describe('MongoDB.match', () => {
     expect($match['search.name']).toStrictEqual(/name/i)
   })
 
-  test('Checa input search com value undefined', async () => {
+  it('Checks search input with undefined value', async () => {
     const input = {
       search: {
         name: undefined
@@ -59,7 +59,7 @@ describe('MongoDB.match', () => {
     expect($match['search.name']).toBe(undefined)
   })
 
-  test('Checa input native simples com search', async () => {
+  it('Checks simple native input with search', async () => {
     const input = {
       $and: [
         {
@@ -75,7 +75,7 @@ describe('MongoDB.match', () => {
     expect($match['$and']?.[0]?.['search.description']).toStrictEqual(/description/i)
   })
 
-  test('Checa input native simples', async () => {
+  it('Checks simple native input', async () => {
     const input = {
       document: {
         $eq: '05933837377'
@@ -87,7 +87,7 @@ describe('MongoDB.match', () => {
     expect($match['document']['$eq']).toBe('05933837377')
   })
 
-  test('Checa input native double', async () => {
+  it('Checks double native input', async () => {
     const now = new Date()
 
     const input = {
@@ -103,7 +103,7 @@ describe('MongoDB.match', () => {
     expect($match['createdAt']['$lte']).toBe(now)
   })
 
-  test('Checa input deep native double', async () => {
+  it('Checks deep double native input', async () => {
     const now = new Date()
 
     const input = {
@@ -123,7 +123,7 @@ describe('MongoDB.match', () => {
     expect($match['duration.endAt']['$lte']).toBe(now)
   })
 
-  test('Checa input deep deep native', async () => {
+  it('Checks deep deep native input', async () => {
     const now = new Date()
 
     const input = {
@@ -149,7 +149,7 @@ describe('MongoDB.match', () => {
     expect($match['customer.summary.lastOrder.duration.endAt']['$lte']).toBe(now)
   })
 
-  test('Checa input native simples com deep native', async () => {
+  it('Checks simple native input with deep native', async () => {
     const now = new Date()
 
     const input = {
@@ -173,7 +173,7 @@ describe('MongoDB.match', () => {
     expect($match['$and']?.[0]?.['customer.userLoyalty.duration.startAt']['$gte']).toBe(now)
   })
 
-  test('Checa input com deep simple', async () => {
+  it('Checks input with deep simple', async () => {
     const input = {
       payment: {
         type: 'ONLINE'
@@ -185,7 +185,7 @@ describe('MongoDB.match', () => {
     expect($match['payment.type']).toBe('ONLINE')
   })
 
-  test('Checa input native com deep simple', async () => {
+  it('Checks native input with deep simple', async () => {
     const input = {
       $or: [
         {
@@ -201,7 +201,7 @@ describe('MongoDB.match', () => {
     expect($match.$or?.[0]?.['payment.type']).toBe('ONLINE')
   })
 
-  test('Checa input native com deep simple native', async () => {
+  it('Checks native input with deep simple native', async () => {
     const input = {
       $or: [
         {
@@ -219,7 +219,7 @@ describe('MongoDB.match', () => {
     expect($match.$or?.[0]?.['payment.type']['$eq']).toBe('ONLINE')
   })
 
-  test('Checa input native $in', async () => {
+  it('Checks native input $in', async () => {
     const input = {
       status: {
         $in: ['PLACED']
@@ -231,7 +231,7 @@ describe('MongoDB.match', () => {
     expect($match['status']['$in']).toStrictEqual(['PLACED'])
   })
 
-  test('Checa input native $nin', async () => {
+  it('Checks native input $nin', async () => {
     const input = {
       status: {
         $nin: ['PLACED']
@@ -243,7 +243,7 @@ describe('MongoDB.match', () => {
     expect($match['status']['$nin']).toStrictEqual(['PLACED'])
   })
 
-  test('Checa input native $in com deep input', async () => {
+  it('Checks native input $in with deep input', async () => {
     const input = {
       order: {
         status: {
@@ -257,7 +257,7 @@ describe('MongoDB.match', () => {
     expect($match['order.status']['$nin']).toStrictEqual(['PLACED'])
   })
 
-  test('Checa input native $in com deep deep input', async () => {
+  it('Checks native input $in with deep deep input', async () => {
     const input = {
       order: {
         customer: {
@@ -273,7 +273,7 @@ describe('MongoDB.match', () => {
     expect($match['order.customer.role']['$nin']).toStrictEqual(['MANAGER'])
   })
 
-  test('Checa input native $in com deep deep input undefined', async () => {
+  it('Checks native input $in with deep deep input undefined', async () => {
     const input = {
       order: {
         customer: {
@@ -289,7 +289,7 @@ describe('MongoDB.match', () => {
     expect(Object.keys($match).length).toBe(0)
   })
 
-  test('Checa input com simple undefined', async () => {
+  it('Checks input with simple undefined', async () => {
     const input = {
       name: undefined
     }
@@ -299,7 +299,7 @@ describe('MongoDB.match', () => {
     expect(Object.keys($match).length).toBe(0)
   })
 
-  test('Checa input com deep simple undefined', async () => {
+  it('Checks input with deep simple undefined', async () => {
     const input = {
       payment: {
         type: undefined,
@@ -312,7 +312,7 @@ describe('MongoDB.match', () => {
     expect(Object.keys($match).length).toBe(1)
   })
 
-  test('Checa input com deep native undefined', async () => {
+  it('Checks input with deep native undefined', async () => {
     const input = {
       payment: {
         type: {
@@ -326,7 +326,7 @@ describe('MongoDB.match', () => {
     expect(Object.keys($match).length).toBe(0)
   })
 
-  test('Checa input com simple native undefined', async () => {
+  it('Checks input with simple native undefined', async () => {
     const input = {
       paidAt: {
         $gte: new Date(),
@@ -339,7 +339,7 @@ describe('MongoDB.match', () => {
     expect(Object.keys($match['paidAt']).length).toBe(1)
   })
 
-  test('Checa input com deep double native undefined', async () => {
+  it('Checks input with deep double native undefined', async () => {
     const input = {
       payment: {
         type: {
@@ -356,7 +356,7 @@ describe('MongoDB.match', () => {
     expect(Object.keys($match).length).toBe(1)
   })
 
-  test('Checa input com deep double native single undefined', async () => {
+  it('Checks input with deep double native single undefined', async () => {
     const input = {
       payment: {
         type: {
@@ -373,7 +373,7 @@ describe('MongoDB.match', () => {
     expect(Object.keys($match).length).toBe(1)
   })
 
-  test('Checa input com deep double native double undefined', async () => {
+  it('Checks input with deep double native double undefined', async () => {
     const input = {
       payment: {
         type: {
@@ -390,7 +390,7 @@ describe('MongoDB.match', () => {
     expect(Object.keys($match).length).toBe(0)
   })
 
-  test('Checa input com deep simple double', async () => {
+  it('Checks input with deep simple double', async () => {
     const input = {
       payment: {
         type: 'ONLINE',
@@ -405,7 +405,7 @@ describe('MongoDB.match', () => {
     expect($match['payment.method']).toBe('PIX')
   })
 
-  test('Checa input com deep simple com native', async () => {
+  it('Checks input with deep simple with native', async () => {
     const input = {
       payment: {
         type: {
@@ -420,7 +420,7 @@ describe('MongoDB.match', () => {
     expect($match['payment.type']['$eq']).toBe('ONLINE')
   })
 
-  test('Checa input com deep native empty array', async () => {
+  it('Checks input with deep native empty array', async () => {
     const input = {
       payment: {
         type: {
@@ -434,7 +434,7 @@ describe('MongoDB.match', () => {
     expect($match['payment.type']['$in']).toStrictEqual([])
   })
 
-  test('Checa input com deep native array fullfiled', async () => {
+  it('Checks input with deep native array fulfilled', async () => {
     const input = {
       payment: {
         type: {
