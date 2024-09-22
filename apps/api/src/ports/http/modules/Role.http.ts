@@ -1,7 +1,7 @@
 import { IndexRoleSchema, IndexRoleSchemaOutput, RoleSchema } from '@starter/schema'
 
 import { IDependencies } from '@/core/shared/types'
-import { listRole } from '@/core/role/use-cases/list-role'
+import { indexRole } from '@/core/role/use-cases/list-role.use-case'
 import { IRouter } from '@/ports/http'
 
 export const RoleRouter = (dependencies: IDependencies): IRouter => ({
@@ -16,7 +16,7 @@ export const RoleRouter = (dependencies: IDependencies): IRouter => ({
   },
 
   paths: {
-    listRoles: {
+    indexRole: {
       summary: 'List Roles',
       description: 'Return a list of roles.',
 
@@ -36,7 +36,7 @@ export const RoleRouter = (dependencies: IDependencies): IRouter => ({
       },
 
       execute({ query }) {
-        return listRole(dependencies)(query)
+        return indexRole(dependencies)(query)
       }
     }
   }

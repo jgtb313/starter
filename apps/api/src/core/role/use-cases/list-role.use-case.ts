@@ -11,4 +11,4 @@ const execute: IUseCaseExecute<IndexRoleInput, IndexRoleOutput> =
     return roles.map((role) => role.state)
   }
 
-export const listRole = createUseCase(execute, IndexRoleSchema)
+export const indexRole = createUseCase(execute, IndexRoleSchema)
