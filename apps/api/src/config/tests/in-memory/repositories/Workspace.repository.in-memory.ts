@@ -3,6 +3,7 @@ import { PaginationSchemaTransform } from '@starter/schema'
 
 import { NotFoundError } from '@/support/errors'
 import { Workspace } from '@/core/workspace/domain'
+import { workspaceMocks } from '@/core/workspace/Workspace.mock'
 import { IWorkspaceRepository } from '@/ports/database/modules/Workspace.repository'
 
 let workspaces: Record<string, Workspace> = {}
@@ -67,5 +68,5 @@ export const WorkspaceRepositoryInMemory: ReturnType<IWorkspaceRepository> = {
 }
 
 export const clearWorkspaceRepositoryInMemory = () => {
-  workspaces = {}
+  workspaces = Object.fromEntries(workspaceMocks.map((mock) => [mock.state.id, mock]))
 }

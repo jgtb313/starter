@@ -3,6 +3,7 @@ import { PaginationSchemaTransform } from '@starter/schema'
 
 import { NotFoundError } from '@/support/errors'
 import { User } from '@/core/user/domain'
+import { userMocks } from '@/core/user/User.mock'
 import { IUserRepository } from '@/ports/database/modules/User.repository'
 
 let users: Record<string, User> = {}
@@ -77,5 +78,5 @@ export const UserRepositoryInMemory: ReturnType<IUserRepository> = {
 }
 
 export const clearUserRepositoryInMemory = () => {
-  users = {}
+  users = Object.fromEntries(userMocks.map((mock) => [mock.state.id, mock]))
 }

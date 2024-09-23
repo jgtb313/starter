@@ -1,95 +1,77 @@
-version: '3.7'
+version: '3.8'
 
 services:
   mongo1:
-    image: mongo:6.0
+    image: mongo:6.0.6
+    platform: linux/arm64
     container_name: mongo1
-    restart: always
+    hostname: mongo1
     ports:
-      - '27017:27017'
+      - 27017:27017
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=admin
-      - MONGO_INITDB_ROOT_PASSWORD=admin
-    command: mongod --replSet rs0 --bind_ip_all
+      - MONGO_REPLICA_SET_NAME=rs0
     volumes:
-      - starter-mongo1-data:/data/db
+      - ./data/mongo1:/data/db
     networks:
-      - mongo-cluster
+      - mongo-network
+    command: ['mongod', '--replSet', 'rs0', '--bind_ip_all']
 
   mongo2:
-    image: mongo:6.0
+    image: mongo:6.0.6
+    platform: linux/arm64
     container_name: mongo2
-    restart: always
+    hostname: mongo2
     ports:
-      - '27018:27017'
+      - 27018:27017
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=admin
-      - MONGO_INITDB_ROOT_PASSWORD=admin
-    command: mongod --replSet rs0 --bind_ip_all
+      - MONGO_REPLICA_SET_NAME=rs0
     volumes:
-      - starter-mongo2-data:/data/db
+      - ./data/mongo2:/data/db
     networks:
-      - mongo-cluster
+      - mongo-network
+    command: ['mongod', '--replSet', 'rs0', '--bind_ip_all']
 
   mongo3:
-    image: mongo:6.0
+    image: mongo:6.0.6
+    platform: linux/arm64
     container_name: mongo3
-    restart: always
+    hostname: mongo3
     ports:
-      - '27019:27017'
+      - 27019:27017
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=admin
-      - MONGO_INITDB_ROOT_PASSWORD=admin
-    command: mongod --replSet rs0 --bind_ip_all
+      - MONGO_REPLICA_SET_NAME=rs0
     volumes:
-      - starter-mongo3-data:/data/db
+      - ./data/mongo3:/data/db
     networks:
-      - mongo-cluster
+      - mongo-network
+    command: ['mongod', '--replSet', 'rs0', '--bind_ip_all']
 
-  mongo-init-replica:
-    image: mongo:6.0
-    container_name: mongo-init-replica
+  mongo-setup:
+    image: mongo:6.0.6
+    platform: linux/arm64
+    container_name: mongo-setup
     depends_on:
       - mongo1
       - mongo2
       - mongo3
+    networks:
+      - mongo-network
     entrypoint: >
       bash -c "
         sleep 10;
-        echo 'Iniciando Replica Set';
-        mongo --host mongo1:27017 -u admin -p admin --authenticationDatabase admin <<EOF
-        rs.initiate({
-          _id: 'rs0',
-          version: 1,
-          members: [
-            { _id: 0, host: 'mongo1:27017' },
-            { _id: 1, host: 'mongo2:27017' },
-            { _id: 2, host: 'mongo3:27017' }
-          ]
-        });
-        rs.status();
-        EOF
+        echo 'Configuring replica set';
+        mongosh --host mongo1:27017 --eval '
+          rs.initiate({
+            _id: \"rs0\",
+            members: [
+              { _id: 0, host: \"mongo1:27017\" },
+              { _id: 1, host: \"mongo2:27017\" },
+              { _id: 2, host: \"mongo3:27017\" }
+            ]
+          });
+        '
       "
-    networks:
-      - mongo-cluster
-
-  redis:
-    container_name: starter-redis
-    image: redis
-    command: redis-server
-    ports:
-      - '6379:6379'
-    volumes:
-      - starter-redis-data:/data
-    networks:
-      - mongo-cluster
 
 networks:
-  mongo-cluster:
+  mongo-network:
     driver: bridge
-
-volumes:
-  starter-mongo1-data:
-  starter-mongo2-data:
-  starter-mongo3-data:
-  starter-redis-data:

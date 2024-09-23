@@ -1,13 +1,16 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 import { RequestFilenameInput, FileContextEnum } from '@starter/schema'
 
-import { TestDependencies } from '@/config/tests'
+import { TestDependencies, ITestDependencies } from '@/config/tests'
 import { IDependencies } from '@/core/shared/types'
 
 import { requestFilename } from './request-filename.use-case'
 
 describe('requestFilename', () => {
-  let dependencies: IDependencies
+  const sut = () => ({
+    execute: (input: Parameters<ReturnType<typeof requestFilename>>[number]) => requestFilename(dependencies as IDependencies)(input)
+  })
+  let dependencies: ITestDependencies
 
   beforeEach(() => {
     dependencies = TestDependencies()
@@ -19,7 +22,7 @@ describe('requestFilename', () => {
       filename: 'logo.png'
     }
 
-    const output = await requestFilename(dependencies)(input)
+    const output = await sut().execute(input)
 
     expect(dependencies.Storage.getSignedUrl).toBeCalledWith('organizations/logo/logo.png')
     expect(output).toEqual({
@@ -34,7 +37,7 @@ describe('requestFilename', () => {
       filename: 'avatar.png'
     }
 
-    const output = await requestFilename(dependencies)(input)
+    const output = await sut().execute(input)
 
     expect(dependencies.Storage.getSignedUrl).toBeCalledWith('users/avatar/avatar.png')
     expect(output).toEqual({

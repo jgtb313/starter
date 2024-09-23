@@ -1,14 +1,17 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 import { OTPContextEnum, ValidateOTPInput } from '@starter/schema'
 
-import { TestDependencies } from '@/config/tests'
+import { TestDependencies, ITestDependencies } from '@/config/tests'
 import { IDependencies } from '@/core/shared/types'
 import { OTP } from '@/core/otp/domain'
 
 import { validateOTP } from './validate-otp.use-case'
 
 describe('validateOTP', () => {
-  let dependencies: IDependencies
+  const sut = () => ({
+    execute: (input: Parameters<ReturnType<typeof validateOTP>>[number]) => validateOTP(dependencies as IDependencies)(input)
+  })
+  let dependencies: ITestDependencies
 
   beforeEach(() => {
     dependencies = TestDependencies()
@@ -28,7 +31,7 @@ describe('validateOTP', () => {
 
     dependencies.Repositories.otp.create(otp)
 
-    await expect(validateOTP(dependencies)(input)).resolves.not.toThrow()
+    await expect(sut().execute(input)).resolves.not.toThrow()
     expect(dependencies.Repositories.otp.findById).toBeCalledWith(input.id)
     expect(dependencies.Repositories.otp.updateById).toBeCalledWith(input.id, otp)
   })
