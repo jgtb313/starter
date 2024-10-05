@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { User } from '@starter/schema'
 
-import { getTokenPayload } from './token'
+import { getTokenPayload } from './auth'
 
 describe('getTokenPayload', () => {
   it('should return an Auth object with the correct userId', () => {

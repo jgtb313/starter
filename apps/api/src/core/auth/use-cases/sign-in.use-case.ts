@@ -2,7 +2,7 @@ import { SignInSchema, SignInInput, SignInOutput } from '@starter/schema'
 
 import { AuthError } from '@/support/errors'
 import { createUseCase } from '@/support/utilities'
-import { getTokenPayload } from '@/core/auth/support/token'
+import { getTokenPayload } from '@/support/auth'
 import { IUseCaseExecute } from '@/core/shared/types'
 
 const execute: IUseCaseExecute<SignInInput, SignInOutput> =

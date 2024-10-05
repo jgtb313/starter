@@ -11,7 +11,10 @@ import {
 
 import { IDependencies } from '@/core/shared/types'
 import { signIn } from '@/core/auth/use-cases/sign-in.use-case'
+import { socialSignIn } from '@/core/auth/use-cases/social-sign-in.use-case'
 import { signUp } from '@/core/auth/use-cases/sign-up.use-case'
+import { forgotPassword } from '@/core/auth/use-cases/forgot-password.use-case'
+import { recoverPassword } from '@/core/auth/use-cases/recover-password.use-case'
 import { IRouter } from '@/ports/http'
 
 export const AuthRouter = (dependencies: IDependencies): IRouter => ({
@@ -65,9 +68,8 @@ export const AuthRouter = (dependencies: IDependencies): IRouter => ({
         }
       },
 
-      execute() {
-        console.log(dependencies)
-        return {}
+      execute({ body }) {
+        return socialSignIn(dependencies)(body)
       }
     },
 
@@ -113,9 +115,8 @@ export const AuthRouter = (dependencies: IDependencies): IRouter => ({
         }
       },
 
-      execute() {
-        console.log(dependencies)
-        return {}
+      execute({ body }) {
+        return forgotPassword(dependencies)(body)
       }
     },
 
@@ -137,9 +138,8 @@ export const AuthRouter = (dependencies: IDependencies): IRouter => ({
         }
       },
 
-      execute() {
-        console.log(dependencies)
-        return {}
+      execute({ body }) {
+        return recoverPassword(dependencies)(body)
       }
     }
   }

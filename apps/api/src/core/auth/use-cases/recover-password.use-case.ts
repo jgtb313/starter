@@ -1,10 +1,34 @@
 import { RecoverPasswordSchema, RecoverPasswordInput, RecoverPasswordOutput } from '@starter/schema'
+import { isFuture } from '@starter/shared'
 
+import { ConflictError } from '@/support/errors'
 import { createUseCase } from '@/support/utilities'
 import { IUseCaseExecute } from '@/core/shared/types'
 
-const execute: IUseCaseExecute<RecoverPasswordInput, RecoverPasswordOutput> = () => async () => {
-  return {} as unknown as RecoverPasswordOutput
-}
+const execute: IUseCaseExecute<RecoverPasswordInput, RecoverPasswordOutput> =
+  ({ Repositories, Encrypt }) =>
+  async ({ recoverPasswordToken, password }) => {
+    const user = await Repositories.user.findOne({ recoverPasswordToken })
+
+    if (!user) {
+      throw new ConflictError(`Invalid recoverPasswordToken ${recoverPasswordToken}`)
+    }
+
+    const isRecoverPasswordTokenValid = isFuture(user.state.recoverPasswordTokenExpiresIn as Date)
+
+    if (!isRecoverPasswordTokenValid) {
+      throw new ConflictError(`recoverPasswordToken ${recoverPasswordToken} expired`)
+    }
+
+    const hashPassword = Encrypt.hash(password)
+
+    user.state.password = hashPassword
+    user.state.recoverPasswordToken = null
+    user.state.recoverPasswordTokenExpiresIn = null
+
+    await Repositories.user.updateById(user.state.id, user)
+
+    return
+  }
 
 export const recoverPassword = createUseCase(execute, RecoverPasswordSchema)

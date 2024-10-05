@@ -5,11 +5,18 @@ import { ISession, IRepositories } from '@/ports/database'
 import { IJWT } from '@/ports/jwt'
 import { IEncrypt } from '@/ports/encrypt'
 import { IStorage } from '@/ports/storage'
+import { ISocialAuth } from '@/ports/social-auth'
 
-import { JWTInMemory, EncryptInMemory, StorageInMemory, RepositoriesInMemory, clearRepositoriesMocks } from './in-memory'
+import { JWTInMemory, EncryptInMemory, StorageInMemory, RepositoriesInMemory, SocialAuthInMemory, clearRepositoriesMocks } from './in-memory'
 
 export type SetupTestDependencies<T> = {
-  [K in keyof T]: T[K] extends (...args: infer A) => infer R ? Mock<A, R> : T[K] extends object ? SetupTestDependencies<T[K]> : T[K]
+  [K in keyof T]: T[K] extends (...args: any[]) => infer R
+    ? R extends (...args: any[]) => any
+      ? Mock<R>
+      : Mock<any>
+    : T[K] extends object
+    ? SetupTestDependencies<T[K]>
+    : T[K]
 }
 
 export type ITestDependencies = SetupTestDependencies<IDependencies>
@@ -27,9 +34,7 @@ export const TestDependencies = (): ITestDependencies => {
       send: vi.fn()
     },
 
-    SocialAuth: {
-      getInfosByToken: vi.fn()
-    },
+    SocialAuth: SocialAuthInMemory as SetupTestDependencies<ISocialAuth>,
 
     Storage: StorageInMemory as SetupTestDependencies<IStorage>,
 

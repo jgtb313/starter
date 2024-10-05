@@ -50,7 +50,7 @@ describe('signIn', () => {
 
   it('should throw an AuthError if the password is invalid', async () => {
     const input: SignInInput = {
-      email: 'liam.carter@lambda.com',
+      email: 'john.doe@acme.com',
       password: 'wrongPassword'
     }
 

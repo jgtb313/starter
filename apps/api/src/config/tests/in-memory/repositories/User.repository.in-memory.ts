@@ -39,12 +39,26 @@ export const UserRepositoryInMemory: ReturnType<IUserRepository> = {
     return user
   }),
 
-  findOne: vi.fn(async ({ email }) => {
-    const user = Object.values(users).find((user) => user.state.email === email)
+  findOne: vi.fn(async ({ email, recoverPasswordToken, social }) => {
+    const user = Object.values(users).find((user) => {
+      if (email) {
+        return user.state.email === email ? user : undefined
+      }
 
-    if (!user) {
-      return
-    }
+      if (recoverPasswordToken) {
+        return user.state.recoverPasswordToken === recoverPasswordToken ? user : undefined
+      }
+
+      if (social?.google?.id) {
+        return user.state.social.google?.id === social.google.id
+      }
+
+      if (social?.facebook?.id) {
+        return user.state.social.facebook?.id === social.facebook.id
+      }
+
+      return user
+    })
 
     return user
   }),

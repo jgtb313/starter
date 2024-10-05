@@ -9,7 +9,8 @@ export default defineConfig({
   },
   test: {
     coverage: {
-      exclude: ['src/config/**']
+      exclude: ['src/config/**'],
+      include: ['src/core/**', 'src/support/**']
     }
   }
 })

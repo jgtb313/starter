@@ -20,8 +20,8 @@ export const SocialSignInSchema = z.object({
 export const SocialSignInSchemaOutput = z.object({
   token: z.string()
 })
-export type SocialSignInhInput = z.infer<typeof SocialSignInSchema>
-export type SocialSignInhOutput = z.infer<typeof SocialSignInSchemaOutput>
+export type SocialSignInInput = z.infer<typeof SocialSignInSchema>
+export type SocialSignInOutput = z.infer<typeof SocialSignInSchemaOutput>
 
 export const SignUpSchema = UserSchema.pick({
   name: true,

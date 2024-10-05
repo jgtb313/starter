@@ -132,9 +132,26 @@ export const userMocks: User[] = [
     name: 'Hank Isaac',
     email: 'hank.isaac@lambda.com',
     social: {
+      google: { id: 'tokenRegisteredUser' },
+      facebook: { id: 'tokenRegisteredUser' }
+    },
+    recoverPasswordToken: '5c47737e-ac15-45d9-8093-36374f131467',
+    recoverPasswordTokenExpiresIn: new Date(Date.now() - 60 * 1000),
+    password: 'hashedPassword',
+    status: UserStatusEnum.ACTIVE
+  }),
+
+  new User({
+    workspaceId: Workspace2.state.id,
+    workspace: Workspace2.state,
+    name: 'Leo Turner',
+    email: 'leo.turner@lambda.com',
+    social: {
       google: null,
       facebook: null
     },
+    recoverPasswordToken: '7e78f837-d6e7-47df-9d9f-b50b9638e10a',
+    recoverPasswordTokenExpiresIn: new Date(Date.now() + 60 * 60 * 1000),
     password: 'hashedPassword',
     status: UserStatusEnum.ACTIVE
   })

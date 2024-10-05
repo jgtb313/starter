@@ -2,8 +2,8 @@ import { SignUpSchema, SignUpInput, SignUpOutput, UserStatusEnum, WorkspaceStatu
 
 import { BadRequestError } from '@/support/errors'
 import { createUseCase } from '@/support/utilities'
+import { getTokenPayload } from '@/support/auth'
 import { IUseCaseExecute } from '@/core/shared/types'
-import { getTokenPayload } from '@/core/auth/support/token'
 import { Workspace } from '@/core/workspace/domain'
 import { User } from '@/core/user/domain'
 

@@ -1,6 +1,8 @@
 import { SocialSignInEnum } from '@starter/schema'
 
+import { AuthError } from '@/support/errors'
 import { ISocialAuth } from '@/ports/social-auth'
+
 import { SocialAuthGoogle } from './strategy/SocialAuthGoogle.adapter'
 import { SocialAuthFacebook } from './strategy/SocialAuthFacebook.adapter'
 
@@ -13,6 +15,10 @@ export const SocialAuth: ISocialAuth = {
 
     const strategy = strategies[value]
 
-    return strategy(token)
+    try {
+      return await strategy(token)
+    } catch (error) {
+      throw new AuthError('Invalid acess data')
+    }
   }
 }

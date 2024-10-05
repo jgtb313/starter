@@ -1,10 +1,40 @@
 import { ForgotPasswordSchema, ForgotPasswordInput, ForgotPasswordOutput } from '@starter/schema'
+import { addMinutes, uuid } from '@starter/shared'
 
+import { env } from '@/config'
 import { createUseCase } from '@/support/utilities'
 import { IUseCaseExecute } from '@/core/shared/types'
+import { MailTemplateEnum } from '@/ports/mail'
 
-const execute: IUseCaseExecute<ForgotPasswordInput, ForgotPasswordOutput> = () => async () => {
-  return {} as unknown as ForgotPasswordOutput
-}
+const execute: IUseCaseExecute<ForgotPasswordInput, ForgotPasswordOutput> =
+  ({ Repositories, Mail }) =>
+  async ({ email }) => {
+    const recoverPasswordBaseUrl = env('SERVER_RECOVER_PASSWORD_BASE_URL')
+
+    const user = await Repositories.user.findOne({ email })
+
+    if (!user) {
+      return
+    }
+
+    const recoverPasswordToken = uuid()
+    const recoverPasswordExpiresIn = addMinutes(new Date(), 10)
+
+    user.state.recoverPasswordToken = recoverPasswordToken
+    user.state.recoverPasswordTokenExpiresIn = recoverPasswordExpiresIn
+
+    Mail.send({
+      template: MailTemplateEnum.FORGOT_PASSWORD,
+      to: user.state.email,
+      props: {
+        userName: user.state.name,
+        recoverPasswordBaseUrl: `${recoverPasswordBaseUrl}/${recoverPasswordToken}`
+      }
+    })
+
+    await Repositories.user.updateById(user.state.id, user)
+
+    return
+  }
 
 export const forgotPassword = createUseCase(execute, ForgotPasswordSchema)
