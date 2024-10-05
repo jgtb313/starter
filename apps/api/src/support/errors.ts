@@ -22,8 +22,8 @@ export class DefaultError extends Error {
 }
 
 export class AuthError extends DefaultError {
-  constructor(metadata?: DefaultErrorInput['metadata']) {
-    super({ name: 'AuthError', code: 401, message: 'Unauthorized', metadata })
+  constructor(message = 'Unauthorized', metadata?: DefaultErrorInput['metadata']) {
+    super({ name: 'AuthError', code: 401, message, metadata })
   }
 }
 

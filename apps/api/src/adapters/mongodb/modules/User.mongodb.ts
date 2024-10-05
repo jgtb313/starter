@@ -18,23 +18,28 @@ const parseDomain = (model: Document) => {
 }
 
 export const user: IUserRepository = () => ({
-  async index(input) {
+  async index(input, options) {
     const $match = MongoDB.makeMatch({
       ...input
     })
 
     const data = await MongoDB.Collections.user
-      .aggregate<Document>([
-        ...Pipelines,
-        {
-          $match
-        },
-        {
-          $sort: {
-            name: -1
+      .aggregate<Document>(
+        [
+          ...Pipelines,
+          {
+            $match
+          },
+          {
+            $sort: {
+              name: -1
+            }
           }
+        ],
+        {
+          session: options?.session as ClientSession
         }
-      ])
+      )
       .toArray()
 
     const values = data.map(parseDomain)
@@ -42,7 +47,7 @@ export const user: IUserRepository = () => ({
     return values
   },
 
-  async find({ offset = 0, limit = 10, sort, ...input }) {
+  async find({ offset = 0, limit = 10, sort, ...input }, options) {
     const $match = MongoDB.makeMatch({
       ...input
     })
@@ -50,19 +55,24 @@ export const user: IUserRepository = () => ({
     const total = 0
 
     const data = await MongoDB.Collections.user
-      .aggregate<Document>([
-        ...Pipelines,
+      .aggregate<Document>(
+        [
+          ...Pipelines,
+          {
+            $match
+          },
+          {
+            $sort: sort ?? { createdAt: -1 }
+          },
+          {
+            $skip: offset
+          },
+          { $limit: limit }
+        ],
         {
-          $match
-        },
-        {
-          $sort: sort ?? { createdAt: -1 }
-        },
-        {
-          $skip: offset
-        },
-        { $limit: limit }
-      ])
+          session: options?.session as ClientSession
+        }
+      )
       .toArray()
 
     const values = data.map((model) => parseDomain(model))
@@ -73,12 +83,16 @@ export const user: IUserRepository = () => ({
     }
   },
 
-  async findById(id) {
+  async findById(id, options) {
     const $match = MongoDB.makeMatch({
       id
     })
 
-    const [model] = await MongoDB.Collections.user.aggregate<Document>([{ $match }, ...Pipelines]).toArray()
+    const [model] = await MongoDB.Collections.user
+      .aggregate<Document>([{ $match }, ...Pipelines], {
+        session: options?.session as ClientSession
+      })
+      .toArray()
 
     if (!model) {
       throw new NotFoundError(`User ${id} not found`)
@@ -87,12 +101,16 @@ export const user: IUserRepository = () => ({
     return parseDomain(model)
   },
 
-  async findOne(input) {
+  async findOne(input, options) {
     const $match = MongoDB.makeMatch({
       ...input
     })
 
-    const [model] = await MongoDB.Collections.user.aggregate<Document>([{ $match }, ...Pipelines]).toArray()
+    const [model] = await MongoDB.Collections.user
+      .aggregate<Document>([{ $match }, ...Pipelines], {
+        session: options?.session as ClientSession
+      })
+      .toArray()
 
     if (!model) {
       return
@@ -117,10 +135,10 @@ export const user: IUserRepository = () => ({
       }
     )
 
-    return this.findById(state.id)
+    return this.findById(state.id, options)
   },
 
-  async updateById(id, { state }) {
+  async updateById(id, { state }, options) {
     const input = UserSchema.parse({
       ...state,
       ...MongoDB.updateTimestamps()
@@ -130,23 +148,29 @@ export const user: IUserRepository = () => ({
       id
     })
 
-    await MongoDB.Collections.user.findOneAndUpdate($match, {
-      $set: {
-        ...input,
-        search: UserSearch(state)
+    await MongoDB.Collections.user.findOneAndUpdate(
+      $match,
+      {
+        $set: {
+          ...input,
+          search: UserSearch(state)
+        }
+      },
+      {
+        session: options?.session as ClientSession
       }
-    })
+    )
 
     return this.findById(id)
   },
 
-  async deleteById(id) {
+  async deleteById(id, options) {
     const $match = MongoDB.makeMatch({
       id
     })
 
     await MongoDB.Collections.user.findOneAndDelete($match)
 
-    return this.findById(id)
+    return this.findById(id, options)
   }
 })

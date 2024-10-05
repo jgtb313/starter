@@ -9,10 +9,10 @@ type WorkspaceRepository = Workspace['state']
 type WorkspaceFindInput = DatabaseFilterInput<WorkspaceRepository> & SortInput & PaginationInput<{}>
 
 export type IWorkspaceRepository = () => {
-  index(data: WorkspaceFindInput): Promise<Workspace[]>
-  find(data: WorkspaceFindInput): Promise<PaginationOutput<Workspace>>
-  findById(id: string): Promise<Workspace>
+  index(data: WorkspaceFindInput, options?: IRepositoriesMethodOptions): Promise<Workspace[]>
+  find(data: WorkspaceFindInput, options?: IRepositoriesMethodOptions): Promise<PaginationOutput<Workspace>>
+  findById(id: string, options?: IRepositoriesMethodOptions): Promise<Workspace>
   create(data: Workspace, options?: IRepositoriesMethodOptions): Promise<Workspace>
-  updateById(id: string, data: Partial<Workspace>): Promise<Workspace>
-  deleteById(id: string): Promise<Workspace>
+  updateById(id: string, data: Partial<Workspace>, options?: IRepositoriesMethodOptions): Promise<Workspace>
+  deleteById(id: string, options?: IRepositoriesMethodOptions): Promise<Workspace>
 }

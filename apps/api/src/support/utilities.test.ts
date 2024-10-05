@@ -2,13 +2,13 @@ import { describe, expect, it, beforeEach } from 'vitest'
 import { z } from '@starter/schema'
 import { uuid } from '@starter/shared'
 
-import { TestDependencies } from '@/config/tests'
+import { TestDependencies, ITestDependencies } from '@/config/tests'
 import { IDependencies, IUseCaseExecute } from '@/core/shared/types'
 
 import { createUseCase, setupDomain, SetupDomain } from './utilities'
 
 describe('utilities', () => {
-  let dependencies: IDependencies
+  let dependencies: ITestDependencies
 
   beforeEach(() => {
     dependencies = TestDependencies()
@@ -35,7 +35,7 @@ describe('utilities', () => {
     it('should execute the use case without schema validation', async () => {
       const input: Input = { name: 'John Doe', email: 'john@example.com' }
 
-      const result = await createUseCase(execute)(dependencies)(input)
+      const result = await createUseCase(execute)(dependencies as IDependencies)(input)
 
       expect(result.id).toBeDefined()
     })
@@ -43,13 +43,13 @@ describe('utilities', () => {
     it('should execute the use case with schema validation', async () => {
       const input: Input = { name: 'John Doe', email: 'john@example.com' }
 
-      const result = await createUseCase(execute, schema)(dependencies)(input)
+      const result = await createUseCase(execute, schema)(dependencies as IDependencies)(input)
 
       expect(result.id).toBeDefined()
     })
 
     it('should throw an error if validation fails', () => {
-      expect(() => createUseCase(execute, schema)(dependencies)({ name: 'John Doe', email: 'invalid-email' })).toThrow(z.ZodError)
+      expect(() => createUseCase(execute, schema)(dependencies as IDependencies)({ name: 'John Doe', email: 'invalid-email' })).toThrow(z.ZodError)
     })
   })
 

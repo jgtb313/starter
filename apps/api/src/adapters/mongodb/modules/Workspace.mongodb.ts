@@ -18,23 +18,28 @@ const parseDomain = (model: Document) => {
 }
 
 export const workspace: IWorkspaceRepository = () => ({
-  async index(input) {
+  async index(input, options) {
     const $match = MongoDB.makeMatch({
       ...input
     })
 
     const data = await MongoDB.Collections.workspace
-      .aggregate<Document>([
-        ...Pipelines,
-        {
-          $match
-        },
-        {
-          $sort: {
-            name: -1
+      .aggregate<Document>(
+        [
+          ...Pipelines,
+          {
+            $match
+          },
+          {
+            $sort: {
+              name: -1
+            }
           }
+        ],
+        {
+          session: options?.session as ClientSession
         }
-      ])
+      )
       .toArray()
 
     const values = data.map(parseDomain)
@@ -42,7 +47,7 @@ export const workspace: IWorkspaceRepository = () => ({
     return values
   },
 
-  async find({ offset = 0, limit = 10, sort, ...input }) {
+  async find({ offset = 0, limit = 10, sort, ...input }, options) {
     const $match = MongoDB.makeMatch({
       ...input
     })
@@ -50,19 +55,24 @@ export const workspace: IWorkspaceRepository = () => ({
     const total = 0
 
     const data = await MongoDB.Collections.workspace
-      .aggregate<Document>([
-        ...Pipelines,
+      .aggregate<Document>(
+        [
+          ...Pipelines,
+          {
+            $match
+          },
+          {
+            $sort: sort ?? { createdAt: -1 }
+          },
+          {
+            $skip: offset
+          },
+          { $limit: limit }
+        ],
         {
-          $match
-        },
-        {
-          $sort: sort ?? { createdAt: -1 }
-        },
-        {
-          $skip: offset
-        },
-        { $limit: limit }
-      ])
+          session: options?.session as ClientSession
+        }
+      )
       .toArray()
 
     const values = data.map((model) => parseDomain(model))
@@ -73,15 +83,19 @@ export const workspace: IWorkspaceRepository = () => ({
     }
   },
 
-  async findById(id) {
+  async findById(id, options) {
     const $match = MongoDB.makeMatch({
       id
     })
 
-    const [model] = await MongoDB.Collections.workspace.aggregate<Document>([{ $match }, ...Pipelines]).toArray()
+    const [model] = await MongoDB.Collections.workspace
+      .aggregate<Document>([{ $match }, ...Pipelines], {
+        session: options?.session as ClientSession
+      })
+      .toArray()
 
     if (!model) {
-      throw new NotFoundError('Loja não encontrada')
+      throw new NotFoundError(`Workspace ${id} not found`)
     }
 
     return parseDomain(model)
@@ -103,10 +117,10 @@ export const workspace: IWorkspaceRepository = () => ({
       }
     )
 
-    return this.findById(state.id)
+    return this.findById(state.id, options)
   },
 
-  async updateById(id, { state }) {
+  async updateById(id, { state }, options) {
     const input = WorkspaceSchema.parse({
       ...state,
       ...MongoDB.updateTimestamps()
@@ -116,23 +130,31 @@ export const workspace: IWorkspaceRepository = () => ({
       id
     })
 
-    await MongoDB.Collections.workspace.findOneAndUpdate($match, {
-      $set: {
-        ...input,
-        search: WorkspaceSearch(state)
+    await MongoDB.Collections.workspace.findOneAndUpdate(
+      $match,
+      {
+        $set: {
+          ...input,
+          search: WorkspaceSearch(state)
+        }
+      },
+      {
+        session: options?.session as ClientSession
       }
-    })
+    )
 
     return this.findById(id)
   },
 
-  async deleteById(id) {
+  async deleteById(id, options) {
     const $match = MongoDB.makeMatch({
       id
     })
 
-    await MongoDB.Collections.workspace.findOneAndDelete($match)
+    await MongoDB.Collections.workspace.findOneAndDelete($match, {
+      session: options?.session as ClientSession
+    })
 
-    return this.findById(id)
+    return this.findById(id, options)
   }
 })

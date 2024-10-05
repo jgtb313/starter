@@ -29,7 +29,7 @@ describe('Error Classes', () => {
   })
 
   it('should create AuthError with correct properties', () => {
-    const error = new AuthError({ userId: '123' })
+    const error = new AuthError('Unauthorized', { userId: '123' })
 
     expect(error.name).toBe('AuthError')
     expect(error.code).toBe(401)

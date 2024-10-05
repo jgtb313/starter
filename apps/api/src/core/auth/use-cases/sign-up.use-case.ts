@@ -8,7 +8,7 @@ import { Workspace } from '@/core/workspace/domain'
 import { User } from '@/core/user/domain'
 
 const execute: IUseCaseExecute<SignUpInput, SignUpOutput> =
-  ({ Database, Repositories, JWT }) =>
+  ({ Database, Repositories, Encrypt, JWT }) =>
   async ({ name, email, password }) => {
     const session = Database.createSession()
 
@@ -31,13 +31,15 @@ const execute: IUseCaseExecute<SignUpInput, SignUpOutput> =
         }
       )
 
+      const hashPassword = Encrypt.hash(password)
+
       const user = await Repositories.user.create(
         new User({
           workspaceId: workspace.state.id,
           workspace: workspace.state,
           name,
           email,
-          password,
+          password: hashPassword,
           social: {
             facebook: null,
             google: null

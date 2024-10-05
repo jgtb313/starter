@@ -17,12 +17,12 @@ export const userMocks: User[] = [
       google: { id: uuid() },
       facebook: null
     },
-    password: 'hashedPassword1',
+    password: 'hashedPassword',
     status: UserStatusEnum.ACTIVE
   }),
 
   new User({
-    workspaceId: Workspace2?.state.id,
+    workspaceId: Workspace2.state.id,
     workspace: Workspace2.state,
     name: 'Jane Smith',
     email: 'jane.smith@beta.com',
@@ -30,12 +30,12 @@ export const userMocks: User[] = [
       google: null,
       facebook: { id: uuid() }
     },
-    password: 'hashedPassword2',
+    password: 'hashedPassword',
     status: UserStatusEnum.INACTIVE
   }),
 
   new User({
-    workspaceId: Workspace3?.state.id,
+    workspaceId: Workspace3.state.id,
     workspace: Workspace3.state,
     name: 'Alice Johnson',
     email: 'alice.johnson@gamma.com',
@@ -43,13 +43,13 @@ export const userMocks: User[] = [
       google: { id: uuid() },
       facebook: { id: uuid() }
     },
-    password: 'hashedPassword3',
+    password: 'hashedPassword',
     status: UserStatusEnum.ACTIVE,
     deletedAt: null
   }),
 
   new User({
-    workspaceId: Workspace3?.state.id,
+    workspaceId: Workspace3.state.id,
     workspace: Workspace3.state,
     name: 'Bob Brown',
     email: 'bob.brown@delta.com',
@@ -57,12 +57,12 @@ export const userMocks: User[] = [
       google: { id: uuid() },
       facebook: null
     },
-    password: 'hashedPassword4',
+    password: 'hashedPassword',
     status: UserStatusEnum.INACTIVE
   }),
 
   new User({
-    workspaceId: Workspace3?.state.id,
+    workspaceId: Workspace3.state.id,
     workspace: Workspace3.state,
     name: 'Charlie Davis',
     email: 'charlie.davis@epsilon.com',
@@ -70,12 +70,12 @@ export const userMocks: User[] = [
       google: null,
       facebook: { id: uuid() }
     },
-    password: 'hashedPassword5',
+    password: 'hashedPassword',
     status: UserStatusEnum.ACTIVE
   }),
 
   new User({
-    workspaceId: Workspace1?.state.id,
+    workspaceId: Workspace1.state.id,
     workspace: Workspace1.state,
     name: 'Dave Evans',
     email: 'dave.evans@zeta.com',
@@ -83,12 +83,12 @@ export const userMocks: User[] = [
       google: { id: uuid() },
       facebook: { id: uuid() }
     },
-    password: 'hashedPassword6',
+    password: 'hashedPassword',
     status: UserStatusEnum.INACTIVE
   }),
 
   new User({
-    workspaceId: Workspace1?.state.id,
+    workspaceId: Workspace1.state.id,
     workspace: Workspace1.state,
     name: 'Eve Foster',
     email: 'eve.foster@theta.com',
@@ -96,12 +96,12 @@ export const userMocks: User[] = [
       google: null,
       facebook: null
     },
-    password: 'hashedPassword7',
+    password: 'hashedPassword',
     status: UserStatusEnum.ACTIVE
   }),
 
   new User({
-    workspaceId: Workspace1?.state.id,
+    workspaceId: Workspace1.state.id,
     workspace: Workspace1.state,
     name: 'Frank Green',
     email: 'frank.green@iota.com',
@@ -109,12 +109,12 @@ export const userMocks: User[] = [
       google: { id: uuid() },
       facebook: { id: uuid() }
     },
-    password: 'hashedPassword8',
+    password: 'hashedPassword',
     status: UserStatusEnum.ACTIVE
   }),
 
   new User({
-    workspaceId: Workspace2?.state.id,
+    workspaceId: Workspace2.state.id,
     workspace: Workspace2.state,
     name: 'Grace Harris',
     email: 'grace.harris@kappa.com',
@@ -122,12 +122,12 @@ export const userMocks: User[] = [
       google: { id: uuid() },
       facebook: null
     },
-    password: 'hashedPassword9',
+    password: 'hashedPassword',
     status: UserStatusEnum.ACTIVE
   }),
 
   new User({
-    workspaceId: Workspace2?.state.id,
+    workspaceId: Workspace2.state.id,
     workspace: Workspace2.state,
     name: 'Hank Isaac',
     email: 'hank.isaac@lambda.com',
@@ -135,7 +135,7 @@ export const userMocks: User[] = [
       google: null,
       facebook: null
     },
-    password: 'hashedPassword10',
+    password: 'hashedPassword',
     status: UserStatusEnum.ACTIVE
   })
 ]

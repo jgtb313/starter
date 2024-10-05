@@ -9,11 +9,11 @@ type UserRepository = User['state']
 type UserFindInput = DatabaseFilterInput<UserRepository> & SortInput & PaginationInput<{}>
 
 export type IUserRepository = () => {
-  index(input: UserFindInput): Promise<User[]>
-  find(input: UserFindInput): Promise<PaginationOutput<User>>
-  findById(id: string): Promise<User>
-  findOne(input: UserFindInput): Promise<User | undefined>
+  index(input: UserFindInput, options?: IRepositoriesMethodOptions): Promise<User[]>
+  find(input: UserFindInput, options?: IRepositoriesMethodOptions): Promise<PaginationOutput<User>>
+  findById(id: string, options?: IRepositoriesMethodOptions): Promise<User>
+  findOne(input: UserFindInput, options?: IRepositoriesMethodOptions): Promise<User | undefined>
   create(input: User, options?: IRepositoriesMethodOptions): Promise<User>
-  updateById(id: string, input: Partial<User>): Promise<User>
-  deleteById(id: string): Promise<User>
+  updateById(id: string, input: Partial<User>, options?: IRepositoriesMethodOptions): Promise<User>
+  deleteById(id: string, options?: IRepositoriesMethodOptions): Promise<User>
 }
