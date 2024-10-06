@@ -31,7 +31,7 @@ export const RoleRouter = (dependencies: IDependencies): IRouter => ({
       responses: {
         200: {
           schema: IndexRoleSchemaOutput,
-          description: '200'
+          description: 'OK'
         }
       },
 

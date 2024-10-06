@@ -1,5 +1,5 @@
 import { Db, MongoClient, Document, Collection, CreateIndexesOptions } from 'mongodb'
-import { OTP, Role, Workspace, User } from '@starter/schema'
+import { OTP, Plan, Role, Workspace, User } from '@starter/schema'
 import { clearSpecialChars, get, set } from '@starter/shared'
 
 import { makeMatch } from './MongoDB.match'
@@ -10,7 +10,8 @@ type Searchable<T> = T & {
 
 export type CollectionsTypes = {
   otp: OTP
-  role: Role
+  plan: Searchable<Plan>
+  role: Searchable<Role>
   workspace: Searchable<Workspace>
   user: Searchable<User>
 }
@@ -47,11 +48,13 @@ const startSession = () => {
 
 const Collections: {
   otp: Collection<CollectionsTypes['otp']>
+  plan: Collection<CollectionsTypes['plan']>
   role: Collection<CollectionsTypes['role']>
   workspace: Collection<CollectionsTypes['workspace']>
   user: Collection<CollectionsTypes['user']>
 } = {
   otp: {} as Collection<CollectionsTypes['otp']>,
+  plan: {} as Collection<CollectionsTypes['plan']>,
   role: {} as Collection<CollectionsTypes['role']>,
   workspace: {} as Collection<CollectionsTypes['workspace']>,
   user: {} as Collection<CollectionsTypes['user']>
@@ -71,6 +74,7 @@ const connect = async (uri: string) => {
     database = client.db(databaseName)
 
     Collections.otp = await createCollectionMongoDB<CollectionsTypes['otp']>('otps')
+    Collections.plan = await createCollectionMongoDB<CollectionsTypes['plan']>('plans')
     Collections.role = await createCollectionMongoDB<CollectionsTypes['role']>('roles')
     Collections.workspace = await createCollectionMongoDB<CollectionsTypes['workspace']>('workspaces')
     Collections.user = await createCollectionMongoDB<CollectionsTypes['user']>('users')

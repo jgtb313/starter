@@ -1,6 +1,7 @@
 import { PlanSchema, IndexPlanSchema, IndexPlanSchemaOutput } from '@starter/schema'
 
 import { IDependencies } from '@/core/shared/types'
+import { indexPlan } from '@/core/plan/use-cases/index-plan.use-case'
 import { IRouter } from '@/ports/http'
 
 export const PlanRouter = (dependencies: IDependencies): IRouter => ({
@@ -34,9 +35,8 @@ export const PlanRouter = (dependencies: IDependencies): IRouter => ({
         }
       },
 
-      execute() {
-        console.log(dependencies)
-        return {}
+      execute({ query }) {
+        return indexPlan(dependencies)(query)
       }
     }
   }

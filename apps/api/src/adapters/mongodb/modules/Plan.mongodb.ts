@@ -1,31 +1,29 @@
 import { ClientSession } from 'mongodb'
-import { UserSchema as Schema } from '@starter/schema'
+import { PlanSchema } from '@starter/schema'
 
 import { NotFoundError } from '@/support/errors'
-import { User } from '@/core/user/domain'
-import { IUserRepository } from '@/ports/database/modules/User.repository'
+import { Plan } from '@/core/plan/domain'
+import { IPlanRepository } from '@/ports/database/modules/Plan.repository'
 import { MongoDB, CollectionsTypes } from '../MongoDB.support'
 
-type Document = CollectionsTypes['user']
-const UserSearch = MongoDB.makeSearch<User['state']>(['name'])
+type Document = CollectionsTypes['plan']
+const PlanSearch = MongoDB.makeSearch<Plan['state']>(['name'])
 
 const Pipelines = [] as []
 
 const parseDomain = (model: Document) => {
-  return new User({
+  return new Plan({
     ...model
   })
 }
 
-const UserSchema = Schema.omit({ workspace: true })
-
-export const user: IUserRepository = () => ({
+export const plan: IPlanRepository = () => ({
   async index(input, options) {
     const $match = MongoDB.makeMatch({
       ...input
     })
 
-    const data = await MongoDB.Collections.user
+    const data = await MongoDB.Collections.plan
       .aggregate<Document>(
         [
           ...Pipelines,
@@ -56,7 +54,7 @@ export const user: IUserRepository = () => ({
 
     const total = 0
 
-    const data = await MongoDB.Collections.user
+    const data = await MongoDB.Collections.plan
       .aggregate<Document>(
         [
           ...Pipelines,
@@ -90,14 +88,14 @@ export const user: IUserRepository = () => ({
       id
     })
 
-    const [model] = await MongoDB.Collections.user
+    const [model] = await MongoDB.Collections.plan
       .aggregate<Document>([{ $match }, ...Pipelines], {
         session: options?.session as ClientSession
       })
       .toArray()
 
     if (!model) {
-      throw new NotFoundError(`User ${id} not found`)
+      throw new NotFoundError(`Plan ${id} not found`)
     }
 
     return parseDomain(model)
@@ -108,7 +106,7 @@ export const user: IUserRepository = () => ({
       ...input
     })
 
-    const [model] = await MongoDB.Collections.user
+    const [model] = await MongoDB.Collections.plan
       .aggregate<Document>([{ $match }, ...Pipelines], {
         session: options?.session as ClientSession
       })
@@ -122,15 +120,15 @@ export const user: IUserRepository = () => ({
   },
 
   async create({ state }, options) {
-    const input = UserSchema.parse({
+    const input = PlanSchema.parse({
       ...state,
       ...MongoDB.createTimestamps()
-    }) as User['state']
+    })
 
-    await MongoDB.Collections.user.insertOne(
+    await MongoDB.Collections.plan.insertOne(
       {
         ...input,
-        search: UserSearch(state)
+        search: PlanSearch(state)
       },
       {
         session: options?.session as ClientSession
@@ -141,7 +139,7 @@ export const user: IUserRepository = () => ({
   },
 
   async updateById(id, { state }, options) {
-    const input = UserSchema.parse({
+    const input = PlanSchema.parse({
       ...state,
       ...MongoDB.updateTimestamps()
     })
@@ -150,12 +148,12 @@ export const user: IUserRepository = () => ({
       id
     })
 
-    await MongoDB.Collections.user.findOneAndUpdate(
+    await MongoDB.Collections.plan.findOneAndUpdate(
       $match,
       {
         $set: {
           ...input,
-          search: UserSearch(state)
+          search: PlanSearch(state)
         }
       },
       {
@@ -171,7 +169,7 @@ export const user: IUserRepository = () => ({
       id
     })
 
-    await MongoDB.Collections.user.findOneAndDelete($match)
+    await MongoDB.Collections.plan.findOneAndDelete($match)
 
     return this.findById(id, options)
   }
