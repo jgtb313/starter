@@ -15,7 +15,7 @@ describe('forgotPassword', () => {
   beforeEach(() => {
     dependencies = TestDependencies()
 
-    vi.stubEnv('SERVER_RECOVER_PASSWORD_BASE_URL', '123')
+    vi.stubEnv('SERVER_RECOVER_PASSWORD_BASE_URL', 'SERVER_RECOVER_PASSWORD_BASE_URL')
   })
 
   it('should successfully send a recovery email and update user token', async () => {

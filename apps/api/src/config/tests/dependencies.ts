@@ -10,13 +10,7 @@ import { ISocialAuth } from '@/ports/social-auth'
 import { JWTInMemory, EncryptInMemory, StorageInMemory, RepositoriesInMemory, SocialAuthInMemory, clearRepositoriesMocks } from './in-memory'
 
 export type SetupTestDependencies<T> = {
-  [K in keyof T]: T[K] extends (...args: any[]) => infer R
-    ? R extends (...args: any[]) => any
-      ? Mock<R>
-      : Mock<any>
-    : T[K] extends object
-    ? SetupTestDependencies<T[K]>
-    : T[K]
+  [K in keyof T]: T[K] extends (...args: infer A) => infer R ? Mock<(...args: A) => R> : T[K] extends object ? SetupTestDependencies<T[K]> : T[K]
 }
 
 export type ITestDependencies = SetupTestDependencies<IDependencies>
