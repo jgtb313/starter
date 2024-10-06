@@ -3,8 +3,8 @@ runtime:
   name: nodejs
   options:
     packagemanager: yarn
-description: infra
+description: A TypeScript program to deploy a containerized service on AWS
 config:
   pulumi:tags:
     value:
-      pulumi:template: aws-typescript
+      pulumi:template: container-aws-typescript

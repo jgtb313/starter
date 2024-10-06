@@ -26,8 +26,8 @@ describe('requestFilename', () => {
 
     expect(dependencies.Storage.getSignedUrl).toBeCalledWith('organizations/logo/logo.png')
     expect(output).toEqual({
-      filename: 'https://static.example.com.br/organizations/logo/logo.png',
-      filenameSigned: 'https://example-assets.s3.us-east-1.amazonaws.com/organizations/logo/logo.png'
+      filename: 'https://static.test.com.br/organizations/logo/logo.png',
+      filenameSigned: 'https://test-assets.s3.us-east-1.amazonaws.com/organizations/logo/logo.png'
     })
   })
 
@@ -41,8 +41,8 @@ describe('requestFilename', () => {
 
     expect(dependencies.Storage.getSignedUrl).toBeCalledWith('users/avatar/avatar.png')
     expect(output).toEqual({
-      filename: 'https://static.example.com.br/users/avatar/avatar.png',
-      filenameSigned: 'https://example-assets.s3.us-east-1.amazonaws.com/users/avatar/avatar.png'
+      filename: 'https://static.test.com.br/users/avatar/avatar.png',
+      filenameSigned: 'https://test-assets.s3.us-east-1.amazonaws.com/users/avatar/avatar.png'
     })
   })
 })

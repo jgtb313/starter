@@ -4,6 +4,7 @@ import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import { env } from '@/config'
 import { IStorage } from '@/ports/storage'
 
+const STATIC_IMAGE_URL = env('STATIC_IMAGE_URL')
 const AWS_S3_REGION = env('AWS_S3_REGION')
 const AWS_S3_FILE_BUCKET = env('AWS_S3_FILE_BUCKET')
 
@@ -22,7 +23,7 @@ export const Storage: IStorage = {
     const filenameSigned = await getSignedUrl(S3, command, { expiresIn: 120 })
 
     return {
-      filename: `https://${AWS_S3_FILE_BUCKET}.s3.amazonaws.com/${key}`,
+      filename: `https://${STATIC_IMAGE_URL}/${key}`,
       filenameSigned
     }
   }

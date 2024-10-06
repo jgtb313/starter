@@ -3,6 +3,7 @@ require('dotenv').config()
 import { z } from '@starter/schema'
 
 type Env =
+  | 'PROJECT'
   | 'STAGE'
   | 'SERVER_PORT'
   | 'SERVER_SECRET'
@@ -10,10 +11,12 @@ type Env =
   | 'MONGODB_URL'
   | 'GOOGLE_MAIL_USER'
   | 'GOOGLE_MAIL_PASSWORD'
+  | 'STATIC_IMAGE_URL'
   | 'AWS_S3_REGION'
   | 'AWS_S3_FILE_BUCKET'
 
 export const EnvSchema = z.object({
+  PROJECT: z.string().min(1),
   STAGE: z.enum(['local', 'development', 'production']),
 
   // Server
@@ -27,6 +30,9 @@ export const EnvSchema = z.object({
 
   // MongoDB Database
   MONGODB_URL: z.string().min(1),
+
+  // Static Image
+  STATIC_IMAGE_URL: z.string().min(1),
 
   // AWS S3
   AWS_S3_REGION: z.string().min(1),

@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { beforeEach, describe, expect, it } from 'vitest'
 import { ForgotPasswordInput } from '@starter/schema'
 
 import { TestDependencies, ITestDependencies } from '@/config/tests'
@@ -14,8 +14,6 @@ describe('forgotPassword', () => {
 
   beforeEach(() => {
     dependencies = TestDependencies()
-
-    vi.stubEnv('SERVER_RECOVER_PASSWORD_BASE_URL', 'SERVER_RECOVER_PASSWORD_BASE_URL')
   })
 
   it('should successfully send a recovery email and update user token', async () => {
