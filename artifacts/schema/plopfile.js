@@ -24,7 +24,6 @@ module.exports = function (plop) {
         type: 'modify',
         path: 'src/index.ts',
         pattern: /(\/\/ appendHere)/,
-
         template: "export * from './{{~ kebabCase name }}'\n$1"
       }
     ]

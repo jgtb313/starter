@@ -3,6 +3,7 @@ import { IPlanRepository } from './Plan.repository'
 import { IRoleRepository } from './Role.repository'
 import { IWorkspaceRepository } from './Workspace.repository'
 import { IUserRepository } from './User.repository'
+// appendModuleImportHere
 
 export type IRepositories = {
   otp: ReturnType<IOTPRepository>
@@ -10,4 +11,5 @@ export type IRepositories = {
   role: ReturnType<IRoleRepository>
   workspace: ReturnType<IWorkspaceRepository>
   user: ReturnType<IUserRepository>
+  // appendModuleTypeHere
 }

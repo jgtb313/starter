@@ -20,12 +20,12 @@ export const List{{pascalCase name}}OptionsSchemaOutput = z.array({{pascalCase n
 export type List{{pascalCase name}}OptionsInput = z.infer<typeof List{{pascalCase name}}OptionsSchema>
 export type List{{pascalCase name}}OptionsOutput = Promise<z.infer<typeof List{{pascalCase name}}OptionsSchemaOutput>>
 
-export const Get{{pascalCase name}}ByIdSchema = {{pascalCase name}}Schema.pick({
+export const Get{{pascalCase name}}Schema = {{pascalCase name}}Schema.pick({
   id: true
 })
-export const Get{{pascalCase name}}ByIdSchemaOutput = {{pascalCase name}}Schema
-export type Get{{pascalCase name}}ByIdInput = z.infer<typeof Get{{pascalCase name}}ByIdSchema>
-export type Get{{pascalCase name}}ByIdOutput = Promise<z.infer<typeof Get{{pascalCase name}}ByIdSchemaOutput>>
+export const Get{{pascalCase name}}SchemaOutput = {{pascalCase name}}Schema
+export type Get{{pascalCase name}}Input = z.infer<typeof Get{{pascalCase name}}Schema>
+export type Get{{pascalCase name}}Output = Promise<z.infer<typeof Get{{pascalCase name}}SchemaOutput>>
 
 export const Create{{pascalCase name}}Schema = {{pascalCase name}}Schema.pick({ name: true })
 export const Create{{pascalCase name}}SchemaOutput = {{pascalCase name}}Schema
@@ -34,7 +34,7 @@ export type Create{{pascalCase name}}Output = Promise<z.infer<typeof Create{{pas
 
 export const Update{{pascalCase name}}Schema = {{pascalCase name}}Schema.pick({
   id: true
-}).and(
+}).merge(
   {{pascalCase name}}Schema.pick({ name: true }).partial()
 )
 export const Update{{pascalCase name}}SchemaOutput = {{pascalCase name}}Schema

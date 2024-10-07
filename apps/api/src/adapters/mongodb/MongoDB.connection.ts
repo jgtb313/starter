@@ -11,7 +11,7 @@ export const connect = async (uri: string) => {
   try {
     client = new MongoClient(uri, {
       serverSelectionTimeoutMS: 15000,
-      connectTimeoutMS: 15000
+      connectTimeoutMS: 15000,
     })
 
     await client.connect()
