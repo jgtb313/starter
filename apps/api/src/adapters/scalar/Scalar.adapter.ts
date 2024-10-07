@@ -160,7 +160,7 @@ const paths = Schemas.reduce((state, schema) => {
             }
           }
         }
-      : {}
+      : null
 
     const normalizedPath = normalizePath(path)
 

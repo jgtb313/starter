@@ -26,6 +26,7 @@ export const plan: IPlanRepository = () => ({
     const data = await MongoDB.Collections.plan
       .aggregate<Document>(
         [
+          { $match: { status: { $ne: 'DELETED' } } },
           ...Pipelines,
           {
             $match
@@ -57,6 +58,7 @@ export const plan: IPlanRepository = () => ({
     const data = await MongoDB.Collections.plan
       .aggregate<Document>(
         [
+          { $match: { status: { $ne: 'DELETED' } } },
           ...Pipelines,
           {
             $match
@@ -89,7 +91,7 @@ export const plan: IPlanRepository = () => ({
     })
 
     const [model] = await MongoDB.Collections.plan
-      .aggregate<Document>([{ $match }, ...Pipelines], {
+      .aggregate<Document>([{ $match: { status: { $ne: 'DELETED' } } }, { $match }, ...Pipelines], {
         session: options?.session as ClientSession
       })
       .toArray()
@@ -107,7 +109,7 @@ export const plan: IPlanRepository = () => ({
     })
 
     const [model] = await MongoDB.Collections.plan
-      .aggregate<Document>([{ $match }, ...Pipelines], {
+      .aggregate<Document>([{ $match: { status: { $ne: 'DELETED' } } }, ...Pipelines, { $match }], {
         session: options?.session as ClientSession
       })
       .toArray()
