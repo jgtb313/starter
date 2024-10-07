@@ -1,18 +1,21 @@
-import { ActivePlanSchema, ActivePlanInput, ActivePlanOutput } from '@starter/schema'
+import { DeletePlanSchema, DeletePlanInput, DeletePlanOutput } from '@starter/schema'
 
 import { createUseCase } from '@/support/utilities'
 import { IUseCaseExecute } from '@/core/shared/types'
 
-const execute: IUseCaseExecute<ActivePlanInput, ActivePlanOutput> =
+const execute: IUseCaseExecute<DeletePlanInput, DeletePlanOutput> =
   ({ Repositories }) =>
   async ({ id }) => {
+    console.log({ id })
     const plan = await Repositories.plan.findById(id)
+
+    console.log({
+      plan
+    })
 
     plan.markAsDeleted()
 
-    const updatedPlan = await Repositories.plan.updateById(plan.state.id, plan)
-
-    return updatedPlan.state
+    await Repositories.plan.updateById(plan.state.id, plan)
   }
 
-export const deletePlan = createUseCase(execute, ActivePlanSchema)
+export const deletePlan = createUseCase(execute, DeletePlanSchema)

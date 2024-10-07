@@ -3,33 +3,24 @@ import { z } from '@/zod'
 import { FilterableSchema, PaginationSchema, BasePaginationSchemaOutput, SortSchema } from '@/common'
 import { PlanSchema } from './Plan.schema'
 
-export const IndexPlanSchema = PlanSchema.pick({})
-  .partial()
-  .and(SortSchema)
-  .and(
-    z
-      .object({
-        filter: FilterableSchema(['name'], { example: 'Plano Básico' })
-      })
-      .partial()
-  )
-export const IndexPlanSchemaOutput = z.array(PlanSchema)
-export type IndexPlanInput = z.infer<typeof IndexPlanSchema>
-export type IndexPlanOutput = z.infer<typeof IndexPlanSchemaOutput>
+export const ListAvailablePlansSchema = PlanSchema.pick({}).partial()
+export const ListAvailablePlansSchemaOutput = z.array(PlanSchema)
+export type ListAvailablePlansInput = z.infer<typeof ListAvailablePlansSchema>
+export type ListAvailablePlansOutput = z.infer<typeof ListAvailablePlansSchemaOutput>
 
-export const ListPlanSchema = PlanSchema.pick({})
+export const ListPlansSchema = PlanSchema.pick({})
   .and(PaginationSchema)
   .and(SortSchema)
   .and(
     z
       .object({
-        filter: FilterableSchema(['name'], { example: 'example' })
+        filter: FilterableSchema(['name'], { example: 'Basic' })
       })
       .partial()
   )
-export const ListPlanSchemaOutput = BasePaginationSchemaOutput.extend({ values: z.array(PlanSchema).default([]) })
-export type ListPlanInput = z.infer<typeof ListPlanSchema>
-export type ListPlanOutput = z.infer<typeof ListPlanSchemaOutput>
+export const ListPlansSchemaOutput = BasePaginationSchemaOutput.extend({ values: z.array(PlanSchema).default([]) })
+export type ListPlansInput = z.infer<typeof ListPlansSchema>
+export type ListPlansOutput = z.infer<typeof ListPlansSchemaOutput>
 
 export const GetPlanSchema = PlanSchema.pick({
   id: true
@@ -43,8 +34,7 @@ export const CreatePlanSchema = PlanSchema.pick({
   amount: true,
   interval: true,
   intervalCount: true,
-  features: true,
-  status: true
+  features: true
 })
 export const CreatePlanSchemaOutput = PlanSchema
 export type CreatePlanInput = z.infer<typeof CreatePlanSchema>
@@ -52,7 +42,15 @@ export type CreatePlanOutput = z.infer<typeof CreatePlanSchemaOutput>
 
 export const UpdatePlanSchema = PlanSchema.pick({
   id: true
-}).and(PlanSchema.pick({}).partial())
+}).merge(
+  PlanSchema.pick({
+    name: true,
+    amount: true,
+    interval: true,
+    intervalCount: true,
+    features: true
+  }).partial()
+)
 export const UpdatePlanSchemaOutput = PlanSchema
 export type UpdatePlanInput = z.infer<typeof UpdatePlanSchema>
 export type UpdatePlanOutput = z.infer<typeof UpdatePlanSchemaOutput>
@@ -74,6 +72,5 @@ export type InactivePlanOutput = z.infer<typeof InactivePlanSchema>
 export const DeletePlanSchema = PlanSchema.pick({
   id: true
 })
-export const DeletePlanSchemaOutput = PlanSchema
 export type DeletePlanInput = z.infer<typeof DeletePlanSchema>
-export type DeletePlanOutput = z.infer<typeof DeletePlanSchema>
+export type DeletePlanOutput = void

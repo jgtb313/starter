@@ -28,5 +28,6 @@ export class Plan {
 
   markAsDeleted() {
     this.state.status = PlanStatusEnum.DELETED
+    this.state.deletedAt = new Date()
   }
 }

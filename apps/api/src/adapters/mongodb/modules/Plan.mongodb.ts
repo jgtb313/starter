@@ -169,8 +169,8 @@ export const plan: IPlanRepository = () => ({
       id
     })
 
-    await MongoDB.Collections.plan.findOneAndDelete($match)
+    await MongoDB.Collections.plan.findOneAndDelete($match, { session: options?.session as ClientSession })
 
-    return this.findById(id, options)
+    return
   }
 })

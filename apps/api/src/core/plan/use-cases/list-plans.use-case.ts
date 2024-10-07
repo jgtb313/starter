@@ -1,9 +1,9 @@
-import { ListPlanSchema, ListPlanInput, ListPlanOutput } from '@starter/schema'
+import { ListPlansSchema, ListPlansInput, ListPlansOutput } from '@starter/schema'
 
 import { createUseCase } from '@/support/utilities'
 import { IUseCaseExecute } from '@/core/shared/types'
 
-const execute: IUseCaseExecute<ListPlanInput, ListPlanOutput> =
+const execute: IUseCaseExecute<ListPlansInput, ListPlansOutput> =
   ({ Repositories }) =>
   async (input) => {
     const { values, total } = await Repositories.plan.find(input)
@@ -14,4 +14,4 @@ const execute: IUseCaseExecute<ListPlanInput, ListPlanOutput> =
     }
   }
 
-export const listPlan = createUseCase(execute, ListPlanSchema)
+export const listPlans = createUseCase(execute, ListPlansSchema)

@@ -259,7 +259,7 @@ const document = {
 export const Docs = {
   instance: ScalarApiReference,
   config: {
-    routePrefix: '/reference',
+    routePrefix: 'reference',
     configuration: {
       hideDownloadButton: true,
       metaData: {

@@ -1,8 +1,8 @@
 import { FastifyInstance, FastifyRequest } from 'fastify'
 
 import { env } from '@/config'
+import { Auth } from '@/support/auth'
 import { IDependencies, IContext } from '@/core/shared/types'
-import { Auth } from '@/core/auth/support/token'
 import * as Modules from '@/ports/http/modules'
 import { withResponse, withError, IServer } from '@/ports/http'
 import { server } from './Fastify.server'
@@ -16,7 +16,10 @@ type Request = {
   }
 }
 
-server.register(Docs.instance, Docs.config)
+server.register(Docs.instance, {
+  routePrefix: `/${Docs.config.routePrefix}`,
+  configuration: Docs.config.configuration
+})
 
 const checkAuthorization = (dependencies: IDependencies) => (authorization?: string) => {
   if (authorization) {

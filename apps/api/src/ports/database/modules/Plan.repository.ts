@@ -15,5 +15,5 @@ export type IPlanRepository = () => {
   findOne(input: PlanFindInput, options?: IRepositoriesMethodOptions): Promise<Plan | undefined>
   create(input: Plan, options?: IRepositoriesMethodOptions): Promise<Plan>
   updateById(id: string, input: Partial<Plan>, options?: IRepositoriesMethodOptions): Promise<Plan>
-  deleteById(id: string, options?: IRepositoriesMethodOptions): Promise<Plan>
+  deleteById(id: string, options?: IRepositoriesMethodOptions): Promise<void>
 }
