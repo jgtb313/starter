@@ -8,7 +8,7 @@ const execute: IUseCaseExecute<ActivePlanInput, ActivePlanOutput> =
   async ({ id }) => {
     const plan = await Repositories.plan.findById(id)
 
-    plan.markDeleted()
+    plan.markAsDeleted()
 
     const updatedPlan = await Repositories.plan.updateById(plan.state.id, plan)
 

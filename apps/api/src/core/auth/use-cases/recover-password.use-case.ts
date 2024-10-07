@@ -8,13 +8,13 @@ import { IUseCaseExecute } from '@/core/shared/types'
 const execute: IUseCaseExecute<RecoverPasswordInput, RecoverPasswordOutput> =
   ({ Repositories, Encrypt }) =>
   async ({ recoverPasswordToken, password }) => {
-    const user = await Repositories.user.findOne({ recoverPasswordToken })
+    const user = await Repositories.user.findOne({ recoverPassword: { token: recoverPasswordToken } })
 
     if (!user) {
       throw new ConflictError(`Invalid recoverPasswordToken ${recoverPasswordToken}`)
     }
 
-    const isRecoverPasswordTokenValid = isFuture(user.state.recoverPasswordTokenExpiresIn as Date)
+    const isRecoverPasswordTokenValid = isFuture(user.state.recoverPassword?.expiresIn as Date)
 
     if (!isRecoverPasswordTokenValid) {
       throw new ConflictError(`recoverPasswordToken ${recoverPasswordToken} expired`)
@@ -23,8 +23,7 @@ const execute: IUseCaseExecute<RecoverPasswordInput, RecoverPasswordOutput> =
     const hashPassword = Encrypt.hash(password)
 
     user.state.password = hashPassword
-    user.state.recoverPasswordToken = null
-    user.state.recoverPasswordTokenExpiresIn = null
+    user.state.recoverPassword = null
 
     await Repositories.user.updateById(user.state.id, user)
 

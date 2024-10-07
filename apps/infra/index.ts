@@ -58,8 +58,10 @@ export const service = new awsx.ecs.FargateService('service', {
       essential: true,
       portMappings: [
         {
+          name: 'app-port',
           containerPort: containerPort,
-          targetGroup: loadbalancer.defaultTargetGroup
+          targetGroup: loadbalancer.defaultTargetGroup,
+          appProtocol: 'http'
         }
       ],
       logConfiguration: {
@@ -71,7 +73,7 @@ export const service = new awsx.ecs.FargateService('service', {
         }
       },
       healthCheck: {
-        command: ['CMD-SHELL', 'curl -f http://localhost:80/health || exit 1'],
+        command: ['CMD-SHELL', `curl -f http://localhost:${containerPort}/health || exit 1`],
         interval: 30,
         timeout: 5,
         retries: 3,

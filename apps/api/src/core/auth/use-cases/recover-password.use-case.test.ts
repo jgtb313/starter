@@ -23,15 +23,14 @@ describe('recoverPassword', () => {
       password: 'newPassword'
     }
 
-    const user = await dependencies.Repositories.user.findOne({ recoverPasswordToken: input.recoverPasswordToken })
+    const user = await dependencies.Repositories.user.findOne({ recoverPassword: { token: input.recoverPasswordToken } })
 
     await sut().execute(input)
 
     const updatedUser = await dependencies.Repositories.user.findById(user?.state.id as string)
 
     expect(updatedUser?.state.password).toBe(dependencies.Encrypt.hash(input.password))
-    expect(updatedUser?.state.recoverPasswordToken).toBeNull()
-    expect(updatedUser?.state.recoverPasswordTokenExpiresIn).toBeNull()
+    expect(updatedUser?.state.recoverPassword).toBeNull()
   })
 
   it('should throw a ConflictError if the recover password token is invalid', async () => {

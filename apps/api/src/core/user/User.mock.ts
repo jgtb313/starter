@@ -135,8 +135,10 @@ export const userMocks: User[] = [
       google: { id: 'tokenRegisteredUser' },
       facebook: { id: 'tokenRegisteredUser' }
     },
-    recoverPasswordToken: '5c47737e-ac15-45d9-8093-36374f131467',
-    recoverPasswordTokenExpiresIn: new Date(Date.now() - 60 * 1000),
+    recoverPassword: {
+      token: '5c47737e-ac15-45d9-8093-36374f131467',
+      expiresIn: new Date(Date.now() - 60 * 1000)
+    },
     password: 'hashedPassword',
     status: UserStatusEnum.ACTIVE
   }),
@@ -150,8 +152,10 @@ export const userMocks: User[] = [
       google: null,
       facebook: null
     },
-    recoverPasswordToken: '7e78f837-d6e7-47df-9d9f-b50b9638e10a',
-    recoverPasswordTokenExpiresIn: new Date(Date.now() + 60 * 60 * 1000),
+    recoverPassword: {
+      token: '7e78f837-d6e7-47df-9d9f-b50b9638e10a',
+      expiresIn: new Date(Date.now() + 60 * 60 * 1000)
+    },
     password: 'hashedPassword',
     status: UserStatusEnum.ACTIVE
   })

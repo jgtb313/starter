@@ -25,7 +25,8 @@ export class Plan {
   markAsInactive() {
     this.state.status = PlanStatusEnum.INACTIVE
   }
-  markDeleted() {
+
+  markAsDeleted() {
     this.state.status = PlanStatusEnum.DELETED
   }
 }

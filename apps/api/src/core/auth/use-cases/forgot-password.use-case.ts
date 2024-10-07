@@ -20,8 +20,10 @@ const execute: IUseCaseExecute<ForgotPasswordInput, ForgotPasswordOutput> =
     const recoverPasswordToken = uuid()
     const recoverPasswordExpiresIn = addMinutes(new Date(), 10)
 
-    user.state.recoverPasswordToken = recoverPasswordToken
-    user.state.recoverPasswordTokenExpiresIn = recoverPasswordExpiresIn
+    user.state.recoverPassword = {
+      token: recoverPasswordToken,
+      expiresIn: recoverPasswordExpiresIn
+    }
 
     Mail.send({
       template: MailTemplateEnum.FORGOT_PASSWORD,

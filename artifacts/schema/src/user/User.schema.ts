@@ -36,13 +36,11 @@ const Social = z
     facebook: null
   })
 
-const RecoverPasswordToken = z
-  .string()
-  .nullish()
-  .transform((value) => value ?? null)
-
-const RecoverPasswordTokenExpiresIn = z
-  .date()
+const RecoverPassword = z
+  .object({
+    token: z.string(),
+    expiresIn: z.date()
+  })
   .nullish()
   .transform((value) => value ?? null)
 
@@ -57,8 +55,7 @@ export const UserSchema = z.object({
   name: Name,
   email: Email,
   social: Social,
-  recoverPasswordToken: RecoverPasswordToken,
-  recoverPasswordTokenExpiresIn: RecoverPasswordTokenExpiresIn,
+  recoverPassword: RecoverPassword,
   password: Password,
   status: Status,
   deletedAt: DeletedAtSchema,
