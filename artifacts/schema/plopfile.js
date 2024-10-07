@@ -19,6 +19,13 @@ module.exports = function (plop) {
         destination: 'src/{{kebabCase name}}',
         base: 'templates/schema',
         templateFiles: 'templates/schema/*.hbs'
+      },
+      {
+        type: 'modify',
+        path: 'src/index.ts',
+        pattern: /(\/\/ appendHere)/,
+
+        template: "export * from './{{~ kebabCase name }}'\n$1"
       }
     ]
   })

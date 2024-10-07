@@ -19,6 +19,12 @@ module.exports = function (plop) {
         destination: 'src/resources',
         base: 'templates/resource',
         templateFiles: 'templates/resource/*.hbs'
+      },
+      {
+        type: 'modify',
+        path: 'src/resources/index.ts',
+        pattern: /(\/\/ appendHere)/,
+        template: "export * as {{ camelCase name }} from './{{~ pascalCase name }}.resources'\n$1"
       }
     ]
   })

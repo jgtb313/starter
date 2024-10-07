@@ -7,10 +7,10 @@
  **/
 import {
   {{pascalCase name}},
-  Index{{pascalCase name}}Input,
-  Index{{pascalCase name}}Output,
-  List{{pascalCase name}}Input,
-  List{{pascalCase name}}Output,
+  List{{pascalCase namePlural}}Input,
+  List{{pascalCase namePlural}}Output,
+  List{{pascalCase name}}OptionsInput,
+  List{{pascalCase name}}OptionsOutput,
   Get{{pascalCase name}}ByIdInput,
   Get{{pascalCase name}}ByIdOutput,
   Create{{pascalCase name}}Input,
@@ -29,21 +29,6 @@ import client from '@/request'
 import { withFields } from '@/support'
 
 /**
- * `GET /{{kebabCase namePlural}}/index`
- * Makes a request to /{{kebabCase namePlural}}/index
- *
- * @param {Object} body The body for the request.
- * @param {Object} [body.fields] The fields.
- *
- * @returns Resolves to the result of the request or an error
- */
-export const index = withFields<Index{{pascalCase name}}Input, Index{{pascalCase name}}Output, {{pascalCase name}}>((params) =>
-  client.get('/{{kebabCase namePlural}}/index', {
-    params
-  })
-)
-
-/**
  * `GET /{{kebabCase namePlural}}`
  * Makes a request to /{{kebabCase namePlural}}
  *
@@ -52,8 +37,23 @@ export const index = withFields<Index{{pascalCase name}}Input, Index{{pascalCase
  *
  * @returns Resolves to the result of the request or an error
  */
-export const list = withFields<List{{pascalCase name}}Input, List{{pascalCase name}}Output, {{pascalCase name}}>((params) =>
+export const list = withFields<List{{pascalCase namePlural}}Input, List{{pascalCase namePlural}}Output, {{pascalCase name}}>((params) =>
   client.get('/{{kebabCase namePlural}}', {
+    params
+  })
+)
+
+/**
+ * `GET /{{kebabCase namePlural}}:options`
+ * Makes a request to /{{kebabCase namePlural}}:options
+ *
+ * @param {Object} body The body for the request.
+ * @param {Object} [body.fields] The fields.
+ *
+ * @returns Resolves to the result of the request or an error
+ */
+export const options = withFields<List{{pascalCase name}}OptionsInput, List{{pascalCase name}}OptionsOutput>((params) =>
+  client.get('/{{kebabCase namePlural}}:options', {
     params
   })
 )

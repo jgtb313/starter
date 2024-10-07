@@ -3,10 +3,13 @@ import { z } from '@/zod'
 import { ID, DeletedAtSchema, CreatedAtSchema, UpdatedAtSchema } from '@/common'
 import { {{pascalCase name}}StatusEnum } from './{{pascalCase name}}.enums'
 
+const Name = z.string().min(1)
+
 const Status = z.nativeEnum({{pascalCase name}}StatusEnum)
 
 export const {{pascalCase name}}Schema = z.object({
   id: ID,
+  name: Name,
   status: Status,
   deletedAt: DeletedAtSchema,
   createdAt: CreatedAtSchema,

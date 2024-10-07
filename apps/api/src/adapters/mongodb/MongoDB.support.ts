@@ -2,7 +2,7 @@ import { clearSpecialChars, get, set } from '@starter/shared'
 
 import { makeMatch } from './MongoDB.match'
 import { connect } from './MongoDB.connection'
-import { Collections } from './MongoDB.collections'
+import { Collections, CollectionsTypes } from './MongoDB.collections'
 
 const makeSearch =
   <T>(fields: string[]) =>
@@ -36,3 +36,5 @@ export const MongoDB = {
   createTimestamps,
   updateTimestamps
 }
+
+export { CollectionsTypes }

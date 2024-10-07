@@ -3,18 +3,6 @@ import { z } from '@/zod'
 import { FilterableSchema, PaginationSchema, BasePaginationSchemaOutput, SortSchema } from '@/common'
 import { {{pascalCase name}}Schema } from './{{pascalCase name}}.schema'
 
-export const Index{{pascalCase namePlural}}Schema = {{pascalCase name}}Schema.pick({})
-  .partial()
-  .and(SortSchema)
-  .and(
-    z.object({
-      filter: FilterableSchema(['name'], { example: 'example' })
-    }).partial()
-  )
-export const Index{{pascalCase namePlural}}SchemaOutput = z.array({{pascalCase name}}Schema)
-export type Index{{pascalCase namePlural}}Input = z.infer<typeof Index{{pascalCase namePlural}}Schema>
-export type Index{{pascalCase namePlural}}Output = Promise<z.infer<typeof Index{{pascalCase namePlural}}SchemaOutput>>
-
 export const List{{pascalCase namePlural}}Schema = {{pascalCase name}}Schema.pick({})
   .and(PaginationSchema)
   .and(SortSchema)
@@ -27,6 +15,11 @@ export const List{{pascalCase namePlural}}SchemaOutput = BasePaginationSchemaOut
 export type List{{pascalCase namePlural}}Input = z.infer<typeof List{{pascalCase namePlural}}Schema>
 export type List{{pascalCase namePlural}}Output = Promise<z.infer<typeof List{{pascalCase namePlural}}SchemaOutput>>
 
+export const List{{pascalCase name}}OptionsSchema = {{pascalCase name}}Schema.pick({})
+export const List{{pascalCase name}}OptionsSchemaOutput = z.array({{pascalCase name}}Schema).default([])
+export type List{{pascalCase name}}OptionsInput = z.infer<typeof List{{pascalCase name}}OptionsSchema>
+export type List{{pascalCase name}}OptionsOutput = Promise<z.infer<typeof List{{pascalCase name}}OptionsSchemaOutput>>
+
 export const Get{{pascalCase name}}ByIdSchema = {{pascalCase name}}Schema.pick({
   id: true
 })
@@ -34,7 +27,7 @@ export const Get{{pascalCase name}}ByIdSchemaOutput = {{pascalCase name}}Schema
 export type Get{{pascalCase name}}ByIdInput = z.infer<typeof Get{{pascalCase name}}ByIdSchema>
 export type Get{{pascalCase name}}ByIdOutput = Promise<z.infer<typeof Get{{pascalCase name}}ByIdSchemaOutput>>
 
-export const Create{{pascalCase name}}Schema = {{pascalCase name}}Schema.pick({})
+export const Create{{pascalCase name}}Schema = {{pascalCase name}}Schema.pick({ name: true })
 export const Create{{pascalCase name}}SchemaOutput = {{pascalCase name}}Schema
 export type Create{{pascalCase name}}Input = z.infer<typeof Create{{pascalCase name}}Schema>
 export type Create{{pascalCase name}}Output = Promise<z.infer<typeof Create{{pascalCase name}}SchemaOutput>>
@@ -42,7 +35,7 @@ export type Create{{pascalCase name}}Output = Promise<z.infer<typeof Create{{pas
 export const Update{{pascalCase name}}Schema = {{pascalCase name}}Schema.pick({
   id: true
 }).and(
-  {{pascalCase name}}Schema.pick({}).partial()
+  {{pascalCase name}}Schema.pick({ name: true }).partial()
 )
 export const Update{{pascalCase name}}SchemaOutput = {{pascalCase name}}Schema
 export type Update{{pascalCase name}}Input = z.infer<typeof Update{{pascalCase name}}Schema>
