@@ -29,14 +29,6 @@ export const Collections: {
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms * 1000))
 
-export const setupCollections = async (database: Db) => {
-  Collections.otp = await createCollectionMongoDB<CollectionsTypes['otp']>(database, 'otps')
-  Collections.plan = await createCollectionMongoDB<CollectionsTypes['plan']>(database, 'plans')
-  Collections.role = await createCollectionMongoDB<CollectionsTypes['role']>(database, 'roles')
-  Collections.workspace = await createCollectionMongoDB<CollectionsTypes['workspace']>(database, 'workspaces')
-  Collections.user = await createCollectionMongoDB<CollectionsTypes['user']>(database, 'users')
-}
-
 const createCollectionMongoDB = async <T extends Document>(database: Db, collectionName: string) => {
   while (!database) {
     await sleep(1)
@@ -69,3 +61,11 @@ const createIndex = async <T extends Document>({
   index: Record<string, number>
   opts?: CreateIndexesOptions
 }) => collection.createIndex(index, { ...opts }).catch()
+
+export const setupCollections = async (database: Db) => {
+  Collections.otp = await createCollectionMongoDB<CollectionsTypes['otp']>(database, 'otps')
+  Collections.plan = await createCollectionMongoDB<CollectionsTypes['plan']>(database, 'plans')
+  Collections.role = await createCollectionMongoDB<CollectionsTypes['role']>(database, 'roles')
+  Collections.workspace = await createCollectionMongoDB<CollectionsTypes['workspace']>(database, 'workspaces')
+  Collections.user = await createCollectionMongoDB<CollectionsTypes['user']>(database, 'users')
+}
