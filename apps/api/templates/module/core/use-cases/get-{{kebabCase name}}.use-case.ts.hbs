@@ -1,0 +1,14 @@
+import { Get{{pascalCase name}}Schema, Get{{pascalCase name}}Input, Get{{pascalCase name}}Output } from '@starter/schema'
+
+import { createUseCase } from '@/support/utilities'
+import { IUseCaseExecute } from '@/core/shared/types'
+
+const execute: IUseCaseExecute<Get{{pascalCase name}}Input, Get{{pascalCase name}}Output> =
+  ({ Repositories }) =>
+  async ({ id }) => {
+    const {{camelCase name}} = await Repositories.{{camelCase name}}.findById(id)
+
+    return {{camelCase name}}.state
+  }
+
+export const get{{pascalCase name}} = createUseCase(execute, Get{{pascalCase name}}Schema)

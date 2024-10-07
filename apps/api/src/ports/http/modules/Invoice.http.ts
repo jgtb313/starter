@@ -15,7 +15,7 @@ export const InvoiceRouter = (dependencies: IDependencies): IRouter => ({
   },
 
   paths: {
-    listInvoice: {
+    listInvoices: {
       summary: 'List Invoices',
       description: 'Retrieves a pageable list of invoices.',
 

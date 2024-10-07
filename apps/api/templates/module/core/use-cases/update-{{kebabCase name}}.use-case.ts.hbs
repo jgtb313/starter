@@ -1,0 +1,21 @@
+import { Update{{pascalCase name}}Schema, Update{{pascalCase name}}Input, Update{{pascalCase name}}Output } from '@starter/schema'
+
+import { createUseCase } from '@/support/utilities'
+import { IUseCaseExecute } from '@/core/shared/types'
+
+const execute: IUseCaseExecute<Update{{pascalCase name}}Input, Update{{pascalCase name}}Output> =
+  ({ Repositories }) =>
+  async ({ id, ...props }) => {
+    const {{camelCase name}} = await Repositories.{{camelCase name}}.findById(id)
+
+    {{camelCase name}}.state = {
+      ...{{camelCase name}}.state,
+      ...props
+    }
+
+    const updated{{pascalCase name}} = await Repositories.{{camelCase name}}.updateById({{camelCase name}}.state.id, {{camelCase name}})
+
+    return updated{{pascalCase name}}.state
+  }
+
+export const update{{pascalCase name}} = createUseCase(execute, Update{{pascalCase name}}Schema)

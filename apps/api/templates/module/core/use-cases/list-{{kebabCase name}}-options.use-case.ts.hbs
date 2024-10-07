@@ -1,0 +1,14 @@
+import { List{{pascalCase name}}OptionsSchema, List{{pascalCase name}}OptionsInput, List{{pascalCase name}}OptionsOutput, PlanStatusEnum } from '@starter/schema'
+
+import { createUseCase } from '@/support/utilities'
+import { IUseCaseExecute } from '@/core/shared/types'
+
+const execute: IUseCaseExecute<List{{pascalCase name}}OptionsInput, List{{pascalCase name}}OptionsOutput> =
+  ({ Repositories }) =>
+  async () => {
+    const {{camelCase namePlural}} = await Repositories.{{camelCase name}}.index({})
+
+    return {{camelCase namePlural}}.map(({{camelCase name}}) => {{camelCase name}}.state)
+  }
+
+export const list{{pascalCase name}}Options = createUseCase(execute, List{{pascalCase name}}OptionsSchema)

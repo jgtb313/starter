@@ -1,0 +1,230 @@
+import {
+  {{pascalCase name}}Schema,
+  List{{pascalCase namePlural}}Schema,
+  List{{pascalCase namePlural}}SchemaOutput,
+  List{{pascalCase name}}OptionsSchema,
+  List{{pascalCase name}}OptionsSchemaOutput,
+  Get{{pascalCase name}}Schema,
+  Get{{pascalCase name}}SchemaOutput,
+  Create{{pascalCase name}}Schema,
+  Create{{pascalCase name}}SchemaOutput,
+  Update{{pascalCase name}}Schema,
+  Update{{pascalCase name}}SchemaOutput,
+  Active{{pascalCase name}}Schema,
+  Active{{pascalCase name}}SchemaOutput,
+  Inactive{{pascalCase name}}Schema,
+  Inactive{{pascalCase name}}SchemaOutput,
+  Delete{{pascalCase name}}Schema
+} from '@starter/schema'
+
+import { IDependencies } from '@/core/shared/types'
+import { list{{pascalCase namePlural}} } from '@/core/{{kebabCase name}}/use-cases/list-{{kebabCase namePlural}}.use-case'
+import { list{{pascalCase name}}Options } from '@/core/{{kebabCase name}}/use-cases/list-{{kebabCase name}}-options.use-case'
+import { get{{pascalCase name}} } from '@/core/{{kebabCase name}}/use-cases/get-{{kebabCase name}}.use-case'
+import { create{{pascalCase name}} } from '@/core/{{kebabCase name}}/use-cases/create-{{kebabCase name}}.use-case'
+import { update{{pascalCase name}} } from '@/core/{{kebabCase name}}/use-cases/update-{{kebabCase name}}.use-case'
+import { active{{pascalCase name}} } from '@/core/{{kebabCase name}}/use-cases/active-{{kebabCase name}}.use-case'
+import { inactive{{pascalCase name}} } from '@/core/{{kebabCase name}}/use-cases/inactive-{{kebabCase name}}.use-case'
+import { delete{{pascalCase name}} } from '@/core/{{kebabCase name}}/use-cases/delete-{{kebabCase name}}.use-case'
+import { IRouter } from '@/ports/http'
+
+export const {{pascalCase name}}Router = (dependencies: IDependencies): IRouter => ({
+  name: '{{pascalCase namePlural}}',
+
+  description: 'Handles operations related to managing and retrieving {{kebabCase namePlural}}.',
+
+  schemas: {
+    {{pascalCase name}}: {
+      schema: {{pascalCase name}}Schema
+    }
+  },
+
+  paths: {
+    list{{pascalCase namePlural}}: {
+      summary: 'List {{pascalCase namePlural}}',
+      description: 'Retrieves a pageable list of {{kebabCase namePlural}}.',
+
+      method: 'GET',
+      path: '/{{kebabCase namePlural}}',
+
+      parameters: {
+        query: List{{pascalCase namePlural}}Schema
+      },
+
+      responses: {
+        200: {
+          description: 'OK',
+          schema: List{{pascalCase namePlural}}SchemaOutput
+        }
+      },
+
+      execute({ query }) {
+        return list{{pascalCase namePlural}}(dependencies)(query)
+      }
+    },
+
+    list{{pascalCase name}}Options: {
+      summary: 'List Available {{pascalCase namePlural}}',
+      description: 'Retrieves a list of {{kebabCase namePlural}}.',
+
+      method: 'GET',
+
+      path: '/{{kebabCase namePlural}}::options',
+
+      parameters: {
+        query: List{{pascalCase name}}OptionsSchema
+      },
+
+      responses: {
+        200: {
+          description: 'OK',
+          schema: List{{pascalCase name}}OptionsSchemaOutput
+        }
+      },
+
+      execute() {
+        return list{{pascalCase name}}Options(dependencies)({})
+      }
+    },
+
+    get{{pascalCase name}}: {
+      summary: 'Get {{pascalCase name}}',
+
+      description: 'Retrieves details of a specific {{kebabCase name}} by ID.',
+
+      method: 'GET',
+
+      path: '/{{kebabCase namePlural}}/:id',
+
+      parameters: {
+        params: Get{{pascalCase name}}Schema
+      },
+
+      responses: {
+        200: {
+          description: 'OK',
+          schema: Get{{pascalCase name}}SchemaOutput
+        }
+      },
+
+      execute({ params }) {
+        return get{{pascalCase name}}(dependencies)(params)
+      }
+    },
+
+    create{{pascalCase name}}: {
+      summary: 'Create {{pascalCase name}}',
+      description: 'Creates a new {{kebabCase name}}.',
+
+      method: 'POST',
+      path: '/{{kebabCase namePlural}}',
+
+      parameters: {
+        body: Create{{pascalCase name}}Schema
+      },
+
+      responses: {
+        201: {
+          description: 'Created',
+          schema: Create{{pascalCase name}}SchemaOutput
+        }
+      },
+
+      execute({ body }) {
+        return create{{pascalCase name}}(dependencies)(body)
+      }
+    },
+
+    update{{pascalCase name}}: {
+      summary: 'Update {{pascalCase name}}',
+      description: 'Updates an existing {{kebabCase name}}.',
+
+      method: 'PATCH',
+      path: '/{{kebabCase namePlural}}/:id',
+
+      parameters: {
+        params: Update{{pascalCase name}}Schema.pick({ id: true }),
+        body: Update{{pascalCase name}}Schema.omit({ id: true })
+      },
+
+      responses: {
+        200: {
+          description: 'OK',
+          schema: Update{{pascalCase name}}SchemaOutput
+        }
+      },
+
+      execute({ params, body }) {
+        return update{{pascalCase name}}(dependencies)({ ...params, ...body })
+      }
+    },
+
+    activate{{pascalCase name}}: {
+      summary: 'Activate {{pascalCase name}}',
+      description: 'Activates a {{kebabCase name}} by ID.',
+
+      method: 'POST',
+      path: '/{{kebabCase namePlural}}/:id(.*)::activate',
+
+      parameters: {
+        params: Active{{pascalCase name}}Schema
+      },
+
+      responses: {
+        200: {
+          description: 'OK',
+          schema: Active{{pascalCase name}}SchemaOutput
+        }
+      },
+
+      execute({ params }) {
+        return active{{pascalCase name}}(dependencies)(params)
+      }
+    },
+
+    deactivate{{pascalCase name}}: {
+      summary: 'Deactivate {{pascalCase name}}',
+      description: 'Deactivates a {{kebabCase name}} by ID.',
+
+      method: 'POST',
+      path: '/{{kebabCase namePlural}}/:id(.*)::deactivate',
+
+      parameters: {
+        params: Inactive{{pascalCase name}}Schema
+      },
+
+      responses: {
+        200: {
+          description: 'OK',
+          schema: Inactive{{pascalCase name}}SchemaOutput
+        }
+      },
+
+      execute({ params }) {
+        return inactive{{pascalCase name}}(dependencies)(params)
+      }
+    },
+
+    delete{{pascalCase name}}: {
+      summary: 'Delete {{pascalCase name}}',
+      description: 'Deletes a {{kebabCase name}} by ID.',
+
+      method: 'DELETE',
+      path: '/{{kebabCase namePlural}}/:id',
+
+      parameters: {
+        params: Delete{{pascalCase name}}Schema
+      },
+
+      responses: {
+        204: {
+          description: 'OK'
+        }
+      },
+
+      async execute({ params }) {
+        await delete{{pascalCase name}}(dependencies)(params)
+      }
+    }
+  }
+})

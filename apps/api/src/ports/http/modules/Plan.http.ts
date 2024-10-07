@@ -31,7 +31,7 @@ import { IRouter } from '@/ports/http'
 export const PlanRouter = (dependencies: IDependencies): IRouter => ({
   name: 'Plans',
 
-  description: 'Handles operations related to managing and retrieving plans for user subscriptions.',
+  description: 'Handles operations related to managing and retrieving plans.',
 
   schemas: {
     Plan: {
@@ -42,7 +42,7 @@ export const PlanRouter = (dependencies: IDependencies): IRouter => ({
   paths: {
     listPlans: {
       summary: 'List Plans',
-      description: 'Retrieves a paginated list of subscription plans.',
+      description: 'Retrieves a pageable list of plans.',
 
       method: 'GET',
       path: '/plans',
@@ -65,7 +65,7 @@ export const PlanRouter = (dependencies: IDependencies): IRouter => ({
 
     listAvailablePlans: {
       summary: 'List Available Plans',
-      description: 'Retrieves a list of all available subscription plans.',
+      description: 'Retrieves a list of all available plans.',
 
       method: 'GET',
 
@@ -90,7 +90,7 @@ export const PlanRouter = (dependencies: IDependencies): IRouter => ({
     getPlan: {
       summary: 'Get Plan',
 
-      description: 'Retrieves details of a specific subscription plan by ID.',
+      description: 'Retrieves details of a specific plan by ID.',
 
       method: 'GET',
 
@@ -114,7 +114,7 @@ export const PlanRouter = (dependencies: IDependencies): IRouter => ({
 
     createPlan: {
       summary: 'Create Plan',
-      description: 'Creates a new subscription plan.',
+      description: 'Creates a new plan.',
 
       method: 'POST',
       path: '/plans',
@@ -137,7 +137,7 @@ export const PlanRouter = (dependencies: IDependencies): IRouter => ({
 
     updatePlan: {
       summary: 'Update Plan',
-      description: 'Updates an existing subscription plan.',
+      description: 'Updates an existing plan.',
 
       method: 'PATCH',
       path: '/plans/:id',
@@ -161,7 +161,7 @@ export const PlanRouter = (dependencies: IDependencies): IRouter => ({
 
     activatePlan: {
       summary: 'Activate Plan',
-      description: 'Activates a subscription plan by ID.',
+      description: 'Activates a plan by ID.',
 
       method: 'POST',
       path: '/plans/:id(.*)::activate',
@@ -184,7 +184,7 @@ export const PlanRouter = (dependencies: IDependencies): IRouter => ({
 
     deactivatePlan: {
       summary: 'Deactivate Plan',
-      description: 'Deactivates a subscription plan by ID.',
+      description: 'Deactivates a plan by ID.',
 
       method: 'POST',
       path: '/plans/:id(.*)::deactivate',
@@ -207,7 +207,7 @@ export const PlanRouter = (dependencies: IDependencies): IRouter => ({
 
     deletePlan: {
       summary: 'Delete Plan',
-      description: 'Deletes a subscription plan by ID.',
+      description: 'Deletes a plan by ID.',
 
       method: 'DELETE',
       path: '/plans/:id',

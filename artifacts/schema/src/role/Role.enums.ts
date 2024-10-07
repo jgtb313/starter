@@ -1,27 +1,22 @@
 import { createEnumOptions } from '@/support'
 
-export enum RoleTypeEnum {
-  OWNER = 'OWNER',
-  STOCK = 'STOCK',
-  INVENTORY = 'INVENTORY',
-  STOCK_INVENTORY = 'STOCK_INVENTORY'
+export enum RoleStatusEnum {
+  'ACTIVE' = 'ACTIVE',
+  'INACTIVE' = 'INACTIVE',
+  'DELETED' = 'DELETED'
 }
 
-export const RoleType = createEnumOptions<RoleTypeEnum>([
+export const RoleStatus = createEnumOptions<RoleStatusEnum>([
   {
-    label: 'Dono',
-    value: RoleTypeEnum.OWNER
+    label: 'Ativo',
+    value: RoleStatusEnum.ACTIVE
   },
   {
-    label: 'Estoquista',
-    value: RoleTypeEnum.STOCK
+    label: 'Inativo',
+    value: RoleStatusEnum.INACTIVE
   },
   {
-    label: 'Inventariante',
-    value: RoleTypeEnum.INVENTORY
-  },
-  {
-    label: 'Estoquista e Inventariante',
-    value: RoleTypeEnum.STOCK_INVENTORY
+    label: 'Deletado',
+    value: RoleStatusEnum.DELETED
   }
 ])

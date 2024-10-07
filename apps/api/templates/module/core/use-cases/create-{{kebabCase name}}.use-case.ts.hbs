@@ -1,0 +1,17 @@
+import { Create{{pascalCase name}}Schema, Create{{pascalCase name}}Input, Create{{pascalCase name}}Output, {{pascalCase name}}StatusEnum } from '@starter/schema'
+
+import { createUseCase } from '@/support/utilities'
+import { IUseCaseExecute } from '@/core/shared/types'
+import { {{pascalCase name}} } from '@/core/{{camelCase name}}/domain'
+
+const execute: IUseCaseExecute<Create{{pascalCase name}}Input, Create{{pascalCase name}}Output> =
+  ({ Repositories }) =>
+  async (input) => {
+    const {{camelCase name}} = await Repositories.{{camelCase name}}.create(
+      new {{pascalCase name}}(input)
+    )
+
+    return {{camelCase name}}.state
+  }
+
+export const create{{pascalCase name}} = createUseCase(execute, Create{{pascalCase name}}Schema)

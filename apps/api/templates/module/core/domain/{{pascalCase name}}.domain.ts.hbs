@@ -1,0 +1,33 @@
+import { {{pascalCase name}}Schema, {{pascalCase name}} as I{{pascalCase name}}, {{pascalCase name}}StatusEnum } from '@starter/schema'
+
+import { setupDomain, SetupDomain } from '@/support/utilities'
+
+export type {{pascalCase name}}Domain = SetupDomain<I{{pascalCase name}}>
+
+export class {{pascalCase name}} {
+  state!: I{{pascalCase name}}
+
+  constructor(value: {{pascalCase name}}Domain) {
+    Object.assign(this, {
+      state: setupDomain(
+        {
+          ...value
+        },
+        {{pascalCase name}}Schema
+      )
+    })
+  }
+
+  markAsActive() {
+    this.state.status = {{pascalCase name}}StatusEnum.ACTIVE
+  }
+
+  markAsInactive() {
+    this.state.status = {{pascalCase name}}StatusEnum.INACTIVE
+  }
+
+  markAsDeleted() {
+    this.state.status = {{pascalCase name}}StatusEnum.DELETED
+    this.state.deletedAt = new Date()
+  }
+}

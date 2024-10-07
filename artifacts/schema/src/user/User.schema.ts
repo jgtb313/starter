@@ -2,12 +2,9 @@ import { z } from '@/zod'
 import { formatToCapitalized } from '@starter/shared'
 
 import { ID, EmailSchema, PasswordSchema, DeletedAtSchema, CreatedAtSchema, UpdatedAtSchema } from '@/common'
-import { WorkspaceSchema } from '../workspace/Workspace.schema'
 import { UserStatusEnum } from './User.enums'
 
 const WorkspaceId = ID
-
-const Workspace = WorkspaceSchema
 
 const Name = z
   .string()
@@ -51,7 +48,6 @@ const Status = z.nativeEnum(UserStatusEnum).default(UserStatusEnum.ACTIVE)
 export const UserSchema = z.object({
   id: ID,
   workspaceId: WorkspaceId,
-  workspace: Workspace,
   name: Name,
   email: Email,
   social: Social,

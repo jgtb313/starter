@@ -31,9 +31,9 @@ module.exports = function (plop) {
       },
       {
         type: 'addMany',
-        destination: 'src/core/{{kebabCase name}}/entities',
-        base: 'templates/module/core/entities',
-        templateFiles: 'templates/module/core/entities/*.hbs'
+        destination: 'src/core/{{kebabCase name}}/domain',
+        base: 'templates/module/core/domain',
+        templateFiles: 'templates/module/core/domain/*.hbs'
       },
       {
         type: 'addMany',

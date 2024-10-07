@@ -1,0 +1,16 @@
+import { Delete{{pascalCase name}}Schema, Delete{{pascalCase name}}Input, Delete{{pascalCase name}}Output } from '@starter/schema'
+
+import { createUseCase } from '@/support/utilities'
+import { IUseCaseExecute } from '@/core/shared/types'
+
+const execute: IUseCaseExecute<Delete{{pascalCase name}}Input, Delete{{pascalCase name}}Output> =
+  ({ Repositories }) =>
+  async ({ id }) => {
+    const {{camelCase name}} = await Repositories.{{camelCase name}}.findById(id)
+
+    {{camelCase name}}.markAsDeleted()
+
+    await Repositories.{{camelCase name}}.updateById({{camelCase name}}.state.id, {{camelCase name}})
+  }
+
+export const delete{{pascalCase name}} = createUseCase(execute, Delete{{pascalCase name}}Schema)

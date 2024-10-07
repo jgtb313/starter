@@ -1,0 +1,17 @@
+import { List{{pascalCase namePlural}}Schema, List{{pascalCase namePlural}}Input, List{{pascalCase namePlural}}Output } from '@starter/schema'
+
+import { createUseCase } from '@/support/utilities'
+import { IUseCaseExecute } from '@/core/shared/types'
+
+const execute: IUseCaseExecute<List{{pascalCase namePlural}}Input, List{{pascalCase namePlural}}Output> =
+  ({ Repositories }) =>
+  async (input) => {
+    const { values, total } = await Repositories.{{camelCase name}}.find(input)
+
+    return {
+      values: values.map(({{camelCase name}}) => {{camelCase name}}.state),
+      total
+    }
+  }
+
+export const list{{pascalCase namePlural}} = createUseCase(execute, List{{pascalCase namePlural}}Schema)

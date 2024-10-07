@@ -6,12 +6,7 @@ import { IUseCaseExecute } from '@/core/shared/types'
 const execute: IUseCaseExecute<DeletePlanInput, DeletePlanOutput> =
   ({ Repositories }) =>
   async ({ id }) => {
-    console.log({ id })
     const plan = await Repositories.plan.findById(id)
-
-    console.log({
-      plan
-    })
 
     plan.markAsDeleted()
 

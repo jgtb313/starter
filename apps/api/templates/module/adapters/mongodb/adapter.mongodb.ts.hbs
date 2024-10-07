@@ -1,0 +1,178 @@
+import { ClientSession } from 'mongodb'
+import { {{pascalCase name}}Schema } from '@starter/schema'
+
+import { NotFoundError } from '@/support/errors'
+import { {{pascalCase name}} } from '@/core/{{camelCase name}}/domain'
+import { I{{pascalCase name}}Repository } from '@/ports/database/modules/{{pascalCase name}}.repository'
+import { MongoDB, CollectionsTypes } from '../MongoDB.support'
+
+type Document = CollectionsTypes['{{camelCase name}}']
+const {{pascalCase name}}Search = MongoDB.makeSearch<{{pascalCase name}}['state']>(['name'])
+
+const Pipelines = [] as []
+
+const parseDomain = (model: Document) => {
+  return new {{pascalCase name}}({
+    ...model
+  })
+}
+
+export const {{camelCase name}}: I{{pascalCase name}}Repository = () => ({
+  async index(input, options) {
+    const $match = MongoDB.makeMatch({
+      ...input
+    })
+
+    const data = await MongoDB.Collections.{{camelCase name}}
+      .aggregate<Document>(
+        [
+          { $match: { status: { $ne: 'DELETED' } } },
+          ...Pipelines,
+          {
+            $match
+          },
+          {
+            $sort: {
+              name: -1
+            }
+          }
+        ],
+        {
+          session: options?.session as ClientSession
+        }
+      )
+      .toArray()
+
+    const values = data.map(parseDomain)
+
+    return values
+  },
+
+  async find({ offset = 0, limit = 10, sort, ...input }, options) {
+    const $match = MongoDB.makeMatch({
+      ...input
+    })
+
+    const total = 0
+
+    const data = await MongoDB.Collections.{{camelCase name}}
+      .aggregate<Document>(
+        [
+          { $match: { status: { $ne: 'DELETED' } } },
+          ...Pipelines,
+          {
+            $match
+          },
+          {
+            $sort: sort ?? { createdAt: -1 }
+          },
+          {
+            $skip: offset
+          },
+          { $limit: limit }
+        ],
+        {
+          session: options?.session as ClientSession
+        }
+      )
+      .toArray()
+
+    const values = data.map((model) => parseDomain(model))
+
+    return {
+      values,
+      total
+    }
+  },
+
+  async findById(id, options) {
+    const $match = MongoDB.makeMatch({
+      id
+    })
+
+    const [model] = await MongoDB.Collections.{{camelCase name}}
+      .aggregate<Document>([{ $match: { status: { $ne: 'DELETED' } } }, { $match }, ...Pipelines], {
+        session: options?.session as ClientSession
+      })
+      .toArray()
+
+    if (!model) {
+      throw new NotFoundError(`{{pascalCase name}} ${id} not found`)
+    }
+
+    return parseDomain(model)
+  },
+
+  async findOne(input, options) {
+    const $match = MongoDB.makeMatch({
+      ...input
+    })
+
+    const [model] = await MongoDB.Collections.{{camelCase name}}
+      .aggregate<Document>([{ $match: { status: { $ne: 'DELETED' } } }, ...Pipelines, { $match }], {
+        session: options?.session as ClientSession
+      })
+      .toArray()
+
+    if (!model) {
+      return
+    }
+
+    return parseDomain(model)
+  },
+
+  async create({ state }, options) {
+    const input = {{pascalCase name}}Schema.parse({
+      ...state,
+      ...MongoDB.createTimestamps()
+    })
+
+    await MongoDB.Collections.{{camelCase name}}.insertOne(
+      {
+        ...input,
+        search: {{pascalCase name}}Search(state)
+      },
+      {
+        session: options?.session as ClientSession
+      }
+    )
+
+    return this.findById(state.id, options)
+  },
+
+  async updateById(id, { state }, options) {
+    const input = {{pascalCase name}}Schema.parse({
+      ...state,
+      ...MongoDB.updateTimestamps()
+    })
+
+    const $match = MongoDB.makeMatch({
+      id
+    })
+
+    await MongoDB.Collections.{{camelCase name}}.findOneAndUpdate(
+      $match,
+      {
+        $set: {
+          ...input,
+          search: {{pascalCase name}}Search(state)
+        }
+      },
+      {
+        session: options?.session as ClientSession
+      }
+    )
+
+    return this.findById(id)
+  },
+
+  async deleteById(id, options) {
+    const $match = MongoDB.makeMatch({
+      id
+    })
+
+    await MongoDB.Collections.{{camelCase name}}.findOneAndDelete($match, { session: options?.session as ClientSession })
+
+    return
+  }
+})

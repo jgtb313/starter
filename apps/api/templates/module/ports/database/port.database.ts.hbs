@@ -1,0 +1,19 @@
+import { PaginationInput, SortInput, PaginationOutput } from '@starter/schema'
+
+import { {{pascalCase name}} } from '@/core/{{camelCase name}}/domain'
+import { DatabaseFilterInput } from '../Database.support'
+import { IRepositoriesMethodOptions } from '../Database.port'
+
+type {{pascalCase name}}Repository = {{pascalCase name}}['state']
+
+type {{pascalCase name}}FindInput = DatabaseFilterInput<{{pascalCase name}}Repository> & SortInput & PaginationInput<{}>
+
+export type I{{pascalCase name}}Repository = () => {
+  index(input: {{pascalCase name}}FindInput, options?: IRepositoriesMethodOptions): Promise<{{pascalCase name}}[]>
+  find(input: {{pascalCase name}}FindInput, options?: IRepositoriesMethodOptions): Promise<PaginationOutput<{{pascalCase name}}>>
+  findById(id: string, options?: IRepositoriesMethodOptions): Promise<{{pascalCase name}}>
+  findOne(input: {{pascalCase name}}FindInput, options?: IRepositoriesMethodOptions): Promise<{{pascalCase name}} | undefined>
+  create(input: {{pascalCase name}}, options?: IRepositoriesMethodOptions): Promise<{{pascalCase name}}>
+  updateById(id: string, input: Partial<{{pascalCase name}}>, options?: IRepositoriesMethodOptions): Promise<{{pascalCase name}}>
+  deleteById(id: string, options?: IRepositoriesMethodOptions): Promise<void>
+}

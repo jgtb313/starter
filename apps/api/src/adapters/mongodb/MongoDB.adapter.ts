@@ -2,12 +2,13 @@ import { env } from '@/config'
 import { IDatabase } from '@/ports/database'
 
 import { Repositories } from './modules'
-import { client, MongoDB } from './MongoDB.support'
+import { client } from './MongoDB.connection'
+import { MongoDB } from './MongoDB.support'
 
 const MONGODB_URL = env('MONGODB_URL')
 
 const createSession = () => {
-  const session = MongoDB.startSession()
+  const session = client.startSession()
 
   session.startTransaction()
 
