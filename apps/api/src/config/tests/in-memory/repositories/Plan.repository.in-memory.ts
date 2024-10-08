@@ -9,9 +9,16 @@ import { IPlanRepository } from '@/ports/database/modules/Plan.repository'
 let plans: Record<string, Plan> = {}
 
 export const PlanRepositoryInMemory: ReturnType<IPlanRepository> = {
-  index: vi.fn(async () => {
+  index: vi.fn(async ({ status }) => {
     return Object.values(plans)
       .filter((plan) => plan.state.status !== PlanStatusEnum.DELETED)
+      .filter((plan) => {
+        if (status) {
+          return plan.state.status === status
+        }
+
+        return true
+      })
       .map((plan) => new Plan(plan.state))
   }),
 
