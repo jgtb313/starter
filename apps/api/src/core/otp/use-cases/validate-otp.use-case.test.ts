@@ -9,24 +9,24 @@ import { validateOTP } from './validate-otp.use-case'
 
 describe('validateOTP', () => {
   const sut = () => ({
-    execute: (input: Parameters<ReturnType<typeof validateOTP>>[number]) => validateOTP(dependencies as IDependencies)(input)
+    execute: (input: Parameters<ReturnType<typeof validateOTP>>[number]) => validateOTP(dependencies as IDependencies)(input),
   })
   let dependencies: ITestDependencies
 
-  beforeEach(() => {
-    dependencies = TestDependencies()
+  beforeEach(async () => {
+    dependencies = await TestDependencies()
   })
 
   it('should successfully send OTP to the user', async () => {
     const otp = new OTP({
       context: OTPContextEnum.UPDATE_EMAIL,
-      email: 'john@doe.com'
+      email: 'john@doe.com',
     })
 
     const input: ValidateOTPInput = {
       id: otp.state.id,
       context: otp.state.context,
-      code: otp.state.code
+      code: otp.state.code,
     }
 
     dependencies.Repositories.otp.create(otp)

@@ -4,41 +4,41 @@ import { WorkspaceSchema } from '@starter/schema'
 import { NotFoundError } from '@/support/errors'
 import { Workspace } from '@/core/workspace/domain'
 import { IWorkspaceRepository } from '@/ports/database/modules/Workspace.repository'
-import { MongoDB, CollectionsTypes } from '../MongoDB.support'
+import { MongoDB, CollectionsType, ICollections } from '../MongoDB.support'
 
-type Document = CollectionsTypes['workspace']
+type Document = ICollections['workspace']
 const WorkspaceSearch = MongoDB.makeSearch<Workspace['state']>(['name'])
 
 const Pipelines = [] as []
 
 const parseDomain = (model: Document) => {
   return new Workspace({
-    ...model
+    ...model,
   })
 }
 
-export const workspace: IWorkspaceRepository = () => ({
+export const workspace = (Collections: CollectionsType) => (): ReturnType<IWorkspaceRepository> => ({
   async index(input, options) {
     const $match = MongoDB.makeMatch({
-      ...input
+      ...input,
     })
 
-    const data = await MongoDB.Collections.workspace
+    const data = await Collections.workspace
       .aggregate<Document>(
         [
           ...Pipelines,
           {
-            $match
+            $match,
           },
           {
             $sort: {
-              name: -1
-            }
-          }
+              name: -1,
+            },
+          },
         ],
         {
-          session: options?.session as ClientSession
-        }
+          session: options?.session as ClientSession,
+        },
       )
       .toArray()
 
@@ -49,29 +49,29 @@ export const workspace: IWorkspaceRepository = () => ({
 
   async find({ offset = 0, limit = 10, sort, ...input }, options) {
     const $match = MongoDB.makeMatch({
-      ...input
+      ...input,
     })
 
     const total = 0
 
-    const data = await MongoDB.Collections.workspace
+    const data = await Collections.workspace
       .aggregate<Document>(
         [
           ...Pipelines,
           {
-            $match
+            $match,
           },
           {
-            $sort: sort ?? { createdAt: -1 }
+            $sort: sort ?? { createdAt: -1 },
           },
           {
-            $skip: offset
+            $skip: offset,
           },
-          { $limit: limit }
+          { $limit: limit },
         ],
         {
-          session: options?.session as ClientSession
-        }
+          session: options?.session as ClientSession,
+        },
       )
       .toArray()
 
@@ -79,18 +79,18 @@ export const workspace: IWorkspaceRepository = () => ({
 
     return {
       values,
-      total
+      total,
     }
   },
 
   async findById(id, options) {
     const $match = MongoDB.makeMatch({
-      id
+      id,
     })
 
-    const [model] = await MongoDB.Collections.workspace
+    const [model] = await Collections.workspace
       .aggregate<Document>([{ $match }, ...Pipelines], {
-        session: options?.session as ClientSession
+        session: options?.session as ClientSession,
       })
       .toArray()
 
@@ -104,17 +104,17 @@ export const workspace: IWorkspaceRepository = () => ({
   async create({ state }, options) {
     const input = WorkspaceSchema.parse({
       ...state,
-      ...MongoDB.createTimestamps()
+      ...MongoDB.createTimestamps(),
     })
 
-    await MongoDB.Collections.workspace.insertOne(
+    await Collections.workspace.insertOne(
       {
         ...input,
-        search: WorkspaceSearch(state)
+        search: WorkspaceSearch(state),
       },
       {
-        session: options?.session as ClientSession
-      }
+        session: options?.session as ClientSession,
+      },
     )
 
     return this.findById(state.id, options)
@@ -123,24 +123,24 @@ export const workspace: IWorkspaceRepository = () => ({
   async updateById(id, { state }, options) {
     const input = WorkspaceSchema.parse({
       ...state,
-      ...MongoDB.updateTimestamps()
+      ...MongoDB.updateTimestamps(),
     })
 
     const $match = MongoDB.makeMatch({
-      id
+      id,
     })
 
-    await MongoDB.Collections.workspace.findOneAndUpdate(
+    await Collections.workspace.findOneAndUpdate(
       $match,
       {
         $set: {
           ...input,
-          search: WorkspaceSearch(state)
-        }
+          search: WorkspaceSearch(state),
+        },
       },
       {
-        session: options?.session as ClientSession
-      }
+        session: options?.session as ClientSession,
+      },
     )
 
     return this.findById(id)
@@ -148,13 +148,13 @@ export const workspace: IWorkspaceRepository = () => ({
 
   async deleteById(id, options) {
     const $match = MongoDB.makeMatch({
-      id
+      id,
     })
 
-    await MongoDB.Collections.workspace.findOneAndDelete($match, {
-      session: options?.session as ClientSession
+    await Collections.workspace.findOneAndDelete($match, {
+      session: options?.session as ClientSession,
     })
 
     return this.findById(id, options)
-  }
+  },
 })

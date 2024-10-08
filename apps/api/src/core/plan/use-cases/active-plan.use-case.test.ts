@@ -12,8 +12,8 @@ describe('activePlan', () => {
   })
   let dependencies: ITestDependencies
 
-  beforeEach(() => {
-    dependencies = TestDependencies()
+  beforeEach(async () => {
+    dependencies = await TestDependencies()
   })
 
   it('should successfully activate a plan and return updated plan', async () => {

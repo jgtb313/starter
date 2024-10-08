@@ -13,8 +13,8 @@ describe('recoverPassword', () => {
   })
   let dependencies: ITestDependencies
 
-  beforeEach(() => {
-    dependencies = TestDependencies()
+  beforeEach(async () => {
+    dependencies = await TestDependencies()
   })
 
   it('should successfully recover the password', async () => {

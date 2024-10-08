@@ -13,8 +13,8 @@ describe('listAvailablePlans', () => {
 
   let dependencies: ITestDependencies
 
-  beforeEach(() => {
-    dependencies = TestDependencies()
+  beforeEach(async () => {
+    dependencies = await TestDependencies()
   })
 
   it('should successfully list all available plans', async () => {

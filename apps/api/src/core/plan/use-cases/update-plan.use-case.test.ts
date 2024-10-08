@@ -11,8 +11,8 @@ describe('updatePlan', () => {
 
   let dependencies: ITestDependencies
 
-  beforeEach(() => {
-    dependencies = TestDependencies()
+  beforeEach(async () => {
+    dependencies = await TestDependencies()
   })
 
   it('should successfully update a plan and return the updated plan', async () => {

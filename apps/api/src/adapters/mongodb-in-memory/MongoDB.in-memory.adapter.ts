@@ -1,12 +1,11 @@
-import { env } from '@/config'
+import { MongoMemoryServer } from 'mongodb-memory-server'
+import { vi } from 'vitest'
+
+import { client, connect as connection } from '@/adapters/mongodb/MongoDB.connection'
+import { Repositories } from '@/adapters/mongodb/modules'
 import { IDatabase } from '@/ports/database'
 
-import { Repositories } from './modules'
-import { client, connect as connection } from './MongoDB.connection'
-
-const MONGODB_URL = env('MONGODB_URL')
-
-const createSession = () => {
+const createSession = vi.fn(() => {
   const session = client.startSession()
 
   session.startTransaction()
@@ -14,20 +13,21 @@ const createSession = () => {
   return {
     value: session as unknown,
 
-    commit: async () => {
+    commit: vi.fn(async () => {
       await session.commitTransaction()
       await session.endSession()
-    },
+    }),
 
-    rollback: async () => {
+    rollback: vi.fn(async () => {
       await session.abortTransaction()
       await session.endSession()
-    },
+    }),
   }
-}
+})
 
 const connect = async () => {
-  await connection(MONGODB_URL)
+  const mongoServer = await MongoMemoryServer.create()
+  await connection(mongoServer.getUri())
 }
 
 const disconnect = async () => {

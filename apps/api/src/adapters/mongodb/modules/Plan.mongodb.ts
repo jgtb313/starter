@@ -4,9 +4,9 @@ import { PlanSchema } from '@starter/schema'
 import { NotFoundError } from '@/support/errors'
 import { Plan } from '@/core/plan/domain'
 import { IPlanRepository } from '@/ports/database/modules/Plan.repository'
-import { MongoDB, CollectionsTypes } from '../MongoDB.support'
+import { MongoDB, CollectionsType, ICollections } from '../MongoDB.support'
 
-type Document = CollectionsTypes['plan']
+type Document = ICollections['plan']
 const PlanSearch = MongoDB.makeSearch<Plan['state']>(['name'])
 
 const Pipelines = [] as []
@@ -17,13 +17,13 @@ const parseDomain = (model: Document) => {
   })
 }
 
-export const plan: IPlanRepository = () => ({
+export const plan = (Collections: CollectionsType) => (): ReturnType<IPlanRepository> => ({
   async index(input, options) {
     const $match = MongoDB.makeMatch({
       ...input,
     })
 
-    const data = await MongoDB.Collections.plan
+    const data = await Collections.plan
       .aggregate<Document>(
         [
           { $match: { status: { $ne: 'DELETED' } } },
@@ -55,7 +55,7 @@ export const plan: IPlanRepository = () => ({
 
     const total = 0
 
-    const data = await MongoDB.Collections.plan
+    const data = await Collections.plan
       .aggregate<Document>(
         [
           { $match: { status: { $ne: 'DELETED' } } },
@@ -90,7 +90,7 @@ export const plan: IPlanRepository = () => ({
       id,
     })
 
-    const [model] = await MongoDB.Collections.plan
+    const [model] = await Collections.plan
       .aggregate<Document>([{ $match: { status: { $ne: 'DELETED' } } }, { $match }, ...Pipelines], {
         session: options?.session as ClientSession,
       })
@@ -108,7 +108,7 @@ export const plan: IPlanRepository = () => ({
       ...input,
     })
 
-    const [model] = await MongoDB.Collections.plan
+    const [model] = await Collections.plan
       .aggregate<Document>([{ $match: { status: { $ne: 'DELETED' } } }, ...Pipelines, { $match }], {
         session: options?.session as ClientSession,
       })
@@ -127,7 +127,7 @@ export const plan: IPlanRepository = () => ({
       ...MongoDB.createTimestamps(),
     })
 
-    await MongoDB.Collections.plan.insertOne(
+    await Collections.plan.insertOne(
       {
         ...input,
         search: PlanSearch(state),
@@ -150,7 +150,7 @@ export const plan: IPlanRepository = () => ({
       id,
     })
 
-    await MongoDB.Collections.plan.findOneAndUpdate(
+    await Collections.plan.findOneAndUpdate(
       $match,
       {
         $set: {
@@ -171,7 +171,7 @@ export const plan: IPlanRepository = () => ({
       id,
     })
 
-    await MongoDB.Collections.plan.findOneAndDelete($match, { session: options?.session as ClientSession })
+    await Collections.plan.findOneAndDelete($match, { session: options?.session as ClientSession })
 
     return
   },

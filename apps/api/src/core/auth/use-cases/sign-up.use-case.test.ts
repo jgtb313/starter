@@ -9,19 +9,19 @@ import { signUp } from './sign-up.use-case'
 
 describe('signUp', () => {
   const sut = () => ({
-    execute: (input: Parameters<ReturnType<typeof signUp>>[number]) => signUp(dependencies as IDependencies)(input)
+    execute: (input: Parameters<ReturnType<typeof signUp>>[number]) => signUp(dependencies as IDependencies)(input),
   })
   let dependencies: ITestDependencies
 
-  beforeEach(() => {
-    dependencies = TestDependencies()
+  beforeEach(async () => {
+    dependencies = await TestDependencies()
   })
 
   it('should successfully sign up a user and generate a token', async () => {
     const input: SignUpInput = {
       name: 'Liam Carter',
       email: 'liam.carter@lambda.com',
-      password: '123123123'
+      password: '123123123',
     }
 
     const output = await sut().execute(input)
@@ -38,7 +38,7 @@ describe('signUp', () => {
     const input: SignUpInput = {
       name: 'Liam Carter',
       email: 'liam.carter@lambda.com',
-      password: '123123123'
+      password: '123123123',
     }
 
     dependencies.Repositories.workspace.create.mockRejectedValue(new Error('Workspace creation failed'))
@@ -56,7 +56,7 @@ describe('signUp', () => {
     const input: SignUpInput = {
       name: 'John Doe',
       email: 'john.doe@acme.com',
-      password: '123123123'
+      password: '123123123',
     }
 
     await expect(sut().execute(input)).rejects.toThrow(BadRequestError)

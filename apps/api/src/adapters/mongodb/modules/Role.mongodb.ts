@@ -4,41 +4,41 @@ import { RoleSchema } from '@starter/schema'
 import { NotFoundError } from '@/support/errors'
 import { Role } from '@/core/role/domain'
 import { IRoleRepository } from '@/ports/database/modules/Role.repository'
-import { MongoDB, CollectionsTypes } from '../MongoDB.support'
+import { MongoDB, CollectionsType, ICollections } from '../MongoDB.support'
 
-type Document = CollectionsTypes['role']
+type Document = ICollections['role']
 const RoleSearch = MongoDB.makeSearch<Role['state']>(['name'])
 
 const Pipelines = [] as []
 
 const parseDomain = (model: Document) => {
   return new Role({
-    ...model
+    ...model,
   })
 }
 
-export const role: IRoleRepository = () => ({
+export const role = (Collections: CollectionsType) => (): ReturnType<IRoleRepository> => ({
   async index(input, options) {
     const $match = MongoDB.makeMatch({
-      ...input
+      ...input,
     })
 
-    const data = await MongoDB.Collections.role
+    const data = await Collections.role
       .aggregate<Document>(
         [
           ...Pipelines,
           {
-            $match
+            $match,
           },
           {
             $sort: {
-              name: -1
-            }
-          }
+              name: -1,
+            },
+          },
         ],
         {
-          session: options?.session as ClientSession
-        }
+          session: options?.session as ClientSession,
+        },
       )
       .toArray()
 
@@ -49,29 +49,29 @@ export const role: IRoleRepository = () => ({
 
   async find({ offset = 0, limit = 10, sort, ...input }, options) {
     const $match = MongoDB.makeMatch({
-      ...input
+      ...input,
     })
 
     const total = 0
 
-    const data = await MongoDB.Collections.role
+    const data = await Collections.role
       .aggregate<Document>(
         [
           ...Pipelines,
           {
-            $match
+            $match,
           },
           {
-            $sort: sort ?? { createdAt: -1 }
+            $sort: sort ?? { createdAt: -1 },
           },
           {
-            $skip: offset
+            $skip: offset,
           },
-          { $limit: limit }
+          { $limit: limit },
         ],
         {
-          session: options?.session as ClientSession
-        }
+          session: options?.session as ClientSession,
+        },
       )
       .toArray()
 
@@ -79,18 +79,18 @@ export const role: IRoleRepository = () => ({
 
     return {
       values,
-      total
+      total,
     }
   },
 
   async findById(id, options) {
     const $match = MongoDB.makeMatch({
-      id
+      id,
     })
 
-    const [model] = await MongoDB.Collections.role
+    const [model] = await Collections.role
       .aggregate<Document>([{ $match }, ...Pipelines], {
-        session: options?.session as ClientSession
+        session: options?.session as ClientSession,
       })
       .toArray()
 
@@ -103,12 +103,12 @@ export const role: IRoleRepository = () => ({
 
   async findOne(input, options) {
     const $match = MongoDB.makeMatch({
-      ...input
+      ...input,
     })
 
-    const [model] = await MongoDB.Collections.role
+    const [model] = await Collections.role
       .aggregate<Document>([{ $match }, ...Pipelines], {
-        session: options?.session as ClientSession
+        session: options?.session as ClientSession,
       })
       .toArray()
 
@@ -122,17 +122,17 @@ export const role: IRoleRepository = () => ({
   async create({ state }, options) {
     const input = RoleSchema.parse({
       ...state,
-      ...MongoDB.createTimestamps()
+      ...MongoDB.createTimestamps(),
     })
 
-    await MongoDB.Collections.role.insertOne(
+    await Collections.role.insertOne(
       {
         ...input,
-        search: RoleSearch(state)
+        search: RoleSearch(state),
       },
       {
-        session: options?.session as ClientSession
-      }
+        session: options?.session as ClientSession,
+      },
     )
 
     return this.findById(state.id, options)
@@ -141,24 +141,24 @@ export const role: IRoleRepository = () => ({
   async updateById(id, { state }, options) {
     const input = RoleSchema.parse({
       ...state,
-      ...MongoDB.updateTimestamps()
+      ...MongoDB.updateTimestamps(),
     })
 
     const $match = MongoDB.makeMatch({
-      id
+      id,
     })
 
-    await MongoDB.Collections.role.findOneAndUpdate(
+    await Collections.role.findOneAndUpdate(
       $match,
       {
         $set: {
           ...input,
-          search: RoleSearch(state)
-        }
+          search: RoleSearch(state),
+        },
       },
       {
-        session: options?.session as ClientSession
-      }
+        session: options?.session as ClientSession,
+      },
     )
 
     return this.findById(id)
@@ -166,11 +166,11 @@ export const role: IRoleRepository = () => ({
 
   async deleteById(id, options) {
     const $match = MongoDB.makeMatch({
-      id
+      id,
     })
 
-    await MongoDB.Collections.role.findOneAndDelete($match)
+    await Collections.role.findOneAndDelete($match)
 
     return this.findById(id, options)
-  }
+  },
 })

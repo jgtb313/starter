@@ -10,14 +10,14 @@ import { createUseCase, setupDomain, SetupDomain } from './utilities'
 describe('utilities', () => {
   let dependencies: ITestDependencies
 
-  beforeEach(() => {
-    dependencies = TestDependencies()
+  beforeEach(async () => {
+    dependencies = await TestDependencies()
   })
 
   describe('createUseCase', () => {
     const schema = z.object({
       name: z.string(),
-      email: z.string().email()
+      email: z.string().email(),
     })
 
     type Input = z.infer<typeof schema>
@@ -28,7 +28,7 @@ describe('utilities', () => {
     const execute: IUseCaseExecute<Input, Output> = () => async (input) => {
       return {
         ...input,
-        id: uuid()
+        id: uuid(),
       }
     }
 
@@ -59,7 +59,7 @@ describe('utilities', () => {
       name: z.string(),
       email: z.string().email(),
       createdAt: z.date(),
-      updatedAt: z.date()
+      updatedAt: z.date(),
     })
 
     type Input = z.infer<typeof schema>

@@ -12,8 +12,8 @@ describe('createPlan', () => {
   })
   let dependencies: ITestDependencies
 
-  beforeEach(() => {
-    dependencies = TestDependencies()
+  beforeEach(async () => {
+    dependencies = await TestDependencies()
   })
 
   it('should successfully create a plan and return the created plan', async () => {

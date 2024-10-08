@@ -23,6 +23,7 @@ export type ICollections = {
 export const Collections: { [K in keyof ICollections]: Collection<ICollections[K]> } = {} as {
   [K in keyof ICollections]: Collection<ICollections[K]>
 }
+export type CollectionsType = typeof Collections
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms * 1000))
 

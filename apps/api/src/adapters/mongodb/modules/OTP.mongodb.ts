@@ -4,16 +4,16 @@ import { startOfToday, endOfToday } from '@starter/shared'
 import { NotFoundError } from '@/support/errors'
 import { OTP } from '@/core/otp/domain'
 import { IOTPRepository } from '@/ports/database/modules/OTP.repository'
-import { MongoDB } from '../MongoDB.support'
+import { MongoDB, CollectionsType } from '../MongoDB.support'
 
-export const otp: IOTPRepository = () => ({
+export const otp = (Collections: CollectionsType) => (): ReturnType<IOTPRepository> => ({
   async findById(id) {
     const $match = MongoDB.makeMatch({ id })
 
-    const model = await MongoDB.Collections.otp.findOne($match)
+    const model = await Collections.otp.findOne($match)
 
     if (!model) {
-      throw new NotFoundError('OTP não encontrado')
+      throw new NotFoundError(`OTP ${id} not found`)
     }
 
     return new OTP(model)
@@ -25,13 +25,13 @@ export const otp: IOTPRepository = () => ({
 
     const $match = MongoDB.makeMatch({ email, context, createdAt: { $gte: start, $lte: end } })
 
-    return MongoDB.Collections.otp.countDocuments($match)
+    return Collections.otp.countDocuments($match)
   },
 
   async mostRecent(email, context) {
     const $match = MongoDB.makeMatch({ email, context })
 
-    const [model] = await MongoDB.Collections.otp.find($match, { sort: { createdAt: -1 } }).toArray()
+    const [model] = await Collections.otp.find($match, { sort: { createdAt: -1 } }).toArray()
 
     if (!model) {
       return
@@ -46,7 +46,7 @@ export const otp: IOTPRepository = () => ({
       ...MongoDB.createTimestamps(),
     })
 
-    await MongoDB.Collections.otp.insertOne({
+    await Collections.otp.insertOne({
       ...input,
       search: {},
     })
@@ -62,7 +62,7 @@ export const otp: IOTPRepository = () => ({
 
     const $match = MongoDB.makeMatch({ id })
 
-    await MongoDB.Collections.otp.findOneAndUpdate($match, { $set: input })
+    await Collections.otp.findOneAndUpdate($match, { $set: input })
 
     return this.findById(id)
   },

@@ -4,9 +4,9 @@ import { UserSchema } from '@starter/schema'
 import { NotFoundError } from '@/support/errors'
 import { User } from '@/core/user/domain'
 import { IUserRepository } from '@/ports/database/modules/User.repository'
-import { MongoDB, CollectionsTypes } from '../MongoDB.support'
+import { MongoDB, CollectionsType, ICollections } from '../MongoDB.support'
 
-type Document = CollectionsTypes['user']
+type Document = ICollections['user']
 const UserSearch = MongoDB.makeSearch<User['state']>(['name'])
 
 const Pipelines = [] as []
@@ -17,13 +17,13 @@ const parseDomain = (model: Document) => {
   })
 }
 
-export const user: IUserRepository = () => ({
+export const user = (Collections: CollectionsType) => (): ReturnType<IUserRepository> => ({
   async index(input, options) {
     const $match = MongoDB.makeMatch({
       ...input,
     })
 
-    const data = await MongoDB.Collections.user
+    const data = await Collections.user
       .aggregate<Document>(
         [
           ...Pipelines,
@@ -54,7 +54,7 @@ export const user: IUserRepository = () => ({
 
     const total = 0
 
-    const data = await MongoDB.Collections.user
+    const data = await Collections.user
       .aggregate<Document>(
         [
           ...Pipelines,
@@ -88,7 +88,7 @@ export const user: IUserRepository = () => ({
       id,
     })
 
-    const [model] = await MongoDB.Collections.user
+    const [model] = await Collections.user
       .aggregate<Document>([{ $match }, ...Pipelines], {
         session: options?.session as ClientSession,
       })
@@ -106,7 +106,7 @@ export const user: IUserRepository = () => ({
       ...input,
     })
 
-    const [model] = await MongoDB.Collections.user
+    const [model] = await Collections.user
       .aggregate<Document>([{ $match }, ...Pipelines], {
         session: options?.session as ClientSession,
       })
@@ -125,7 +125,7 @@ export const user: IUserRepository = () => ({
       ...MongoDB.createTimestamps(),
     }) as User['state']
 
-    await MongoDB.Collections.user.insertOne(
+    await Collections.user.insertOne(
       {
         ...input,
         search: UserSearch(state),
@@ -148,7 +148,7 @@ export const user: IUserRepository = () => ({
       id,
     })
 
-    await MongoDB.Collections.user.findOneAndUpdate(
+    await Collections.user.findOneAndUpdate(
       $match,
       {
         $set: {
@@ -169,7 +169,7 @@ export const user: IUserRepository = () => ({
       id,
     })
 
-    await MongoDB.Collections.user.findOneAndDelete($match)
+    await Collections.user.findOneAndDelete($match)
 
     return this.findById(id, options)
   },

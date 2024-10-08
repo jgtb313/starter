@@ -8,17 +8,17 @@ import { forgotPassword } from './forgot-password.use-case'
 
 describe('forgotPassword', () => {
   const sut = () => ({
-    execute: (input: Parameters<ReturnType<typeof forgotPassword>>[number]) => forgotPassword(dependencies as IDependencies)(input)
+    execute: (input: Parameters<ReturnType<typeof forgotPassword>>[number]) => forgotPassword(dependencies as IDependencies)(input),
   })
   let dependencies: ITestDependencies
 
-  beforeEach(() => {
-    dependencies = TestDependencies()
+  beforeEach(async () => {
+    dependencies = await TestDependencies()
   })
 
   it('should successfully send a recovery email and update user token', async () => {
     const input: ForgotPasswordInput = {
-      email: 'john.doe@acme.com'
+      email: 'john.doe@acme.com',
     }
 
     await sut().execute(input)
@@ -30,7 +30,7 @@ describe('forgotPassword', () => {
 
   it('should not send an email if user does not exist', async () => {
     const input: ForgotPasswordInput = {
-      email: 'nonexistent.user@lambda.com'
+      email: 'nonexistent.user@lambda.com',
     }
 
     await sut().execute(input)

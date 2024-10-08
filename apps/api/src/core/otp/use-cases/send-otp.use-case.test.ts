@@ -10,18 +10,18 @@ import { sendOTP } from './send-otp.use-case'
 
 describe('sendOTP', () => {
   const sut = () => ({
-    execute: (input: Parameters<ReturnType<typeof sendOTP>>[number]) => sendOTP(dependencies as IDependencies)(input)
+    execute: (input: Parameters<ReturnType<typeof sendOTP>>[number]) => sendOTP(dependencies as IDependencies)(input),
   })
   let dependencies: ITestDependencies
 
-  beforeEach(() => {
-    dependencies = TestDependencies()
+  beforeEach(async () => {
+    dependencies = await TestDependencies()
   })
 
   it('should successfully send OTP to the user', async () => {
     const input: SendOTPInput = {
       context: OTPContextEnum.UPDATE_EMAIL,
-      email: 'john@doe.com'
+      email: 'john@doe.com',
     }
 
     const output = await sut().execute(input)
@@ -33,8 +33,8 @@ describe('sendOTP', () => {
       template: MailTemplateEnum.SEND_OTP,
       to: input.email,
       props: {
-        code: expect.any(String)
-      }
+        code: expect.any(String),
+      },
     })
     expect(isString(output.otp)).toBe(true)
   })

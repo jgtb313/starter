@@ -1,8 +1,7 @@
 import { clearSpecialChars, get, set } from '@starter/shared'
 
 import { makeMatch } from './MongoDB.match'
-import { connect } from './MongoDB.connection'
-import { Collections, CollectionsTypes } from './MongoDB.collections'
+import { ICollections, CollectionsType } from './MongoDB.collections'
 
 const makeSearch =
   <T>(fields: string[]) =>
@@ -20,21 +19,17 @@ const makeSearch =
 
 const createTimestamps = () => ({
   createdAt: new Date(),
-  updatedAt: new Date()
+  updatedAt: new Date(),
 })
 
 const updateTimestamps = () => ({ updatedAt: new Date() })
 
 export const MongoDB = {
-  Collections,
-
-  connect,
-
   makeMatch,
   makeSearch,
 
   createTimestamps,
-  updateTimestamps
+  updateTimestamps,
 }
 
-export { CollectionsTypes }
+export { ICollections, CollectionsType }

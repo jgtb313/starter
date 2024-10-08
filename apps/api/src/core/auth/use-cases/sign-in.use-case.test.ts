@@ -9,18 +9,18 @@ import { signIn } from './sign-in.use-case'
 
 describe('signIn', () => {
   const sut = () => ({
-    execute: (input: Parameters<ReturnType<typeof signIn>>[number]) => signIn(dependencies as IDependencies)(input)
+    execute: (input: Parameters<ReturnType<typeof signIn>>[number]) => signIn(dependencies as IDependencies)(input),
   })
   let dependencies: ITestDependencies
 
-  beforeEach(() => {
-    dependencies = TestDependencies()
+  beforeEach(async () => {
+    dependencies = await TestDependencies()
   })
 
   it('should successfully sign in a user and generate a token', async () => {
     const input: SignInInput = {
       email: 'john.doe@acme.com',
-      password: '123123123'
+      password: '123123123',
     }
 
     dependencies.Encrypt.compare.mockReturnValue(true)
@@ -37,7 +37,7 @@ describe('signIn', () => {
   it('should throw an AuthError if the user does not exist', async () => {
     const input: SignInInput = {
       email: 'nonexistent.user@lambda.com',
-      password: '123123123'
+      password: '123123123',
     }
 
     await expect(sut().execute(input)).rejects.toThrow(AuthError)
@@ -51,7 +51,7 @@ describe('signIn', () => {
   it('should throw an AuthError if the password is invalid', async () => {
     const input: SignInInput = {
       email: 'john.doe@acme.com',
-      password: 'wrongPassword'
+      password: 'wrongPassword',
     }
 
     dependencies.Encrypt.compare.mockReturnValue(false)

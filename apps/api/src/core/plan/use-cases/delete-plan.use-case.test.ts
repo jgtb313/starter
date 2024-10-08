@@ -12,8 +12,8 @@ describe('deletePlan', () => {
 
   let dependencies: ITestDependencies
 
-  beforeEach(() => {
-    dependencies = TestDependencies()
+  beforeEach(async () => {
+    dependencies = await TestDependencies()
   })
 
   it('should successfully delete a plan', async () => {

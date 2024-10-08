@@ -9,19 +9,19 @@ import { socialSignIn } from './social-sign-in.use-case'
 
 describe('socialSignIn', () => {
   const sut = () => ({
-    execute: (input: Parameters<ReturnType<typeof socialSignIn>>[number]) => socialSignIn(dependencies as IDependencies)(input)
+    execute: (input: Parameters<ReturnType<typeof socialSignIn>>[number]) => socialSignIn(dependencies as IDependencies)(input),
   })
 
   let dependencies: ITestDependencies
 
-  beforeEach(() => {
-    dependencies = TestDependencies()
+  beforeEach(async () => {
+    dependencies = await TestDependencies()
   })
 
   it('should create a new user and workspace if user does not exist', async () => {
     const input: SocialSignInInput = {
       context: SocialSignInEnum.GOOGLE,
-      token: 'tokenUnregisteredUser'
+      token: 'tokenUnregisteredUser',
     }
 
     const output = await sut().execute(input)
@@ -37,7 +37,7 @@ describe('socialSignIn', () => {
   it('should generate a token for the existing user', async () => {
     const input: SocialSignInInput = {
       context: SocialSignInEnum.GOOGLE,
-      token: 'tokenRegisteredUser'
+      token: 'tokenRegisteredUser',
     }
 
     const output = await sut().execute(input)
@@ -51,7 +51,7 @@ describe('socialSignIn', () => {
   it('should use the generated email if email is not provided by SocialAuth', async () => {
     const input: SocialSignInInput = {
       context: SocialSignInEnum.FACEBOOK,
-      token: 'tokenUnregisteredUserWithoutEmail'
+      token: 'tokenUnregisteredUserWithoutEmail',
     }
 
     const output = await sut().execute(input)
@@ -68,7 +68,7 @@ describe('socialSignIn', () => {
   it('should throw an error if workspace creation fails', async () => {
     const input: SocialSignInInput = {
       context: SocialSignInEnum.FACEBOOK,
-      token: 'tokenUnregisteredUserWithoutEmail'
+      token: 'tokenUnregisteredUserWithoutEmail',
     }
 
     dependencies.Repositories.workspace.create.mockRejectedValue(new Error('Workspace creation failed'))
@@ -79,7 +79,7 @@ describe('socialSignIn', () => {
   it('should throw an AuthError if the token is invalid', async () => {
     const input: SocialSignInInput = {
       context: SocialSignInEnum.FACEBOOK,
-      token: 'invalidToken'
+      token: 'invalidToken',
     }
 
     await expect(sut().execute(input)).rejects.toThrow(AuthError)
