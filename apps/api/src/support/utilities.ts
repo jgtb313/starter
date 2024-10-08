@@ -25,11 +25,13 @@ type PickNotNullable<T> = {
 }
 
 export type SetupDomain<T, P extends keyof T = never> = {
-  [K in keyof PickNullable<Omit<T, 'id' | 'createdAt' | 'updatedAt' | P>>]?: Exclude<T[K], null> | null
+  [K in keyof PickNullable<Omit<T, 'createdAt' | 'updatedAt' | P>>]?: Exclude<T[K], null> | null
 } & {
   [K in keyof PickNotNullable<Omit<T, 'id' | 'createdAt' | 'updatedAt' | P>>]: T[K]
 } & {
   [K in P]?: T[K]
+} & {
+  id?: string
 }
 
 export const setupDomain = <T>(value: T, schema: ReturnType<typeof z.object>) => {

@@ -43,10 +43,13 @@ export const otp: IOTPRepository = () => ({
   async create({ state }) {
     const input = OTPSchema.parse({
       ...state,
-      ...MongoDB.createTimestamps()
+      ...MongoDB.createTimestamps(),
     })
 
-    await MongoDB.Collections.otp.insertOne(input)
+    await MongoDB.Collections.otp.insertOne({
+      ...input,
+      search: {},
+    })
 
     return this.findById(state.id)
   },
@@ -54,7 +57,7 @@ export const otp: IOTPRepository = () => ({
   async updateById(id, { state }) {
     const input = OTPSchema.partial().parse({
       ...state,
-      ...MongoDB.updateTimestamps()
+      ...MongoDB.updateTimestamps(),
     })
 
     const $match = MongoDB.makeMatch({ id })
@@ -62,5 +65,5 @@ export const otp: IOTPRepository = () => ({
     await MongoDB.Collections.otp.findOneAndUpdate($match, { $set: input })
 
     return this.findById(id)
-  }
+  },
 })

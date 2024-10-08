@@ -10,7 +10,7 @@ const execute: IUseCaseExecute<DeletePlanInput, DeletePlanOutput> =
 
     plan.markAsDeleted()
 
-    await Repositories.plan.updateById(plan.state.id, plan)
+    await Repositories.plan.deleteById(plan.state.id)
   }
 
 export const deletePlan = createUseCase(execute, DeletePlanSchema)

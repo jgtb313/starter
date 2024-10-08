@@ -42,11 +42,11 @@ export const UserRepositoryInMemory: ReturnType<IUserRepository> = {
   findOne: vi.fn(async ({ email, recoverPassword, social }) => {
     const user = Object.values(users).find((user) => {
       if (email) {
-        return user.state.email === email ? user : undefined
+        return user.state.email === email
       }
 
       if (recoverPassword) {
-        return user.state.recoverPassword?.token === recoverPassword.token ? user : undefined
+        return user.state.recoverPassword?.token === recoverPassword.token
       }
 
       if (social?.google?.id) {

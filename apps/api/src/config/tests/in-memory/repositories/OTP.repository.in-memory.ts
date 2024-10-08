@@ -14,7 +14,7 @@ export const OTPRepositoryInMemory: ReturnType<IOTPRepository> = {
       throw new NotFoundError(`OTP ${id} not found`)
     }
 
-    return otp
+    return new OTP(otp.state)
   }),
 
   dailyCount: vi.fn(async (email, context) => {
@@ -22,7 +22,7 @@ export const OTPRepositoryInMemory: ReturnType<IOTPRepository> = {
     const startOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate())
 
     const count = Object.values(otps).filter(
-      (otp) => otp.state.email === email && otp.state.context === context && otp.state.createdAt >= startOfDay
+      (otp) => otp.state.email === email && otp.state.context === context && otp.state.createdAt >= startOfDay,
     ).length
 
     return count
@@ -33,7 +33,11 @@ export const OTPRepositoryInMemory: ReturnType<IOTPRepository> = {
       .filter((otp) => otp.state.email === email && otp.state.context === context)
       .sort((a, b) => b.state.createdAt.getTime() - a.state.createdAt.getTime())
 
-    return otp
+    if (!otp) {
+      return
+    }
+
+    return new OTP(otp.state)
   }),
 
   create: vi.fn(async ({ state }) => {
@@ -41,7 +45,7 @@ export const OTPRepositoryInMemory: ReturnType<IOTPRepository> = {
 
     otps[otp.state.id] = otp
 
-    return otp
+    return new OTP(otp.state)
   }),
 
   updateById: vi.fn(async (id, { state }) => {
@@ -49,11 +53,11 @@ export const OTPRepositoryInMemory: ReturnType<IOTPRepository> = {
 
     otps[id] = new OTP({
       ...otp.state,
-      ...state
+      ...state,
     })
 
-    return otps[id]
-  })
+    return OTPRepositoryInMemory.findById(otp.state.id)
+  }),
 }
 
 export const clearOTPRepositoryInMemory = () => {

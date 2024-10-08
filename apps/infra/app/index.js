@@ -1,22 +1,20 @@
-'use strict'
+const fastify = require('fastify')({ logger: true })
 
-const express = require('express')
-const app = express()
-
-app.get('/app', (req, res) => {
-  res.json({ message: 'App' })
+fastify.get('/', async () => {
+  return { hello: 'world' }
 })
 
-app.get('/hello-world', (req, res) => {
-  res.json({ message: 'Hello World' })
+fastify.get('/health', async () => {
+  return { status: 'ok' }
 })
 
-app.get('/health', (req, res) => {
-  res.json({ message: 'Health Check' })
-})
+const start = async () => {
+  try {
+    await fastify.listen({ port: 80, host: '0.0.0.0' })
+  } catch (err) {
+    fastify.log.error(err)
+    process.exit(1)
+  }
+}
 
-const port = 80
-
-app.listen(port, () => {
-  console.log(`Listening on port ${port}`)
-})
+start()

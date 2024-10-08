@@ -1,5 +1,5 @@
 import { ClientSession } from 'mongodb'
-import { UserSchema as Schema } from '@starter/schema'
+import { UserSchema } from '@starter/schema'
 
 import { NotFoundError } from '@/support/errors'
 import { User } from '@/core/user/domain'
@@ -13,16 +13,14 @@ const Pipelines = [] as []
 
 const parseDomain = (model: Document) => {
   return new User({
-    ...model
+    ...model,
   })
 }
-
-const UserSchema = Schema.omit({ workspace: true })
 
 export const user: IUserRepository = () => ({
   async index(input, options) {
     const $match = MongoDB.makeMatch({
-      ...input
+      ...input,
     })
 
     const data = await MongoDB.Collections.user
@@ -30,17 +28,17 @@ export const user: IUserRepository = () => ({
         [
           ...Pipelines,
           {
-            $match
+            $match,
           },
           {
             $sort: {
-              name: -1
-            }
-          }
+              name: -1,
+            },
+          },
         ],
         {
-          session: options?.session as ClientSession
-        }
+          session: options?.session as ClientSession,
+        },
       )
       .toArray()
 
@@ -51,7 +49,7 @@ export const user: IUserRepository = () => ({
 
   async find({ offset = 0, limit = 10, sort, ...input }, options) {
     const $match = MongoDB.makeMatch({
-      ...input
+      ...input,
     })
 
     const total = 0
@@ -61,19 +59,19 @@ export const user: IUserRepository = () => ({
         [
           ...Pipelines,
           {
-            $match
+            $match,
           },
           {
-            $sort: sort ?? { createdAt: -1 }
+            $sort: sort ?? { createdAt: -1 },
           },
           {
-            $skip: offset
+            $skip: offset,
           },
-          { $limit: limit }
+          { $limit: limit },
         ],
         {
-          session: options?.session as ClientSession
-        }
+          session: options?.session as ClientSession,
+        },
       )
       .toArray()
 
@@ -81,18 +79,18 @@ export const user: IUserRepository = () => ({
 
     return {
       values,
-      total
+      total,
     }
   },
 
   async findById(id, options) {
     const $match = MongoDB.makeMatch({
-      id
+      id,
     })
 
     const [model] = await MongoDB.Collections.user
       .aggregate<Document>([{ $match }, ...Pipelines], {
-        session: options?.session as ClientSession
+        session: options?.session as ClientSession,
       })
       .toArray()
 
@@ -105,12 +103,12 @@ export const user: IUserRepository = () => ({
 
   async findOne(input, options) {
     const $match = MongoDB.makeMatch({
-      ...input
+      ...input,
     })
 
     const [model] = await MongoDB.Collections.user
       .aggregate<Document>([{ $match }, ...Pipelines], {
-        session: options?.session as ClientSession
+        session: options?.session as ClientSession,
       })
       .toArray()
 
@@ -124,17 +122,17 @@ export const user: IUserRepository = () => ({
   async create({ state }, options) {
     const input = UserSchema.parse({
       ...state,
-      ...MongoDB.createTimestamps()
+      ...MongoDB.createTimestamps(),
     }) as User['state']
 
     await MongoDB.Collections.user.insertOne(
       {
         ...input,
-        search: UserSearch(state)
+        search: UserSearch(state),
       },
       {
-        session: options?.session as ClientSession
-      }
+        session: options?.session as ClientSession,
+      },
     )
 
     return this.findById(state.id, options)
@@ -143,11 +141,11 @@ export const user: IUserRepository = () => ({
   async updateById(id, { state }, options) {
     const input = UserSchema.parse({
       ...state,
-      ...MongoDB.updateTimestamps()
+      ...MongoDB.updateTimestamps(),
     })
 
     const $match = MongoDB.makeMatch({
-      id
+      id,
     })
 
     await MongoDB.Collections.user.findOneAndUpdate(
@@ -155,12 +153,12 @@ export const user: IUserRepository = () => ({
       {
         $set: {
           ...input,
-          search: UserSearch(state)
-        }
+          search: UserSearch(state),
+        },
       },
       {
-        session: options?.session as ClientSession
-      }
+        session: options?.session as ClientSession,
+      },
     )
 
     return this.findById(id)
@@ -168,11 +166,11 @@ export const user: IUserRepository = () => ({
 
   async deleteById(id, options) {
     const $match = MongoDB.makeMatch({
-      id
+      id,
     })
 
     await MongoDB.Collections.user.findOneAndDelete($match)
 
     return this.findById(id, options)
-  }
+  },
 })

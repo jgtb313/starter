@@ -13,14 +13,14 @@ const Pipelines = [] as []
 
 const parseDomain = (model: Document) => {
   return new Plan({
-    ...model
+    ...model,
   })
 }
 
 export const plan: IPlanRepository = () => ({
   async index(input, options) {
     const $match = MongoDB.makeMatch({
-      ...input
+      ...input,
     })
 
     const data = await MongoDB.Collections.plan
@@ -29,17 +29,17 @@ export const plan: IPlanRepository = () => ({
           { $match: { status: { $ne: 'DELETED' } } },
           ...Pipelines,
           {
-            $match
+            $match,
           },
           {
             $sort: {
-              name: -1
-            }
-          }
+              name: -1,
+            },
+          },
         ],
         {
-          session: options?.session as ClientSession
-        }
+          session: options?.session as ClientSession,
+        },
       )
       .toArray()
 
@@ -50,7 +50,7 @@ export const plan: IPlanRepository = () => ({
 
   async find({ offset = 0, limit = 10, sort, ...input }, options) {
     const $match = MongoDB.makeMatch({
-      ...input
+      ...input,
     })
 
     const total = 0
@@ -61,19 +61,19 @@ export const plan: IPlanRepository = () => ({
           { $match: { status: { $ne: 'DELETED' } } },
           ...Pipelines,
           {
-            $match
+            $match,
           },
           {
-            $sort: sort ?? { createdAt: -1 }
+            $sort: sort ?? { createdAt: -1 },
           },
           {
-            $skip: offset
+            $skip: offset,
           },
-          { $limit: limit }
+          { $limit: limit },
         ],
         {
-          session: options?.session as ClientSession
-        }
+          session: options?.session as ClientSession,
+        },
       )
       .toArray()
 
@@ -81,18 +81,18 @@ export const plan: IPlanRepository = () => ({
 
     return {
       values,
-      total
+      total,
     }
   },
 
   async findById(id, options) {
     const $match = MongoDB.makeMatch({
-      id
+      id,
     })
 
     const [model] = await MongoDB.Collections.plan
       .aggregate<Document>([{ $match: { status: { $ne: 'DELETED' } } }, { $match }, ...Pipelines], {
-        session: options?.session as ClientSession
+        session: options?.session as ClientSession,
       })
       .toArray()
 
@@ -105,12 +105,12 @@ export const plan: IPlanRepository = () => ({
 
   async findOne(input, options) {
     const $match = MongoDB.makeMatch({
-      ...input
+      ...input,
     })
 
     const [model] = await MongoDB.Collections.plan
       .aggregate<Document>([{ $match: { status: { $ne: 'DELETED' } } }, ...Pipelines, { $match }], {
-        session: options?.session as ClientSession
+        session: options?.session as ClientSession,
       })
       .toArray()
 
@@ -124,17 +124,17 @@ export const plan: IPlanRepository = () => ({
   async create({ state }, options) {
     const input = PlanSchema.parse({
       ...state,
-      ...MongoDB.createTimestamps()
+      ...MongoDB.createTimestamps(),
     })
 
     await MongoDB.Collections.plan.insertOne(
       {
         ...input,
-        search: PlanSearch(state)
+        search: PlanSearch(state),
       },
       {
-        session: options?.session as ClientSession
-      }
+        session: options?.session as ClientSession,
+      },
     )
 
     return this.findById(state.id, options)
@@ -143,11 +143,11 @@ export const plan: IPlanRepository = () => ({
   async updateById(id, { state }, options) {
     const input = PlanSchema.parse({
       ...state,
-      ...MongoDB.updateTimestamps()
+      ...MongoDB.updateTimestamps(),
     })
 
     const $match = MongoDB.makeMatch({
-      id
+      id,
     })
 
     await MongoDB.Collections.plan.findOneAndUpdate(
@@ -155,12 +155,12 @@ export const plan: IPlanRepository = () => ({
       {
         $set: {
           ...input,
-          search: PlanSearch(state)
-        }
+          search: PlanSearch(state),
+        },
       },
       {
-        session: options?.session as ClientSession
-      }
+        session: options?.session as ClientSession,
+      },
     )
 
     return this.findById(id)
@@ -168,11 +168,11 @@ export const plan: IPlanRepository = () => ({
 
   async deleteById(id, options) {
     const $match = MongoDB.makeMatch({
-      id
+      id,
     })
 
     await MongoDB.Collections.plan.findOneAndDelete($match, { session: options?.session as ClientSession })
 
     return
-  }
+  },
 })

@@ -1,9 +1,9 @@
-import { ActivePlanSchema, ActivePlanInput, ActivePlanOutput } from '@starter/schema'
+import { InactivePlanSchema, InactivePlanInput, InactivePlanOutput } from '@starter/schema'
 
 import { createUseCase } from '@/support/utilities'
 import { IUseCaseExecute } from '@/core/shared/types'
 
-const execute: IUseCaseExecute<ActivePlanInput, ActivePlanOutput> =
+const execute: IUseCaseExecute<InactivePlanInput, InactivePlanOutput> =
   ({ Repositories }) =>
   async ({ id }) => {
     const plan = await Repositories.plan.findById(id)
@@ -15,4 +15,4 @@ const execute: IUseCaseExecute<ActivePlanInput, ActivePlanOutput> =
     return updatedPlan.state
   }
 
-export const inactivePlan = createUseCase(execute, ActivePlanSchema)
+export const inactivePlan = createUseCase(execute, InactivePlanSchema)

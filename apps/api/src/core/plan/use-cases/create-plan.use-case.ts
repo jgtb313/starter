@@ -11,7 +11,7 @@ const execute: IUseCaseExecute<CreatePlanInput, CreatePlanOutput> =
     const integrationId = uuid()
 
     const plan = await Repositories.plan.create(
-      new Plan({ integrationId, name, amount, interval, intervalCount, features, status: PlanStatusEnum.INACTIVE })
+      new Plan({ integrationId, name, amount, interval, intervalCount, features, status: PlanStatusEnum.INACTIVE }),
     )
 
     return plan.state

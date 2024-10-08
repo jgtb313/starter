@@ -43,6 +43,31 @@ module.exports = function (plop) {
       },
 
       {
+        type: 'add',
+        path: 'src/config/tests/in-memory/repositories/{{pascalCase name}}.repository.in-memory.ts',
+        templateFile: 'templates/config/tests/in-memory/repositories/in-memory.repository.ts.hbs',
+      },
+      {
+        type: 'modify',
+        path: 'src/config/tests/in-memory/repositories/index.ts',
+        pattern: /(\/\/ appendRepositoryInMemoryImportHere)/,
+        template:
+          "import { clear{{ pascalCase name }}RepositoryInMemory, {{ pascalCase name }}RepositoryInMemory } from './{{ pascalCase name }}.repository.in-memory'\n$1",
+      },
+      {
+        type: 'modify',
+        path: 'src/config/tests/in-memory/repositories/index.ts',
+        pattern: /(\/\/ appendRepositoryInMemoryHere)/,
+        template: '{{ camelCase name }}: {{ pascalCase name }}RepositoryInMemory,\n$1',
+      },
+      {
+        type: 'modify',
+        path: 'src/config/tests/in-memory/repositories/index.ts',
+        pattern: /(\/\/ appendClearRepositoryInMemoryImportHere)/,
+        template: 'clear{{ pascalCase name }}RepositoryInMemory()\n$1',
+      },
+
+      {
         type: 'modify',
         path: 'src/adapters/mongodb/modules/index.ts',
         pattern: /(\/\/ appendAdapterImportHere)/,
