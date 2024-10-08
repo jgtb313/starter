@@ -14,7 +14,7 @@ const client = {
   configure,
   authenticate,
   unauthenticate,
-  ...resources
+  ...resources,
 }
 
 export default client

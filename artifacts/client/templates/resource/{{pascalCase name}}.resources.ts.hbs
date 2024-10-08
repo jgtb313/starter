@@ -11,8 +11,8 @@ import {
   List{{pascalCase namePlural}}Output,
   List{{pascalCase name}}OptionsInput,
   List{{pascalCase name}}OptionsOutput,
-  Get{{pascalCase name}}ByIdInput,
-  Get{{pascalCase name}}ByIdOutput,
+  Get{{pascalCase name}}Input,
+  Get{{pascalCase name}}Output,
   Create{{pascalCase name}}Input,
   Create{{pascalCase name}}Output,
   Update{{pascalCase name}}Input,
@@ -67,7 +67,7 @@ export const options = withFields<List{{pascalCase name}}OptionsInput, List{{pas
  *
  * @returns Resolves to the result of the request or an error
  */
-export const getById = withFields<Get{{pascalCase name}}ByIdInput, Get{{pascalCase name}}ByIdOutput>(({ id, ...params }) =>
+export const get = withFields<Get{{pascalCase name}}Input, Get{{pascalCase name}}Output>(({ id, ...params }) =>
   client.get(`/{{kebabCase namePlural}}/${id}`, {
     params
   })

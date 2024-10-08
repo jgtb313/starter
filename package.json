@@ -11,6 +11,7 @@
     ]
   },
   "scripts": {
+    "generate": "yarn plop generate",
     "artifacts:build": "yarn workspace @starter/shared build && yarn workspace @starter/schema build && yarn workspace @starter/client build",
     "predev": "yarn artifacts:build",
     "dev": "node concurrently.js",
@@ -21,6 +22,7 @@
     "clean": "npm exec --workspaces -- npx rimraf node_modules && npx rimraf node_modules"
   },
   "devDependencies": {
+    "plop": "^4.0.1",
     "@typescript-eslint/eslint-plugin": "^5.40.1",
     "@typescript-eslint/parser": "^5.41.0",
     "concurrently": "^7.1.0",
