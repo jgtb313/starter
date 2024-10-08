@@ -1,4 +1,4 @@
-import { Auth } from '@/core/auth/support/token'
+import { Auth } from '@/support/auth'
 
 export type IContext = {
   auth?: Auth
