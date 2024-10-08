@@ -53,7 +53,16 @@ export const plan = (Collections: CollectionsType) => (): ReturnType<IPlanReposi
       ...input,
     })
 
-    const total = 0
+    const total = await Collections.plan
+      .aggregate<{ value: number }>([
+        { $match: { status: { $ne: 'DELETED' } } },
+        ...Pipelines,
+        {
+          $match,
+        },
+        { $group: { _id: null, value: { $sum: 1 } } },
+      ])
+      .next()
 
     const data = await Collections.plan
       .aggregate<Document>(
@@ -81,7 +90,7 @@ export const plan = (Collections: CollectionsType) => (): ReturnType<IPlanReposi
 
     return {
       values,
-      total,
+      total: total?.value ?? 0,
     }
   },
 

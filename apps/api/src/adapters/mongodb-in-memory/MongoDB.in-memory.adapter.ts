@@ -26,9 +26,9 @@ const createSession = vi.fn(() => {
 })
 
 const connect = async () => {
-  const mongoServer = await MongoMemoryReplSet.create({})
+  const server = await MongoMemoryReplSet.create({})
 
-  await connection(mongoServer.getUri())
+  await connection(server.getUri())
 }
 
 const disconnect = async () => {
