@@ -46,53 +46,53 @@ module.exports = function (plop) {
         type: 'modify',
         path: 'src/adapters/mongodb/modules/index.ts',
         pattern: /(\/\/ appendAdapterImportHere)/,
-        template: "import { I{{~ camelCase name }}Repository } from './{{~ pascalCase name }}.repository'\n$1",
+        template: "import { {{ camelCase name }} } from './{{ pascalCase name }}.mongodb'\n$1",
       },
       {
         type: 'modify',
         path: 'src/adapters/mongodb/modules/index.ts',
         pattern: /(\/\/ appendAdapterRepositoryHere)/,
-        template: '{{~ camelCase name }}: {{~ camelCase name }}(),',
+        template: '{{ camelCase name }}: {{ camelCase name }}(),\n$1',
       },
 
       {
         type: 'modify',
         path: 'src/adapters/mongodb/MongoDB.collections.ts',
         pattern: /(\/\/ appendCollectionImportHere)/,
-        template: "import { {{~ pascalCase name }} } from '@/core/{{~ camelCase name }}/domain'\n$1",
+        template: "import { {{ pascalCase name }} } from '@/core/{{ camelCase name }}/domain'\n$1",
       },
       {
         type: 'modify',
         path: 'src/adapters/mongodb/MongoDB.collections.ts',
         pattern: /(\/\/ appendCollectionTypeHere)/,
-        template: "{{~ camelCase name }}: Searchable<{{~ pascalCase name }}['state']>\n$1",
+        template: "{{ camelCase name }}: Searchable<{{ pascalCase name }}['state']>\n$1",
       },
       {
         type: 'modify',
         path: 'src/adapters/mongodb/MongoDB.collections.ts',
         pattern: /(\/\/ appendCollectionHere)/,
         template:
-          "Collections.{{~ camelCase name }} = await createCollectionMongoDB<ICollections['{{~ camelCase name }}']>(database, '{{~ kebabCase namePlural }}')\n$1",
+          "Collections.{{ camelCase name }} = await createCollectionMongoDB<ICollections['{{ camelCase name }}']>(database, '{{ kebabCase namePlural }}')\n$1",
       },
 
       {
         type: 'modify',
         path: 'src/ports/database/modules/index.ts',
         pattern: /(\/\/ appendModuleImportHere)/,
-        template: "import { I{{~ pascalCase name }}Repository } from './{{~ pascalCase name }}.repository'\n$1",
+        template: "import { I{{ pascalCase name }}Repository } from './{{ pascalCase name }}.repository'\n$1",
       },
       {
         type: 'modify',
         path: 'src/ports/database/modules/index.ts',
         pattern: /(\/\/ appendModuleTypeHere)/,
-        template: '{{~ camelCase name }}: ReturnType<I{{~ pascalCase name }}Repository>\n$1',
+        template: '{{ camelCase name }}: ReturnType<I{{ pascalCase name }}Repository>\n$1',
       },
 
       {
         type: 'modify',
         path: 'src/ports/http/modules/index.ts',
         pattern: /(\/\/ appendHere)/,
-        template: "export * from './{{~ pascalCase name }}.http'\n$1",
+        template: "export * from './{{ pascalCase name }}.http'\n$1",
       },
     ],
   })

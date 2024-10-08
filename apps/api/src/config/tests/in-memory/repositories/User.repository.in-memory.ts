@@ -25,7 +25,7 @@ export const UserRepositoryInMemory: ReturnType<IUserRepository> = {
 
     return {
       values,
-      total
+      total,
     }
   }),
 
@@ -39,14 +39,14 @@ export const UserRepositoryInMemory: ReturnType<IUserRepository> = {
     return user
   }),
 
-  findOne: vi.fn(async ({ email, recoverPasswordToken, social }) => {
+  findOne: vi.fn(async ({ email, recoverPassword, social }) => {
     const user = Object.values(users).find((user) => {
       if (email) {
         return user.state.email === email ? user : undefined
       }
 
-      if (recoverPasswordToken) {
-        return user.state.recoverPasswordToken === recoverPasswordToken ? user : undefined
+      if (recoverPassword) {
+        return user.state.recoverPassword?.token === recoverPassword.token ? user : undefined
       }
 
       if (social?.google?.id) {
@@ -76,7 +76,7 @@ export const UserRepositoryInMemory: ReturnType<IUserRepository> = {
 
     users[id] = new User({
       ...user.state,
-      ...state
+      ...state,
     })
 
     return users[id]
@@ -88,7 +88,7 @@ export const UserRepositoryInMemory: ReturnType<IUserRepository> = {
     delete users[id]
 
     return user
-  })
+  }),
 }
 
 export const clearUserRepositoryInMemory = () => {

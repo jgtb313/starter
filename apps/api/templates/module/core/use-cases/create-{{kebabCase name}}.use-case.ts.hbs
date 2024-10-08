@@ -8,7 +8,10 @@ const execute: IUseCaseExecute<Create{{pascalCase name}}Input, Create{{pascalCas
   ({ Repositories }) =>
   async (input) => {
     const {{camelCase name}} = await Repositories.{{camelCase name}}.create(
-      new {{pascalCase name}}(input)
+      new {{pascalCase name}}({
+        ...input,
+        status: {{pascalCase name}}StatusEnum.ACTIVE
+      })
     )
 
     return {{camelCase name}}.state
