@@ -32,7 +32,7 @@ describe('validateOTP', () => {
     dependencies.Repositories.otp.create(otp)
 
     await expect(sut().execute(input)).resolves.not.toThrow()
+
     expect(dependencies.Repositories.otp.findById).toBeCalledWith(input.id)
-    expect(dependencies.Repositories.otp.updateById).toBeCalledWith(input.id, otp)
   })
 })

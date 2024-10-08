@@ -6,7 +6,7 @@ import { IDependencies } from '@/core/shared/types'
 
 import { forgotPassword } from './forgot-password.use-case'
 
-describe('forgotPassword', () => {
+describe('forgotPassword', async () => {
   const sut = () => ({
     execute: (input: Parameters<ReturnType<typeof forgotPassword>>[number]) => forgotPassword(dependencies as IDependencies)(input),
   })

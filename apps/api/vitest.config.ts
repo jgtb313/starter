@@ -12,5 +12,8 @@ export default defineConfig({
       exclude: ['src/config/**', 'src/core/shared/types/**'],
       include: ['src/core/**', 'src/support/**'],
     },
+    sequence: {
+      hooks: 'list',
+    },
   },
 })

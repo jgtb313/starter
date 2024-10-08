@@ -17,8 +17,6 @@ export type SetupTestDependencies<T> = {
 export type ITestDependencies = SetupTestDependencies<IDependencies>
 
 export const TestDependencies = async (): Promise<ITestDependencies> => {
-  await Database.connect()
-
   vi.clearAllMocks()
 
   vi.stubEnv('PROJECT', 'test')

@@ -2,7 +2,7 @@ import { Db, MongoClient } from 'mongodb'
 
 import { setupCollections } from './MongoDB.collections'
 
-let database: Db
+export let database: Db
 export let client: MongoClient
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms * 1000))
