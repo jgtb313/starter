@@ -12,6 +12,7 @@ describe('sendOTP', () => {
   const sut = () => ({
     execute: (input: Parameters<ReturnType<typeof sendOTP>>[number]) => sendOTP(dependencies as IDependencies)(input),
   })
+
   let dependencies: ITestDependencies
 
   beforeEach(async () => {

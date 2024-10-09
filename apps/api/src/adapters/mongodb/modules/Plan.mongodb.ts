@@ -63,6 +63,7 @@ export const plan = (Collections: CollectionsType) => (): ReturnType<IPlanReposi
         { $group: { _id: null, value: { $sum: 1 } } },
       ])
       .next()
+      .then((response) => response?.value ?? 0)
 
     const data = await Collections.plan
       .aggregate<Document>(
@@ -90,7 +91,7 @@ export const plan = (Collections: CollectionsType) => (): ReturnType<IPlanReposi
 
     return {
       values,
-      total: total?.value ?? 0,
+      total,
     }
   },
 

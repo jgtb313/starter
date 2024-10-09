@@ -1,9 +1,10 @@
 import { vi } from 'vitest'
 
-import { ForbiddenError } from '@/support/errors'
+import { SetupTestDependencies } from '@/config/tests'
+import { AuthError } from '@/support/errors'
 import { IJWT } from '@/ports/jwt'
 
-export const JWTInMemory: IJWT = {
+export const JWTInMemory: SetupTestDependencies<IJWT> = {
   generate: vi.fn(() => {
     return ''
   }),
@@ -12,9 +13,9 @@ export const JWTInMemory: IJWT = {
     const [token] = value?.split(' ').reverse() ?? []
 
     if (token === 'Unauthorized') {
-      throw new ForbiddenError('Unauthorized')
+      throw new AuthError('Unauthorized')
     }
 
     return {} as T
-  }) as IJWT['decode']
+  }),
 }

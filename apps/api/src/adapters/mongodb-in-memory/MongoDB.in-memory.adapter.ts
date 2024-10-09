@@ -1,9 +1,10 @@
 import { MongoMemoryReplSet } from 'mongodb-memory-server'
 import { vi } from 'vitest'
 
+import { SetupTestDependencies } from '@/config/tests'
 import { client, connect as connection } from '@/adapters/mongodb/MongoDB.connection'
 import { IDatabase } from '@/ports/database'
-import { RepositoriesInMemory } from './modules'
+import { RepositoriesInMemory } from './MongoDB.in-memory.collections'
 
 const createSession = vi.fn(() => {
   const session = client.startSession()
@@ -25,19 +26,20 @@ const createSession = vi.fn(() => {
   }
 })
 
-const connect = async () => {
+export const connect = async () => {
   const server = await MongoMemoryReplSet.create({})
 
   await connection(server.getUri())
 }
 
-const disconnect = async () => {
+export const disconnect = async () => {
   await client.close()
 }
 
-export const Database: IDatabase = {
-  connect,
-  disconnect,
+export const DatabaseInMemory: {
+  createSession: SetupTestDependencies<IDatabase['createSession']>
+  Repositories: SetupTestDependencies<ReturnType<IDatabase['Repositories']>>
+} = {
   createSession,
   Repositories: RepositoriesInMemory,
 }

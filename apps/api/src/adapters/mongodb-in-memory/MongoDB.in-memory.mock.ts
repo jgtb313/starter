@@ -1,11 +1,15 @@
 import { database } from '@/adapters/mongodb/MongoDB.connection'
+import { otpMocks } from '@/core/otp/OTP.mock'
 import { planMocks } from '@/core/plan/Plan.mock'
-// import {} from '@/core/role/Role.mock'
 import { userMocks } from '@/core/user/User.mock'
 import { workspaceMocks } from '@/core/workspace/Workspace.mock'
 
 export const setupMocks = async () => {
   const mocks = [
+    {
+      name: 'otps',
+      data: otpMocks,
+    },
     {
       name: 'plans',
       data: planMocks,

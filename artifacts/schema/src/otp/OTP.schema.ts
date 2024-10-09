@@ -3,18 +3,14 @@ import { z } from '@/zod'
 import { ID, DateSchema, EmailSchema, CreatedAtSchema, UpdatedAtSchema } from '@/common'
 import { OTPContextEnum } from './OTP.enums'
 
-const StoreId = ID.nullish()
-
-const UserId = ID.nullish()
-
 export const OTPContextSchema = z.nativeEnum(OTPContextEnum).openapi({
-  example: OTPContextEnum['UPDATE_EMAIL']
+  example: OTPContextEnum['UPDATE_EMAIL'],
 })
 
 const Email = EmailSchema
 
 const Code = z.string().min(4).max(4).openapi({
-  example: '9051'
+  example: '9051',
 })
 
 const Attempts = z.number().default(0)
@@ -29,8 +25,6 @@ const ExpiresIn = DateSchema
 
 export const OTPSchema = z.object({
   id: ID,
-  storeId: StoreId,
-  userId: UserId,
   context: OTPContextSchema,
   email: Email,
   code: Code,
@@ -40,6 +34,6 @@ export const OTPSchema = z.object({
   dailyLimitAttempts: DailyLimitAttempts,
   expiresIn: ExpiresIn,
   createdAt: CreatedAtSchema,
-  updatedAt: UpdatedAtSchema
+  updatedAt: UpdatedAtSchema,
 })
 export type OTP = z.infer<typeof OTPSchema>

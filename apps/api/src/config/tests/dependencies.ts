@@ -1,14 +1,12 @@
 import { vi, Mock } from 'vitest'
 
 import { IDependencies } from '@/core/shared/types'
-import { Database } from '@/adapters/mongodb-in-memory'
-import { IRepositories, IDatabase } from '@/ports/database'
-import { IJWT } from '@/ports/jwt'
-import { IEncrypt } from '@/ports/encrypt'
-import { IStorage } from '@/ports/storage'
-import { ISocialAuth } from '@/ports/social-auth'
-
-import { JWTInMemory, EncryptInMemory, StorageInMemory, SocialAuthInMemory } from './in-memory'
+import { DatabaseInMemory } from '@/adapters/mongodb-in-memory'
+import { JWTInMemory } from '@/adapters/json-web-token-in-memory'
+import { EncryptInMemory } from '@/adapters/bcrypt-in-memory'
+import { SocialAuthInMemory } from '@/adapters/social-auth-in-memory'
+import { StorageInMemory } from '@/adapters/aws-s3-in-memory'
+import { MailInMemory } from '@/adapters/google-mail-in-memory'
 
 export type SetupTestDependencies<T> = {
   [K in keyof T]: T[K] extends (...args: infer A) => infer R ? Mock<(...args: A) => R> : T[K] extends object ? SetupTestDependencies<T[K]> : T[K]
@@ -23,7 +21,7 @@ export const TestDependencies = async (): Promise<ITestDependencies> => {
   vi.stubEnv('STAGE', 'local')
 
   vi.stubEnv('SERVER_PORT', '4000')
-  vi.stubEnv('SERVER_SECRET', 'fakeSecret1234567890abcdef1234567890abcdef')
+  vi.stubEnv('SERVER_SECRET', 'fake-secret')
   vi.stubEnv('SERVER_LOCAL_POSTBACK_TARGET', 'fake-target')
   vi.stubEnv('SERVER_POSTBACK_SECRET', 'fake-postback-secret')
   vi.stubEnv('SERVER_PROCESS_POSTBACK', 'false')
@@ -40,22 +38,20 @@ export const TestDependencies = async (): Promise<ITestDependencies> => {
   vi.stubEnv('GOOGLE_MAIL_PASSWORD', 'fake-password')
 
   return {
-    JWT: JWTInMemory as SetupTestDependencies<IJWT>,
+    JWT: JWTInMemory,
 
-    Encrypt: EncryptInMemory as SetupTestDependencies<IEncrypt>,
+    Encrypt: EncryptInMemory,
 
-    Mail: {
-      send: vi.fn(),
-    },
+    Mail: MailInMemory,
 
-    SocialAuth: SocialAuthInMemory as SetupTestDependencies<ISocialAuth>,
+    SocialAuth: SocialAuthInMemory,
 
-    Storage: StorageInMemory as SetupTestDependencies<IStorage>,
+    Storage: StorageInMemory,
 
     Database: {
-      createSession: Database.createSession,
-    } as SetupTestDependencies<IDatabase>,
+      createSession: DatabaseInMemory.createSession as Mock,
+    },
 
-    Repositories: Database.Repositories() as SetupTestDependencies<IRepositories>,
+    Repositories: DatabaseInMemory.Repositories,
   }
 }

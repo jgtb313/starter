@@ -52,7 +52,17 @@ export const user = (Collections: CollectionsType) => (): ReturnType<IUserReposi
       ...input,
     })
 
-    const total = 0
+    const total = await Collections.role
+      .aggregate<{ value: number }>([
+        { $match: { status: { $ne: 'DELETED' } } },
+        ...Pipelines,
+        {
+          $match,
+        },
+        { $group: { _id: null, value: { $sum: 1 } } },
+      ])
+      .next()
+      .then((response) => response?.value ?? 0)
 
     const data = await Collections.user
       .aggregate<Document>(
