@@ -4,11 +4,11 @@ import { {{pascalCase name}}StatusEnum } from '@starter/schema'
 import { TestDependencies, ITestDependencies } from '@/config/tests'
 import { IDependencies } from '@/core/shared/types'
 
-import { active{{pascalCase name}} } from './active-{{camelCase name}}.use-case'
+import { inactive{{pascalCase name}} } from './inactive-{{camelCase name}}.use-case'
 
-describe('active{{pascalCase name}}', () => {
+describe('inactive{{pascalCase name}}', () => {
   const sut = () => ({
-    execute: (input: Parameters<ReturnType<typeof active{{pascalCase name}}>>[number]) => active{{pascalCase name}}(dependencies as IDependencies)(input),
+    execute: (input: Parameters<ReturnType<typeof inactive{{pascalCase name}}>>[number]) => inactive{{pascalCase name}}(dependencies as IDependencies)(input),
   })
 
   let dependencies: ITestDependencies
@@ -17,16 +17,16 @@ describe('active{{pascalCase name}}', () => {
     dependencies = await TestDependencies()
   })
 
-  it(`should successfully activate a {{camelCase name}} and return updated {{camelCase name}}`, async () => {
+  it('should successfully deactivate a {{camelCase name}} and return updated {{camelCase name}} state', async () => {
     const input = { id: '1ylq82nZJybDbTZzEB6iBzbd5xF' }
 
     const result = await sut().execute(input)
 
     expect(dependencies.Repositories.{{camelCase name}}.findById).toBeCalledWith(input.id)
-    expect(result.status).toBe({{pascalCase name}}StatusEnum.ACTIVE)
+    expect(result.status).toBe({{pascalCase name}}StatusEnum.INACTIVE)
   })
 
-  it(`should throw an error if the {{camelCase name}} does not exist`, async () => {
+  it('should throw an error if the {{camelCase name}} does not exist', async () => {
     const input = { id: 'nonexistent-{{camelCase name}}-id' }
 
     await expect(sut().execute(input)).rejects.toThrowError(`{{pascalCase name}} ${input.id} not found`)
@@ -35,7 +35,7 @@ describe('active{{pascalCase name}}', () => {
     expect(dependencies.Repositories.{{camelCase name}}.updateById).not.toBeCalled()
   })
 
-  it(`should not activate a {{camelCase name}} that is already deleted`, async () => {
+  it('should not deactivate a {{camelCase name}} that is already deleted', async () => {
     const input = { id: '1ylq82nZJybDbTZzEB6iBzbd5xP' }
 
     await expect(sut().execute(input)).rejects.toThrowError(`{{pascalCase name}} ${input.id} not found`)

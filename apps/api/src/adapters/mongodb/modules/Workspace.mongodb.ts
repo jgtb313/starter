@@ -161,10 +161,8 @@ export const workspace = (Collections: CollectionsType) => (): ReturnType<IWorks
       id,
     })
 
-    await Collections.workspace.findOneAndDelete($match, {
-      session: options?.session as ClientSession,
-    })
+    await Collections.workspace.findOneAndUpdate($match, { session: options?.session as ClientSession })
 
-    return this.findById(id, options)
+    return
   },
 })

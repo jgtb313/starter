@@ -181,7 +181,7 @@ export const plan = (Collections: CollectionsType) => (): ReturnType<IPlanReposi
       id,
     })
 
-    await Collections.plan.findOneAndDelete($match, { session: options?.session as ClientSession })
+    await Collections.plan.findOneAndUpdate($match, { session: options?.session as ClientSession })
 
     return
   },

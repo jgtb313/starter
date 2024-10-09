@@ -15,5 +15,5 @@ export type IUserRepository = () => {
   findOne(input: UserFindInput, options?: IRepositoriesMethodOptions): Promise<User | undefined>
   create(input: User, options?: IRepositoriesMethodOptions): Promise<User>
   updateById(id: string, input: Partial<User>, options?: IRepositoriesMethodOptions): Promise<User>
-  deleteById(id: string, options?: IRepositoriesMethodOptions): Promise<User>
+  deleteById(id: string, options?: IRepositoriesMethodOptions): Promise<void>
 }

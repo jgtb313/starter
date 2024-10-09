@@ -3,6 +3,7 @@ import { otpMocks } from '@/core/otp/OTP.mock'
 import { planMocks } from '@/core/plan/Plan.mock'
 import { userMocks } from '@/core/user/User.mock'
 import { workspaceMocks } from '@/core/workspace/Workspace.mock'
+// appendMockImportHere
 
 export const setupMocks = async () => {
   const mocks = [
@@ -22,6 +23,7 @@ export const setupMocks = async () => {
       name: 'workspaces',
       data: workspaceMocks,
     },
+    // appendMockHere
   ]
 
   for (const { name, data } of mocks) {

@@ -2,44 +2,43 @@ import { ClientSession } from 'mongodb'
 import { {{pascalCase name}}Schema } from '@starter/schema'
 
 import { NotFoundError } from '@/support/errors'
-import { {{pascalCase name}} } from '@/core/{{camelCase name}}/domain'
+import { {{pascalCase name}} } from '@/core/{{kebabCase name}}/domain'
 import { I{{pascalCase name}}Repository } from '@/ports/database/modules/{{pascalCase name}}.repository'
-import { MongoDB, CollectionsTypes } from '../MongoDB.support'
+import { MongoDB, CollectionsType, ICollections } from '../MongoDB.support'
 
-type Document = CollectionsTypes['{{camelCase name}}']
+type Document = ICollections['{{camelCase name}}']
 const {{pascalCase name}}Search = MongoDB.makeSearch<{{pascalCase name}}['state']>(['name'])
 
 const Pipelines = [] as []
 
 const parseDomain = (model: Document) => {
   return new {{pascalCase name}}({
-    ...model
+    ...model,
   })
 }
 
-export const {{camelCase name}}: I{{pascalCase name}}Repository = () => ({
+export const {{camelCase name}} = (Collections: CollectionsType) => (): ReturnType<I{{pascalCase name}}Repository> => ({
   async index(input, options) {
     const $match = MongoDB.makeMatch({
-      ...input
+      ...input,
     })
 
-    const data = await MongoDB.Collections.{{camelCase name}}
+    const data = await Collections.{{camelCase name}}
       .aggregate<Document>(
         [
-          { $match: { status: { $ne: 'DELETED' } } },
           ...Pipelines,
           {
-            $match
+            $match,
           },
           {
             $sort: {
-              name: -1
-            }
-          }
+              name: -1,
+            },
+          },
         ],
         {
-          session: options?.session as ClientSession
-        }
+          session: options?.session as ClientSession,
+        },
       )
       .toArray()
 
@@ -50,7 +49,7 @@ export const {{camelCase name}}: I{{pascalCase name}}Repository = () => ({
 
   async find({ offset = 0, limit = 10, sort, ...input }, options) {
     const $match = MongoDB.makeMatch({
-      ...input
+      ...input,
     })
 
     const total = await Collections.{{camelCase name}}
@@ -65,25 +64,24 @@ export const {{camelCase name}}: I{{pascalCase name}}Repository = () => ({
       .next()
       .then((response) => response?.value ?? 0)
 
-    const data = await MongoDB.Collections.{{camelCase name}}
+    const data = await Collections.{{camelCase name}}
       .aggregate<Document>(
         [
-          { $match: { status: { $ne: 'DELETED' } } },
           ...Pipelines,
           {
-            $match
+            $match,
           },
           {
-            $sort: sort ?? { createdAt: -1 }
+            $sort: sort ?? { createdAt: -1 },
           },
           {
-            $skip: offset
+            $skip: offset,
           },
-          { $limit: limit }
+          { $limit: limit },
         ],
         {
-          session: options?.session as ClientSession
-        }
+          session: options?.session as ClientSession,
+        },
       )
       .toArray()
 
@@ -97,12 +95,12 @@ export const {{camelCase name}}: I{{pascalCase name}}Repository = () => ({
 
   async findById(id, options) {
     const $match = MongoDB.makeMatch({
-      id
+      id,
     })
 
-    const [model] = await MongoDB.Collections.{{camelCase name}}
-      .aggregate<Document>([{ $match: { status: { $ne: 'DELETED' } } }, { $match }, ...Pipelines], {
-        session: options?.session as ClientSession
+    const [model] = await Collections.{{camelCase name}}
+      .aggregate<Document>([{ $match }, ...Pipelines], {
+        session: options?.session as ClientSession,
       })
       .toArray()
 
@@ -115,12 +113,12 @@ export const {{camelCase name}}: I{{pascalCase name}}Repository = () => ({
 
   async findOne(input, options) {
     const $match = MongoDB.makeMatch({
-      ...input
+      ...input,
     })
 
-    const [model] = await MongoDB.Collections.{{camelCase name}}
-      .aggregate<Document>([{ $match: { status: { $ne: 'DELETED' } } }, ...Pipelines, { $match }], {
-        session: options?.session as ClientSession
+    const [model] = await Collections.{{camelCase name}}
+      .aggregate<Document>([{ $match }, ...Pipelines], {
+        session: options?.session as ClientSession,
       })
       .toArray()
 
@@ -134,17 +132,17 @@ export const {{camelCase name}}: I{{pascalCase name}}Repository = () => ({
   async create({ state }, options) {
     const input = {{pascalCase name}}Schema.parse({
       ...state,
-      ...MongoDB.createTimestamps()
-    })
+      ...MongoDB.createTimestamps(),
+    }) as {{pascalCase name}}['state']
 
-    await MongoDB.Collections.{{camelCase name}}.insertOne(
+    await Collections.{{camelCase name}}.insertOne(
       {
         ...input,
-        search: {{pascalCase name}}Search(state)
+        search: {{pascalCase name}}Search(state),
       },
       {
-        session: options?.session as ClientSession
-      }
+        session: options?.session as ClientSession,
+      },
     )
 
     return this.findById(state.id, options)
@@ -153,24 +151,24 @@ export const {{camelCase name}}: I{{pascalCase name}}Repository = () => ({
   async updateById(id, { state }, options) {
     const input = {{pascalCase name}}Schema.parse({
       ...state,
-      ...MongoDB.updateTimestamps()
+      ...MongoDB.updateTimestamps(),
     })
 
     const $match = MongoDB.makeMatch({
-      id
+      id,
     })
 
-    await MongoDB.Collections.{{camelCase name}}.findOneAndUpdate(
+    await Collections.{{camelCase name}}.findOneAndUpdate(
       $match,
       {
         $set: {
           ...input,
-          search: {{pascalCase name}}Search(state)
-        }
+          search: {{pascalCase name}}Search(state),
+        },
       },
       {
-        session: options?.session as ClientSession
-      }
+        session: options?.session as ClientSession,
+      },
     )
 
     return this.findById(id)
@@ -178,11 +176,11 @@ export const {{camelCase name}}: I{{pascalCase name}}Repository = () => ({
 
   async deleteById(id, options) {
     const $match = MongoDB.makeMatch({
-      id
+      id,
     })
 
-    await MongoDB.Collections.{{camelCase name}}.findOneAndDelete($match, { session: options?.session as ClientSession })
+    await Collections.{{camelCase name}}.findOneAndDelete($match)
 
-    return
-  }
+    return this.findById(id, options)
+  },
 })

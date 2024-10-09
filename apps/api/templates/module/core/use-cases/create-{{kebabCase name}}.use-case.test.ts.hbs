@@ -10,6 +10,7 @@ describe('create{{pascalCase name}}', () => {
   const sut = () => ({
     execute: (input: Parameters<ReturnType<typeof create{{pascalCase name}}>>[number]) => create{{pascalCase name}}(dependencies as IDependencies)(input),
   })
+
   let dependencies: ITestDependencies
 
   beforeEach(async () => {
@@ -23,7 +24,7 @@ describe('create{{pascalCase name}}', () => {
 
     const result = await sut().execute(input)
 
-    expect(dependencies.Repositories.{{camelCase namePlural}}.create).toBeCalledTimes(1)
+    expect(dependencies.Repositories.{{camelCase name}}.create).toBeCalledTimes(1)
     expect(result.name).toBe(input.name)
     expect(result.status).toBe({{pascalCase name}}StatusEnum.INACTIVE)
   })

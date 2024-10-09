@@ -21,8 +21,8 @@ describe('delete{{pascalCase name}}', () => {
 
     await sut().execute(input)
 
-    expect(dependencies.Repositories.{{camelCase namePlural}}.findById).toBeCalledWith(input.id)
-    expect(dependencies.Repositories.{{camelCase namePlural}}.deleteById).toBeCalledWith(input.id)
+    expect(dependencies.Repositories.{{camelCase name}}.findById).toBeCalledWith(input.id)
+    expect(dependencies.Repositories.{{camelCase name}}.deleteById).toBeCalledWith(input.id)
   })
 
   it('should throw an error if the {{camelCase name}} does not exist', async () => {
@@ -30,7 +30,7 @@ describe('delete{{pascalCase name}}', () => {
 
     await expect(sut().execute(input)).rejects.toThrowError(`{{pascalCase name}} ${input.id} not found`)
 
-    expect(dependencies.Repositories.{{camelCase namePlural}}.findById).toBeCalledWith(input.id)
-    expect(dependencies.Repositories.{{camelCase namePlural}}.deleteById).not.toBeCalled()
+    expect(dependencies.Repositories.{{camelCase name}}.findById).toBeCalledWith(input.id)
+    expect(dependencies.Repositories.{{camelCase name}}.deleteById).not.toBeCalled()
   })
 })

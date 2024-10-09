@@ -14,5 +14,5 @@ export type IWorkspaceRepository = () => {
   findById(id: string, options?: IRepositoriesMethodOptions): Promise<Workspace>
   create(data: Workspace, options?: IRepositoriesMethodOptions): Promise<Workspace>
   updateById(id: string, data: Partial<Workspace>, options?: IRepositoriesMethodOptions): Promise<Workspace>
-  deleteById(id: string, options?: IRepositoriesMethodOptions): Promise<Workspace>
+  deleteById(id: string, options?: IRepositoriesMethodOptions): Promise<void>
 }

@@ -179,8 +179,8 @@ export const user = (Collections: CollectionsType) => (): ReturnType<IUserReposi
       id,
     })
 
-    await Collections.user.findOneAndDelete($match)
+    await Collections.user.findOneAndUpdate($match, { session: options?.session as ClientSession })
 
-    return this.findById(id, options)
+    return
   },
 })
