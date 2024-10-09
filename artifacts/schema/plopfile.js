@@ -5,27 +5,27 @@ module.exports = function (plop) {
       {
         type: 'input',
         name: 'name',
-        message: 'Schema name:'
+        message: 'Schema name:',
       },
       {
         type: 'input',
         name: 'namePlural',
-        message: 'Plural:'
-      }
+        message: 'Plural:',
+      },
     ],
     actions: [
       {
         type: 'addMany',
         destination: 'src/{{kebabCase name}}',
         base: 'templates/schema',
-        templateFiles: 'templates/schema/*.hbs'
+        templateFiles: 'templates/schema/*.hbs',
       },
       {
         type: 'modify',
         path: 'src/index.ts',
         pattern: /(\/\/ appendHere)/,
-        template: "export * from './{{~ kebabCase name }}'\n$1"
-      }
-    ]
+        template: "export * from './{{~ kebabCase name }}'\n$1",
+      },
+    ],
   })
 }

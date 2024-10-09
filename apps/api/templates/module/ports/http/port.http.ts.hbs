@@ -42,7 +42,7 @@ export const {{pascalCase name}}Router = (dependencies: IDependencies): IRouter 
   paths: {
     list{{pascalCase namePlural}}: {
       summary: 'List {{pascalCase namePlural}}',
-      description: 'Retrieves a pageable list of {{kebabCase namePlural}}.',
+      description: 'Retrieves a pageable list of {{lowerSentenceCase namePlural}}.',
 
       method: 'GET',
       path: '/{{kebabCase namePlural}}',
@@ -65,7 +65,7 @@ export const {{pascalCase name}}Router = (dependencies: IDependencies): IRouter 
 
     list{{pascalCase name}}Options: {
       summary: 'List Available {{pascalCase namePlural}}',
-      description: 'Retrieves a list of {{kebabCase namePlural}}.',
+      description: 'Retrieves a list of {{lowerSentenceCase namePlural}}.',
 
       method: 'GET',
 
@@ -90,7 +90,7 @@ export const {{pascalCase name}}Router = (dependencies: IDependencies): IRouter 
     get{{pascalCase name}}: {
       summary: 'Get {{pascalCase name}}',
 
-      description: 'Retrieves details of a specific {{kebabCase name}} by ID.',
+      description: 'Retrieves details of a specific {{lowerSentenceCase name}} by ID.',
 
       method: 'GET',
 
@@ -114,7 +114,7 @@ export const {{pascalCase name}}Router = (dependencies: IDependencies): IRouter 
 
     create{{pascalCase name}}: {
       summary: 'Create {{pascalCase name}}',
-      description: 'Creates a new {{kebabCase name}}.',
+      description: 'Creates a new {{lowerSentenceCase name}}.',
 
       method: 'POST',
       path: '/{{kebabCase namePlural}}',
@@ -137,7 +137,7 @@ export const {{pascalCase name}}Router = (dependencies: IDependencies): IRouter 
 
     update{{pascalCase name}}: {
       summary: 'Update {{pascalCase name}}',
-      description: 'Updates an existing {{kebabCase name}}.',
+      description: 'Updates an existing {{lowerSentenceCase name}}.',
 
       method: 'PATCH',
       path: '/{{kebabCase namePlural}}/:id',
@@ -161,7 +161,7 @@ export const {{pascalCase name}}Router = (dependencies: IDependencies): IRouter 
 
     activate{{pascalCase name}}: {
       summary: 'Activate {{pascalCase name}}',
-      description: 'Activates a {{kebabCase name}} by ID.',
+      description: 'Activates a {{lowerSentenceCase name}} by ID.',
 
       method: 'POST',
       path: '/{{kebabCase namePlural}}/:id(.*)::activate',
@@ -184,7 +184,7 @@ export const {{pascalCase name}}Router = (dependencies: IDependencies): IRouter 
 
     deactivate{{pascalCase name}}: {
       summary: 'Deactivate {{pascalCase name}}',
-      description: 'Deactivates a {{kebabCase name}} by ID.',
+      description: 'Deactivates a {{lowerSentenceCase name}} by ID.',
 
       method: 'POST',
       path: '/{{kebabCase namePlural}}/:id(.*)::deactivate',
@@ -207,7 +207,7 @@ export const {{pascalCase name}}Router = (dependencies: IDependencies): IRouter 
 
     delete{{pascalCase name}}: {
       summary: 'Delete {{pascalCase name}}',
-      description: 'Deletes a {{kebabCase name}} by ID.',
+      description: 'Deletes a {{lowerSentenceCase name}} by ID.',
 
       method: 'DELETE',
       path: '/{{kebabCase namePlural}}/:id',

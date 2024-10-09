@@ -1,4 +1,11 @@
 module.exports = function (plop) {
+  plop.setHelper('lowerSentenceCase', (text) => {
+    return text
+      .replace(/([A-Z])/g, ' $1')
+      .toLowerCase()
+      .trim()
+  })
+
   plop.setGenerator('module', {
     description: 'Add an module',
     prompts: [
