@@ -102,8 +102,8 @@ export const update = withFields<Update{{pascalCase name}}Input, Update{{pascalC
 )
 
 /**
- * `PATCH /{{kebabCase namePlural}}/:id/active`
- * Makes a request to /{{kebabCase namePlural}}/:id/active
+ * `PATCH /{{kebabCase namePlural}}/:id:activate`
+ * Makes a request to /{{kebabCase namePlural}}/:id:activate
  *
  * @param {Object} body The body for the request.
  * @param {Object} [body.fields] The fields.
@@ -111,12 +111,12 @@ export const update = withFields<Update{{pascalCase name}}Input, Update{{pascalC
  * @returns Resolves to the result of the request or an error
  */
 export const active = withFields<Active{{pascalCase name}}Input, Active{{pascalCase name}}Output>(({ id, fields }) =>
-  client.patch(`{{kebabCase namePlural}}/${id}/active`, {}, { params: { fields } })
+  client.patch(`{{kebabCase namePlural}}/${id}:activate`, {}, { params: { fields } })
 )
 
 /**
- * `PATCH /{{kebabCase namePlural}}/:id/inactive`
- * Makes a request to /{{kebabCase namePlural}}/:id/inactive
+ * `PATCH /{{kebabCase namePlural}}/:id:deactivate`
+ * Makes a request to /{{kebabCase namePlural}}/:id:deactivate
  *
  * @param {Object} body The body for the request.
  * @param {Object} [body.fields] The fields.
@@ -124,7 +124,7 @@ export const active = withFields<Active{{pascalCase name}}Input, Active{{pascalC
  * @returns Resolves to the result of the request or an error
  */
 export const inactive = withFields<Inactive{{pascalCase name}}Input, Inactive{{pascalCase name}}Output>(({ id, fields }) =>
-  client.patch(`/{{kebabCase namePlural}}/${id}/inactive`, {
+  client.patch(`/{{kebabCase namePlural}}/${id}:deactivate`, {
     params: { fields }
   })
 )
