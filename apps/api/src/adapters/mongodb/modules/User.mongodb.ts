@@ -52,7 +52,7 @@ export const user = (Collections: CollectionsType) => (): ReturnType<IUserReposi
       ...input,
     })
 
-    const total = await Collections.role
+    const total = await Collections.user
       .aggregate<{ value: number }>([
         { $match: { status: { $ne: 'DELETED' } } },
         ...Pipelines,

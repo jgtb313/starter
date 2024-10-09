@@ -1,0 +1,40 @@
+import { beforeEach, describe, expect, it } from 'vitest'
+
+import { TestDependencies, ITestDependencies } from '@/config/tests'
+import { IDependencies } from '@/core/shared/types'
+
+import { update{{pascalCase name}} } from './update-{{camelCase name}}.use-case'
+
+describe('update{{pascalCase name}}', () => {
+  const sut = () => ({
+    execute: (input: Parameters<ReturnType<typeof update{{pascalCase name}}>>[number]) => update{{pascalCase name}}(dependencies as IDependencies)(input),
+  })
+
+  let dependencies: ITestDependencies
+
+  beforeEach(async () => {
+    dependencies = await TestDependencies()
+  })
+
+  it('should successfully update a {{camelCase name}} and return the updated {{camelCase name}}', async () => {
+    const input = {
+      id: '1ylq82nZJybDbTZzEB6iBzbd5xF',
+      name: '{{pascalCase name}} Updated',
+    }
+
+    const result = await sut().execute(input)
+
+    expect(dependencies.Repositories.{{camelCase name}}.findById).toBeCalledWith(input.id)
+    expect(dependencies.Repositories.{{camelCase name}}.updateById).toBeCalledWith(input.id, expect.anything())
+    expect(result.name).toBe(input.name)
+  })
+
+  it('should throw an error if the {{camelCase name}} does not exist', async () => {
+    const input = { id: 'nonexistent-{{camelCase name}}-id', name: '{{pascalCase name}} Updated' }
+
+    await expect(sut().execute(input)).rejects.toThrowError(`{{pascalCase name}} ${input.id} not found`)
+
+    expect(dependencies.Repositories.{{camelCase name}}.findById).toBeCalledWith(input.id)
+    expect(dependencies.Repositories.{{camelCase name}}.updateById).not.toBeCalled()
+  })
+})

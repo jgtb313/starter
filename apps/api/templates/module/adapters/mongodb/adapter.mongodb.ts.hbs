@@ -53,7 +53,7 @@ export const {{camelCase name}}: I{{pascalCase name}}Repository = () => ({
       ...input
     })
 
-    const total = await Collections.role
+    const total = await Collections.{{camelCase name}}
       .aggregate<{ value: number }>([
         { $match: { status: { $ne: 'DELETED' } } },
         ...Pipelines,

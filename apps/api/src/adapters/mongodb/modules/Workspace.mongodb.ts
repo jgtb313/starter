@@ -52,7 +52,7 @@ export const workspace = (Collections: CollectionsType) => (): ReturnType<IWorks
       ...input,
     })
 
-    const total = await Collections.role
+    const total = await Collections.workspace
       .aggregate<{ value: number }>([
         { $match: { status: { $ne: 'DELETED' } } },
         ...Pipelines,

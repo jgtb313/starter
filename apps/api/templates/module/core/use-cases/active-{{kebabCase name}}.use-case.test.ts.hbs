@@ -1,0 +1,45 @@
+import { beforeEach, describe, expect, it } from 'vitest'
+import { {{pascalCase name}}StatusEnum } from '@starter/schema'
+
+import { TestDependencies, ITestDependencies } from '@/config/tests'
+import { IDependencies } from '@/core/shared/types'
+
+import { active{{pascalCase name}} } from './active-{{camelCase name}}.use-case'
+
+describe('active{{pascalCase name}}', () => {
+  const sut = () => ({
+    execute: (input: Parameters<ReturnType<typeof active{{pascalCase name}}>>[number]) => active{{pascalCase name}}(dependencies as IDependencies)(input),
+  })
+  let dependencies: ITestDependencies
+
+  beforeEach(async () => {
+    dependencies = await TestDependencies()
+  })
+
+  it(`should successfully activate a {{camelCase name}} and return updated {{camelCase name}}`, async () => {
+    const input = { id: '1ylq82nZJybDbTZzEB6iBzbd5xF' }
+
+    const result = await sut().execute(input)
+
+    expect(dependencies.Repositories.{{camelCase namePlural}}.findById).toBeCalledWith(input.id)
+    expect(result.status).toBe({{pascalCase name}}StatusEnum.ACTIVE)
+  })
+
+  it(`should throw an error if the {{camelCase name}} does not exist`, async () => {
+    const input = { id: 'nonexistent-{{camelCase name}}-id' }
+
+    await expect(sut().execute(input)).rejects.toThrowError(`{{pascalCase name}} ${input.id} not found`)
+
+    expect(dependencies.Repositories.{{camelCase namePlural}}.findById).toBeCalledWith(input.id)
+    expect(dependencies.Repositories.{{camelCase namePlural}}.updateById).not.toBeCalled()
+  })
+
+  it(`should not activate a {{camelCase name}} that is already deleted`, async () => {
+    const input = { id: '1ylq82nZJybDbTZzEB6iBzbd5xP' }
+
+    await expect(sut().execute(input)).rejects.toThrowError(`{{pascalCase name}} ${input.id} not found`)
+
+    expect(dependencies.Repositories.{{camelCase namePlural}}.findById).toBeCalledWith(input.id)
+    expect(dependencies.Repositories.{{camelCase namePlural}}.updateById).not.toBeCalled()
+  })
+})

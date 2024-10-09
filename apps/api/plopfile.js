@@ -44,6 +44,12 @@ module.exports = function (plop) {
 
       {
         type: 'add',
+        path: 'src/core/{{kebabCase name}}/{{pascalCase name}}.mock.ts',
+        templateFile: 'templates/core/domain.mock.ts.hbs',
+      },
+
+      {
+        type: 'add',
         path: 'src/config/tests/in-memory/repositories/{{pascalCase name}}.repository.in-memory.ts',
         templateFile: 'templates/config/tests/in-memory/repositories/in-memory.repository.ts.hbs',
       },

@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it } from 'vitest'
 
 import { TestDependencies, ITestDependencies } from '@/config/tests'
 import { IDependencies } from '@/core/shared/types'
+
 import { updatePlan } from './update-plan.use-case'
 
 describe('updatePlan', () => {

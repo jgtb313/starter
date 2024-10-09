@@ -2,7 +2,6 @@ import { Collection, CreateIndexesOptions, Db, Document } from 'mongodb'
 
 import { OTP } from '@/core/otp/domain'
 import { Plan } from '@/core/plan/domain'
-import { Role } from '@/core/role/domain'
 import { Workspace } from '@/core/workspace/domain'
 import { User } from '@/core/user/domain'
 // appendCollectionImportHere
@@ -14,7 +13,6 @@ type Searchable<T> = T & {
 export type ICollections = {
   otp: Searchable<OTP['state']>
   plan: Searchable<Plan['state']>
-  role: Searchable<Role['state']>
   workspace: Searchable<Workspace['state']>
   user: Searchable<User['state']>
   // appendCollectionTypeHere
@@ -63,7 +61,6 @@ const createIndex = async <T extends Document>({
 export const setupCollections = async (database: Db) => {
   Collections.otp = await createCollectionMongoDB<ICollections['otp']>(database, 'otps')
   Collections.plan = await createCollectionMongoDB<ICollections['plan']>(database, 'plans')
-  Collections.role = await createCollectionMongoDB<ICollections['role']>(database, 'roles')
   Collections.workspace = await createCollectionMongoDB<ICollections['workspace']>(database, 'workspaces')
   Collections.user = await createCollectionMongoDB<ICollections['user']>(database, 'users')
   // appendCollectionHere

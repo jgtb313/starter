@@ -1,0 +1,30 @@
+import { beforeEach, describe, expect, it } from 'vitest'
+import { Create{{pascalCase name}}Input, {{pascalCase name}}StatusEnum } from '@starter/schema'
+
+import { TestDependencies, ITestDependencies } from '@/config/tests'
+import { IDependencies } from '@/core/shared/types'
+
+import { create{{pascalCase name}} } from './create-{{camelCase name}}.use-case'
+
+describe('create{{pascalCase name}}', () => {
+  const sut = () => ({
+    execute: (input: Parameters<ReturnType<typeof create{{pascalCase name}}>>[number]) => create{{pascalCase name}}(dependencies as IDependencies)(input),
+  })
+  let dependencies: ITestDependencies
+
+  beforeEach(async () => {
+    dependencies = await TestDependencies()
+  })
+
+  it(`should successfully create a {{camelCase name}} and return the created {{camelCase name}}`, async () => {
+    const input: Create{{pascalCase name}}Input = {
+      name: '{{pascalCase name}} Name',
+    }
+
+    const result = await sut().execute(input)
+
+    expect(dependencies.Repositories.{{camelCase namePlural}}.create).toBeCalledTimes(1)
+    expect(result.name).toBe(input.name)
+    expect(result.status).toBe({{pascalCase name}}StatusEnum.INACTIVE)
+  })
+})
