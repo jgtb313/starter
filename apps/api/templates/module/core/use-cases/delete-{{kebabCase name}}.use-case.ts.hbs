@@ -8,7 +8,7 @@ const execute: IUseCaseExecute<Delete{{pascalCase name}}Input, Delete{{pascalCas
   async ({ id }) => {
     const {{camelCase name}} = await Repositories.{{camelCase name}}.findById(id)
 
-    await Repositories.{{camelCase name}}.deletedById({{camelCase name}}.state.id)
+    await Repositories.{{camelCase name}}.deleteById({{camelCase name}}.state.id)
   }
 
 export const delete{{pascalCase name}} = createUseCase(execute, Delete{{pascalCase name}}Schema)

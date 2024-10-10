@@ -10,7 +10,7 @@ const execute: IUseCaseExecute<Create{{pascalCase name}}Input, Create{{pascalCas
     const {{camelCase name}} = await Repositories.{{camelCase name}}.create(
       new {{pascalCase name}}({
         ...input,
-        status: {{pascalCase name}}StatusEnum.ACTIVE
+        status: {{pascalCase name}}StatusEnum.INACTIVE
       })
     )
 

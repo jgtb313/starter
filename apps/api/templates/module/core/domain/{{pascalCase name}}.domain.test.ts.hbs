@@ -1,0 +1,28 @@
+import { describe, expect, it } from 'vitest'
+import { {{pascalCase name}}StatusEnum } from '@starter/schema'
+
+import { {{pascalCase name}} } from './{{pascalCase name}}.domain'
+
+describe('{{pascalCase name}}', () => {
+  it('should mark the {{camelCase name}} as active', () => {
+    const {{camelCase name}} = new {{pascalCase name}}({
+      name: '{{pascalCase name}}',
+      status: {{pascalCase name}}StatusEnum.INACTIVE,
+    })
+
+    {{camelCase name}}.markAsActive()
+
+    expect({{camelCase name}}.state.status).toBe({{pascalCase name}}StatusEnum.ACTIVE)
+  })
+
+  it('should mark the {{camelCase name}} as active', () => {
+    const {{camelCase name}} = new {{pascalCase name}}({
+      name: '{{pascalCase name}}',
+      status: {{pascalCase name}}StatusEnum.ACTIVE,
+    })
+
+    {{camelCase name}}.markAsInactive()
+
+    expect({{camelCase name}}.state.status).toBe({{pascalCase name}}StatusEnum.INACTIVE)
+  })
+})

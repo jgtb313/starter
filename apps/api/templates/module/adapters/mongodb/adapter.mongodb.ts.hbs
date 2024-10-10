@@ -110,6 +110,10 @@ export const {{camelCase name}} = (Collections: CollectionsType) => (): ReturnTy
       throw new NotFoundError(`{{pascalCase name}} ${id} not found`)
     }
 
+    if (model.status === {{pascalCase name}}StatusEnum.DELETED) {
+      throw new NotFoundError(`{{pascalCase name}} ${id} not found`)
+    }
+
     return parseDomain(model)
   },
 
