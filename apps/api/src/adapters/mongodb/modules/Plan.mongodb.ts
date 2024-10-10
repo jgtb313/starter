@@ -1,5 +1,5 @@
 import { ClientSession } from 'mongodb'
-import { PlanSchema } from '@starter/schema'
+import { PlanSchema, PlanStatusEnum } from '@starter/schema'
 
 import { NotFoundError } from '@/support/errors'
 import { Plan } from '@/core/plan/domain'
@@ -181,7 +181,7 @@ export const plan = (Collections: CollectionsType) => (): ReturnType<IPlanReposi
       id,
     })
 
-    await Collections.plan.findOneAndUpdate($match, { session: options?.session as ClientSession })
+    await Collections.plan.findOneAndUpdate($match, { $set: { status: PlanStatusEnum.DELETED } }, { session: options?.session as ClientSession })
 
     return
   },

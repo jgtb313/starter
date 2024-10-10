@@ -1,5 +1,5 @@
 import { ClientSession } from 'mongodb'
-import { UserSchema } from '@starter/schema'
+import { UserSchema, UserStatusEnum } from '@starter/schema'
 
 import { NotFoundError } from '@/support/errors'
 import { User } from '@/core/user/domain'
@@ -179,7 +179,7 @@ export const user = (Collections: CollectionsType) => (): ReturnType<IUserReposi
       id,
     })
 
-    await Collections.user.findOneAndUpdate($match, { session: options?.session as ClientSession })
+    await Collections.user.findOneAndUpdate($match, { $set: { status: UserStatusEnum.DELETED } }, { session: options?.session as ClientSession })
 
     return
   },

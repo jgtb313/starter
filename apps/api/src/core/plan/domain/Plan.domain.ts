@@ -11,10 +11,10 @@ export class Plan {
     Object.assign(this, {
       state: setupDomain(
         {
-          ...value
+          ...value,
         },
-        PlanSchema
-      )
+        PlanSchema,
+      ),
     })
   }
 
@@ -24,10 +24,5 @@ export class Plan {
 
   markAsInactive() {
     this.state.status = PlanStatusEnum.INACTIVE
-  }
-
-  markAsDeleted() {
-    this.state.status = PlanStatusEnum.DELETED
-    this.state.deletedAt = new Date()
   }
 }

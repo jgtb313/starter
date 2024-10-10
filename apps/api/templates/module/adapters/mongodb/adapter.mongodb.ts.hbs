@@ -1,5 +1,5 @@
 import { ClientSession } from 'mongodb'
-import { {{pascalCase name}}Schema } from '@starter/schema'
+import { {{pascalCase name}}Schema, {{pascalCase name}}StatusEnum } from '@starter/schema'
 
 import { NotFoundError } from '@/support/errors'
 import { {{pascalCase name}} } from '@/core/{{kebabCase name}}/domain'
@@ -181,8 +181,12 @@ export const {{camelCase name}} = (Collections: CollectionsType) => (): ReturnTy
       id,
     })
 
-    await Collections.{{camelCase name}}.findOneAndDelete($match)
+    await Collections.{{camelCase name}}.findOneAndUpdate(
+      $match,
+      { $set: { status: {{pascalCase name}}StatusEnum.DELETED, deletedAt: new Date() } },
+      { session: options?.session as ClientSession },
+    )
 
-    return this.findById(id, options)
+    return
   },
 })

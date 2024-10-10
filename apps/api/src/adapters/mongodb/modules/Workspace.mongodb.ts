@@ -1,5 +1,5 @@
 import { ClientSession } from 'mongodb'
-import { WorkspaceSchema } from '@starter/schema'
+import { WorkspaceSchema, WorkspaceStatusEnum } from '@starter/schema'
 
 import { NotFoundError } from '@/support/errors'
 import { Workspace } from '@/core/workspace/domain'
@@ -161,7 +161,11 @@ export const workspace = (Collections: CollectionsType) => (): ReturnType<IWorks
       id,
     })
 
-    await Collections.workspace.findOneAndUpdate($match, { session: options?.session as ClientSession })
+    await Collections.workspace.findOneAndUpdate(
+      $match,
+      { $set: { status: WorkspaceStatusEnum.DELETED } },
+      { session: options?.session as ClientSession },
+    )
 
     return
   },

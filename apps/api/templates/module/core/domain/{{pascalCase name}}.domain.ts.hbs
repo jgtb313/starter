@@ -25,9 +25,4 @@ export class {{pascalCase name}} {
   markAsInactive() {
     this.state.status = {{pascalCase name}}StatusEnum.INACTIVE
   }
-
-  markAsDeleted() {
-    this.state.status = {{pascalCase name}}StatusEnum.DELETED
-    this.state.deletedAt = new Date()
-  }
 }
