@@ -1688,12 +1688,12 @@
     argparse "~1.0.9"
     string-argv "~0.3.1"
 
-"@scalar/fastify-api-reference@^1.22.38":
-  version "1.25.27"
-  resolved "https://registry.yarnpkg.com/@scalar/fastify-api-reference/-/fastify-api-reference-1.25.27.tgz#e9aab2d306bce14befa4842e3c5200ed7aebeb9b"
-  integrity sha512-cbdvL/QhWYIq7c6j9k3OOPWVHwfDJkDbZyrmIYrcT6rfxTANGFuNvAr8xkBvHVQ4x3i2TvIxBZj+GyRpUKJhMA==
+"@scalar/fastify-api-reference@^1.25.32":
+  version "1.25.32"
+  resolved "https://registry.yarnpkg.com/@scalar/fastify-api-reference/-/fastify-api-reference-1.25.32.tgz#f5ef764de4a5c40a8faabe4d376dd082838ed089"
+  integrity sha512-cgu2Vrd4B+3R1Lswncm1mMD+cYDb90+dVbH7ATVYrzj8m/EEsnft18uWTXtUuX3aFN2VvVFiHyslPiLAOvCSuQ==
   dependencies:
-    "@scalar/types" "0.0.12"
+    "@scalar/types" "0.0.13"
     fastify-plugin "^4.5.1"
 
 "@scalar/openapi-types@0.1.1":
@@ -1701,10 +1701,10 @@
   resolved "https://registry.yarnpkg.com/@scalar/openapi-types/-/openapi-types-0.1.1.tgz#1fef27b9f595d52c8a52a0d1626ab6448439abaf"
   integrity sha512-NMy3QNk6ytcCoPUGJH0t4NNr36OWXgZhA3ormr3TvhX1NDgoF95wFyodGVH8xiHeUyn2/FxtETm8UBLbB5xEmg==
 
-"@scalar/types@0.0.12":
-  version "0.0.12"
-  resolved "https://registry.yarnpkg.com/@scalar/types/-/types-0.0.12.tgz#cb61a6fabe9d5cfb5e9fa4811c6a3ec4d064baf8"
-  integrity sha512-XYZ36lSEx87i4gDqopQlGCOkdIITHHEvgkuJFrXFATQs9zHARop0PN0g4RZYWj+ZpCUclOcaOjbCt8JGe22mnQ==
+"@scalar/types@0.0.13":
+  version "0.0.13"
+  resolved "https://registry.yarnpkg.com/@scalar/types/-/types-0.0.13.tgz#a65c542d76fd917f2b1f5b651af254b5edb98301"
+  integrity sha512-4baCQ3uXTQsT/da5X3+yO34VEu057Jjw0SJFkaaFmXTqHXVZM+SaDHSyTvT6tyKvgDpPpn6iD22uiFCdldEzRQ==
   dependencies:
     "@scalar/openapi-types" "0.1.1"
     "@unhead/schema" "^1.9.5"
