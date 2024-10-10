@@ -1,16 +1,13 @@
 module.exports = function (plop) {
   plop.setHelper('lowerSentenceCase', (text) => {
     return text
-      .replace(/([A-Z])/g, ' $1')
-      .toLowerCase()
+      .replace(/([a-z])([A-Z])/g, '$1 $2')
+      .replace(/\b\w/g, (char) => char.toUpperCase())
       .trim()
   })
 
   plop.setHelper('upperSentenceCase', (text) => {
-    return text
-      .replace(/([A-Z])/g, ' $1')
-      .toUpperCase()
-      .trim()
+    return text.replace(/([A-Z])/g, ' $1').trim()
   })
 
   plop.setGenerator('module', {
