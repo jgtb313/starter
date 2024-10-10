@@ -14,7 +14,7 @@ import {
   ActivePlanSchemaOutput,
   InactivePlanSchema,
   InactivePlanSchemaOutput,
-  DeletePlanSchema
+  DeletePlanSchema,
 } from '@starter/schema'
 
 import { IDependencies } from '@/core/shared/types'
@@ -29,14 +29,14 @@ import { deletePlan } from '@/core/plan/use-cases/delete-plan.use-case'
 import { IRouter } from '@/ports/http'
 
 export const PlanRouter = (dependencies: IDependencies): IRouter => ({
-  name: 'Plans',
+  name: 'Plan',
 
   description: 'Handles operations related to managing and retrieving plans.',
 
   schemas: {
     Plan: {
-      schema: PlanSchema
-    }
+      schema: PlanSchema,
+    },
   },
 
   paths: {
@@ -48,19 +48,19 @@ export const PlanRouter = (dependencies: IDependencies): IRouter => ({
       path: '/plans',
 
       parameters: {
-        query: ListPlansSchema
+        query: ListPlansSchema,
       },
 
       responses: {
         200: {
           description: 'OK',
-          schema: ListPlansSchemaOutput
-        }
+          schema: ListPlansSchemaOutput,
+        },
       },
 
       execute({ query }) {
         return listPlans(dependencies)(query)
-      }
+      },
     },
 
     listAvailablePlans: {
@@ -72,19 +72,19 @@ export const PlanRouter = (dependencies: IDependencies): IRouter => ({
       path: '/plans::available',
 
       parameters: {
-        query: ListAvailablePlansSchema
+        query: ListAvailablePlansSchema,
       },
 
       responses: {
         200: {
           description: 'OK',
-          schema: ListAvailablePlansSchemaOutput
-        }
+          schema: ListAvailablePlansSchemaOutput,
+        },
       },
 
       execute() {
         return listAvailablePlans(dependencies)({})
-      }
+      },
     },
 
     getPlan: {
@@ -97,19 +97,19 @@ export const PlanRouter = (dependencies: IDependencies): IRouter => ({
       path: '/plans/:id',
 
       parameters: {
-        params: GetPlanSchema
+        params: GetPlanSchema,
       },
 
       responses: {
         200: {
           description: 'OK',
-          schema: GetPlanSchemaOutput
-        }
+          schema: GetPlanSchemaOutput,
+        },
       },
 
       execute({ params }) {
         return getPlan(dependencies)(params)
-      }
+      },
     },
 
     createPlan: {
@@ -120,19 +120,19 @@ export const PlanRouter = (dependencies: IDependencies): IRouter => ({
       path: '/plans',
 
       parameters: {
-        body: CreatePlanSchema
+        body: CreatePlanSchema,
       },
 
       responses: {
         201: {
           description: 'Created',
-          schema: CreatePlanSchemaOutput
-        }
+          schema: CreatePlanSchemaOutput,
+        },
       },
 
       execute({ body }) {
         return createPlan(dependencies)(body)
-      }
+      },
     },
 
     updatePlan: {
@@ -144,19 +144,19 @@ export const PlanRouter = (dependencies: IDependencies): IRouter => ({
 
       parameters: {
         params: UpdatePlanSchema.pick({ id: true }),
-        body: UpdatePlanSchema.omit({ id: true })
+        body: UpdatePlanSchema.omit({ id: true }),
       },
 
       responses: {
         200: {
           description: 'OK',
-          schema: UpdatePlanSchemaOutput
-        }
+          schema: UpdatePlanSchemaOutput,
+        },
       },
 
       execute({ params, body }) {
         return updatePlan(dependencies)({ ...params, ...body })
-      }
+      },
     },
 
     activatePlan: {
@@ -167,19 +167,19 @@ export const PlanRouter = (dependencies: IDependencies): IRouter => ({
       path: '/plans/:id(.*)::activate',
 
       parameters: {
-        params: ActivePlanSchema
+        params: ActivePlanSchema,
       },
 
       responses: {
         200: {
           description: 'OK',
-          schema: ActivePlanSchemaOutput
-        }
+          schema: ActivePlanSchemaOutput,
+        },
       },
 
       execute({ params }) {
         return activePlan(dependencies)(params)
-      }
+      },
     },
 
     deactivatePlan: {
@@ -190,19 +190,19 @@ export const PlanRouter = (dependencies: IDependencies): IRouter => ({
       path: '/plans/:id(.*)::deactivate',
 
       parameters: {
-        params: InactivePlanSchema
+        params: InactivePlanSchema,
       },
 
       responses: {
         200: {
           description: 'OK',
-          schema: InactivePlanSchemaOutput
-        }
+          schema: InactivePlanSchemaOutput,
+        },
       },
 
       execute({ params }) {
         return inactivePlan(dependencies)(params)
-      }
+      },
     },
 
     deletePlan: {
@@ -213,18 +213,18 @@ export const PlanRouter = (dependencies: IDependencies): IRouter => ({
       path: '/plans/:id',
 
       parameters: {
-        params: DeletePlanSchema
+        params: DeletePlanSchema,
       },
 
       responses: {
         204: {
-          description: 'OK'
-        }
+          description: 'OK',
+        },
       },
 
       async execute({ params }) {
         await deletePlan(dependencies)(params)
-      }
-    }
-  }
+      },
+    },
+  },
 })

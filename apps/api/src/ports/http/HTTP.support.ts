@@ -2,8 +2,8 @@ import { z } from '@starter/schema'
 import { deepPick, deepOmit, first, isNumber } from '@starter/shared'
 
 import { AuthError, DefaultError } from '@/support/errors'
+import { Auth } from '@/support/auth'
 import { IContext } from '@/core/shared/types'
-import { Auth } from '@/core/auth/support/token'
 
 export type HTTPMethods = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
 
@@ -31,7 +31,7 @@ export const withResponse = (data: any, fields: string) => {
   if (data.docs) {
     return {
       ...data,
-      docs: data.docs.map(formatResponse)
+      docs: data.docs.map(formatResponse),
     }
   }
 
@@ -45,7 +45,7 @@ export const withResponse = (data: any, fields: string) => {
     const [key] = Object.keys(data)
     return (
       key && {
-        [key]: first.map(formatResponse)
+        [key]: first.map(formatResponse),
       }
     )
   }
@@ -116,7 +116,7 @@ export const formatZodErrors = (error: z.ZodError) => {
     const [path = '', message = ''] = issue.split(':')
 
     return {
-      [path]: message
+      [path]: message,
     }
   })
 }
@@ -128,9 +128,9 @@ export const withError = (error: Error) => {
         code: 400,
         error: {
           message: 'validationFailed',
-          errors: formatZodErrors(error)
-        }
-      }
+          errors: formatZodErrors(error),
+        },
+      },
     }
   }
 
@@ -140,9 +140,9 @@ export const withError = (error: Error) => {
         code: error.code,
         error: {
           message: error.message,
-          metadata: error.metadata
-        }
-      }
+          metadata: error.metadata,
+        },
+      },
     }
   }
 
@@ -150,9 +150,9 @@ export const withError = (error: Error) => {
     error: {
       code: 400,
       error: {
-        message: error.message
-      }
-    }
+        message: error.message,
+      },
+    },
   }
 }
 

@@ -14,7 +14,7 @@ const execute: IUseCaseExecute<SignUpInput, SignUpOutput> =
 
     try {
       const emailExists = await Repositories.user.findOne({
-        email
+        email,
       })
 
       if (emailExists) {
@@ -24,11 +24,11 @@ const execute: IUseCaseExecute<SignUpInput, SignUpOutput> =
       const workspace = await Repositories.workspace.create(
         new Workspace({
           onboarding: true,
-          status: WorkspaceStatusEnum.ACTIVE
+          status: WorkspaceStatusEnum.ACTIVE,
         }),
         {
-          session: session.value
-        }
+          session: session.value,
+        },
       )
 
       const hashPassword = Encrypt.hash(password)
@@ -36,19 +36,18 @@ const execute: IUseCaseExecute<SignUpInput, SignUpOutput> =
       const user = await Repositories.user.create(
         new User({
           workspaceId: workspace.state.id,
-          workspace: workspace.state,
           name,
           email,
           password: hashPassword,
           social: {
             facebook: null,
-            google: null
+            google: null,
           },
-          status: UserStatusEnum.ACTIVE
+          status: UserStatusEnum.ACTIVE,
         }),
         {
-          session: session.value
-        }
+          session: session.value,
+        },
       )
 
       const token = JWT.generate(getTokenPayload(user.state))
@@ -56,7 +55,7 @@ const execute: IUseCaseExecute<SignUpInput, SignUpOutput> =
       await session.commit()
 
       return {
-        token
+        token,
       }
     } catch (error) {
       await session.rollback()

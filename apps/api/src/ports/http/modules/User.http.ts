@@ -4,14 +4,14 @@ import { IDependencies } from '@/core/shared/types'
 import { IRouter } from '@/ports/http'
 
 export const UserRouter = (dependencies: IDependencies): IRouter => ({
-  name: 'Users',
+  name: 'User',
 
-  description: '',
+  description: 'Handles operations related to managing and retrieving users.',
 
   schemas: {
     User: {
-      schema: UserSchema
-    }
+      schema: UserSchema,
+    },
   },
 
   paths: {
@@ -26,13 +26,13 @@ export const UserRouter = (dependencies: IDependencies): IRouter => ({
       parameters: {},
 
       responses: {
-        200: { description: 'OK' }
+        200: { description: 'OK' },
       },
 
       execute() {
         console.log(dependencies)
         return
-      }
+      },
     },
 
     updateProfile: {
@@ -46,13 +46,13 @@ export const UserRouter = (dependencies: IDependencies): IRouter => ({
       parameters: {},
 
       responses: {
-        200: { description: 'OK' }
+        200: { description: 'OK' },
       },
 
       execute() {
         console.log(dependencies)
         return
-      }
+      },
     },
 
     updateUserProfileEmail: {
@@ -66,13 +66,13 @@ export const UserRouter = (dependencies: IDependencies): IRouter => ({
       parameters: {},
 
       responses: {
-        200: { schema: GetUserSchemaOutput, description: '200' }
+        200: { schema: GetUserSchemaOutput, description: '200' },
       },
 
       execute() {
         console.log(dependencies)
         return
-      }
+      },
     },
 
     updateUserProfilePhone: {
@@ -86,13 +86,13 @@ export const UserRouter = (dependencies: IDependencies): IRouter => ({
       parameters: {},
 
       responses: {
-        200: { schema: GetUserSchemaOutput, description: '200' }
+        200: { schema: GetUserSchemaOutput, description: '200' },
       },
 
       execute() {
         console.log(dependencies)
         return
-      }
+      },
     },
 
     updateUserProfilePassword: {
@@ -106,13 +106,13 @@ export const UserRouter = (dependencies: IDependencies): IRouter => ({
       parameters: {},
 
       responses: {
-        200: { schema: GetUserSchemaOutput, description: '200' }
+        200: { schema: GetUserSchemaOutput, description: '200' },
       },
 
       execute() {
         console.log(dependencies)
         return
-      }
-    }
-  }
+      },
+    },
+  },
 })

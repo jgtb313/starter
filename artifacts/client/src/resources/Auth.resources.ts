@@ -12,9 +12,7 @@ import {
   ForgotPasswordOutput,
   RecoverPasswordInput,
   RecoverPasswordOutput,
-  AccountActivationInput,
-  AccountActivationOutput,
-  WithRecaptcha
+  WithRecaptcha,
 } from '@starter/schema'
 
 import client from '@/request'
@@ -29,7 +27,7 @@ import { withFields } from '@/support'
  *
  */
 export const signIn = withFields<WithRecaptcha<SignInInput>, SignInOutput>(({ fields, ...input }) =>
-  client.post('/auth:sign-in', input, { params: { fields } })
+  client.post('/auth:sign-in', input, { params: { fields } }),
 )
 
 /**
@@ -41,7 +39,7 @@ export const signIn = withFields<WithRecaptcha<SignInInput>, SignInOutput>(({ fi
  *
  */
 export const forgotPassword = withFields<WithRecaptcha<ForgotPasswordInput>, ForgotPasswordOutput>(({ fields, ...input }) =>
-  client.post('/auth:forgot-password', input, { params: { fields } })
+  client.post('/auth:forgot-password', input, { params: { fields } }),
 )
 
 /**
@@ -53,17 +51,5 @@ export const forgotPassword = withFields<WithRecaptcha<ForgotPasswordInput>, For
  *
  */
 export const recoverPassword = withFields<WithRecaptcha<RecoverPasswordInput>, RecoverPasswordOutput>(({ fields, ...input }) =>
-  client.post('/auth:recover-password', input, { params: { fields } })
-)
-
-/**
- * `POST /auth:account-activation`
- * Makes a request to /auth:account-activation
- *
- * @param {Object} body The body for the request.
- * @param {Object} [body.fields] The fields.
- *
- */
-export const accountActivation = withFields<WithRecaptcha<AccountActivationInput>, AccountActivationOutput>(({ fields, ...input }) =>
-  client.post('/auth:account-activation', input, { params: { fields } })
+  client.post('/auth:recover-password', input, { params: { fields } }),
 )

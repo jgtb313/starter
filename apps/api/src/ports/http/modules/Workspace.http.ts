@@ -6,12 +6,12 @@ import { IRouter } from '@/ports/http'
 export const WorkspaceRouter = (dependencies: IDependencies): IRouter => ({
   name: 'Workspace',
 
-  description: '',
+  description: 'Handles operations related to managing and retrieving workspaces.',
 
   schemas: {
     Workspace: {
-      schema: WorkspaceSchema
-    }
+      schema: WorkspaceSchema,
+    },
   },
 
   paths: {
@@ -25,20 +25,20 @@ export const WorkspaceRouter = (dependencies: IDependencies): IRouter => ({
 
       parameters: {
         params: UpdateWorkspaceSchema.pick({ id: true }),
-        body: UpdateWorkspaceSchema.pick({ name: true, domain: true })
+        body: UpdateWorkspaceSchema.pick({ name: true, domain: true }),
       },
 
       responses: {
         200: {
           description: 'OK',
-          schema: UpdateWorkspaceSchemaOutput
-        }
+          schema: UpdateWorkspaceSchemaOutput,
+        },
       },
 
       async execute() {
         console.log(dependencies)
         return
-      }
-    }
-  }
+      },
+    },
+  },
 })

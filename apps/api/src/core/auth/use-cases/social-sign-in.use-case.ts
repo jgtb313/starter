@@ -20,11 +20,11 @@ const execute: IUseCaseExecute<SocialSignInInput, SocialSignInOutput> =
         const workspace = await Repositories.workspace.create(
           new Workspace({
             onboarding: true,
-            status: WorkspaceStatusEnum.ACTIVE
+            status: WorkspaceStatusEnum.ACTIVE,
           }),
           {
-            session: session.value
-          }
+            session: session.value,
+          },
         )
 
         const hashPassword = Encrypt.hash(id)
@@ -32,19 +32,18 @@ const execute: IUseCaseExecute<SocialSignInInput, SocialSignInOutput> =
         const user = await Repositories.user.create(
           new User({
             workspaceId: workspace.state.id,
-            workspace: workspace.state,
             name,
             email: email ?? `${id}@${input.context.toLowerCase()}.com`,
             password: hashPassword,
             social: {
               facebook: input.context === SocialSignInEnum.FACEBOOK ? { id } : null,
-              google: input.context === SocialSignInEnum.GOOGLE ? { id } : null
+              google: input.context === SocialSignInEnum.GOOGLE ? { id } : null,
             },
-            status: UserStatusEnum.ACTIVE
+            status: UserStatusEnum.ACTIVE,
           }),
           {
-            session: session.value
-          }
+            session: session.value,
+          },
         )
 
         const token = JWT.generate(getTokenPayload(user.state))
@@ -52,7 +51,7 @@ const execute: IUseCaseExecute<SocialSignInInput, SocialSignInOutput> =
         await session.commit()
 
         return {
-          token
+          token,
         }
       } catch (error) {
         await session.rollback()
@@ -64,7 +63,7 @@ const execute: IUseCaseExecute<SocialSignInInput, SocialSignInOutput> =
     const token = JWT.generate(getTokenPayload(user.state))
 
     return {
-      token: token
+      token: token,
     }
   }
 

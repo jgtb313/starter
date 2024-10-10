@@ -5,7 +5,7 @@ import { requestFilename } from '@/core/file/use-cases/request-filename.use-case
 import { IRouter } from '@/ports/http'
 
 export const FileRouter = (dependencies: IDependencies): IRouter => ({
-  name: 'Files',
+  name: 'File',
 
   description: 'Module to manage file storage and access using cloud integration services.',
 
@@ -21,19 +21,19 @@ export const FileRouter = (dependencies: IDependencies): IRouter => ({
       path: '/files',
 
       parameters: {
-        body: RequestFilenameSchema
+        body: RequestFilenameSchema,
       },
 
       responses: {
         200: {
           description: 'OK',
-          schema: RequestFilenameSchemaOutput
-        }
+          schema: RequestFilenameSchemaOutput,
+        },
       },
 
       execute({ body }) {
         return requestFilename(dependencies)(body)
-      }
-    }
-  }
+      },
+    },
+  },
 })
