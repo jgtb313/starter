@@ -31,7 +31,7 @@ import { IRouter } from '@/ports/http'
 export const {{pascalCase name}}Router = (dependencies: IDependencies): IRouter => ({
   name: '{{pascalCase namePlural}}',
 
-  description: 'Handles operations related to managing and retrieving {{kebabCase namePlural}}.',
+  description: 'Handles operations related to managing and retrieving {{lowerSentenceCase namePlural}}.',
 
   schemas: {
     {{pascalCase name}}: {
@@ -41,7 +41,7 @@ export const {{pascalCase name}}Router = (dependencies: IDependencies): IRouter 
 
   paths: {
     list{{pascalCase namePlural}}: {
-      summary: 'List {{pascalCase namePlural}}',
+      summary: 'List {{upperSentenceCase namePlural}}',
       description: 'Retrieves a pageable list of {{lowerSentenceCase namePlural}}.',
 
       method: 'GET',
@@ -64,7 +64,7 @@ export const {{pascalCase name}}Router = (dependencies: IDependencies): IRouter 
     },
 
     list{{pascalCase name}}Options: {
-      summary: 'List Available {{pascalCase namePlural}}',
+      summary: 'List {{upperSentenceCase namePlural}} Options',
       description: 'Retrieves a list of {{lowerSentenceCase namePlural}}.',
 
       method: 'GET',
@@ -88,7 +88,7 @@ export const {{pascalCase name}}Router = (dependencies: IDependencies): IRouter 
     },
 
     get{{pascalCase name}}: {
-      summary: 'Get {{pascalCase name}}',
+      summary: 'Get {{upperSentenceCase name}}',
 
       description: 'Retrieves details of a specific {{lowerSentenceCase name}} by ID.',
 
@@ -113,7 +113,7 @@ export const {{pascalCase name}}Router = (dependencies: IDependencies): IRouter 
     },
 
     create{{pascalCase name}}: {
-      summary: 'Create {{pascalCase name}}',
+      summary: 'Create {{upperSentenceCase name}}',
       description: 'Creates a new {{lowerSentenceCase name}}.',
 
       method: 'POST',
@@ -136,7 +136,7 @@ export const {{pascalCase name}}Router = (dependencies: IDependencies): IRouter 
     },
 
     update{{pascalCase name}}: {
-      summary: 'Update {{pascalCase name}}',
+      summary: 'Update {{upperSentenceCase name}}',
       description: 'Updates an existing {{lowerSentenceCase name}}.',
 
       method: 'PATCH',
@@ -160,7 +160,7 @@ export const {{pascalCase name}}Router = (dependencies: IDependencies): IRouter 
     },
 
     activate{{pascalCase name}}: {
-      summary: 'Activate {{pascalCase name}}',
+      summary: 'Activate {{upperSentenceCase name}}',
       description: 'Activates a {{lowerSentenceCase name}} by ID.',
 
       method: 'POST',
@@ -183,7 +183,7 @@ export const {{pascalCase name}}Router = (dependencies: IDependencies): IRouter 
     },
 
     deactivate{{pascalCase name}}: {
-      summary: 'Deactivate {{pascalCase name}}',
+      summary: 'Deactivate {{upperSentenceCase name}}',
       description: 'Deactivates a {{lowerSentenceCase name}} by ID.',
 
       method: 'POST',
@@ -206,7 +206,7 @@ export const {{pascalCase name}}Router = (dependencies: IDependencies): IRouter 
     },
 
     delete{{pascalCase name}}: {
-      summary: 'Delete {{pascalCase name}}',
+      summary: 'Delete {{upperSentenceCase name}}',
       description: 'Deletes a {{lowerSentenceCase name}} by ID.',
 
       method: 'DELETE',

@@ -1,6 +1,5 @@
 export * from './Auth.http'
 export * from './File.http'
-export * from './Invoice.http'
 export * from './OTP.http'
 export * from './Plan.http'
 export * from './Subscription.http'

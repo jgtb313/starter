@@ -6,6 +6,13 @@ module.exports = function (plop) {
       .trim()
   })
 
+  plop.setHelper('upperSentenceCase', (text) => {
+    return text
+      .replace(/([A-Z])/g, ' $1')
+      .toUpperCase()
+      .trim()
+  })
+
   plop.setGenerator('module', {
     description: 'Add an module',
     prompts: [
