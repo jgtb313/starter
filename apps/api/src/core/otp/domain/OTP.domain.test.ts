@@ -1,13 +1,14 @@
 import { describe, it, expect } from 'vitest'
-import { OTPContextEnum } from '@starter/schema'
+import { OTPChannelEnum, OTPContextEnum } from '@starter/schema'
 
 import { ConflictError, NotFoundError } from '@/support/errors'
 import { OTP } from './OTP.domain'
 
 describe('OTP Domain', () => {
   const otpData = {
+    channel: OTPChannelEnum.EMAIL,
     context: OTPContextEnum.UPDATE_EMAIL,
-    email: 'test@example.com',
+    recipient: 'test@example.com',
     code: '1234',
     maxAttempts: 3,
     dailyLimitAttempts: 5,
@@ -51,6 +52,12 @@ describe('OTP Domain', () => {
     expect(() => otp.checkIfCanResend(otp, otp.state.resendTime)).toThrow(ConflictError)
   })
 
+  it('should throw ConflictError for invalid recipient', () => {
+    const otp = new OTP(otpData)
+
+    expect(() => otp.checkIfHasValidRecipient('invalid_recipient')).toThrow(ConflictError)
+  })
+
   it('should throw ConflictError for invalid context', () => {
     const otp = new OTP(otpData)
 
@@ -61,7 +68,6 @@ describe('OTP Domain', () => {
     const otp = new OTP(otpData)
 
     expect(() => otp.checkIfHasValidCode('wrong_code')).toThrow(ConflictError)
-
     expect(otp.state.attempts).toBe(1)
   })
 

@@ -1,6 +1,7 @@
 import { z } from '@/zod'
 
 import { ID, PaginationSchema, BasePaginationSchemaOutput } from '@/common'
+import { OTPVerificationSchema } from '../otp'
 import { WorkspaceSchema } from '../workspace/Workspace.schema'
 import { UserSchema } from './User.schema'
 
@@ -10,29 +11,29 @@ export type ListUserInput = z.infer<typeof ListUserSchema>
 export type ListUserOutput = z.infer<typeof ListUserSchemaOutput>
 
 export const GetUserSchema = UserSchema.pick({
-  id: true
+  id: true,
 })
 export const GetUserSchemaOutput = UserSchema
 export type GetUserInput = z.infer<typeof GetUserSchema>
 export type GetUserOutput = z.infer<typeof GetUserSchemaOutput>
 
 export const GetUserMeSchema = UserSchema.pick({
-  id: true
+  id: true,
 })
 export const GetUserMeSchemaOutput = z.object({
   workspace: WorkspaceSchema,
-  user: UserSchema
+  user: UserSchema,
 })
 export type GetUserMeInput = z.infer<typeof GetUserMeSchema>
 export type GetUserMeOutput = z.infer<typeof GetUserMeSchemaOutput>
 
 export const CreateUserSchema = UserSchema.pick({
   name: true,
-  email: true
+  email: true,
 }).merge(
   z.object({
-    relationships: z.array(z.object({ roleId: ID, storeId: ID }))
-  })
+    relationships: z.array(z.object({ roleId: ID, storeId: ID })),
+  }),
 )
 export const CreateUserSchemaOutput = UserSchema
 export type CreateUserInput = z.infer<typeof CreateUserSchema>
@@ -41,18 +42,39 @@ export type CreateUserOutput = z.infer<typeof CreateUserSchemaOutput>
 export const UpdateUserSchema = UserSchema.pick({
   id: true,
   name: true,
-  email: true
+  email: true,
 }).merge(
   z.object({
-    relationships: z.array(z.object({ roleId: ID, storeId: ID }))
-  })
+    relationships: z.array(z.object({ roleId: ID, storeId: ID })),
+  }),
 )
 export const UpdateUserSchemaOutput = UserSchema
 export type UpdateUserInput = z.infer<typeof UpdateUserSchema>
 export type UpdateUserOutput = z.infer<typeof UpdateUserSchemaOutput>
 
+export const UpdateUserEmailSchema = UserSchema.pick({
+  id: true,
+  email: true,
+}).merge(
+  z.object({
+    otpVerification: OTPVerificationSchema,
+  }),
+)
+export type UpdateUserEmailInput = z.infer<typeof UpdateUserEmailSchema>
+export type UpdateUserEmailOutput = void
+
+export const UserPasswordVerificationSchema = UserSchema.pick({
+  id: true,
+}).merge(
+  z.object({
+    password: z.string().min(1),
+  }),
+)
+export type UserPasswordVerificationInput = z.infer<typeof UserPasswordVerificationSchema>
+export type UserPasswordVerificationOutput = void
+
 export const DeleteUserSchema = UserSchema.pick({
-  id: true
+  id: true,
 })
 export type DeleteUserInput = z.infer<typeof DeleteUserSchema>
 export type DeleteUserOutput = void

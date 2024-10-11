@@ -1,6 +1,7 @@
-import { UserSchema, GetUserSchemaOutput } from '@starter/schema'
+import { UserSchema, GetUserSchemaOutput, UpdateUserEmailSchema, OTPContextEnum } from '@starter/schema'
 
 import { IDependencies } from '@/core/shared/types'
+import { validateOTP } from '@/core/otp/use-cases/validate-otp.use-case'
 import { IRouter } from '@/ports/http'
 
 export const UserRouter = (dependencies: IDependencies): IRouter => ({
@@ -63,14 +64,17 @@ export const UserRouter = (dependencies: IDependencies): IRouter => ({
 
       path: '/users::me::email',
 
-      parameters: {},
-
-      responses: {
-        200: { schema: GetUserSchemaOutput, description: '200' },
+      parameters: {
+        body: UpdateUserEmailSchema.omit({ id: true }),
       },
 
-      execute() {
-        console.log(dependencies)
+      responses: {
+        200: { description: 'OK' },
+      },
+
+      async execute({ body }) {
+        await validateOTP(dependencies)({ ...body.otpVerification, context: OTPContextEnum.UPDATE_EMAIL, recipient: body.email })
+
         return
       },
     },

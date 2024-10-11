@@ -9,6 +9,7 @@ const [Workspace1, Workspace2, Workspace3] = workspaceMocks as [Workspace, Works
 
 export const userMocks: User[] = [
   new User({
+    id: '1ylq82nZJybDbTZzEB6iBzbd5xF',
     workspaceId: Workspace1.state.id,
     name: 'John Doe',
     email: 'john.doe@acme.com',

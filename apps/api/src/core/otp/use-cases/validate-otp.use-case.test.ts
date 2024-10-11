@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from 'vitest'
-import { OTPContextEnum, ValidateOTPInput } from '@starter/schema'
+import { OTPChannelEnum, OTPContextEnum, ValidateOTPInput } from '@starter/schema'
 
 import { TestDependencies, ITestDependencies } from '@/config/tests'
 import { IDependencies } from '@/core/shared/types'
@@ -19,6 +19,7 @@ describe('validateOTP', () => {
 
   it('should successfully send OTP to the user', async () => {
     const otp = new OTP({
+      channel: OTPChannelEnum.EMAIL,
       context: OTPContextEnum.UPDATE_EMAIL,
       recipient: 'john@doe.com',
     })
@@ -26,13 +27,13 @@ describe('validateOTP', () => {
     const input: ValidateOTPInput = {
       id: otp.state.id,
       context: otp.state.context,
+      recipient: otp.state.recipient,
       code: otp.state.code,
     }
 
     dependencies.Repositories.otp.create(otp)
 
     await expect(sut().execute(input)).resolves.not.toThrow()
-
     expect(dependencies.Repositories.otp.findById).toBeCalledWith(input.id)
   })
 })

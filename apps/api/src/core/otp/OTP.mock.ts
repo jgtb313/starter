@@ -1,4 +1,4 @@
-import { OTPContextEnum } from '@starter/schema'
+import { OTPChannelEnum, OTPContextEnum } from '@starter/schema'
 import { uuid } from '@starter/shared'
 
 import { OTP } from '@/core/otp/domain'
@@ -6,8 +6,9 @@ import { OTP } from '@/core/otp/domain'
 export const otpMocks = [
   new OTP({
     id: uuid(),
+    channel: OTPChannelEnum.EMAIL,
     context: OTPContextEnum.UPDATE_EMAIL,
-    email: 'john.doe@acme.com',
+    recipient: 'john.doe@acme.com',
     code: '1234',
     attempts: 1,
     maxAttempts: 3,
@@ -18,8 +19,9 @@ export const otpMocks = [
 
   new OTP({
     id: uuid(),
+    channel: OTPChannelEnum.EMAIL,
     context: OTPContextEnum.UPDATE_EMAIL,
-    email: 'jane.smith@beta.com',
+    recipient: 'jane.smith@beta.com',
     code: '5678',
     attempts: 2,
     maxAttempts: 3,
@@ -30,8 +32,9 @@ export const otpMocks = [
 
   new OTP({
     id: uuid(),
+    channel: OTPChannelEnum.EMAIL,
     context: OTPContextEnum.UPDATE_EMAIL,
-    email: 'alice.johnson@gamma.com',
+    recipient: 'alice.johnson@gamma.com',
     code: '9101',
     attempts: 0,
     maxAttempts: 3,
@@ -42,8 +45,9 @@ export const otpMocks = [
 
   new OTP({
     id: uuid(),
+    channel: OTPChannelEnum.EMAIL,
     context: OTPContextEnum.UPDATE_EMAIL,
-    email: 'bob.brown@delta.com',
+    recipient: 'bob.brown@delta.com',
     code: '1121',
     attempts: 0,
     maxAttempts: 3,
@@ -54,8 +58,9 @@ export const otpMocks = [
 
   new OTP({
     id: uuid(),
+    channel: OTPChannelEnum.EMAIL,
     context: OTPContextEnum.UPDATE_EMAIL,
-    email: 'charlie.davis@epsilon.com',
+    recipient: 'charlie.davis@epsilon.com',
     code: '3141',
     attempts: 1,
     maxAttempts: 3,

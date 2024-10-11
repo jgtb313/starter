@@ -4,6 +4,11 @@ import { ID, EmailSchema, PhoneSchema } from '@/common'
 import { OTPSchema } from './OTP.schema'
 import { OTPPhoneChannelEnum } from './OTP.enums'
 
+export const OTPVerificationSchema = OTPSchema.pick({
+  id: true,
+  code: true,
+})
+
 export const SendOTPSchema = OTPSchema.pick({
   channel: true,
   context: true,
@@ -18,6 +23,7 @@ export type SendOTPOutput = z.infer<typeof SendOTPSchemaOutput>
 export const ValidateOTPSchema = OTPSchema.pick({
   id: true,
   context: true,
+  recipient: true,
   code: true,
 })
 export type ValidateOTPInput = z.infer<typeof ValidateOTPSchema>

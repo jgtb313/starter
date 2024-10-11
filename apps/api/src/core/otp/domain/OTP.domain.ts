@@ -10,7 +10,7 @@ export type OTPDomain = SetupDomain<IOTP>
 export class OTP {
   state!: IOTP
 
-  constructor(otp: PartialExcept<OTPDomain, 'context' | 'recipient'>) {
+  constructor(otp: PartialExcept<OTPDomain, 'channel' | 'context' | 'recipient'>) {
     const context = getContext(otp.context)
 
     Object.assign(this, {
@@ -41,6 +41,18 @@ export class OTP {
 
     if (!canResend) {
       throw new ConflictError('Insufficient resend time, please try again later')
+    }
+  }
+
+  checkIfHasValidRecipient(recipient: string) {
+    const hasValidRecipient = this.state.recipient === recipient
+
+    if (!hasValidRecipient) {
+      throw new ConflictError('Invalid recipient', {
+        metadata: {
+          context: 'invalid',
+        },
+      })
     }
   }
 

@@ -5,12 +5,13 @@ import { IUseCaseExecute } from '@/core/shared/types'
 
 const execute: IUseCaseExecute<ValidateOTPInput, ValidateOTPOutput> =
   ({ Repositories }) =>
-  async ({ id, context, code }) => {
+  async ({ id, context, recipient, code }) => {
     const otp = await Repositories.otp.findById(id)
 
     try {
       otp.checkIfHasExpired()
       otp.checkIfAttemptsHasExpired()
+      otp.checkIfHasValidRecipient(recipient)
       otp.checkIfHasValidContext(context)
       otp.checkIfHasValidCode(code)
     } finally {
