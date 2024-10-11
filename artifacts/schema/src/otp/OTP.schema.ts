@@ -1,13 +1,17 @@
 import { z } from '@/zod'
 
-import { ID, DateSchema, EmailSchema, CreatedAtSchema, UpdatedAtSchema } from '@/common'
-import { OTPContextEnum } from './OTP.enums'
+import { ID, DateSchema, CreatedAtSchema, UpdatedAtSchema } from '@/common'
+import { OTPChannelEnum, OTPContextEnum } from './OTP.enums'
+
+export const OTPChannelSchema = z.nativeEnum(OTPChannelEnum).openapi({
+  example: OTPChannelEnum['EMAIL'],
+})
 
 export const OTPContextSchema = z.nativeEnum(OTPContextEnum).openapi({
   example: OTPContextEnum['UPDATE_EMAIL'],
 })
 
-const Email = EmailSchema
+const Recipient = z.string().min(1)
 
 const Code = z.string().min(4).max(4).openapi({
   example: '9051',
@@ -25,8 +29,9 @@ const ExpiresIn = DateSchema
 
 export const OTPSchema = z.object({
   id: ID,
+  channel: OTPChannelSchema,
   context: OTPContextSchema,
-  email: Email,
+  recipient: Recipient,
   code: Code,
   attempts: Attempts,
   maxAttempts: MaxAttempts,

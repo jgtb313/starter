@@ -23,7 +23,7 @@ const generateSchemaProperties = (schema: OpenApiSchema): OpenApiSchema => {
   if (schema.oneOf) {
     schema = {
       ...schema,
-      type: [schema.oneOf[0].type, ...(schema?.type ?? [])]
+      type: [schema.oneOf[0].type, ...(schema?.type ?? [])],
     }
 
     delete schema.oneOf
@@ -35,10 +35,10 @@ const generateSchemaProperties = (schema: OpenApiSchema): OpenApiSchema => {
       properties: schema.allOf.reduce((state: OpenApiSchema, s: OpenApiSchema) => {
         return {
           ...state,
-          ...(s?.properties ?? {})
+          ...(s?.properties ?? {}),
         }
       }, {}),
-      required: schema.allOf.map((s: OpenApiSchema) => [...(s?.required ?? [])]).flat()
+      required: schema.allOf.map((s: OpenApiSchema) => [...(s?.required ?? [])]).flat(),
     }
   }
 
@@ -46,7 +46,7 @@ const generateSchemaProperties = (schema: OpenApiSchema): OpenApiSchema => {
     const properties = schema.type.includes('string') && schema.minLength === 1 ? omit(schema, 'minLength') : schema
 
     return {
-      ...properties
+      ...properties,
     }
   }
 
@@ -55,7 +55,7 @@ const generateSchemaProperties = (schema: OpenApiSchema): OpenApiSchema => {
       return {
         type: 'array',
         ...schema,
-        ...schema.items
+        ...schema.items,
       }
     }
 
@@ -65,8 +65,8 @@ const generateSchemaProperties = (schema: OpenApiSchema): OpenApiSchema => {
         type: 'object',
         description: schema.description,
         properties: Object.fromEntries(Object.entries(schema.items.properties).map(([key, value]) => [key, generateSchemaProperties(value)])),
-        required: schema.items.required
-      }
+        required: schema.items.required,
+      },
     }
   }
 
@@ -74,7 +74,7 @@ const generateSchemaProperties = (schema: OpenApiSchema): OpenApiSchema => {
     type: 'object',
     description: schema.description,
     properties: Object.fromEntries(Object.entries(schema.properties).map(([key, value]) => [key, generateSchemaProperties(value)])),
-    required: schema.required
+    required: schema.required,
   }
 }
 
@@ -82,7 +82,7 @@ const Schemas = Object.values(Modules).map((module) => module({} as IDependencie
 
 const tags = Schemas.map((schema) => ({
   name: schema.name,
-  description: schema.description
+  description: schema.description,
 }))
 
 const paths = Schemas.reduce((state, schema) => {
@@ -102,7 +102,7 @@ const paths = Schemas.reduce((state, schema) => {
             in: parameter,
             name: prop,
             schema: generateSchemaProperties(value),
-            required: !!schema.required?.includes(prop)
+            required: !!schema.required?.includes(prop),
           }
         })
       })
@@ -118,18 +118,18 @@ const paths = Schemas.reduce((state, schema) => {
               'application/json': {
                 schema: {
                   oneOf: value.examples.map((item) =>
-                    item.schema ? { ...generateSchemaProperties(zodSchemaToInstance(item.schema)), description: item.description } : null
-                  )
+                    item.schema ? { ...generateSchemaProperties(zodSchemaToInstance(item.schema)), description: item.description } : null,
+                  ),
                 },
                 examples: Object.fromEntries(
                   value.examples.map((item) => [
                     item.description,
-                    item.schema ? sample(generateSchemaProperties(zodSchemaToInstance(item.schema))) : null
-                  ])
-                )
-              }
-            }
-          }
+                    item.schema ? sample(generateSchemaProperties(zodSchemaToInstance(item.schema))) : null,
+                  ]),
+                ),
+              },
+            },
+          },
         }
       }
 
@@ -141,10 +141,10 @@ const paths = Schemas.reduce((state, schema) => {
           description,
           content: {
             'application/json': {
-              schema: schema ? generateSchemaProperties(zodSchemaToInstance(schema)) : null
-            }
-          }
-        }
+              schema: schema ? generateSchemaProperties(zodSchemaToInstance(schema)) : null,
+            },
+          },
+        },
       }
     }, {})
 
@@ -155,10 +155,10 @@ const paths = Schemas.reduce((state, schema) => {
           requestBody: {
             content: {
               [requestBodyContentType]: {
-                schema: generateSchemaProperties(zodSchemaToInstance(parameters.body))
-              }
-            }
-          }
+                schema: generateSchemaProperties(zodSchemaToInstance(parameters.body)),
+              },
+            },
+          },
         }
       : null
 
@@ -180,15 +180,15 @@ const paths = Schemas.reduce((state, schema) => {
 
           ...formattedRequestBody,
 
-          responses: formattedResponses
-        }
-      }
+          responses: formattedResponses,
+        },
+      },
     }
   }, {})
 
   return {
     ...state,
-    ...formattedPaths
+    ...formattedPaths,
   }
 }, {})
 
@@ -200,7 +200,7 @@ const schemas = Schemas.reduce((state, { schemas }) => {
       Object.entries(schema.properties).map(([key, value]) => {
         const formattedValue = generateSchemaProperties(value)
         return [key, formattedValue]
-      })
+      }),
     )
 
     return {
@@ -209,14 +209,14 @@ const schemas = Schemas.reduce((state, { schemas }) => {
         ...schema,
         type: schema.type[0],
         properties,
-        description: value.description
-      }
+        description: value.description,
+      },
     }
   }, {})
 
   return {
     ...state,
-    ...formattedSchemas
+    ...formattedSchemas,
   }
 }, {})
 
@@ -227,13 +227,13 @@ const document = {
     version: '1.0.0',
     description: '',
     license: {
-      name: 'MIT'
-    }
+      name: 'MIT',
+    },
   },
   servers: [
     {
-      url: 'http://localhost:4000'
-    }
+      url: 'http://localhost:4000',
+    },
   ],
 
   security: [],
@@ -248,12 +248,11 @@ const document = {
         type: 'http',
         scheme: 'bearer',
         bearerFormat: 'JWT',
-        description: 'Required for some endpoints'
-      }
+      },
     },
 
-    schemas
-  }
+    schemas,
+  },
 }
 
 export const Docs = {
@@ -263,12 +262,12 @@ export const Docs = {
     configuration: {
       hideDownloadButton: true,
       metaData: {
-        title: 'Starter API'
+        title: 'Starter API',
       },
       defaultOpenAllTags: true,
       spec: {
-        content: document
-      }
-    }
-  }
+        content: document,
+      },
+    },
+  },
 }

@@ -7,6 +7,8 @@ import { EncryptInMemory } from '@/adapters/bcrypt-in-memory'
 import { SocialAuthInMemory } from '@/adapters/social-auth-in-memory'
 import { StorageInMemory } from '@/adapters/aws-s3-in-memory'
 import { MailInMemory } from '@/adapters/google-mail-in-memory'
+import { TwilioSMSInMemory } from '@/adapters/twilio-sms-in-memory'
+import { TwilioWhatsappInMemory } from '@/adapters/twilio-whatsapp-in-memory'
 
 export type SetupTestDependencies<T> = {
   [K in keyof T]: T[K] extends (...args: infer A) => infer R ? Mock<(...args: A) => R> : T[K] extends object ? SetupTestDependencies<T[K]> : T[K]
@@ -43,6 +45,10 @@ export const TestDependencies = async (): Promise<ITestDependencies> => {
     Encrypt: EncryptInMemory,
 
     Mail: MailInMemory,
+
+    SMS: TwilioSMSInMemory,
+
+    Whatsapp: TwilioWhatsappInMemory,
 
     SocialAuth: SocialAuthInMemory,
 

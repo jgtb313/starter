@@ -10,7 +10,7 @@ export type OTPDomain = SetupDomain<IOTP>
 export class OTP {
   state!: IOTP
 
-  constructor(otp: PartialExcept<OTPDomain, 'context' | 'email'>) {
+  constructor(otp: PartialExcept<OTPDomain, 'context' | 'recipient'>) {
     const context = getContext(otp.context)
 
     Object.assign(this, {
@@ -21,10 +21,10 @@ export class OTP {
           maxAttempts: otp.maxAttempts ?? context.maxAttempts,
           resendTime: otp.resendTime ?? context.resendTime,
           dailyLimitAttempts: otp.dailyLimitAttempts ?? context.dailyLimitAttempts,
-          expiresIn: otp.expiresIn ?? addSeconds(new Date(), context.expiresIn)
+          expiresIn: otp.expiresIn ?? addSeconds(new Date(), context.expiresIn),
         },
-        OTPSchema
-      )
+        OTPSchema,
+      ),
     })
   }
 
@@ -50,8 +50,8 @@ export class OTP {
     if (!hasValidContext) {
       throw new ConflictError('Invalid access data', {
         metadata: {
-          context: 'invalid'
-        }
+          context: 'invalid',
+        },
       })
     }
   }

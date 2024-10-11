@@ -1,16 +1,38 @@
+export enum OTPChannelEnum {
+  EMAIL = 'EMAIL',
+  SMS = 'SMS',
+  WHATSAPP = 'WHATSAPP',
+}
+
+export enum OTPPhoneChannelEnum {
+  SMS = 'SMS',
+  WHATSAPP = 'WHATSAPP',
+}
+
 export enum OTPContextEnum {
-  UPDATE_EMAIL = 'UPDATE_EMAIL'
+  UPDATE_EMAIL = 'UPDATE_EMAIL',
+  UPDATE_PHONE = 'UPDATE_PHONE',
 }
 
 export const OTPContexts = [
   {
-    id: 'a74d53f5-d3ee-4576-af8e-5f9a43fbd123',
+    id: '2nIKjVyfJJvj2kEorugXTQbkkgB',
     context: OTPContextEnum.UPDATE_EMAIL,
-    dailyLimitAttempts: 8,
-    resendTime: 20,
-    maxAttempts: 8,
+    dailyLimitAttempts: 5,
+    resendTime: 60,
+    maxAttempts: 4,
     expiresIn: 12000,
     createdAt: new Date(),
-    updatedAt: new Date()
-  }
+    updatedAt: new Date(),
+  },
+  {
+    id: '2nIKkOP5vlPKbaGHv5E1n0bJiYW',
+    context: OTPContextEnum.UPDATE_PHONE,
+    dailyLimitAttempts: 5,
+    resendTime: 60,
+    maxAttempts: 4,
+    expiresIn: 12000,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
 ]

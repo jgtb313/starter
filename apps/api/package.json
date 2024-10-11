@@ -40,7 +40,8 @@
     "openapi-sampler": "^1.5.1",
     "plop": "^4.0.1",
     "qs": "^6.11.2",
-    "redis": "^4.6.6"
+    "redis": "^4.6.6",
+    "twilio": "^5.3.3"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",

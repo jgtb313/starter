@@ -1,22 +1,43 @@
 import { z } from '@/zod'
 
-import { ID } from '@/common'
+import { ID, EmailSchema, PhoneSchema } from '@/common'
 import { OTPSchema } from './OTP.schema'
+import { OTPPhoneChannelEnum } from './OTP.enums'
 
 export const SendOTPSchema = OTPSchema.pick({
+  channel: true,
   context: true,
-  email: true
+  recipient: true,
 })
-export const SendOTPSchemOutput = z.object({
-  otp: ID
+export const SendOTPSchemaOutput = OTPSchema.pick({
+  id: true,
 })
 export type SendOTPInput = z.infer<typeof SendOTPSchema>
-export type SendOTPOutput = z.infer<typeof SendOTPSchemOutput>
+export type SendOTPOutput = z.infer<typeof SendOTPSchemaOutput>
 
 export const ValidateOTPSchema = OTPSchema.pick({
   id: true,
   context: true,
-  code: true
+  code: true,
 })
 export type ValidateOTPInput = z.infer<typeof ValidateOTPSchema>
 export type ValidateOTPOutput = void
+
+export const SendUpdateEmailOTPSchema = z.object({
+  email: EmailSchema,
+})
+export const SendUpdateEmailOTPSchemaOutput = z.object({
+  otpId: ID,
+})
+export type SendUpdateEmailOTPInput = z.infer<typeof SendUpdateEmailOTPSchema>
+export type SendUpdateEmailOTPOutput = z.infer<typeof SendUpdateEmailOTPSchemaOutput>
+
+export const SendUpdatePhoneOTPSchema = z.object({
+  channel: z.nativeEnum(OTPPhoneChannelEnum),
+  phone: PhoneSchema,
+})
+export const SendUpdatePhoneOTPSchemaOutput = z.object({
+  otpId: ID,
+})
+export type SendUpdatePhoneOTPInput = z.infer<typeof SendUpdatePhoneOTPSchema>
+export type SendUpdatePhoneOTPOutput = z.infer<typeof SendUpdateEmailOTPSchemaOutput>

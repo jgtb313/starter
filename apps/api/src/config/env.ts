@@ -9,11 +9,17 @@ type Env =
   | 'SERVER_SECRET'
   | 'SERVER_RECOVER_PASSWORD_BASE_URL'
   | 'MONGODB_URL'
-  | 'GOOGLE_MAIL_USER'
-  | 'GOOGLE_MAIL_PASSWORD'
   | 'STATIC_IMAGE_URL'
   | 'AWS_S3_REGION'
   | 'AWS_S3_FILE_BUCKET'
+  | 'GOOGLE_MAIL_USER'
+  | 'GOOGLE_MAIL_PASSWORD'
+  | 'TWILIO_SMS_ACCOUNT_SID'
+  | 'TWILIO_SMS_AUTH_TOKEN'
+  | 'TWILIO_SMS_FROM'
+  | 'TWILIO_WHATSAPP_ACCOUNT_SID'
+  | 'TWILIO_WHATSAPP_AUTH_TOKEN'
+  | 'TWILIO_WHATSAPP_FROM'
 
 export const EnvSchema = z.object({
   PROJECT: z.string().min(1),
@@ -40,7 +46,17 @@ export const EnvSchema = z.object({
 
   // Google Mail
   GOOGLE_MAIL_USER: z.string().email(),
-  GOOGLE_MAIL_PASSWORD: z.string().min(1)
+  GOOGLE_MAIL_PASSWORD: z.string().min(1),
+
+  // Twilio SMS
+  TWILIO_SMS_ACCOUNT_SID: z.string().min(1),
+  TWILIO_SMS_AUTH_TOKEN: z.string().min(1),
+  TWILIO_SMS_FROM: z.string().min(1),
+
+  // Twilio Whatsapp
+  TWILIO_WHATSAPP_ACCOUNT_SID: z.string().min(1),
+  TWILIO_WHATSAPP_AUTH_TOKEN: z.string().min(1),
+  TWILIO_WHATSAPP_FROM: z.string().min(1),
 })
 
 export const env = (value: Env) => {

@@ -20,7 +20,7 @@ describe('validateOTP', () => {
   it('should successfully send OTP to the user', async () => {
     const otp = new OTP({
       context: OTPContextEnum.UPDATE_EMAIL,
-      email: 'john@doe.com',
+      recipient: 'john@doe.com',
     })
 
     const input: ValidateOTPInput = {
