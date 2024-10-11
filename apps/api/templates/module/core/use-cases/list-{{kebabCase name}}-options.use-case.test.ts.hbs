@@ -1,0 +1,27 @@
+import { beforeEach, describe, expect, it } from 'vitest'
+import { List{{pascalCase namePlural}}Input } from '@starter/schema'
+
+import { TestDependencies, ITestDependencies } from '@/config/tests'
+import { IDependencies } from '@/core/shared/types'
+
+import { list{{pascalCase name}}Options } from './list-{{kebabCase name}}-options.use-case'
+
+describe('list{{pascalCase name}}Options', () => {
+  const sut = () => ({
+    execute: (input: Parameters<ReturnType<typeof list{{pascalCase name}}Options>>[number]) => list{{pascalCase name}}Options(dependencies as IDependencies)(input),
+  })
+
+  let dependencies: ITestDependencies
+
+  beforeEach(async () => {
+    dependencies = await TestDependencies()
+  })
+
+  it('should successfully list {{kebabCase name}} options', async () => {
+    const input: List{{pascalCase namePlural}}Input = {}
+
+    const result = await sut().execute(input)
+
+    expect(result).toHaveLength(9)
+  })
+})
