@@ -7,7 +7,7 @@ import { IPlanRepository } from '@/ports/database/modules/Plan.repository'
 import { MongoDB, CollectionsType, ICollections } from '../MongoDB.support'
 
 type Document = ICollections['plan']
-const PlanSearch = MongoDB.makeSearch<Plan['state']>(['name'])
+export const PlanSearch = MongoDB.makeSearch<Plan['state']>(['name'])
 
 const Pipelines = [] as []
 

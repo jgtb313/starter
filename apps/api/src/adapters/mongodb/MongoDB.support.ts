@@ -11,7 +11,9 @@ const makeSearch =
     fields.forEach((field) => {
       const value = get(document, field)
 
-      set(search, field, clearSpecialChars(value.toLocaleLowerCase()))
+      if (value) {
+        set(search, field, clearSpecialChars(value.toLocaleLowerCase()))
+      }
     })
 
     return search

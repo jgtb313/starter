@@ -5,8 +5,13 @@ import { IUseCaseExecute } from '@/core/shared/types'
 
 const execute: IUseCaseExecute<List{{pascalCase namePlural}}Input, List{{pascalCase namePlural}}Output> =
   ({ Repositories }) =>
-  async (input) => {
-    const { values, total } = await Repositories.{{camelCase name}}.find(input)
+  async ({ filter, ...input }) => {
+    const { values, total } = await Repositories.{{camelCase name}}.find({
+      search: {
+        name: filter,
+      },
+      ...input,
+    })
 
     return {
       values: values.map(({{camelCase name}}) => {{camelCase name}}.state),

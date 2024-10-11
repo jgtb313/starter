@@ -1,0 +1,40 @@
+import { beforeEach, describe, expect, it } from 'vitest'
+import { List{{pascalCase namePlural}}Input } from '@starter/schema'
+
+import { TestDependencies, ITestDependencies } from '@/config/tests'
+import { IDependencies } from '@/core/shared/types'
+
+import { list{{pascalCase namePlural}} } from './list-{{kebabCase namePlural}}.use-case'
+
+describe('list{{pascalCase namePlural}}', () => {
+  const sut = () => ({
+    execute: (input: Parameters<ReturnType<typeof list{{pascalCase namePlural}}>>[number]) => list{{pascalCase namePlural}}(dependencies as IDependencies)(input),
+  })
+
+  let dependencies: ITestDependencies
+
+  beforeEach(async () => {
+    dependencies = await TestDependencies()
+  })
+
+  it('should successfully list all {{kebabCase namePlural}}', async () => {
+    const input: List{{pascalCase namePlural}}Input = {}
+
+    const result = await sut().execute(input)
+
+    expect(result.values).toHaveLength(9)
+    expect(result.total).toBe(9)
+  })
+
+  it('should successfully list {{kebabCase namePlural}} with filters', async () => {
+    const input: List{{pascalCase namePlural}}Input = {
+      filter: '{{pascalCase name}} 1',
+    }
+
+    const result = await sut().execute(input)
+
+    expect(dependencies.Repositories.{{camelCase name}}.find).toBeCalledWith({ search: { name: input.filter } })
+    expect(result.values).toHaveLength(1)
+    expect(result.total).toBe(1)
+  })
+})

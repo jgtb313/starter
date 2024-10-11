@@ -7,7 +7,7 @@ import { IWorkspaceRepository } from '@/ports/database/modules/Workspace.reposit
 import { MongoDB, CollectionsType, ICollections } from '../MongoDB.support'
 
 type Document = ICollections['workspace']
-const WorkspaceSearch = MongoDB.makeSearch<Workspace['state']>(['name'])
+export const WorkspaceSearch = MongoDB.makeSearch<Workspace['state']>(['name'])
 
 const Pipelines = [] as []
 

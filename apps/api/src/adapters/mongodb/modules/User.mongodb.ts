@@ -7,7 +7,7 @@ import { IUserRepository } from '@/ports/database/modules/User.repository'
 import { MongoDB, CollectionsType, ICollections } from '../MongoDB.support'
 
 type Document = ICollections['user']
-const UserSearch = MongoDB.makeSearch<User['state']>(['name'])
+export const UserSearch = MongoDB.makeSearch<User['state']>(['name'])
 
 const Pipelines = [] as []
 

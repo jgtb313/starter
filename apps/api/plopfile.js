@@ -94,6 +94,12 @@ module.exports = function (plop) {
       {
         type: 'modify',
         path: 'src/adapters/mongodb-in-memory/MongoDB.in-memory.mock.ts',
+        pattern: /(\/\/ appendSearchImportHere)/,
+        template: "import { {{ pascalCase name }}Search } from '@/adapters/mongodb/modules/{{ pascalCase name }}.mongodb'\n$1",
+      },
+      {
+        type: 'modify',
+        path: 'src/adapters/mongodb-in-memory/MongoDB.in-memory.mock.ts',
         pattern: /(\/\/ appendMockImportHere)/,
         template: "import { {{ camelCase name }}Mocks } from '@/core/{{ kebabCase name }}/{{ pascalCase name }}.mock'\n$1",
       },
@@ -101,7 +107,7 @@ module.exports = function (plop) {
         type: 'modify',
         path: 'src/adapters/mongodb-in-memory/MongoDB.in-memory.mock.ts',
         pattern: /(\/\/ appendMockHere)/,
-        template: "{ name: '{{ camelCase namePlural }}', data: {{ camelCase name }}Mocks, },\n$1",
+        template: "{ name: '{{ camelCase namePlural }}', data: {{ camelCase name }}Mocks, search: {{ pascalCase name }}Search, },\n$1",
       },
 
       {
