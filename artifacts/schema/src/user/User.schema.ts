@@ -1,7 +1,7 @@
 import { z } from '@/zod'
 import { formatToCapitalized } from '@starter/shared'
 
-import { ID, EmailSchema, PasswordSchema, DeletedAtSchema, CreatedAtSchema, UpdatedAtSchema } from '@/common'
+import { ID, EmailSchema, PhoneSchema, PasswordSchema, DeletedAtSchema, CreatedAtSchema, UpdatedAtSchema } from '@/common'
 import { UserStatusEnum } from './User.enums'
 
 const WorkspaceId = ID
@@ -13,30 +13,32 @@ const Name = z
 
 const Email = EmailSchema
 
+const Phone = PhoneSchema.nullish()
+
 const Social = z
   .object({
     google: z
       .object({
-        id: ID
+        id: ID,
       })
       .nullish()
       .transform((value) => value ?? null),
     facebook: z
       .object({
-        id: ID
+        id: ID,
       })
       .nullish()
-      .transform((value) => value ?? null)
+      .transform((value) => value ?? null),
   })
   .default({
     google: null,
-    facebook: null
+    facebook: null,
   })
 
 const RecoverPassword = z
   .object({
     token: z.string(),
-    expiresIn: z.date()
+    expiresIn: z.date(),
   })
   .nullish()
   .transform((value) => value ?? null)
@@ -50,12 +52,13 @@ export const UserSchema = z.object({
   workspaceId: WorkspaceId,
   name: Name,
   email: Email,
+  phone: Phone,
   social: Social,
   recoverPassword: RecoverPassword,
   password: Password,
   status: Status,
   deletedAt: DeletedAtSchema,
   createdAt: CreatedAtSchema,
-  updatedAt: UpdatedAtSchema
+  updatedAt: UpdatedAtSchema,
 })
 export type User = z.infer<typeof UserSchema>

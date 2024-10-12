@@ -1,7 +1,6 @@
 import { z } from '@/zod'
 
-import { ID, PaginationSchema, BasePaginationSchemaOutput } from '@/common'
-import { OTPVerificationSchema } from '../otp'
+import { ID, PaginationSchema, BasePaginationSchemaOutput, PhoneSchema } from '@/common'
 import { WorkspaceSchema } from '../workspace/Workspace.schema'
 import { UserSchema } from './User.schema'
 
@@ -55,13 +54,30 @@ export type UpdateUserOutput = z.infer<typeof UpdateUserSchemaOutput>
 export const UpdateUserEmailSchema = UserSchema.pick({
   id: true,
   email: true,
-}).merge(
-  z.object({
-    otpVerification: OTPVerificationSchema,
-  }),
-)
+})
 export type UpdateUserEmailInput = z.infer<typeof UpdateUserEmailSchema>
 export type UpdateUserEmailOutput = void
+
+export const UpdateUserPhoneSchema = UserSchema.pick({
+  id: true,
+}).merge(
+  z.object({
+    phone: PhoneSchema,
+  }),
+)
+export type UpdateUserPhoneInput = z.infer<typeof UpdateUserPhoneSchema>
+export type UpdateUserPhoneOutput = void
+
+export const UpdateUserPasswordSchema = UserSchema.pick({
+  id: true,
+  password: true,
+}).merge(
+  z.object({
+    currentPassword: z.string().min(1),
+  }),
+)
+export type UpdateUserPasswordInput = z.infer<typeof UpdateUserPasswordSchema>
+export type UpdateUserPasswordOutput = void
 
 export const UserPasswordVerificationSchema = UserSchema.pick({
   id: true,
