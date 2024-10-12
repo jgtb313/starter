@@ -28,7 +28,7 @@ export type IRouterPath<
   E extends ZodSchema = ZodSchema,
   K extends ZodSchema = ZodSchema,
   P extends ZodSchema = ZodSchema,
-  Q extends ZodSchema = ZodSchema
+  Q extends ZodSchema = ZodSchema,
 > = {
   summary: string
   description: string

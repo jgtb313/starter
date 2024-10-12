@@ -1,7 +1,9 @@
 import {
   z,
   UserSchema,
-  GetUserSchemaOutput,
+  GetUserMeSchemaOutput,
+  UpdateUserMeSchema,
+  UpdateUserMeSchemaOutput,
   UpdateUserEmailSchema,
   UpdateUserPhoneSchema,
   UpdateUserPasswordSchema,
@@ -11,6 +13,8 @@ import {
 
 import { IDependencies } from '@/core/shared/types'
 import { validateOTP } from '@/core/otp/use-cases/validate-otp.use-case'
+import { getUser } from '@/core/user/use-case/get-user.use-case'
+import { updateUser } from '@/core/user/use-case/update-user.use-case'
 import { updateUserPassword } from '@/core/user/use-case/update-user-password.use-case'
 import { updateUserEmail } from '@/core/user/use-case/update-user-email.use-case'
 import { updateUserPhone } from '@/core/user/use-case/update-user-phone.use-case'
@@ -40,12 +44,13 @@ export const UserRouter = (dependencies: IDependencies): IRouter => ({
       parameters: {},
 
       responses: {
-        200: { description: 'OK' },
+        200: { description: 'OK', schema: GetUserMeSchemaOutput },
       },
 
-      execute() {
-        console.log(dependencies)
-        return
+      execute(_, context) {
+        requiresAuthorization(context)
+
+        return getUser(dependencies)({ id: context.auth.userId })
       },
     },
 
@@ -57,15 +62,18 @@ export const UserRouter = (dependencies: IDependencies): IRouter => ({
 
       path: '/users::me',
 
-      parameters: {},
-
-      responses: {
-        200: { description: 'OK' },
+      parameters: {
+        body: UpdateUserMeSchema.omit({ id: true }),
       },
 
-      execute() {
-        console.log(dependencies)
-        return
+      responses: {
+        200: { description: 'OK', schema: UpdateUserMeSchemaOutput },
+      },
+
+      execute({ body }, context) {
+        requiresAuthorization(context)
+
+        return updateUser(dependencies)({ ...body })
       },
     },
 
@@ -109,7 +117,7 @@ export const UserRouter = (dependencies: IDependencies): IRouter => ({
       },
 
       responses: {
-        200: { schema: GetUserSchemaOutput, description: '200' },
+        200: { description: 'OK' },
       },
 
       async execute({ body }, context) {

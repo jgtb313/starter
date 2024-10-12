@@ -1,0 +1,38 @@
+import { beforeEach, describe, expect, it } from 'vitest'
+import { UpdateUserPhoneInput } from '@starter/schema'
+
+import { TestDependencies, ITestDependencies } from '@/config/tests'
+import { IDependencies } from '@/core/shared/types'
+
+import { updateUserPhone } from './update-user-phone.use-case'
+
+describe('updateUserPhone', () => {
+  const sut = () => ({
+    execute: (input: Parameters<ReturnType<typeof updateUserPhone>>[number]) => updateUserPhone(dependencies as IDependencies)(input),
+  })
+
+  let dependencies: ITestDependencies
+
+  beforeEach(async () => {
+    dependencies = await TestDependencies()
+  })
+
+  it('should successfully verify the user password', async () => {
+    const input: UpdateUserPhoneInput = {
+      id: '1ylq82nZJybDbTZzEB6iBzbd5xF',
+      phone: {
+        iso: 'BR',
+        ddi: '+55',
+        number: '98991143200',
+      },
+    }
+
+    await sut().execute(input)
+
+    const result = await dependencies.Repositories.user.findById(input.id)
+
+    expect(dependencies.Repositories.user.findById).toBeCalledWith(input.id)
+    expect(dependencies.Repositories.user.updateById).toBeCalled()
+    expect(result.state.phone).toStrictEqual(input.phone)
+  })
+})
