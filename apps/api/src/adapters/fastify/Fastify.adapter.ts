@@ -18,7 +18,7 @@ type Request = {
 
 server.register(Docs.instance, {
   routePrefix: `/${Docs.config.routePrefix}`,
-  configuration: Docs.config.configuration
+  configuration: Docs.config.configuration,
 })
 
 const checkAuthorization = (dependencies: IDependencies) => (authorization?: string) => {
@@ -54,13 +54,13 @@ export const setupRoutes = (instance: FastifyInstance, routes: typeof Modules, d
               query: req.query ?? {},
               params: req.params ?? {},
               body: req.body ?? {},
-              headers: req.headers ?? {}
+              headers: req.headers ?? {},
             }
 
             const authorization = input.headers['authorization'] ? `${input.headers['authorization']}` : undefined
 
             const context: IContext = {
-              shouldCheckRecaptcha: !userAgent?.startsWith('Postman')
+              shouldCheckRecaptcha: !userAgent?.startsWith('Postman'),
             }
 
             try {
@@ -86,7 +86,7 @@ export const setupRoutes = (instance: FastifyInstance, routes: typeof Modules, d
             console.log(`[ERROR]: ${JSON.stringify(error.stack)}`)
             reply.code(500).send(withError(error))
           }
-        }
+        },
       })
     })
   }
@@ -107,5 +107,5 @@ export const Server: IServer = {
       console.log(`[FATAL-ERROR]: ${JSON.stringify(error.stack)}`)
       process.exit(1)
     }
-  }
+  },
 }

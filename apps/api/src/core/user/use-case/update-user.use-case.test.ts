@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from 'vitest'
-import { UpdateUserMeInput } from '@starter/schema'
+import { UpdateUserInput } from '@starter/schema'
 
 import { TestDependencies, ITestDependencies } from '@/config/tests'
 import { IDependencies } from '@/core/shared/types'
@@ -18,7 +18,7 @@ describe('updateUser', () => {
   })
 
   it('should successfully verify the user password', async () => {
-    const input: UpdateUserMeInput = {
+    const input: UpdateUserInput = {
       id: '1ylq82nZJybDbTZzEB6iBzbd5xF',
       name: 'Updated Name',
     }

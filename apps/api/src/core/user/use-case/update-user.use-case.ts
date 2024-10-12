@@ -1,9 +1,9 @@
-import { UpdateUserMeSchema, UpdateUserMeInput, UpdateUserMeOutput } from '@starter/schema'
+import { UpdateUserSchema, UpdateUserInput, UpdateUserOutput } from '@starter/schema'
 
 import { createUseCase } from '@/support/utilities'
 import { IUseCaseExecute } from '@/core/shared/types'
 
-const execute: IUseCaseExecute<UpdateUserMeInput, UpdateUserMeOutput> =
+const execute: IUseCaseExecute<UpdateUserInput, UpdateUserOutput> =
   ({ Repositories }) =>
   async ({ id, ...props }) => {
     const user = await Repositories.user.findById(id)
@@ -18,4 +18,4 @@ const execute: IUseCaseExecute<UpdateUserMeInput, UpdateUserMeOutput> =
     return state
   }
 
-export const updateUser = createUseCase(execute, UpdateUserMeSchema)
+export const updateUser = createUseCase(execute, UpdateUserSchema)

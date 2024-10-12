@@ -225,7 +225,7 @@ const document = {
   info: {
     title: 'Starter API',
     version: '1.0.0',
-    description: '',
+    description: '# Introduction',
     license: {
       name: 'MIT',
     },

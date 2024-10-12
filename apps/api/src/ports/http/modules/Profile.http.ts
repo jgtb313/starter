@@ -1,9 +1,9 @@
 import {
   z,
   UserSchema,
-  GetUserMeSchemaOutput,
-  UpdateUserMeSchema,
-  UpdateUserMeSchemaOutput,
+  GetUserSchemaOutput,
+  UpdateUserSchema,
+  UpdateUserSchemaOutput,
   UpdateUserEmailSchema,
   UpdateUserPhoneSchema,
   UpdateUserPasswordSchema,
@@ -21,13 +21,13 @@ import { updateUserPhone } from '@/core/user/use-case/update-user-phone.use-case
 import { userPasswordVerification } from '@/core/user/use-case/user-password-verification.use-case'
 import { requiresAuthorization, IRouter } from '@/ports/http'
 
-export const UserRouter = (dependencies: IDependencies): IRouter => ({
-  name: 'User',
+export const ProfileRouter = (dependencies: IDependencies): IRouter => ({
+  name: 'Profile',
 
-  description: 'Handles operations related to managing and retrieving users.',
+  description: 'Handles operations for managing and retrieving the authenticated user profile.',
 
   schemas: {
-    User: {
+    Profile: {
       schema: UserSchema,
     },
   },
@@ -35,7 +35,7 @@ export const UserRouter = (dependencies: IDependencies): IRouter => ({
   paths: {
     getProfile: {
       summary: 'Get User Profile',
-      description: 'Returns a user profile.',
+      description: 'Retrieves the authenticated user profile.',
 
       method: 'GET',
 
@@ -44,7 +44,7 @@ export const UserRouter = (dependencies: IDependencies): IRouter => ({
       parameters: {},
 
       responses: {
-        200: { description: 'OK', schema: GetUserMeSchemaOutput },
+        200: { description: 'OK', schema: GetUserSchemaOutput },
       },
 
       execute(_, context) {
@@ -56,18 +56,18 @@ export const UserRouter = (dependencies: IDependencies): IRouter => ({
 
     updateProfile: {
       summary: 'Update User Profile',
-      description: 'Returns a user profile.',
+      description: 'Updates and returns the user profile.',
 
       method: 'PATCH',
 
       path: '/users::me',
 
       parameters: {
-        body: UpdateUserMeSchema.omit({ id: true }),
+        body: UpdateUserSchema.omit({ id: true }),
       },
 
       responses: {
-        200: { description: 'OK', schema: UpdateUserMeSchemaOutput },
+        200: { description: 'OK', schema: UpdateUserSchemaOutput },
       },
 
       execute({ body }, context) {
@@ -79,7 +79,7 @@ export const UserRouter = (dependencies: IDependencies): IRouter => ({
 
     updateUserProfileEmail: {
       summary: 'Update User Profile Email',
-      description: 'Returns a user profile.',
+      description: 'Updates the user email.',
 
       method: 'PATCH',
 
@@ -106,7 +106,7 @@ export const UserRouter = (dependencies: IDependencies): IRouter => ({
 
     updateUserProfilePhone: {
       summary: 'Update User Profile Phone',
-      description: 'Returns a user profile.',
+      description: 'Updates the user phone number.',
 
       method: 'PATCH',
 
@@ -135,7 +135,7 @@ export const UserRouter = (dependencies: IDependencies): IRouter => ({
 
     updateUserProfilePassword: {
       summary: 'Update User Profile Password',
-      description: 'Returns a user profile.',
+      description: 'Updates the user password.',
 
       method: 'PATCH',
 
@@ -146,7 +146,7 @@ export const UserRouter = (dependencies: IDependencies): IRouter => ({
       },
 
       responses: {
-        200: { description: 'Ok' },
+        200: { description: 'OK' },
       },
 
       async execute({ body }, context) {
