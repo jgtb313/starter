@@ -3,6 +3,10 @@ import { z } from '@/zod'
 import { ID, DateSchema, CreatedAtSchema, UpdatedAtSchema } from '@/common'
 import { OTPChannelEnum, OTPContextEnum } from './OTP.enums'
 
+const WorkspaceId = ID.nullish().transform((value) => value ?? null)
+
+const UserId = ID.nullish().transform((value) => value ?? null)
+
 export const OTPChannelSchema = z.nativeEnum(OTPChannelEnum).openapi({
   example: OTPChannelEnum['EMAIL'],
 })
@@ -29,6 +33,8 @@ const ExpiresIn = DateSchema
 
 export const OTPSchema = z.object({
   id: ID,
+  workspaceId: WorkspaceId,
+  userId: UserId,
   channel: OTPChannelSchema,
   context: OTPContextSchema,
   recipient: Recipient,

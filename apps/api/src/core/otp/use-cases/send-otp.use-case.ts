@@ -9,8 +9,10 @@ import { WhatsappTemplateEnum } from '@/ports/whatsapp'
 
 const execute: IUseCaseExecute<SendOTPInput, SendOTPOutput> =
   ({ Repositories, Mail, SMS, Whatsapp }) =>
-  async ({ channel, context, recipient }) => {
+  async ({ workspaceId, userId, channel, context, recipient }) => {
     const otp = new OTP({
+      workspaceId,
+      userId,
       channel,
       context,
       recipient,

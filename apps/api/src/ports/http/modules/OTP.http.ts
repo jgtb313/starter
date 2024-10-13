@@ -11,7 +11,7 @@ import {
 import { IDependencies } from '@/core/shared/types'
 import { validateOTP } from '@/core/otp/use-cases/validate-otp.use-case'
 import { sendOTP } from '@/core/otp/use-cases/send-otp.use-case'
-import { IRouter } from '@/ports/http'
+import { requiresAuthorization, IRouter } from '@/ports/http'
 
 export const OTPRouter = (dependencies: IDependencies): IRouter => ({
   name: 'OTP',
@@ -65,10 +65,20 @@ export const OTPRouter = (dependencies: IDependencies): IRouter => ({
         },
       },
 
-      async execute({ body }) {
+      async execute({ body }, context) {
+        requiresAuthorization(context)
+
+        await SendUpdateEmailOTPSchema.parse(body)
+
         const recipient = body.email
 
-        const { id } = await sendOTP(dependencies)({ channel: OTPChannelEnum.EMAIL, recipient, context: OTPContextEnum.UPDATE_EMAIL })
+        const { id } = await sendOTP(dependencies)({
+          workspaceId: context.auth.workspaceId,
+          userId: context.auth.userId,
+          channel: OTPChannelEnum.EMAIL,
+          context: OTPContextEnum.UPDATE_EMAIL,
+          recipient,
+        })
 
         return {
           otpId: id,
@@ -96,10 +106,18 @@ export const OTPRouter = (dependencies: IDependencies): IRouter => ({
         },
       },
 
-      async execute({ body }) {
+      async execute({ body }, context) {
+        requiresAuthorization(context)
+
         const recipient = `${body.phone.ddi}${body.phone.number}`
 
-        const { id } = await sendOTP(dependencies)({ ...body, recipient, context: OTPContextEnum.UPDATE_PHONE })
+        const { id } = await sendOTP(dependencies)({
+          ...body,
+          workspaceId: context.auth.workspaceId,
+          userId: context.auth.userId,
+          context: OTPContextEnum.UPDATE_PHONE,
+          recipient,
+        })
 
         return {
           otpId: id,

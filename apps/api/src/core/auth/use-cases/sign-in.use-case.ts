@@ -23,7 +23,7 @@ const execute: IUseCaseExecute<SignInInput, SignInOutput> =
     const token = JWT.generate(getTokenPayload(user.state))
 
     return {
-      token
+      token,
     }
   }
 

@@ -10,6 +10,8 @@ export const OTPVerificationSchema = OTPSchema.pick({
 })
 
 export const SendOTPSchema = OTPSchema.pick({
+  workspaceId: true,
+  userId: true,
   channel: true,
   context: true,
   recipient: true,

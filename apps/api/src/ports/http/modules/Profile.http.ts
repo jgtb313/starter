@@ -125,7 +125,7 @@ export const ProfileRouter = (dependencies: IDependencies): IRouter => ({
 
         const recipient = `${body.phone.ddi}${body.phone.number}`
 
-        await validateOTP(dependencies)({ ...body.otpVerification, context: OTPContextEnum.UPDATE_EMAIL, recipient })
+        await validateOTP(dependencies)({ ...body.otpVerification, context: OTPContextEnum.UPDATE_PHONE, recipient })
 
         await updateUserPhone(dependencies)({ id: context.auth.userId, phone: body.phone })
 

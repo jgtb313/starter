@@ -1,11 +1,13 @@
 import { User } from '@starter/schema'
 
 export type Auth = {
+  workspaceId: string
   userId: string
 }
 
 export const getTokenPayload = (user: User): Auth => {
   return {
-    userId: user.id
+    workspaceId: user.workspaceId,
+    userId: user.id,
   }
 }
