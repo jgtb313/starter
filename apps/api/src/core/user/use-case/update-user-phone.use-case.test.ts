@@ -17,7 +17,7 @@ describe('updateUserPhone', () => {
     dependencies = await TestDependencies()
   })
 
-  it('should successfully verify the user password', async () => {
+  it('should update the user phone number successfully', async () => {
     const input: UpdateUserPhoneInput = {
       id: '1ylq82nZJybDbTZzEB6iBzbd5xF',
       phone: {

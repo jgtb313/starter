@@ -18,7 +18,7 @@ describe('getUser', () => {
     dependencies = await TestDependencies()
   })
 
-  it('should successfully verify the user password', async () => {
+  it('should retrieve a user by ID successfully', async () => {
     const input: GetUserInput = {
       id: '1ylq82nZJybDbTZzEB6iBzbd5xF',
     }
@@ -29,7 +29,7 @@ describe('getUser', () => {
     expect(result.id).toBe(input.id)
   })
 
-  it('should throw an error if user is not found', async () => {
+  it('should throw NotFoundError when the user is not found', async () => {
     const input: GetUserInput = {
       id: 'non-existent-user',
     }

@@ -17,7 +17,7 @@ describe('updateUser', () => {
     dependencies = await TestDependencies()
   })
 
-  it('should successfully verify the user password', async () => {
+  it('should update the user details successfully', async () => {
     const input: UpdateUserInput = {
       id: '1ylq82nZJybDbTZzEB6iBzbd5xF',
       name: 'Updated Name',

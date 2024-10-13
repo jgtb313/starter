@@ -17,7 +17,7 @@ describe('updateUserPassword', () => {
     dependencies = await TestDependencies()
   })
 
-  it('should successfully verify the user password', async () => {
+  it('should update the user password successfully', async () => {
     const input: UpdateUserPasswordInput = {
       id: '1ylq82nZJybDbTZzEB6iBzbd5xF',
       currentPassword: 'hashedPassword',

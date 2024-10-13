@@ -17,7 +17,7 @@ describe('updateUserEmail', () => {
     dependencies = await TestDependencies()
   })
 
-  it('should successfully verify the user password', async () => {
+  it('should update the user email successfully', async () => {
     const input: UpdateUserEmailInput = {
       id: '1ylq82nZJybDbTZzEB6iBzbd5xF',
       email: 'john@doe.com',
