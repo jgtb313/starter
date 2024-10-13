@@ -14,15 +14,8 @@ describe('getContext', () => {
     expect(result).toEqual(expectedContext)
   })
 
-  it('should throw NotFoundError for an invalid OTPContextEnum', () => {
-    const invalidContext = 'invalid-context' as OTPContextEnum // Usando um valor inválido
-
-    expect(() => getContext(invalidContext)).toThrow(NotFoundError)
-    expect(() => getContext(invalidContext)).toThrow(`OTP Context ${invalidContext} not found`)
-  })
-
   it('should throw NotFoundError if the context is not present in OTPContexts', () => {
-    const nonexistentContext = 'nonexistent-context' as OTPContextEnum // Contexto que não existe na lista
+    const nonexistentContext = 'nonexistent-context' as OTPContextEnum
 
     expect(() => getContext(nonexistentContext)).toThrow(NotFoundError)
     expect(() => getContext(nonexistentContext)).toThrow(`OTP Context ${nonexistentContext} not found`)

@@ -48,11 +48,7 @@ export class OTP {
     const hasValidRecipient = this.state.recipient === recipient
 
     if (!hasValidRecipient) {
-      throw new ConflictError('Invalid recipient', {
-        metadata: {
-          context: 'invalid',
-        },
-      })
+      throw new ConflictError('Invalid recipient')
     }
   }
 
@@ -60,11 +56,7 @@ export class OTP {
     const hasValidContext = this.state.context === context
 
     if (!hasValidContext) {
-      throw new ConflictError('Invalid access data', {
-        metadata: {
-          context: 'invalid',
-        },
-      })
+      throw new ConflictError('Invalid context')
     }
   }
 

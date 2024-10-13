@@ -1,6 +1,5 @@
 import {
   z,
-  UserSchema,
   GetUserSchemaOutput,
   UpdateUserSchema,
   UpdateUserSchemaOutput,
@@ -24,13 +23,9 @@ import { requiresAuthorization, IRouter } from '@/ports/http'
 export const ProfileRouter = (dependencies: IDependencies): IRouter => ({
   name: 'Profile',
 
-  description: 'Handles operations for managing and retrieving the authenticated user profile.',
+  description: 'Handles operations for managing and retrieving the authenticated user.',
 
-  schemas: {
-    Profile: {
-      schema: UserSchema,
-    },
-  },
+  schemas: {},
 
   paths: {
     getProfile: {
@@ -73,7 +68,7 @@ export const ProfileRouter = (dependencies: IDependencies): IRouter => ({
       execute({ body }, context) {
         requiresAuthorization(context)
 
-        return updateUser(dependencies)({ ...body })
+        return updateUser(dependencies)({ ...body, id: context.auth.userId })
       },
     },
 
@@ -154,7 +149,7 @@ export const ProfileRouter = (dependencies: IDependencies): IRouter => ({
 
         await userPasswordVerification(dependencies)({ id: context.auth.userId, password: body.currentPassword })
 
-        await updateUserPassword(dependencies)({ id: context.auth.userId, ...body })
+        await updateUserPassword(dependencies)({ ...body, id: context.auth.userId })
 
         return
       },
