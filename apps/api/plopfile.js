@@ -1,4 +1,8 @@
 module.exports = function (plop) {
+  plop.setHelper('join', (text) => {
+    return text.split(' ').join('')
+  })
+
   plop.setHelper('lowerSentenceCase', (text) => {
     return text
       .replace(/([a-z])([A-Z])/g, '$1 $2')
@@ -149,6 +153,55 @@ module.exports = function (plop) {
         type: 'add',
         path: 'src/core/{{kebabCase moduleName}}/use-cases/{{kebabCase name}}.ts',
         templateFile: 'templates/module/core/custom-use-case.ts.hbs',
+      },
+    ],
+  })
+
+  plop.setGenerator('adapter', {
+    description: 'Add an adapter',
+    prompts: [
+      {
+        type: 'input',
+        name: 'name',
+        message: 'Adapter name:',
+      },
+      {
+        type: 'input',
+        name: 'port',
+        message: 'Port name:',
+      },
+    ],
+    actions: [
+      {
+        type: 'addMany',
+        destination: 'src/adapters/{{kebabCase name}}',
+        base: 'templates/adapter/core',
+        templateFiles: 'templates/adapter/core/*.hbs',
+      },
+      {
+        type: 'addMany',
+        destination: 'src/adapters/{{kebabCase name}}-in-memory',
+        base: 'templates/adapter/in-memory',
+        templateFiles: 'templates/adapter/in-memory/*.hbs',
+      },
+    ],
+  })
+
+  plop.setGenerator('port', {
+    description: 'Add an port',
+    prompts: [
+      {
+        type: 'input',
+        name: 'name',
+        message: 'Port name:',
+      },
+    ],
+    actions: [
+      {
+        type: 'addMany',
+        destination: 'src/ports/{{kebabCase name}}',
+        base: 'templates/port',
+        templateFiles: 'templates/port/*.hbs',
       },
     ],
   })

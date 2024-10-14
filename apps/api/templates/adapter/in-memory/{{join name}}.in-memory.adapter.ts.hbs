@@ -1,0 +1,10 @@
+import { vi } from 'vitest'
+
+import { SetupTestDependencies } from '@/config/tests'
+import { I{{pascalCase port}} } from '@/ports/{{kebabCase port}}'
+
+export const {{pascalCase port}}InMemory: SetupTestDependencies<I{{pascalCase port}}> = {
+  example: vi.fn(async () => {
+    return
+  }),
+}

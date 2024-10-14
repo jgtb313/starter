@@ -9,6 +9,8 @@
     "dev": "nodemon --exec ts-node src/index.ts",
     "generate:module": "yarn plop module",
     "generate:module:useCase": "yarn plop module:useCase",
+    "generate:adapter": "yarn plop adapter",
+    "generate:port": "yarn plop port",
     "artifacts:build": "yarn workspace @starter/shared build && yarn workspace @starter/schema build",
     "build": "ts-node scripts/load-envs && tsc",
     "type-check": "tsc --project tsconfig.json --pretty --skipLibCheck --noEmit",
