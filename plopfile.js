@@ -38,7 +38,7 @@ module.exports = function (plop) {
       },
       {
         type: 'shell',
-        command: 'yarn artifacts:build',
+        command: 'yarn workspace @starter/shared build && yarn workspace @starter/schema build && yarn workspace @starter/client build',
       },
     ],
   })

@@ -12,9 +12,6 @@
   },
   "scripts": {
     "generate": "yarn plop generate",
-    "artifacts:build": "yarn workspace @starter/shared build && yarn workspace @starter/schema build && yarn workspace @starter/client build",
-    "predev": "yarn artifacts:build",
-    "dev": "node concurrently.js",
     "docker": "yarn docker:down && yarn docker:up",
     "docker:up": "docker-compose up -d",
     "docker:down": "docker-compose down",
