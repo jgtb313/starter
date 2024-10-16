@@ -18,7 +18,7 @@ describe('socialSignIn', () => {
     dependencies = await TestDependencies()
   })
 
-  it('should create a new user and workspace if user does not exist', async () => {
+  it('should create a new user if user does not exist', async () => {
     const input: SocialSignInInput = {
       context: SocialSignInEnum.GOOGLE,
       token: 'tokenUnregisteredUser',
@@ -26,8 +26,11 @@ describe('socialSignIn', () => {
 
     const output = await sut().execute(input)
 
+    const createdUser = await dependencies.Repositories.user.findOne({ social: { google: { id: input.token } } })
+
     expect(dependencies.JWT.generate).toBeCalled()
     expect(dependencies.Repositories.user.create).toBeCalled()
+    expect(createdUser?.state.email).toBe('james.smith@fakeemail.com')
     expect(output).toBeDefined()
   })
 

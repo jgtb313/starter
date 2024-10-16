@@ -16,21 +16,6 @@ describe('requestFilename', () => {
     dependencies = await TestDependencies()
   })
 
-  it('should return a signed URL for an organization logo', async () => {
-    const input: RequestFilenameInput = {
-      context: FileContextEnum.ORGANIZATION_LOGO,
-      filename: 'logo.png',
-    }
-
-    const output = await sut().execute(input)
-
-    expect(dependencies.Storage.getSignedUrl).toBeCalledWith('organizations/logo/logo.png')
-    expect(output).toEqual({
-      filename: 'https://static.test.com.br/organizations/logo/logo.png',
-      filenameSigned: 'https://test-assets.s3.us-east-1.amazonaws.com/organizations/logo/logo.png',
-    })
-  })
-
   it('should return a signed URL for a user avatar', async () => {
     const input: RequestFilenameInput = {
       context: FileContextEnum.USER_AVATAR,
@@ -41,7 +26,7 @@ describe('requestFilename', () => {
 
     expect(dependencies.Storage.getSignedUrl).toBeCalledWith('users/avatar/avatar.png')
     expect(output).toEqual({
-      filename: 'https://static.test.com.br/users/avatar/avatar.png',
+      filename: 'https://static.test.com/users/avatar/avatar.png',
       filenameSigned: 'https://test-assets.s3.us-east-1.amazonaws.com/users/avatar/avatar.png',
     })
   })

@@ -9,7 +9,7 @@ import {
   ConflictError,
   ValidationError,
   UnknownError,
-  InternalServerError
+  InternalServerError,
 } from './errors'
 
 describe('Error Classes', () => {
@@ -18,7 +18,7 @@ describe('Error Classes', () => {
       name: 'CustomError',
       code: 400,
       message: 'This is a custom error message',
-      metadata: { additional: 'info' }
+      metadata: { additional: 'info' },
     })
 
     expect(error).toBeInstanceOf(DefaultError)

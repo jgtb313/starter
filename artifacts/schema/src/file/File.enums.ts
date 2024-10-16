@@ -1,4 +1,3 @@
 export enum FileContextEnum {
-  'ORGANIZATION_LOGO' = 'ORGANIZATION_LOGO',
-  'USER_AVATAR' = 'USER_AVATAR'
+  'USER_AVATAR' = 'USER_AVATAR',
 }
