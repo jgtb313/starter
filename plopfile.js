@@ -10,17 +10,17 @@ module.exports = function (plop) {
   })
 
   plop.setGenerator('generate', {
-    description: 'Generate schema, resource, and module',
+    description: 'Generate schema, api client resource, and api module',
     prompts: [
       {
         type: 'input',
         name: 'name',
-        message: 'Enter the name:',
+        message: 'Name:',
       },
       {
         type: 'input',
         name: 'namePlural',
-        message: 'Enter the plural name:',
+        message: 'Plural:',
       },
     ],
     actions: [
