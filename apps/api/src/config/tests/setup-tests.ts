@@ -1,4 +1,5 @@
 import { beforeAll, afterAll, beforeEach } from 'vitest'
+
 import { connect, disconnect } from '@/adapters/mongodb-in-memory'
 import { setupMocks } from '@/adapters/mongodb-in-memory/MongoDB.in-memory.mock'
 

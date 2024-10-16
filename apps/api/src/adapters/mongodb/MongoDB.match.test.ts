@@ -3,30 +3,9 @@ import { describe, it, expect } from 'vitest'
 import { makeMatch } from './MongoDB.match'
 
 describe('MongoDB.match', () => {
-  it('Checks match with context having auth', async () => {
-    const input = {
-      name: 'Name'
-    }
-
-    const $match = makeMatch(input, { shouldCheckRecaptcha: false, auth: { userId: '1' } })
-
-    expect($match['name']).toBe('Name')
-  })
-
-  it('Checks match with context without auth', async () => {
-    const input = {
-      name: 'Name'
-    }
-
-    const $match = makeMatch(input, { shouldCheckRecaptcha: false })
-
-    expect($match['name']).toBe('Name')
-    expect($match['storeId']).toBe(undefined)
-  })
-
   it('Checks simple input', async () => {
     const input = {
-      name: 'Name'
+      name: 'Name',
     }
 
     const $match = makeMatch(input)
@@ -37,8 +16,8 @@ describe('MongoDB.match', () => {
   it('Checks simple search input', async () => {
     const input = {
       search: {
-        name: 'Name'
-      }
+        name: 'Name',
+      },
     }
 
     const $match = makeMatch(input)
@@ -49,8 +28,8 @@ describe('MongoDB.match', () => {
   it('Checks search input with undefined value', async () => {
     const input = {
       search: {
-        name: undefined
-      }
+        name: undefined,
+      },
     }
 
     const $match = makeMatch(input)
@@ -64,10 +43,10 @@ describe('MongoDB.match', () => {
       $and: [
         {
           search: {
-            description: 'Description'
-          }
-        }
-      ]
+            description: 'Description',
+          },
+        },
+      ],
     }
 
     const $match = makeMatch(input)
@@ -78,8 +57,8 @@ describe('MongoDB.match', () => {
   it('Checks simple native input', async () => {
     const input = {
       document: {
-        $eq: '05933837377'
-      }
+        $eq: '05933837377',
+      },
     }
 
     const $match = makeMatch(input)
@@ -93,8 +72,8 @@ describe('MongoDB.match', () => {
     const input = {
       createdAt: {
         $gte: now,
-        $lte: now
-      }
+        $lte: now,
+      },
     }
 
     const $match = makeMatch(input)
@@ -109,12 +88,12 @@ describe('MongoDB.match', () => {
     const input = {
       duration: {
         startAt: {
-          $gte: now
+          $gte: now,
         },
         endAt: {
-          $lte: now
-        }
-      }
+          $lte: now,
+        },
+      },
     }
 
     const $match = makeMatch(input)
@@ -132,15 +111,15 @@ describe('MongoDB.match', () => {
           lastOrder: {
             duration: {
               startAt: {
-                $gte: now
+                $gte: now,
               },
               endAt: {
-                $lte: now
-              }
-            }
-          }
-        }
-      }
+                $lte: now,
+              },
+            },
+          },
+        },
+      },
     }
 
     const $match = makeMatch(input)
@@ -159,13 +138,13 @@ describe('MongoDB.match', () => {
             userLoyalty: {
               duration: {
                 startAt: {
-                  $gte: now
-                }
-              }
-            }
-          }
-        }
-      ]
+                  $gte: now,
+                },
+              },
+            },
+          },
+        },
+      ],
     }
 
     const $match = makeMatch(input)
@@ -176,8 +155,8 @@ describe('MongoDB.match', () => {
   it('Checks input with deep simple', async () => {
     const input = {
       payment: {
-        type: 'ONLINE'
-      }
+        type: 'ONLINE',
+      },
     }
 
     const $match = makeMatch(input)
@@ -190,10 +169,10 @@ describe('MongoDB.match', () => {
       $or: [
         {
           payment: {
-            type: 'ONLINE'
-          }
-        }
-      ]
+            type: 'ONLINE',
+          },
+        },
+      ],
     }
 
     const $match = makeMatch(input)
@@ -207,11 +186,11 @@ describe('MongoDB.match', () => {
         {
           payment: {
             type: {
-              $eq: 'ONLINE'
-            }
-          }
-        }
-      ]
+              $eq: 'ONLINE',
+            },
+          },
+        },
+      ],
     }
 
     const $match = makeMatch(input)
@@ -222,8 +201,8 @@ describe('MongoDB.match', () => {
   it('Checks native input $in', async () => {
     const input = {
       status: {
-        $in: ['PLACED']
-      }
+        $in: ['PLACED'],
+      },
     }
 
     const $match = makeMatch(input)
@@ -234,8 +213,8 @@ describe('MongoDB.match', () => {
   it('Checks native input $nin', async () => {
     const input = {
       status: {
-        $nin: ['PLACED']
-      }
+        $nin: ['PLACED'],
+      },
     }
 
     const $match = makeMatch(input)
@@ -247,9 +226,9 @@ describe('MongoDB.match', () => {
     const input = {
       order: {
         status: {
-          $nin: ['PLACED']
-        }
-      }
+          $nin: ['PLACED'],
+        },
+      },
     }
 
     const $match = makeMatch(input)
@@ -262,10 +241,10 @@ describe('MongoDB.match', () => {
       order: {
         customer: {
           role: {
-            $nin: ['MANAGER']
-          }
-        }
-      }
+            $nin: ['MANAGER'],
+          },
+        },
+      },
     }
 
     const $match = makeMatch(input)
@@ -278,10 +257,10 @@ describe('MongoDB.match', () => {
       order: {
         customer: {
           role: {
-            $nin: undefined
-          }
-        }
-      }
+            $nin: undefined,
+          },
+        },
+      },
     }
 
     const $match = makeMatch(input)
@@ -291,7 +270,7 @@ describe('MongoDB.match', () => {
 
   it('Checks input with simple undefined', async () => {
     const input = {
-      name: undefined
+      name: undefined,
     }
 
     const $match = makeMatch(input)
@@ -303,8 +282,8 @@ describe('MongoDB.match', () => {
     const input = {
       payment: {
         type: undefined,
-        method: 'PIX'
-      }
+        method: 'PIX',
+      },
     }
 
     const $match = makeMatch(input)
@@ -316,9 +295,9 @@ describe('MongoDB.match', () => {
     const input = {
       payment: {
         type: {
-          $eq: undefined
-        }
-      }
+          $eq: undefined,
+        },
+      },
     }
 
     const $match = makeMatch(input)
@@ -330,8 +309,8 @@ describe('MongoDB.match', () => {
     const input = {
       paidAt: {
         $gte: new Date(),
-        $lte: undefined
-      }
+        $lte: undefined,
+      },
     }
 
     const $match = makeMatch(input)
@@ -343,12 +322,12 @@ describe('MongoDB.match', () => {
     const input = {
       payment: {
         type: {
-          $eq: 'ONLINE'
+          $eq: 'ONLINE',
         },
         method: {
-          $eq: undefined
-        }
-      }
+          $eq: undefined,
+        },
+      },
     }
 
     const $match = makeMatch(input)
@@ -360,12 +339,12 @@ describe('MongoDB.match', () => {
     const input = {
       payment: {
         type: {
-          $eq: 'ONLINE'
+          $eq: 'ONLINE',
         },
         method: {
-          $eq: undefined
-        }
-      }
+          $eq: undefined,
+        },
+      },
     }
 
     const $match = makeMatch(input)
@@ -377,12 +356,12 @@ describe('MongoDB.match', () => {
     const input = {
       payment: {
         type: {
-          $eq: undefined
+          $eq: undefined,
         },
         method: {
-          $eq: undefined
-        }
-      }
+          $eq: undefined,
+        },
+      },
     }
 
     const $match = makeMatch(input)
@@ -394,8 +373,8 @@ describe('MongoDB.match', () => {
     const input = {
       payment: {
         type: 'ONLINE',
-        method: 'PIX'
-      }
+        method: 'PIX',
+      },
     }
 
     const $match = makeMatch(input)
@@ -409,9 +388,9 @@ describe('MongoDB.match', () => {
     const input = {
       payment: {
         type: {
-          $eq: 'ONLINE'
-        }
-      }
+          $eq: 'ONLINE',
+        },
+      },
     }
 
     const $match = makeMatch(input)
@@ -424,9 +403,9 @@ describe('MongoDB.match', () => {
     const input = {
       payment: {
         type: {
-          $in: []
-        }
-      }
+          $in: [],
+        },
+      },
     }
 
     const $match = makeMatch(input)
@@ -438,9 +417,9 @@ describe('MongoDB.match', () => {
     const input = {
       payment: {
         type: {
-          $in: ['1', '2', '3']
-        }
-      }
+          $in: ['1', '2', '3'],
+        },
+      },
     }
 
     const $match = makeMatch(input)

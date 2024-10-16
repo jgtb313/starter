@@ -4,14 +4,15 @@ import { z } from '@starter/schema'
 
 type Env =
   | 'PROJECT'
+  | 'PROJECT_DOMAIN'
   | 'STAGE'
   | 'SERVER_PORT'
   | 'SERVER_SECRET'
   | 'SERVER_RECOVER_PASSWORD_BASE_URL'
-  | 'MONGODB_URL'
-  | 'STATIC_IMAGE_URL'
+  | 'MONGODB_URI'
+  | 'STATIC_ASSETS_URL'
   | 'AWS_S3_REGION'
-  | 'AWS_S3_FILE_BUCKET'
+  | 'AWS_S3_ASSETS_BUCKET'
   | 'GOOGLE_MAIL_USER'
   | 'GOOGLE_MAIL_PASSWORD'
   | 'TWILIO_SMS_ACCOUNT_SID'
@@ -28,21 +29,17 @@ export const EnvSchema = z.object({
   // Server
   SERVER_PORT: z.string().transform(Number),
   SERVER_SECRET: z.string().min(1),
-  SERVER_LOCAL_POSTBACK_TARGET: z.string().min(1),
-  SERVER_POSTBACK_SECRET: z.string().min(1),
-  SERVER_PROCESS_POSTBACK: z.enum(['true', 'false']).transform((value) => value === 'true'),
-  SERVER_START_SCHEDULE: z.enum(['true', 'false']).transform((value) => value === 'true'),
   SERVER_RECOVER_PASSWORD_BASE_URL: z.string(),
 
   // MongoDB Database
-  MONGODB_URL: z.string().min(1),
+  MONGODB_URI: z.string().min(1),
 
   // Static Image
-  STATIC_IMAGE_URL: z.string().min(1),
+  STATIC_ASSETS_URL: z.string().min(1),
 
   // AWS S3
   AWS_S3_REGION: z.string().min(1),
-  AWS_S3_FILE_BUCKET: z.string().min(1),
+  AWS_S3_ASSETS_BUCKET: z.string().min(1),
 
   // Google Mail
   GOOGLE_MAIL_USER: z.string().email(),

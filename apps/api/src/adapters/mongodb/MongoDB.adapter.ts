@@ -4,7 +4,7 @@ import { IDatabase } from '@/ports/database'
 import { Repositories } from './modules'
 import { client, connect as connection } from './MongoDB.connection'
 
-const MONGODB_URL = env('MONGODB_URL')
+const MONGODB_URI = env('MONGODB_URI')
 
 const createSession = () => {
   const session = client.startSession()
@@ -27,7 +27,7 @@ const createSession = () => {
 }
 
 const connect = async () => {
-  await connection(MONGODB_URL)
+  await connection(MONGODB_URI)
 }
 
 const disconnect = async () => {

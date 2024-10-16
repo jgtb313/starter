@@ -20,24 +20,30 @@ export const TestDependencies = async (): Promise<ITestDependencies> => {
   vi.clearAllMocks()
 
   vi.stubEnv('PROJECT', 'test')
+  vi.stubEnv('PROJECT_DOMAIN', 'test.com')
   vi.stubEnv('STAGE', 'local')
 
   vi.stubEnv('SERVER_PORT', '4000')
   vi.stubEnv('SERVER_SECRET', 'fake-secret')
-  vi.stubEnv('SERVER_LOCAL_POSTBACK_TARGET', 'fake-target')
-  vi.stubEnv('SERVER_POSTBACK_SECRET', 'fake-postback-secret')
-  vi.stubEnv('SERVER_PROCESS_POSTBACK', 'false')
-  vi.stubEnv('SERVER_START_SCHEDULE', 'false')
   vi.stubEnv('SERVER_RECOVER_PASSWORD_BASE_URL', 'http://localhost:fake')
 
-  vi.stubEnv('MONGODB_URL', 'mongodb://fake-user:fake-password@localhost:27017/fake-db')
-  vi.stubEnv('STATIC_IMAGE_URL', 'static.test.com.br')
+  vi.stubEnv('MONGODB_URI', 'mongodb://fake-user:fake-password@localhost:27017/fake-db')
+
+  vi.stubEnv('STATIC_ASSETS_URL', 'static.test.com')
 
   vi.stubEnv('AWS_S3_REGION', 'us-east-1')
-  vi.stubEnv('AWS_S3_FILE_BUCKET', 'test-assets')
+  vi.stubEnv('AWS_S3_ASSETS_BUCKET', 'test-assets')
 
   vi.stubEnv('GOOGLE_MAIL_USER', 'fake.mail.user@gmail.com')
   vi.stubEnv('GOOGLE_MAIL_PASSWORD', 'fake-password')
+
+  vi.stubEnv('TWILIO_SMS_ACCOUNT_SID', 'fake-sms-account-sid')
+  vi.stubEnv('TWILIO_SMS_AUTH_TOKEN', 'fake-sms-auth-token')
+  vi.stubEnv('TWILIO_SMS_FROM', '+1234567890')
+
+  vi.stubEnv('TWILIO_WHATSAPP_ACCOUNT_SID', 'fake-whatsapp-account-sid')
+  vi.stubEnv('TWILIO_WHATSAPP_AUTH_TOKEN', 'fake-whatsapp-auth-token')
+  vi.stubEnv('TWILIO_WHATSAPP_FROM', 'whatsapp:+1234567890')
 
   return {
     JWT: JWTInMemory,

@@ -1,6 +1,5 @@
 import { Filter, Document } from 'mongodb'
 import { flatten, clearSpecialChars, isUndefined } from '@starter/shared'
-import { IContext } from '@/core/shared/types'
 
 const NATIVES_ARRAY = ['$in', '$nin']
 
@@ -8,7 +7,7 @@ const isSearchKey = (key: string) => key.split('.').reverse()[1] === 'search'
 
 const normalizeSearchKey = (key: string) => new RegExp(clearSpecialChars(key).toLowerCase(), 'i')
 
-export const makeMatch = (input: Record<string, any>, _?: IContext): Filter<Document> => {
+export const makeMatch = (input: Record<string, any>): Filter<Document> => {
   const flattenedInput = flatten<Record<string, any>, Record<string, any>>(input)
   const flattenedResult: Record<string, any> = {}
 
@@ -39,13 +38,13 @@ export const makeMatch = (input: Record<string, any>, _?: IContext): Filter<Docu
 
         return {
           ...acc,
-          [nativeKey]: [...previousNativeValues, { [newDeepKey]: { [`${deepNativeKey}`]: value } }]
+          [nativeKey]: [...previousNativeValues, { [newDeepKey]: { [`${deepNativeKey}`]: value } }],
         }
       }
 
       return {
         ...acc,
-        [nativeKey]: [...previousNativeValues, { [newKey]: value }]
+        [nativeKey]: [...previousNativeValues, { [newKey]: value }],
       }
     }
 
@@ -64,8 +63,8 @@ export const makeMatch = (input: Record<string, any>, _?: IContext): Filter<Docu
       return {
         ...acc,
         [newKey]: {
-          [nativeKey]: newValue
-        }
+          [nativeKey]: newValue,
+        },
       }
     }
 
@@ -77,8 +76,8 @@ export const makeMatch = (input: Record<string, any>, _?: IContext): Filter<Docu
       return {
         ...acc,
         [newKey]: {
-          [nativeKey]: [...previousNativeArray, value]
-        }
+          [nativeKey]: [...previousNativeArray, value],
+        },
       }
     }
 
@@ -89,13 +88,13 @@ export const makeMatch = (input: Record<string, any>, _?: IContext): Filter<Docu
 
       return {
         ...acc,
-        [newKey]: { [nativeKey]: value, ...previousValue }
+        [newKey]: { [nativeKey]: value, ...previousValue },
       }
     }
 
     return {
       ...acc,
-      [key]: value
+      [key]: value,
     }
   }, {} as Record<string, any>)
 
