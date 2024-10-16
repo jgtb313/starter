@@ -48,8 +48,6 @@ export const setupRoutes = (instance: FastifyInstance, routes: typeof Modules, d
         method,
         handler: async (req: FastifyRequest<Request>, reply) => {
           try {
-            const userAgent = req.headers['user-agent']
-
             const input = {
               query: req.query ?? {},
               params: req.params ?? {},
@@ -59,9 +57,7 @@ export const setupRoutes = (instance: FastifyInstance, routes: typeof Modules, d
 
             const authorization = input.headers['authorization'] ? `${input.headers['authorization']}` : undefined
 
-            const context: IContext = {
-              shouldCheckRecaptcha: !userAgent?.startsWith('Postman'),
-            }
+            const context: IContext = {}
 
             try {
               const auth = checkAuthorization(dependencies)(authorization)
