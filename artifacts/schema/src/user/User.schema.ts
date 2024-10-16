@@ -13,6 +13,11 @@ const Email = EmailSchema
 
 const Phone = PhoneSchema.nullish()
 
+const Avatar = z
+  .string()
+  .nullish()
+  .transform((value) => value ?? null)
+
 const Social = z
   .object({
     google: z
@@ -50,6 +55,7 @@ export const UserSchema = z.object({
   name: Name,
   email: Email,
   phone: Phone,
+  avatar: Avatar,
   social: Social,
   recoverPassword: RecoverPassword,
   password: Password,

@@ -15,6 +15,7 @@ export const UpdateUserSchema = UserSchema.pick({
 }).merge(
   UserSchema.pick({
     name: true,
+    avatar: true,
   }).partial(),
 )
 export const UpdateUserSchemaOutput = UserSchema

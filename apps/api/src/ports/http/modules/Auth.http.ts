@@ -6,7 +6,7 @@ import {
   SignUpSchema,
   SignUpSchemaOutput,
   ForgotPasswordSchema,
-  RecoverPasswordSchema
+  RecoverPasswordSchema,
 } from '@starter/schema'
 
 import { IDependencies } from '@/core/shared/types'
@@ -34,19 +34,19 @@ export const AuthRouter = (dependencies: IDependencies): IRouter => ({
       path: '/auth::sign-in',
 
       parameters: {
-        body: SignInSchema
+        body: SignInSchema,
       },
 
       responses: {
         200: {
           schema: SignInSchemaOutput,
-          description: 'OK'
-        }
+          description: 'OK',
+        },
       },
 
       execute({ body }) {
         return signIn(dependencies)(body)
-      }
+      },
     },
 
     socialSignIn: {
@@ -58,19 +58,19 @@ export const AuthRouter = (dependencies: IDependencies): IRouter => ({
       path: '/auth::social-sign-in',
 
       parameters: {
-        body: SocialSignInSchema
+        body: SocialSignInSchema,
       },
 
       responses: {
         200: {
           schema: SocialSignInSchemaOutput,
-          description: '200'
-        }
+          description: 'OK',
+        },
       },
 
       execute({ body }) {
         return socialSignIn(dependencies)(body)
-      }
+      },
     },
 
     signUp: {
@@ -82,19 +82,19 @@ export const AuthRouter = (dependencies: IDependencies): IRouter => ({
       path: '/auth::sign-up',
 
       parameters: {
-        body: SignUpSchema
+        body: SignUpSchema,
       },
 
       responses: {
         200: {
           schema: SignUpSchemaOutput,
-          description: 'OK'
-        }
+          description: 'OK',
+        },
       },
 
       execute({ body }) {
         return signUp(dependencies)(body)
-      }
+      },
     },
 
     forgotPassword: {
@@ -106,18 +106,18 @@ export const AuthRouter = (dependencies: IDependencies): IRouter => ({
       path: '/auth::forgot-password',
 
       parameters: {
-        body: ForgotPasswordSchema
+        body: ForgotPasswordSchema,
       },
 
       responses: {
         204: {
-          description: 'OK'
-        }
+          description: 'OK',
+        },
       },
 
       execute({ body }) {
         return forgotPassword(dependencies)(body)
-      }
+      },
     },
 
     recoverPassword: {
@@ -129,18 +129,18 @@ export const AuthRouter = (dependencies: IDependencies): IRouter => ({
       path: '/auth::recover-password',
 
       parameters: {
-        body: RecoverPasswordSchema
+        body: RecoverPasswordSchema,
       },
 
       responses: {
         204: {
-          description: 'OK'
-        }
+          description: 'OK',
+        },
       },
 
       execute({ body }) {
         return recoverPassword(dependencies)(body)
-      }
-    }
-  }
+      },
+    },
+  },
 })
