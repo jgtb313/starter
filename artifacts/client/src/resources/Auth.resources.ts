@@ -5,14 +5,16 @@
  *
  * @module Auth
  **/
+
 import {
   SignInInput,
   SignInOutput,
+  SocialSignInInput,
+  SocialSignInOutput,
+  SignUpInput,
+  SignUpOutput,
   ForgotPasswordInput,
-  ForgotPasswordOutput,
   RecoverPasswordInput,
-  RecoverPasswordOutput,
-  WithRecaptcha,
 } from '@starter/schema'
 
 import client from '@/request'
@@ -25,10 +27,33 @@ import { withFields } from '@/support'
  * @param {Object} body The body for the request.
  * @param {Object} [body.fields] The fields.
  *
+ * @returns Resolves to the result of the request or an error.
  */
-export const signIn = withFields<WithRecaptcha<SignInInput>, SignInOutput>(({ fields, ...input }) =>
-  client.post('/auth:sign-in', input, { params: { fields } }),
+export const signIn = withFields<SignInInput, SignInOutput>(({ fields, ...body }) => client.post('/auth:sign-in', body, { params: { fields } }))
+
+/**
+ * `POST /auth:social-sign-in`
+ * Makes a request to /auth:social-sign-in
+ *
+ * @param {Object} body The body for the request.
+ * @param {Object} [body.fields] The fields.
+ *
+ * @returns Resolves to the result of the request or an error.
+ */
+export const socialSignIn = withFields<SocialSignInInput, SocialSignInOutput>(({ fields, ...body }) =>
+  client.post('/auth:social-sign-in', body, { params: { fields } }),
 )
+
+/**
+ * `POST /auth:sign-up`
+ * Makes a request to /auth:sign-up
+ *
+ * @param {Object} body The body for the request.
+ * @param {Object} [body.fields] The fields.
+ *
+ * @returns Resolves to the result of the request or an error.
+ */
+export const signUp = withFields<SignUpInput, SignUpOutput>(({ fields, ...body }) => client.post('/auth:sign-up', body, { params: { fields } }))
 
 /**
  * `POST /auth:forgot-password`
@@ -37,9 +62,10 @@ export const signIn = withFields<WithRecaptcha<SignInInput>, SignInOutput>(({ fi
  * @param {Object} body The body for the request.
  * @param {Object} [body.fields] The fields.
  *
+ * @returns Resolves to the result of the request or an error.
  */
-export const forgotPassword = withFields<WithRecaptcha<ForgotPasswordInput>, ForgotPasswordOutput>(({ fields, ...input }) =>
-  client.post('/auth:forgot-password', input, { params: { fields } }),
+export const forgotPassword = withFields<ForgotPasswordInput, void>(({ fields, ...body }) =>
+  client.post('/auth:forgot-password', body, { params: { fields } }),
 )
 
 /**
@@ -49,7 +75,8 @@ export const forgotPassword = withFields<WithRecaptcha<ForgotPasswordInput>, For
  * @param {Object} body The body for the request.
  * @param {Object} [body.fields] The fields.
  *
+ * @returns Resolves to the result of the request or an error.
  */
-export const recoverPassword = withFields<WithRecaptcha<RecoverPasswordInput>, RecoverPasswordOutput>(({ fields, ...input }) =>
-  client.post('/auth:recover-password', input, { params: { fields } }),
+export const recoverPassword = withFields<RecoverPasswordInput, void>(({ fields, ...body }) =>
+  client.post('/auth:recover-password', body, { params: { fields } }),
 )

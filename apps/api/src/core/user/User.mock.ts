@@ -2,15 +2,10 @@ import { UserStatusEnum } from '@starter/schema'
 import { uuid } from '@starter/shared'
 
 import { User } from '@/core/user/domain'
-import { Workspace } from '@/core/workspace/domain'
-import { workspaceMocks } from '@/core/workspace/Workspace.mock'
-
-const [Workspace1, Workspace2, Workspace3] = workspaceMocks as [Workspace, Workspace, Workspace]
 
 export const userMocks: User[] = [
   new User({
     id: '1ylq82nZJybDbTZzEB6iBzbd5xF',
-    workspaceId: Workspace1.state.id,
     name: 'John Doe',
     email: 'john.doe@acme.com',
     social: {
@@ -22,7 +17,6 @@ export const userMocks: User[] = [
   }),
 
   new User({
-    workspaceId: Workspace2.state.id,
     name: 'Jane Smith',
     email: 'jane.smith@beta.com',
     social: {
@@ -34,7 +28,6 @@ export const userMocks: User[] = [
   }),
 
   new User({
-    workspaceId: Workspace3.state.id,
     name: 'Alice Johnson',
     email: 'alice.johnson@gamma.com',
     social: {
@@ -47,7 +40,6 @@ export const userMocks: User[] = [
   }),
 
   new User({
-    workspaceId: Workspace3.state.id,
     name: 'Bob Brown',
     email: 'bob.brown@delta.com',
     social: {
@@ -59,7 +51,6 @@ export const userMocks: User[] = [
   }),
 
   new User({
-    workspaceId: Workspace3.state.id,
     name: 'Charlie Davis',
     email: 'charlie.davis@epsilon.com',
     social: {
@@ -71,7 +62,6 @@ export const userMocks: User[] = [
   }),
 
   new User({
-    workspaceId: Workspace1.state.id,
     name: 'Dave Evans',
     email: 'dave.evans@zeta.com',
     social: {
@@ -83,7 +73,6 @@ export const userMocks: User[] = [
   }),
 
   new User({
-    workspaceId: Workspace1.state.id,
     name: 'Eve Foster',
     email: 'eve.foster@theta.com',
     social: {
@@ -95,7 +84,6 @@ export const userMocks: User[] = [
   }),
 
   new User({
-    workspaceId: Workspace1.state.id,
     name: 'Frank Green',
     email: 'frank.green@iota.com',
     social: {
@@ -107,7 +95,6 @@ export const userMocks: User[] = [
   }),
 
   new User({
-    workspaceId: Workspace2.state.id,
     name: 'Grace Harris',
     email: 'grace.harris@kappa.com',
     social: {
@@ -119,7 +106,6 @@ export const userMocks: User[] = [
   }),
 
   new User({
-    workspaceId: Workspace2.state.id,
     name: 'Hank Isaac',
     email: 'hank.isaac@lambda.com',
     social: {
@@ -135,7 +121,6 @@ export const userMocks: User[] = [
   }),
 
   new User({
-    workspaceId: Workspace2.state.id,
     name: 'Leo Turner',
     email: 'leo.turner@lambda.com',
     social: {

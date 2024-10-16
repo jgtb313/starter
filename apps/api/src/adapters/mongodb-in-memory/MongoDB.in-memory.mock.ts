@@ -1,12 +1,10 @@
 import { database } from '@/adapters/mongodb/MongoDB.connection'
 
 import { UserSearch } from '@/adapters/mongodb/modules/User.mongodb'
-import { WorkspaceSearch } from '@/adapters/mongodb/modules/Workspace.mongodb'
 // appendSearchImportHere
 
 import { otpMocks } from '@/core/otp/OTP.mock'
 import { userMocks } from '@/core/user/User.mock'
-import { workspaceMocks } from '@/core/workspace/Workspace.mock'
 // appendMockImportHere
 
 export const setupMocks = async () => {
@@ -19,11 +17,6 @@ export const setupMocks = async () => {
       name: 'users',
       data: userMocks,
       search: UserSearch,
-    },
-    {
-      name: 'workspaces',
-      data: workspaceMocks,
-      search: WorkspaceSearch,
     },
     // appendMockHere
   ]

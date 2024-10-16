@@ -73,7 +73,6 @@ export const OTPRouter = (dependencies: IDependencies): IRouter => ({
         const recipient = body.email
 
         const { id } = await sendOTP(dependencies)({
-          workspaceId: context.auth.workspaceId,
           userId: context.auth.userId,
           channel: OTPChannelEnum.EMAIL,
           context: OTPContextEnum.UPDATE_EMAIL,
@@ -113,7 +112,6 @@ export const OTPRouter = (dependencies: IDependencies): IRouter => ({
 
         const { id } = await sendOTP(dependencies)({
           ...body,
-          workspaceId: context.auth.workspaceId,
           userId: context.auth.userId,
           context: OTPContextEnum.UPDATE_PHONE,
           recipient,

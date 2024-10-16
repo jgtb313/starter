@@ -7,7 +7,6 @@ describe('User', () => {
   it('should mount user correctly', () => {
     const user = new User({
       id: '1ylq82nZJybDbTZzEB6iBzbd5xF',
-      workspaceId: '1ylq82nZJybDbTZzEB6iBzbd5xF',
       name: 'John Doe',
       email: 'john.doe@acme.com',
       social: {

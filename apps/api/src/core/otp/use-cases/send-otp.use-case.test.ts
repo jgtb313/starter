@@ -23,7 +23,6 @@ describe('sendOTP', () => {
 
   it('should successfully send email OTP to the user', async () => {
     const input: SendOTPInput = {
-      workspaceId: null,
       userId: null,
       channel: OTPChannelEnum.EMAIL,
       context: OTPContextEnum.UPDATE_EMAIL,
@@ -47,7 +46,6 @@ describe('sendOTP', () => {
 
   it('should successfully send sms OTP to the user', async () => {
     const input: SendOTPInput = {
-      workspaceId: null,
       userId: null,
       channel: OTPChannelEnum.SMS,
       context: OTPContextEnum.UPDATE_PHONE,
@@ -71,7 +69,6 @@ describe('sendOTP', () => {
 
   it('should successfully send sms OTP to the user', async () => {
     const input: SendOTPInput = {
-      workspaceId: null,
       userId: null,
       channel: OTPChannelEnum.WHATSAPP,
       context: OTPContextEnum.UPDATE_PHONE,

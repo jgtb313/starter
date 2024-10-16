@@ -26,10 +26,7 @@ describe('socialSignIn', () => {
 
     const output = await sut().execute(input)
 
-    expect(dependencies.Database.createSession).toBeCalled()
-    // expect(dependencies.Database.createSession().commit).toBeCalled()
     expect(dependencies.JWT.generate).toBeCalled()
-    expect(dependencies.Repositories.workspace.create).toBeCalled()
     expect(dependencies.Repositories.user.create).toBeCalled()
     expect(output).toBeDefined()
   })
@@ -43,7 +40,6 @@ describe('socialSignIn', () => {
     const output = await sut().execute(input)
 
     expect(dependencies.JWT.generate).toBeCalled()
-    expect(dependencies.Repositories.workspace.create).not.toBeCalled()
     expect(dependencies.Repositories.user.create).not.toBeCalled()
     expect(output).toBeDefined()
   })
@@ -59,21 +55,9 @@ describe('socialSignIn', () => {
     const createdUser = await dependencies.Repositories.user.findOne({ social: { facebook: { id: input.token } } })
 
     expect(dependencies.JWT.generate).toBeCalled()
-    expect(dependencies.Repositories.workspace.create).toBeCalled()
     expect(dependencies.Repositories.user.create).toBeCalled()
     expect(createdUser?.state.email).toBe(`${input.token}@${input.context.toLowerCase()}.com`.toLowerCase())
     expect(output).toBeDefined()
-  })
-
-  it('should throw an error if workspace creation fails', async () => {
-    const input: SocialSignInInput = {
-      context: SocialSignInEnum.FACEBOOK,
-      token: 'tokenUnregisteredUserWithoutEmail',
-    }
-
-    dependencies.Repositories.workspace.create.mockRejectedValue(new Error('Workspace creation failed'))
-
-    await expect(sut().execute(input)).rejects.toThrow('Workspace creation failed')
   })
 
   it('should throw an AuthError if the token is invalid', async () => {

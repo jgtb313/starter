@@ -1,66 +1,41 @@
-import { SignUpSchema, SignUpInput, SignUpOutput, UserStatusEnum, WorkspaceStatusEnum } from '@starter/schema'
+import { SignUpSchema, SignUpInput, SignUpOutput, UserStatusEnum } from '@starter/schema'
 
 import { BadRequestError } from '@/support/errors'
 import { createUseCase } from '@/support/utilities'
 import { getTokenPayload } from '@/support/auth'
 import { IUseCaseExecute } from '@/core/shared/types'
-import { Workspace } from '@/core/workspace/domain'
 import { User } from '@/core/user/domain'
 
 const execute: IUseCaseExecute<SignUpInput, SignUpOutput> =
-  ({ Database, Repositories, Encrypt, JWT }) =>
+  ({ Repositories, Encrypt, JWT }) =>
   async ({ name, email, password }) => {
-    const session = Database.createSession()
+    const emailExists = await Repositories.user.findOne({
+      email,
+    })
 
-    try {
-      const emailExists = await Repositories.user.findOne({
+    if (emailExists) {
+      throw new BadRequestError(`E-mail ${email} has already been taken`)
+    }
+
+    const hashPassword = Encrypt.hash(password)
+
+    const user = await Repositories.user.create(
+      new User({
+        name,
         email,
-      })
-
-      if (emailExists) {
-        throw new BadRequestError(`E-mail ${email} has already been taken`)
-      }
-
-      const workspace = await Repositories.workspace.create(
-        new Workspace({
-          onboarding: true,
-          status: WorkspaceStatusEnum.ACTIVE,
-        }),
-        {
-          session: session.value,
+        password: hashPassword,
+        social: {
+          facebook: null,
+          google: null,
         },
-      )
+        status: UserStatusEnum.ACTIVE,
+      }),
+    )
 
-      const hashPassword = Encrypt.hash(password)
+    const token = JWT.generate(getTokenPayload(user.state))
 
-      const user = await Repositories.user.create(
-        new User({
-          workspaceId: workspace.state.id,
-          name,
-          email,
-          password: hashPassword,
-          social: {
-            facebook: null,
-            google: null,
-          },
-          status: UserStatusEnum.ACTIVE,
-        }),
-        {
-          session: session.value,
-        },
-      )
-
-      const token = JWT.generate(getTokenPayload(user.state))
-
-      await session.commit()
-
-      return {
-        token,
-      }
-    } catch (error) {
-      await session.rollback()
-
-      throw error
+    return {
+      token,
     }
   }
 

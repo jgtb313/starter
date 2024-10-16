@@ -4,8 +4,6 @@ import { formatToCapitalized } from '@starter/shared'
 import { ID, EmailSchema, PhoneSchema, PasswordSchema, DeletedAtSchema, CreatedAtSchema, UpdatedAtSchema } from '@/common'
 import { UserStatusEnum } from './User.enums'
 
-const WorkspaceId = ID
-
 const Name = z
   .string()
   .min(1)
@@ -49,7 +47,6 @@ const Status = z.nativeEnum(UserStatusEnum).default(UserStatusEnum.ACTIVE)
 
 export const UserSchema = z.object({
   id: ID,
-  workspaceId: WorkspaceId,
   name: Name,
   email: Email,
   phone: Phone,
