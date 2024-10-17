@@ -1,0 +1,26 @@
+# Use a stable Node.js version with better ARM64 support
+FROM node:18-bullseye-slim
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy the necessary files from the monorepo root
+COPY ../../package.json ../../yarn.lock ./
+
+# Install dependencies at the root level to set up the monorepo environment
+RUN yarn
+
+# Set the working directory to the API folder in the monorepo
+WORKDIR /app/apps/api
+
+# Copy API-specific files
+COPY . .
+
+# Build the application (this command can be adjusted if needed)
+RUN npm run api:build
+
+# Expose port 4000
+EXPOSE 4000
+
+# Start the API
+CMD ["npm", "api:start"]
