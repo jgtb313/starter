@@ -1,82 +1,82 @@
 {
   "errors": {
-    "invalid_type": "Deve ser do tipo {{expected}}, porém foi enviado {{received}}",
-    "invalid_type_received_undefined": "Campo obrigatório",
-    "invalid_type_received_null": "Campo obrigatório",
-    "invalid_literal": "Valor inválido, era esperado {{expected}}",
-    "unrecognized_keys": "Chave(s) não reconhecida(s) no objeto: {{- keys}}",
-    "invalid_union": "Inválido",
-    "invalid_union_discriminator": "Valor discriminador inválido. Foi esperado {{- options}}",
-    "invalid_enum_value": "Enum no formato inválido. Foi esperado {{- options}}, porém foi recebido '{{received}}'",
-    "invalid_arguments": "Argumento da função inválido",
-    "invalid_return_type": "Retorno da função inválido",
-    "invalid_date": "Data inválida",
-    "custom": "Inválido",
-    "invalid_intersection_types": "Valores de interseção não poderam ser mesclados",
-    "not_multiple_of": "Deve ser múltiplo de {{multipleOf}}",
-    "not_finite": "Não pode ser infinito",
+    "invalid_type": "Expected type {{expected}}, but received {{received}}",
+    "invalid_type_received_undefined": "Required field",
+    "invalid_type_received_null": "Required field",
+    "invalid_literal": "Invalid value, expected {{expected}}",
+    "unrecognized_keys": "Unrecognized key(s) in the object: {{- keys}}",
+    "invalid_union": "Invalid",
+    "invalid_union_discriminator": "Invalid discriminator value. Expected {{- options}}",
+    "invalid_enum_value": "Invalid enum format. Expected {{- options}}, but received '{{received}}'",
+    "invalid_arguments": "Invalid function argument",
+    "invalid_return_type": "Invalid function return type",
+    "invalid_date": "Invalid date",
+    "custom": "Invalid",
+    "invalid_intersection_types": "Intersection values could not be merged",
+    "not_multiple_of": "Must be a multiple of {{multipleOf}}",
+    "not_finite": "Cannot be infinite",
     "invalid_string": {
-      "email": "E-mail inválido",
-      "url": "URL inválida",
-      "uuid": "UUID inválido",
-      "cuid": "CUID inválido",
-      "regex": "Combinação inválida",
-      "datetime": "Inválido",
-      "startsWith": "Deve iniciar com \"{{startsWith}}\"",
-      "endsWith": "Deve terminar com \"{{endsWith}}\""
+      "email": "Invalid email",
+      "url": "Invalid URL",
+      "uuid": "Invalid UUID",
+      "cuid": "Invalid CUID",
+      "regex": "Invalid match",
+      "datetime": "Invalid",
+      "startsWith": "Must start with \"{{startsWith}}\"",
+      "endsWith": "Must end with \"{{endsWith}}\""
     },
     "too_small": {
       "array": {
-        "exact": "Deve conter exatamente {{minimum}} elemento(s)",
-        "inclusive": "Deve conter no mínimo {{minimum}} elemento(s)",
-        "not_inclusive": "Deve conter mais de {{minimum}} elemento(s)"
+        "exact": "Must contain exactly {{minimum}} element(s)",
+        "inclusive": "Must contain at least {{minimum}} element(s)",
+        "not_inclusive": "Must contain more than {{minimum}} element(s)"
       },
       "string": {
-        "exact": "Deve conter exatamente {{minimum}} caracter(es)",
-        "inclusive": "Deve conter pelo menos {{minimum}} caracter(es)",
-        "not_inclusive": "Deve conter mais de {{minimum}} caracter(es)"
+        "exact": "Must contain exactly {{minimum}} character(s)",
+        "inclusive": "Must contain at least {{minimum}} character(s)",
+        "not_inclusive": "Must contain more than {{minimum}} character(s)"
       },
       "number": {
-        "exact": "Deve conter exatamente {{minimum}} caracter(es)",
-        "inclusive": "Deve ser maior ou igual a {{minimum}}",
-        "not_inclusive": "Deve ser maior que {{minimum}}"
+        "exact": "Must be exactly {{minimum}}",
+        "inclusive": "Must be greater than or equal to {{minimum}}",
+        "not_inclusive": "Must be greater than {{minimum}}"
       },
       "set": {
-        "exact": "Inválido",
-        "inclusive": "Inválido",
-        "not_inclusive": "Inválido"
+        "exact": "Invalid",
+        "inclusive": "Invalid",
+        "not_inclusive": "Invalid"
       },
       "date": {
-        "exact": "Deve ser exatamente {{- maximum, datetime}}",
-        "inclusive": "Deve ser maior ou igual a {{- minimum, datetime}}",
-        "not_inclusive": "Deve ser maior que {{- minimum, datetime}}"
+        "exact": "Must be exactly {{- maximum, datetime}}",
+        "inclusive": "Must be greater than or equal to {{- minimum, datetime}}",
+        "not_inclusive": "Must be greater than {{- minimum, datetime}}"
       }
     },
     "too_big": {
       "array": {
-        "exact": "Deve conter exatamente {{maximum}} elemento(s)",
-        "inclusive": "Deve conter no máximo {{maximum}} elemento(s)",
-        "not_inclusive": "Deve conter menos de {{maximum}} elemento(s)"
+        "exact": "Must contain exactly {{maximum}} element(s)",
+        "inclusive": "Must contain no more than {{maximum}} element(s)",
+        "not_inclusive": "Must contain fewer than {{maximum}} element(s)"
       },
       "string": {
-        "exact": "Deve conter exatamente {{maximum}} caracter(es)",
-        "inclusive": "Pode conter no máximo {{maximum}} caracter(es)",
-        "not_inclusive": "Deve conter menos que {{maximum}} caracter(es)"
+        "exact": "Must contain exactly {{maximum}} character(s)",
+        "inclusive": "Must contain no more than {{maximum}} character(s)",
+        "not_inclusive": "Must contain fewer than {{maximum}} character(s)"
       },
       "number": {
-        "exact": "Deve conter exatamente {{maximum}} caracter(es)",
-        "inclusive": "Deve ser menor ou igual a {{maximum}}",
-        "not_inclusive": "Deve ser menor que {{maximum}}"
+        "exact": "Must be exactly {{maximum}}",
+        "inclusive": "Must be less than or equal to {{maximum}}",
+        "not_inclusive": "Must be less than {{maximum}}"
       },
       "set": {
-        "exact": "Inválido",
-        "inclusive": "Inválido",
-        "not_inclusive": "Inválido"
+        "exact": "Invalid",
+        "inclusive": "Invalid",
+        "not_inclusive": "Invalid"
       },
       "date": {
-        "exact": "Deve ser exatamente {{- maximum, datetime}}",
-        "inclusive": "Deve ser menor ou igual a {{- maximum, datetime}}",
-        "not_inclusive": "Deve ser menor que {{- maximum, datetime}}"
+        "exact": "Must be exactly {{- maximum, datetime}}",
+        "inclusive": "Must be less than or equal to {{- maximum, datetime}}",
+        "not_inclusive": "Must be less than {{- maximum, datetime}}"
       }
     }
   },
