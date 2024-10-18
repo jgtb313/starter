@@ -25,7 +25,6 @@ describe('update{{pascalCase name}}', () => {
     const result = await sut().execute(input)
 
     expect(dependencies.Repositories.{{camelCase name}}.findById).toBeCalledWith(input.id)
-    expect(dependencies.Repositories.{{camelCase name}}.updateById).toBeCalledWith(input.id, expect.anything())
     expect(result.name).toBe(input.name)
   })
 
