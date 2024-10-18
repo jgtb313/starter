@@ -6,9 +6,9 @@ import { getTokenPayload } from '@/support/auth'
 import { IUseCaseExecute } from '@/core/shared/types'
 
 const execute: IUseCaseExecute<SignInInput, SignInOutput> =
-  ({ Repositories, Encrypt, JWT }) =>
+  ({ Database, Encrypt, JWT }) =>
   async ({ email, password }) => {
-    const user = await Repositories.user.findOne({ email })
+    const user = await Database.user.findOne({ email })
 
     if (!user) {
       throw new AuthError('Invalid access data')

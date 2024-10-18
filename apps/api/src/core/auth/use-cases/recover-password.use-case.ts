@@ -6,9 +6,9 @@ import { createUseCase } from '@/support/utilities'
 import { IUseCaseExecute } from '@/core/shared/types'
 
 const execute: IUseCaseExecute<RecoverPasswordInput, RecoverPasswordOutput> =
-  ({ Repositories, Encrypt }) =>
+  ({ Database, Encrypt }) =>
   async ({ recoverPasswordToken, password }) => {
-    const user = await Repositories.user.findOne({ recoverPassword: { token: recoverPasswordToken } })
+    const user = await Database.user.findOne({ recoverPassword: { token: recoverPasswordToken } })
 
     if (!user) {
       throw new ConflictError(`Invalid recoverPasswordToken ${recoverPasswordToken}`)
@@ -25,7 +25,7 @@ const execute: IUseCaseExecute<RecoverPasswordInput, RecoverPasswordOutput> =
     user.state.password = hashPassword
     user.state.recoverPassword = null
 
-    await Repositories.user.updateById(user.state.id, user)
+    await Database.user.updateById(user.state.id, user)
 
     return
   }

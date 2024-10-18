@@ -4,13 +4,13 @@ import { createUseCase } from '@/support/utilities'
 import { IUseCaseExecute } from '@/core/shared/types'
 
 const execute: IUseCaseExecute<UpdateUserPasswordInput, UpdateUserPasswordOutput> =
-  ({ Repositories, Encrypt }) =>
+  ({ Database, Encrypt }) =>
   async ({ id, password }) => {
-    const user = await Repositories.user.findById(id)
+    const user = await Database.user.findById(id)
 
     user.state.password = Encrypt.hash(password)
 
-    await Repositories.user.updateById(user.state.id, user)
+    await Database.user.updateById(user.state.id, user)
   }
 
 export const updateUserPassword = createUseCase(execute, UpdateUserPasswordSchema)

@@ -24,7 +24,7 @@ describe('update{{pascalCase name}}', () => {
 
     const result = await sut().execute(input)
 
-    expect(dependencies.Repositories.{{camelCase name}}.findById).toBeCalledWith(input.id)
+    expect(dependencies.Database.{{camelCase name}}.findById).toBeCalledWith(input.id)
     expect(result.name).toBe(input.name)
   })
 
@@ -33,7 +33,7 @@ describe('update{{pascalCase name}}', () => {
 
     await expect(sut().execute(input)).rejects.toThrowError(`{{pascalCase name}} ${input.id} not found`)
 
-    expect(dependencies.Repositories.{{camelCase name}}.findById).toBeCalledWith(input.id)
-    expect(dependencies.Repositories.{{camelCase name}}.updateById).not.toBeCalled()
+    expect(dependencies.Database.{{camelCase name}}.findById).toBeCalledWith(input.id)
+    expect(dependencies.Database.{{camelCase name}}.updateById).not.toBeCalled()
   })
 })

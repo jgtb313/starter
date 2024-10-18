@@ -31,9 +31,9 @@ describe('sendOTP', () => {
 
     const output = await sut().execute(input)
 
-    expect(dependencies.Repositories.otp.mostRecent).toBeCalledWith(input.recipient, input.context)
-    expect(dependencies.Repositories.otp.dailyCount).toBeCalledWith(input.recipient, input.context)
-    expect(dependencies.Repositories.otp.create).toBeCalled()
+    expect(dependencies.Database.otp.mostRecent).toBeCalledWith(input.recipient, input.context)
+    expect(dependencies.Database.otp.dailyCount).toBeCalledWith(input.recipient, input.context)
+    expect(dependencies.Database.otp.create).toBeCalled()
     expect(dependencies.Mail.send).toBeCalledWith({
       template: MailTemplateEnum.SEND_OTP,
       to: input.recipient,
@@ -54,9 +54,9 @@ describe('sendOTP', () => {
 
     const output = await sut().execute(input)
 
-    expect(dependencies.Repositories.otp.mostRecent).toBeCalledWith(input.recipient, input.context)
-    expect(dependencies.Repositories.otp.dailyCount).toBeCalledWith(input.recipient, input.context)
-    expect(dependencies.Repositories.otp.create).toBeCalled()
+    expect(dependencies.Database.otp.mostRecent).toBeCalledWith(input.recipient, input.context)
+    expect(dependencies.Database.otp.dailyCount).toBeCalledWith(input.recipient, input.context)
+    expect(dependencies.Database.otp.create).toBeCalled()
     expect(dependencies.SMS.send).toBeCalledWith({
       template: SMSTemplateEnum.SEND_OTP,
       to: input.recipient,
@@ -77,9 +77,9 @@ describe('sendOTP', () => {
 
     const output = await sut().execute(input)
 
-    expect(dependencies.Repositories.otp.mostRecent).toBeCalledWith(input.recipient, input.context)
-    expect(dependencies.Repositories.otp.dailyCount).toBeCalledWith(input.recipient, input.context)
-    expect(dependencies.Repositories.otp.create).toBeCalled()
+    expect(dependencies.Database.otp.mostRecent).toBeCalledWith(input.recipient, input.context)
+    expect(dependencies.Database.otp.dailyCount).toBeCalledWith(input.recipient, input.context)
+    expect(dependencies.Database.otp.create).toBeCalled()
     expect(dependencies.Whatsapp.send).toBeCalledWith({
       template: WhatsappTemplateEnum.SEND_OTP,
       to: input.recipient,

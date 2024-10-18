@@ -24,4 +24,4 @@ const createInMemoryRepositories = (Repositories: IRepositories) => {
   return mockedRepositories
 }
 
-export const RepositoriesInMemory = createInMemoryRepositories(Repositories())
+export const RepositoriesInMemory = createInMemoryRepositories(Repositories)

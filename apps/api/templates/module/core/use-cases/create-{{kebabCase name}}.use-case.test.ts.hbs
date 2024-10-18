@@ -24,7 +24,7 @@ describe('create{{pascalCase name}}', () => {
 
     const result = await sut().execute(input)
 
-    expect(dependencies.Repositories.{{camelCase name}}.create).toBeCalledTimes(1)
+    expect(dependencies.Database.{{camelCase name}}.create).toBeCalledTimes(1)
     expect(result.name).toBe(input.name)
     expect(result.status).toBe({{pascalCase name}}StatusEnum.INACTIVE)
   })

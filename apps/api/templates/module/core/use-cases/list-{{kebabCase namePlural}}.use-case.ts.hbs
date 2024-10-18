@@ -4,9 +4,9 @@ import { createUseCase } from '@/support/utilities'
 import { IUseCaseExecute } from '@/core/shared/types'
 
 const execute: IUseCaseExecute<List{{pascalCase namePlural}}Input, List{{pascalCase namePlural}}Output> =
-  ({ Repositories }) =>
+  ({ Database }) =>
   async ({ filter, ...input }) => {
-    const { values, total } = await Repositories.{{camelCase name}}.find({
+    const { values, total } = await Database.{{camelCase name}}.find({
       search: {
         name: filter,
       },

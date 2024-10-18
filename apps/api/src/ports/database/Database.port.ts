@@ -22,5 +22,5 @@ export type IDatabase = {
   connect(): Promise<void>
   disconnect(): Promise<void>
   createSession(): ISession
-  Repositories(): IRepositories
+  Repositories: IRepositories
 }

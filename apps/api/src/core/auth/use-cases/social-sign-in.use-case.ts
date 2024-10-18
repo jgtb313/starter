@@ -6,11 +6,11 @@ import { IUseCaseExecute } from '@/core/shared/types'
 import { User } from '@/core/user/domain'
 
 const execute: IUseCaseExecute<SocialSignInInput, SocialSignInOutput> =
-  ({ Repositories, SocialAuth, Encrypt, JWT }) =>
+  ({ Database, SocialAuth, Encrypt, JWT }) =>
   async (input) => {
     const { id, name, email } = await SocialAuth.getInfosByToken(input.context, input.token)
 
-    const user = await Repositories.user.findOne({
+    const user = await Database.user.findOne({
       $or: [
         {
           social: { [input.context.toLowerCase()]: { id } },
@@ -22,7 +22,7 @@ const execute: IUseCaseExecute<SocialSignInInput, SocialSignInOutput> =
     if (!user) {
       const hashPassword = Encrypt.hash(id)
 
-      const user = await Repositories.user.create(
+      const user = await Database.user.create(
         new User({
           name,
           email: email ?? `${id}@${input.context.toLowerCase()}.com`,

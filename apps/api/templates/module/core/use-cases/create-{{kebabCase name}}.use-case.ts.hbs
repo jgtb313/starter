@@ -5,9 +5,9 @@ import { IUseCaseExecute } from '@/core/shared/types'
 import { {{pascalCase name}} } from '@/core/{{kebabCase name}}/domain'
 
 const execute: IUseCaseExecute<Create{{pascalCase name}}Input, Create{{pascalCase name}}Output> =
-  ({ Repositories }) =>
+  ({ Database }) =>
   async (input) => {
-    const {{camelCase name}} = await Repositories.{{camelCase name}}.create(
+    const {{camelCase name}} = await Database.{{camelCase name}}.create(
       new {{pascalCase name}}({
         ...input,
         status: {{pascalCase name}}StatusEnum.INACTIVE

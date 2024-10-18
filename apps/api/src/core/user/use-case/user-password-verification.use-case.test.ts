@@ -28,7 +28,7 @@ describe('userPasswordVerification', () => {
     dependencies.Encrypt.compare.mockReturnValue(true)
 
     await expect(sut().execute(input)).resolves.not.toThrow()
-    expect(dependencies.Repositories.user.findById).toBeCalledWith(input.id)
+    expect(dependencies.Database.user.findById).toBeCalledWith(input.id)
   })
 
   it('should throw an error if the password is incorrect', async () => {
@@ -40,7 +40,7 @@ describe('userPasswordVerification', () => {
     dependencies.Encrypt.compare.mockReturnValue(false)
 
     await expect(sut().execute(input)).rejects.toThrow(BadRequestError)
-    expect(dependencies.Repositories.user.findById).toBeCalledWith(input.id)
+    expect(dependencies.Database.user.findById).toBeCalledWith(input.id)
   })
 
   it('should throw an error if user is not found', async () => {
@@ -50,6 +50,6 @@ describe('userPasswordVerification', () => {
     }
 
     await expect(sut().execute(input)).rejects.toThrow(NotFoundError)
-    expect(dependencies.Repositories.user.findById).toBeCalledWith(input.id)
+    expect(dependencies.Database.user.findById).toBeCalledWith(input.id)
   })
 })

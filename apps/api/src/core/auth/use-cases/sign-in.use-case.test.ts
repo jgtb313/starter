@@ -28,7 +28,7 @@ describe('signIn', () => {
 
     const output = await sut().execute(input)
 
-    expect(dependencies.Repositories.user.findOne).toBeCalledWith({ email: input.email })
+    expect(dependencies.Database.user.findOne).toBeCalledWith({ email: input.email })
     expect(dependencies.Encrypt.compare).toBeCalledWith(input.password, 'hashedPassword')
     expect(dependencies.JWT.generate).toBeCalled()
     expect(output).toEqual({ token: 'token' })
@@ -43,7 +43,7 @@ describe('signIn', () => {
     await expect(sut().execute(input)).rejects.toThrow(AuthError)
     await expect(sut().execute(input)).rejects.toThrow('Invalid access data')
 
-    expect(dependencies.Repositories.user.findOne).toBeCalledWith({ email: input.email })
+    expect(dependencies.Database.user.findOne).toBeCalledWith({ email: input.email })
     expect(dependencies.Encrypt.compare).not.toBeCalled()
     expect(dependencies.JWT.generate).not.toBeCalled()
   })
@@ -59,7 +59,7 @@ describe('signIn', () => {
     await expect(sut().execute(input)).rejects.toThrow(AuthError)
     await expect(sut().execute(input)).rejects.toThrow('Invalid access data')
 
-    expect(dependencies.Repositories.user.findOne).toBeCalledWith({ email: input.email })
+    expect(dependencies.Database.user.findOne).toBeCalledWith({ email: input.email })
     expect(dependencies.JWT.generate).not.toBeCalled()
   })
 })

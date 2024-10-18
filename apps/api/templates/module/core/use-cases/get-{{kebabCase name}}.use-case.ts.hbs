@@ -4,9 +4,9 @@ import { createUseCase } from '@/support/utilities'
 import { IUseCaseExecute } from '@/core/shared/types'
 
 const execute: IUseCaseExecute<Get{{pascalCase name}}Input, Get{{pascalCase name}}Output> =
-  ({ Repositories }) =>
+  ({ Database }) =>
   async ({ id }) => {
-    const {{camelCase name}} = await Repositories.{{camelCase name}}.findById(id)
+    const {{camelCase name}} = await Database.{{camelCase name}}.findById(id)
 
     return {{camelCase name}}.state
   }

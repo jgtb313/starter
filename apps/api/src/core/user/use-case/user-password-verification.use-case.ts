@@ -5,9 +5,9 @@ import { createUseCase } from '@/support/utilities'
 import { IUseCaseExecute } from '@/core/shared/types'
 
 const execute: IUseCaseExecute<UserPasswordVerificationInput, UserPasswordVerificationOutput> =
-  ({ Repositories, Encrypt }) =>
+  ({ Database, Encrypt }) =>
   async ({ id, password }) => {
-    const user = await Repositories.user.findById(id)
+    const user = await Database.user.findById(id)
 
     const isValidPassword = Encrypt.compare(password, user.state.password)
 

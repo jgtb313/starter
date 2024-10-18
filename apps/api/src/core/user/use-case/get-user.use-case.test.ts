@@ -25,7 +25,7 @@ describe('getUser', () => {
 
     const result = await sut().execute(input)
 
-    expect(dependencies.Repositories.user.findById).toBeCalledWith(input.id)
+    expect(dependencies.Database.user.findById).toBeCalledWith(input.id)
     expect(result.id).toBe(input.id)
   })
 
@@ -35,6 +35,6 @@ describe('getUser', () => {
     }
 
     await expect(sut().execute(input)).rejects.toThrow(NotFoundError)
-    expect(dependencies.Repositories.user.findById).toBeCalledWith(input.id)
+    expect(dependencies.Database.user.findById).toBeCalledWith(input.id)
   })
 })

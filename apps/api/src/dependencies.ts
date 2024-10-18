@@ -9,8 +9,7 @@ import { Storage } from '@/adapters/aws-s3'
 import { SocialAuth } from '@/adapters/social-auth'
 
 export const Dependencies: IDependencies = {
-  Database: { createSession: Database.createSession },
-  Repositories: Database.Repositories(),
+  Database: { createSession: Database.createSession, ...Database.Repositories },
   Encrypt,
   JWT,
   Mail,

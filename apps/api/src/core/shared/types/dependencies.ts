@@ -8,8 +8,7 @@ import { IStorage } from '@/ports/storage'
 import { ISocialAuth } from '@/ports/social-auth'
 
 export type IDependencies = {
-  Database: Pick<IDatabase, 'createSession'>
-  Repositories: ReturnType<IDatabase['Repositories']>
+  Database: Pick<IDatabase, 'createSession'> & IDatabase['Repositories']
   Encrypt: IEncrypt
   JWT: IJWT
   Mail: IMail

@@ -23,11 +23,11 @@ describe('recoverPassword', () => {
       password: 'newPassword',
     }
 
-    const user = await dependencies.Repositories.user.findOne({ recoverPassword: { token: input.recoverPasswordToken } })
+    const user = await dependencies.Database.user.findOne({ recoverPassword: { token: input.recoverPasswordToken } })
 
     await sut().execute(input)
 
-    const updatedUser = await dependencies.Repositories.user.findById(user?.state.id as string)
+    const updatedUser = await dependencies.Database.user.findById(user?.state.id as string)
 
     expect(updatedUser?.state.password).toBe(dependencies.Encrypt.hash(input.password))
     expect(updatedUser?.state.recoverPassword).toBeNull()
@@ -42,8 +42,8 @@ describe('recoverPassword', () => {
     await expect(sut().execute(input)).rejects.toThrow(ConflictError)
     await expect(sut().execute(input)).rejects.toThrow(`Invalid recoverPasswordToken ${input.recoverPasswordToken}`)
 
-    expect(dependencies.Repositories.user.findOne).toBeCalledWith({ recoverPassword: { token: input.recoverPasswordToken } })
-    expect(dependencies.Repositories.user.updateById).not.toBeCalled()
+    expect(dependencies.Database.user.findOne).toBeCalledWith({ recoverPassword: { token: input.recoverPasswordToken } })
+    expect(dependencies.Database.user.updateById).not.toBeCalled()
   })
 
   it('should throw a ConflictError if the recover password token has expired', async () => {
@@ -55,7 +55,7 @@ describe('recoverPassword', () => {
     await expect(sut().execute(input)).rejects.toThrow(ConflictError)
     await expect(sut().execute(input)).rejects.toThrow(`recoverPasswordToken ${input.recoverPasswordToken} expired`)
 
-    expect(dependencies.Repositories.user.findOne).toBeCalledWith({ recoverPassword: { token: input.recoverPasswordToken } })
-    expect(dependencies.Repositories.user.updateById).not.toBeCalled()
+    expect(dependencies.Database.user.findOne).toBeCalledWith({ recoverPassword: { token: input.recoverPasswordToken } })
+    expect(dependencies.Database.user.updateById).not.toBeCalled()
   })
 })

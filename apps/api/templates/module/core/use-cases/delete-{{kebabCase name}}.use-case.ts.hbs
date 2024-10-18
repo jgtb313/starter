@@ -4,11 +4,11 @@ import { createUseCase } from '@/support/utilities'
 import { IUseCaseExecute } from '@/core/shared/types'
 
 const execute: IUseCaseExecute<Delete{{pascalCase name}}Input, Delete{{pascalCase name}}Output> =
-  ({ Repositories }) =>
+  ({ Database }) =>
   async ({ id }) => {
-    const {{camelCase name}} = await Repositories.{{camelCase name}}.findById(id)
+    const {{camelCase name}} = await Database.{{camelCase name}}.findById(id)
 
-    await Repositories.{{camelCase name}}.deleteById({{camelCase name}}.state.id)
+    await Database.{{camelCase name}}.deleteById({{camelCase name}}.state.id)
   }
 
 export const delete{{pascalCase name}} = createUseCase(execute, Delete{{pascalCase name}}Schema)

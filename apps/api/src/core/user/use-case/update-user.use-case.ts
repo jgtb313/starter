@@ -4,16 +4,16 @@ import { createUseCase } from '@/support/utilities'
 import { IUseCaseExecute } from '@/core/shared/types'
 
 const execute: IUseCaseExecute<UpdateUserInput, UpdateUserOutput> =
-  ({ Repositories }) =>
+  ({ Database }) =>
   async ({ id, ...props }) => {
-    const user = await Repositories.user.findById(id)
+    const user = await Database.user.findById(id)
 
     user.state = {
       ...user.state,
       ...props,
     }
 
-    const { state } = await Repositories.user.updateById(user.state.id, user)
+    const { state } = await Database.user.updateById(user.state.id, user)
 
     return state
   }

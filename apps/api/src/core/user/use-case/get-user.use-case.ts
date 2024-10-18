@@ -4,9 +4,9 @@ import { createUseCase } from '@/support/utilities'
 import { IUseCaseExecute } from '@/core/shared/types'
 
 const execute: IUseCaseExecute<GetUserInput, GetUserOutput> =
-  ({ Repositories }) =>
+  ({ Database }) =>
   async ({ id }) => {
-    const user = await Repositories.user.findById(id)
+    const user = await Database.user.findById(id)
 
     return user.state
   }

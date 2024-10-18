@@ -8,7 +8,7 @@ import { SMSTemplateEnum } from '@/ports/sms'
 import { WhatsappTemplateEnum } from '@/ports/whatsapp'
 
 const execute: IUseCaseExecute<SendOTPInput, SendOTPOutput> =
-  ({ Repositories, Mail, SMS, Whatsapp }) =>
+  ({ Database, Mail, SMS, Whatsapp }) =>
   async ({ userId, channel, context, recipient }) => {
     const otp = new OTP({
       userId,
@@ -17,15 +17,15 @@ const execute: IUseCaseExecute<SendOTPInput, SendOTPOutput> =
       recipient,
     })
 
-    const mostRecent = await Repositories.otp.mostRecent(recipient, context)
+    const mostRecent = await Database.otp.mostRecent(recipient, context)
 
     otp.checkIfCanResend(mostRecent, otp.state.resendTime)
 
-    const dailyCount = await Repositories.otp.dailyCount(recipient, context)
+    const dailyCount = await Database.otp.dailyCount(recipient, context)
 
     otp.checkIfHasReachedDailyLimit(dailyCount)
 
-    await Repositories.otp.create(otp)
+    await Database.otp.create(otp)
 
     if (channel === OTPChannelEnum.EMAIL) {
       Mail.send({

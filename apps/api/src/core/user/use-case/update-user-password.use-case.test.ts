@@ -26,9 +26,9 @@ describe('updateUserPassword', () => {
 
     await sut().execute(input)
 
-    const result = await dependencies.Repositories.user.findById(input.id)
+    const result = await dependencies.Database.user.findById(input.id)
 
-    expect(dependencies.Repositories.user.findById).toBeCalledWith(input.id)
+    expect(dependencies.Database.user.findById).toBeCalledWith(input.id)
     expect(result.state.password).toBe(dependencies.Encrypt.hash(input.password))
   })
 })

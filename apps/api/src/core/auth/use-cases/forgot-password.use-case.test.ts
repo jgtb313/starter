@@ -23,9 +23,9 @@ describe('forgotPassword', async () => {
 
     await sut().execute(input)
 
-    expect(dependencies.Repositories.user.findOne).toBeCalledWith({ email: input.email })
+    expect(dependencies.Database.user.findOne).toBeCalledWith({ email: input.email })
     expect(dependencies.Mail.send).toBeCalled()
-    expect(dependencies.Repositories.user.updateById).toBeCalled()
+    expect(dependencies.Database.user.updateById).toBeCalled()
   })
 
   it('should not send an email if user does not exist', async () => {
@@ -35,8 +35,8 @@ describe('forgotPassword', async () => {
 
     await sut().execute(input)
 
-    expect(dependencies.Repositories.user.findOne).toBeCalledWith({ email: input.email })
+    expect(dependencies.Database.user.findOne).toBeCalledWith({ email: input.email })
     expect(dependencies.Mail.send).not.toBeCalled()
-    expect(dependencies.Repositories.user.updateById).not.toBeCalled()
+    expect(dependencies.Database.user.updateById).not.toBeCalled()
   })
 })

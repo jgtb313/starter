@@ -27,7 +27,7 @@ describe('signUp', () => {
     const output = await sut().execute(input)
 
     expect(dependencies.JWT.generate).toBeCalled()
-    expect(dependencies.Repositories.user.create).toBeCalled()
+    expect(dependencies.Database.user.create).toBeCalled()
     expect(output).toBeDefined()
   })
 
@@ -41,8 +41,8 @@ describe('signUp', () => {
     await expect(sut().execute(input)).rejects.toThrow(BadRequestError)
     await expect(sut().execute(input)).rejects.toThrow('E-mail john.doe@acme.com has already been taken')
 
-    expect(dependencies.Repositories.user.findOne).toBeCalledWith({ email: input.email })
+    expect(dependencies.Database.user.findOne).toBeCalledWith({ email: input.email })
     expect(dependencies.JWT.generate).not.toBeCalled()
-    expect(dependencies.Repositories.user.create).not.toBeCalled()
+    expect(dependencies.Database.user.create).not.toBeCalled()
   })
 })

@@ -25,10 +25,10 @@ describe('updateUserEmail', () => {
 
     await sut().execute(input)
 
-    const result = await dependencies.Repositories.user.findById(input.id)
+    const result = await dependencies.Database.user.findById(input.id)
 
-    expect(dependencies.Repositories.user.findById).toBeCalledWith(input.id)
-    expect(dependencies.Repositories.user.updateById).toBeCalled()
+    expect(dependencies.Database.user.findById).toBeCalledWith(input.id)
+    expect(dependencies.Database.user.updateById).toBeCalled()
     expect(result.state.email).toBe(input.email)
   })
 })

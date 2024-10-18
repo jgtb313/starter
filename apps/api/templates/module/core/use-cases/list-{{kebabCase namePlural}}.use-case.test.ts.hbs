@@ -33,7 +33,7 @@ describe('list{{pascalCase namePlural}}', () => {
 
     const result = await sut().execute(input)
 
-    expect(dependencies.Repositories.{{camelCase name}}.find).toBeCalledWith({ search: { name: input.filter } })
+    expect(dependencies.Database.{{camelCase name}}.find).toBeCalledWith({ search: { name: input.filter } })
     expect(result.values).toHaveLength(1)
     expect(result.total).toBe(1)
   })

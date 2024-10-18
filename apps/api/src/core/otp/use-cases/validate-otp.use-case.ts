@@ -4,9 +4,9 @@ import { createUseCase } from '@/support/utilities'
 import { IUseCaseExecute } from '@/core/shared/types'
 
 const execute: IUseCaseExecute<ValidateOTPInput, ValidateOTPOutput> =
-  ({ Repositories }) =>
+  ({ Database }) =>
   async ({ id, context, recipient, code }) => {
-    const otp = await Repositories.otp.findById(id)
+    const otp = await Database.otp.findById(id)
 
     try {
       otp.checkIfHasExpired()
@@ -15,7 +15,7 @@ const execute: IUseCaseExecute<ValidateOTPInput, ValidateOTPOutput> =
       otp.checkIfHasValidContext(context)
       otp.checkIfHasValidCode(code)
     } finally {
-      await Repositories.otp.updateById(otp.state.id, otp)
+      await Database.otp.updateById(otp.state.id, otp)
     }
   }
 

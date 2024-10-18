@@ -26,10 +26,10 @@ describe('socialSignIn', () => {
 
     const output = await sut().execute(input)
 
-    const createdUser = await dependencies.Repositories.user.findOne({ social: { google: { id: input.token } } })
+    const createdUser = await dependencies.Database.user.findOne({ social: { google: { id: input.token } } })
 
     expect(dependencies.JWT.generate).toBeCalled()
-    expect(dependencies.Repositories.user.create).toBeCalled()
+    expect(dependencies.Database.user.create).toBeCalled()
     expect(createdUser?.state.email).toBe('james.smith@fakeemail.com')
     expect(output).toBeDefined()
   })
@@ -43,7 +43,7 @@ describe('socialSignIn', () => {
     const output = await sut().execute(input)
 
     expect(dependencies.JWT.generate).toBeCalled()
-    expect(dependencies.Repositories.user.create).not.toBeCalled()
+    expect(dependencies.Database.user.create).not.toBeCalled()
     expect(output).toBeDefined()
   })
 
@@ -55,10 +55,10 @@ describe('socialSignIn', () => {
 
     const output = await sut().execute(input)
 
-    const createdUser = await dependencies.Repositories.user.findOne({ social: { facebook: { id: input.token } } })
+    const createdUser = await dependencies.Database.user.findOne({ social: { facebook: { id: input.token } } })
 
     expect(dependencies.JWT.generate).toBeCalled()
-    expect(dependencies.Repositories.user.create).toBeCalled()
+    expect(dependencies.Database.user.create).toBeCalled()
     expect(createdUser?.state.email).toBe(`${input.token}@${input.context.toLowerCase()}.com`.toLowerCase())
     expect(output).toBeDefined()
   })

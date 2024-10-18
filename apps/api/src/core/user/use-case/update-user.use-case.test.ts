@@ -25,8 +25,8 @@ describe('updateUser', () => {
 
     const result = await sut().execute(input)
 
-    expect(dependencies.Repositories.user.findById).toBeCalledWith(input.id)
-    expect(dependencies.Repositories.user.updateById).toBeCalled()
+    expect(dependencies.Database.user.findById).toBeCalledWith(input.id)
+    expect(dependencies.Database.user.updateById).toBeCalled()
     expect(result.name).toBe(input.name)
   })
 })

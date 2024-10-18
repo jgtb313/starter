@@ -31,9 +31,9 @@ describe('validateOTP', () => {
       code: otp.state.code,
     }
 
-    dependencies.Repositories.otp.create(otp)
+    dependencies.Database.otp.create(otp)
 
     await expect(sut().execute(input)).resolves.not.toThrow()
-    expect(dependencies.Repositories.otp.findById).toBeCalledWith(input.id)
+    expect(dependencies.Database.otp.findById).toBeCalledWith(input.id)
   })
 })

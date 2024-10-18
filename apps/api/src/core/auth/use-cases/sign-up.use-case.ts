@@ -7,9 +7,9 @@ import { IUseCaseExecute } from '@/core/shared/types'
 import { User } from '@/core/user/domain'
 
 const execute: IUseCaseExecute<SignUpInput, SignUpOutput> =
-  ({ Repositories, Encrypt, JWT }) =>
+  ({ Database, Encrypt, JWT }) =>
   async ({ name, email, password }) => {
-    const emailExists = await Repositories.user.findOne({
+    const emailExists = await Database.user.findOne({
       email,
     })
 
@@ -19,7 +19,7 @@ const execute: IUseCaseExecute<SignUpInput, SignUpOutput> =
 
     const hashPassword = Encrypt.hash(password)
 
-    const user = await Repositories.user.create(
+    const user = await Database.user.create(
       new User({
         name,
         email,

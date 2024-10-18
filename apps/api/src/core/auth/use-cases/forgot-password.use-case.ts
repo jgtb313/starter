@@ -7,11 +7,11 @@ import { IUseCaseExecute } from '@/core/shared/types'
 import { MailTemplateEnum } from '@/ports/mail'
 
 const execute: IUseCaseExecute<ForgotPasswordInput, ForgotPasswordOutput> =
-  ({ Repositories, Mail }) =>
+  ({ Database, Mail }) =>
   async ({ email }) => {
     const recoverPasswordBaseUrl = env('SERVER_RECOVER_PASSWORD_BASE_URL')
 
-    const user = await Repositories.user.findOne({ email })
+    const user = await Database.user.findOne({ email })
 
     if (!user) {
       return
@@ -22,7 +22,7 @@ const execute: IUseCaseExecute<ForgotPasswordInput, ForgotPasswordOutput> =
 
     user.state.recoverPassword = {
       token: recoverPasswordToken,
-      expiresIn: recoverPasswordExpiresIn
+      expiresIn: recoverPasswordExpiresIn,
     }
 
     Mail.send({
@@ -30,11 +30,11 @@ const execute: IUseCaseExecute<ForgotPasswordInput, ForgotPasswordOutput> =
       to: user.state.email,
       props: {
         userName: user.state.name,
-        recoverPasswordBaseUrl: `${recoverPasswordBaseUrl}/${recoverPasswordToken}`
-      }
+        recoverPasswordBaseUrl: `${recoverPasswordBaseUrl}/${recoverPasswordToken}`,
+      },
     })
 
-    await Repositories.user.updateById(user.state.id, user)
+    await Database.user.updateById(user.state.id, user)
 
     return
   }
