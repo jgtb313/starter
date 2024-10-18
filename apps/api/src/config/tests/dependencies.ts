@@ -62,8 +62,7 @@ export const TestDependencies = async (): Promise<ITestDependencies> => {
 
     Database: {
       createSession: DatabaseInMemory.createSession as Mock,
+      ...DatabaseInMemory.Repositories,
     },
-
-    Repositories: DatabaseInMemory.Repositories,
   }
 }

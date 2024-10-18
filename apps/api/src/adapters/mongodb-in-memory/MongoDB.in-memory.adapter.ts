@@ -38,7 +38,7 @@ export const disconnect = async () => {
 
 export const DatabaseInMemory: {
   createSession: SetupTestDependencies<IDatabase['createSession']>
-  Repositories: SetupTestDependencies<ReturnType<IDatabase['Repositories']>>
+  Repositories: SetupTestDependencies<IDatabase['Repositories']>
 } = {
   createSession,
   Repositories: RepositoriesInMemory,
