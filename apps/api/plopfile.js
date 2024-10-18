@@ -6,7 +6,7 @@ module.exports = function (plop) {
   plop.setHelper('lowerSentenceCase', (text) => {
     return text
       .replace(/([a-z])([A-Z])/g, '$1 $2')
-      .replace(/\b\w/g, (char) => char.toUpperCase())
+      .replace(/\b\w/g, (char) => char.toLowerCase())
       .trim()
   })
 
