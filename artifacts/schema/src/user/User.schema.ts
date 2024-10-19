@@ -11,7 +11,7 @@ const Name = z
 
 const Email = EmailSchema
 
-const Phone = PhoneSchema.nullish()
+const Phone = PhoneSchema.nullish().transform((value) => value ?? null)
 
 const Avatar = z
   .string()
