@@ -3,7 +3,7 @@ import { SignInInput } from '@starter/schema'
 
 import { AuthError } from '@/support/errors'
 import { TestDependencies, ITestDependencies } from '@/config/tests'
-import { IDependencies } from '@/core/shared/types'
+import { IDependencies } from '@/support/types'
 
 import { signIn } from './sign-in.use-case'
 

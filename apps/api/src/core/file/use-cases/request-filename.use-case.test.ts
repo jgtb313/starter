@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it } from 'vitest'
 import { RequestFilenameInput, FileContextEnum } from '@starter/schema'
 
 import { TestDependencies, ITestDependencies } from '@/config/tests'
-import { IDependencies } from '@/core/shared/types'
+import { IDependencies } from '@/support/types'
 
 import { requestFilename } from './request-filename.use-case'
 

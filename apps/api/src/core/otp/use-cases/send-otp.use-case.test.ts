@@ -3,7 +3,7 @@ import { OTPChannelEnum, OTPContextEnum, SendOTPInput } from '@starter/schema'
 import { isString } from '@starter/shared'
 
 import { TestDependencies, ITestDependencies } from '@/config/tests'
-import { IDependencies } from '@/core/shared/types'
+import { IDependencies } from '@/support/types'
 import { MailTemplateEnum } from '@/ports/mail'
 import { SMSTemplateEnum } from '@/ports/sms'
 import { WhatsappTemplateEnum } from '@/ports/whatsapp'

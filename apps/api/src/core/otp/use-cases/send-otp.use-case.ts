@@ -1,7 +1,7 @@
 import { SendOTPSchema, SendOTPInput, SendOTPOutput, OTPChannelEnum } from '@starter/schema'
 
 import { createUseCase } from '@/support/utilities'
-import { IUseCaseExecute } from '@/core/shared/types'
+import { IUseCaseExecute } from '@/support/types'
 import { OTP } from '@/core/otp/domain'
 import { MailTemplateEnum } from '@/ports/mail'
 import { SMSTemplateEnum } from '@/ports/sms'

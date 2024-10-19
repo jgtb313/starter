@@ -3,7 +3,7 @@ import { sample } from 'openapi-sampler'
 import { zodSchemaToInstance } from '@starter/schema'
 import { omit } from '@starter/shared'
 
-import { IDependencies } from '@/core/shared/types'
+import { IDependencies } from '@/support/types'
 import * as Modules from '@/ports/http/modules'
 import { IRouterPathResponseExamples } from '@/ports/http'
 

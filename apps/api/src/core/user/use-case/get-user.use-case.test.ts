@@ -3,7 +3,7 @@ import { GetUserInput } from '@starter/schema'
 
 import { NotFoundError } from '@/support/errors'
 import { TestDependencies, ITestDependencies } from '@/config/tests'
-import { IDependencies } from '@/core/shared/types'
+import { IDependencies } from '@/support/types'
 
 import { getUser } from './get-user.use-case'
 

@@ -3,7 +3,7 @@ import { addMinutes, uuid } from '@starter/shared'
 
 import { env } from '@/config'
 import { createUseCase } from '@/support/utilities'
-import { IUseCaseExecute } from '@/core/shared/types'
+import { IUseCaseExecute } from '@/support/types'
 import { MailTemplateEnum } from '@/ports/mail'
 
 const execute: IUseCaseExecute<ForgotPasswordInput, ForgotPasswordOutput> =

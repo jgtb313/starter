@@ -1,7 +1,7 @@
 import { RequestFilenameSchema, RequestFilenameInput, RequestFilenameOutput, FileContextEnum } from '@starter/schema'
 
 import { createUseCase } from '@/support/utilities'
-import { IUseCaseExecute } from '@/core/shared/types'
+import { IUseCaseExecute } from '@/support/types'
 
 const execute: IUseCaseExecute<RequestFilenameInput, RequestFilenameOutput> =
   ({ Storage }) =>

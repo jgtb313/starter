@@ -1,7 +1,7 @@
 import { List{{pascalCase namePlural}}Schema, List{{pascalCase namePlural}}Input, List{{pascalCase namePlural}}Output } from '@starter/schema'
 
 import { createUseCase } from '@/support/utilities'
-import { IUseCaseExecute } from '@/core/shared/types'
+import { IUseCaseExecute } from '@/support/types'
 
 const execute: IUseCaseExecute<List{{pascalCase namePlural}}Input, List{{pascalCase namePlural}}Output> =
   ({ Database }) =>

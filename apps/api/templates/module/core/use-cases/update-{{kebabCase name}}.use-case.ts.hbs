@@ -1,7 +1,7 @@
 import { Update{{pascalCase name}}Schema, Update{{pascalCase name}}Input, Update{{pascalCase name}}Output } from '@starter/schema'
 
 import { createUseCase } from '@/support/utilities'
-import { IUseCaseExecute } from '@/core/shared/types'
+import { IUseCaseExecute } from '@/support/types'
 
 const execute: IUseCaseExecute<Update{{pascalCase name}}Input, Update{{pascalCase name}}Output> =
   ({ Database }) =>

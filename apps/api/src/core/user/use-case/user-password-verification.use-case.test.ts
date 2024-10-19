@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it } from 'vitest'
 import { UserPasswordVerificationInput } from '@starter/schema'
 
 import { TestDependencies, ITestDependencies } from '@/config/tests'
-import { IDependencies } from '@/core/shared/types'
+import { IDependencies } from '@/support/types'
 import { BadRequestError, NotFoundError } from '@/support/errors'
 
 import { userPasswordVerification } from './user-password-verification.use-case'

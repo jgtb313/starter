@@ -2,7 +2,7 @@ import { FastifyInstance, FastifyRequest } from 'fastify'
 
 import { env } from '@/config'
 import { Auth } from '@/support/auth'
-import { IDependencies, IContext } from '@/core/shared/types'
+import { IDependencies, IContext } from '@/support/types'
 import * as Modules from '@/ports/http/modules'
 import { withResponse, withError, IServer } from '@/ports/http'
 import { server } from './Fastify.server'

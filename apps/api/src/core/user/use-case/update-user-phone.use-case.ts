@@ -1,7 +1,7 @@
 import { UpdateUserPhoneSchema, UpdateUserPhoneInput, UpdateUserPhoneOutput } from '@starter/schema'
 
 import { createUseCase } from '@/support/utilities'
-import { IUseCaseExecute } from '@/core/shared/types'
+import { IUseCaseExecute } from '@/support/types'
 
 const execute: IUseCaseExecute<UpdateUserPhoneInput, UpdateUserPhoneOutput> =
   ({ Database }) =>

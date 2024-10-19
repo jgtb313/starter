@@ -3,7 +3,7 @@ import { SignInSchema, SignInInput, SignInOutput } from '@starter/schema'
 import { AuthError } from '@/support/errors'
 import { createUseCase } from '@/support/utilities'
 import { getTokenPayload } from '@/support/auth'
-import { IUseCaseExecute } from '@/core/shared/types'
+import { IUseCaseExecute } from '@/support/types'
 
 const execute: IUseCaseExecute<SignInInput, SignInOutput> =
   ({ Database, Encrypt, JWT }) =>

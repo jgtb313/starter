@@ -2,7 +2,7 @@ import { SocialSignInSchema, SocialSignInInput, SocialSignInOutput, UserStatusEn
 
 import { createUseCase } from '@/support/utilities'
 import { getTokenPayload } from '@/support/auth'
-import { IUseCaseExecute } from '@/core/shared/types'
+import { IUseCaseExecute } from '@/support/types'
 import { User } from '@/core/user/domain'
 
 const execute: IUseCaseExecute<SocialSignInInput, SocialSignInOutput> =

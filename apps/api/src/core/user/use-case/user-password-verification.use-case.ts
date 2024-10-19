@@ -2,7 +2,7 @@ import { UserPasswordVerificationSchema, UserPasswordVerificationInput, UserPass
 
 import { BadRequestError } from '@/support/errors'
 import { createUseCase } from '@/support/utilities'
-import { IUseCaseExecute } from '@/core/shared/types'
+import { IUseCaseExecute } from '@/support/types'
 
 const execute: IUseCaseExecute<UserPasswordVerificationInput, UserPasswordVerificationOutput> =
   ({ Database, Encrypt }) =>

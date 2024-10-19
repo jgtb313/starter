@@ -3,7 +3,7 @@ import { z } from '@starter/schema'
 import { uuid } from '@starter/shared'
 
 import { TestDependencies, ITestDependencies } from '@/config/tests'
-import { IDependencies, IUseCaseExecute } from '@/core/shared/types'
+import { IDependencies, IUseCaseExecute } from '@/support/types'
 
 import { createUseCase, setupDomain, SetupDomain } from './utilities'
 

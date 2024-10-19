@@ -10,7 +10,7 @@ import {
   OTPContextEnum,
 } from '@starter/schema'
 
-import { IDependencies } from '@/core/shared/types'
+import { IDependencies } from '@/support/types'
 import { validateOTP } from '@/core/otp/use-cases/validate-otp.use-case'
 import { getUser } from '@/core/user/use-case/get-user.use-case'
 import { updateUser } from '@/core/user/use-case/update-user.use-case'

@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it } from 'vitest'
 import { UpdateUserEmailInput } from '@starter/schema'
 
 import { TestDependencies, ITestDependencies } from '@/config/tests'
-import { IDependencies } from '@/core/shared/types'
+import { IDependencies } from '@/support/types'
 
 import { updateUserEmail } from './update-user-email.use-case'
 

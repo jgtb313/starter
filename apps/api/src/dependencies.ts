@@ -1,4 +1,3 @@
-import { IDependencies } from '@/core/shared/types'
 import { Database } from '@/adapters/mongodb'
 import { Encrypt } from '@/adapters/bcrypt'
 import { JWT } from '@/adapters/json-web-token'
@@ -8,7 +7,7 @@ import { Whatsapp } from '@/adapters/twilio-whatsapp'
 import { Storage } from '@/adapters/aws-s3'
 import { SocialAuth } from '@/adapters/social-auth'
 
-export const Dependencies: IDependencies = {
+export const Dependencies = {
   Database: { createSession: Database.createSession, ...Database.Repositories },
   Encrypt,
   JWT,

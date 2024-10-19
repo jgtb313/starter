@@ -9,7 +9,7 @@ import {
   RecoverPasswordSchema,
 } from '@starter/schema'
 
-import { IDependencies } from '@/core/shared/types'
+import { IDependencies } from '@/support/types'
 import { signIn } from '@/core/auth/use-cases/sign-in.use-case'
 import { socialSignIn } from '@/core/auth/use-cases/social-sign-in.use-case'
 import { signUp } from '@/core/auth/use-cases/sign-up.use-case'

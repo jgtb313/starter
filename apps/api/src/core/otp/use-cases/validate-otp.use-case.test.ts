@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it } from 'vitest'
 import { OTPChannelEnum, OTPContextEnum, ValidateOTPInput } from '@starter/schema'
 
 import { TestDependencies, ITestDependencies } from '@/config/tests'
-import { IDependencies } from '@/core/shared/types'
+import { IDependencies } from '@/support/types'
 import { OTP } from '@/core/otp/domain'
 
 import { validateOTP } from './validate-otp.use-case'

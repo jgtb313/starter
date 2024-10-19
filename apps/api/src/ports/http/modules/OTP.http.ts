@@ -8,7 +8,7 @@ import {
   OTPChannelEnum,
 } from '@starter/schema'
 
-import { IDependencies } from '@/core/shared/types'
+import { IDependencies } from '@/support/types'
 import { validateOTP } from '@/core/otp/use-cases/validate-otp.use-case'
 import { sendOTP } from '@/core/otp/use-cases/send-otp.use-case'
 import { requiresAuthorization, IRouter } from '@/ports/http'

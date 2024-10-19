@@ -1,6 +1,6 @@
 import { ZodSchema, z } from '@starter/schema'
 
-import { IDependencies } from '@/core/shared/types'
+import { IDependencies } from '@/support/types'
 import { IContext } from '@/core/shared/types/context'
 import { HTTPMethods, HttpContentTypes, HttpResponses } from './HTTP.support'
 

@@ -1,7 +1,7 @@
 import KSUID from 'ksuid'
 import { z, ZodSchema } from '@starter/schema'
 
-import { IDependencies, IUseCaseExecute } from '@/core/shared/types'
+import { IDependencies, IUseCaseExecute } from '@/support/types'
 
 export const createUseCase =
   <T, P>(execute: IUseCaseExecute<T, P>, Schema?: ZodSchema) =>

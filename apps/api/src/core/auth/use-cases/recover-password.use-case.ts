@@ -3,7 +3,7 @@ import { isFuture } from '@starter/shared'
 
 import { ConflictError } from '@/support/errors'
 import { createUseCase } from '@/support/utilities'
-import { IUseCaseExecute } from '@/core/shared/types'
+import { IUseCaseExecute } from '@/support/types'
 
 const execute: IUseCaseExecute<RecoverPasswordInput, RecoverPasswordOutput> =
   ({ Database, Encrypt }) =>

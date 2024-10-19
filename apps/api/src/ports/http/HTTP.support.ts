@@ -3,7 +3,7 @@ import { deepPick, deepOmit, first, isNumber } from '@starter/shared'
 
 import { AuthError, DefaultError } from '@/support/errors'
 import { Auth } from '@/support/auth'
-import { IContext } from '@/core/shared/types'
+import { IContext } from '@/support/types'
 
 export type HTTPMethods = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
 

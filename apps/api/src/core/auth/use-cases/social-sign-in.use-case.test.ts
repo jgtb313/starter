@@ -3,7 +3,7 @@ import { SocialSignInInput, SocialSignInEnum } from '@starter/schema'
 
 import { AuthError } from '@/support/errors'
 import { TestDependencies, ITestDependencies } from '@/config/tests'
-import { IDependencies } from '@/core/shared/types'
+import { IDependencies } from '@/support/types'
 
 import { socialSignIn } from './social-sign-in.use-case'
 

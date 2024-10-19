@@ -1,6 +1,6 @@
 import { vi, Mock } from 'vitest'
 
-import { IDependencies } from '@/core/shared/types'
+import { IDependencies } from '@/support/types'
 import { DatabaseInMemory } from '@/adapters/mongodb-in-memory'
 import { JWTInMemory } from '@/adapters/json-web-token-in-memory'
 import { EncryptInMemory } from '@/adapters/bcrypt-in-memory'

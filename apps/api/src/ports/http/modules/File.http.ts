@@ -1,6 +1,6 @@
 import { RequestFilenameSchema, RequestFilenameSchemaOutput } from '@starter/schema'
 
-import { IDependencies } from '@/core/shared/types'
+import { IDependencies } from '@/support/types'
 import { requestFilename } from '@/core/file/use-cases/request-filename.use-case'
 import { IRouter } from '@/ports/http'
 

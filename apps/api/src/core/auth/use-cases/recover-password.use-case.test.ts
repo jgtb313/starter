@@ -3,7 +3,7 @@ import { RecoverPasswordInput } from '@starter/schema'
 
 import { ConflictError } from '@/support/errors'
 import { TestDependencies, ITestDependencies } from '@/config/tests'
-import { IDependencies } from '@/core/shared/types'
+import { IDependencies } from '@/support/types'
 
 import { recoverPassword } from './recover-password.use-case'
 

@@ -3,7 +3,7 @@ import { SignUpInput } from '@starter/schema'
 
 import { BadRequestError } from '@/support/errors'
 import { TestDependencies, ITestDependencies } from '@/config/tests'
-import { IDependencies } from '@/core/shared/types'
+import { IDependencies } from '@/support/types'
 
 import { signUp } from './sign-up.use-case'
 

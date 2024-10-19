@@ -3,7 +3,7 @@ import { SignUpSchema, SignUpInput, SignUpOutput, UserStatusEnum } from '@starte
 import { BadRequestError } from '@/support/errors'
 import { createUseCase } from '@/support/utilities'
 import { getTokenPayload } from '@/support/auth'
-import { IUseCaseExecute } from '@/core/shared/types'
+import { IUseCaseExecute } from '@/support/types'
 import { User } from '@/core/user/domain'
 
 const execute: IUseCaseExecute<SignUpInput, SignUpOutput> =
