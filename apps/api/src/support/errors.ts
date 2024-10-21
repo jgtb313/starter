@@ -1,22 +1,32 @@
 import { z } from '@starter/schema'
 
-export const DefaultErrorSchema = z.object({
-  name: z.string(),
-  code: z.number(),
-  message: z.string(),
-  metadata: z.record(z.string(), z.any()).nullish()
-})
+import { HttpResponses } from '@/ports/http'
 
-export type DefaultErrorInput = z.infer<typeof DefaultErrorSchema>
+export const ErrorSchema = ({ statusCode, message }: { statusCode: HttpResponses; message: string }) =>
+  z.object({
+    statusCode: z.number().openapi({ example: statusCode }),
+    error: z.string().openapi({ example: 'Bad Request Error' }),
+    message: z.string().openapi({ example: message }),
+    // metadata: z.record(z.string(), z.any()).nullish(),
+  })
+
+type DefaultErrorInput = {
+  name: string
+  code: number
+  message: string
+  metadata?: Record<string, any>
+}
 
 export class DefaultError extends Error {
   code: number
+  error: string
   metadata?: DefaultErrorInput['metadata']
 
   constructor({ name, code, message, metadata }: DefaultErrorInput) {
     super(message)
     this.name = name
     this.code = code
+    this.error = name.split(/(?=[A-Z])/).join(' ')
     this.metadata = metadata
   }
 }

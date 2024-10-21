@@ -1,5 +1,5 @@
 import { z } from '@starter/schema'
-import { deepPick, deepOmit, first, isNumber } from '@starter/shared'
+import { deepPick, deepOmit, isString } from '@starter/shared'
 
 import { AuthError, DefaultError } from '@/support/errors'
 import { Auth } from '@/support/auth'
@@ -16,14 +16,14 @@ export const withResponse = (data: any, fields: string) => {
     return deepOmit(data, ['password'])
   }
 
-  const parseFields = fields.replace(/\s+/g, '')
+  const parsedFields = fields.replace(/\s+/g, '')
 
-  const formatResponse = (value: any) => deepPick(parseFields, deepOmit(value, ['password']))
+  const formatResponse = (value: any) => deepPick(parsedFields, deepOmit(value, ['password']))
 
-  if (data.docs) {
+  if (data.items) {
     return {
       ...data,
-      docs: data.docs.map(formatResponse),
+      items: data.items.map(formatResponse),
     }
   }
 
@@ -45,82 +45,15 @@ export const withResponse = (data: any, fields: string) => {
   return formatResponse(data)
 }
 
-export const extractPath = (issue: z.ZodIssue) => {
-  const isPathArray = issue.path.some((path) => isNumber(path))
-
-  if (isPathArray) {
-    const path = issue.path.reduce((result, path) => {
-      const isPathNumber = isNumber(path)
-
-      if (isPathNumber) {
-        return `${result}[${path}]`
-      }
-
-      return result ? `${result}.${path}` : path
-    }, '')
-
-    return `${path}`
-  }
-
-  const isPathObject = issue.path.length >= 2
-
-  if (isPathObject) {
-    return issue.path.join('.').toString()
-  }
-
-  return `${first(issue.path)}`
-}
-
-export const formatZodErrors = (error: z.ZodError) => {
-  const getIssuePath = (issue: z.ZodIssue) => {
-    if (issue.code === z.ZodIssueCode.invalid_string && issue.validation !== 'uuid') {
-      return (issue.validation as string).toString()
-    }
-
-    const path = extractPath(issue)
-
-    return path
-  }
-
-  const getIssueMessage = (issue: z.ZodIssue) => {
-    if (issue.code === 'custom') {
-      return issue.message
-    }
-
-    const message =
-      issue.message === 'String must contain at least 1 character(s)' || issue.message === 'Array must contain at least 1 element(s)'
-        ? 'Campo obrigatório'
-        : issue.message
-
-    return message
-  }
-
-  const issues = new Set<string>()
-
-  error.issues.forEach((issue) => {
-    const path = getIssuePath(issue)
-    const message = getIssueMessage(issue)
-
-    issues.add(`${path}:${message}`)
-  })
-
-  return Array.from(issues).map((issue) => {
-    const [path = '', message = ''] = issue.split(':')
-
-    return {
-      [path]: message,
-    }
-  })
-}
-
 export const withError = (error: Error) => {
   if (error instanceof z.ZodError) {
     return {
       error: {
         code: 400,
         error: {
-          message: 'validationFailed',
-          errors: formatZodErrors(error),
+          statusCode: 400,
+          error: 'Bad Request Error',
+          issues: error.issues.map((issue) => ({ [isString(issue.path) ? issue.path : issue.path.join('.')]: issue.message })),
         },
       },
     }
@@ -131,6 +64,8 @@ export const withError = (error: Error) => {
       error: {
         code: error.code,
         error: {
+          statusCode: Number(error.code),
+          error: error.error,
           message: error.message,
           metadata: error.metadata,
         },
@@ -140,8 +75,10 @@ export const withError = (error: Error) => {
 
   return {
     error: {
-      code: 400,
+      code: 500,
       error: {
+        statusCode: 500,
+        error: 'Internal Server Error',
         message: error.message,
       },
     },
