@@ -11,14 +11,6 @@ export type HttpContentTypes = 'application/json' | 'multipart/form-data'
 
 export type HttpResponses = 200 | 201 | 204 | 400 | 401 | 403 | 404 | 409 | 500
 
-export type FieldsInput = {
-  fields: string
-}
-
-export type WithFieldsInput<T> = {
-  fields: string
-} & T
-
 export const withResponse = (data: any, fields: string) => {
   if (!fields) {
     return deepOmit(data, ['password'])
