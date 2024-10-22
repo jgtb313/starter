@@ -39,7 +39,7 @@ export const ProfileRouter = (dependencies: IDependencies): IRouter => ({
       parameters: {},
 
       responses: {
-        200: { description: 'OK', schema: GetUserSchemaOutput },
+        200: { schema: GetUserSchemaOutput },
       },
 
       execute(_, context) {
@@ -62,7 +62,7 @@ export const ProfileRouter = (dependencies: IDependencies): IRouter => ({
       },
 
       responses: {
-        200: { description: 'OK', schema: UpdateUserSchemaOutput },
+        200: { schema: UpdateUserSchemaOutput },
       },
 
       execute({ body }, context) {
@@ -85,7 +85,7 @@ export const ProfileRouter = (dependencies: IDependencies): IRouter => ({
       },
 
       responses: {
-        200: { description: 'OK' },
+        204: { description: 'OK' },
       },
 
       async execute({ body }, context) {
@@ -112,7 +112,7 @@ export const ProfileRouter = (dependencies: IDependencies): IRouter => ({
       },
 
       responses: {
-        200: { description: 'OK' },
+        204: { description: 'OK' },
       },
 
       async execute({ body }, context) {
@@ -141,7 +141,7 @@ export const ProfileRouter = (dependencies: IDependencies): IRouter => ({
       },
 
       responses: {
-        200: { description: 'OK' },
+        204: { description: 'OK' },
       },
 
       async execute({ body }, context) {

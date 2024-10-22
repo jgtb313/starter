@@ -36,7 +36,13 @@ export const OTPRouter = (dependencies: IDependencies): IRouter => ({
 
       responses: {
         204: {
-          description: 'OK',
+          description: 'OTP has been successfully validated',
+        },
+        403: {
+          description: 'Expired',
+        },
+        409: {
+          description: 'Attempts expired',
         },
       },
 
@@ -60,9 +66,16 @@ export const OTPRouter = (dependencies: IDependencies): IRouter => ({
 
       responses: {
         200: {
-          description: 'OK',
           schema: SendUpdateEmailOTPSchemaOutput,
         },
+        409: [
+          {
+            description: 'Daily attempt limit exceeded',
+          },
+          {
+            description: 'Insufficient resend time, please try again later',
+          },
+        ],
       },
 
       async execute({ body }, context) {
@@ -100,9 +113,16 @@ export const OTPRouter = (dependencies: IDependencies): IRouter => ({
 
       responses: {
         200: {
-          description: 'OK',
           schema: SendUpdatePhoneOTPSchemaOutput,
         },
+        409: [
+          {
+            description: 'Daily attempt limit exceeded',
+          },
+          {
+            description: 'Insufficient resend time, please try again later',
+          },
+        ],
       },
 
       async execute({ body }, context) {

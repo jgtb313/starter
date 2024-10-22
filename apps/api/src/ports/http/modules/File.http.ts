@@ -26,7 +26,6 @@ export const FileRouter = (dependencies: IDependencies): IRouter => ({
 
       responses: {
         200: {
-          description: 'OK',
           schema: RequestFilenameSchemaOutput,
         },
       },

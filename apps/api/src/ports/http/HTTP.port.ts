@@ -10,17 +10,17 @@ export type IRouterPathResponse = {
   schema?: ZodSchema
 }
 
-export type IRouterPathResponseExamples = {
-  description: string
-  examples: IRouterPathResponse[]
-}
-
-export type IRouterPathResponses =
-  | {
-      description: string
-      schema?: ZodSchema
+type IRouterPathResponses<T extends HttpResponses> = T extends 200 | 201
+  ? {
+      schema: ZodSchema
     }
-  | IRouterPathResponseExamples
+  : {
+      description: string
+    }
+
+type IRouterResponses<T extends HttpResponses> = T extends 200 | 201
+  ? IRouterPathResponses<T> | IRouterPathResponses<T>[]
+  : IRouterPathResponses<T> | IRouterPathResponses<T>[]
 
 export type IRouterPath<
   T extends ZodSchema = ZodSchema,
@@ -47,7 +47,9 @@ export type IRouterPath<
     }
   }
 
-  responses: Partial<Record<HttpResponses, IRouterPathResponses>>
+  responses: {
+    [T in HttpResponses]?: IRouterResponses<T>
+  }
 
   execute: (input: IRouteInput<z.infer<T>, z.infer<E>, z.infer<K>, z.infer<P>>, context: IContext) => z.infer<Q>
 }

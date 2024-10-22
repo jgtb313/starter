@@ -11,6 +11,8 @@ export type HttpContentTypes = 'application/json' | 'multipart/form-data'
 
 export type HttpResponses = 200 | 201 | 204 | 400 | 401 | 403 | 404 | 409 | 500
 
+export type HttpErrorResponses = 400 | 401 | 403 | 404 | 409 | 500
+
 export const withResponse = (data: any, fields: string) => {
   if (!fields) {
     return deepOmit(data, ['password'])
@@ -68,6 +70,7 @@ export const withError = (error: Error) => {
           error: error.error,
           message: error.message,
           metadata: error.metadata,
+          issues: error.issues,
         },
       },
     }

@@ -1,33 +1,26 @@
-import { z } from '@starter/schema'
-
-import { HttpResponses } from '@/ports/http'
-
-export const ErrorSchema = ({ statusCode, message }: { statusCode: HttpResponses; message: string }) =>
-  z.object({
-    statusCode: z.number().openapi({ example: statusCode }),
-    error: z.string().openapi({ example: 'Bad Request Error' }),
-    message: z.string().openapi({ example: message }),
-    // metadata: z.record(z.string(), z.any()).nullish(),
-  })
-
 type DefaultErrorInput = {
   name: string
   code: number
   message: string
   metadata?: Record<string, any>
+  issues?: Record<string, string>[]
 }
+
+type BadRequestErrorInput = Omit<DefaultErrorInput, 'metadata'>
 
 export class DefaultError extends Error {
   code: number
   error: string
   metadata?: DefaultErrorInput['metadata']
+  issues?: Record<string, string>[]
 
-  constructor({ name, code, message, metadata }: DefaultErrorInput) {
+  constructor({ name, code, message, metadata, issues }: DefaultErrorInput) {
     super(message)
     this.name = name
     this.code = code
     this.error = name.split(/(?=[A-Z])/).join(' ')
     this.metadata = metadata
+    this.issues = issues
   }
 }
 
@@ -44,8 +37,8 @@ export class ForbiddenError extends DefaultError {
 }
 
 export class BadRequestError extends DefaultError {
-  constructor(message: string, metadata?: DefaultErrorInput['metadata']) {
-    super({ name: 'BadRequestError', code: 400, message, metadata })
+  constructor({ issues }: Pick<BadRequestErrorInput, 'issues'>) {
+    super({ name: 'BadRequestError', code: 400, message: 'Validation Failed', issues })
   }
 }
 
@@ -58,12 +51,6 @@ export class NotFoundError extends DefaultError {
 export class ConflictError extends DefaultError {
   constructor(message: string, metadata?: DefaultErrorInput['metadata']) {
     super({ name: 'ConflictError', code: 409, message, metadata })
-  }
-}
-
-export class ValidationError extends DefaultError {
-  constructor(message: string, metadata?: DefaultErrorInput['metadata']) {
-    super({ name: 'ValidationError', code: 400, message, metadata })
   }
 }
 

@@ -1,6 +1,6 @@
 import { SignUpSchema, SignUpInput, SignUpOutput, UserStatusEnum } from '@starter/schema'
 
-import { BadRequestError } from '@/support/errors'
+import { ConflictError } from '@/support/errors'
 import { createUseCase } from '@/support/utilities'
 import { getTokenPayload } from '@/support/auth'
 import { IUseCaseExecute } from '@/support/types'
@@ -14,7 +14,7 @@ const execute: IUseCaseExecute<SignUpInput, SignUpOutput> =
     })
 
     if (emailExists) {
-      throw new BadRequestError(`E-mail ${email} has already been taken`)
+      throw new ConflictError(`E-mail ${email} has already been taken`)
     }
 
     const hashPassword = Encrypt.hash(password)

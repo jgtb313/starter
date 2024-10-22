@@ -16,7 +16,6 @@ import { signUp } from '@/core/auth/use-cases/sign-up.use-case'
 import { forgotPassword } from '@/core/auth/use-cases/forgot-password.use-case'
 import { recoverPassword } from '@/core/auth/use-cases/recover-password.use-case'
 import { IRouter } from '@/ports/http'
-import { ErrorSchema } from '@/support/errors'
 
 export const AuthRouter = (dependencies: IDependencies): IRouter => ({
   name: 'Auth',
@@ -41,20 +40,6 @@ export const AuthRouter = (dependencies: IDependencies): IRouter => ({
       responses: {
         200: {
           schema: SignInSchemaOutput,
-          description: 'OK',
-        },
-        400: {
-          description: 'Bad Request',
-          examples: [
-            {
-              schema: ErrorSchema({ statusCode: 400, message: 'Some error' }),
-              description: 'Some error',
-            },
-            {
-              schema: ErrorSchema({ statusCode: 400, message: 'Some error 2' }),
-              description: 'Some error 2',
-            },
-          ],
         },
       },
 
@@ -78,7 +63,6 @@ export const AuthRouter = (dependencies: IDependencies): IRouter => ({
       responses: {
         200: {
           schema: SocialSignInSchemaOutput,
-          description: 'OK',
         },
       },
 
@@ -102,7 +86,6 @@ export const AuthRouter = (dependencies: IDependencies): IRouter => ({
       responses: {
         200: {
           schema: SignUpSchemaOutput,
-          description: 'OK',
         },
       },
 
@@ -125,7 +108,7 @@ export const AuthRouter = (dependencies: IDependencies): IRouter => ({
 
       responses: {
         204: {
-          description: 'OK',
+          description: 'Email sended',
         },
       },
 
@@ -148,7 +131,7 @@ export const AuthRouter = (dependencies: IDependencies): IRouter => ({
 
       responses: {
         204: {
-          description: 'OK',
+          description: 'Password updated',
         },
       },
 

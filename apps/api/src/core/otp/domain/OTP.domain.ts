@@ -1,7 +1,7 @@
 import { OTPSchema, OTP as IOTP } from '@starter/schema'
 import { random, addSeconds, isBefore, isFuture, PartialExcept } from '@starter/shared'
 
-import { ConflictError } from '@/support/errors'
+import { BadRequestError, ForbiddenError, ConflictError } from '@/support/errors'
 import { setupDomain, SetupDomain } from '@/support/utilities'
 import { getContext } from './OTP.support'
 
@@ -48,7 +48,13 @@ export class OTP {
     const hasValidRecipient = this.state.recipient === recipient
 
     if (!hasValidRecipient) {
-      throw new ConflictError('Invalid recipient')
+      throw new BadRequestError({
+        issues: [
+          {
+            recipient: 'Invalid recipient',
+          },
+        ],
+      })
     }
   }
 
@@ -56,7 +62,13 @@ export class OTP {
     const hasValidContext = this.state.context === context
 
     if (!hasValidContext) {
-      throw new ConflictError('Invalid context')
+      throw new BadRequestError({
+        issues: [
+          {
+            context: 'Invalid context',
+          },
+        ],
+      })
     }
   }
 
@@ -65,7 +77,14 @@ export class OTP {
 
     if (!hasValidCode) {
       this.increaseAttempt()
-      throw new ConflictError('Invalid code')
+
+      throw new BadRequestError({
+        issues: [
+          {
+            code: 'Invalid code',
+          },
+        ],
+      })
     }
   }
 
@@ -89,7 +108,7 @@ export class OTP {
     const hasExpired = !isFuture(new Date(this.state.expiresIn))
 
     if (hasExpired) {
-      throw new ConflictError('Expired')
+      throw new ForbiddenError('Expired')
     }
   }
 }

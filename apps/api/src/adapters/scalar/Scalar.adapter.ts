@@ -5,12 +5,21 @@ import { omit } from '@starter/shared'
 
 import { IDependencies } from '@/support/types'
 import * as Modules from '@/ports/http/modules'
-import { IRouterPathResponseExamples } from '@/ports/http'
+import { HttpResponses } from '@/ports/http'
 
 type OpenApiSchema = any
 
-const isRouterPathResponseExamples = (value: unknown): value is IRouterPathResponseExamples =>
-  Array.isArray((value as IRouterPathResponseExamples)?.examples)
+export const httpResponsesDescriptions: Record<HttpResponses, string> = {
+  200: 'OK',
+  201: 'Created',
+  204: 'No Content',
+  400: 'Bad Request',
+  401: 'Unauthorized',
+  403: 'Forbidden',
+  404: 'Not Found',
+  409: 'Conflict',
+  500: 'Internal Server',
+}
 
 const normalizePath = (path: string) => {
   return path
@@ -109,22 +118,17 @@ const paths = Schemas.reduce((state, schema) => {
       .flat()
 
     const formattedResponses = Object.entries(responses).reduce((state, [response, value]) => {
-      if (isRouterPathResponseExamples(value)) {
+      if (Array.isArray(value)) {
         return {
           ...state,
           [response]: {
-            description: value.description,
+            description: httpResponsesDescriptions[response as unknown as HttpResponses],
             content: {
               'application/json': {
-                schema: {
-                  oneOf: value.examples.map((item) =>
-                    item.schema ? { ...generateSchemaProperties(zodSchemaToInstance(item.schema)), description: item.description } : null,
-                  ),
-                },
                 examples: Object.fromEntries(
-                  value.examples.map((item) => [
-                    item.description,
-                    item.schema ? sample(generateSchemaProperties(zodSchemaToInstance(item.schema))) : null,
+                  value.map((item) => [
+                    'description' in item ? item.description : httpResponsesDescriptions[response as unknown as HttpResponses],
+                    'schema' in item ? sample(generateSchemaProperties(zodSchemaToInstance(item.schema))) : null,
                   ]),
                 ),
               },
@@ -133,15 +137,13 @@ const paths = Schemas.reduce((state, schema) => {
         }
       }
 
-      const { schema, description = response } = value
-
       return {
         ...state,
         [response]: {
-          description,
+          description: httpResponsesDescriptions[response as unknown as HttpResponses],
           content: {
             'application/json': {
-              schema: schema ? generateSchemaProperties(zodSchemaToInstance(schema)) : null,
+              schema: 'schema' in value ? generateSchemaProperties(zodSchemaToInstance(value.schema)) : null,
             },
           },
         },
