@@ -1,3 +1,6 @@
+import { HttpErrorResponses } from '@/ports/http'
+import { z, ZodSchema } from '@starter/schema'
+
 type DefaultErrorInput = {
   name: string
   code: number
@@ -7,6 +10,55 @@ type DefaultErrorInput = {
 }
 
 type BadRequestErrorInput = Omit<DefaultErrorInput, 'metadata'>
+
+export const ErrorSchema: Record<HttpErrorResponses, (message: string) => ZodSchema> = {
+  400: () =>
+    z.object({
+      statusCode: z.number().openapi({ example: 400 }),
+      error: z.string().openapi({ example: 'Bad Request Error' }),
+      issues: z.array(z.record(z.string(), z.string())),
+    }),
+
+  401: (message) =>
+    z.object({
+      statusCode: z.number().openapi({ example: 401 }),
+      error: z.string().openapi({ example: 'Unauthorized Error' }),
+      message: z.string().openapi({ example: message }),
+      // metadata: z.record(z.string(), z.string()).optional(),
+    }),
+
+  403: (message) =>
+    z.object({
+      statusCode: z.number().openapi({ example: 403 }),
+      error: z.string().openapi({ example: 'Forbidden Error' }),
+      message: z.string().openapi({ example: message }),
+      // metadata: z.record(z.string(), z.string()).optional(),
+    }),
+
+  404: (message) =>
+    z.object({
+      statusCode: z.number().openapi({ example: 404 }),
+      error: z.string().openapi({ example: 'Not Found Error' }),
+      message: z.string().openapi({ example: message }),
+      // metadata: z.record(z.string(), z.string()).optional(),
+    }),
+
+  409: (message) =>
+    z.object({
+      statusCode: z.number().openapi({ example: 409 }),
+      error: z.string().openapi({ example: 'Confict Error' }),
+      message: z.string().openapi({ example: message }),
+      // metadata: z.record(z.string(), z.string()).optional(),
+    }),
+
+  500: (message) =>
+    z.object({
+      statusCode: z.number().openapi({ example: 500 }),
+      error: z.string().openapi({ example: 'Internal Server Error' }),
+      message: z.string().openapi({ example: message }),
+      // metadata: z.record(z.string(), z.string()).optional(),
+    }),
+}
 
 export class DefaultError extends Error {
   code: number

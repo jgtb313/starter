@@ -85,7 +85,7 @@ export const ProfileRouter = (dependencies: IDependencies): IRouter => ({
       },
 
       responses: {
-        204: { description: 'OK' },
+        204: { description: 'The email was successfully updated.' },
       },
 
       async execute({ body }, context) {
@@ -112,7 +112,7 @@ export const ProfileRouter = (dependencies: IDependencies): IRouter => ({
       },
 
       responses: {
-        204: { description: 'OK' },
+        204: { description: 'The phone number was successfully updated.' },
       },
 
       async execute({ body }, context) {
@@ -141,7 +141,7 @@ export const ProfileRouter = (dependencies: IDependencies): IRouter => ({
       },
 
       responses: {
-        204: { description: 'OK' },
+        204: { description: 'The password was successfully updated.' },
       },
 
       async execute({ body }, context) {

@@ -5,7 +5,8 @@ import { omit } from '@starter/shared'
 
 import { IDependencies } from '@/support/types'
 import * as Modules from '@/ports/http/modules'
-import { HttpResponses } from '@/ports/http'
+import { HttpErrorResponses, HttpResponses } from '@/ports/http'
+import { ErrorSchema } from '@/support/errors'
 
 type OpenApiSchema = any
 
@@ -28,7 +29,9 @@ const normalizePath = (path: string) => {
     .replace(/\(.*\)/, '')
 }
 
-const generateSchemaProperties = (schema: OpenApiSchema): OpenApiSchema => {
+const generateSchemaProperties = (s: OpenApiSchema): OpenApiSchema => {
+  let schema: OpenApiSchema = s
+
   if (schema.oneOf) {
     schema = {
       ...schema,
@@ -82,7 +85,9 @@ const generateSchemaProperties = (schema: OpenApiSchema): OpenApiSchema => {
   return {
     type: 'object',
     description: schema.description,
-    properties: Object.fromEntries(Object.entries(schema.properties).map(([key, value]) => [key, generateSchemaProperties(value)])),
+    properties: Object.fromEntries(
+      Object.entries(schema.properties ?? schema.additionalProperties).map(([key, value]) => [key, generateSchemaProperties(value)]),
+    ),
     required: schema.required,
   }
 }
@@ -125,10 +130,21 @@ const paths = Schemas.reduce((state, schema) => {
             description: httpResponsesDescriptions[response as unknown as HttpResponses],
             content: {
               'application/json': {
+                schema: ['400', '401', '403', '403', '409', '500'].includes(response)
+                  ? generateSchemaProperties(
+                      zodSchemaToInstance(
+                        ErrorSchema[response as unknown as HttpErrorResponses](httpResponsesDescriptions[response as unknown as HttpResponses]),
+                      ),
+                    )
+                  : null,
                 examples: Object.fromEntries(
                   value.map((item) => [
                     'description' in item ? item.description : httpResponsesDescriptions[response as unknown as HttpResponses],
-                    'schema' in item ? sample(generateSchemaProperties(zodSchemaToInstance(item.schema))) : null,
+                    'schema' in item
+                      ? sample(generateSchemaProperties(zodSchemaToInstance(item.schema)))
+                      : sample(
+                          generateSchemaProperties(zodSchemaToInstance(ErrorSchema[response as unknown as HttpErrorResponses](item.description))),
+                        ),
                   ]),
                 ),
               },
@@ -140,10 +156,15 @@ const paths = Schemas.reduce((state, schema) => {
       return {
         ...state,
         [response]: {
-          description: httpResponsesDescriptions[response as unknown as HttpResponses],
+          description: 'description' in value ? value.description : httpResponsesDescriptions[response as unknown as HttpResponses],
           content: {
             'application/json': {
-              schema: 'schema' in value ? generateSchemaProperties(zodSchemaToInstance(value.schema)) : null,
+              schema:
+                'schema' in value
+                  ? generateSchemaProperties(zodSchemaToInstance(value.schema))
+                  : ['400', '401', '403', '403', '409', '500'].includes(response)
+                  ? generateSchemaProperties(zodSchemaToInstance(ErrorSchema[response as unknown as HttpErrorResponses](value.description)))
+                  : null,
             },
           },
         },

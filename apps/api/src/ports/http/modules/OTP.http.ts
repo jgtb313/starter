@@ -64,8 +64,10 @@ export const OTPRouter = (dependencies: IDependencies): IRouter => ({
         body: SendUpdateEmailOTPSchema,
       },
 
+      responseStatusCode: 201,
+
       responses: {
-        200: {
+        201: {
           schema: SendUpdateEmailOTPSchemaOutput,
         },
         409: [
@@ -111,8 +113,10 @@ export const OTPRouter = (dependencies: IDependencies): IRouter => ({
         body: SendUpdatePhoneOTPSchema,
       },
 
+      responseStatusCode: 201,
+
       responses: {
-        200: {
+        201: {
           schema: SendUpdatePhoneOTPSchemaOutput,
         },
         409: [

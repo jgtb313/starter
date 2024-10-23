@@ -31,7 +31,7 @@ export const AuthRouter = (dependencies: IDependencies): IRouter => ({
 
       method: 'POST',
 
-      path: '/auth::sign-in',
+      path: '/sign-in',
 
       parameters: {
         body: SignInSchema,
@@ -54,7 +54,7 @@ export const AuthRouter = (dependencies: IDependencies): IRouter => ({
 
       method: 'POST',
 
-      path: '/auth::social-sign-in',
+      path: '/social-sign-in',
 
       parameters: {
         body: SocialSignInSchema,
@@ -77,14 +77,16 @@ export const AuthRouter = (dependencies: IDependencies): IRouter => ({
 
       method: 'POST',
 
-      path: '/auth::sign-up',
+      path: '/sign-up',
 
       parameters: {
         body: SignUpSchema,
       },
 
+      responseStatusCode: 201,
+
       responses: {
-        200: {
+        201: {
           schema: SignUpSchemaOutput,
         },
       },
@@ -100,7 +102,7 @@ export const AuthRouter = (dependencies: IDependencies): IRouter => ({
 
       method: 'POST',
 
-      path: '/auth::forgot-password',
+      path: '/forgot-password',
 
       parameters: {
         body: ForgotPasswordSchema,
@@ -108,7 +110,7 @@ export const AuthRouter = (dependencies: IDependencies): IRouter => ({
 
       responses: {
         204: {
-          description: 'Email sended',
+          description: 'The password reset email was successfully sent to the user.',
         },
       },
 
@@ -123,7 +125,7 @@ export const AuthRouter = (dependencies: IDependencies): IRouter => ({
 
       method: 'POST',
 
-      path: '/auth::recover-password',
+      path: '/recover-password',
 
       parameters: {
         body: RecoverPasswordSchema,
@@ -131,7 +133,7 @@ export const AuthRouter = (dependencies: IDependencies): IRouter => ({
 
       responses: {
         204: {
-          description: 'Password updated',
+          description: 'The password was successfully updated.',
         },
       },
 

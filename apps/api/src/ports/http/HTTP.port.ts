@@ -1,7 +1,7 @@
 import { ZodSchema, z } from '@starter/schema'
 
 import { IDependencies, IContext } from '@/support/types'
-import { HTTPMethods, HttpContentTypes, HttpResponses } from './HTTP.support'
+import { HTTPMethods, HttpContentTypes, HttpSuccessResponses, HttpMapErrorResponses } from './HTTP.support'
 
 export * from './modules'
 
@@ -10,7 +10,7 @@ export type IRouterPathResponse = {
   schema?: ZodSchema
 }
 
-type IRouterPathResponses<T extends HttpResponses> = T extends 200 | 201
+type IRouterPathResponses<T extends HttpMapErrorResponses> = T extends 200 | 201
   ? {
       schema: ZodSchema
     }
@@ -18,9 +18,7 @@ type IRouterPathResponses<T extends HttpResponses> = T extends 200 | 201
       description: string
     }
 
-type IRouterResponses<T extends HttpResponses> = T extends 200 | 201
-  ? IRouterPathResponses<T> | IRouterPathResponses<T>[]
-  : IRouterPathResponses<T> | IRouterPathResponses<T>[]
+type IRouterResponses<T extends HttpMapErrorResponses> = T extends 204 ? IRouterPathResponses<T> : IRouterPathResponses<T> | IRouterPathResponses<T>[]
 
 export type IRouterPath<
   T extends ZodSchema = ZodSchema,
@@ -47,8 +45,10 @@ export type IRouterPath<
     }
   }
 
+  responseStatusCode?: HttpSuccessResponses
+
   responses: {
-    [T in HttpResponses]?: IRouterResponses<T>
+    [T in HttpMapErrorResponses]?: IRouterResponses<T>
   }
 
   execute: (input: IRouteInput<z.infer<T>, z.infer<E>, z.infer<K>, z.infer<P>>, context: IContext) => z.infer<Q>
