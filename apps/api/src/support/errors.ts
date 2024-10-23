@@ -16,7 +16,7 @@ export const ErrorSchema: Record<HttpErrorResponses, (message: string) => ZodSch
     z.object({
       statusCode: z.number().openapi({ example: 400 }),
       error: z.string().openapi({ example: 'Bad Request Error' }),
-      issues: z.array(z.record(z.string(), z.string())),
+      issues: z.array(z.record(z.string(), z.string())).openapi({ example: JSON.stringify([{ email: 'Invalid email' }]) }),
     }),
 
   401: (message) =>
