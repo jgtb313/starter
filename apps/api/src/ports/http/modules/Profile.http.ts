@@ -34,12 +34,15 @@ export const ProfileRouter = (dependencies: IDependencies): IRouter => ({
 
       method: 'GET',
 
-      path: '/users::me',
+      path: '/users/me',
 
       parameters: {},
 
       responses: {
         200: { schema: GetUserSchemaOutput },
+        401: {
+          description: 'Unauthorized',
+        },
       },
 
       execute(_, context) {
@@ -55,7 +58,7 @@ export const ProfileRouter = (dependencies: IDependencies): IRouter => ({
 
       method: 'PATCH',
 
-      path: '/users::me',
+      path: '/users/me',
 
       parameters: {
         body: UpdateUserSchema.omit({ id: true }),
@@ -63,6 +66,9 @@ export const ProfileRouter = (dependencies: IDependencies): IRouter => ({
 
       responses: {
         200: { schema: UpdateUserSchemaOutput },
+        401: {
+          description: 'Unauthorized',
+        },
       },
 
       execute({ body }, context) {
@@ -78,7 +84,7 @@ export const ProfileRouter = (dependencies: IDependencies): IRouter => ({
 
       method: 'PATCH',
 
-      path: '/users::me::email',
+      path: '/users/me/email',
 
       parameters: {
         body: UpdateUserEmailSchema.omit({ id: true }).merge(z.object({ otpVerification: OTPVerificationSchema })),
@@ -86,6 +92,9 @@ export const ProfileRouter = (dependencies: IDependencies): IRouter => ({
 
       responses: {
         204: { description: 'The email was successfully updated.' },
+        401: {
+          description: 'Unauthorized',
+        },
       },
 
       async execute({ body }, context) {
@@ -105,7 +114,7 @@ export const ProfileRouter = (dependencies: IDependencies): IRouter => ({
 
       method: 'PATCH',
 
-      path: '/users::me::phone',
+      path: '/users/me/phone',
 
       parameters: {
         body: UpdateUserPhoneSchema.omit({ id: true }).merge(z.object({ otpVerification: OTPVerificationSchema })),
@@ -113,6 +122,9 @@ export const ProfileRouter = (dependencies: IDependencies): IRouter => ({
 
       responses: {
         204: { description: 'The phone number was successfully updated.' },
+        401: {
+          description: 'Unauthorized',
+        },
       },
 
       async execute({ body }, context) {
@@ -134,7 +146,7 @@ export const ProfileRouter = (dependencies: IDependencies): IRouter => ({
 
       method: 'PATCH',
 
-      path: '/users::me::password',
+      path: '/users/me/password',
 
       parameters: {
         body: UpdateUserPasswordSchema.omit({ id: true }),
@@ -142,6 +154,9 @@ export const ProfileRouter = (dependencies: IDependencies): IRouter => ({
 
       responses: {
         204: { description: 'The password was successfully updated.' },
+        401: {
+          description: 'Unauthorized',
+        },
       },
 
       async execute({ body }, context) {

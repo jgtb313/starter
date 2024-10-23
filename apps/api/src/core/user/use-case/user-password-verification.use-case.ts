@@ -1,6 +1,6 @@
 import { UserPasswordVerificationSchema, UserPasswordVerificationInput, UserPasswordVerificationOutput } from '@starter/schema'
 
-import { ConflictError } from '@/support/errors'
+import { BadRequestError } from '@/support/errors'
 import { createUseCase } from '@/support/utilities'
 import { IUseCaseExecute } from '@/support/types'
 
@@ -12,7 +12,13 @@ const execute: IUseCaseExecute<UserPasswordVerificationInput, UserPasswordVerifi
     const isValidPassword = Encrypt.compare(password, user.state.password)
 
     if (!isValidPassword) {
-      throw new ConflictError('Incorrect password')
+      throw new BadRequestError({
+        issues: [
+          {
+            password: 'Incorrect password',
+          },
+        ],
+      })
     }
   }
 

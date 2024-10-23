@@ -1,7 +1,7 @@
 import { RecoverPasswordSchema, RecoverPasswordInput, RecoverPasswordOutput } from '@starter/schema'
 import { isFuture } from '@starter/shared'
 
-import { ConflictError } from '@/support/errors'
+import { ConflictError, ForbiddenError } from '@/support/errors'
 import { createUseCase } from '@/support/utilities'
 import { IUseCaseExecute } from '@/support/types'
 
@@ -17,7 +17,7 @@ const execute: IUseCaseExecute<RecoverPasswordInput, RecoverPasswordOutput> =
     const isRecoverPasswordTokenValid = isFuture(user.state.recoverPassword?.expiresIn as Date)
 
     if (!isRecoverPasswordTokenValid) {
-      throw new ConflictError(`recoverPasswordToken ${recoverPasswordToken} expired`)
+      throw new ForbiddenError(`recoverPasswordToken ${recoverPasswordToken} expired`)
     }
 
     const hashPassword = Encrypt.hash(password)

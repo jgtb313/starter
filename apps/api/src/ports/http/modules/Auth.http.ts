@@ -41,6 +41,9 @@ export const AuthRouter = (dependencies: IDependencies): IRouter => ({
         200: {
           schema: SignInSchemaOutput,
         },
+        401: {
+          description: 'Invalid access data',
+        },
       },
 
       execute({ body }) {
@@ -89,6 +92,9 @@ export const AuthRouter = (dependencies: IDependencies): IRouter => ({
         201: {
           schema: SignUpSchemaOutput,
         },
+        409: {
+          description: 'E-mail {{email}} has already been taken',
+        },
       },
 
       execute({ body }) {
@@ -134,6 +140,12 @@ export const AuthRouter = (dependencies: IDependencies): IRouter => ({
       responses: {
         204: {
           description: 'The password was successfully updated.',
+        },
+        403: {
+          description: 'recoverPasswordToken {{recoverPasswordToken}} expired',
+        },
+        409: {
+          description: 'Invalid recoverPasswordToken {{recoverPasswordToken}}',
         },
       },
 
