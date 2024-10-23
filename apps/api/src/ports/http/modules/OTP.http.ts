@@ -41,6 +41,9 @@ export const OTPRouter = (dependencies: IDependencies): IRouter => ({
         403: {
           description: 'Expired',
         },
+        404: {
+          description: 'OTP 2i27UIp5E4Wz6ZI8bfpBcgaRiez not found',
+        },
         409: {
           description: 'Attempts expired',
         },

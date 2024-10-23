@@ -42,7 +42,7 @@ export const setupRoutes = (instance: FastifyInstance, routes: typeof Modules, d
   const modules = Object.values(routes).map((module) => module(dependencies).paths)
 
   for (const module of modules) {
-    Object.values(module).forEach(({ path, method, execute }) => {
+    Object.values(module).forEach(({ path, method, responseStatusCode = 200, execute }) => {
       instance.route({
         url: path,
         method,
@@ -65,9 +65,8 @@ export const setupRoutes = (instance: FastifyInstance, routes: typeof Modules, d
               context.auth = auth
 
               const response = await execute(input as never, context)
-              const responseStatus = 200
 
-              reply.code(responseStatus).send(withResponse(response, input.query.fields))
+              reply.code(responseStatusCode).send(withResponse(response, input.query.fields))
             } catch (err) {
               const error = err as Error
 

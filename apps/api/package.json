@@ -25,7 +25,7 @@
     "@fastify/cors": "^8.2.0",
     "@fastify/formbody": "^7.4.0",
     "@fastify/static": "^6.9.0",
-    "@scalar/fastify-api-reference": "^1.25.32",
+    "@scalar/fastify-api-reference": "^1.25.48",
     "@starter/schema": "*",
     "@starter/shared": "*",
     "axios": "0.27.2",

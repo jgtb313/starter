@@ -15,7 +15,7 @@ export type HttpSuccessResponses = 200 | 201 | 204
 
 export type HttpErrorResponses = 400 | 401 | 403 | 404 | 409 | 500
 
-export type HttpMapErrorResponses = 200 | 201 | 204 | 400 | 401 | 403 | 409
+export type HttpMapErrorResponses = 200 | 201 | 204 | 401 | 403 | 404 | 409
 
 export const withResponse = (data: any, fields: string) => {
   if (!fields) {

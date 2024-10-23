@@ -1,7 +1,7 @@
 import ScalarApiReference from '@scalar/fastify-api-reference'
 import { sample } from 'openapi-sampler'
 import { ZodSchema, zodSchemaToInstance } from '@starter/schema'
-import { omit } from '@starter/shared'
+import { get, omit } from '@starter/shared'
 
 import { IDependencies } from '@/support/types'
 import * as Modules from '@/ports/http/modules'
@@ -23,7 +23,7 @@ export const httpResponsesDescriptions: Record<HttpResponses, string> = {
 }
 
 const isHttpResponseError = (value: HttpResponses): value is HttpErrorResponses =>
-  ['400', '401', '403', '403', '409', '500'].includes(value.toString())
+  ['400', '401', '403', '404', '409', '500'].includes(value.toString())
 
 const normalizePath = (path: string) => {
   return path
@@ -176,7 +176,7 @@ const paths = Schemas.reduce((state, schema) => {
       return {
         ...state,
         [response]: {
-          description: 'description' in value ? value.description : httpResponsesDescriptions[httpResponse],
+          description: httpResponse.toString() === '204' ? get(value, 'description') : httpResponsesDescriptions[httpResponse],
           content: {
             'application/json': {
               schema:
@@ -273,7 +273,15 @@ const document = {
   info: {
     title: 'Starter API',
     version: '1.0.0',
-    description: '# Introduction',
+    description: [
+      '## Introduction\nThis API provides access to a variety of resources and functionalities.\n\n',
+      '## Authentication\nTo access the API, you must authenticate using a token. Here\'s an example of how to authenticate:\n\n```bash\ncurl -X POST https://api.example.com/auth/login \\\n  -H \'Content-Type: application/json\' \\\n  -d \'{"username": "user123", "password": "password"}\'\n```\n\n',
+      "## Filters\nYou can filter the results by various parameters. For example, to filter by status:\n\n```bash\ncurl -X GET 'https://api.example.com/items?status=active'\n```\n\n",
+      "## Pagination\nThe API supports pagination. You can specify the page and the number of items per page:\n\n```bash\ncurl -X GET 'https://api.example.com/items?page=2&limit=10'\n```\n\n",
+      "## Sort\nResults can be sorted based on different fields. Here's how to sort by created date:\n\n```bash\ncurl -X GET 'https://api.example.com/items?sort=created_at'\n```\n\n",
+      '## Errors\nThe API returns standard error codes. For example, a 404 error when the resource is not found:\n\n```json\n{\n  "error": "Not Found",\n  "message": "The requested resource was not found."\n}\n```\n\n',
+      '## Example Table\nHere is an example of the data you might receive from the API:\n\n| ID | Name       | Status | Created At          |\n|----|------------|--------|---------------------|\n| 1  | Item One  | Active | 2024-10-01T10:00:00Z|\n| 2  | Item Two  | Inactive | 2024-10-02T11:30:00Z|\n| 3  | Item Three| Active | 2024-10-03T14:45:00Z|\n\n',
+    ].join('\n\n'),
     license: {
       name: 'MIT',
     },

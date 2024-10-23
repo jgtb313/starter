@@ -1741,25 +1741,25 @@
     argparse "~1.0.9"
     string-argv "~0.3.1"
 
-"@scalar/fastify-api-reference@^1.25.32":
-  version "1.25.44"
-  resolved "https://registry.yarnpkg.com/@scalar/fastify-api-reference/-/fastify-api-reference-1.25.44.tgz#02b9d475f0b5c6ed85a86836aa24c5a970378dc8"
-  integrity sha512-yVTxtkmgJyKzBw6NiSscBCHxg8JamwpIY+yAaMzevJakGWTP5E8yE2N+3wIQL4JzUaCctmbsN2uq6YnsPYKOYQ==
+"@scalar/fastify-api-reference@^1.25.48":
+  version "1.25.48"
+  resolved "https://registry.yarnpkg.com/@scalar/fastify-api-reference/-/fastify-api-reference-1.25.48.tgz#3706e099b0a5da34125ebce626d0eeae55a8dd3c"
+  integrity sha512-fd/uW08v2sbu649j+c3QNwuU3Irkje81R+ShIvqeyiYCMb9bUUohihNCtWhh+jx87Yq1Dtg0tS7j/TVFptO91w==
   dependencies:
-    "@scalar/types" "0.0.16"
+    "@scalar/types" "0.0.17"
     fastify-plugin "^4.5.1"
 
-"@scalar/openapi-types@0.1.3":
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/@scalar/openapi-types/-/openapi-types-0.1.3.tgz#1258f94a598af22623ce981d6e2ee25809382065"
-  integrity sha512-UPUquC/ZSAdeSDbpdqMzeBVcgeytqJTj9P3QR4X9IRti5I1jXoCOUBY84CGGLXfcWquB7wfwHxn3DqQEnQmBVw==
+"@scalar/openapi-types@0.1.4":
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/@scalar/openapi-types/-/openapi-types-0.1.4.tgz#11b6bf90dc847f6925d3e437b834e42e84213025"
+  integrity sha512-+wRXgmqzgDnj8Dxqf4OOPMPo4or/LRd1Bsy4pnrIW0yBt8rKSdtBb+jH/aRnhgDDmKVjWxJ+KFk7WlSKvZwNTw==
 
-"@scalar/types@0.0.16":
-  version "0.0.16"
-  resolved "https://registry.yarnpkg.com/@scalar/types/-/types-0.0.16.tgz#0e1b468e3c9d7884f631971aa34593882df6a27e"
-  integrity sha512-9Pcp4xdQuRGwf4bZmx1e6NKz5QD06kG4S8kxryD3UfVCtnDDqBG6vUWJjjkFzlUK/jvAx7Rl92C4mK5GrauTng==
+"@scalar/types@0.0.17":
+  version "0.0.17"
+  resolved "https://registry.yarnpkg.com/@scalar/types/-/types-0.0.17.tgz#f44c34a14ec27ab1d704d989ada8568796e96a7a"
+  integrity sha512-wUrvNnYFMULsHENX/9TP3oyECRTtZsP06mOZU+RlWg9sRtzWVTjlBCahkgUETL93J+Bz2RLFSKVgPyNN4fpIpA==
   dependencies:
-    "@scalar/openapi-types" "0.1.3"
+    "@scalar/openapi-types" "0.1.4"
     "@unhead/schema" "^1.9.5"
 
 "@sigstore/bundle@^2.3.2":
