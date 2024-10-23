@@ -196,8 +196,6 @@ const paths = Schemas.reduce((state, schema) => {
       ...defaultResponses,
     }
 
-    console.log(JSON.stringify(allResponses, null, 2))
-
     const requestBodyContentType = parameters.bodyOptions?.contentType ?? 'application/json'
 
     const formattedRequestBody = parameters.body
