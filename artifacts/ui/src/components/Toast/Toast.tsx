@@ -3,17 +3,17 @@ import { Notifications, showNotification, hideNotification } from '@mantine/noti
 import { ToastStyles } from './Toast.styles'
 import { ToastProps } from './Toast.types'
 
-const show = (props: ToastProps) => {
+const show = ({ position = 'bottom-center', ...props }: ToastProps) => {
   const styles = ToastStyles(props)
 
   const toastId = showNotification({
     classNames: {
       root: styles.root(),
       title: styles.title(),
-      description: styles.description()
+      description: styles.description(),
     },
     ...props,
-    position: 'bottom-center'
+    position,
   })
 
   return toastId
@@ -26,7 +26,7 @@ export const toast = {
   success: (props: Omit<ToastProps, 'color'>) => show({ ...props, color: 'green' }),
   error: (props: Omit<ToastProps, 'color'>) => show({ ...props, color: 'red' }),
   info: (props: Omit<ToastProps, 'color'>) => show({ ...props, color: 'indigo' }),
-  warning: (props: Omit<ToastProps, 'color'>) => show({ ...props, color: 'yellow' })
+  warning: (props: Omit<ToastProps, 'color'>) => show({ ...props, color: 'yellow' }),
 }
 
 export const Toast = () => <Notifications position="top-center" />
