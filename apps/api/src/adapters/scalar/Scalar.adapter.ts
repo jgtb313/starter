@@ -1,16 +1,21 @@
 import ScalarApiReference from '@scalar/fastify-api-reference'
 import { sample } from 'openapi-sampler'
-import { ZodSchema, zodSchemaToInstance } from '@starter/schema'
+import { zodSchemaToInstance, ZodSchema } from '@starter/schema'
 import { get, omit } from '@starter/shared'
 
+import { env } from '@/config'
+import { ErrorSchema } from '@/support/errors'
 import { IDependencies } from '@/support/types'
 import * as Modules from '@/ports/http/modules'
 import { HttpErrorResponses, HttpResponses } from '@/ports/http'
-import { ErrorSchema } from '@/support/errors'
+
+const STAGE = env('STAGE')
+const PROJECT = env('PROJECT')
+const PROJECT_DOMAIN = env('PROJECT_DOMAIN')
 
 type OpenApiSchema = any
 
-export const httpResponsesDescriptions: Record<HttpResponses, string> = {
+const httpResponsesDescriptions: Record<HttpResponses, string> = {
   200: 'OK',
   201: 'Created',
   204: 'No Content',
@@ -271,7 +276,7 @@ const schemas = Schemas.reduce((state, { schemas }) => {
 const document = {
   openapi: '3.1.0',
   info: {
-    title: 'Starter API',
+    title: `${PROJECT} API`,
     version: '1.0.0',
     description: [
       '## Introduction\nThis API provides access to a variety of resources and functionalities.\n\n',
@@ -288,7 +293,8 @@ const document = {
   },
   servers: [
     {
-      url: 'http://localhost:4000',
+      url:
+        STAGE === 'local' ? 'http://localhost:4000' : STAGE === 'prod' ? `https://api.${PROJECT_DOMAIN}` : `https://api.${STAGE}.${PROJECT_DOMAIN}`,
     },
   ],
 
@@ -318,12 +324,18 @@ export const Docs = {
     configuration: {
       hideDownloadButton: true,
       metaData: {
-        title: 'Starter API',
+        title: `${PROJECT} API`,
       },
+      favicon: 'https://e7.pngegg.com/pngimages/247/558/png-clipart-node-js-javascript-express-js-npm-react-github-angle-text-thumbnail.png',
       defaultOpenAllTags: true,
       spec: {
         content: document,
       },
+      customCss: [
+        '.badges { display: none !important; }',
+        '.security-scheme-label { font-weight: var(--scalar-semibold); font-size: var(--scalar-mini); color: var(--scalar-color-3); text-transform: uppercase; display: block; }',
+        '.scalar-card-header-actions { display: none !important; }',
+      ].join(''),
     },
   },
 }
