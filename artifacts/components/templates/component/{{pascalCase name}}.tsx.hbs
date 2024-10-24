@@ -1,0 +1,15 @@
+import { PropsWithChildren } from 'react'
+import { {{pascalCase name}} as M{{pascalCase name}} } from '@mantine/core'
+
+import { {{pascalCase name}}Styles } from './{{pascalCase name}}.styles'
+import { {{pascalCase name}}Props } from './{{pascalCase name}}.types'
+
+export const {{pascalCase name}} = ({ children, ...props }: PropsWithChildren<{{pascalCase name}}Props>) => {
+  const styles = {{pascalCase name}}Styles(props)
+
+  return (
+    <M{{pascalCase name}} {...props}>
+      {children}
+    </M{{pascalCase name}}>
+  )
+}

@@ -1,0 +1,93 @@
+{
+  "name": "@starter/components",
+  "version": "1.0.0",
+  "author": "João <jgtb313@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite build --watch",
+    "generate:component": "yarn plop component",
+    "generate:input": "yarn plop input",
+    "build": "vite build",
+    "build:watch": "vite build --watch",
+    "type-check": "tsc --project tsconfig.json --pretty --noEmit",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:watch": "vitest --watch --coverage"
+  },
+  "peerDependencies": {
+    "react": "^18.2.20",
+    "react-dom": "^18.2.20"
+  },
+  "dependencies": {
+    "@mantine/colors-generator": "^7.12.1",
+    "@mantine/core": "7.6.1",
+    "@mantine/dates": "^7.7.1",
+    "@mantine/dropzone": "^7.6.2",
+    "@mantine/form": "^7.6.1",
+    "@mantine/hooks": "7.6.1",
+    "@mantine/modals": "^7.6.2",
+    "@mantine/notifications": "^7.6.2",
+    "@mantine/nprogress": "^7.12.1",
+    "@starter/client": "*",
+    "@starter/schema": "*",
+    "@starter/shared": "*",
+    "@swc/core": "^1.2.165",
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/jest-dom": "^6.4.8",
+    "@testing-library/react": "^16.0.0",
+    "@testing-library/react-hooks": "^8.0.1",
+    "@testing-library/user-event": "^14.5.2",
+    "@types/chroma-js": "^2.4.4",
+    "@types/node": "^20",
+    "@types/react": "^18.2.20",
+    "@types/react-dom": "^18.2.7",
+    "@vitejs/plugin-react": "^4.2.1",
+    "@vitest/coverage-v8": "^2.0.5",
+    "@vitest/ui": "^2.0.5",
+    "autoprefixer": "^10.4.16",
+    "chroma-js": "^2.4.2",
+    "dayjs": "^1.11.10",
+    "immer": "^10.1.1",
+    "jsdom": "^24.1.1",
+    "lucide-react": "^0.354.0",
+    "mantine-form-zod-resolver": "^1.1.0",
+    "plop": "^4.0.1",
+    "postcss": "^8.4.33",
+    "postcss-preset-mantine": "^1.13.0",
+    "react": "^18.2.0",
+    "react-children-utilities": "^2.10.0",
+    "react-country-flag": "^3.1.0",
+    "react-dom": "^18.2.0",
+    "react-hook-form": "^7.52.1",
+    "react-imask": "^7.5.0",
+    "react-input-date-mask": "^2.0.0",
+    "tailwind-variants": "^0.2.0",
+    "tailwindcss": "^3.4.1",
+    "typescript": "5.0.4",
+    "vite": "^5.3.5",
+    "vite-plugin-dts": "^3.9.1",
+    "vitest": "^2.0.5",
+    "zustand": "^5.0.0"
+  },
+  "main": "dist/components.umd.js",
+  "module": "dist/components.es.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/components.umd.js",
+      "import": "./dist/components.es.js"
+    },
+    "./dist/style.css": {
+      "import": "./dist/style.css",
+      "require": "./dist/style.css"
+    }
+  },
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "devDependencies": {
+    "@types/": "testing-library/user-event"
+  }
+}
