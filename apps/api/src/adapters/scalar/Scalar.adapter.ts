@@ -12,6 +12,7 @@ import { HttpErrorResponses, HttpResponses } from '@/ports/http'
 const STAGE = env('STAGE')
 const PROJECT = env('PROJECT')
 const PROJECT_DOMAIN = env('PROJECT_DOMAIN')
+const PROJECT_LOGO_URL = env('PROJECT_LOGO_URL')
 
 type OpenApiSchema = any
 
@@ -278,15 +279,7 @@ const document = {
   info: {
     title: `${PROJECT} API`,
     version: '1.0.0',
-    description: [
-      '## Introduction\nThis API provides access to a variety of resources and functionalities.\n\n',
-      '## Authentication\nTo access the API, you must authenticate using a token. Here\'s an example of how to authenticate:\n\n```bash\ncurl -X POST https://api.example.com/auth/login \\\n  -H \'Content-Type: application/json\' \\\n  -d \'{"username": "user123", "password": "password"}\'\n```\n\n',
-      "## Filters\nYou can filter the results by various parameters. For example, to filter by status:\n\n```bash\ncurl -X GET 'https://api.example.com/items?status=active'\n```\n\n",
-      "## Pagination\nThe API supports pagination. You can specify the page and the number of items per page:\n\n```bash\ncurl -X GET 'https://api.example.com/items?page=2&limit=10'\n```\n\n",
-      "## Sort\nResults can be sorted based on different fields. Here's how to sort by created date:\n\n```bash\ncurl -X GET 'https://api.example.com/items?sort=created_at'\n```\n\n",
-      '## Errors\nThe API returns standard error codes. For example, a 404 error when the resource is not found:\n\n```json\n{\n  "error": "Not Found",\n  "message": "The requested resource was not found."\n}\n```\n\n',
-      '## Example Table\nHere is an example of the data you might receive from the API:\n\n| ID | Name       | Status | Created At          |\n|----|------------|--------|---------------------|\n| 1  | Item One  | Active | 2024-10-01T10:00:00Z|\n| 2  | Item Two  | Inactive | 2024-10-02T11:30:00Z|\n| 3  | Item Three| Active | 2024-10-03T14:45:00Z|\n\n',
-    ].join('\n\n'),
+    description: ['## Introduction', '## Authentication', '## Filters', '## Pagination', '## Sort', '## Errors'].join('\n\n'),
     license: {
       name: 'MIT',
     },
@@ -326,7 +319,7 @@ export const Docs = {
       metaData: {
         title: `${PROJECT} API`,
       },
-      favicon: 'https://e7.pngegg.com/pngimages/247/558/png-clipart-node-js-javascript-express-js-npm-react-github-angle-text-thumbnail.png',
+      favicon: PROJECT_LOGO_URL,
       defaultOpenAllTags: true,
       spec: {
         content: document,
@@ -335,6 +328,8 @@ export const Docs = {
         '.badges { display: none !important; }',
         '.security-scheme-label { font-weight: var(--scalar-semibold); font-size: var(--scalar-mini); color: var(--scalar-color-3); text-transform: uppercase; display: block; }',
         '.scalar-card-header-actions { display: none !important; }',
+        '.darklight-reference-promo { display: none !important; }',
+        '.darklight { padding: 18px 24px !important; }',
       ].join(''),
     },
   },
