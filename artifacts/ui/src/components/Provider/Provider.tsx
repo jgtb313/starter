@@ -1,17 +1,16 @@
-import { createContext, useContext, PropsWithChildren } from 'react'
+import { PropsWithChildren } from 'react'
 import { NavigationProgress } from '@mantine/nprogress'
 
 import { ThemeProvider } from '../Theme'
 import { Toast } from '../Toast'
 import { ModalsProvider } from '../Modal'
 import { DrawersProvider } from '../Drawer'
-import { AppProviderProps, AppContextProps } from './Provider.types'
+import { Context } from './Provider.context'
+import { UiProviderProps } from './Provider.types'
 
-const Context = createContext({} as AppContextProps)
-
-export const Provider = ({ palette, colorScheme, Link, children }: PropsWithChildren<AppProviderProps>) => {
+export const UiProvider = ({ palette, colorScheme, Link, children }: PropsWithChildren<UiProviderProps>) => {
   const value = {
-    Link
+    Link,
   }
 
   return (
@@ -27,5 +26,3 @@ export const Provider = ({ palette, colorScheme, Link, children }: PropsWithChil
     </Context.Provider>
   )
 }
-
-export const useApp = () => useContext(Context)

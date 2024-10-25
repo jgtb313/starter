@@ -1,9 +1,9 @@
 import { ThemeProps } from '../Theme'
 
-export type AppProviderProps = {
+export type UiProviderProps = {
   Link: any
 } & ThemeProps
 
-export type AppContextProps = {
+export type UiContextProps = {
   Link: any
 }

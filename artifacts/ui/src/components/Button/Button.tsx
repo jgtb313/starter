@@ -1,7 +1,7 @@
 import { forwardRef, PropsWithChildren, Ref } from 'react'
 import { Button as Component, Tooltip, ButtonProps as ComponentProps } from '@mantine/core'
 
-import { useApp } from '../Provider'
+import { Link } from '../Link'
 import { ButtonStyles, ButtonVariants } from './Button.styles'
 import { ButtonProps } from './Button.types'
 
@@ -17,9 +17,8 @@ const BaseButton = (
     children,
     ...props
   }: PropsWithChildren<ButtonProps>,
-  ref: Ref<HTMLButtonElement>
+  ref: Ref<HTMLButtonElement>,
 ) => {
-  const { Link } = useApp()
   const styles = ButtonStyles({ variant, ...props } as ButtonVariants)
   const commonProps: ComponentProps = {
     ...props,
@@ -28,14 +27,14 @@ const BaseButton = (
     color,
     size,
     fullWidth: block,
-    loaderProps: { type: 'dots' }
+    loaderProps: { type: 'dots' },
   }
 
   if (href) {
     if (tooltip) {
       return (
         <Tooltip label={tooltip} withArrow>
-          <Component ref={ref as unknown as Ref<HTMLAnchorElement>} component={Link} to={href} {...commonProps}>
+          <Component ref={ref as unknown as Ref<HTMLAnchorElement>} component={Link} href={href} {...commonProps}>
             {children}
           </Component>
         </Tooltip>
@@ -43,7 +42,7 @@ const BaseButton = (
     }
 
     return (
-      <Component ref={ref as unknown as Ref<HTMLAnchorElement>} component={Link} to={href} {...commonProps}>
+      <Component ref={ref as unknown as Ref<HTMLAnchorElement>} component={Link} href={href} {...commonProps}>
         {children}
       </Component>
     )
