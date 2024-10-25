@@ -1,4 +1,4 @@
-import { create } from '@storybook/theming/create'
+import { create } from '@storybook/theming'
 import config from '@starter/config'
 
 export default create({

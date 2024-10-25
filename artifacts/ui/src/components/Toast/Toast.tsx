@@ -29,4 +29,4 @@ export const toast = {
   warning: (props: Omit<ToastProps, 'color'>) => show({ ...props, color: 'yellow' }),
 }
 
-export const Toast = () => <Notifications position="top-center" />
+export const ToastProvider = () => <Notifications position="bottom-center" />

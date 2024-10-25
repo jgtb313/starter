@@ -4,7 +4,7 @@
   "author": "João <jgtb313@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "vite build --watch",
+    "dev": "yarn storybook dev",
     "generate:component": "yarn plop component",
     "generate:input": "yarn plop input",
     "build": "vite build",
