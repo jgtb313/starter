@@ -1,5 +1,4 @@
 import { screen } from '@testing-library/dom'
-import userEvent from '@testing-library/user-event'
 import { describe, it, expect } from 'vitest'
 
 import { Button } from './Button'
@@ -13,7 +12,7 @@ const renderComponent = ({ ...props }: ButtonProps) => {
       <Button data-testid="component" {...props}>
         Button
       </Button>
-    )
+    ),
   })
 }
 
@@ -26,28 +25,23 @@ describe('<Button />', () => {
     expect(el).toBeInTheDocument()
   })
 
-  // it('should <Button /> render properly as Link', () => {
-  //   renderComponent({
-  //     href: 'https://www.google.com.br',
-  //     link: true
-  //   })
+  it('should <Button /> render properly as Link', () => {
+    renderComponent({
+      href: 'https://www.google.com.br',
+    })
 
-  //   const el = screen.getByTestId('component')
+    const el = screen.getByTestId('component')
 
-  //   expect(el).toBeInTheDocument()
-  // })
+    expect(el).toBeInTheDocument()
+  })
 
-  // it('should <Button /> render properly with tooltip', () => {
-  //   renderComponent({
-  //     tooltip: 'Tooltip'
-  //   })
+  it('should <Button /> render properly with tooltip', () => {
+    renderComponent({
+      tooltip: 'Tooltip',
+    })
 
-  //   const el = screen.queryByTestId('button-tooltip')
+    const el = screen.queryByTestId('component')
 
-  //   console.log({
-  //     el
-  //   })
-
-  //   expect(el).toBeInTheDocument()
-  // })
+    expect(el).toBeInTheDocument()
+  })
 })

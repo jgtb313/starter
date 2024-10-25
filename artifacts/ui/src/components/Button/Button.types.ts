@@ -1,4 +1,3 @@
-import { MouseEvent, ReactNode } from 'react'
 import { ButtonProps as ComponentProps } from '@mantine/core'
 
 import { BaseComponent } from '@/support/types'
@@ -24,7 +23,7 @@ type ButtonType = 'submit' | 'reset' | 'button'
 
 // type ButtonVariant = 'filled' | 'light' | 'outline' | 'transparent' | 'white' | 'subtle' | 'default' | 'gradient'
 
-// type ButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+// type ButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'compact-xs' | 'compact-sm' | 'compact-md' | 'compact-lg' | 'compact-xl';
 
 // type ButtonRadius = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 
@@ -35,12 +34,12 @@ export type ButtonProps = BaseComponent<{
   size?: ComponentProps['size']
   variant?: ComponentProps['variant']
   radius?: ComponentProps['radius']
-  leftSection?: ReactNode
-  rightSection?: ReactNode
+  leftSection?: React.ReactNode
+  rightSection?: React.ReactNode
   href?: string
   tooltip?: string
   block?: boolean
   loading?: boolean
   disabled?: boolean
-  onClick?: (event: MouseEvent<HTMLButtonElement>) => void
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void
 }>
