@@ -32,14 +32,11 @@ export type DropdownItemProps =
       label: string
     }
 
-export type DropdownProps = BaseComponent<
-  {
-    open?: boolean
-    width?: MenuProps['width']
-    position?: MenuProps['position']
-    trigger?: MenuProps['trigger']
-    items?: DropdownItemProps[]
-    arrow?: boolean
-  },
-  DropdownVariants
->
+export type DropdownProps = BaseComponent<{
+  open?: boolean
+  width?: MenuProps['width']
+  position?: MenuProps['position']
+  trigger?: MenuProps['trigger']
+  items?: DropdownItemProps[]
+  arrow?: boolean
+}>

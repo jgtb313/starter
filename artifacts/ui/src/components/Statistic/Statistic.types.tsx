@@ -2,7 +2,6 @@ import { SimpleGridProps } from '@mantine/core'
 
 import { BaseComponent } from '@/support/types'
 import { IconProps } from '../Icon'
-import { StatisticVariants } from './Statistic.styles'
 
 type StatisticItem = {
   title: string
@@ -13,12 +12,9 @@ type StatisticItem = {
   icon?: IconProps['name']
 }
 
-export type StatisticProps = BaseComponent<
-  {
-    cols?: SimpleGridProps['cols']
-    spacing?: SimpleGridProps['spacing']
-    verticalSpacing?: SimpleGridProps['verticalSpacing']
-    items?: StatisticItem[]
-  },
-  StatisticVariants
->
+export type StatisticProps = BaseComponent<{
+  cols?: SimpleGridProps['cols']
+  spacing?: SimpleGridProps['spacing']
+  verticalSpacing?: SimpleGridProps['verticalSpacing']
+  items?: StatisticItem[]
+}>

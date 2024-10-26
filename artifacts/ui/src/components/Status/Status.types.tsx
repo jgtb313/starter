@@ -35,7 +35,7 @@ export const StatusLabels: Record<StatusEnum, string> = {
   TRANSFERRED: 'Transferido',
   FAILED: 'Falha',
   CLOSED: 'Fechado',
-  DELETED: 'Deletado'
+  DELETED: 'Deletado',
 }
 
 export const StatusColors: Record<StatusEnum, string> = {
@@ -54,12 +54,9 @@ export const StatusColors: Record<StatusEnum, string> = {
   TRANSFERRED: 'green',
   FAILED: 'red',
   CLOSED: 'red',
-  DELETED: 'red'
+  DELETED: 'red',
 }
 
-export type StatusProps = BaseComponent<
-  {
-    variant: StatusEnum
-  },
-  StatusVariants
->
+export type StatusProps = BaseComponent<{
+  variant: StatusEnum
+}>

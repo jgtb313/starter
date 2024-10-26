@@ -1,5 +1,4 @@
-export type BaseComponent<T, K = {}> = T &
-  K & {
-    style?: React.CSSProperties
-    className?: string
-  }
+export type BaseComponent<T> = T & {
+  style?: React.CSSProperties
+  className?: string
+}

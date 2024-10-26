@@ -2,14 +2,14 @@ import { tv, VariantProps } from 'tailwind-variants'
 
 export const GridStyles = tv({
   slots: {
-    root: ''
-  }
+    root: '',
+  },
 })
 export type GridVariants = VariantProps<typeof GridStyles>
 
 export const GridItemStyles = tv({
   slots: {
-    root: ''
-  }
+    root: '',
+  },
 })
 export type GridItemVariants = VariantProps<typeof GridItemStyles>

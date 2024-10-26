@@ -1,6 +1,5 @@
 import { BaseComponent } from '@/support/types'
 import { DropdownItemProps } from '../Dropdown'
-import { TableVariants } from './Table.styles'
 
 export type TableValue = {
   sort?: string
@@ -28,19 +27,16 @@ export type TableHeader<T> = {
 
 export type TableItems<T> = Array<T>
 
-export type TableProps<T> = BaseComponent<
-  {
-    value?: TableValue
-    headers: TableHeader<T>
-    items?: TableItems<T>
-    itemKey?: keyof T
-    total?: string | number
-    pagination?: boolean
-    loading?: boolean
-    onChange?: (input: TableValue) => void
-    onSortChange?: (sort?: string) => void
-    onPageChange?: (page: number) => void
-    onRowsPerPageChange?: (rowsPerPage: number) => void
-  },
-  TableVariants
->
+export type TableProps<T> = BaseComponent<{
+  value?: TableValue
+  headers: TableHeader<T>
+  items?: TableItems<T>
+  itemKey?: keyof T
+  total?: string | number
+  pagination?: boolean
+  loading?: boolean
+  onChange?: (input: TableValue) => void
+  onSortChange?: (sort?: string) => void
+  onPageChange?: (page: number) => void
+  onRowsPerPageChange?: (rowsPerPage: number) => void
+}>

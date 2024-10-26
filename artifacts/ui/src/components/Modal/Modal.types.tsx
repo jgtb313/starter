@@ -1,20 +1,16 @@
 import { ModalProps as MModalProps } from '@mantine/core'
 
 import { BaseComponent } from '@/support/types'
-import { ModalVariants } from './Modal.styles'
 
-export type ModalProps = BaseComponent<
-  {
-    id: string
-    opened?: boolean
-    size?: MModalProps['size']
-    closeOnClickOutside?: boolean
-    centered?: boolean
-    fullscreen?: boolean
-    children?: MModalProps['children']
-  },
-  ModalVariants
->
+export type ModalProps = BaseComponent<{
+  id: string
+  opened?: boolean
+  size?: MModalProps['size']
+  closeOnClickOutside?: boolean
+  centered?: boolean
+  fullscreen?: boolean
+  children?: MModalProps['children']
+}>
 
 export type ModalHeaderProps = {
   description?: string
