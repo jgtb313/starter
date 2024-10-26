@@ -37,6 +37,7 @@ export type ButtonProps = BaseComponent<{
   leftSection?: React.ReactNode
   rightSection?: React.ReactNode
   href?: string
+  target?: '_blank'
   tooltip?: string
   block?: boolean
   loading?: boolean

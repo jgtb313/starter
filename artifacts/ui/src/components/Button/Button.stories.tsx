@@ -1,6 +1,7 @@
 import { Meta, StoryFn } from '@storybook/react'
 
 import { Button } from './Button'
+import { Icon } from '../Icon'
 
 export default {
   title: 'Button',
@@ -89,9 +90,9 @@ export default {
 
 const Template: StoryFn<React.ComponentProps<typeof Button>> = (args) => <Button {...args} />
 
-export const Primary = Template.bind({})
-Primary.args = {
-  variant: 'primary',
+export const Default = Template.bind({})
+Default.args = {
+  variant: 'filled',
   size: 'md',
-  children: 'Primary Button',
+  children: 'Button',
 }

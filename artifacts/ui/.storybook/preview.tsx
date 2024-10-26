@@ -5,7 +5,7 @@ import type { Preview } from '@storybook/react'
 
 import { UiProvider } from '../src/components'
 
-const Link = () => <a />
+const Link = (props) => <a {...props} />
 
 const preview: Preview = {
   decorators: [

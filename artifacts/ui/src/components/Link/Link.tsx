@@ -7,9 +7,11 @@ import { LinkProps } from './Link.types'
 const BaseLink = ({ href, children, ...props }: PropsWithChildren<LinkProps>, ref: Ref<HTMLAnchorElement>) => {
   const { Link: ContextLink } = useUi()
 
-  console.log({ ContextLink })
-
-  return <Text {...props}>{children}</Text>
+  return (
+    <Text {...props} ref={ref} component={ContextLink} to={href} href={href}>
+      {children}
+    </Text>
+  )
 }
 
 export const Link = forwardRef(BaseLink)

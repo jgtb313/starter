@@ -3,14 +3,8 @@ import { tv, VariantProps } from 'tailwind-variants'
 export const ButtonStyles = tv({
   slots: {
     root: '',
-    label: 'overflow-visible',
+    label: '',
   },
-  variants: {
-    variant: {
-      transparent: {
-        root: 'p-0',
-      },
-    },
-  },
+  variants: {},
 })
 export type ButtonVariants = VariantProps<typeof ButtonStyles>

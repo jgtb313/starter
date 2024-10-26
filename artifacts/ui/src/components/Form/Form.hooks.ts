@@ -12,7 +12,7 @@ export const useInputForm = (name: string) => {
   const inputProps = form.getInputProps(name)
 
   return {
-    ...inputProps
+    ...inputProps,
   }
 }
 

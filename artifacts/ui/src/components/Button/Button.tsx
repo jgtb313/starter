@@ -12,6 +12,7 @@ const BaseButton = (
     color = 'primary',
     size = 'md',
     href,
+    target,
     tooltip,
     block = false,
     children,
@@ -34,7 +35,7 @@ const BaseButton = (
     if (tooltip) {
       return (
         <Tooltip label={tooltip} withArrow>
-          <Component ref={ref as unknown as Ref<HTMLAnchorElement>} component={Link} href={href} {...commonProps}>
+          <Component ref={ref as unknown as Ref<HTMLAnchorElement>} component={Link} href={href} target={target} {...commonProps}>
             {children}
           </Component>
         </Tooltip>
@@ -42,7 +43,7 @@ const BaseButton = (
     }
 
     return (
-      <Component ref={ref as unknown as Ref<HTMLAnchorElement>} component={Link} href={href} {...commonProps}>
+      <Component ref={ref as unknown as Ref<HTMLAnchorElement>} component={Link} href={href} target={target} {...commonProps}>
         {children}
       </Component>
     )
