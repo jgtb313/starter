@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest'
-import { fireEvent, screen } from '@testing-library/react'
+import { render, screen, fireEvent } from '@testing-library/react'
 
-import { render } from '@/tests'
+import { TestProvider } from '@/tests'
 import { ColorInputProps } from './ColorInput.types'
 import { Form } from '../Form'
 import { FormProps } from '../Form.types'
@@ -12,9 +12,11 @@ type Props = {
 }
 
 const renderComponent = ({ form, input }: Props) => {
-  return render({
-    children: <Form {...form}>{() => <Form.ColorInput data-testid="input" {...input} />}</Form>,
-  })
+  return render(
+    <TestProvider>
+      <Form {...form}>{() => <Form.ColorInput data-testid="input" {...input} />}</Form>
+    </TestProvider>,
+  )
 }
 
 describe('<ColorInput />', () => {

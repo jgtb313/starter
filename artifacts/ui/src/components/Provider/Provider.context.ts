@@ -1,7 +1,8 @@
 import { createContext, useContext } from 'react'
+
 import { UiContextProps } from './Provider.types'
 
-export const Context = createContext({} as UiContextProps)
+export const Context = createContext<UiContextProps | null>(null)
 
 export const useUi = () => {
   const context = useContext(Context)

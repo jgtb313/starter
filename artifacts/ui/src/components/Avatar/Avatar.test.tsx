@@ -1,15 +1,16 @@
-import { screen } from '@testing-library/dom'
+import { render, screen } from '@testing-library/react'
 import { describe, it, expect } from 'vitest'
 
+import { TestProvider } from '@/tests'
 import { Avatar } from './Avatar'
 import { AvatarProps } from './Avatar.types'
 
-import { render } from '@/tests'
-
 const renderComponent = ({ ...props }: AvatarProps) => {
-  return render({
-    children: <Avatar data-testid="component" {...props} />
-  })
+  return render(
+    <TestProvider>
+      <Avatar data-testid="component" {...props} />
+    </TestProvider>,
+  )
 }
 
 describe('<Avatar />', () => {

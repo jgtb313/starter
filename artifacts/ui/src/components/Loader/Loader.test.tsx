@@ -1,15 +1,16 @@
-import { screen } from '@testing-library/dom'
+import { render, screen } from '@testing-library/react'
 import { describe, it, expect } from 'vitest'
 
+import { TestProvider } from '@/tests'
 import { Loader } from './Loader'
 import { LoaderProps } from './Loader.types'
 
-import { render } from '@/tests'
-
 const renderComponent = ({ ...props }: LoaderProps) => {
-  return render({
-    children: <Loader data-testid="component" {...props} />
-  })
+  return render(
+    <TestProvider>
+      <Loader data-testid="component" {...props} />
+    </TestProvider>,
+  )
 }
 
 describe('<Loader />', () => {

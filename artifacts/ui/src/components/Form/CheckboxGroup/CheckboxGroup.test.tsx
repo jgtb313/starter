@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest'
-import { fireEvent, screen } from '@testing-library/react'
+import { render, screen, fireEvent } from '@testing-library/react'
 
-import { render } from '@/tests'
+import { TestProvider } from '@/tests'
 import { CheckboxGroupProps } from './CheckboxGroup.types'
 import { Form } from '../Form'
 import { FormProps } from '../Form.types'
@@ -12,9 +12,11 @@ type Props = {
 }
 
 const renderComponent = ({ form, input }: Props) => {
-  return render({
-    children: <Form {...form}>{() => <Form.CheckboxGroup data-testid="input" {...input} />}</Form>
-  })
+  return render(
+    <TestProvider>
+      <Form {...form}>{() => <Form.CheckboxGroup data-testid="input" {...input} />}</Form>
+    </TestProvider>,
+  )
 }
 
 describe('<CheckboxGroup />', () => {
@@ -22,8 +24,8 @@ describe('<CheckboxGroup />', () => {
     renderComponent({
       input: {
         name: 'name',
-        label: 'Input label'
-      }
+        label: 'Input label',
+      },
     })
 
     expect(screen.getByTestId('input')).toBeInTheDocument()
@@ -34,8 +36,8 @@ describe('<CheckboxGroup />', () => {
     renderComponent({
       form: {
         initialValues: {
-          name: ['VALUE_1']
-        }
+          name: ['VALUE_1'],
+        },
       },
       input: {
         name: 'name',
@@ -43,18 +45,18 @@ describe('<CheckboxGroup />', () => {
         items: [
           {
             label: 'Label 1',
-            value: 'VALUE_1'
+            value: 'VALUE_1',
           },
           {
             label: 'Label 2',
-            value: 'VALUE_2'
+            value: 'VALUE_2',
           },
           {
             label: 'Label 3',
-            value: 'VALUE_3'
-          }
-        ]
-      }
+            value: 'VALUE_3',
+          },
+        ],
+      },
     })
 
     expect(screen.getByTestId('VALUE_1')).toBeChecked()
@@ -64,7 +66,7 @@ describe('<CheckboxGroup />', () => {
   it('should <CheckboxGroup /> render disabled', () => {
     renderComponent({
       form: {
-        initialValues: {}
+        initialValues: {},
       },
       input: {
         name: 'name',
@@ -73,10 +75,10 @@ describe('<CheckboxGroup />', () => {
           {
             label: 'Label 1',
             value: 'VALUE_1',
-            disabled: true
-          }
-        ]
-      }
+            disabled: true,
+          },
+        ],
+      },
     })
 
     expect(screen.getByTestId('VALUE_1')).toBeDisabled()
@@ -88,8 +90,8 @@ describe('<CheckboxGroup />', () => {
     renderComponent({
       form: {
         initialValues: {
-          name: []
-        }
+          name: [],
+        },
       },
       input: {
         name: 'name',
@@ -97,11 +99,11 @@ describe('<CheckboxGroup />', () => {
         items: [
           {
             label: 'Label 1',
-            value: 'VALUE_1'
-          }
+            value: 'VALUE_1',
+          },
         ],
-        onChange: onChangeMock
-      }
+        onChange: onChangeMock,
+      },
     })
 
     const input = screen.getByTestId('VALUE_1')

@@ -1,16 +1,21 @@
-import { screen } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { describe, it, expect } from 'vitest'
 
+import { TestProvider } from '@/tests'
 import { Status } from './Status'
-import { StatusLabels, StatusColors, StatusEnum } from './Status.types'
+import { StatusProps, StatusLabels, StatusColors, StatusEnum } from './Status.types'
 
-import { render } from '@/tests'
+const renderComponent = ({ ...props }: StatusProps) => {
+  return render(
+    <TestProvider>
+      <Status data-testid="component" {...props} />
+    </TestProvider>,
+  )
+}
 
 describe('<Status />', () => {
   it.each(Object.keys(StatusLabels) as StatusEnum[])('should <Status /> render the correct label and color for %s variant', (variant) => {
-    render({
-      children: <Status variant={variant} />
-    })
+    renderComponent({ variant })
 
     const expectedLabel = StatusLabels[variant]
     const expectedColor = StatusColors[variant]

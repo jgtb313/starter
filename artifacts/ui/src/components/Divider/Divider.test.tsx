@@ -1,15 +1,16 @@
-import { screen } from '@testing-library/dom'
+import { render, screen } from '@testing-library/react'
 import { describe, it, expect } from 'vitest'
 
+import { TestProvider } from '@/tests'
 import { Divider } from './Divider'
 import { DividerProps } from './Divider.types'
 
-import { render } from '@/tests'
-
 const renderComponent = ({ ...props }: DividerProps) => {
-  return render({
-    children: <Divider data-testid="component" {...props} />
-  })
+  return render(
+    <TestProvider>
+      <Divider data-testid="component" {...props} />
+    </TestProvider>,
+  )
 }
 
 describe('<Divider />', () => {

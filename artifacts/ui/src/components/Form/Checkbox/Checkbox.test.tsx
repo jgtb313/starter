@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest'
-import { fireEvent, screen } from '@testing-library/react'
+import { render, screen, fireEvent } from '@testing-library/react'
 
-import { render } from '@/tests'
+import { TestProvider } from '@/tests'
 import { CheckboxProps } from './Checkbox.types'
 import { Form } from '../Form'
 import { FormProps } from '../Form.types'
@@ -12,9 +12,11 @@ type Props = {
 }
 
 const renderComponent = ({ form, input }: Props) => {
-  return render({
-    children: <Form {...form}>{() => <Form.Checkbox data-testid="input" {...input} />}</Form>
-  })
+  return render(
+    <TestProvider>
+      <Form {...form}>{() => <Form.Checkbox data-testid="input" {...input} />}</Form>
+    </TestProvider>,
+  )
 }
 
 describe('<Checkbox />', () => {
@@ -22,8 +24,8 @@ describe('<Checkbox />', () => {
     renderComponent({
       input: {
         name: 'name',
-        label: 'Input label'
-      }
+        label: 'Input label',
+      },
     })
 
     expect(screen.getByTestId('input')).toBeInTheDocument()
@@ -34,13 +36,13 @@ describe('<Checkbox />', () => {
     renderComponent({
       form: {
         initialValues: {
-          name: true
-        }
+          name: true,
+        },
       },
       input: {
         name: 'name',
-        label: 'Input label'
-      }
+        label: 'Input label',
+      },
     })
 
     expect(screen.getByTestId('input')).toBeChecked()
@@ -50,8 +52,8 @@ describe('<Checkbox />', () => {
     renderComponent({
       input: {
         name: 'name',
-        disabled: true
-      }
+        disabled: true,
+      },
     })
 
     expect(screen.getByTestId('input')).toBeDisabled()
@@ -63,13 +65,13 @@ describe('<Checkbox />', () => {
     renderComponent({
       form: {
         initialValues: {
-          name: true
-        }
+          name: true,
+        },
       },
       input: {
         name: 'name',
-        onChange: onChangeMock
-      }
+        onChange: onChangeMock,
+      },
     })
 
     const input = screen.getByTestId('input')

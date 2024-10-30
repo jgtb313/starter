@@ -1,15 +1,16 @@
-import { screen } from '@testing-library/dom'
+import { render, screen } from '@testing-library/react'
 import { describe, it, expect } from 'vitest'
 
+import { TestProvider } from '@/tests'
 import { Badge } from './Badge'
 import { BadgeProps } from './Badge.types'
 
-import { render } from '@/tests'
-
 const renderComponent = ({ ...props }: BadgeProps) => {
-  return render({
-    children: <Badge data-testid="component" {...props} />
-  })
+  return render(
+    <TestProvider>
+      <Badge data-testid="component" {...props} />
+    </TestProvider>,
+  )
 }
 
 describe('<Badge />', () => {

@@ -1,15 +1,16 @@
-import { screen } from '@testing-library/dom'
+import { render, screen } from '@testing-library/react'
 import { describe, it, expect } from 'vitest'
 
+import { TestProvider } from '@/tests'
 import { Spinning } from './Spinning'
 import { SpinningProps } from './Spinning.types'
 
-import { render } from '@/tests'
-
 const renderComponent = ({ ...props }: SpinningProps) => {
-  return render({
-    children: <Spinning data-testid="component" {...props} />
-  })
+  return render(
+    <TestProvider>
+      <Spinning data-testid="component" {...props} />
+    </TestProvider>,
+  )
 }
 
 describe('<Spinning />', () => {

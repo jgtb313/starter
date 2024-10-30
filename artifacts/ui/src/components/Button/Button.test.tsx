@@ -1,19 +1,18 @@
-import { screen } from '@testing-library/dom'
+import { render, screen } from '@testing-library/react'
 import { describe, it, expect } from 'vitest'
 
+import { TestProvider } from '@/tests'
 import { Button } from './Button'
 import { ButtonProps } from './Button.types'
 
-import { render } from '@/tests'
-
 const renderComponent = ({ ...props }: ButtonProps) => {
-  return render({
-    children: (
+  return render(
+    <TestProvider>
       <Button data-testid="component" {...props}>
         Button
       </Button>
-    ),
-  })
+    </TestProvider>,
+  )
 }
 
 describe('<Button />', () => {

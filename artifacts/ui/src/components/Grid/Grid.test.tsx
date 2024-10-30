@@ -1,15 +1,17 @@
 import { PropsWithChildren } from 'react'
-import { screen } from '@testing-library/dom'
+import { render, screen } from '@testing-library/react'
 import { describe, it, expect } from 'vitest'
 
-import { render } from '@/tests'
+import { TestProvider } from '@/tests'
 import { Grid } from './Grid'
 import { GridProps } from './Grid.types'
 
 const renderComponent = ({ ...props }: PropsWithChildren<GridProps>) => {
-  return render({
-    children: <Grid data-testid="component" {...props} />
-  })
+  return render(
+    <TestProvider>
+      <Grid data-testid="component" {...props} />
+    </TestProvider>,
+  )
 }
 
 describe('<Grid />', () => {
@@ -24,7 +26,7 @@ describe('<Grid />', () => {
   describe('<Grid.Col />', () => {
     it('should <Grid.Col /> render properly', () => {
       renderComponent({
-        children: <Grid.Col data-testid="component-col" />
+        children: <Grid.Col data-testid="component-col" />,
       })
 
       const el = screen.getByTestId('component-col')

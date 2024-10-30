@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest'
-import { fireEvent, screen, act, waitFor } from '@testing-library/react'
+import { render, screen, fireEvent } from '@testing-library/react'
 
-import { render } from '@/tests'
+import { TestProvider } from '@/tests'
 import { InputProps } from './Input.types'
 import { Form } from '../Form'
 import { FormProps } from '../Form.types'
@@ -12,9 +12,11 @@ type Props = {
 }
 
 const renderComponent = ({ form, input }: Props) => {
-  return render({
-    children: <Form {...form}>{() => <Form.Input data-testid="input" {...input} />}</Form>
-  })
+  return render(
+    <TestProvider>
+      <Form {...form}>{() => <Form.Input data-testid="input" {...input} />}</Form>
+    </TestProvider>,
+  )
 }
 
 describe('<Input />', () => {
@@ -23,8 +25,8 @@ describe('<Input />', () => {
       input: {
         name: 'name',
         label: 'Input label',
-        placeholder: 'Input placeholder'
-      }
+        placeholder: 'Input placeholder',
+      },
     })
 
     expect(screen.getByTestId('input')).toBeInTheDocument()
@@ -36,14 +38,14 @@ describe('<Input />', () => {
     renderComponent({
       form: {
         initialValues: {
-          name: 'John Doe'
-        }
+          name: 'John Doe',
+        },
       },
       input: {
         name: 'name',
         label: 'Input label',
-        placeholder: 'Input placeholder'
-      }
+        placeholder: 'Input placeholder',
+      },
     })
 
     expect(screen.getByTestId('input')).toHaveValue('John Doe')
@@ -53,8 +55,8 @@ describe('<Input />', () => {
     renderComponent({
       input: {
         name: 'name',
-        disabled: true
-      }
+        disabled: true,
+      },
     })
 
     expect(screen.getByTestId('input')).toBeDisabled()
@@ -66,13 +68,13 @@ describe('<Input />', () => {
     renderComponent({
       form: {
         initialValues: {
-          name: 'Initial Value'
-        }
+          name: 'Initial Value',
+        },
       },
       input: {
         name: 'name',
-        onChange: onChangeMock
-      }
+        onChange: onChangeMock,
+      },
     })
 
     const input = screen.getByTestId('input')
@@ -90,8 +92,8 @@ describe('<Input />', () => {
     renderComponent({
       input: {
         name: 'name',
-        onBlur: onBlurMock
-      }
+        onBlur: onBlurMock,
+      },
     })
 
     const input = screen.getByTestId('input')
@@ -107,8 +109,8 @@ describe('<Input />', () => {
     renderComponent({
       input: {
         name: 'name',
-        debounce: true
-      }
+        debounce: true,
+      },
     })
 
     const input = screen.getByTestId('input')

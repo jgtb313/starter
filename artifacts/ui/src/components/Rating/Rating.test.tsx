@@ -1,15 +1,16 @@
-import { screen } from '@testing-library/dom'
+import { render, screen } from '@testing-library/react'
 import { describe, it, expect } from 'vitest'
 
+import { TestProvider } from '@/tests'
 import { Rating } from './Rating'
 import { RatingProps } from './Rating.types'
 
-import { render } from '@/tests'
-
 const renderComponent = ({ ...props }: RatingProps) => {
-  return render({
-    children: <Rating data-testid="component" {...props} />
-  })
+  return render(
+    <TestProvider>
+      <Rating data-testid="component" {...props} />
+    </TestProvider>,
+  )
 }
 
 describe('<Rating />', () => {
