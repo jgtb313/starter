@@ -4,7 +4,7 @@ import { Icon } from '../Icon'
 import { ActionButton } from './ActionButton'
 
 export default {
-  title: 'ActionButton',
+  title: 'Components/ActionButton',
   component: ActionButton,
   tags: ['autodocs'],
   parameters: {

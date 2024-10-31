@@ -5,9 +5,17 @@ import type { Preview } from '@storybook/react'
 
 import { UiProvider } from '../src/components'
 
-const Link = (props) => <a {...props} />
+const Link = React.forwardRef<HTMLAnchorElement, React.AnchorHTMLAttributes<HTMLAnchorElement>>((props, ref) => <a ref={ref} {...props} />)
 
 const preview: Preview = {
+  parameters: {
+    options: {
+      storySort: {
+        order: ['Theme', 'Layout', 'Components', 'Form'],
+      },
+    },
+  },
+
   decorators: [
     (Story) => {
       return <UiProvider Link={Link}>{<Story />}</UiProvider>

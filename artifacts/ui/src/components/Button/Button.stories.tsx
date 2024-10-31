@@ -3,7 +3,7 @@ import { Meta, StoryFn } from '@storybook/react'
 import { Button } from './Button'
 
 export default {
-  title: 'Button',
+  title: 'Components/Button',
   component: Button,
   tags: ['autodocs'],
   parameters: {
