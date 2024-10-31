@@ -1,14 +1,14 @@
-import { BadgeProps as MBadgeProps } from '@mantine/core'
+import { BadgeProps as ComponentProps } from '@mantine/core'
 
 import { BaseComponent } from '@/support/types'
 
 export type BadgeProps = BaseComponent<{
-  variant?: MBadgeProps['variant']
-  color?: MBadgeProps['color']
-  size?: MBadgeProps['size']
-  radius?: MBadgeProps['radius']
-  leftSection?: MBadgeProps['leftSection']
-  rightSection?: MBadgeProps['rightSection']
-  circle?: MBadgeProps['circle']
-  block?: MBadgeProps['fullWidth']
+  variant?: ComponentProps['variant']
+  color?: ComponentProps['color']
+  size?: ComponentProps['size']
+  radius?: ComponentProps['radius']
+  leftSection?: ComponentProps['leftSection']
+  rightSection?: ComponentProps['rightSection']
+  circle?: ComponentProps['circle']
+  block?: ComponentProps['fullWidth']
 }>

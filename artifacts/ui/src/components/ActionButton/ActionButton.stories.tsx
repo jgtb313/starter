@@ -45,6 +45,19 @@ export default {
       control: 'text',
       description: 'Optional link to which the button redirects.',
     },
+    target: {
+      type: 'string',
+      control: {
+        type: 'select',
+      },
+      options: ['_blank'],
+      description: 'Specifies where to open the linked document. Use _blank to open in a new tab.',
+    },
+    tooltip: {
+      type: 'string',
+      control: 'text',
+      description: 'Optional tooltip text that appears on hover over the button.',
+    },
     disabled: {
       type: 'boolean',
       control: {

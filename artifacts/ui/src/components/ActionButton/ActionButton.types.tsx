@@ -8,6 +8,8 @@ export type ActionButtonProps = BaseComponent<{
   variant?: ComponentProps['variant']
   size?: ComponentProps['size']
   href?: string
+  target?: '_blank'
+  tooltip?: string
   disabled?: boolean
   loading?: boolean
   onClick?: (event: MouseEvent<HTMLButtonElement>) => void
