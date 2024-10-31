@@ -10,14 +10,14 @@ export const ActionButton = ({ variant = 'default', href, children, ...props }: 
 
   if (href) {
     return (
-      <Component classNames={{ root: styles.root() }} {...props} component={Link} href={href} variant={variant}>
+      <Component classNames={{ root: styles.root() }} {...props} component={Link} href={href} variant={variant} loaderProps={{ type: 'dots' }}>
         {children}
       </Component>
     )
   }
 
   return (
-    <Component component="button" classNames={{ root: styles.root() }} {...props} variant={variant}>
+    <Component component="button" classNames={{ root: styles.root() }} {...props} variant={variant} loaderProps={{ type: 'dots' }}>
       {children}
     </Component>
   )

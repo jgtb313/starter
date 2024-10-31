@@ -1,28 +1,21 @@
 import { Meta, StoryFn } from '@storybook/react'
 
-import { Button } from './Button'
+import { Icon } from '../Icon'
+import { ActionButton } from './ActionButton'
 
 export default {
-  title: 'Button',
-  component: Button,
+  title: 'ActionButton',
+  component: ActionButton,
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
     docs: {
       description: {
-        component: 'Button component to render button or link',
+        component: 'ActionButton component to render button with optional icon and link functionality',
       },
     },
   },
   argTypes: {
-    type: {
-      type: 'string',
-      control: {
-        type: 'select',
-      },
-      options: ['submit', 'reset', 'button'],
-      description: 'The type of button to be rendered.',
-    },
     color: {
       type: 'string',
       control: {
@@ -30,14 +23,6 @@ export default {
       },
       options: ['primary', 'dark', 'gray', 'red', 'pink', 'grape', 'violet', 'indigo', 'blue', 'cyan', 'green', 'lime', 'yellow', 'orange', 'teal'],
       description: 'The color of the button.',
-    },
-    size: {
-      type: 'string',
-      control: {
-        type: 'select',
-      },
-      options: ['xs', 'sm', 'md', 'lg', 'xl', 'compact-xs', 'compact-sm', 'compact-md', 'compact-lg', 'compact-xl'],
-      description: 'The size of the button.',
     },
     variant: {
       type: 'string',
@@ -47,29 +32,18 @@ export default {
       options: ['filled', 'light', 'outline', 'transparent', 'white', 'subtle', 'default', 'gradient'],
       description: 'The variant style of the button.',
     },
-    radius: {
+    size: {
       type: 'string',
       control: {
         type: 'select',
       },
       options: ['xs', 'sm', 'md', 'lg', 'xl'],
-      description: 'The border radius of the button.',
+      description: 'The size of the button.',
     },
-    block: {
-      type: 'boolean',
-      control: {
-        type: 'radio',
-      },
-      options: [true, false],
-      description: 'Indicates whether the button should take the full width of its container.',
-    },
-    loading: {
-      type: 'boolean',
-      control: {
-        type: 'radio',
-      },
-      options: [true, false],
-      description: 'Indicates if the button is in a loading state.',
+    href: {
+      type: 'string',
+      control: 'text',
+      description: 'Optional link to which the button redirects.',
     },
     disabled: {
       type: 'boolean',
@@ -79,19 +53,33 @@ export default {
       options: [true, false],
       description: 'Indicates whether the button is disabled.',
     },
+    loading: {
+      type: 'boolean',
+      control: {
+        type: 'radio',
+      },
+      options: [true, false],
+      description: 'Indicates if the button is in a loading state.',
+    },
     onClick: {
       type: 'function',
       action: 'clicked',
       description: 'Function called when the button is clicked.',
     },
+    children: {
+      table: {
+        disable: true,
+      },
+    },
   },
 } as Meta
 
-const Template: StoryFn<React.ComponentProps<typeof Button>> = (args) => <Button {...args} />
+const Template: StoryFn<React.ComponentProps<typeof ActionButton>> = (args) => <ActionButton {...args} />
 
 export const Default = Template.bind({})
 Default.args = {
+  color: 'primary',
   variant: 'filled',
   size: 'md',
-  children: 'Button',
+  children: <Icon name="Heart" width={20} height={20} strokeWidth={1.5} />,
 }

@@ -3209,6 +3209,10 @@
     "@tufjs/canonical-json" "2.0.0"
     minimatch "^9.0.4"
 
+"@types/@testing-library/user-event":
+  version "0.0.0-semantically-released"
+  resolved "https://codeload.github.com/testing-library/user-event/tar.gz/d0362796a33c2d39713998f82ae309020c37b385"
+
 "@types/argparse@1.0.38":
   version "1.0.38"
   resolved "https://registry.yarnpkg.com/@types/argparse/-/argparse-1.0.38.tgz#a81fd8606d481f873a3800c6ebae4f1d768a56a9"

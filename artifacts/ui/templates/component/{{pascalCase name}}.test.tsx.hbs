@@ -1,0 +1,24 @@
+import { render, screen } from '@testing-library/react'
+import { describe, it, expect } from 'vitest'
+
+import { TestProvider } from '@/tests'
+import { {{pascalCase name}} } from './{{pascalCase name}}'
+import { {{pascalCase name}}Props } from './{{pascalCase name}}.types'
+
+const renderComponent = ({ ...props }: {{pascalCase name}}Props) => {
+  return render(
+    <TestProvider>
+      <{{pascalCase name}} data-testid="component" {...props} />
+    </TestProvider>,
+  )
+}
+
+describe('<{{pascalCase name}} />', () => {
+  it('should <{{pascalCase name}} /> render properly', () => {
+    renderComponent({})
+
+    const el = screen.getByTestId('component')
+
+    expect(el).toBeInTheDocument()
+  })
+})

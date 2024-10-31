@@ -8,7 +8,7 @@ export type ActionButtonProps = BaseComponent<{
   variant?: ComponentProps['variant']
   size?: ComponentProps['size']
   href?: string
-  onClick?: (event: MouseEvent<HTMLButtonElement>) => void
   disabled?: boolean
   loading?: boolean
+  onClick?: (event: MouseEvent<HTMLButtonElement>) => void
 }>
