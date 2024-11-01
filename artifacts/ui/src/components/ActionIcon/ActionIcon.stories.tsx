@@ -1,21 +1,28 @@
 import { Meta, StoryFn } from '@storybook/react'
 
-import { Icon } from '../Icon'
-import { ActionButton } from './ActionButton'
+import { ActionIcon } from './ActionIcon'
+import { ActionIconProps } from './ActionIcon.types'
 
 export default {
-  title: 'Components/ActionButton',
-  component: ActionButton,
+  title: 'Components/ActionIcon',
+  component: ActionIcon,
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
     docs: {
       description: {
-        component: 'ActionButton component to render button with optional icon and link functionality',
+        component: 'ActionIcon component',
       },
     },
   },
   argTypes: {
+    icon: {
+      type: 'string',
+      control: {
+        type: 'text',
+      },
+      description: 'A valid icon name from Tabler React Icons. Refer to the Tabler Icons library for available options.',
+    },
     color: {
       type: 'string',
       control: {
@@ -23,6 +30,7 @@ export default {
       },
       options: ['primary', 'dark', 'gray', 'red', 'pink', 'grape', 'violet', 'indigo', 'blue', 'cyan', 'green', 'lime', 'yellow', 'orange', 'teal'],
       description: 'The color of the button.',
+      table: { defaultValue: { summary: 'primary' } },
     },
     variant: {
       type: 'string',
@@ -31,6 +39,7 @@ export default {
       },
       options: ['filled', 'light', 'outline', 'transparent', 'white', 'subtle', 'default', 'gradient'],
       description: 'The variant style of the button.',
+      table: { defaultValue: { summary: 'filled' } },
     },
     size: {
       type: 'string',
@@ -39,6 +48,7 @@ export default {
       },
       options: ['xs', 'sm', 'md', 'lg', 'xl'],
       description: 'The size of the button.',
+      table: { defaultValue: { summary: 'md' } },
     },
     href: {
       type: 'string',
@@ -50,7 +60,7 @@ export default {
       control: {
         type: 'select',
       },
-      options: ['_blank'],
+      options: ['_blank', '_parent', '_self', '_top'],
       description: 'Specifies where to open the linked document. Use _blank to open in a new tab.',
     },
     tooltip: {
@@ -65,6 +75,7 @@ export default {
       },
       options: [true, false],
       description: 'Indicates whether the button is disabled.',
+      table: { defaultValue: { summary: 'false' } },
     },
     loading: {
       type: 'boolean',
@@ -73,6 +84,7 @@ export default {
       },
       options: [true, false],
       description: 'Indicates if the button is in a loading state.',
+      table: { defaultValue: { summary: 'false' } },
     },
     onClick: {
       type: 'function',
@@ -85,14 +97,14 @@ export default {
       },
     },
   },
-} as Meta
+} as Meta<ActionIconProps>
 
-const Template: StoryFn<React.ComponentProps<typeof ActionButton>> = (args) => <ActionButton {...args} />
+const Template: StoryFn<React.ComponentProps<typeof ActionIcon>> = (args) => <ActionIcon {...args} />
 
 export const Default = Template.bind({})
 Default.args = {
+  icon: 'IconHeart',
   color: 'primary',
   variant: 'filled',
   size: 'md',
-  children: <Icon name="Heart" width={20} height={20} strokeWidth={1.5} />,
 }

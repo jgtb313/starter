@@ -3,6 +3,6 @@ import { TypographyProps } from '../Typography'
 
 export type LinkProps = BaseComponent<{
   href: string
-  target?: '_blank'
+  target?: '_blank' | '_parent' | '_self' | '_top'
 }> &
   Omit<TypographyProps, 'component'>

@@ -1,25 +1,23 @@
-import { PropsWithChildren } from 'react'
 import { render, screen } from '@testing-library/react'
 import { describe, it, expect } from 'vitest'
 
 import { TestProvider } from '@/tests'
-import { Icon } from '../Icon'
-import { ActionButton } from './ActionButton'
-import { ActionButtonProps } from './ActionButton.types'
+import { ActionIcon } from './ActionIcon'
+import { ActionIconProps } from './ActionIcon.types'
 
-const renderComponent = ({ ...props }: PropsWithChildren<ActionButtonProps>) => {
+const renderComponent = ({ ...props }: ActionIconProps) => {
   return render(
     <TestProvider>
-      <ActionButton data-testid="component" {...props}>
-        <Icon name="Heart" />
-      </ActionButton>
+      <ActionIcon data-testid="component" {...props} />
     </TestProvider>,
   )
 }
 
-describe('<ActionButton />', () => {
+describe('<ActionIcon />', () => {
   it('should render properly', () => {
-    renderComponent({})
+    renderComponent({
+      icon: 'IconAB',
+    })
 
     const el = screen.getByTestId('component')
 
@@ -27,7 +25,7 @@ describe('<ActionButton />', () => {
   })
 
   it('should render as a link when href is provided', () => {
-    renderComponent({ href: 'https://example.com' })
+    renderComponent({ icon: 'IconAB', href: 'https://example.com' })
 
     const el = screen.getByTestId('component')
 
@@ -36,7 +34,7 @@ describe('<ActionButton />', () => {
   })
 
   it('should render as a button when href is not provided', () => {
-    renderComponent({})
+    renderComponent({ icon: 'IconAB' })
 
     const el = screen.getByTestId('component')
 
@@ -44,7 +42,7 @@ describe('<ActionButton />', () => {
   })
 
   it('should render the heart icon with correct attributes', () => {
-    renderComponent({})
+    renderComponent({ icon: 'IconAB' })
 
     const icon = screen.getByTestId('component').querySelector('svg')
 

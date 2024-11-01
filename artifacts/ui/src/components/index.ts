@@ -1,6 +1,6 @@
 export { Flex, Box, Space, ColorSchemeScript } from '@mantine/core'
 
-export * from './ActionButton'
+export * from './ActionIcon'
 export * from './Avatar'
 export * from './Badge'
 export * from './Breadcrumbs'

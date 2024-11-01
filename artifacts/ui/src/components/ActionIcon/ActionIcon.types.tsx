@@ -2,13 +2,16 @@ import { MouseEvent } from 'react'
 import { ActionIconProps as ComponentProps } from '@mantine/core'
 
 import { BaseComponent } from '@/support/types'
+import { IconProps } from '../Icon'
+import { LinkProps } from '../Link'
 
-export type ActionButtonProps = BaseComponent<{
+export type ActionIconProps = BaseComponent<{
+  icon: IconProps['name']
   color?: ComponentProps['color']
   variant?: ComponentProps['variant']
   size?: ComponentProps['size']
-  href?: string
-  target?: '_blank'
+  href?: LinkProps['href']
+  target?: LinkProps['target']
   tooltip?: string
   disabled?: boolean
   loading?: boolean
