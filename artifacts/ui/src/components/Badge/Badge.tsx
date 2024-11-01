@@ -1,15 +1,33 @@
 import { PropsWithChildren } from 'react'
-import { Badge as MBadge } from '@mantine/core'
+import { Badge as Component } from '@mantine/core'
 
 import { BadgeStyles } from './Badge.styles'
 import { BadgeProps } from './Badge.types'
 
-export const Badge = ({ variant = 'outline', block = false, children, ...props }: PropsWithChildren<BadgeProps>) => {
+export const Badge = ({
+  color = 'primary',
+  size = 'md',
+  variant = 'outline',
+  radius = 'md',
+  circle = false,
+  block = false,
+  children,
+  ...props
+}: PropsWithChildren<BadgeProps>) => {
   const styles = BadgeStyles(props)
 
   return (
-    <MBadge classNames={{ root: styles.root() }} {...props} variant={variant} fullWidth={block}>
+    <Component
+      classNames={{ root: styles.root() }}
+      {...props}
+      color={color}
+      size={size}
+      variant={variant}
+      radius={radius}
+      circle={circle}
+      fullWidth={block}
+    >
       {children}
-    </MBadge>
+    </Component>
   )
 }

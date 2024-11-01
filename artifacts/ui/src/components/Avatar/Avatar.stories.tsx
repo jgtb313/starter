@@ -1,6 +1,7 @@
 import { Meta, StoryFn } from '@storybook/react'
 
 import { Avatar } from './Avatar'
+import { AvatarProps } from './Avatar.types'
 
 export default {
   title: 'Components/Avatar',
@@ -44,7 +45,7 @@ export default {
       table: { defaultValue: { summary: 'xl' } },
     },
   },
-} as Meta
+} as Meta<AvatarProps>
 
 const Template: StoryFn<React.ComponentProps<typeof Avatar>> = (args) => <Avatar {...args} />
 
