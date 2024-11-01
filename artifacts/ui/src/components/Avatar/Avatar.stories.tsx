@@ -32,6 +32,7 @@ export default {
       },
       options: ['xs', 'sm', 'md', 'lg', 'xl'],
       description: 'Size of the avatar.',
+      table: { defaultValue: { summary: 'md' } },
     },
     radius: {
       type: 'string',
@@ -40,6 +41,7 @@ export default {
       },
       options: ['xs', 'sm', 'md', 'lg', 'xl'],
       description: 'Border radius of the avatar for rounded corners.',
+      table: { defaultValue: { summary: 'xl' } },
     },
   },
 } as Meta
@@ -52,5 +54,11 @@ Default.args = {
   alt: 'User Avatar',
   size: 'md',
   radius: 'xl',
-  children: 'XD',
+}
+
+export const Name = Template.bind({})
+Name.args = {
+  size: 'md',
+  radius: 'xl',
+  children: 'JD',
 }

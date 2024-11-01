@@ -4,11 +4,11 @@ import { Avatar as Component } from '@mantine/core'
 import { AvatarStyles } from './Avatar.styles'
 import { AvatarProps } from './Avatar.types'
 
-export const Avatar = ({ children, ...props }: PropsWithChildren<AvatarProps>) => {
+export const Avatar = ({ children, size = 'md', radius = 'xl', ...props }: PropsWithChildren<AvatarProps>) => {
   const styles = AvatarStyles(props)
 
   return (
-    <Component classNames={{ root: styles.root() }} {...props}>
+    <Component classNames={{ root: styles.root() }} {...props} size={size} radius={radius}>
       {children}
     </Component>
   )

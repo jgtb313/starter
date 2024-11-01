@@ -5,12 +5,14 @@ import { Link } from '../Link'
 import { ActionIconStyles } from './ActionIcon.styles'
 import { ActionIconProps } from './ActionIcon.types'
 
-export const ActionIcon = ({ icon, variant = 'default', href, target, tooltip, ...props }: ActionIconProps) => {
+export const ActionIcon = ({ icon, color = 'primary', variant = 'default', size = 'md', href, target, tooltip, ...props }: ActionIconProps) => {
   const styles = ActionIconStyles(props)
   const componentProps: ComponentProps = {
     ...props,
     classNames: { root: styles.root() },
-    variant: variant,
+    color,
+    variant,
+    size,
     loaderProps: { type: 'dots' },
   }
 

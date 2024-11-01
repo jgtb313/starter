@@ -11,7 +11,7 @@ export default {
     layout: 'centered',
     docs: {
       description: {
-        component: 'ActionIcon component',
+        component: 'ActionIcon component displays an icon with customizable actions, providing an interactive icon button for user interactions.',
       },
     },
   },
