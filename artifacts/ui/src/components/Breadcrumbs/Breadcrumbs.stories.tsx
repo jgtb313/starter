@@ -1,6 +1,7 @@
 import { Meta, StoryFn } from '@storybook/react'
 
 import { Breadcrumbs } from './Breadcrumbs'
+import { BreadcrumbsProps } from './Breadcrumbs.types'
 
 export default {
   title: 'Components/Breadcrumbs',
@@ -20,7 +21,7 @@ export default {
       description: 'Array of breadcrumb items, each containing a label and optional href.',
     },
   },
-} as Meta
+} as Meta<BreadcrumbsProps>
 
 const Template: StoryFn<React.ComponentProps<typeof Breadcrumbs>> = (args) => <Breadcrumbs {...args} />
 

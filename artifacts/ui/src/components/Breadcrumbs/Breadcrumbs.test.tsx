@@ -20,6 +20,7 @@ describe('<Breadcrumbs />', () => {
     })
 
     const el = screen.getByTestId('component')
+
     expect(el).toBeInTheDocument()
     expect(el.children.length).toBe(1)
     expect(el).toHaveTextContent('Dashboard')
