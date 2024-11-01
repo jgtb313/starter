@@ -4,29 +4,6 @@ import { BaseComponent } from '@/support/types'
 
 type ButtonType = 'submit' | 'reset' | 'button'
 
-// type ButtonColor =
-//   | 'primary'
-//   | 'dark'
-//   | 'gray'
-//   | 'red'
-//   | 'pink'
-//   | 'grape'
-//   | 'violet'
-//   | 'indigo'
-//   | 'blue'
-//   | 'cyan'
-//   | 'green'
-//   | 'lime'
-//   | 'yellow'
-//   | 'orange'
-//   | 'teal'
-
-// type ButtonVariant = 'filled' | 'light' | 'outline' | 'transparent' | 'white' | 'subtle' | 'default' | 'gradient'
-
-// type ButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'compact-xs' | 'compact-sm' | 'compact-md' | 'compact-lg' | 'compact-xl';
-
-// type ButtonRadius = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
-
 export type ButtonProps = BaseComponent<{
   form?: string
   type?: ButtonType
