@@ -1,30 +1,49 @@
-import { PropsWithChildren } from 'react'
-import { Card as Component } from '@mantine/core'
+import React, { PropsWithChildren } from 'react'
+import { Box, Card as Component } from '@mantine/core'
+import { pick, set } from '@starter/shared'
 
-import { Typography } from '../Typography'
 import { CardStyles } from './Card.styles'
 import { CardProps } from './Card.types'
 
-export const Card = ({ title, description, bordered, children, ...props }: PropsWithChildren<CardProps>) => {
-  const styles = CardStyles({ title: !!title })
+export const Card = ({ padding = 0, children, ...props }: PropsWithChildren<CardProps>) => {
+  const styles = CardStyles(props)
 
   return (
-    <Component className="w-full" classNames={{ root: styles.root() }} withBorder={bordered} {...props}>
-      {title && (
-        <Component.Section className={styles.title()} py="xs" withBorder={bordered} inheritPadding>
-          <Typography className="block" fw={500}>
-            {title}
-          </Typography>
-
-          {description && (
-            <Typography fw={400} fz="sm" c="dimmed">
-              {description}
-            </Typography>
-          )}
-        </Component.Section>
-      )}
-
-      <div className={styles.body()}>{children}</div>
+    <Component classNames={{ root: styles.root() }} p={padding} {...props}>
+      {React.Children.toArray(children).map((children) => React.isValidElement(children) && React.cloneElement(children, pick(props, 'bordered')))}
     </Component>
   )
 }
+
+Card.Header = ({ children, ...props }: PropsWithChildren<CardProps>) => {
+  const styles = CardStyles(props)
+
+  return (
+    <Box className={styles.header()} p="md">
+      {children}
+    </Box>
+  )
+}
+set(Card.Header, 'displayName', 'CardHeader')
+
+Card.Body = ({ children, ...props }: PropsWithChildren<CardProps>) => {
+  const styles = CardStyles(props)
+
+  return (
+    <Box className={styles.body()} p="md">
+      {children}
+    </Box>
+  )
+}
+set(Card.Body, 'displayName', 'CardBody')
+
+Card.Footer = ({ children, ...props }: PropsWithChildren<CardProps>) => {
+  const styles = CardStyles(props)
+
+  return (
+    <Box className={styles.footer()} p="md">
+      {children}
+    </Box>
+  )
+}
+set(Card.Footer, 'displayName', 'CardFooter')

@@ -24,6 +24,7 @@ export type TypographyProps = BaseComponent<{
   maw?: ComponentProps['maw']
   miw?: ComponentProps['miw']
   c?: ComponentProps['c']
+  lineClamp?: ComponentProps['lineClamp']
   truncate?: ComponentProps['truncate']
   display?: ComponentProps['display']
 }>
