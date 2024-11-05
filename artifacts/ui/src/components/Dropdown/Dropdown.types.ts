@@ -3,7 +3,6 @@ import { MenuProps } from '@mantine/core'
 import { BaseComponent } from '@/support/types'
 import { ButtonProps } from '../Button'
 import { IconProps } from '../Icon'
-import { DropdownVariants } from './Dropdown.styles'
 
 type DropdownItemBaseProps = {
   label: string
