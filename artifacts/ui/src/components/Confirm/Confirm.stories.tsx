@@ -1,9 +1,9 @@
+import React from 'react'
 import { Meta, StoryFn } from '@storybook/react'
 
 import { confirm } from './Confirm'
 import { ConfirmProps } from './Confirm.types'
 import { Button } from '../Button'
-import React from 'react'
 
 const Component = (props: ConfirmProps) => React.createElement('div', props)
 
