@@ -36,7 +36,7 @@ const Confirm = ({
   }
 
   return (
-    <Modal.Content {...props}>
+    <Modal.Content {...props} data-testid="confirm">
       <Modal.Header closable={closable}>{title}</Modal.Header>
 
       <Modal.Body>
@@ -63,7 +63,6 @@ export const confirm = (props: ConfirmProps) => {
   const modalId = uuid()
 
   modal.open({
-    ...props,
     id: modalId,
     className: styles.root(),
     children: <Confirm {...props} modalId={modalId} />,

@@ -25,7 +25,7 @@ describe('<ActionIcon />', () => {
   })
 
   it('should render as a link when href is provided', () => {
-    renderComponent({ icon: 'IconAB', href: 'https://example.com' })
+    renderComponent({ icon: 'IconHeart', href: 'https://example.com' })
 
     const el = screen.getByTestId('component')
 
@@ -34,7 +34,7 @@ describe('<ActionIcon />', () => {
   })
 
   it('should render as a button when href is not provided', () => {
-    renderComponent({ icon: 'IconAB' })
+    renderComponent({ icon: 'IconHeart' })
 
     const el = screen.getByTestId('component')
 
@@ -42,11 +42,11 @@ describe('<ActionIcon />', () => {
   })
 
   it('should render the heart icon with correct attributes', () => {
-    renderComponent({ icon: 'IconAB' })
+    renderComponent({ icon: 'IconHeart' })
 
     const icon = screen.getByTestId('component').querySelector('svg')
 
     expect(icon).toBeInTheDocument()
-    expect(icon).toHaveClass('lucide-heart')
+    expect(icon).toHaveClass('tabler-icon-heart')
   })
 })

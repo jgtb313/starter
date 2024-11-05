@@ -6,7 +6,7 @@ import { useModal } from './Modal.store'
 import { ModalHeaderProps } from './Modal.types'
 
 export const Modal = {
-  Content: ({ children }: PropsWithChildren) => <Component.Content>{children}</Component.Content>,
+  Content: ({ children, ...props }: PropsWithChildren) => <Component.Content {...props}>{children}</Component.Content>,
 
   Header: ({ description, closable = true, children }: PropsWithChildren<ModalHeaderProps>) => {
     return (
@@ -36,7 +36,7 @@ export const Modal = {
         {children}
       </Flex>
     )
-  }
+  },
 }
 
 export const ModalsProvider = () => {
