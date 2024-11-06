@@ -4,7 +4,7 @@
   "author": "João <jgtb313@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "yarn storybook dev",
+    "dev": "vite build --watch",
     "generate:component": "yarn plop component",
     "generate:input": "yarn plop input",
     "build": "vite build",
@@ -68,12 +68,6 @@
     "src"
   ],
   "devDependencies": {
-    "@storybook/addon-actions": "^8.3.6",
-    "@storybook/addon-docs": "^8.3.6",
-    "@storybook/addon-essentials": "^8.3.6",
-    "@storybook/addon-links": "^8.3.6",
-    "@storybook/builder-vite": "^8.3.6",
-    "@storybook/react-vite": "^8.3.6",
     "@tabler/icons-react": "^3.21.0",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.4.8",
@@ -100,7 +94,6 @@
     "postcss": "^8.4.33",
     "postcss-preset-mantine": "^1.13.0",
     "prettier": "^3.3.3",
-    "storybook": "^8.3.6",
     "vitest": "^2.1.4"
   }
 }

@@ -24,11 +24,11 @@ export const Drawer = {
         )}
       </Flex>
 
-      {closable && <Component.CloseButton icon={<Icon name="X" width={20} strokeWidth={1.5} />} />}
+      {closable && <Component.CloseButton icon={<Icon name="IconX" width={18} strokeWidth={1.5} />} />}
     </Component.Header>
   ),
 
-  Body: (props: PropsWithChildren) => <Component.Body {...props} className="overflow-y-auto" p={16} />,
+  Body: (props: PropsWithChildren) => <Component.Body {...props} p={16} />,
 
   Footer: ({ children, ...props }: PropsWithChildren<FlexProps>) => {
     const styles = DrawerStyles()
@@ -38,7 +38,7 @@ export const Drawer = {
         {children}
       </Flex>
     )
-  }
+  },
 }
 
 export const DrawersProvider = () => {
@@ -46,26 +46,28 @@ export const DrawersProvider = () => {
 
   return (
     <>
-      {Object.values(drawers).map(({ id, opened = false, position = 'right', size, padding = true, fullscreen, children, ...props }) => {
-        const styles = DrawerStyles({ padding })
-        size = fullscreen ? '100%' : size
+      {Object.values(drawers).map(
+        ({ id, opened = false, position = 'right', size, padding = true, fullscreen = false, closeOnClickOutside = false, children, ...props }) => {
+          const styles = DrawerStyles({ padding })
+          size = fullscreen ? '100%' : size
 
-        return (
-          <Component.Root
-            {...props}
-            key={id}
-            classNames={{ root: styles.root(), header: styles.header(), title: styles.title(), content: styles.content(), body: styles.body() }}
-            opened={opened}
-            position={position}
-            size={size}
-            onClose={() => close(id)}
-          >
-            <Component.Overlay />
+          return (
+            <Component.Root
+              {...props}
+              key={id}
+              classNames={{ root: styles.root(), header: styles.header(), title: styles.title(), content: styles.content(), body: styles.body() }}
+              opened={opened}
+              position={position}
+              size={size}
+              onClose={() => close(id)}
+            >
+              <Component.Overlay />
 
-            {children}
-          </Component.Root>
-        )
-      })}
+              {children}
+            </Component.Root>
+          )
+        },
+      )}
     </>
   )
 }

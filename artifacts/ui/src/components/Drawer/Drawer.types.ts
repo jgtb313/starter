@@ -1,17 +1,16 @@
+import { PropsWithChildren } from 'react'
 import { DrawerProps as ComponentProps } from '@mantine/core'
 
-export type DrawerProps = {
+export type DrawerProps = PropsWithChildren<{
   id: string
   opened?: boolean
   position?: ComponentProps['position']
   size?: ComponentProps['size']
-  fullscreen?: boolean
-  closable?: boolean
-  closeOnClickOutside?: boolean
   padding?: boolean
-  children?: ComponentProps['children']
+  fullscreen?: boolean
+  closeOnClickOutside?: boolean
   onClose?: ComponentProps['onClose']
-}
+}>
 
 export type DrawerHeaderProps = {
   description?: string
