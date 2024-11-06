@@ -1,7 +1,7 @@
 import { DatePickerInput, DateInputProps as ComponentProps, PickerBaseProps } from '@mantine/dates'
 import dayjs from 'dayjs'
 
-import { useFormInput } from '../Form.hooks'
+import { useInputForm } from '../Form.hooks'
 import { DateInputStyles } from './DateInput.styles'
 import { DateInputProps } from './DateInput.types'
 
@@ -20,8 +20,7 @@ const resolveRangeValue = (value?: string): [Date, Date | null] | undefined => {
 }
 
 export const DateInput = ({ name, type = 'default', size = 'md', hint, onChange, ...props }: DateInputProps) => {
-  const form = useFormInput()
-  const inputProps = form.getInputProps(name)
+  const inputProps = useInputForm(name)
   const styles = DateInputStyles(props)
 
   const handleChange: ComponentProps['onChange'] = (value) => {
@@ -59,10 +58,10 @@ export const DateInput = ({ name, type = 'default', size = 'md', hint, onChange,
     ...inputProps,
     classNames: {
       root: styles.root(),
-      error: styles.error()
+      error: styles.error(),
     },
     size,
-    description: hint
+    description: hint,
   }
 
   if (type === 'range') {

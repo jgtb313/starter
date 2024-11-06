@@ -1,11 +1,12 @@
+import { NumberInputProps as ComponentProps } from '@mantine/core'
+
 import { BaseComponent } from '@/support/types'
-import { NumberInputProps as MNumberInputProps } from '@mantine/core'
 
 export type CurrencyInputProps = BaseComponent<{
   name: string
   label?: string
   placeholder?: string
-  size?: MNumberInputProps['size']
+  size?: ComponentProps['size']
   leftSection?: React.ReactNode
   rightSection?: React.ReactNode
   hint?: string

@@ -1,5 +1,5 @@
 import { ChangeEvent } from 'react'
-import { PasswordInput as MPasswordInput } from '@mantine/core'
+import { PasswordInput as Component } from '@mantine/core'
 
 import { useInputForm } from '../Form.hooks'
 import { Icon } from '../../Icon'
@@ -23,7 +23,7 @@ export const PasswordInput = ({ name, label, size = 'md', hint, onChange, onBlur
   }
 
   return (
-    <MPasswordInput
+    <Component
       {...props}
       {...inputProps}
       value={inputProps.value ?? ''}
@@ -32,7 +32,7 @@ export const PasswordInput = ({ name, label, size = 'md', hint, onChange, onBlur
       label={label}
       size={size}
       description={hint}
-      visibilityToggleIcon={({ reveal }) => <Icon name={reveal ? 'EyeOff' : 'Eye'} strokeWidth={1.5} />}
+      visibilityToggleIcon={({ reveal }) => <Icon name={reveal ? 'IconEyeOff' : 'IconEye'} strokeWidth={1.5} />}
       onChange={handleChange}
       onBlur={handleBlur}
     />

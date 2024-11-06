@@ -1,4 +1,4 @@
-import { TextInputProps as MTextInputProps } from '@mantine/core'
+import { TextInputProps as ComponentProps } from '@mantine/core'
 
 import { BaseComponent } from '@/support/types'
 
@@ -6,7 +6,7 @@ export type PhoneInputProps = BaseComponent<{
   name: string
   label?: string
   placeholder?: string
-  size?: MTextInputProps['size']
+  size?: ComponentProps['size']
   leftSection?: React.ReactNode
   rightSection?: React.ReactNode
   hint?: string

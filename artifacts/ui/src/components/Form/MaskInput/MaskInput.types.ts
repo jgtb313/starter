@@ -1,15 +1,15 @@
-import { TextInputProps as MTextInputProps } from '@mantine/core'
+import { TextInputProps as ComponentProps } from '@mantine/core'
 
 import { BaseComponent } from '@/support/types'
 
 export type MaskInputProps = BaseComponent<{
-  classNames?: MTextInputProps['classNames']
+  classNames?: ComponentProps['classNames']
   name: string
   mask: string | string[]
   value?: string | null
   label?: string
   placeholder?: string
-  size?: MTextInputProps['size']
+  size?: ComponentProps['size']
   leftSection?: React.ReactNode
   rightSection?: React.ReactNode
   hint?: string

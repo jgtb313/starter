@@ -2,7 +2,7 @@ import { useMemo, forwardRef, Ref } from 'react'
 import { Flex } from '@mantine/core'
 import { DocumentType, DocumentTypeCompany, DocumentTypeEnum } from '@starter/schema'
 
-import { useFormInput } from '../Form.hooks'
+import { useInputForm } from '../Form.hooks'
 import { RadioGroup, RadioGroupProps } from '../RadioGroup'
 import { MaskInput, MaskInputProps } from '../MaskInput'
 import { DocumentInputProps } from './DocumentInput.types'
@@ -28,8 +28,7 @@ export const BaseDocumentInput = (
   }: DocumentInputProps,
   ref: Ref<HTMLInputElement>,
 ) => {
-  const form = useFormInput()
-  const inputProps = form.getInputProps(name)
+  const inputProps = useInputForm(name)
   const internalValue = inputProps.value?.number ?? ''
   const internalType = useMemo(() => {
     if (!inputProps.value) {

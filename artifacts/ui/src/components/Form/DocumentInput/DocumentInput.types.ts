@@ -1,4 +1,4 @@
-import { TextInputProps as MTextInputProps } from '@mantine/core'
+import { TextInputProps as ComponentProps } from '@mantine/core'
 import { DocumentTypeEnum } from '@starter/schema'
 
 import { BaseComponent } from '@/support/types'
@@ -9,7 +9,7 @@ export type DocumentInputProps = BaseComponent<{
   defaultType?: DocumentTypeEnum
   label?: string
   placeholder?: string
-  size?: MTextInputProps['size']
+  size?: ComponentProps['size']
   leftSection?: React.ReactNode
   rightSection?: React.ReactNode
   hint?: string
