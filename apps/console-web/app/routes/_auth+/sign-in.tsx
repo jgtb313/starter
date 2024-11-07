@@ -1,11 +1,11 @@
 import { type MetaFunction } from '@remix-run/node'
-import { Flex, Card, Typography } from '@ss/components'
+import config from '@starter/config'
+import { Flex, Card, Typography } from '@starter/ui'
 
-import { Brand } from '~/common'
-import { SignInForm } from '~/components'
+import { Brand } from '~/components'
 
 export const meta: MetaFunction = () => {
-  return [{ title: 'SmartStock | Acesso' }]
+  return [{ title: `${config.name} | Sign In` }]
 }
 
 const Page = () => {
@@ -22,8 +22,6 @@ const Page = () => {
           <Typography component="p" maw="80%" size="md" ta="center" mx="auto" my={0}>
             Insira suas credenciais abaixo para acessar sua conta.
           </Typography>
-
-          <SignInForm />
         </Flex>
       </Card>
     </Flex>

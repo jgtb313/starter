@@ -38,13 +38,13 @@
     "vite-plugin-dts": "^3.9.1",
     "zustand": "^5.0.0"
   },
-  "main": "dist/store.umd.js",
-  "module": "dist/store.es.js",
+  "main": "dist/use-remix-hooks.umd.js",
+  "module": "dist/use-remix-hooks.es.js",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "require": "./dist/store.umd.js",
-      "import": "./dist/store.es.js"
+      "require": "./dist/use-remix-hooks.umd.js",
+      "import": "./dist/use-remix-hooks.es.js"
     }
   },
   "typings": "dist/index.d.ts",

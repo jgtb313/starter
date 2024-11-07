@@ -1,9 +1,9 @@
 import { Outlet, Link } from '@remix-run/react'
 import { ProfileProvider, ProfileProviderProps } from '@starter/store'
+import { useRouter } from '@starter/use-remix-hooks'
 import { UiProvider, Layout, Flex } from '@starter/ui'
 
 import { setupDefaultLayout } from '~/server'
-import { usePathname } from '~/hooks'
 import { Brand, ToggleColorScheme, UserMenu } from '~/components'
 import { Shell } from '~/Shell'
 
@@ -13,24 +13,22 @@ type DefaultLayoutProps = {
   appProviderProps: ProfileProviderProps
 }
 
-const { Header: LayoutHeader, Sidebar: LayoutSidebar, Main, Content } = Layout
-
 const Header = () => {
   return (
-    <LayoutHeader>
-      <LayoutHeader.End>
+    <Layout.Header>
+      <Layout.Header.End>
         <UserMenu />
-      </LayoutHeader.End>
-    </LayoutHeader>
+      </Layout.Header.End>
+    </Layout.Header>
   )
 }
 
 const Sidebar = () => {
-  const pathname = usePathname()
+  const router = useRouter()
 
   return (
-    <LayoutSidebar
-      active={pathname}
+    <Layout.Sidebar
+      active={router.pathname}
       header={<Brand to="/" width={50} symbol />}
       items={[
         { label: 'Dashboard', href: '/', icon: 'IconDashboard' },
@@ -53,13 +51,13 @@ export const DefaultLayout = ({ appProviderProps }: DefaultLayoutProps) => {
           <Layout hasHeader>
             <Sidebar />
 
-            <Content>
+            <Layout.Content>
               <Header />
 
-              <Main>
+              <Layout.Main>
                 <Outlet />
-              </Main>
-            </Content>
+              </Layout.Main>
+            </Layout.Content>
           </Layout>
         </UiProvider>
       </ProfileProvider>

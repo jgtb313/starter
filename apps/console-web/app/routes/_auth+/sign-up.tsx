@@ -5,7 +5,7 @@ import { Flex, Card, Typography } from '@starter/ui'
 import { Brand } from '~/components'
 
 export const meta: MetaFunction = () => {
-  return [{ title: `${config.name} | Recover Password` }]
+  return [{ title: `${config.name} | Sign Up` }]
 }
 
 const Page = () => {
@@ -14,13 +14,13 @@ const Page = () => {
       <Brand width={350} />
 
       <Card padding="lg" bordered>
-        <Flex direction="column" gap={16}>
+        <Flex direction="column" gap={8}>
           <Typography component="h2" size="lg" ta="center" fw={600} mb={8}>
-            Redefina a sua senha
+            Acessar minha conta
           </Typography>
 
           <Typography component="p" maw="80%" size="md" ta="center" mx="auto" my={0}>
-            Insira sua nova senha e confirme-a para concluir a redefinição. Certifique-se de escolher uma senha forte para proteger sua conta.
+            Insira suas credenciais abaixo para acessar sua conta.
           </Typography>
         </Flex>
       </Card>
