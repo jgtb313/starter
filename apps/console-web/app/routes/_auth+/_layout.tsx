@@ -1,16 +1,31 @@
-import { Outlet } from '@remix-run/react'
+import { Outlet, Link } from '@remix-run/react'
+import { AuthProvider } from '@starter/store'
+import { UiProvider, Layout, Flex } from '@starter/ui'
 
 import { setupAuthLayout } from '~/server'
-import { AuthLayout } from '~/layouts'
+import { ToggleColorScheme } from '~/common'
+import { Shell } from '~/Shell'
 
 export const loader = setupAuthLayout
 
-const Layout = () => {
+const AuthLayout = () => {
   return (
-    <AuthLayout>
-      <Outlet />
-    </AuthLayout>
+    <Shell>
+      <UiProvider Link={Link}>
+        <Layout>
+          <Layout.Content centered>
+            <AuthProvider>
+              <Outlet />
+            </AuthProvider>
+
+            <Flex pos="fixed" top={12} right={12}>
+              <ToggleColorScheme />
+            </Flex>
+          </Layout.Content>
+        </Layout>
+      </UiProvider>
+    </Shell>
   )
 }
 
-export default Layout
+export default AuthLayout

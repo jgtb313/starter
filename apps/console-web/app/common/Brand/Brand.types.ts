@@ -1,4 +1,4 @@
-import { ThemeProps } from '@ss/components'
+import { ThemeProps } from '@starter/ui'
 
 export type BrandProps = {
   to?: string

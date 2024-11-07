@@ -5,8 +5,6 @@ import { Meta, Links, ScrollRestoration, Scripts, Outlet, useRouteLoaderData } f
 import { json, LinksFunction } from '@remix-run/node'
 import { ColorSchemeScript } from '@starter/ui'
 
-import { ErrorLayout } from '~/layouts'
-
 export const loader = async () => {
   return json({
     ENV: {
@@ -22,10 +20,6 @@ export const links: LinksFunction = () => [
     href: '/favicon.svg',
   },
 ]
-
-export const ErrorBoundary = () => {
-  return <ErrorLayout />
-}
 
 export const Layout = ({ children }: PropsWithChildren) => {
   const data = useRouteLoaderData<typeof loader>('root')

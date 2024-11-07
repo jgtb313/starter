@@ -1,4 +1,4 @@
-import { Flex, Link, useTheme } from '@ss/components'
+import { Flex, Link, useTheme } from '@starter/ui'
 
 import { BrandProps, BrandIconProps } from './Brand.types'
 
