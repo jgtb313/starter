@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { renderHook, act } from '@testing-library/react-hooks'
 
-import { useIsMounted } from './useIsMounted'
+import { useIsMounted } from './use-is-mounted'
 
 describe('useIsMounted', () => {
   it('should useIsMounted initially be false before the component is mounted', () => {

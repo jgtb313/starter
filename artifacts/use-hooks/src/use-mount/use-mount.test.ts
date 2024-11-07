@@ -1,6 +1,7 @@
 import { describe, it, expect, vi } from 'vitest'
 import { renderHook } from '@testing-library/react-hooks'
-import { useMount } from './useMount'
+
+import { useMount } from './use-mount'
 
 describe('useMount', () => {
   it('should useMount call the callback once when the component mounts', () => {

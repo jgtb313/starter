@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest'
 import { renderHook } from '@testing-library/react-hooks'
 
-import { useUnmount } from './useUnmount'
+import { useUnmount } from './use-unmount'
 
 describe('useUnmount', () => {
   it('should useUnmount call the callback when the component unmounts', () => {

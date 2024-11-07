@@ -1,4 +1,5 @@
 import { describe, it, expect, vi } from 'vitest'
+
 import { makeRequest } from './make-request'
 
 describe('makeRequest', () => {
@@ -10,7 +11,7 @@ describe('makeRequest', () => {
 
     await makeRequest(handler, {
       params: { test: true },
-      onSuccess
+      onSuccess,
     })
 
     expect(onSuccess).toHaveBeenCalledWith('successData', { test: true })
@@ -22,7 +23,7 @@ describe('makeRequest', () => {
 
     await makeRequest(handler, {
       params: { test: true },
-      onPreFetch
+      onPreFetch,
     })
 
     expect(onPreFetch).toHaveBeenCalled()
@@ -34,7 +35,7 @@ describe('makeRequest', () => {
 
     await makeRequest(handler, {
       params: { test: true },
-      onFinally
+      onFinally,
     })
 
     expect(onFinally).toHaveBeenCalled()
@@ -56,7 +57,7 @@ describe('makeRequest', () => {
 
     await makeRequest(handler, {
       params: { test: true },
-      options: { onSuccess }
+      options: { onSuccess },
     })
 
     expect(onSuccess).toHaveBeenCalledWith('successData', { test: true })
@@ -68,7 +69,7 @@ describe('makeRequest', () => {
 
     await makeRequest(handler, {
       params: { test: true },
-      options: { onPreFetch }
+      options: { onPreFetch },
     })
 
     expect(onPreFetch).toHaveBeenCalled()
@@ -80,7 +81,7 @@ describe('makeRequest', () => {
 
     await makeRequest(handler, {
       params: { test: true },
-      options: { onFinally }
+      options: { onFinally },
     })
 
     expect(onFinally).toHaveBeenCalled()

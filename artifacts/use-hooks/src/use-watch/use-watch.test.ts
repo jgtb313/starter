@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest'
 import { renderHook, act } from '@testing-library/react-hooks'
 
-import { useWatch } from './useWatch'
+import { useWatch } from './use-watch'
 
 describe('useWatch', () => {
   it('should useWatch call the callback when dependencies change', () => {

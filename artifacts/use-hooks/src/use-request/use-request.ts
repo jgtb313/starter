@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
-import { makeRequest, MakeRequestOptions } from '@/support/make-request'
-import { useWatch } from './useWatch'
+import { useWatch } from '../use-watch'
+import { makeRequest, MakeRequestOptions } from './make-request'
 
 type UseRequestOptions<T, K> = {
   initialValues?: T
@@ -10,6 +10,7 @@ type UseRequestOptions<T, K> = {
 type UseRequestFetch<F extends (input: Parameters<F>[number]) => ReturnType<F>> = (
   input: {
     params: Parameters<F>[number]
+    options?: Pick<MakeRequestOptions<Awaited<ReturnType<F>>, Parameters<F>[number]>, 'onPreFetch' | 'onSuccess' | 'onError' | 'onFinally'>
   } & MakeRequestOptions<Awaited<ReturnType<F>>, Parameters<F>[number]>,
 ) => Promise<Awaited<ReturnType<F>>>
 
@@ -32,9 +33,10 @@ export const useRequest = <F extends (input: Parameters<F>[number]) => ReturnTyp
     setData(value)
   }
 
-  const fetch: UseRequestFetch<F> = async ({ params, onPreFetch, onSuccess, onError, onFinally }) => {
+  const fetch: UseRequestFetch<F> = async ({ params, options, onPreFetch, onSuccess, onError, onFinally }) => {
     const value = await makeRequest(handler, {
       params,
+      options,
       onPreFetch: () => {
         setLoading(true)
         onPreFetch?.()

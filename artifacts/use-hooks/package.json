@@ -1,5 +1,5 @@
 {
-  "name": "@starter/store",
+  "name": "@starter/use-hooks",
   "version": "1.0.0",
   "author": "João <jgtb313@gmail.com>",
   "license": "MIT",
@@ -23,7 +23,7 @@
     "@starter/config": "*",
     "@starter/schema": "*",
     "@starter/shared": "*",
-    "@starter/use-hooks": "*",
+    "@starter/ui": "*",
     "immer": "^10.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
