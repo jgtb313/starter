@@ -1,9 +1,9 @@
 import { useState, useMemo, forwardRef, Ref } from 'react'
 import { Flex, Menu, Text, InputLabel } from '@mantine/core'
 import { useDisclosure, useWindowEvent } from '@mantine/hooks'
+import { useMount } from '@starter/use-hooks'
 import { countriesPhone } from '@starter/shared'
 
-import { useMount } from '@/hooks'
 import { Icon } from '../../Icon'
 import { useInputForm } from '../Form.hooks'
 import { MaskInput, MaskInputProps } from '../MaskInput'

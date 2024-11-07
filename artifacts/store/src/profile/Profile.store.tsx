@@ -5,7 +5,7 @@ import { useRequest } from '@starter/use-hooks'
 import { ProfileContext } from './Profile.context'
 import { ProfileContextProps, ProfileProviderProps } from './Profile.store.types'
 
-export const ProfileProvider = ({ children }: PropsWithChildren<ProfileProviderProps>) => {
+export const ProfileProvider = ({ user, children }: PropsWithChildren<ProfileProviderProps>) => {
   const [callRetrieve, { loading: loadingRetrieve }] = useRequest(client.profile.retrieve)
   const [callUpdate, { loading: loadingUpdate }] = useRequest(client.profile.update)
   const [callUpdateEmail, { loading: loadingUpdateEmail }] = useRequest(client.profile.updateEmail)
@@ -45,6 +45,7 @@ export const ProfileProvider = ({ children }: PropsWithChildren<ProfileProviderP
   }
 
   const value: ProfileContextProps = {
+    user,
     loadingRetrieve,
     loadingUpdate,
     loadingUpdateEmail,

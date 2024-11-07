@@ -5,6 +5,6 @@ export const createCookie = (value: string) => {
 
       return { ...result, [key.trim()]: value }
     },
-    { token: '' }
+    { token: '' },
   )
 }

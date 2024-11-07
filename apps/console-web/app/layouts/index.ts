@@ -1,6 +1,3 @@
 export * from './Auth.layout'
 export * from './Default.layout'
 export * from './Error.layout'
-export * from './Mobile.layout'
-export * from './Checkout.layout'
-export * from './Onboarding.layout'

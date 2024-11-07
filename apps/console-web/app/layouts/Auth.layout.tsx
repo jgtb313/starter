@@ -1,15 +1,15 @@
 import { PropsWithChildren } from 'react'
 import { Link } from '@remix-run/react'
-import { Provider, Layout, Flex } from '@ss/components'
+import { AuthProvider } from '@starter/store'
+import { UiProvider, Layout, Flex } from '@starter/ui'
 
 import { Shell } from '~/Shell'
-import { AuthProvider } from '~/stores'
 import { ToggleColorScheme } from '~/common'
 
 export const AuthLayout = ({ children }: PropsWithChildren<{}>) => {
   return (
     <Shell>
-      <Provider Link={Link}>
+      <UiProvider Link={Link}>
         <Layout>
           <Layout.Content centered>
             <AuthProvider>{children}</AuthProvider>
@@ -19,7 +19,7 @@ export const AuthLayout = ({ children }: PropsWithChildren<{}>) => {
             </Flex>
           </Layout.Content>
         </Layout>
-      </Provider>
+      </UiProvider>
     </Shell>
   )
 }

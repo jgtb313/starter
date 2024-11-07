@@ -1,16 +1,16 @@
 import { PropsWithChildren } from 'react'
 import { Link } from '@remix-run/react'
-import { Provider, Layout, Flex, useMount } from '@ss/components'
+import { ProfileProvider, ProfileProviderProps } from '@starter/store'
+import { UiProvider, Layout, Flex } from '@starter/ui'
 
 import { Shell } from '~/Shell'
 import { usePathname } from '~/hooks'
-import { AppProvider, useStore, AppProviderProps } from '~/stores'
 import { Brand } from '~/common'
 import { ToggleColorScheme } from '~/common'
-import { UserMenu, StoreSelector } from '~/components'
+import { UserMenu } from '~/components'
 
 type DefaultLayoutProps = {
-  appProviderProps: AppProviderProps
+  appProviderProps: ProfileProviderProps
 }
 
 const { Header: LayoutHeader, Sidebar: LayoutSidebar, Main, Content } = Layout
@@ -18,10 +18,6 @@ const { Header: LayoutHeader, Sidebar: LayoutSidebar, Main, Content } = Layout
 const Header = () => {
   return (
     <LayoutHeader>
-      <LayoutHeader.Start>
-        <StoreSelector />
-      </LayoutHeader.Start>
-
       <LayoutHeader.End>
         <UserMenu />
       </LayoutHeader.End>
@@ -37,10 +33,8 @@ const Sidebar = () => {
       active={pathname}
       header={<Brand to="/" width={50} symbol />}
       items={[
-        { label: 'Entregas', href: '/deliveries', icon: 'Truck' },
-        { label: 'Inventários', href: '/inventories', icon: 'PackageOpen' },
-        { label: 'Notas', href: '/invoices', icon: 'NotepadText' },
-        { label: 'Configurações', href: '/settings', icon: 'Settings' }
+        { label: 'Dashboard', href: '/', icon: 'IconDashboard' },
+        { label: 'Settings', href: '/settings', icon: 'IconSettings' },
       ]}
       footer={
         <Flex justify="center" align="center" p={16}>
@@ -52,16 +46,10 @@ const Sidebar = () => {
 }
 
 export const DefaultLayout = ({ appProviderProps, children }: PropsWithChildren<DefaultLayoutProps>) => {
-  const { fetchStores } = useStore()
-
-  useMount(() => {
-    fetchStores({})
-  })
-
   return (
     <Shell>
-      <AppProvider {...appProviderProps}>
-        <Provider Link={Link}>
+      <ProfileProvider {...appProviderProps}>
+        <UiProvider Link={Link}>
           <Layout hasHeader>
             <Sidebar />
 
@@ -71,8 +59,8 @@ export const DefaultLayout = ({ appProviderProps, children }: PropsWithChildren<
               <Main>{children}</Main>
             </Content>
           </Layout>
-        </Provider>
-      </AppProvider>
+        </UiProvider>
+      </ProfileProvider>
     </Shell>
   )
 }

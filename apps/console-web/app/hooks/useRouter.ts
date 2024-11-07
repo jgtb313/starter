@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate, useLocation } from '@remix-run/react'
-import { isString, isUndefined, set } from '@ss/shared'
+import { isString, isUndefined, set } from '@starter/shared'
 
 const setupQueryParamsValue = (value: string) => {
   if (value === 'false') {
@@ -38,7 +38,7 @@ export const useRouter = <T>() => {
 
   const replace = (path: string) => {
     navigate(path, {
-      replace: true
+      replace: true,
     })
   }
 
@@ -75,6 +75,6 @@ export const useRouter = <T>() => {
     push,
     replace,
     update,
-    back
+    back,
   }
 }

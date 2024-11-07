@@ -1,17 +1,17 @@
-import '@ss/components/dist/style.css'
+import '@starter/ui/dist/style.css'
 
 import { PropsWithChildren } from 'react'
 import { Meta, Links, ScrollRestoration, Scripts, Outlet, useRouteLoaderData } from '@remix-run/react'
 import { json, LinksFunction } from '@remix-run/node'
-import { ColorSchemeScript } from '@ss/components'
+import { ColorSchemeScript } from '@starter/ui'
 
 import { ErrorLayout } from '~/layouts'
 
 export const loader = async () => {
   return json({
     ENV: {
-      STAGE: process.env.STAGE
-    }
+      STAGE: process.env.STAGE,
+    },
   })
 }
 
@@ -19,8 +19,8 @@ export const links: LinksFunction = () => [
   {
     rel: 'icon',
     sizes: '180x180',
-    href: '/favicon.svg'
-  }
+    href: '/favicon.svg',
+  },
 ]
 
 export const ErrorBoundary = () => {
@@ -38,7 +38,6 @@ export const Layout = ({ children }: PropsWithChildren) => {
         <ColorSchemeScript />
         <Meta />
         <Links />
-        <script type="text/javascript" src="https://js.iugu.com/v2"></script>
       </head>
 
       <body>
@@ -46,7 +45,7 @@ export const Layout = ({ children }: PropsWithChildren) => {
         <ScrollRestoration />
         <script
           dangerouslySetInnerHTML={{
-            __html: `window.ENV = ${JSON.stringify(data?.ENV)}`
+            __html: `window.ENV = ${JSON.stringify(data?.ENV)}`,
           }}
         />
         <Scripts />

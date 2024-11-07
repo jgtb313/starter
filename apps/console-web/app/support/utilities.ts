@@ -1,4 +1,4 @@
-import { EnvEnum } from '@ss/client'
+import { EnvEnum } from '@starter/client'
 
 declare const process: {
   env: {
@@ -12,24 +12,6 @@ declare global {
       STAGE: EnvEnum
     }
   }
-}
-
-const DEFAULT_LIMIT = 10
-
-export const calculatePage = (offset?: number) => {
-  if (!offset) {
-    return 1
-  }
-
-  return Math.floor(offset / DEFAULT_LIMIT) + 1
-}
-
-export const calculateOffset = (page: number) => {
-  if (page === 1) {
-    return 0
-  }
-
-  return (page - 1) * DEFAULT_LIMIT
 }
 
 export const getEnv = () => {

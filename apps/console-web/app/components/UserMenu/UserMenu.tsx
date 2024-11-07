@@ -1,15 +1,15 @@
-import { Flex, Dropdown, DropdownProps, Typography, Avatar } from '@ss/components'
+import { Flex, Dropdown, DropdownProps, Typography, Avatar } from '@starter/ui'
 
-import { useApp } from '~/stores'
+import { useProfile } from '@starter/store'
 
 export const UserMenu = () => {
-  const { user, logout } = useApp()
+  const { user } = useProfile()
 
   const items: DropdownProps['items'] = [
-    { type: 'link', label: 'Minha conta', icon: 'UserCog', href: '/profile' },
-    { type: 'link', label: 'Configurações', icon: 'Settings', href: '/settings' },
+    { type: 'link', label: 'Minha conta', icon: 'IconUserCog', href: '/profile' },
+    { type: 'link', label: 'Configurações', icon: 'IconSettings', href: '/settings' },
     { type: 'divider' },
-    { type: 'button', label: 'Sair', icon: 'LogOut', onClick: logout }
+    { type: 'button', label: 'Sair', icon: 'IconLogout', onClick: console.log },
   ]
 
   return (

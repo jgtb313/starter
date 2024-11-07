@@ -1,12 +1,9 @@
-import { redirect, type MetaFunction } from '@remix-run/node'
-import { Flex } from '@ss/components'
+import { type MetaFunction } from '@remix-run/node'
+import config from '@starter/config'
+import { Flex } from '@starter/ui'
 
 export const meta: MetaFunction = () => {
-  return [{ title: 'SmartStock | Dashboard' }]
-}
-
-export const loader = () => {
-  return redirect('/deliveries')
+  return [{ title: `${config.name} | Dashboard` }]
 }
 
 const Page = () => {

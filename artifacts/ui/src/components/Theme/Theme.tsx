@@ -2,8 +2,8 @@ import { PropsWithChildren } from 'react'
 import { MantineProvider, createTheme, useMantineColorScheme, MantineColorsTuple } from '@mantine/core'
 import { useColorScheme } from '@mantine/hooks'
 import { generateColors } from '@mantine/colors-generator'
+import { useIsMounted, useWatch } from '@starter/use-hooks'
 
-import { useIsMounted, useWatch } from '@/hooks'
 import { ThemeExtends } from './Theme.extends'
 import { ThemeProps } from './Theme.types'
 

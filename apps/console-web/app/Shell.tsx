@@ -1,8 +1,9 @@
 import { PropsWithChildren, useEffect } from 'react'
 import Cookie from 'js-cookie'
 import { useNavigation } from '@remix-run/react'
-import { useIsMounted, useNavigationProgress } from '@ss/components'
-import client from '@ss/client'
+import client from '@starter/client'
+import { useNavigationProgress } from '@starter/ui'
+import { useIsMounted } from '@starter/use-hooks'
 
 import { getEnv } from '~/support/utilities'
 
