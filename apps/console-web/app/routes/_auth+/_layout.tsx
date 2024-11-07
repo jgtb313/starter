@@ -3,7 +3,7 @@ import { AuthProvider } from '@starter/store'
 import { UiProvider, Layout, Flex } from '@starter/ui'
 
 import { setupAuthLayout } from '~/server'
-import { ToggleColorScheme } from '~/common'
+import { ToggleColorScheme } from '~/components'
 import { Shell } from '~/Shell'
 
 export const loader = setupAuthLayout

@@ -4,8 +4,7 @@ import { UiProvider, Layout, Flex } from '@starter/ui'
 
 import { setupDefaultLayout } from '~/server'
 import { usePathname } from '~/hooks'
-import { Brand, ToggleColorScheme } from '~/common'
-import { UserMenu } from '~/components'
+import { Brand, ToggleColorScheme, UserMenu } from '~/components'
 import { Shell } from '~/Shell'
 
 export const loader = setupDefaultLayout
