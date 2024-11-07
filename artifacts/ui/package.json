@@ -30,8 +30,6 @@
     "@mantine/notifications": "^7.13.4",
     "@mantine/nprogress": "^7.13.4",
     "@starter/use-hooks": "*",
-    "@starter/client": "*",
-    "@starter/config": "*",
     "@starter/schema": "*",
     "@starter/shared": "*",
     "@swc/core": "^1.2.165",
@@ -50,13 +48,13 @@
     "vite-plugin-dts": "^3.9.1",
     "zustand": "^5.0.0"
   },
-  "main": "dist/components.umd.js",
-  "module": "dist/components.es.js",
+  "main": "dist/ui.umd.js",
+  "module": "dist/ui.es.js",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "require": "./dist/components.umd.js",
-      "import": "./dist/components.es.js"
+      "require": "./dist/ui.umd.js",
+      "import": "./dist/ui.es.js"
     },
     "./dist/style.css": {
       "import": "./dist/style.css",

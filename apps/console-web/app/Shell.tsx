@@ -16,7 +16,14 @@ export const Shell = ({ children }: PropsWithChildren) => {
 
   useEffect(() => {
     client.connect(env)
-    client.authenticate(`${Cookie.get('token')}`)
+
+    const token = Cookie.get('token')
+
+    if (!token) {
+      return
+    }
+
+    client.authenticate(token)
   }, [])
 
   if (!isMounted) {

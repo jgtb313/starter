@@ -24,8 +24,7 @@ server.register(Docs.instance, {
 
 const checkAuthorization = (dependencies: IDependencies) => (authorization?: string) => {
   if (authorization) {
-    const auth = dependencies.JWT.decode<Auth>(authorization)
-    return auth
+    return dependencies.JWT.decode<Auth>(authorization)
   }
 
   return undefined
@@ -56,7 +55,8 @@ export const setupRoutes = (instance: FastifyInstance, routes: typeof Modules, d
               headers: req.headers ?? {},
             }
 
-            const authorization = input.headers['authorization'] ? `${input.headers['authorization']}` : undefined
+            const authorization =
+              input.headers['authorization'] && input.headers['authorization'] !== 'undefined' ? `${input.headers['authorization']}` : undefined
 
             const context: IContext = {}
 

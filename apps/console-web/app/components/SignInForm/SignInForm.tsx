@@ -1,19 +1,32 @@
+import Cookies from 'js-cookie'
+import client from '@starter/client'
 import { SignInSchema } from '@starter/schema'
 import { useAuth } from '@starter/store'
 import { Flex, Form, Button, Link, Typography, Divider } from '@starter/ui'
+import { useRouter } from '@starter/use-remix-hooks'
 
 import { SocialAuthentication } from '../SocialAuthentication'
 import { ISignInForm } from './SignInForm.types'
 
 export const SignInForm = () => {
+  const router = useRouter()
   const { signIn, loadingSignIn } = useAuth()
 
   const initialValues: ISignInForm['initialValues'] = { email: null, password: null }
 
   const handleSubmit: ISignInForm['onSubmit'] = (values) => {
-    signIn({
-      ...values,
-    })
+    signIn(
+      {
+        ...values,
+      },
+      {
+        onSuccess: ({ token }) => {
+          Cookies.set('token', token)
+          client.authenticate(token)
+          router.push('/')
+        },
+      },
+    )
   }
 
   return (

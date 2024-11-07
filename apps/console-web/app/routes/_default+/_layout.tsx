@@ -1,4 +1,4 @@
-import { Outlet, Link } from '@remix-run/react'
+import { Outlet, Link, useLoaderData } from '@remix-run/react'
 import { ProfileProvider, ProfileProviderProps } from '@starter/store'
 import { useRouter } from '@starter/use-remix-hooks'
 import { UiProvider, Layout, Flex } from '@starter/ui'
@@ -8,10 +8,6 @@ import { Brand, ToggleColorScheme, UserMenu } from '~/components'
 import { Shell } from '~/Shell'
 
 export const loader = setupDefaultLayout
-
-type DefaultLayoutProps = {
-  appProviderProps: ProfileProviderProps
-}
 
 const Header = () => {
   return (
@@ -43,10 +39,12 @@ const Sidebar = () => {
   )
 }
 
-export const DefaultLayout = ({ appProviderProps }: DefaultLayoutProps) => {
+const DefaultLayout = () => {
+  const { user } = useLoaderData<typeof loader>() as unknown as Pick<ProfileProviderProps, 'user'>
+
   return (
     <Shell>
-      <ProfileProvider {...appProviderProps}>
+      <ProfileProvider user={user}>
         <UiProvider Link={Link}>
           <Layout hasHeader>
             <Sidebar />

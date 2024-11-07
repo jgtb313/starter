@@ -27,7 +27,7 @@ export const OTPRouter = (dependencies: IDependencies): IRouter => ({
 
       method: 'POST',
 
-      path: '/otps/:id(.*)::validate',
+      path: '/otps/:id/validate',
 
       parameters: {
         params: ValidateOTPSchema.pick({ id: true }),
@@ -61,7 +61,7 @@ export const OTPRouter = (dependencies: IDependencies): IRouter => ({
 
       method: 'POST',
 
-      path: '/otps::update-email',
+      path: '/otps/update-email',
 
       parameters: {
         body: SendUpdateEmailOTPSchema,
@@ -110,7 +110,7 @@ export const OTPRouter = (dependencies: IDependencies): IRouter => ({
 
       method: 'POST',
 
-      path: '/otps::update-phone',
+      path: '/otps/update-phone',
 
       parameters: {
         body: SendUpdatePhoneOTPSchema,

@@ -10,8 +10,8 @@ client.interceptors.request.use((config: AxiosRequestConfig) => {
     baseURL: state.baseURL(),
     headers: {
       ...config.headers,
-      Authorization: state.authorization ? `Bearer ${state.authorization}` : null
-    }
+      Authorization: state.authorization ? `Bearer ${state.authorization}` : undefined,
+    },
   }
 })
 
@@ -19,7 +19,7 @@ client.interceptors.response.use(
   (response: AxiosResponse) => response.data,
   (error: AxiosError) => {
     return Promise.reject(error?.response?.data || error)
-  }
+  },
 )
 
 export default client

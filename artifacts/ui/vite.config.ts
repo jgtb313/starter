@@ -19,9 +19,9 @@ export default defineConfig({
   build: {
     lib: {
       entry: 'src/index.ts',
-      name: 'components',
+      name: 'ui',
       formats: ['es', 'umd'],
-      fileName: (format) => `components.${format}.js`,
+      fileName: (format) => `ui.${format}.js`,
     },
     emptyOutDir: false,
     sourcemap: false,

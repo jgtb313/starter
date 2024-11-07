@@ -16,10 +16,10 @@ declare global {
 
 export const getEnv = () => {
   if (typeof window === 'undefined') {
-    return process?.env?.STAGE as EnvEnum
+    return process?.env?.STAGE ?? EnvEnum.LOCAL
   }
 
-  return window?.ENV?.STAGE as EnvEnum
+  return window?.ENV?.STAGE ?? EnvEnum.LOCAL
 }
 
 export const isStage = (stage: EnvEnum) => {
