@@ -27,7 +27,7 @@ export const ForgotPasswordForm = () => {
     <Form ref={form} initialValues={initialValues} schema={ForgotPasswordSchema} onSubmit={handleSubmit}>
       {() => (
         <Flex direction="column" gap={16}>
-          <Form.Input name="email" label="E-mail" placeholder="Digite o seu email" data-testid="email" />
+          <Form.Input name="email" label="Email" placeholder="Digite o seu email" data-testid="email" />
 
           <Button type="submit" size="lg" loading={loadingForgotPassword} block data-testid="submit">
             Enviar

@@ -1,9 +1,13 @@
-import { Button, Flex, SocialIcon } from '@starter/ui'
+import { GoogleOAuthProvider, useGoogleLogin } from '@react-oauth/google'
+import FacebookOAuthProvider from '@greatsumini/react-facebook-login'
+import { Flex, Button, SocialIcon } from '@starter/ui'
 
-export const SocialAuthentication = () => {
+const SocialAuthenticationWrapper = () => {
+  const login = useGoogleLogin({})
+
   return (
     <Flex direction="column" gap={16}>
-      <Button variant="default" leftSection={<SocialIcon name="GOOGLE" />}>
+      <Button variant="default" leftSection={<SocialIcon name="GOOGLE" />} onClick={() => login()}>
         Continue with Google
       </Button>
 
@@ -11,5 +15,15 @@ export const SocialAuthentication = () => {
         Continue with Facebook
       </Button>
     </Flex>
+  )
+}
+
+export const SocialAuthentication = () => {
+  return (
+    <GoogleOAuthProvider clientId="915185336820-n9pmjdp0ffpq21q70b82ts89te8ov0ns.apps.googleusercontent.com">
+      <FacebookOAuthProvider appId="984133563226449">
+        <SocialAuthenticationWrapper />
+      </FacebookOAuthProvider>
+    </GoogleOAuthProvider>
   )
 }

@@ -1557,6 +1557,11 @@
   resolved "https://registry.yarnpkg.com/@floating-ui/utils/-/utils-0.2.8.tgz#21a907684723bbbaa5f0974cf7730bd797eb8e62"
   integrity sha512-kym7SodPp8/wloecOpcmSnWJsK7M0E5Wg8UcFA+uO4B9s5d0ywXOEro/8HM9x0rW+TljRzul/14UYz3TleT3ig==
 
+"@greatsumini/react-facebook-login@^3.3.3":
+  version "3.3.3"
+  resolved "https://registry.yarnpkg.com/@greatsumini/react-facebook-login/-/react-facebook-login-3.3.3.tgz#466d3f0c55d10b962a06e30d7a445a15769f7498"
+  integrity sha512-Y5D7EncR3iy/X/OfWwjjpM5OW0XV6PCE08RZUV/yhAE413PEBIlML7S6z69BcpUPWO5XzEt7cytHChUdwXO4Dw==
+
 "@grpc/grpc-js@^1.10.1":
   version "1.12.2"
   resolved "https://registry.yarnpkg.com/@grpc/grpc-js/-/grpc-js-1.12.2.tgz#97eda82dd49bb9c24eaf6434ea8d7de446e95aac"
@@ -2314,6 +2319,11 @@
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/@pulumi/query/-/query-0.3.0.tgz#f496608e86a18c3dd31b6c533408e2441c29071d"
   integrity sha512-xfo+yLRM2zVjVEA4p23IjQWzyWl1ZhWOGobsBqRpIarzLvwNH/RAGaoehdxlhx4X92302DrpdIFgTICMN4P38w==
+
+"@react-oauth/google@^0.12.1":
+  version "0.12.1"
+  resolved "https://registry.yarnpkg.com/@react-oauth/google/-/google-0.12.1.tgz#b76432c3a525e9afe076f787d2ded003fcc1bee9"
+  integrity sha512-qagsy22t+7UdkYAiT5ZhfM4StXi9PPNvw0zuwNmabrWyMKddczMtBIOARflbaIj+wHiQjnMAsZmzsUYuXeyoSg==
 
 "@redis/bloom@1.2.0":
   version "1.2.0"

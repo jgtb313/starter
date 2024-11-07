@@ -20,7 +20,7 @@ export const SignInForm = () => {
     <Form initialValues={initialValues} schema={SignInSchema} onSubmit={handleSubmit}>
       {() => (
         <Flex direction="column" gap={24}>
-          <Form.Input name="email" label="Email Address" placeholder="Enter your email" data-testid="signIn-email" />
+          <Form.Input name="email" label="Email" placeholder="Enter your email" data-testid="signIn-email" />
 
           <Form.PasswordInput name="password" label="Password" placeholder="Enter your password" data-testid="signIn-password" />
 
