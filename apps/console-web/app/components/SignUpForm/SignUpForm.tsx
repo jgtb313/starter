@@ -1,7 +1,8 @@
 import { SignUpSchema } from '@starter/schema'
 import { useAuth } from '@starter/store'
-import { Flex, Form, Button, Link } from '@starter/ui'
+import { Flex, Form, Button, Link, Divider } from '@starter/ui'
 
+import { SocialAuthentication } from '../SocialAuthentication'
 import { ISignUpForm } from './SignUpForm.types'
 
 export const SignUpForm = () => {
@@ -32,6 +33,10 @@ export const SignUpForm = () => {
           <Link href="/sign-in" fw={600} td="underline" ta="center" data-testid="sign-in">
             Sign In
           </Link>
+
+          <Divider label="OR" />
+
+          <SocialAuthentication />
         </Flex>
       )}
     </Form>

@@ -1,7 +1,8 @@
 import { SignInSchema } from '@starter/schema'
 import { useAuth } from '@starter/store'
-import { Flex, Form, Button, Link, Typography } from '@starter/ui'
+import { Flex, Form, Button, Link, Typography, Divider } from '@starter/ui'
 
+import { SocialAuthentication } from '../SocialAuthentication'
 import { ISignInForm } from './SignInForm.types'
 
 export const SignInForm = () => {
@@ -39,6 +40,10 @@ export const SignInForm = () => {
               </Link>
             </Typography>
           </Flex>
+
+          <Divider label="OR" />
+
+          <SocialAuthentication />
         </Flex>
       )}
     </Form>
