@@ -19,5 +19,5 @@ import { withFields } from '@/support'
  *
  */
 export const requestFilename = withFields<WithRecaptcha<RequestFilenameInput>, RequestFilenameOutput>(({ fields, ...input }) =>
-  client.post('/files', input, { params: { fields } })
+  client.post('/files', input, { params: { fields } }),
 )
