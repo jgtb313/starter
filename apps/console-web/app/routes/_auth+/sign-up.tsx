@@ -14,17 +14,19 @@ const Page = () => {
       <Brand width={350} />
 
       <Card w={500} padding="lg" bordered>
-        <Flex direction="column" gap={8}>
-          <Typography component="h2" size="lg" ta="center" fw={600} mb={8}>
-            Create an Account
-          </Typography>
+        <Card.Body>
+          <Flex direction="column" gap={8}>
+            <Typography component="h2" size="lg" ta="center" fw={600} mb={8}>
+              Create an Account
+            </Typography>
 
-          <Typography component="p" maw="80%" size="md" ta="center" mx="auto" my={0}>
-            Enter your details below to create an account.
-          </Typography>
+            <Typography component="p" maw="80%" size="md" ta="center" mx="auto" my={0}>
+              Enter your details below to create an account.
+            </Typography>
 
-          <SignUpForm />
-        </Flex>
+            <SignUpForm />
+          </Flex>
+        </Card.Body>
       </Card>
     </Flex>
   )
