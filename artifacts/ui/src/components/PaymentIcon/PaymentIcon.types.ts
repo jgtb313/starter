@@ -1,5 +1,6 @@
-import { BaseComponent } from '@/support/types'
 import { CreditCard } from '@starter/shared'
+
+import { BaseComponent } from '@/support/types'
 
 export type PaymentIconProps = BaseComponent<{
   name: CreditCard

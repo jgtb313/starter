@@ -1,6 +1,6 @@
 import { SignInSchema } from '@starter/schema'
 import { useAuth } from '@starter/store'
-import { Flex, Form, Button, Link } from '@starter/ui'
+import { Flex, Form, Button, Link, Typography } from '@starter/ui'
 
 import { ISignInForm } from './SignInForm.types'
 
@@ -18,18 +18,27 @@ export const SignInForm = () => {
   return (
     <Form initialValues={initialValues} schema={SignInSchema} onSubmit={handleSubmit}>
       {() => (
-        <Flex direction="column" gap={16}>
-          <Form.Input name="email" label="Email" placeholder="Enter your email" data-testid="signIn-email" />
+        <Flex direction="column" gap={24}>
+          <Form.Input name="email" label="Email Address" placeholder="Enter your email" data-testid="signIn-email" />
 
           <Form.PasswordInput name="password" label="Password" placeholder="Enter your password" data-testid="signIn-password" />
 
-          <Button type="submit" size="lg" loading={loadingSignIn} block data-testid="signIn-submit">
-            Sign In
-          </Button>
-
-          <Link href="/forgot-password" fw={600} td="underline" ta="center" data-testid="forgot-password">
-            Forgot password
+          <Link href="/forgot-password" fw={600} size="sm" td="underline" ta="right" ml={4} data-testid="sign-up">
+            Forgot password?
           </Link>
+
+          <Flex direction="column" gap={16}>
+            <Button type="submit" size="lg" loading={loadingSignIn} block data-testid="signIn-submit">
+              Sign In
+            </Button>
+
+            <Typography ta="center">
+              Don’t have an account?
+              <Link href="/sign-up" fw={600} td="underline" ml={4} data-testid="sign-up">
+                Register
+              </Link>
+            </Typography>
+          </Flex>
         </Flex>
       )}
     </Form>

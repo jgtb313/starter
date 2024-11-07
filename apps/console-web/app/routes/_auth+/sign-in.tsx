@@ -13,7 +13,7 @@ const Page = () => {
     <Flex maw={450} direction="column" align="center" gap={32}>
       <Brand width={350} />
 
-      <Card padding="lg" bordered>
+      <Card w={500} padding="lg" bordered>
         <Card.Body>
           <Flex direction="column" gap={8}>
             <Typography component="h2" size="lg" ta="center" fw={600} mb={8}>
