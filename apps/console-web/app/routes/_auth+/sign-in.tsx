@@ -14,15 +14,17 @@ const Page = () => {
       <Brand width={350} />
 
       <Card padding="lg" bordered>
-        <Flex direction="column" gap={8}>
-          <Typography component="h2" size="lg" ta="center" fw={600} mb={8}>
-            Acessar minha conta
-          </Typography>
+        <Card.Body>
+          <Flex direction="column" gap={8}>
+            <Typography component="h2" size="lg" ta="center" fw={600} mb={8}>
+              Acessar minha conta
+            </Typography>
 
-          <Typography component="p" maw="80%" size="md" ta="center" mx="auto" my={0}>
-            Insira suas credenciais abaixo para acessar sua conta.
-          </Typography>
-        </Flex>
+            <Typography component="p" maw="80%" size="md" ta="center" mx="auto" my={0}>
+              Insira suas credenciais abaixo para acessar sua conta.
+            </Typography>
+          </Flex>
+        </Card.Body>
       </Card>
     </Flex>
   )
