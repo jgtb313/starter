@@ -1,3 +1,4 @@
+export * from './make-request'
 export * from './use-is-mounted'
 export * from './use-mount'
 export * from './use-request'
