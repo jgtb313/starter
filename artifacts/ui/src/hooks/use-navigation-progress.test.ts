@@ -2,13 +2,13 @@ import { vi, describe, it, expect, afterEach } from 'vitest'
 import { renderHook } from '@testing-library/react'
 import { nprogress } from '@mantine/nprogress'
 
-import { useNavigationProgress, UseNavigationProgressOptions } from './useNavigationProgress'
+import { useNavigationProgress, UseNavigationProgressOptions } from './use-navigation-progress'
 
 vi.mock('@mantine/nprogress', () => ({
   nprogress: {
     start: vi.fn(),
-    complete: vi.fn()
-  }
+    complete: vi.fn(),
+  },
 }))
 
 describe.only('useNavigationProgress', () => {
@@ -39,7 +39,7 @@ describe.only('useNavigationProgress', () => {
 
   it('updates correctly when state changes', () => {
     const { rerender } = renderHook(({ state }) => useNavigationProgress({ state }), {
-      initialProps: { state: 'idle' } as UseNavigationProgressOptions
+      initialProps: { state: 'idle' } as UseNavigationProgressOptions,
     })
 
     expect(nprogress.start).toHaveBeenCalledTimes(0)

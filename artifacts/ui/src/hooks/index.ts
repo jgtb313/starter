@@ -1,2 +1,2 @@
-export * from './useLocalStorage'
-export * from './useNavigationProgress'
+export * from './use-local-storage'
+export * from './use-navigation-progress'
