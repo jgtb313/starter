@@ -2,7 +2,7 @@ import { type MetaFunction } from '@remix-run/node'
 import config from '@starter/config'
 import { Flex, Card, Typography } from '@starter/ui'
 
-import { Brand } from '~/components'
+import { Brand, SignInForm } from '~/components'
 
 export const meta: MetaFunction = () => {
   return [{ title: `${config.name} | Sign In` }]
@@ -17,12 +17,14 @@ const Page = () => {
         <Card.Body>
           <Flex direction="column" gap={8}>
             <Typography component="h2" size="lg" ta="center" fw={600} mb={8}>
-              Acessar minha conta
+              Welcome Back! Sign In to Continue
             </Typography>
 
             <Typography component="p" maw="80%" size="md" ta="center" mx="auto" my={0}>
-              Insira suas credenciais abaixo para acessar sua conta.
+              Enter your credentials below to access your account.
             </Typography>
+
+            <SignInForm />
           </Flex>
         </Card.Body>
       </Card>
