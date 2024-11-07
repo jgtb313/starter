@@ -3,6 +3,7 @@ import '@starter/ui/dist/style.css'
 import { PropsWithChildren } from 'react'
 import { Meta, Links, ScrollRestoration, Scripts, Outlet, useRouteLoaderData } from '@remix-run/react'
 import { json, LinksFunction } from '@remix-run/node'
+import config from '@starter/config'
 import { ColorSchemeScript } from '@starter/ui'
 
 export const loader = async () => {
@@ -17,7 +18,7 @@ export const links: LinksFunction = () => [
   {
     rel: 'icon',
     sizes: '180x180',
-    href: '/favicon.svg',
+    href: config.logo.darkSymbol,
   },
 ]
 

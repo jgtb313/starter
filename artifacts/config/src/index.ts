@@ -3,10 +3,10 @@ export default {
   domain: 'starter.com',
 
   logo: {
-    dark: 'https://nodejs.org/static/logos/nodejsDark.svg',
-    light: 'https://nodejs.org/static/logos/nodejsLight.svg',
-    darkSymbol: 'https://nodejs.org/static/logos/jsIconGreen.svg',
-    lightSymbol: 'https://nodejs.org/static/logos/jsIconWhite.svg',
+    light: 'https://nodejs.org/static/logos/nodejsDark.svg',
+    dark: 'https://nodejs.org/static/logos/nodejsLight.svg',
+    lightSymbol: 'https://nodejs.org/static/logos/jsIconGreen.svg',
+    darkSymbol: 'https://nodejs.org/static/logos/jsIconWhite.svg',
   },
 
   theme: {
