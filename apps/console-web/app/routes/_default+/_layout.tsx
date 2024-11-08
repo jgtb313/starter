@@ -4,7 +4,7 @@ import { useRouter } from '@starter/use-remix-hooks'
 import { UiProvider, Layout } from '@starter/ui'
 
 import { setupDefaultLayout } from '~/server'
-import { Brand, UserMenu } from '~/components'
+import { Brand, ToggleColorScheme, UserMenu } from '~/components'
 import { Shell } from '~/Shell'
 
 export const loader = setupDefaultLayout
@@ -31,6 +31,7 @@ const DefaultLayout = () => {
                 { label: 'Dashboard', href: '/', icon: 'LayoutDashboard' },
                 { label: 'Settings', href: '/settings', icon: 'Settings' },
               ]}
+              footer={<ToggleColorScheme />}
             />
 
             <Layout.Content>

@@ -1,5 +1,5 @@
 import { useLayoutEffect, useRef, forwardRef, PropsWithChildren, Ref } from 'react'
-import { AppShell, Center, Stack, Tooltip } from '@mantine/core'
+import { AppShell, Center, Flex, Stack, Tooltip } from '@mantine/core'
 
 import { Link } from '../../Link'
 import { Icon } from '../../Icon'
@@ -35,7 +35,7 @@ const SidebarItem = (props: SidebarItemProps) => {
   return <SidebarItemMiniSingle {...props} />
 }
 
-export const Sidebar = ({ active, items = [], header }: SidebarProps) => {
+export const Sidebar = ({ active, items = [], header, footer }: SidebarProps) => {
   const { setSidebarWidth } = useLayout()
   const ref = useRef<HTMLElement>(null)
 
@@ -45,15 +45,21 @@ export const Sidebar = ({ active, items = [], header }: SidebarProps) => {
 
   return (
     <AppShell.Navbar ref={ref} w={80}>
-      <Center pt={16}>{header}</Center>
+      <Flex h="100%" direction="column" justify="space-between">
+        <Flex direction="column" gap={16}>
+          <Center pt={16}>{header}</Center>
 
-      <Center mt={54}>
-        <Stack gap={16}>
-          {items.map((item, index) => (
-            <SidebarItem {...item} key={index} active={item.href === active} />
-          ))}
-        </Stack>
-      </Center>
+          <Center mt={54}>
+            <Stack gap={16}>
+              {items.map((item, index) => (
+                <SidebarItem {...item} key={index} active={item.href === active} />
+              ))}
+            </Stack>
+          </Center>
+        </Flex>
+
+        <Center pb={16}>{footer}</Center>
+      </Flex>
     </AppShell.Navbar>
   )
 }
