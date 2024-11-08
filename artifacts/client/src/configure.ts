@@ -1,7 +1,7 @@
 import { setState, State } from '@/config'
 
-const configure = ({ env }: Partial<Pick<State, 'env'>>) => {
-  env && setState('env', env)
+const configure = ({ stage }: Partial<Pick<State, 'stage'>>) => {
+  stage && setState('stage', stage)
 }
 
 export default configure

@@ -5,7 +5,7 @@ import authenticate from '@/authenticate'
 import unauthenticate from '@/unauthenticate'
 import * as resources from '@/resources'
 
-export { EnvEnum } from '@/config'
+export { StageEnum } from '@/config'
 export * from '@/support/utilities'
 
 const client = {

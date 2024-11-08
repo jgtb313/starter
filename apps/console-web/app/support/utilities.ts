@@ -1,32 +1,14 @@
-import { EnvEnum } from '@starter/client'
+import { StageEnum } from '@starter/client'
 
-declare const process: {
-  env: {
-    STAGE: EnvEnum
-  }
+export const getStage = () => {
+  return import.meta.env.VITE_STAGE as StageEnum
 }
 
-declare global {
-  interface Window {
-    ENV: {
-      STAGE: EnvEnum
-    }
-  }
+export const isStage = (stage: StageEnum) => {
+  const currentStage = getStage()
+
+  return currentStage === stage
 }
 
-export const getEnv = () => {
-  if (typeof window === 'undefined') {
-    return process?.env?.STAGE ?? EnvEnum.LOCAL
-  }
-
-  return window?.ENV?.STAGE ?? EnvEnum.LOCAL
-}
-
-export const isStage = (stage: EnvEnum) => {
-  const env = getEnv()
-
-  return env === stage
-}
-
-export const isProd = () => isStage(EnvEnum.PRD)
-export const isDev = () => isStage(EnvEnum.DEV)
+export const isProd = () => isStage(StageEnum.PRD)
+export const isDev = () => isStage(StageEnum.DEV)

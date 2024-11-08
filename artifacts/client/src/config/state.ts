@@ -1,31 +1,31 @@
-export enum EnvEnum {
+export enum StageEnum {
   LOCAL = 'local',
   DEV = 'dev',
   STG = 'stg',
-  PRD = 'prd'
+  PRD = 'prd',
 }
 
-export type Env = keyof typeof EnvEnum
+export type Env = keyof typeof StageEnum
 
 export const BASE_URLS = {
-  [EnvEnum.LOCAL]: 'http://127.0.0.1:4000',
-  [EnvEnum.DEV]: 'https://api.starter.com.br',
-  [EnvEnum.STG]: 'https://api.stg.starter.com.br',
-  [EnvEnum.PRD]: 'https://api.starter.com.br'
+  [StageEnum.LOCAL]: 'http://127.0.0.1:4000',
+  [StageEnum.DEV]: 'https://api.starter.com.br',
+  [StageEnum.STG]: 'https://api.stg.starter.com.br',
+  [StageEnum.PRD]: 'https://api.starter.com.br',
 }
 
 export const state: State = {
-  env: EnvEnum.LOCAL,
+  stage: StageEnum.LOCAL,
 
   baseURL() {
-    return BASE_URLS[this.env]
+    return BASE_URLS[this.stage]
   },
 
-  authorization: undefined
+  authorization: undefined,
 }
 
 export type State = {
-  env: EnvEnum
+  stage: StageEnum
 
   baseURL: () => string
 

@@ -1,7 +1,7 @@
-import { setState, EnvEnum } from '@/config'
+import { setState, StageEnum } from '@/config'
 
-const connect = (env: EnvEnum) => {
-  setState('env', env)
+const connect = (stage: StageEnum) => {
+  setState('stage', stage)
 }
 
 export default connect

@@ -1,7 +1,7 @@
 import { json, redirect, LoaderFunctionArgs } from '@remix-run/node'
 import client from '@starter/client'
 
-import { getEnv } from '~/support/utilities'
+import { getStage } from '~/support/utilities'
 import { createCookie } from './cookies'
 
 export const setupDefaultLayout = async ({ request }: LoaderFunctionArgs) => {
@@ -17,9 +17,9 @@ export const setupDefaultLayout = async ({ request }: LoaderFunctionArgs) => {
     return redirect('/sign-in')
   }
 
-  const env = getEnv()
+  const stage = getStage()
 
-  client.connect(env)
+  client.connect(stage)
   client.authenticate(token)
 
   const user = await client.profile.retrieve({})

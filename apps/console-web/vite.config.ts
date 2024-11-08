@@ -9,6 +9,8 @@ import { flatRoutes } from 'remix-flat-routes'
 installGlobals()
 
 export default defineConfig({
+  envDir: '../../',
+
   server: {
     port: 3000,
   },
