@@ -12,9 +12,6 @@
   },
   "scripts": {
     "generate": "yarn plop generate",
-    "api:dev": "yarn workspace @starter/api dev",
-    "api:build": "yarn workspace @starter/api build",
-    "api:start": "yarn workspace @starter/api start",
     "docker": "yarn docker:down && yarn docker:up",
     "docker:up": "docker-compose up -d",
     "docker:down": "docker-compose down",
