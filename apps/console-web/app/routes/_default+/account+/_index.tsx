@@ -3,17 +3,11 @@ import config from '@starter/config'
 import { Breadcrumbs, Flex, BreadcrumbsProps } from '@starter/ui'
 
 export const meta: MetaFunction = () => {
-  return [{ title: `${config.name} | Settings` }]
-}
-
-type Page = {
-  query: {
-    tab?: string
-  }
+  return [{ title: `${config.name} | Account` }]
 }
 
 const Page = () => {
-  const breadcrumbsItems: BreadcrumbsProps['items'] = [{ label: 'Dashboard', href: '/' }, { label: 'Settings' }]
+  const breadcrumbsItems: BreadcrumbsProps['items'] = [{ label: 'Dashboard', href: '/' }, { label: 'Account' }]
 
   return (
     <Flex direction="column" gap={32}>

@@ -1,10 +1,10 @@
 import { Outlet, Link, useLoaderData } from '@remix-run/react'
 import { ProfileProvider, ProfileProviderProps } from '@starter/store'
 import { useRouter } from '@starter/use-remix-hooks'
-import { UiProvider, Layout, Flex } from '@starter/ui'
+import { UiProvider, Layout } from '@starter/ui'
 
 import { setupDefaultLayout } from '~/server'
-import { Brand, ToggleColorScheme, UserMenu } from '~/components'
+import { Brand, UserMenu } from '~/components'
 import { Shell } from '~/Shell'
 
 export const loader = setupDefaultLayout
@@ -30,11 +30,6 @@ const Sidebar = () => {
         { label: 'Dashboard', href: '/', icon: 'LayoutDashboard' },
         { label: 'Settings', href: '/settings', icon: 'Settings' },
       ]}
-      footer={
-        <Flex justify="center" align="center" p={16}>
-          <ToggleColorScheme />
-        </Flex>
-      }
     />
   )
 }

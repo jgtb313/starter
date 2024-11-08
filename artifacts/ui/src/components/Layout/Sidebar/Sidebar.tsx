@@ -15,7 +15,7 @@ const SidebarItemControl = forwardRef(
         {children}
       </Link>
     )
-  }
+  },
 )
 
 const SidebarItemMiniSingle = ({ label, icon, ...props }: SidebarItemProps) => {
@@ -40,14 +40,12 @@ export const Sidebar = ({ active, items = [], header, footer }: SidebarProps) =>
       <Center>{header}</Center>
 
       <div className={styles.main()}>
-        <Stack gap={16} mt="lg">
+        <Stack gap={8} mt="lg">
           {items.map((item, index) => (
             <SidebarItem {...item} key={index} active={item.href === active} />
           ))}
         </Stack>
       </div>
-
-      {footer}
     </nav>
   )
 }
