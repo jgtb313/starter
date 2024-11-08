@@ -1,5 +1,5 @@
 import { Outlet, Link, useLoaderData } from '@remix-run/react'
-import { ProfileProvider, ProfileProviderProps } from '@starter/store'
+import { ProfileProvider, ProfileProviderProps, ProfileProtected } from '@starter/store'
 import { useRouter } from '@starter/use-remix-hooks'
 import { UiProvider, Layout } from '@starter/ui'
 
@@ -35,7 +35,7 @@ const Sidebar = () => {
 }
 
 const DefaultLayout = () => {
-  const { user } = useLoaderData<typeof loader>() as unknown as Pick<ProfileProviderProps, 'user'>
+  const { user } = useLoaderData<typeof loader>() as unknown as Pick<ProfileProviderProps<ProfileProtected>, 'user'>
 
   return (
     <Shell>

@@ -1,10 +1,10 @@
-import { useProfile } from '@starter/store'
+import { useProfile, ProfileProtected } from '@starter/store'
 import { Flex, Dropdown, DropdownProps, Typography, Avatar } from '@starter/ui'
 
 import { useLogout } from '~/support/use-logout'
 
 export const UserMenu = () => {
-  const { user } = useProfile()
+  const { user } = useProfile<ProfileProtected>()
   const logout = useLogout()
 
   const items: DropdownProps['items'] = [
