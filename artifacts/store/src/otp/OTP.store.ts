@@ -2,6 +2,7 @@ import { create } from 'zustand'
 import client from '@starter/client'
 import { makeRequest } from '@starter/use-hooks'
 
+import { useStore } from '@/Store.context'
 import { OTPState } from './OTP.store.types'
 
 export const useOTP = create<OTPState>((set) => ({
@@ -21,6 +22,7 @@ export const useOTP = create<OTPState>((set) => ({
         set({
           loadingValidateOTP: false,
         }),
+      onError: useStore.getState().onError,
     })
   },
 
@@ -51,6 +53,7 @@ export const useOTP = create<OTPState>((set) => ({
         set({
           loadingSendUpdatePhoneOTP: false,
         }),
+      onError: useStore.getState().onError,
     })
   },
 }))

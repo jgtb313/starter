@@ -2,10 +2,12 @@ import { PropsWithChildren } from 'react'
 import client from '@starter/client'
 import { useRequest } from '@starter/use-hooks'
 
+import { useStore } from '@/Store.context'
 import { AuthContext } from './Auth.context'
 import { AuthContextProps, AuthProviderProps } from './Auth.store.types'
 
 export const AuthProvider = ({ children }: PropsWithChildren<AuthProviderProps>) => {
+  const store = useStore()
   const [callSignIn, { loading: loadingSignIn }] = useRequest(client.auth.signIn)
   const [callSignUp, { loading: loadingSignUp }] = useRequest(client.auth.signUp)
   const [callSocialSignIn, { loading: loadingSocialSignIn }] = useRequest(client.auth.socialSignIn)
@@ -18,6 +20,7 @@ export const AuthProvider = ({ children }: PropsWithChildren<AuthProviderProps>)
         ...input,
       },
       options,
+      onError: store.onError,
     })
 
   const signUp: AuthContextProps['signUp'] = (input, options) =>
@@ -26,6 +29,7 @@ export const AuthProvider = ({ children }: PropsWithChildren<AuthProviderProps>)
         ...input,
       },
       options,
+      onError: store.onError,
     })
 
   const socialSignIn: AuthContextProps['socialSignIn'] = (input, options) =>
@@ -34,6 +38,7 @@ export const AuthProvider = ({ children }: PropsWithChildren<AuthProviderProps>)
         ...input,
       },
       options,
+      onError: store.onError,
     })
 
   const forgotPassword: AuthContextProps['forgotPassword'] = (input, options) =>
@@ -42,6 +47,7 @@ export const AuthProvider = ({ children }: PropsWithChildren<AuthProviderProps>)
         ...input,
       },
       options,
+      onError: store.onError,
     })
 
   const recoverPassword: AuthContextProps['recoverPassword'] = (input, options) =>
@@ -50,6 +56,7 @@ export const AuthProvider = ({ children }: PropsWithChildren<AuthProviderProps>)
         ...input,
       },
       options,
+      onError: store.onError,
     })
 
   const value: AuthContextProps = {

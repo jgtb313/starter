@@ -2,6 +2,7 @@ import { PropsWithChildren } from 'react'
 import client from '@starter/client'
 import { useRequest } from '@starter/use-hooks'
 
+import { useStore } from '@/Store.context'
 import { ProfileContext } from './Profile.context'
 import { ProfileContextProps, ProfileProviderProps } from './Profile.store.types'
 
@@ -20,6 +21,7 @@ export const ProfileProvider = <WithUser extends boolean>({ user, children }: Pr
     return callUpdate({
       params: { ...input },
       options,
+      onError: useStore.getState().onError,
     })
   }
 
@@ -27,6 +29,7 @@ export const ProfileProvider = <WithUser extends boolean>({ user, children }: Pr
     return callUpdateEmail({
       params: { ...input },
       options,
+      onError: useStore.getState().onError,
     })
   }
 
@@ -34,6 +37,7 @@ export const ProfileProvider = <WithUser extends boolean>({ user, children }: Pr
     return callUpdatePhone({
       params: { ...input },
       options,
+      onError: useStore.getState().onError,
     })
   }
 
@@ -41,6 +45,7 @@ export const ProfileProvider = <WithUser extends boolean>({ user, children }: Pr
     return callUpdatePassword({
       params: { ...input },
       options,
+      onError: useStore.getState().onError,
     })
   }
 

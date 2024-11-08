@@ -2,7 +2,8 @@ import { PropsWithChildren, useEffect } from 'react'
 import Cookie from 'js-cookie'
 import { useNavigation } from '@remix-run/react'
 import client, { StageEnum } from '@starter/client'
-import { useNavigationProgress } from '@starter/ui'
+import { StoreProvider } from '@starter/store'
+import { useNavigationProgress, toast } from '@starter/ui'
 import { useIsMounted } from '@starter/use-hooks'
 
 export const Shell = ({ children }: PropsWithChildren) => {
@@ -28,5 +29,5 @@ export const Shell = ({ children }: PropsWithChildren) => {
     return <></>
   }
 
-  return <>{children}</>
+  return <StoreProvider onError={(error) => toast.error({ message: error })}>{children}</StoreProvider>
 }
