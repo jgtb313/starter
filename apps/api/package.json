@@ -26,6 +26,7 @@
     "@fastify/formbody": "^7.4.0",
     "@fastify/static": "^6.9.0",
     "@scalar/fastify-api-reference": "^1.25.48",
+    "@starter/config": "*",
     "@starter/schema": "*",
     "@starter/shared": "*",
     "axios": "0.27.2",

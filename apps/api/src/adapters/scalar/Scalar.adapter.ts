@@ -1,5 +1,6 @@
 import ScalarApiReference from '@scalar/fastify-api-reference'
 import { sample } from 'openapi-sampler'
+import client from '@starter/config'
 import { zodSchemaToInstance, ZodSchema } from '@starter/schema'
 import { get, omit } from '@starter/shared'
 
@@ -10,9 +11,6 @@ import * as Modules from '@/ports/http/modules'
 import { HttpErrorResponses, HttpResponses } from '@/ports/http'
 
 const STAGE = env('STAGE')
-const PROJECT = env('PROJECT')
-const PROJECT_DOMAIN = env('PROJECT_DOMAIN')
-const PROJECT_LOGO_URL = env('PROJECT_LOGO_URL')
 
 type OpenApiSchema = any
 
@@ -169,8 +167,8 @@ const paths = Schemas.reduce((state, schema) => {
                     'schema' in item
                       ? sample(generateSchema(item.schema))
                       : isHttpResponseError(httpResponse)
-                      ? sample(generateSchema(ErrorSchema[httpResponse](item.description)))
-                      : null,
+                        ? sample(generateSchema(ErrorSchema[httpResponse](item.description)))
+                        : null,
                   ]),
                 ),
               },
@@ -189,8 +187,8 @@ const paths = Schemas.reduce((state, schema) => {
                 'schema' in value
                   ? generateSchema(value.schema)
                   : isHttpResponseError(httpResponse)
-                  ? generateSchema(ErrorSchema[httpResponse](value.description))
-                  : null,
+                    ? generateSchema(ErrorSchema[httpResponse](value.description))
+                    : null,
             },
           },
         },
@@ -277,7 +275,7 @@ const schemas = Schemas.reduce((state, { schemas }) => {
 const document = {
   openapi: '3.1.0',
   info: {
-    title: `${PROJECT} API`,
+    title: `${client.name} API`,
     version: '1.0.0',
     description: ['## Introduction', '## Authentication', '## Filters', '## Pagination', '## Sort', '## Errors'].join('\n\n'),
     license: {
@@ -286,8 +284,7 @@ const document = {
   },
   servers: [
     {
-      url:
-        STAGE === 'local' ? 'http://localhost:4000' : STAGE === 'prod' ? `https://api.${PROJECT_DOMAIN}` : `https://api.${STAGE}.${PROJECT_DOMAIN}`,
+      url: STAGE === 'local' ? 'http://localhost:4000' : STAGE === 'prod' ? `https://api.${client.domain}` : `https://api.${STAGE}.${client.domain}`,
     },
   ],
 
@@ -317,9 +314,9 @@ export const Docs = {
     configuration: {
       hideDownloadButton: true,
       metaData: {
-        title: `${PROJECT} API`,
+        title: `${client.name} API`,
       },
-      favicon: PROJECT_LOGO_URL,
+      favicon: client.logo.darkSymbol,
       defaultOpenAllTags: true,
       spec: {
         content: document,

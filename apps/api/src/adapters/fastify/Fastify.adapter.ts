@@ -1,4 +1,5 @@
 import { FastifyInstance, FastifyRequest } from 'fastify'
+import client from '@starter/config'
 
 import { env } from '@/config'
 import { Auth } from '@/support/auth'
@@ -8,7 +9,6 @@ import { withResponse, withError, IServer } from '@/ports/http'
 import { server } from './Fastify.server'
 import { Docs } from '../scalar'
 
-const PROJECT = env('PROJECT')
 const PORT = env('SERVER_PORT')
 
 type Request = {
@@ -32,7 +32,7 @@ const checkAuthorization = (dependencies: IDependencies) => (authorization?: str
 
 export const setupRoutes = (instance: FastifyInstance, routes: typeof Modules, dependencies: IDependencies) => {
   instance.get('/', (_, reply) => {
-    reply.send({ message: `${PROJECT} API` })
+    reply.send({ message: `${client.name} API` })
   })
 
   instance.get('/health', (_, reply) => {

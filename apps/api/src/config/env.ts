@@ -3,9 +3,6 @@ require('dotenv').config()
 import { z } from '@starter/schema'
 
 type Env =
-  | 'PROJECT'
-  | 'PROJECT_DOMAIN'
-  | 'PROJECT_LOGO_URL'
   | 'STAGE'
   | 'SERVER_PORT'
   | 'SERVER_SECRET'
@@ -24,9 +21,6 @@ type Env =
   | 'TWILIO_WHATSAPP_FROM'
 
 export const EnvSchema = z.object({
-  PROJECT: z.string().min(1),
-  PROJECT_DOMAIN: z.string().min(1),
-  PROJECT_LOGO_URL: z.string().min(1),
   STAGE: z.enum(['local', 'development', 'production']),
 
   // Server
