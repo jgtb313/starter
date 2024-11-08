@@ -4,7 +4,7 @@ import { ProfileContextProps } from './Profile.store.types'
 
 export const ProfileContext = createContext<ProfileContextProps<boolean> | null>(null)
 
-export const useProfile = <WithUser extends boolean>() => {
+export const useProfile = <WithUser extends boolean = false>() => {
   const context = useContext(ProfileContext) as ProfileContextProps<WithUser> | null
 
   if (!context) {
