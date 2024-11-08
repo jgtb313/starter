@@ -30,7 +30,7 @@ export const Statistic = ({ items = [], ...props }: StatisticProps) => {
               <Typography className="flex items-center" c={item.valueChangeMode === 'up' ? 'teal' : 'red'} fz="sm" fw={500} lh={1}>
                 <span>{item.valueChange}%</span>
 
-                <Icon name={item.valueChangeMode === 'up' ? 'IconArrowUpRight' : 'IconArrowDownRight'} width={18} strokeWidth={1.5} />
+                <Icon name={item.valueChangeMode === 'up' ? 'ArrowUpRight' : 'ArrowDownRight'} width={18} strokeWidth={1.5} />
               </Typography>
             </Group>
           )}

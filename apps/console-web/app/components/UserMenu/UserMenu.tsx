@@ -8,13 +8,13 @@ export const UserMenu = () => {
   const logout = useLogout()
 
   const items: DropdownProps['items'] = [
-    { type: 'link', label: 'Minha conta', icon: 'IconUserCog', href: '/profile' },
-    { type: 'link', label: 'Configurações', icon: 'IconSettings', href: '/settings' },
+    { type: 'link', label: 'Minha conta', icon: 'UserCog', href: '/profile' },
+    { type: 'link', label: 'Configurações', icon: 'Settings', href: '/settings' },
     { type: 'divider' },
     {
       type: 'button',
       label: 'Sair',
-      icon: 'IconLogout',
+      icon: 'LogOut',
       onClick: logout,
     },
   ]

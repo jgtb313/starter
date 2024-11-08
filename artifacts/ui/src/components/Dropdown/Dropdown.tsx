@@ -52,7 +52,7 @@ export const Dropdown = ({
               href={item.href}
               target={item.target}
               leftSection={item.icon && <Icon name={item.icon} width={18} height={18} />}
-              rightSection={item.target === '_blank' ? <Icon name="IconExternalLink" width={15} height={15} /> : undefined}
+              rightSection={item.target === '_blank' ? <Icon name="ExternalLink" width={15} height={15} /> : undefined}
               disabled={item.disabled}
             >
               {item.label}

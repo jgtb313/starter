@@ -27,8 +27,8 @@ const Sidebar = () => {
       active={router.pathname}
       header={<Brand to="/" width={50} symbol />}
       items={[
-        { label: 'Dashboard', href: '/', icon: 'IconDashboard' },
-        { label: 'Settings', href: '/settings', icon: 'IconSettings' },
+        { label: 'Dashboard', href: '/', icon: 'LayoutDashboard' },
+        { label: 'Settings', href: '/settings', icon: 'Settings' },
       ]}
       footer={
         <Flex justify="center" align="center" p={16}>

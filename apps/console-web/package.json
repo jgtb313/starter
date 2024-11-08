@@ -10,7 +10,7 @@
     "dev": "remix vite:dev",
     "start": "remix-serve ./build/server/index.js",
     "test": "playwright test --ui",
-    "typecheck": "tsc"
+    "type-check": "tsc"
   },
   "dependencies": {
     "@greatsumini/react-facebook-login": "^3.3.3",

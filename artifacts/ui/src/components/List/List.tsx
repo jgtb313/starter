@@ -5,7 +5,7 @@ import { Icon } from '../Icon'
 import { ListStyles } from './List.styles'
 import { ListProps, ListItemProps, ListEmptyProps } from './List.types'
 
-const ListEmpty = ({ emptyMessage = 'Vazio', EmptyIcon = 'IconFile' }: ListEmptyProps) => {
+const ListEmpty = ({ emptyMessage = 'Vazio', EmptyIcon = 'File' }: ListEmptyProps) => {
   return (
     <Flex h="100%" align="center" justify="center">
       <Flex direction="column" align="center" justify="center" gap={16}>

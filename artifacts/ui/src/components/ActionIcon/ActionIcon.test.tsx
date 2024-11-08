@@ -16,7 +16,7 @@ const renderComponent = ({ ...props }: ActionIconProps) => {
 describe('<ActionIcon />', () => {
   it('should render properly', () => {
     renderComponent({
-      icon: 'IconAB',
+      icon: 'Heart',
     })
 
     const el = screen.getByTestId('component')
@@ -25,7 +25,7 @@ describe('<ActionIcon />', () => {
   })
 
   it('should render as a link when href is provided', () => {
-    renderComponent({ icon: 'IconHeart', href: 'https://example.com' })
+    renderComponent({ icon: 'Heart', href: 'https://example.com' })
 
     const el = screen.getByTestId('component')
 
@@ -34,7 +34,7 @@ describe('<ActionIcon />', () => {
   })
 
   it('should render as a button when href is not provided', () => {
-    renderComponent({ icon: 'IconHeart' })
+    renderComponent({ icon: 'Heart' })
 
     const el = screen.getByTestId('component')
 
@@ -42,7 +42,7 @@ describe('<ActionIcon />', () => {
   })
 
   it('should render the heart icon with correct attributes', () => {
-    renderComponent({ icon: 'IconHeart' })
+    renderComponent({ icon: 'Heart' })
 
     const icon = screen.getByTestId('component').querySelector('svg')
 

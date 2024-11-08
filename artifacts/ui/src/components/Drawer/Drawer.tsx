@@ -24,7 +24,7 @@ export const Drawer = {
         )}
       </Flex>
 
-      {closable && <Component.CloseButton icon={<Icon name="IconX" width={18} strokeWidth={1.5} />} />}
+      {closable && <Component.CloseButton icon={<Icon name="X" width={18} strokeWidth={1.5} />} />}
     </Component.Header>
   ),
 

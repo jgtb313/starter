@@ -141,7 +141,7 @@ export const BasePhoneInput = ({ name, label, size = 'md', onChange, onBlur, ...
                       </Text>
                     </Flex>
 
-                    <Icon name="IconCaretUpDown" width={18} height={18} strokeWidth={1.5} />
+                    <Icon name="ChevronsUpDown" width={18} height={18} strokeWidth={1.5} />
                   </Flex>
                 </Flex>
               </Menu.Target>

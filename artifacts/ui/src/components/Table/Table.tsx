@@ -49,12 +49,12 @@ const Th = ({ name, sorter = false, sorted = false, reversed = false, onSortChan
   const SortIcon = () =>
     sorted ? (
       reversed ? (
-        <Icon name="IconChevronUp" strokeWidth={1.5} width={15} />
+        <Icon name="ChevronUp" strokeWidth={1.5} width={15} />
       ) : (
-        <Icon name="IconChevronDown" strokeWidth={1.5} width={15} />
+        <Icon name="ChevronDown" strokeWidth={1.5} width={15} />
       )
     ) : (
-      <Icon name="IconCaretUpDown" strokeWidth={1.5} width={15} />
+      <Icon name="ChevronsUpDown" strokeWidth={1.5} width={15} />
     )
 
   return (
@@ -137,7 +137,7 @@ export const Table = <T,>({
           header.key === 'actions' ? (
             <Component.Td key={index} width={5} align="center">
               <Dropdown trigger="hover" position="bottom-end" items={header.selector?.(item, index) as DropdownProps['items']}>
-                <Icon className="cursor-pointer" name="IconDotsVertical" width={18} />
+                <Icon className="cursor-pointer" name="EllipsisVertical" width={18} />
               </Dropdown>
             </Component.Td>
           ) : header.key === 'status' ? (
