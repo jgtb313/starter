@@ -1,9 +1,11 @@
 import { PropsWithChildren, useLayoutEffect, useRef } from 'react'
+import { rem } from '@mantine/core'
 
-import { HeaderStyles, HeaderStartStyles, HeaderEndStyles } from './Header.styles'
 import { useLayout } from '../Layout'
+import { HeaderStyles, HeaderStartStyles, HeaderEndStyles } from './Header.styles'
+import { HeaderProps } from './Header.types'
 
-export const Header = ({ children }: PropsWithChildren<{}>) => {
+export const Header = ({ height = 16, children }: PropsWithChildren<HeaderProps>) => {
   const { setHeaderHeight } = useLayout()
   const ref = useRef<HTMLElement>(null)
 
@@ -12,7 +14,7 @@ export const Header = ({ children }: PropsWithChildren<{}>) => {
   }, [])
 
   return (
-    <header ref={ref} className={HeaderStyles()}>
+    <header ref={ref} className={HeaderStyles()} style={{ height: rem(height) }}>
       {children}
     </header>
   )

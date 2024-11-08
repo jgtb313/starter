@@ -1,14 +1,28 @@
 import { Outlet, Link, useLoaderData } from '@remix-run/react'
 import { AuthProvider, ProfileProvider, ProfileProviderProps } from '@starter/store'
-import { UiProvider, Layout } from '@starter/ui'
+import { UiProvider, Layout, Flex, Button } from '@starter/ui'
 
 import { setupDefaultLayout } from '~/server'
+import { Brand } from '~/components'
 import { Shell } from '~/Shell'
 
 export const loader = setupDefaultLayout
 
 const Header = () => {
-  return <Layout.Header></Layout.Header>
+  return (
+    <Layout.Header height={70}>
+      <Layout.Header.Start>
+        <Brand to="/" width={40} symbol />
+      </Layout.Header.Start>
+
+      <Layout.Header.End>
+        <Flex gap={16}>
+          <Button variant="outline">Sign In</Button>
+          <Button variant="outline">Sign Up</Button>
+        </Flex>
+      </Layout.Header.End>
+    </Layout.Header>
+  )
 }
 
 const DefaultLayout = () => {
@@ -18,7 +32,7 @@ const DefaultLayout = () => {
     <Shell>
       <AuthProvider>
         <ProfileProvider user={user}>
-          <UiProvider Link={Link} colorScheme="dark">
+          <UiProvider Link={Link}>
             <Layout hasHeader>
               <Layout.Content>
                 <Header />
