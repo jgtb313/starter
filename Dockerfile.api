@@ -1,20 +1,20 @@
-# Usa a imagem base oficial do Node.js
+# Use the official Node.js base image
 FROM node:18-alpine
 
-# Define o diretório de trabalho na imagem
+# Set the working directory in the image
 WORKDIR /app
 
-# Copia o arquivo package.json e yarn.lock do diretório da API
+# Copy the package.json and yarn.lock from the API directory
 COPY . .
 
-# Instala as dependências da API
+# Install the API dependencies
 RUN yarn install
 
-# Builda a API
+# Build the API
 RUN yarn api:build
 
-# Expõe a porta 4000
+# Expose port 4000
 EXPOSE 4000
 
-# Define o comando para rodar a API
+# Set the command to run the API
 CMD ["yarn", "api:start"]
