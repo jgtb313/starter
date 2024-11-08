@@ -1,15 +1,22 @@
+import { useProfile } from '@starter/store'
 import { Flex, Dropdown, DropdownProps, Typography, Avatar } from '@starter/ui'
 
-import { useProfile } from '@starter/store'
+import { useLogout } from '~/support/use-logout'
 
 export const UserMenu = () => {
   const { user } = useProfile()
+  const logout = useLogout()
 
   const items: DropdownProps['items'] = [
     { type: 'link', label: 'Minha conta', icon: 'IconUserCog', href: '/profile' },
     { type: 'link', label: 'Configurações', icon: 'IconSettings', href: '/settings' },
     { type: 'divider' },
-    { type: 'button', label: 'Sair', icon: 'IconLogout', onClick: console.log },
+    {
+      type: 'button',
+      label: 'Sair',
+      icon: 'IconLogout',
+      onClick: logout,
+    },
   ]
 
   return (
