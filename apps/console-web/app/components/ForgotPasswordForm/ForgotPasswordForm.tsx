@@ -8,7 +8,7 @@ export const ForgotPasswordForm = () => {
   const { forgotPassword, loadingForgotPassword } = useAuth()
   const form = useForm<IForgotPasswordForm['initialValues']>()
 
-  const initialValues = { email: null }
+  const initialValues: IForgotPasswordForm['initialValues'] = { email: null }
 
   const handleSubmit: IForgotPasswordForm['onSubmit'] = (values) => {
     forgotPassword(
@@ -27,14 +27,14 @@ export const ForgotPasswordForm = () => {
     <Form ref={form} initialValues={initialValues} schema={ForgotPasswordSchema} onSubmit={handleSubmit}>
       {() => (
         <Flex direction="column" gap={16}>
-          <Form.Input name="email" label="Email" placeholder="Digite o seu email" data-testid="email" />
+          <Form.Input name="email" label="Email" placeholder="Enter your email" />
 
-          <Button type="submit" size="lg" loading={loadingForgotPassword} block data-testid="submit">
-            Enviar
+          <Button type="submit" size="lg" loading={loadingForgotPassword} block>
+            Send
           </Button>
 
-          <Link href="/sign-in" fw={600} td="underline" ta="center" data-testid="sign-in">
-            Login
+          <Link href="/sign-in" fw={600} td="underline" ta="center">
+            Sign In
           </Link>
         </Flex>
       )}
