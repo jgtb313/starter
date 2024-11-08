@@ -42,9 +42,9 @@ export const SocialAuthentication = () => {
   const authenticate = useAuthenticate()
 
   return (
-    <GoogleOAuthProvider clientId="915185336820-n9pmjdp0ffpq21q70b82ts89te8ov0ns.apps.googleusercontent.com">
+    <GoogleOAuthProvider clientId={import.meta.env.GOOGLE_CLIENT_ID}>
       <FacebookOAuthProvider
-        appId="984133563226449"
+        appId={import.meta.env.FACEBOOK_APP_ID}
         onSuccess={({ accessToken }) => {
           socialSignIn(
             {
