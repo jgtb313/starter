@@ -1,29 +1,25 @@
-import { PropsWithChildren, useLayoutEffect, useRef } from 'react'
-import { rem } from '@mantine/core'
+import { PropsWithChildren } from 'react'
+import { AppShell, Flex } from '@mantine/core'
 
-import { useLayout } from '../Layout'
-import { HeaderStyles, HeaderStartStyles, HeaderEndStyles } from './Header.styles'
+import { HeaderStartStyles, HeaderEndStyles } from './Header.styles'
 import { HeaderProps } from './Header.types'
 
-export const Header = ({ height = 16, children }: PropsWithChildren<HeaderProps>) => {
-  const { setHeaderHeight } = useLayout()
-  const ref = useRef<HTMLElement>(null)
-
-  useLayoutEffect(() => {
-    setHeaderHeight(ref.current?.offsetHeight ?? 0)
-  }, [])
-
+export const Header = ({ h = 60, children, ...props }: PropsWithChildren<HeaderProps>) => {
   return (
-    <header ref={ref} className={HeaderStyles()} style={{ height: rem(height) }}>
+    <AppShell.Header {...props} h={h}>
       {children}
-    </header>
+    </AppShell.Header>
   )
 }
 
 Header.Start = ({ children }: PropsWithChildren<{}>) => {
-  return <div className={HeaderStartStyles()}>{children}</div>
+  const styles = HeaderStartStyles()
+
+  return <Flex className={styles}>{children}</Flex>
 }
 
 Header.End = ({ children }: PropsWithChildren<{}>) => {
-  return <div className={HeaderEndStyles()}>{children}</div>
+  const styles = HeaderEndStyles()
+
+  return <Flex className={styles}>{children}</Flex>
 }

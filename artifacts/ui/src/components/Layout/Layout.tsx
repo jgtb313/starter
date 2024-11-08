@@ -1,25 +1,20 @@
-import { createContext, useContext, useState, PropsWithChildren } from 'react'
+import { PropsWithChildren } from 'react'
+import { AppShell } from '@mantine/core'
 
 import { Header } from './Header'
 import { Sidebar } from './Sidebar'
 import { Content } from './Content'
-import { Main } from './Main'
+import { LayoutContext } from './Layout.context'
 import { LayoutProviderProps, LayoutContextProps } from './Layout.types'
 
-const LayoutContext = createContext({} as LayoutContextProps)
-
-export const Layout = ({ hasHeader = false, children }: PropsWithChildren<LayoutProviderProps>) => {
-  const [headerHeight, setHeaderHeight] = useState(80)
-
-  const value: LayoutContextProps = {
-    hasHeader,
-    headerHeight,
-    setHeaderHeight
-  }
+export const Layout = ({ layout = 'default', children }: PropsWithChildren<LayoutProviderProps>) => {
+  const value: LayoutContextProps = {}
 
   return (
     <LayoutContext.Provider value={value}>
-      <div className="flex flex-wrap overflow-hidden">{children}</div>
+      <AppShell layout={layout} header={{ height: 60 }} navbar={{ width: 80, breakpoint: 'sm' }}>
+        {children}
+      </AppShell>
     </LayoutContext.Provider>
   )
 }
@@ -27,6 +22,3 @@ export const Layout = ({ hasHeader = false, children }: PropsWithChildren<Layout
 Layout.Header = Header
 Layout.Sidebar = Sidebar
 Layout.Content = Content
-Layout.Main = Main
-
-export const useLayout = () => useContext(LayoutContext)

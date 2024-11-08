@@ -1,11 +1,10 @@
-import { tv, VariantProps } from 'tailwind-variants'
+import { tv } from 'tailwind-variants'
 
 export const ContentStyles = tv({
-  base: 'flex-1 h-screen',
+  base: '',
   variants: {
     centered: {
-      true: 'flex justify-center items-center'
-    }
-  }
+      true: 'flex items-center justify-center min-h-screen',
+    },
+  },
 })
-export type ContentVariants = VariantProps<typeof ContentStyles>

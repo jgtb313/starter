@@ -1,21 +1,21 @@
 import { json, LoaderFunctionArgs } from '@remix-run/node'
 import client from '@starter/client'
-
-import { getStage } from '~/support/utilities'
-import { createCookie } from './cookies'
+import { defineCookies } from '@starter/use-remix-hooks'
 
 export const setupDefaultLayout = async ({ request }: LoaderFunctionArgs) => {
-  const stage = getStage()
+  const stage = import.meta.env.VITE_STAGE
 
   client.connect(stage)
 
   const cookie = request.headers.get('cookie')
 
   if (!cookie) {
-    return json({})
+    return json({
+      user: undefined,
+    })
   }
 
-  const { token } = createCookie(cookie)
+  const { token } = defineCookies(cookie)
 
   client.authenticate(token)
 

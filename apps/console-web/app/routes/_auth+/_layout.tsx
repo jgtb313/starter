@@ -11,19 +11,19 @@ export const loader = setupAuthLayout
 const AuthLayout = () => {
   return (
     <Shell>
-      <UiProvider Link={Link}>
-        <Layout>
-          <Layout.Content centered>
-            <AuthProvider>
+      <AuthProvider>
+        <UiProvider Link={Link}>
+          <Layout>
+            <Layout.Content centered>
               <Outlet />
-            </AuthProvider>
 
-            <Flex pos="fixed" top={12} right={12}>
-              <ToggleColorScheme />
-            </Flex>
-          </Layout.Content>
-        </Layout>
-      </UiProvider>
+              <Flex pos="fixed" top={12} right={12}>
+                <ToggleColorScheme />
+              </Flex>
+            </Layout.Content>
+          </Layout>
+        </UiProvider>
+      </AuthProvider>
     </Shell>
   )
 }

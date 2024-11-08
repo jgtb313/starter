@@ -10,7 +10,7 @@ export const loader = setupDefaultLayout
 
 const Header = () => {
   return (
-    <Layout.Header height={70}>
+    <Layout.Header>
       <Layout.Header.Start>
         <Brand to="/" width={40} symbol />
       </Layout.Header.Start>
@@ -33,13 +33,11 @@ const DefaultLayout = () => {
       <AuthProvider>
         <ProfileProvider user={user}>
           <UiProvider Link={Link}>
-            <Layout hasHeader>
-              <Layout.Content>
-                <Header />
+            <Layout>
+              <Header />
 
-                <Layout.Main>
-                  <Outlet />
-                </Layout.Main>
+              <Layout.Content>
+                <Outlet />
               </Layout.Content>
             </Layout>
           </UiProvider>

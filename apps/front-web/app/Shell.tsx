@@ -5,12 +5,10 @@ import client from '@starter/client'
 import { useNavigationProgress } from '@starter/ui'
 import { useIsMounted } from '@starter/use-hooks'
 
-import { getStage } from '~/support/utilities'
-
 export const Shell = ({ children }: PropsWithChildren) => {
   const isMounted = useIsMounted()
   const navigation = useNavigation()
-  const stage = getStage()
+  const stage = import.meta.env.VITE_STAGE
 
   useNavigationProgress(navigation)
 

@@ -1,9 +1,7 @@
-export type LayoutContextProps = {
-  hasHeader?: boolean
-  headerHeight: number
-  setHeaderHeight: (value: number) => void
-}
+import { AppShellProps } from '@mantine/core'
+
+export type LayoutContextProps = {}
 
 export type LayoutProviderProps = {
-  hasHeader?: boolean
+  layout?: AppShellProps['layout']
 }

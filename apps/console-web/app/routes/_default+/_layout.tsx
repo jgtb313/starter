@@ -9,47 +9,32 @@ import { Shell } from '~/Shell'
 
 export const loader = setupDefaultLayout
 
-const Header = () => {
-  return (
-    <Layout.Header>
-      <Layout.Header.End>
-        <UserMenu />
-      </Layout.Header.End>
-    </Layout.Header>
-  )
-}
-
-const Sidebar = () => {
+const DefaultLayout = () => {
+  const { user } = useLoaderData<typeof loader>() as unknown as Pick<ProfileProviderProps<ProfileProtected>, 'user'>
   const router = useRouter()
 
   return (
-    <Layout.Sidebar
-      active={router.pathname}
-      header={<Brand to="/" width={50} symbol />}
-      items={[
-        { label: 'Dashboard', href: '/', icon: 'LayoutDashboard' },
-        { label: 'Settings', href: '/settings', icon: 'Settings' },
-      ]}
-    />
-  )
-}
-
-const DefaultLayout = () => {
-  const { user } = useLoaderData<typeof loader>() as unknown as Pick<ProfileProviderProps<ProfileProtected>, 'user'>
-
-  return (
     <Shell>
-      <ProfileProvider user={user}>
+      <ProfileProvider<ProfileProtected> user={user}>
         <UiProvider Link={Link}>
-          <Layout hasHeader>
-            <Sidebar />
+          <Layout layout="alt">
+            <Layout.Header py={40} px={24}>
+              <Layout.Header.End>
+                <UserMenu />
+              </Layout.Header.End>
+            </Layout.Header>
+
+            <Layout.Sidebar
+              active={router.pathname}
+              header={<Brand to="/" width={50} symbol />}
+              items={[
+                { label: 'Dashboard', href: '/', icon: 'LayoutDashboard' },
+                { label: 'Settings', href: '/settings', icon: 'Settings' },
+              ]}
+            />
 
             <Layout.Content>
-              <Header />
-
-              <Layout.Main>
-                <Outlet />
-              </Layout.Main>
+              <Outlet />
             </Layout.Content>
           </Layout>
         </UiProvider>
