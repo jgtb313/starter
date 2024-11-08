@@ -1,8 +1,9 @@
-import { forwardRef, PropsWithChildren, Ref } from 'react'
+import { useLayoutEffect, useRef, forwardRef, PropsWithChildren, Ref } from 'react'
 import { AppShell, Center, Stack, Tooltip } from '@mantine/core'
 
 import { Link } from '../../Link'
 import { Icon } from '../../Icon'
+import { useLayout } from '../Layout.context'
 import { SidebarStyles } from './Sidebar.styles'
 import { SidebarProps, SidebarItemProps } from './Sidebar.types'
 
@@ -35,8 +36,15 @@ const SidebarItem = (props: SidebarItemProps) => {
 }
 
 export const Sidebar = ({ active, items = [], header }: SidebarProps) => {
+  const { setSidebarWidth } = useLayout()
+  const ref = useRef<HTMLElement>(null)
+
+  useLayoutEffect(() => {
+    setSidebarWidth(ref.current?.offsetWidth ?? 0)
+  }, [])
+
   return (
-    <AppShell.Navbar w={80}>
+    <AppShell.Navbar ref={ref} w={80}>
       <Center pt={16}>{header}</Center>
 
       <Center mt={54}>

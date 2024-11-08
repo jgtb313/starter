@@ -17,7 +17,7 @@ const DefaultLayout = () => {
     <Shell>
       <ProfileProvider<ProfileProtected> user={user}>
         <UiProvider Link={Link}>
-          <Layout layout="alt">
+          <Layout layout="alt" padding="lg">
             <Layout.Header py={40} px={24}>
               <Layout.Header.End>
                 <UserMenu />
