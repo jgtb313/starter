@@ -14,7 +14,7 @@ export const Header = ({ h = 60, children, ...props }: PropsWithChildren<HeaderP
   }, [])
 
   return (
-    <AppShell.Header ref={ref} {...props} h={60}>
+    <AppShell.Header ref={ref} {...props} h={h}>
       {children}
     </AppShell.Header>
   )

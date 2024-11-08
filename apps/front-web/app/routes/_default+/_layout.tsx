@@ -8,23 +8,6 @@ import { Shell } from '~/Shell'
 
 export const loader = setupDefaultLayout
 
-const Header = () => {
-  return (
-    <Layout.Header>
-      <Layout.Header.Start>
-        <Brand to="/" width={40} symbol />
-      </Layout.Header.Start>
-
-      <Layout.Header.End>
-        <Flex gap={16}>
-          <Button variant="outline">Sign In</Button>
-          <Button variant="outline">Sign Up</Button>
-        </Flex>
-      </Layout.Header.End>
-    </Layout.Header>
-  )
-}
-
 const DefaultLayout = () => {
   const { user } = useLoaderData<typeof loader>() as unknown as Pick<ProfileProviderProps, 'user'>
 
@@ -33,8 +16,19 @@ const DefaultLayout = () => {
       <AuthProvider>
         <ProfileProvider user={user}>
           <UiProvider Link={Link}>
-            <Layout>
-              <Header />
+            <Layout padding="lg">
+              <Layout.Header py={40} px={160}>
+                <Layout.Header.Start>
+                  <Brand to="/" width={40} symbol />
+                </Layout.Header.Start>
+
+                <Layout.Header.End>
+                  <Flex gap={16}>
+                    <Button variant="outline">Sign In</Button>
+                    <Button variant="outline">Sign Up</Button>
+                  </Flex>
+                </Layout.Header.End>
+              </Layout.Header>
 
               <Layout.Content>
                 <Outlet />
