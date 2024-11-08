@@ -1,4 +1,4 @@
-import { ButtonProps } from '@ss/components'
+import { ButtonProps } from '@starter/ui'
 
 export type ToggleColorSchemeProps = {
   size?: ButtonProps['size']
