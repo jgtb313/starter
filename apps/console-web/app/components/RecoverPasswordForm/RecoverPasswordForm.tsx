@@ -1,5 +1,5 @@
 import { useAuth } from '@starter/store'
-import { Flex, Form, Button, Link } from '@starter/ui'
+import { Flex, Form, Button, Link, toast } from '@starter/ui'
 import { useRouter } from '@starter/use-remix-hooks'
 
 import { RecoverPasswordFormSchema, RecoverPasswordFormProps, IRecoverPasswordForm } from './RecoverPasswordForm.types'
@@ -17,6 +17,10 @@ export const RecoverPasswordForm = ({ recoverPasswordToken }: RecoverPasswordFor
       },
       {
         onSuccess: () => {
+          toast.success({
+            message: 'Your password has been updated.',
+          })
+
           router.push('/sign-in')
         },
       },

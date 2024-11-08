@@ -1,6 +1,6 @@
 import { ForgotPasswordSchema } from '@starter/schema'
 import { useAuth } from '@starter/store'
-import { Flex, Form, Button, Link, useForm } from '@starter/ui'
+import { Flex, Form, Button, Link, useForm, toast } from '@starter/ui'
 
 import { IForgotPasswordForm } from './ForgotPasswordForm.types'
 
@@ -17,6 +17,10 @@ export const ForgotPasswordForm = () => {
       },
       {
         onSuccess: () => {
+          toast.success({
+            message: 'An email has been sent. Please check your inbox.',
+          })
+
           form.current?.reset()
         },
       },
