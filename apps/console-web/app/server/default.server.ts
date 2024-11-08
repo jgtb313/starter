@@ -1,8 +1,6 @@
 import { json, redirect, LoaderFunctionArgs } from '@remix-run/node'
-import client from '@starter/client'
-
-import { getStage } from '~/support/utilities'
-import { createCookie } from './cookies'
+import client, { StageEnum } from '@starter/client'
+import { defineCookies } from '@starter/use-remix-hooks'
 
 export const setupDefaultLayout = async ({ request }: LoaderFunctionArgs) => {
   const cookie = request.headers.get('cookie')
@@ -11,13 +9,13 @@ export const setupDefaultLayout = async ({ request }: LoaderFunctionArgs) => {
     return redirect('/sign-in')
   }
 
-  const { token } = createCookie(cookie)
+  const { token } = defineCookies(cookie)
 
   if (!token) {
     return redirect('/sign-in')
   }
 
-  const stage = getStage()
+  const stage = import.meta.env.VITE_STAGE as StageEnum
 
   client.connect(stage)
   client.authenticate(token)

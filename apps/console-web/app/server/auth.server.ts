@@ -1,6 +1,5 @@
 import { json, redirect, LoaderFunctionArgs } from '@remix-run/node'
-
-import { createCookie } from './cookies'
+import { defineCookies } from '@starter/use-remix-hooks'
 
 export const setupAuthLayout = async ({ request }: LoaderFunctionArgs) => {
   const cookie = request.headers.get('cookie')
@@ -9,15 +8,11 @@ export const setupAuthLayout = async ({ request }: LoaderFunctionArgs) => {
     return json({})
   }
 
-  if (cookie) {
-    const { token } = createCookie(cookie)
+  const { token } = defineCookies(cookie)
 
-    if (!token) {
-      return json({})
-    }
-
-    return redirect('/')
+  if (!token) {
+    return json({})
   }
 
-  return json({})
+  return redirect('/')
 }
