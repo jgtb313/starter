@@ -3,12 +3,21 @@ import { z } from '@/zod'
 import { PhoneSchema } from '@/common'
 import { UserSchema } from './User.schema'
 
-export const GetUserSchema = UserSchema.pick({
+export const GetUserByEmailSchema = UserSchema.pick({
+  email: true,
+})
+export const GetUserByEmailSchemaOutput = UserSchema.pick({ id: true, email: true })
+export type GetUserByEmailInput = z.infer<typeof GetUserByEmailSchema>
+export type GetUserByEmailOutput = {
+  user: z.infer<typeof GetUserByEmailSchemaOutput> | null
+}
+
+export const GetUserByIdSchema = UserSchema.pick({
   id: true,
 })
-export const GetUserSchemaOutput = UserSchema
-export type GetUserInput = z.infer<typeof GetUserSchema>
-export type GetUserOutput = z.infer<typeof GetUserSchemaOutput>
+export const GetUserByIdSchemaOutput = UserSchema
+export type GetUserByIdInput = z.infer<typeof GetUserByIdSchema>
+export type GetUserByIdOutput = z.infer<typeof GetUserByIdSchemaOutput>
 
 export const UpdateUserSchema = UserSchema.pick({
   id: true,

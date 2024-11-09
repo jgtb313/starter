@@ -1,24 +1,17 @@
 import { PropsWithChildren } from 'react'
 import { Modal as Component, Flex, FlexProps } from '@mantine/core'
 
-import { Typography } from '../Typography'
 import { useModal } from './Modal.store'
 import { ModalHeaderProps } from './Modal.types'
 
 export const Modal = {
   Content: ({ children, ...props }: PropsWithChildren) => <Component.Content {...props}>{children}</Component.Content>,
 
-  Header: ({ description, closable = true, children }: PropsWithChildren<ModalHeaderProps>) => {
+  Header: ({ closable = true, children }: PropsWithChildren<ModalHeaderProps>) => {
     return (
       <Component.Header>
-        <Component.Title style={{ flexDirection: 'column' }} display="flex" fz="xl">
+        <Component.Title display="flex" fz="xl">
           {children}
-
-          {description && (
-            <Typography fz="sm" c="dimmed" mt={8}>
-              {description}
-            </Typography>
-          )}
         </Component.Title>
 
         {closable && <Component.CloseButton />}

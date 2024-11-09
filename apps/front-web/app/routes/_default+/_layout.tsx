@@ -3,7 +3,7 @@ import { AuthProvider, ProfileProvider, ProfileProviderProps } from '@starter/st
 import { UiProvider, Layout, Flex, Button } from '@starter/ui'
 
 import { setupDefaultLayout } from '~/server'
-import { Brand } from '~/components'
+import { Brand, ToggleColorScheme, authenticationFormModal } from '~/components'
 import { Shell } from '~/Shell'
 
 export const loader = setupDefaultLayout
@@ -17,20 +17,25 @@ const DefaultLayout = () => {
         <ProfileProvider user={user}>
           <UiProvider Link={Link}>
             <Layout padding="lg">
-              <Layout.Header py={40} px={160}>
+              <Layout.Header py={36} px={36}>
                 <Layout.Header.Start>
                   <Brand to="/" width={40} symbol />
                 </Layout.Header.Start>
 
                 <Layout.Header.End>
                   <Flex gap={16}>
-                    <Button variant="outline">Sign In</Button>
+                    <ToggleColorScheme />
+
+                    <Button variant="outline" onClick={authenticationFormModal.open}>
+                      Sign In
+                    </Button>
+
                     <Button variant="outline">Sign Up</Button>
                   </Flex>
                 </Layout.Header.End>
               </Layout.Header>
 
-              <Layout.Content>
+              <Layout.Content py={36} px={36}>
                 <Outlet />
               </Layout.Content>
             </Layout>

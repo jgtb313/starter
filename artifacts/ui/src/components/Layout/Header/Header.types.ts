@@ -1,4 +1,4 @@
-import { AppShellHeaderProps } from '@mantine/core'
+import { AppShellHeaderProps, AppShellMainProps } from '@mantine/core'
 
 export type HeaderProps = {
   h?: AppShellHeaderProps['h']

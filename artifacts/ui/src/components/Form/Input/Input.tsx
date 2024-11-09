@@ -34,7 +34,7 @@ export const BaseInput = (
       defaultValue={inputProps.value}
       error={inputProps.error}
       ref={ref}
-      classNames={{ root: styles.root(), input: cnBase(className), label: styles.label(), error: styles.error() }}
+      classNames={{ root: styles.root(), wrapper: styles.wrapper(), input: cnBase(className), label: styles.label(), error: styles.error() }}
       autoComplete="nope"
       label={label}
       size={size}
@@ -48,7 +48,7 @@ export const BaseInput = (
       {...inputProps}
       value={inputProps.value ?? ''}
       ref={ref}
-      classNames={{ root: styles.root(), input: cnBase(className), label: styles.label() }}
+      classNames={{ root: styles.root(), wrapper: styles.wrapper(), input: cnBase(className), label: styles.label(), error: styles.error() }}
       autoComplete="nope"
       label={label}
       size={size}

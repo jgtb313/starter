@@ -1,30 +1,19 @@
-import { ModalProps as MModalProps } from '@mantine/core'
+import { ModalProps as ComponentProps } from '@mantine/core'
 
 import { BaseComponent } from '@/support/types'
 
 export type ModalProps = BaseComponent<{
   id: string
   opened?: boolean
-  size?: MModalProps['size']
+  size?: ComponentProps['size']
   closeOnClickOutside?: boolean
   centered?: boolean
   fullscreen?: boolean
-  children?: MModalProps['children']
+  children?: ComponentProps['children']
 }>
 
 export type ModalHeaderProps = {
   description?: string
+  centered?: boolean
   closable?: boolean
 }
-
-export type ModalRendererProps<T = undefined> = T extends undefined
-  ? {
-      open: () => void
-      close: () => void
-    }
-  : {
-      open: (value: T) => void
-      close: () => void
-    }
-
-export type ModalRenderer<T = undefined> = (props: ModalRendererProps<T>) => React.ReactNode

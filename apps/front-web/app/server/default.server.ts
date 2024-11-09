@@ -17,6 +17,12 @@ export const setupDefaultLayout = async ({ request }: LoaderFunctionArgs) => {
 
   const { token } = defineCookies(cookie)
 
+  if (!token) {
+    return json({
+      user: undefined,
+    })
+  }
+
   client.authenticate(token)
 
   const user = await client.profile.retrieve({})

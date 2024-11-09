@@ -10,7 +10,7 @@ client.interceptors.request.use((config: AxiosRequestConfig) => {
     baseURL: state.baseURL(),
     headers: {
       ...config.headers,
-      Authorization: state.authorization ? `Bearer ${state.authorization}` : undefined,
+      Authorization: state.authorization ? `Bearer ${state.authorization}` : null,
     },
   }
 })

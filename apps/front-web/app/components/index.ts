@@ -1,3 +1,4 @@
+export * from './AuthenticationForm'
 export * from './Brand'
 export * from './ForgotPasswordForm'
 export * from './RecoverPasswordForm'

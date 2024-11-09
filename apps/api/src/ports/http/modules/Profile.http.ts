@@ -1,6 +1,6 @@
 import {
   z,
-  GetUserSchemaOutput,
+  GetUserByIdSchemaOutput,
   UpdateUserSchema,
   UpdateUserSchemaOutput,
   UpdateUserEmailSchema,
@@ -12,7 +12,7 @@ import {
 
 import { IDependencies } from '@/support/types'
 import { validateOTP } from '@/core/otp/use-cases/validate-otp.use-case'
-import { getUser } from '@/core/user/use-case/get-user.use-case'
+import { getUserById } from '@/core/user/use-case/get-user-by-id.use-case'
 import { updateUser } from '@/core/user/use-case/update-user.use-case'
 import { updateUserPassword } from '@/core/user/use-case/update-user-password.use-case'
 import { updateUserEmail } from '@/core/user/use-case/update-user-email.use-case'
@@ -39,7 +39,7 @@ export const ProfileRouter = (dependencies: IDependencies): IRouter => ({
       parameters: {},
 
       responses: {
-        200: { schema: GetUserSchemaOutput },
+        200: { schema: GetUserByIdSchemaOutput },
         401: {
           description: 'Unauthorized',
         },
@@ -48,7 +48,7 @@ export const ProfileRouter = (dependencies: IDependencies): IRouter => ({
       execute(_, context) {
         requiresAuthorization(context)
 
-        return getUser(dependencies)({ id: context.auth.userId })
+        return getUserById(dependencies)({ id: context.auth.userId })
       },
     },
 

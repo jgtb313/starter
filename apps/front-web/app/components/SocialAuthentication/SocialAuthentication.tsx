@@ -30,19 +30,6 @@ const SocialAuthenticationWrapper = () => {
         Continue with Google
       </Button>
 
-      <Button variant="default" leftSection={<SocialIcon name="FACEBOOK" />}>
-        Continue with Facebook
-      </Button>
-    </Flex>
-  )
-}
-
-export const SocialAuthentication = () => {
-  const { socialSignIn } = useAuth()
-  const authenticate = useAuthenticate()
-
-  return (
-    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
       <FacebookOAuthProvider
         appId={import.meta.env.VITE_FACEBOOK_APP_ID}
         onSuccess={({ accessToken }) => {
@@ -58,9 +45,28 @@ export const SocialAuthentication = () => {
             },
           )
         }}
-      >
-        <SocialAuthenticationWrapper />
-      </FacebookOAuthProvider>
+        render={({ onClick }) => (
+          <Button variant="default" leftSection={<SocialIcon name="FACEBOOK" />} onClick={onClick}>
+            Continue with Facebook
+          </Button>
+        )}
+      />
+
+      <Button variant="default" leftSection={<SocialIcon name="FACEBOOK" />}>
+        Continue with phone
+      </Button>
+
+      <Button variant="default" leftSection={<SocialIcon name="FACEBOOK" />}>
+        Continue with email
+      </Button>
+    </Flex>
+  )
+}
+
+export const SocialAuthentication = () => {
+  return (
+    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
+      <SocialAuthenticationWrapper />
     </GoogleOAuthProvider>
   )
 }

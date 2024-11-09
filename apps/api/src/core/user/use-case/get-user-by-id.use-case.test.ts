@@ -1,15 +1,15 @@
 import { beforeEach, describe, expect, it } from 'vitest'
-import { GetUserInput } from '@starter/schema'
+import { GetUserByIdInput } from '@starter/schema'
 
 import { NotFoundError } from '@/support/errors'
 import { TestDependencies, ITestDependencies } from '@/config/tests'
 import { IDependencies } from '@/support/types'
 
-import { getUser } from './get-user.use-case'
+import { getUserById } from './get-user-by-id.use-case'
 
-describe('getUser', () => {
+describe('getUserById', () => {
   const sut = () => ({
-    execute: (input: Parameters<ReturnType<typeof getUser>>[number]) => getUser(dependencies as IDependencies)(input),
+    execute: (input: Parameters<ReturnType<typeof getUserById>>[number]) => getUserById(dependencies as IDependencies)(input),
   })
 
   let dependencies: ITestDependencies
@@ -19,7 +19,7 @@ describe('getUser', () => {
   })
 
   it('should retrieve a user by ID successfully', async () => {
-    const input: GetUserInput = {
+    const input: GetUserByIdInput = {
       id: '1ylq82nZJybDbTZzEB6iBzbd5xF',
     }
 
@@ -30,7 +30,7 @@ describe('getUser', () => {
   })
 
   it('should throw NotFoundError when the user is not found', async () => {
-    const input: GetUserInput = {
+    const input: GetUserByIdInput = {
       id: 'non-existent-user',
     }
 
