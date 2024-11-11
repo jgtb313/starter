@@ -3,6 +3,7 @@ import FacebookOAuthProvider from '@greatsumini/react-facebook-login'
 import { SocialSignInEnum } from '@starter/schema'
 import { useAuth } from '@starter/store'
 import { Flex, Button, SocialIcon } from '@starter/ui'
+
 import { useAuthenticate } from '~/support/use-authenticate'
 
 const SocialAuthenticationWrapper = () => {
