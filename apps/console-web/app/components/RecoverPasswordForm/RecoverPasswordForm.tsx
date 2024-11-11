@@ -31,20 +31,15 @@ export const RecoverPasswordForm = ({ recoverPasswordToken }: RecoverPasswordFor
     <Form initialValues={initialValues} schema={RecoverPasswordFormSchema} onSubmit={handleSubmit}>
       {() => (
         <Flex direction="column" gap={16}>
-          <Form.PasswordInput name="password" label="New Password" placeholder="Enter your new password" data-testid="recoverPassword-password" />
+          <Form.PasswordInput name="password" label="New Password" placeholder="Enter your new password" />
 
-          <Form.PasswordInput
-            name="confirmPassword"
-            label="Confirm Password"
-            placeholder="Confirm your new password"
-            data-testid="recoverPassword-confirmPassword"
-          />
+          <Form.PasswordInput name="confirmPassword" label="Confirm Password" placeholder="Confirm your new password" />
 
-          <Button type="submit" size="lg" loading={loadingRecoverPassword} block data-testid="recoverPassword-submit">
+          <Button type="submit" size="lg" loading={loadingRecoverPassword} block>
             Reset Password
           </Button>
 
-          <Link href="/sign-in" fw={600} td="underline" ta="center" data-testid="recoverPassword-signIn">
+          <Link href="/sign-in" fw={600} td="underline" ta="center">
             Sign In
           </Link>
         </Flex>

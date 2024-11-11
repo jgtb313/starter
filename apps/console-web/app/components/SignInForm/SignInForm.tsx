@@ -29,22 +29,22 @@ export const SignInForm = () => {
     <Form initialValues={initialValues} schema={SignInSchema} onSubmit={handleSubmit}>
       {() => (
         <Flex direction="column" gap={24}>
-          <Form.Input name="email" label="Email" placeholder="Enter your email" data-testid="signIn-email" />
+          <Form.Input name="email" label="Email" placeholder="Enter your email" />
 
-          <Form.PasswordInput name="password" label="Password" placeholder="Enter your password" data-testid="signIn-password" />
+          <Form.PasswordInput name="password" label="Password" placeholder="Enter your password" />
 
-          <Link href="/forgot-password" fw={600} size="sm" td="underline" ta="right" ml={4} data-testid="sign-up">
+          <Link href="/forgot-password" fw={600} size="sm" td="underline" ta="right" ml={4}>
             Forgot password?
           </Link>
 
           <Flex direction="column" gap={16}>
-            <Button type="submit" size="lg" loading={loadingSignIn} block data-testid="signIn-submit">
+            <Button type="submit" size="lg" loading={loadingSignIn} block>
               Sign In
             </Button>
 
             <Typography ta="center">
               Don’t have an account?
-              <Link href="/sign-up" fw={600} td="underline" ml={4} data-testid="sign-up">
+              <Link href="/sign-up" fw={600} td="underline" ml={4}>
                 Register
               </Link>
             </Typography>
