@@ -3,7 +3,8 @@ import config from '@starter/config'
 import { Flex, Card, Typography } from '@starter/ui'
 import { useRouter } from '@starter/use-remix-hooks'
 
-import { Brand, RecoverPasswordForm } from '~/components'
+import { Brand } from '~/common'
+import { RecoverPasswordForm } from '~/components'
 
 export const meta: MetaFunction = () => {
   return [{ title: `${config.name} | Recover Password` }]

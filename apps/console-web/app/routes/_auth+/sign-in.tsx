@@ -2,7 +2,8 @@ import { type MetaFunction } from '@remix-run/node'
 import config from '@starter/config'
 import { Flex, Card, Typography } from '@starter/ui'
 
-import { Brand, SignInForm } from '~/components'
+import { Brand } from '~/common'
+import { SignInForm } from '~/components'
 
 export const meta: MetaFunction = () => {
   return [{ title: `${config.name} | Sign In` }]
