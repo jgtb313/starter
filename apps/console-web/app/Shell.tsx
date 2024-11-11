@@ -1,29 +1,17 @@
-import { PropsWithChildren, useEffect } from 'react'
-import Cookie from 'js-cookie'
+import { PropsWithChildren } from 'react'
 import { useNavigation } from '@remix-run/react'
-import client, { StageEnum } from '@starter/client'
 import { StoreProvider } from '@starter/store'
 import { useNavigationProgress, toast } from '@starter/ui'
 import { useIsMounted } from '@starter/use-hooks'
 
+import { useClient } from '~/support/use-client'
+
 export const Shell = ({ children }: PropsWithChildren) => {
   const isMounted = useIsMounted()
   const navigation = useNavigation()
-  const stage = import.meta.env.VITE_STAGE as StageEnum
 
+  useClient()
   useNavigationProgress(navigation)
-
-  useEffect(() => {
-    client.connect(stage)
-
-    const token = Cookie.get('token')
-
-    if (!token) {
-      return
-    }
-
-    client.authenticate(token)
-  }, [])
 
   if (!isMounted) {
     return <></>

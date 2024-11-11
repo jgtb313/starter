@@ -1,10 +1,10 @@
 import { Outlet, Link, useLoaderData } from '@remix-run/react'
 import { AuthProvider, ProfileProvider, ProfileProviderProps } from '@starter/store'
-import { UiProvider, Layout, Flex, Button } from '@starter/ui'
+import { UiProvider, Layout, Flex } from '@starter/ui'
 
 import { setupDefaultLayout } from '~/server'
 import { Brand, ToggleColorScheme } from '~/common'
-import { authenticationFormModal } from '~/components'
+import { AuthenticationSelector } from '~/components'
 import { Shell } from '~/Shell'
 
 export const loader = setupDefaultLayout
@@ -20,18 +20,14 @@ const DefaultLayout = () => {
             <Layout padding="lg">
               <Layout.Header py={36} px={36}>
                 <Layout.Header.Start>
-                  <Brand to="/" width={40} symbol />
+                  <Brand to="/" width={120} />
                 </Layout.Header.Start>
 
                 <Layout.Header.End>
-                  <Flex gap={16}>
+                  <Flex justify="center" align="center" gap={16}>
                     <ToggleColorScheme />
 
-                    <Button variant="outline" onClick={authenticationFormModal.open}>
-                      Sign In
-                    </Button>
-
-                    <Button variant="outline">Sign Up</Button>
+                    <AuthenticationSelector />
                   </Flex>
                 </Layout.Header.End>
               </Layout.Header>
