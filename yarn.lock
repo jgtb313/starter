@@ -9931,6 +9931,11 @@ remix-flat-routes@^0.6.4:
     fs-extra "^11.1.1"
     minimatch "^5.1.0"
 
+remix@^2.14.0:
+  version "2.14.0"
+  resolved "https://registry.yarnpkg.com/remix/-/remix-2.14.0.tgz#e1ef14568f5a33791693a8db56973dec4acd2139"
+  integrity sha512-sSoW+8Y5ullGNN5z9rszQJQ8c3myRMSRTTguVjPcQwOBpA8c7fbW7a1Xn9vxruCeA9LCuaCH0DJ08LEr82k1Yw==
+
 require-directory@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/require-directory/-/require-directory-2.1.1.tgz#8c64ad5fd30dab1c976e2344ffe7f792a6a6df42"

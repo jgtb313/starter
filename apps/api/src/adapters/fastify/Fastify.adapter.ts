@@ -56,7 +56,10 @@ export const setupRoutes = (instance: FastifyInstance, routes: typeof Modules, d
             }
 
             const authorization =
-              input.headers['authorization'] !== 'Bearer' && input.headers['authorization'] && input.headers['authorization'] !== 'undefined'
+              input.headers['authorization'] !== 'Bearer' &&
+              input.headers['authorization'] &&
+              input.headers['authorization'] !== 'undefined' &&
+              input.headers['authorization'] !== 'null'
                 ? `${input.headers['authorization']}`
                 : undefined
 

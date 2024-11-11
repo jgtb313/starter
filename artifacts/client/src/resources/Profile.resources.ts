@@ -7,7 +7,7 @@
  **/
 
 import {
-  GetUserOutput,
+  GetUserByIdOutput,
   UpdateUserOutput,
   UpdateUserEmailOutput,
   UpdateUserPhoneOutput,
@@ -30,7 +30,7 @@ import { withFields, WithoutId } from '@/support'
  *
  * @returns Resolves to the result of the request or an error.
  */
-export const retrieve = withFields<{}, GetUserOutput>(() => client.get('/users/me'))
+export const retrieve = withFields<{}, GetUserByIdOutput>(() => client.get('/users/me'))
 
 /**
  * `PATCH /users/me`

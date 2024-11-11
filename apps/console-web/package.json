@@ -5,8 +5,8 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
+    "prebuild": "yarn workspace @starter/config build & yarn workspace @starter/shared build & yarn workspace @starter/schema build & yarn workspace @starter/client build & yarn workspace @starter/store build & yarn workspace @starter/ui build & yarn workspace @starter/use-hooks build & yarn workspace @starter/use-remix-hooks build",
     "build": "remix vite:build",
-    "build:artifacts": "",
     "dev": "remix vite:dev",
     "start": "remix-serve ./build/server/index.js",
     "test": "playwright test --ui",
@@ -30,6 +30,7 @@
     "js-cookie": "^3.0.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "remix": "^2.14.0",
     "remix-flat-routes": "^0.6.4",
     "rollup-plugin-visualizer": "^5.12.0",
     "zustand": "^4.5.2"

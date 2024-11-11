@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import { useWatch } from '../use-watch'
+import { useWatch } from './use-watch'
 import { makeRequest, MakeRequestOptions } from './make-request'
 
 type UseRequestOptions<T, K> = {
