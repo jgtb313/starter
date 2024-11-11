@@ -3,7 +3,8 @@ import { AuthProvider, ProfileProvider, ProfileProviderProps } from '@starter/st
 import { UiProvider, Layout, Flex, Button } from '@starter/ui'
 
 import { setupDefaultLayout } from '~/server'
-import { Brand, ToggleColorScheme, authenticationFormModal } from '~/components'
+import { Brand, ToggleColorScheme } from '~/common'
+import { authenticationFormModal } from '~/components'
 import { Shell } from '~/Shell'
 
 export const loader = setupDefaultLayout

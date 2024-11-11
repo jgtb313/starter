@@ -1,4 +1,4 @@
-import { ActionIcon, Button, Icon, useTheme } from '@starter/ui'
+import { ActionIcon, useTheme } from '@starter/ui'
 
 import { ToggleColorSchemeProps } from './ToggleColorScheme.types'
 
