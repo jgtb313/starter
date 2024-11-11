@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { OTPChannelEnum, OTPContextEnum } from '@starter/schema'
 
-import { ConflictError, NotFoundError } from '@/support/errors'
+import { BadRequestError, ConflictError, NotFoundError, ForbiddenError } from '@/support/errors'
 import { OTP } from './OTP.domain'
 
 describe('OTP Domain', () => {
@@ -52,22 +52,22 @@ describe('OTP Domain', () => {
     expect(() => otp.checkIfCanResend(otp, otp.state.resendTime)).toThrow(ConflictError)
   })
 
-  it('should throw ConflictError for invalid recipient', () => {
+  it('should throw BadRequestError for invalid recipient', () => {
     const otp = new OTP(otpData)
 
-    expect(() => otp.checkIfHasValidRecipient('invalid_recipient')).toThrow(ConflictError)
+    expect(() => otp.checkIfHasValidRecipient('invalid_recipient')).toThrow(BadRequestError)
   })
 
-  it('should throw ConflictError for invalid context', () => {
+  it('should throw BadRequestError for invalid context', () => {
     const otp = new OTP(otpData)
 
-    expect(() => otp.checkIfHasValidContext('invalid_context')).toThrow(ConflictError)
+    expect(() => otp.checkIfHasValidContext('invalid_context')).toThrow(BadRequestError)
   })
 
-  it('should throw ConflictError for invalid code', () => {
+  it('should throw BadRequestError for invalid code', () => {
     const otp = new OTP(otpData)
 
-    expect(() => otp.checkIfHasValidCode('wrong_code')).toThrow(ConflictError)
+    expect(() => otp.checkIfHasValidCode('wrong_code')).toThrow(BadRequestError)
     expect(otp.state.attempts).toBe(1)
   })
 
@@ -84,11 +84,11 @@ describe('OTP Domain', () => {
     expect(() => otp.checkIfAttemptsHasExpired()).toThrow(ConflictError)
   })
 
-  it('should throw ConflictError if OTP has expired', () => {
+  it('should throw ForbiddenError if OTP has expired', () => {
     const otp = new OTP(otpData)
 
     otp.state.expiresIn = new Date()
 
-    expect(() => otp.checkIfHasExpired()).toThrow(ConflictError)
+    expect(() => otp.checkIfHasExpired()).toThrow(ForbiddenError)
   })
 })

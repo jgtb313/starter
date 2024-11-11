@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 import { SignUpInput } from '@starter/schema'
 
-import { BadRequestError } from '@/support/errors'
+import { ConflictError } from '@/support/errors'
 import { TestDependencies, ITestDependencies } from '@/config/tests'
 import { IDependencies } from '@/support/types'
 
@@ -31,14 +31,14 @@ describe('signUp', () => {
     expect(output).toBeDefined()
   })
 
-  it('should throw a BadRequestError if email already exists', async () => {
+  it('should throw a ConflictError if email already exists', async () => {
     const input: SignUpInput = {
       name: 'John Doe',
       email: 'john.doe@acme.com',
       password: '123123123',
     }
 
-    await expect(sut().execute(input)).rejects.toThrow(BadRequestError)
+    await expect(sut().execute(input)).rejects.toThrow(ConflictError)
     await expect(sut().execute(input)).rejects.toThrow('E-mail john.doe@acme.com has already been taken')
 
     expect(dependencies.Database.user.findOne).toBeCalledWith({ email: input.email })

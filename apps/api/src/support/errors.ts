@@ -90,7 +90,7 @@ export class ForbiddenError extends DefaultError {
 
 export class BadRequestError extends DefaultError {
   constructor({ issues }: Pick<BadRequestErrorInput, 'issues'>) {
-    super({ name: 'BadRequestError', code: 400, message: 'Validation Failed', issues })
+    super({ name: 'BadRequestError', code: 400, message: 'Invalid input', issues })
   }
 }
 

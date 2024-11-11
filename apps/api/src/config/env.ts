@@ -19,6 +19,13 @@ type Env =
   | 'TWILIO_WHATSAPP_ACCOUNT_SID'
   | 'TWILIO_WHATSAPP_AUTH_TOKEN'
   | 'TWILIO_WHATSAPP_FROM'
+  | 'REDIS_URL'
+  | 'REDIS_PASSWORD'
+  | 'REDIS_DISABLED'
+  | 'LOGGER_URL'
+  | 'LOGGER_USER'
+  | 'LOGGER_PASSWORD'
+  | 'LOGGER_DISABLED'
 
 export const EnvSchema = z.object({
   STAGE: z.enum(['local', 'development', 'production']),
@@ -51,6 +58,17 @@ export const EnvSchema = z.object({
   TWILIO_WHATSAPP_ACCOUNT_SID: z.string().min(1),
   TWILIO_WHATSAPP_AUTH_TOKEN: z.string().min(1),
   TWILIO_WHATSAPP_FROM: z.string().min(1),
+
+  // Redis
+  REDIS_URL: z.string().min(1),
+  REDIS_PASSWORD: z.string().min(1),
+  REDIS_DISABLED: z.string().min(1),
+
+  // Logger
+  LOGGER_URL: z.string().min(1),
+  LOGGER_USER: z.string().min(1),
+  LOGGER_PASSWORD: z.string().min(1),
+  LOGGER_DISABLED: z.string().min(1),
 })
 
 export const env = (value: Env) => {

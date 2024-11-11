@@ -3,7 +3,7 @@ import fastifyCors from '@fastify/cors'
 import fastifyFormBody from '@fastify/formbody'
 
 export const server = fastify({
-  logger: true
+  logger: false,
 })
 
 server.register(fastifyFormBody)

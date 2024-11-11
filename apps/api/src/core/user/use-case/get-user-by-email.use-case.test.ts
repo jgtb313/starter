@@ -30,7 +30,7 @@ describe('getUserByEmail', () => {
 
   it('should returns null when the user is not found', async () => {
     const input: GetUserByEmailInput = {
-      email: 'non-existent-user',
+      email: 'non-existent-user@acme.com',
     }
 
     const result = await sut().execute(input)

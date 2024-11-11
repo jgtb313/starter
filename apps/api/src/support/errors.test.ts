@@ -1,16 +1,6 @@
 import { describe, it, expect } from 'vitest'
 
-import {
-  DefaultError,
-  AuthError,
-  ForbiddenError,
-  BadRequestError,
-  NotFoundError,
-  ConflictError,
-  ValidationError,
-  UnknownError,
-  InternalServerError,
-} from './errors'
+import { DefaultError, AuthError, ForbiddenError, BadRequestError, NotFoundError, ConflictError, UnknownError, InternalServerError } from './errors'
 
 describe('Error Classes', () => {
   it('should create DefaultError with correct properties', () => {
@@ -47,12 +37,12 @@ describe('Error Classes', () => {
   })
 
   it('should create BadRequestError with correct properties', () => {
-    const error = new BadRequestError('Invalid input', { field: 'email' })
+    const error = new BadRequestError({ issues: [{ email: 'Invalid email' }] })
 
     expect(error.name).toBe('BadRequestError')
     expect(error.code).toBe(400)
     expect(error.message).toBe('Invalid input')
-    expect(error.metadata).toEqual({ field: 'email' })
+    expect(error.issues).toEqual([{ email: 'Invalid email' }])
   })
 
   it('should create NotFoundError with correct properties', () => {
@@ -73,13 +63,13 @@ describe('Error Classes', () => {
     expect(error.metadata).toEqual({ resourceId: '456' })
   })
 
-  it('should create ValidationError with correct properties', () => {
-    const error = new ValidationError('Validation failed', { field: 'password' })
+  it('should create BadRequestError with correct properties', () => {
+    const error = new BadRequestError({ issues: [{ email: 'Invalid email' }] })
 
-    expect(error.name).toBe('ValidationError')
+    expect(error.name).toBe('BadRequestError')
     expect(error.code).toBe(400)
-    expect(error.message).toBe('Validation failed')
-    expect(error.metadata).toEqual({ field: 'password' })
+    expect(error.message).toBe('Invalid input')
+    expect(error.issues).toEqual([{ email: 'Invalid email' }])
   })
 
   it('should create UnknownError with correct properties', () => {
