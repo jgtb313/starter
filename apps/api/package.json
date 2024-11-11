@@ -12,7 +12,7 @@
     "generate:adapter": "yarn plop adapter",
     "generate:port": "yarn plop port",
     "prebuild": "yarn workspace @starter/config build && yarn workspace @starter/shared build && yarn workspace @starter/schema build",
-    "build": "ts-node scripts/load-envs && tsc",
+    "build": "tsc",
     "type-check": "tsc --project tsconfig.json --pretty --skipLibCheck --noEmit",
     "test": "vitest run",
     "test:coverage": "vitest --coverage --watch",
