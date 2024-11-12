@@ -24,13 +24,11 @@
     "@starter/schema": "*",
     "@starter/shared": "*",
     "@starter/ui": "*",
-    "immer": "^10.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "typescript": "5.6.3",
     "vite": "^5.3.5",
-    "vite-plugin-dts": "^3.9.1",
-    "zustand": "^5.0.0"
+    "vite-plugin-dts": "^3.9.1"
   },
   "main": "dist/use-hooks.umd.js",
   "module": "dist/use-hooks.es.js",

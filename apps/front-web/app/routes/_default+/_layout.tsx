@@ -9,6 +9,8 @@ import { Shell } from '~/Shell'
 
 export const loader = setupDefaultLayout
 
+const { Header, Content } = Layout
+
 const DefaultLayout = () => {
   const { user } = useLoaderData<typeof loader>() as unknown as Pick<ProfileProviderProps, 'user'>
 
@@ -17,24 +19,24 @@ const DefaultLayout = () => {
       <AuthProvider>
         <ProfileProvider user={user}>
           <UiProvider Link={Link}>
-            <Layout padding="lg">
-              <Layout.Header py={36} px={36}>
-                <Layout.Header.Start>
+            <Layout layout="default" padding="lg">
+              <Header h={96} p={36}>
+                <Header.Start>
                   <Brand to="/" width={120} />
-                </Layout.Header.Start>
+                </Header.Start>
 
-                <Layout.Header.End>
+                <Header.End>
                   <Flex justify="center" align="center" gap={16}>
                     <ToggleColorScheme />
 
                     <AuthenticationSelector />
                   </Flex>
-                </Layout.Header.End>
-              </Layout.Header>
+                </Header.End>
+              </Header>
 
-              <Layout.Content py={36} px={36}>
+              <Content>
                 <Outlet />
-              </Layout.Content>
+              </Content>
             </Layout>
           </UiProvider>
         </ProfileProvider>
