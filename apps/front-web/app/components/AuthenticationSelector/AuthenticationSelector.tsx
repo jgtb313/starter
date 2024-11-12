@@ -6,7 +6,7 @@ import { AuthenticationSelectorProps } from './AuthenticationSelector.types'
 export const AuthenticationSelector = ({}: AuthenticationSelectorProps) => {
   return (
     <Flex direction="row" gap={4}>
-      <Button onClick={authenticationFormModal.open}>Sign In</Button>
+      <Button onClick={authenticationFormModal.open}>Log In</Button>
     </Flex>
   )
 }

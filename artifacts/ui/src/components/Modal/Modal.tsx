@@ -23,7 +23,7 @@ export const Modal = {
   },
 
   Body: ({ children }: PropsWithChildren) => {
-    return <Component.Body>{children}</Component.Body>
+    return <Component.Body pt="md">{children}</Component.Body>
   },
 
   Footer: ({ children, ...props }: PropsWithChildren<FlexProps>) => {

@@ -1,18 +1,16 @@
-import { Modal, Flex, Button, Divider, Typography, Form } from '@starter/ui'
+import { Modal, Flex, Button, Divider, Form } from '@starter/ui'
 
 import { SocialAuthentication } from '../SocialAuthentication'
 
 export const AuthenticationForm = () => {
   return (
     <Modal.Content>
-      <Modal.Header size="md" centered bordered>
+      <Modal.Header centered bordered>
         Log in or register
       </Modal.Header>
 
       <Modal.Body>
-        <Flex w="100%" direction="column" gap={16}>
-          <Typography>Welcome to Starter</Typography>
-
+        <Flex direction="column" gap={24}>
           <Form>
             {() => (
               <Flex>
