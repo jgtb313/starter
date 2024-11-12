@@ -8,6 +8,6 @@ export const useLogout = () => {
   return () => {
     Cookies.remove('token')
     client.unauthenticate()
-    router.push('/sign-in')
+    router.push('/')
   }
 }

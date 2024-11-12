@@ -2,15 +2,18 @@ import { PropsWithChildren } from 'react'
 import { Modal as Component, Flex, FlexProps } from '@mantine/core'
 
 import { useModal } from './Modal.store'
+import { ModalHeaderStyles } from './Modal.styles'
 import { ModalHeaderProps } from './Modal.types'
 
 export const Modal = {
   Content: ({ children, ...props }: PropsWithChildren) => <Component.Content {...props}>{children}</Component.Content>,
 
-  Header: ({ closable = true, children }: PropsWithChildren<ModalHeaderProps>) => {
+  Header: ({ size = 'xl', centered = false, bordered = false, closable = true, children }: PropsWithChildren<ModalHeaderProps>) => {
+    const styles = ModalHeaderStyles({ bordered, centered })
+
     return (
-      <Component.Header>
-        <Component.Title display="flex" fz="xl">
+      <Component.Header classNames={{ header: styles.root() }}>
+        <Component.Title classNames={{ title: styles.title() }} display="flex" fz={size} fw={500}>
           {children}
         </Component.Title>
 

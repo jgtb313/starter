@@ -6,7 +6,7 @@ export const authenticationFormModal = {
   open: () => {
     modal.open({
       id: 'AuthenticationForm',
-      size: 'lg',
+      size: 'md',
       children: <AuthenticationForm />,
       centered: true,
     })

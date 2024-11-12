@@ -2,7 +2,8 @@ import { GoogleOAuthProvider, useGoogleLogin } from '@react-oauth/google'
 import FacebookOAuthProvider from '@greatsumini/react-facebook-login'
 import { SocialSignInEnum } from '@starter/schema'
 import { useAuth } from '@starter/store'
-import { Flex, Button, SocialIcon } from '@starter/ui'
+import { Flex, Button, SocialIcon, Icon } from '@starter/ui'
+
 import { useAuthenticate } from '~/support/use-authenticate'
 
 const SocialAuthenticationWrapper = () => {
@@ -52,12 +53,12 @@ const SocialAuthenticationWrapper = () => {
         )}
       />
 
-      <Button variant="default" leftSection={<SocialIcon name="FACEBOOK" />}>
-        Continue with phone
+      <Button variant="default" leftSection={<Icon name="Phone" width={15} height={15} />}>
+        Continue with Phone
       </Button>
 
-      <Button variant="default" leftSection={<SocialIcon name="FACEBOOK" />}>
-        Continue with email
+      <Button variant="default" leftSection={<Icon name="Mail" width={15} height={15} />}>
+        Continue with Email
       </Button>
     </Flex>
   )

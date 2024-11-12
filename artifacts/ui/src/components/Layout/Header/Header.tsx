@@ -5,7 +5,7 @@ import { useLayout } from '../Layout.context'
 import { HeaderStartStyles, HeaderEndStyles } from './Header.styles'
 import { HeaderProps } from './Header.types'
 
-export const Header = ({ h = 60, children, ...props }: PropsWithChildren<HeaderProps>) => {
+export const Header = ({ h = 60, bordered = true, children, ...props }: PropsWithChildren<HeaderProps>) => {
   const { setHeaderHeight } = useLayout()
   const ref = useRef<HTMLElement>(null)
 
@@ -14,7 +14,7 @@ export const Header = ({ h = 60, children, ...props }: PropsWithChildren<HeaderP
   }, [])
 
   return (
-    <AppShell.Header ref={ref} h={h} {...props}>
+    <AppShell.Header ref={ref} h={h} withBorder={bordered} {...props}>
       {children}
     </AppShell.Header>
   )

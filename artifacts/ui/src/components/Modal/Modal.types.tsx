@@ -1,4 +1,4 @@
-import { ModalProps as ComponentProps } from '@mantine/core'
+import { ModalProps as ComponentProps, ModalTitleProps } from '@mantine/core'
 
 import { BaseComponent } from '@/support/types'
 
@@ -13,7 +13,8 @@ export type ModalProps = BaseComponent<{
 }>
 
 export type ModalHeaderProps = {
-  description?: string
+  size?: ModalTitleProps['fz']
   centered?: boolean
+  bordered?: boolean
   closable?: boolean
 }

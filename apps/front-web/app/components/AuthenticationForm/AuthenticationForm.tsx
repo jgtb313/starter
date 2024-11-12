@@ -5,7 +5,9 @@ import { SocialAuthentication } from '../SocialAuthentication'
 export const AuthenticationForm = () => {
   return (
     <Modal.Content>
-      <Modal.Header>Log in or register</Modal.Header>
+      <Modal.Header size="md" centered bordered>
+        Log in or register
+      </Modal.Header>
 
       <Modal.Body>
         <Flex w="100%" direction="column" gap={16}>
@@ -14,15 +16,19 @@ export const AuthenticationForm = () => {
           <Form>
             {() => (
               <Flex>
-                <Form.PhoneInput name="email" label="Email" placeholder="Enter yout email" />
+                <Form.Input name="email" label="Email" placeholder="Enter your email" />
               </Flex>
             )}
           </Form>
 
-          <Flex direction="column" justify="flex-end" gap={4}>
+          <Flex direction="column" gap={8}>
             <Button block>Continue</Button>
 
-            <Button variant="transparent">Forgot password?</Button>
+            <Flex justify="flex-end">
+              <Button size="compact-sm" variant="transparent">
+                Forgot Password?
+              </Button>
+            </Flex>
           </Flex>
 
           <Divider label="OR" />
