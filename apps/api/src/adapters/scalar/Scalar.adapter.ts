@@ -110,7 +110,7 @@ const tags = Schemas.map((schema) => ({
 
 const paths = Schemas.reduce((state, schema) => {
   const formattedPaths = Object.entries(schema.paths).reduce((internalState, [_, value]) => {
-    const { summary, description, path, method, parameters, responses } = value
+    const { summary, description, path, version = 'v1', method, parameters, responses } = value
 
     const skipParameters = ['body', 'bodyOptions']
 
@@ -216,11 +216,11 @@ const paths = Schemas.reduce((state, schema) => {
 
     const normalizedPath = normalizePath(path)
 
-    const previousPath: {} = internalState[normalizedPath as keyof typeof internalState]
+    const previousPath = internalState[normalizedPath as keyof typeof internalState] as Record<string, unknown>
 
     return {
       ...internalState,
-      [normalizedPath]: {
+      [`/${version}${normalizedPath}`]: {
         ...previousPath,
         [method.toLowerCase()]: {
           operationId: `${normalizedPath}-${method}`,
@@ -277,14 +277,14 @@ const document = {
   info: {
     title: `${client.name} API`,
     version: '1.0.0',
-    description: ['## Introduction', '## Authentication', '## Filters', '## Pagination', '## Sort', '## Errors'].join('\n\n'),
+    description: ['## Introduction', '## Authentication', '## Filters', '## Pagination', '## Sorting', '## Errors'].join('\n\n'),
     license: {
       name: 'MIT',
     },
   },
   servers: [
     {
-      url: STAGE === 'local' ? 'http://localhost:4000' : STAGE === 'prod' ? `https://api.${client.domain}` : `https://api.${STAGE}.${client.domain}`,
+      url: STAGE === 'local' ? 'http://localhost:4000' : STAGE === 'prd' ? `https://api.${client.domain}` : `https://api.${STAGE}.${client.domain}`,
     },
   ],
 

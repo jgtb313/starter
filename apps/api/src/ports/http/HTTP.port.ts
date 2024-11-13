@@ -31,6 +31,7 @@ export type IRouterPath<
   description: string
 
   path: string
+  version?: `v${number}`
 
   method: HTTPMethods
 

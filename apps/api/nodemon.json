@@ -1,5 +1,11 @@
 {
   "verbose": true,
   "ignore": ["node_modules", "package.json"],
-  "watch": ["./src/*", "../../artifacts/shared/dist/vite.config.d.ts", "../../artifacts/schema/dist/vite.config.d.ts"]
+  "watch": [
+    "./src/*",
+    "../../artifacts/config/dist/vite.config.d.ts",
+    "./src/*",
+    "../../artifacts/shared/dist/vite.config.d.ts",
+    "../../artifacts/schema/dist/vite.config.d.ts"
+  ]
 }
