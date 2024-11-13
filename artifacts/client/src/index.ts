@@ -17,4 +17,6 @@ const client = {
   ...resources,
 }
 
+export type Client = typeof client
+
 export default client
