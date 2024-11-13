@@ -9,16 +9,12 @@ const execute: IUseCaseExecute<GetUserByEmailInput, GetUserByEmailOutput> =
     const user = await Database.user.findOne({ email })
 
     if (!user) {
-      return {
-        user: null,
-      }
+      return
     }
 
     return {
-      user: {
-        id: user.state.id,
-        email: user.state.email,
-      },
+      id: user.state.id,
+      email: user.state.email,
     }
   }
 
