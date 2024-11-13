@@ -1,3 +1,4 @@
+import { PropsWithChildren } from 'react'
 import { ActionIcon as Component, Tooltip, ActionIconProps as ComponentProps } from '@mantine/core'
 
 import { Icon } from '../Icon'
@@ -5,7 +6,16 @@ import { Link } from '../Link'
 import { ActionIconStyles } from './ActionIcon.styles'
 import { ActionIconProps } from './ActionIcon.types'
 
-export const ActionIcon = ({ icon, color = 'primary', variant = 'default', size = 'md', href, target, tooltip, ...props }: ActionIconProps) => {
+export const ActionIcon = ({
+  color = 'primary',
+  variant = 'default',
+  size = 'md',
+  href,
+  target,
+  tooltip,
+  children,
+  ...props
+}: PropsWithChildren<ActionIconProps>) => {
   const styles = ActionIconStyles(props)
   const componentProps: ComponentProps = {
     ...props,
@@ -21,7 +31,7 @@ export const ActionIcon = ({ icon, color = 'primary', variant = 'default', size 
       return (
         <Tooltip label={tooltip} withArrow>
           <Component {...componentProps} component={Link} href={href} target={target}>
-            <Icon name={icon} />
+            {children}
           </Component>
         </Tooltip>
       )
@@ -29,7 +39,7 @@ export const ActionIcon = ({ icon, color = 'primary', variant = 'default', size 
 
     return (
       <Component {...componentProps} component={Link} href={href} target={target}>
-        <Icon name={icon} />
+        {children}
       </Component>
     )
   }
@@ -38,7 +48,7 @@ export const ActionIcon = ({ icon, color = 'primary', variant = 'default', size 
     return (
       <Tooltip label={tooltip} withArrow>
         <Component component="button" {...componentProps}>
-          <Icon name={icon} />
+          {children}
         </Component>
       </Tooltip>
     )
@@ -46,7 +56,7 @@ export const ActionIcon = ({ icon, color = 'primary', variant = 'default', size 
 
   return (
     <Component component="button" {...componentProps}>
-      <Icon name={icon} />
+      {children}
     </Component>
   )
 }

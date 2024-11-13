@@ -20,13 +20,13 @@ const DefaultLayout = () => {
         <ProfileProvider user={user}>
           <UiProvider Link={Link}>
             <Layout layout="default" padding="lg">
-              <Header h={96} p={36}>
+              <Header h={72} p={36}>
                 <Header.Start>
                   <Brand to="/" width={120} />
                 </Header.Start>
 
                 <Header.End>
-                  <Flex justify="center" align="center" gap={16}>
+                  <Flex justify="center" align="center" gap={8}>
                     <ToggleColorScheme />
 
                     <AuthenticationSelector />
