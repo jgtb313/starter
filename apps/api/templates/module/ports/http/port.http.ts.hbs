@@ -53,7 +53,6 @@ export const {{pascalCase name}}Router = (dependencies: IDependencies): IRouter 
 
       responses: {
         200: {
-          description: 'OK',
           schema: List{{pascalCase namePlural}}SchemaOutput
         }
       },
@@ -77,7 +76,6 @@ export const {{pascalCase name}}Router = (dependencies: IDependencies): IRouter 
 
       responses: {
         200: {
-          description: 'OK',
           schema: List{{pascalCase name}}OptionsSchemaOutput
         }
       },
@@ -102,7 +100,6 @@ export const {{pascalCase name}}Router = (dependencies: IDependencies): IRouter 
 
       responses: {
         200: {
-          description: 'OK',
           schema: Get{{pascalCase name}}SchemaOutput
         }
       },
@@ -149,7 +146,6 @@ export const {{pascalCase name}}Router = (dependencies: IDependencies): IRouter 
 
       responses: {
         200: {
-          description: 'OK',
           schema: Update{{pascalCase name}}SchemaOutput
         }
       },
@@ -172,7 +168,6 @@ export const {{pascalCase name}}Router = (dependencies: IDependencies): IRouter 
 
       responses: {
         200: {
-          description: 'OK',
           schema: Active{{pascalCase name}}SchemaOutput
         }
       },
@@ -195,7 +190,6 @@ export const {{pascalCase name}}Router = (dependencies: IDependencies): IRouter 
 
       responses: {
         200: {
-          description: 'OK',
           schema: Inactive{{pascalCase name}}SchemaOutput
         }
       },
@@ -218,7 +212,7 @@ export const {{pascalCase name}}Router = (dependencies: IDependencies): IRouter 
 
       responses: {
         204: {
-          description: 'OK'
+          description: '{{join name}} deleted successfully.'
         }
       },
 

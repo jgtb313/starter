@@ -9,8 +9,8 @@ extendZodWithOpenApi(z)
 i18next.init({
   lng: 'es',
   resources: {
-    es: { zod: translations }
-  }
+    es: { zod: translations },
+  },
 })
 z.setErrorMap(zodI18nMap)
 
