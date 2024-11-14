@@ -1,1 +1,1 @@
-export const SEND_OTP = 'Olá, seu código é: {{ code }}'
+export const SEND_OTP = 'Hello, your code is: {{ code }}'

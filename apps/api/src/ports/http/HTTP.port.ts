@@ -32,6 +32,7 @@ export type IRouterPath<
 
   path: string
   version?: `v${number}`
+  deprecated?: boolean
 
   method: HTTPMethods
 

@@ -110,7 +110,7 @@ const tags = Schemas.map((schema) => ({
 
 const paths = Schemas.reduce((state, schema) => {
   const formattedPaths = Object.entries(schema.paths).reduce((internalState, [_, value]) => {
-    const { summary, description, path, version = 'v1', method, parameters, responses } = value
+    const { summary, description, path, version = 'v1', deprecated = false, method, parameters, responses } = value
 
     const skipParameters = ['body', 'bodyOptions']
 
@@ -223,10 +223,12 @@ const paths = Schemas.reduce((state, schema) => {
       [`/${version}${normalizedPath}`]: {
         ...previousPath,
         [method.toLowerCase()]: {
-          operationId: `${normalizedPath}-${method}`,
+          operationId: `/${version}${normalizedPath}`,
           tags: [schema.name],
+
           summary,
           description,
+          deprecated,
 
           parameters: formattedParameters,
 
