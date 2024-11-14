@@ -42,7 +42,7 @@ export const setupRoutes = (instance: FastifyInstance, routes: typeof Modules, d
   const modules = Object.values(routes).map((module) => module(dependencies).paths)
 
   for (const module of modules) {
-    Object.values(module).forEach(({ path, version, method, responseStatusCode = 200, execute }) => {
+    Object.values(module).forEach(({ path, version = 'v1', method, responseStatusCode = 200, execute }) => {
       instance.route({
         url: `/${version}${path}`,
         method,

@@ -26,7 +26,7 @@ const DefaultLayout = () => {
                 </Header.Start>
 
                 <Header.End>
-                  <Flex justify="center" align="center" gap={8}>
+                  <Flex justify="center" align="center" gap={24}>
                     <ToggleColorScheme />
 
                     <AuthenticationSelector />

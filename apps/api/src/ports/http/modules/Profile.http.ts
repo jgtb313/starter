@@ -95,6 +95,15 @@ export const ProfileRouter = (dependencies: IDependencies): IRouter => ({
         401: {
           description: 'Unauthorized',
         },
+        403: {
+          description: 'Expired',
+        },
+        404: {
+          description: 'OTP {{otpId}} not found',
+        },
+        409: {
+          description: 'Attempts expired',
+        },
       },
 
       async execute({ body }, context) {
@@ -124,6 +133,15 @@ export const ProfileRouter = (dependencies: IDependencies): IRouter => ({
         204: { description: 'The phone number was successfully updated.' },
         401: {
           description: 'Unauthorized',
+        },
+        403: {
+          description: 'Expired',
+        },
+        404: {
+          description: 'OTP {{otpId}} not found',
+        },
+        409: {
+          description: 'Attempts expired',
         },
       },
 

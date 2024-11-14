@@ -322,11 +322,11 @@ export const Docs = {
         content: document,
       },
       customCss: [
+        '.open-api-client-button { display: none !important; }',
         '.badges { display: none !important; }',
         '.security-scheme-label { font-weight: var(--scalar-semibold); font-size: var(--scalar-mini); color: var(--scalar-color-3); text-transform: uppercase; display: block; }',
         '.scalar-card-header-actions { display: none !important; }',
         '.darklight-reference-promo { display: none !important; }',
-        '.darklight { padding: 18px 24px !important; }',
       ].join(''),
     },
   },
