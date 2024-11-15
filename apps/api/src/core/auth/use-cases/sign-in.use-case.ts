@@ -29,7 +29,7 @@ const execute: IUseCaseExecute<SignInInput, SignInOutput> =
 
     const tokenPayload = getTokenPayload(user.state)
 
-    const authorizationToken = JWT.generate(tokenPayload, SERVER_AUTHORIZATION_SECRET)
+    const authorizationToken = JWT.generate(tokenPayload, SERVER_AUTHORIZATION_SECRET, { expiresIn: '1m' })
     Logger.info(`Token generated successfully for user with email: ${email}`)
 
     return {

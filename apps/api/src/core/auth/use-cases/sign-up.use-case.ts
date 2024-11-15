@@ -37,7 +37,7 @@ const execute: IUseCaseExecute<SignUpInput, SignUpOutput> =
 
     const tokenPayload = getTokenPayload(user.state)
 
-    const authorizationToken = JWT.generate(tokenPayload, SERVER_AUTHORIZATION_SECRET)
+    const authorizationToken = JWT.generate(tokenPayload, SERVER_AUTHORIZATION_SECRET, { expiresIn: '1m' })
 
     return {
       authorizationToken,
