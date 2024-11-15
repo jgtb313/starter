@@ -5,8 +5,8 @@ import { createUseCase } from '@/support/utilities'
 import { getTokenPayload } from '@/support/auth'
 import { IUseCaseExecute } from '@/support/types'
 
-const SERVER_AUTHORIZATION_SECRET = env('SERVER_SECRET')
-const SERVER_AUTHENTICATE_SECRET = env('SERVER_SECRET')
+const SERVER_AUTHORIZATION_SECRET = env('SERVER_AUTHORIZATION_SECRET')
+const SERVER_AUTHENTICATE_SECRET = env('SERVER_AUTHENTICATE_SECRET')
 
 const execute: IUseCaseExecute<AuthenticateInput, AuthenticateOutput> =
   ({ Database, JWT }) =>

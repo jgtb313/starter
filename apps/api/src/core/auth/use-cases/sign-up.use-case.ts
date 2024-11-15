@@ -1,10 +1,13 @@
 import { SignUpSchema, SignUpInput, SignUpOutput, UserStatusEnum } from '@starter/schema'
 
+import { env } from '@/config'
 import { ConflictError } from '@/support/errors'
 import { createUseCase } from '@/support/utilities'
 import { getTokenPayload } from '@/support/auth'
 import { IUseCaseExecute } from '@/support/types'
 import { User } from '@/core/user/domain'
+
+const SERVER_AUTHORIZATION_SECRET = env('SERVER_AUTHORIZATION_SECRET')
 
 const execute: IUseCaseExecute<SignUpInput, SignUpOutput> =
   ({ Database, Encrypt, JWT }) =>
@@ -32,7 +35,9 @@ const execute: IUseCaseExecute<SignUpInput, SignUpOutput> =
       }),
     )
 
-    const authorizationToken = JWT.generate(getTokenPayload(user.state))
+    const tokenPayload = getTokenPayload(user.state)
+
+    const authorizationToken = JWT.generate(tokenPayload, SERVER_AUTHORIZATION_SECRET)
 
     return {
       authorizationToken,

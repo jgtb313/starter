@@ -9,7 +9,8 @@ import { withResponse, withError, IServer } from '@/ports/http'
 import { server } from './Fastify.server'
 import { Docs } from '../scalar'
 
-const PORT = env('SERVER_PORT')
+const SERVER_PORT = env('SERVER_PORT')
+const SERVER_AUTHENTICATE_SECRET = env('SERVER_AUTHENTICATE_SECRET')
 
 type Request = {
   Querystring: {
@@ -24,7 +25,7 @@ server.register(Docs.instance, {
 
 const checkAuthorization = (dependencies: IDependencies) => (authorization?: string) => {
   if (authorization) {
-    return dependencies.JWT.decode<Auth>(authorization)
+    return dependencies.JWT.decode<Auth>(authorization, SERVER_AUTHENTICATE_SECRET)
   }
 
   return undefined
@@ -100,9 +101,9 @@ export const Server: IServer = {
 
       await server.ready()
 
-      await server.listen({ port: +PORT, host: '0.0.0.0' })
+      await server.listen({ port: +SERVER_PORT, host: '0.0.0.0' })
 
-      console.log(`Connected on Fastify Server, running on PORT: ${PORT}`)
+      console.log(`Connected on Fastify Server, running on PORT: ${SERVER_PORT}`)
     } catch (err) {
       const error = err as Error
       console.log(`[FATAL-ERROR]: ${JSON.stringify(error.stack)}`)

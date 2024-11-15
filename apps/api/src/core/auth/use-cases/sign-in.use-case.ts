@@ -6,7 +6,7 @@ import { createUseCase } from '@/support/utilities'
 import { getTokenPayload } from '@/support/auth'
 import { IUseCaseExecute } from '@/support/types'
 
-const SERVER_SECRET = env('SERVER_SECRET')
+const SERVER_AUTHORIZATION_SECRET = env('SERVER_AUTHORIZATION_SECRET')
 
 const execute: IUseCaseExecute<SignInInput, SignInOutput> =
   ({ Database, Encrypt, JWT, Logger }) =>
@@ -27,7 +27,9 @@ const execute: IUseCaseExecute<SignInInput, SignInOutput> =
       throw new AuthError('Invalid access data')
     }
 
-    const authorizationToken = JWT.generate(getTokenPayload(user.state), SERVER_SECRET)
+    const tokenPayload = getTokenPayload(user.state)
+
+    const authorizationToken = JWT.generate(tokenPayload, SERVER_AUTHORIZATION_SECRET)
     Logger.info(`Token generated successfully for user with email: ${email}`)
 
     return {
