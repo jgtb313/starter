@@ -25,7 +25,7 @@ describe('getUserByEmail', () => {
     const result = await sut().execute(input)
 
     expect(dependencies.Database.user.findOne).toBeCalledWith({ email: input.email })
-    expect(result.user?.email).toBe(input.email)
+    expect(result?.email).toBe(input.email)
   })
 
   it('should returns null when the user is not found', async () => {
@@ -36,6 +36,6 @@ describe('getUserByEmail', () => {
     const result = await sut().execute(input)
 
     expect(dependencies.Database.user.findOne).toBeCalledWith({ email: input.email })
-    expect(result.user).toBe(null)
+    expect(result).toBe(undefined)
   })
 })
