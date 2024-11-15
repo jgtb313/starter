@@ -47,7 +47,7 @@ export const AuthRouter = (dependencies: IDependencies): IRouter => ({
       },
 
       execute({ body }) {
-        authenticate(dependencies)(body)
+        return authenticate(dependencies)(body)
       },
     },
 
