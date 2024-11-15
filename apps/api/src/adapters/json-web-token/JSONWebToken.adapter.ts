@@ -1,21 +1,18 @@
 import { sign, verify } from 'jsonwebtoken'
 
-import { env } from '@/config'
 import { AuthError } from '@/support/errors'
 import { IJWT } from '@/ports/jwt'
 
-const SERVER_SECRET = env('SERVER_SECRET')
-
 export const JWT: IJWT = {
-  generate(value, { expiresIn = '7d' } = {}) {
-    return sign(value as never, SERVER_SECRET, { expiresIn })
+  generate(value, secret, { expiresIn = '7d' } = {}) {
+    return sign(value as never, secret, { expiresIn })
   },
 
-  decode<T>(value: string) {
+  decode<T>(value: string, secret: string) {
     const [token] = value?.split(' ').reverse() ?? []
     try {
-      return verify(`${token}`, SERVER_SECRET, { algorithms: ['HS256'] }) as T
-    } catch (error) {
+      return verify(`${token}`, secret, { algorithms: ['HS256'] }) as T
+    } catch (_error) {
       throw new AuthError('Invalid token')
     }
   },

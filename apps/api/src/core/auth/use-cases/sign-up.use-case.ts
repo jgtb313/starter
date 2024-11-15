@@ -32,10 +32,10 @@ const execute: IUseCaseExecute<SignUpInput, SignUpOutput> =
       }),
     )
 
-    const token = JWT.generate(getTokenPayload(user.state))
+    const authorizationToken = JWT.generate(getTokenPayload(user.state))
 
     return {
-      token,
+      authorizationToken,
     }
   }
 

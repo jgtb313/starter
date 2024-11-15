@@ -9,7 +9,6 @@ export const GetUserByEmailSchema = UserSchema.pick({
 export const GetUserByEmailSchemaOutput = UserSchema.pick({ id: true, email: true })
 export type GetUserByEmailInput = z.infer<typeof GetUserByEmailSchema>
 export type GetUserByEmailOutput = z.infer<typeof GetUserByEmailSchemaOutput> | undefined
-
 export const GetUserByIdSchema = UserSchema.pick({
   id: true,
 })

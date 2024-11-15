@@ -1,9 +1,12 @@
 import { SignInSchema, SignInInput, SignInOutput } from '@starter/schema'
 
+import { env } from '@/config'
 import { AuthError } from '@/support/errors'
 import { createUseCase } from '@/support/utilities'
 import { getTokenPayload } from '@/support/auth'
 import { IUseCaseExecute } from '@/support/types'
+
+const SERVER_SECRET = env('SERVER_SECRET')
 
 const execute: IUseCaseExecute<SignInInput, SignInOutput> =
   ({ Database, Encrypt, JWT, Logger }) =>
@@ -24,11 +27,11 @@ const execute: IUseCaseExecute<SignInInput, SignInOutput> =
       throw new AuthError('Invalid access data')
     }
 
-    const token = JWT.generate(getTokenPayload(user.state))
+    const authorizationToken = JWT.generate(getTokenPayload(user.state), SERVER_SECRET)
     Logger.info(`Token generated successfully for user with email: ${email}`)
 
     return {
-      token,
+      authorizationToken,
     }
   }
 

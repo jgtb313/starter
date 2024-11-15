@@ -8,7 +8,7 @@ import { User } from '@/core/user/domain'
 const execute: IUseCaseExecute<SocialSignInInput, SocialSignInOutput> =
   ({ Database, SocialAuth, Encrypt, JWT }) =>
   async (input) => {
-    const { id, name, email } = await SocialAuth.getInfosByToken(input.context, input.token)
+    const { id, name, email } = await SocialAuth.getInfosByToken(input.context, input.providerToken)
 
     const user = await Database.user.findOne({
       $or: [
@@ -35,17 +35,17 @@ const execute: IUseCaseExecute<SocialSignInInput, SocialSignInOutput> =
         }),
       )
 
-      const token = JWT.generate(getTokenPayload(user.state))
+      const authorizationToken = JWT.generate(getTokenPayload(user.state))
 
       return {
-        token,
+        authorizationToken,
       }
     }
 
-    const token = JWT.generate(getTokenPayload(user.state))
+    const authorizationToken = JWT.generate(getTokenPayload(user.state))
 
     return {
-      token: token,
+      authorizationToken,
     }
   }
 

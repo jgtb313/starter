@@ -30,6 +30,6 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts", "src/core/auth/use-cases/authenticate.use-casets"],
   "exclude": ["node_modules", "dist"]
 }
