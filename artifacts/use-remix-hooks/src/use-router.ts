@@ -72,6 +72,7 @@ export const useRouter = <T = unknown, K = unknown>() => {
 
   return {
     pathname: location.pathname,
+    search: location.search,
     path: `${location.pathname}${locationSearch}`,
     query: queryParamsToObject<T>(locationSearch),
     params: params as K,
