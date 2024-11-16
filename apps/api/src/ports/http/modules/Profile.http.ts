@@ -12,12 +12,12 @@ import {
 
 import { IDependencies } from '@/support/types'
 import { validateOTP } from '@/core/otp/use-cases/validate-otp.use-case'
-import { getUserById } from '@/core/user/use-case/get-user-by-id.use-case'
-import { updateUser } from '@/core/user/use-case/update-user.use-case'
-import { updateUserPassword } from '@/core/user/use-case/update-user-password.use-case'
-import { updateUserEmail } from '@/core/user/use-case/update-user-email.use-case'
-import { updateUserPhone } from '@/core/user/use-case/update-user-phone.use-case'
-import { userPasswordVerification } from '@/core/user/use-case/user-password-verification.use-case'
+import { getUserById } from '@/core/user/use-cases/get-user-by-id.use-case'
+import { updateUser } from '@/core/user/use-cases/update-user.use-case'
+import { updateUserPassword } from '@/core/user/use-cases/update-user-password.use-case'
+import { updateUserEmail } from '@/core/user/use-cases/update-user-email.use-case'
+import { updateUserPhone } from '@/core/user/use-cases/update-user-phone.use-case'
+import { userPasswordVerification } from '@/core/user/use-cases/user-password-verification.use-case'
 import { requiresAuthorization, IRouter } from '@/ports/http'
 
 export const ProfileRouter = (dependencies: IDependencies): IRouter => ({

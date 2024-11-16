@@ -21,12 +21,12 @@ describe('socialSignIn', () => {
   it('should create a new user if user does not exist', async () => {
     const input: SocialSignInInput = {
       context: SocialSignInEnum.GOOGLE,
-      token: 'tokenUnregisteredUser',
+      providerToken: 'tokenUnregisteredUser',
     }
 
     const output = await sut().execute(input)
 
-    const createdUser = await dependencies.Database.user.findOne({ social: { google: { id: input.token } } })
+    const createdUser = await dependencies.Database.user.findOne({ social: { google: { id: input.providerToken } } })
 
     expect(dependencies.JWT.generate).toBeCalled()
     expect(dependencies.Database.user.create).toBeCalled()
@@ -37,7 +37,7 @@ describe('socialSignIn', () => {
   it('should generate a token for the existing user', async () => {
     const input: SocialSignInInput = {
       context: SocialSignInEnum.GOOGLE,
-      token: 'tokenRegisteredUser',
+      providerToken: 'tokenRegisteredUser',
     }
 
     const output = await sut().execute(input)
@@ -50,23 +50,23 @@ describe('socialSignIn', () => {
   it('should use the generated email if email is not provided by SocialAuth', async () => {
     const input: SocialSignInInput = {
       context: SocialSignInEnum.FACEBOOK,
-      token: 'tokenUnregisteredUserWithoutEmail',
+      providerToken: 'tokenUnregisteredUserWithoutEmail',
     }
 
     const output = await sut().execute(input)
 
-    const createdUser = await dependencies.Database.user.findOne({ social: { facebook: { id: input.token } } })
+    const createdUser = await dependencies.Database.user.findOne({ social: { facebook: { id: input.providerToken } } })
 
     expect(dependencies.JWT.generate).toBeCalled()
     expect(dependencies.Database.user.create).toBeCalled()
-    expect(createdUser?.state.email).toBe(`${input.token}@${input.context.toLowerCase()}.com`.toLowerCase())
+    expect(createdUser?.state.email).toBe(`${input.providerToken}@${input.context.toLowerCase()}.com`.toLowerCase())
     expect(output).toBeDefined()
   })
 
   it('should throw an AuthError if the token is invalid', async () => {
     const input: SocialSignInInput = {
       context: SocialSignInEnum.FACEBOOK,
-      token: 'invalidToken',
+      providerToken: 'invalidToken',
     }
 
     await expect(sut().execute(input)).rejects.toThrow(AuthError)

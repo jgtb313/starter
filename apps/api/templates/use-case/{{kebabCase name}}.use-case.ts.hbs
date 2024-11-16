@@ -1,0 +1,10 @@
+import { createUseCase } from '@/support/utilities'
+import { IUseCaseExecute } from '@/support/types'
+
+const execute: IUseCaseExecute<{}, boolean> =
+  () =>
+  async () => {
+    return true
+  }
+
+export const {{camelCase name}} = createUseCase(execute)

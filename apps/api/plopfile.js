@@ -134,7 +134,7 @@ module.exports = function (plop) {
     ],
   })
 
-  plop.setGenerator('module:useCase', {
+  plop.setGenerator('use-case', {
     description: 'Add an useCase',
     prompts: [
       {
@@ -150,9 +150,10 @@ module.exports = function (plop) {
     ],
     actions: [
       {
-        type: 'add',
-        path: 'src/core/{{kebabCase moduleName}}/use-cases/{{kebabCase name}}.ts',
-        templateFile: 'templates/module/core/custom-use-case.ts.hbs',
+        type: 'addMany',
+        destination: 'src/core/{{kebabCase moduleName}}/use-cases',
+        base: 'templates/use-case',
+        templateFiles: 'templates/use-case/*.hbs',
       },
     ],
   })

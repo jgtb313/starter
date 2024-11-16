@@ -2,7 +2,7 @@ import { AuthenticateSchema, AuthenticateInput, AuthenticateOutput } from '@star
 
 import { env } from '@/config'
 import { createUseCase } from '@/support/utilities'
-import { getTokenPayload } from '@/support/auth'
+import { getTokenPayload, Auth } from '@/support/auth'
 import { IUseCaseExecute } from '@/support/types'
 
 const SERVER_AUTHORIZATION_SECRET = env('SERVER_AUTHORIZATION_SECRET')
@@ -11,9 +11,9 @@ const SERVER_AUTHENTICATE_SECRET = env('SERVER_AUTHENTICATE_SECRET')
 const execute: IUseCaseExecute<AuthenticateInput, AuthenticateOutput> =
   ({ Database, JWT }) =>
   async ({ authorizationToken }) => {
-    const { id } = JWT.decode<{ id: string }>(authorizationToken, SERVER_AUTHORIZATION_SECRET)
+    const { userId } = JWT.decode<Auth>(authorizationToken, SERVER_AUTHORIZATION_SECRET)
 
-    const user = await Database.user.findById(id)
+    const user = await Database.user.findById(userId)
 
     const accessToken = JWT.generate(getTokenPayload(user.state), SERVER_AUTHENTICATE_SECRET)
 

@@ -1,0 +1,25 @@
+import { beforeEach, describe, expect, it } from 'vitest'
+
+import { TestDependencies, ITestDependencies } from '@/config/tests'
+import { IDependencies } from '@/support/types'
+
+import { {{camelCase name}} } from './{{kebabCase name}}.use-case'
+
+describe('{{camelCase name}}', () => {
+  const sut = () => ({
+    execute: (input: Parameters<ReturnType<typeof {{camelCase name}}>>[number]) => {{camelCase name}}(dependencies as IDependencies)(input),
+  })
+  let dependencies: ITestDependencies
+
+  beforeEach(async () => {
+    dependencies = await TestDependencies()
+  })
+
+  it('should be defined', async () => {
+    const input = {}
+
+    const output = await sut().execute(input)
+
+    expect(output).toBe(true)
+  })
+})
