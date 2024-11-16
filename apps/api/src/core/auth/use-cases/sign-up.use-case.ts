@@ -7,11 +7,11 @@ import { getTokenPayload } from '@/support/auth'
 import { IUseCaseExecute } from '@/support/types'
 import { User } from '@/core/user/domain'
 
-const SERVER_AUTHORIZATION_SECRET = env('SERVER_AUTHORIZATION_SECRET')
-
 const execute: IUseCaseExecute<SignUpInput, SignUpOutput> =
   ({ Database, Encrypt, JWT }) =>
   async ({ name, email, password }) => {
+    const SERVER_AUTHORIZATION_SECRET = env('SERVER_AUTHORIZATION_SECRET')
+
     const emailExists = await Database.user.findOne({
       email,
     })

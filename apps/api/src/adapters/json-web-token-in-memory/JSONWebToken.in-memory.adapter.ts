@@ -12,6 +12,8 @@ export const JWTInMemory: SetupTestDependencies<IJWT> = {
   decode: vi.fn(<T>(value: string) => {
     const [token] = value?.split(' ').reverse() ?? []
 
+    console.log({ value, token })
+
     if (token === 'Invalid token') {
       throw new AuthError('Invalid token')
     }

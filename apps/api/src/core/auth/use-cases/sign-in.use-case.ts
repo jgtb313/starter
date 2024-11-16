@@ -6,11 +6,11 @@ import { createUseCase } from '@/support/utilities'
 import { getTokenPayload } from '@/support/auth'
 import { IUseCaseExecute } from '@/support/types'
 
-const SERVER_AUTHORIZATION_SECRET = env('SERVER_AUTHORIZATION_SECRET')
-
 const execute: IUseCaseExecute<SignInInput, SignInOutput> =
   ({ Database, Encrypt, JWT, Logger }) =>
   async ({ email, password }) => {
+    const SERVER_AUTHORIZATION_SECRET = env('SERVER_AUTHORIZATION_SECRET')
+
     Logger.info(`Attempting to sign in user with email: ${email}`)
 
     const user = await Database.user.findOne({ email })

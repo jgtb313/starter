@@ -31,7 +31,7 @@ describe('signIn', () => {
     expect(dependencies.Database.user.findOne).toBeCalledWith({ email: input.email })
     expect(dependencies.Encrypt.compare).toBeCalledWith(input.password, 'hashedPassword')
     expect(dependencies.JWT.generate).toBeCalled()
-    expect(output).toEqual({ token: 'token' })
+    expect(output).toEqual({ authorizationToken: 'token' })
   })
 
   it('should throw an AuthError if the user does not exist', async () => {

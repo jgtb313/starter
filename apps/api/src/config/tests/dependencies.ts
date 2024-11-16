@@ -24,7 +24,8 @@ export const TestDependencies = async (): Promise<ITestDependencies> => {
   vi.stubEnv('STAGE', 'local')
 
   vi.stubEnv('SERVER_PORT', '4000')
-  vi.stubEnv('SERVER_SECRET', 'fake-secret')
+  vi.stubEnv('SERVER_AUTHORIZATION_SECRET', 'fake-secret')
+  vi.stubEnv('SERVER_AUTHENTICATE_SECRET', 'fake-secret')
   vi.stubEnv('SERVER_RECOVER_PASSWORD_BASE_URL', 'http://localhost:fake')
 
   vi.stubEnv('MONGODB_URI', 'mongodb://fake-user:fake-password@localhost:27017/fake-db')
