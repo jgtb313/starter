@@ -3,12 +3,12 @@ import { Flex, Form, Button, Link, Typography, Divider } from '@starter/ui'
 import { useRouter } from '@starter/use-remix-hooks'
 
 import { SocialAuthentication } from '../SocialAuthentication'
-import { ISignInForm } from './SignInForm.types'
+import { SignInFormProps, ISignInForm } from './SignInForm.types'
 
-export const SignInForm = ({ onSubmit, loading }: ISignInForm) => {
+export const SignInForm = ({ onSubmit, loading }: SignInFormProps) => {
   const router = useRouter()
 
-  const initialValues: ISignInForm['initialValues'] = { email: null, password: null }
+  const initialValues: ISignInForm['initialValues'] = { email: 'test10@gmail.com', password: '123123123' }
 
   return (
     <Form initialValues={initialValues} schema={SignInSchema} onSubmit={onSubmit}>

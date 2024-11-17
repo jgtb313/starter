@@ -1,4 +1,4 @@
-import { json, type MetaFunction, ActionFunctionArgs } from '@remix-run/node'
+import { json, redirect, type MetaFunction, ActionFunctionArgs } from '@remix-run/node'
 import { useFetcher } from '@remix-run/react'
 import config from '@starter/config'
 import client from '@starter/client'
@@ -14,23 +14,25 @@ export const meta: MetaFunction = () => {
 }
 
 export const action = async ({ request }: ActionFunctionArgs) => {
+  const url = new URL(request.url)
+  const clientId = url.searchParams.get('client_id')
+
   const formData = await request.formData()
   const { email, password } = Object.fromEntries(formData) as SignInInput
 
   const { accessToken } = await client.auth.signIn({ email, password })
 
-  console.log({
-    accessToken,
-  })
+  const session = await cookie.getSession()
 
-  return json(
-    { success: true },
-    {
-      headers: {
-        'Set-Cookie': await cookie.serialize(accessToken),
-      },
+  session.set('accessToken', accessToken)
+
+  const cookieHeader = await cookie.commitSession(session)
+
+  return redirect('/sign-up', {
+    headers: {
+      'Set-Cookie': cookieHeader,
     },
-  )
+  })
 }
 
 const Page = () => {

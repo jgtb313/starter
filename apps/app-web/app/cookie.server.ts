@@ -4,8 +4,8 @@ export const cookie = createCookieSessionStorage({
   cookie: createCookie('accessToken', {
     domain: '.localhost',
     path: '/',
-    httpOnly: false,
+    httpOnly: true,
     secure: false,
-    sameSite: 'lax',
+    sameSite: 'none',
   }),
 })

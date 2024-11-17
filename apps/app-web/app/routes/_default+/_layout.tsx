@@ -27,6 +27,8 @@ const DefaultLayout = () => {
                 <Header.End>
                   <Flex justify="center" align="center" gap={24}>
                     <ToggleColorScheme />
+
+                    {JSON.stringify(user)}
                   </Flex>
                 </Header.End>
               </Header>
