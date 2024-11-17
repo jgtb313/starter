@@ -9,6 +9,10 @@ export const setupDefaultLayout = async ({ request }: LoaderFunctionArgs) => {
 
   const cookie = request.headers.get('cookie')
 
+  console.log({
+    cookie,
+  })
+
   if (!cookie) {
     return json({
       user: undefined,

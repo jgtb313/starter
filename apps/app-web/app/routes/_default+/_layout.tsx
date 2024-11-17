@@ -4,7 +4,6 @@ import { UiProvider, Layout, Flex } from '@starter/ui'
 
 import { setupDefaultLayout } from '~/server'
 import { Brand, ToggleColorScheme } from '~/common'
-import { AuthenticationSelector } from '~/components'
 import { Shell } from '~/Shell'
 
 export const loader = setupDefaultLayout
@@ -28,8 +27,6 @@ const DefaultLayout = () => {
                 <Header.End>
                   <Flex justify="center" align="center" gap={24}>
                     <ToggleColorScheme />
-
-                    <AuthenticationSelector />
                   </Flex>
                 </Header.End>
               </Header>

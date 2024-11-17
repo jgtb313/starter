@@ -8,12 +8,12 @@ export const useClient = () => {
   useEffect(() => {
     client.connect(stage)
 
-    const token = Cookie.get('token')
+    const accessToken = Cookie.get('accessToken')
 
-    if (!token) {
+    if (!accessToken) {
       return
     }
 
-    client.authenticate(token)
+    client.authenticate(accessToken)
   }, [])
 }

@@ -1,15 +1,51 @@
-import { type MetaFunction } from '@remix-run/node'
+import { json, type MetaFunction, ActionFunctionArgs } from '@remix-run/node'
+import { useFetcher } from '@remix-run/react'
 import config from '@starter/config'
+import client from '@starter/client'
+import { SignInInput } from '@starter/schema'
 import { Flex, Card, Typography } from '@starter/ui'
 
+import { cookie } from '~/cookie.server'
 import { Brand } from '~/common'
-import { SignInForm } from '~/components'
+import { SignInForm, ISignInForm } from '~/components'
 
 export const meta: MetaFunction = () => {
   return [{ title: `${config.name} | Sign In` }]
 }
 
+export const action = async ({ request }: ActionFunctionArgs) => {
+  const formData = await request.formData()
+  const { email, password } = Object.fromEntries(formData) as SignInInput
+
+  const { accessToken } = await client.auth.signIn({ email, password })
+
+  console.log({
+    accessToken,
+  })
+
+  return json(
+    { success: true },
+    {
+      headers: {
+        'Set-Cookie': await cookie.serialize(accessToken),
+      },
+    },
+  )
+}
+
 const Page = () => {
+  const fetcher = useFetcher()
+  const loading = fetcher.state === 'submitting'
+
+  const handleSubmit: ISignInForm['onSubmit'] = async (values) => {
+    const formData = new FormData()
+
+    formData.append('email', values.email)
+    formData.append('password', values.password)
+
+    await fetcher.submit(formData, { method: 'post' })
+  }
+
   return (
     <Flex maw={450} direction="column" align="center" gap={32}>
       <Brand width={350} />
@@ -25,7 +61,7 @@ const Page = () => {
               Enter your credentials below to access your account.
             </Typography>
 
-            <SignInForm />
+            <SignInForm onSubmit={handleSubmit} loading={loading} />
           </Flex>
         </Card.Body>
       </Card>

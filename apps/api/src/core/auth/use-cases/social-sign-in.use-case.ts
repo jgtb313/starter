@@ -1,6 +1,5 @@
 import { SocialSignInSchema, SocialSignInInput, SocialSignInOutput, UserStatusEnum, SocialSignInEnum } from '@starter/schema'
 
-import { env } from '@/config'
 import { createUseCase } from '@/support/utilities'
 import { getTokenPayload } from '@/support/auth'
 import { IUseCaseExecute } from '@/support/types'
@@ -9,8 +8,6 @@ import { User } from '@/core/user/domain'
 const execute: IUseCaseExecute<SocialSignInInput, SocialSignInOutput> =
   ({ Database, SocialAuth, Encrypt, JWT }) =>
   async (input) => {
-    const SERVER_AUTHORIZATION_SECRET = env('SERVER_AUTHORIZATION_SECRET')
-
     const { id, name, email } = await SocialAuth.getInfosByToken(input.context, input.providerToken)
 
     const user = await Database.user.findOne({
@@ -40,19 +37,19 @@ const execute: IUseCaseExecute<SocialSignInInput, SocialSignInOutput> =
 
       const tokenPayload = getTokenPayload(user.state)
 
-      const authorizationToken = JWT.generate(tokenPayload, SERVER_AUTHORIZATION_SECRET, { expiresIn: '1m' })
+      const accessToken = JWT.generate(tokenPayload, { expiresIn: '1m' })
 
       return {
-        authorizationToken,
+        accessToken,
       }
     }
 
     const tokenPayload = getTokenPayload(user.state)
 
-    const authorizationToken = JWT.generate(tokenPayload, SERVER_AUTHORIZATION_SECRET, { expiresIn: '1m' })
+    const accessToken = JWT.generate(tokenPayload, { expiresIn: '1m' })
 
     return {
-      authorizationToken,
+      accessToken,
     }
   }
 

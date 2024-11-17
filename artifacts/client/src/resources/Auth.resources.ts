@@ -7,8 +7,6 @@
  **/
 
 import {
-  AuthenticateInput,
-  AuthenticateOutput,
   SignInInput,
   SignInOutput,
   SocialSignInInput,
@@ -21,19 +19,6 @@ import {
 
 import client from '@/request'
 import { withFields } from '@/support'
-
-/**
- * `POST /v1/authenticate`
- * Makes a request to /v1/authenticate
- *
- * @param {Object} body The body for the request.
- * @param {Object} [body.fields] The fields.
- *
- * @returns Resolves to the result of the request or an error.
- */
-export const authenticate = withFields<AuthenticateInput, AuthenticateOutput>(({ fields, ...body }) =>
-  client.post('/v1/authenticate', body, { params: { fields } }),
-)
 
 /**
  * `POST /v1/sign-in`

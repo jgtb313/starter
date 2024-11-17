@@ -1,6 +1,5 @@
 import { SignUpSchema, SignUpInput, SignUpOutput, UserStatusEnum } from '@starter/schema'
 
-import { env } from '@/config'
 import { ConflictError } from '@/support/errors'
 import { createUseCase } from '@/support/utilities'
 import { getTokenPayload } from '@/support/auth'
@@ -10,8 +9,6 @@ import { User } from '@/core/user/domain'
 const execute: IUseCaseExecute<SignUpInput, SignUpOutput> =
   ({ Database, Encrypt, JWT }) =>
   async ({ name, email, password }) => {
-    const SERVER_AUTHORIZATION_SECRET = env('SERVER_AUTHORIZATION_SECRET')
-
     const emailExists = await Database.user.findOne({
       email,
     })
@@ -37,10 +34,10 @@ const execute: IUseCaseExecute<SignUpInput, SignUpOutput> =
 
     const tokenPayload = getTokenPayload(user.state)
 
-    const authorizationToken = JWT.generate(tokenPayload, SERVER_AUTHORIZATION_SECRET, { expiresIn: '1m' })
+    const accessToken = JWT.generate(tokenPayload, { expiresIn: '1m' })
 
     return {
-      authorizationToken,
+      accessToken,
     }
   }
 

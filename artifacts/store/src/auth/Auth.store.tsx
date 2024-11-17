@@ -8,21 +8,11 @@ import { AuthContextProps, AuthProviderProps } from './Auth.store.types'
 
 export const AuthProvider = ({ children }: PropsWithChildren<AuthProviderProps>) => {
   const store = useStore()
-  const [callAuthenticate, { loading: loadingAuthenticate }] = useRequest(client.auth.authenticate)
   const [callSignIn, { loading: loadingSignIn }] = useRequest(client.auth.signIn)
   const [callSignUp, { loading: loadingSignUp }] = useRequest(client.auth.signUp)
   const [callSocialSignIn, { loading: loadingSocialSignIn }] = useRequest(client.auth.socialSignIn)
   const [callForgotPassword, { loading: loadingForgotPassword }] = useRequest(client.auth.forgotPassword)
   const [callRecoverPassword, { loading: loadingRecoverPassword }] = useRequest(client.auth.recoverPassword)
-
-  const authenticate: AuthContextProps['authenticate'] = (input, options) =>
-    callAuthenticate({
-      params: {
-        ...input,
-      },
-      options,
-      onError: store.onError,
-    })
 
   const signIn: AuthContextProps['signIn'] = (input, options) =>
     callSignIn({
@@ -70,14 +60,12 @@ export const AuthProvider = ({ children }: PropsWithChildren<AuthProviderProps>)
     })
 
   const value: AuthContextProps = {
-    loadingAuthenticate,
     loadingSignIn,
     loadingSignUp,
     loadingSocialSignIn,
     loadingForgotPassword,
     loadingRecoverPassword,
 
-    authenticate,
     signIn,
     signUp,
     socialSignIn,

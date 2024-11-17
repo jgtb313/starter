@@ -17,8 +17,8 @@ const SocialAuthenticationWrapper = () => {
           providerToken: access_token,
         },
         {
-          onSuccess: ({ authorizationToken }) => {
-            authenticate(authorizationToken)
+          onSuccess: ({ accessToken }) => {
+            authenticate(accessToken)
           },
         },
       )
@@ -40,8 +40,8 @@ const SocialAuthenticationWrapper = () => {
               providerToken: accessToken,
             },
             {
-              onSuccess: ({ authorizationToken }) => {
-                authenticate(authorizationToken)
+              onSuccess: ({ accessToken }) => {
+                authenticate(accessToken)
               },
             },
           )

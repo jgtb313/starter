@@ -5,10 +5,16 @@ import { useRouter } from '@starter/use-remix-hooks'
 export const useAuthenticate = () => {
   const router = useRouter<{ client_id: string }>()
 
-  return (token: string) => {
-    Cookies.set('token', token)
-    client.authenticate(token)
+  return (accessToken: string) => {
+    Cookies.set('accessToken', accessToken, {
+      domain: '.localhost',
+      path: '/',
+      httpOnly: true,
+      secure: false,
+      sameSite: 'None',
+    })
+    client.authenticate(accessToken)
 
-    router.push(`${router.query.client_id}/authorizationToken=${token}`)
+    window.location.href = router.query.client_id
   }
 }

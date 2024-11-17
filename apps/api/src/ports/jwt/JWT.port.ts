@@ -3,6 +3,6 @@ export type JWTGenerateOptions = {
 }
 
 export type IJWT = {
-  generate(value: unknown, secret: string, options?: JWTGenerateOptions): string
-  decode<T>(value: string, secret: string): T
+  generate(value: unknown, options?: JWTGenerateOptions): string
+  decode<T>(value: string): T
 }

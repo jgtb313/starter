@@ -1,34 +1,17 @@
 import { SignInSchema } from '@starter/schema'
-import { useAuth } from '@starter/store'
 import { Flex, Form, Button, Link, Typography, Divider } from '@starter/ui'
 import { useRouter } from '@starter/use-remix-hooks'
 
-import { useAuthenticate } from '~/support/use-authenticate'
 import { SocialAuthentication } from '../SocialAuthentication'
 import { ISignInForm } from './SignInForm.types'
 
-export const SignInForm = () => {
+export const SignInForm = ({ onSubmit, loading }: ISignInForm) => {
   const router = useRouter()
-  const { signIn, loadingSignIn } = useAuth()
-  const authenticate = useAuthenticate()
 
   const initialValues: ISignInForm['initialValues'] = { email: null, password: null }
 
-  const handleSubmit: ISignInForm['onSubmit'] = (values) => {
-    signIn(
-      {
-        ...values,
-      },
-      {
-        onSuccess: ({ authorizationToken }) => {
-          authenticate(authorizationToken)
-        },
-      },
-    )
-  }
-
   return (
-    <Form initialValues={initialValues} schema={SignInSchema} onSubmit={handleSubmit}>
+    <Form initialValues={initialValues} schema={SignInSchema} onSubmit={onSubmit}>
       {() => (
         <Flex direction="column" gap={24}>
           <Form.Input name="email" label="Email" placeholder="Enter your email" />
@@ -40,7 +23,7 @@ export const SignInForm = () => {
           </Link>
 
           <Flex direction="column" gap={16}>
-            <Button type="submit" size="lg" loading={loadingSignIn} block>
+            <Button type="submit" size="lg" loading={loading} block>
               Sign In
             </Button>
 

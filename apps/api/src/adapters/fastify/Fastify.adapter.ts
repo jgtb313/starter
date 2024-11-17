@@ -1,5 +1,5 @@
 import { FastifyInstance, FastifyRequest } from 'fastify'
-import client from '@starter/config'
+import config from '@starter/config'
 
 import { env } from '@/config'
 import { Auth } from '@/support/auth'
@@ -10,7 +10,6 @@ import { server } from './Fastify.server'
 import { Docs } from '../scalar'
 
 const SERVER_PORT = env('SERVER_PORT')
-const SERVER_AUTHENTICATE_SECRET = env('SERVER_AUTHENTICATE_SECRET')
 
 type Request = {
   Querystring: {
@@ -25,7 +24,7 @@ server.register(Docs.instance, {
 
 const checkAuthorization = (dependencies: IDependencies) => (authorization?: string) => {
   if (authorization) {
-    return dependencies.JWT.decode<Auth>(authorization, SERVER_AUTHENTICATE_SECRET)
+    return dependencies.JWT.decode<Auth>(authorization)
   }
 
   return undefined
@@ -33,7 +32,7 @@ const checkAuthorization = (dependencies: IDependencies) => (authorization?: str
 
 export const setupRoutes = (instance: FastifyInstance, routes: typeof Modules, dependencies: IDependencies) => {
   instance.get('/', (_, reply) => {
-    reply.send({ message: `${client.name} API` })
+    reply.send({ message: `${config.name} API` })
   })
 
   instance.get('/health', (_, reply) => {

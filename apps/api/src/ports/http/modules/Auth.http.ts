@@ -1,6 +1,4 @@
 import {
-  AuthenticateSchema,
-  AuthenticateSchemaOutput,
   SignInSchema,
   SignInSchemaOutput,
   SocialSignInSchema,
@@ -12,7 +10,6 @@ import {
 } from '@starter/schema'
 
 import { IDependencies } from '@/support/types'
-import { authenticate } from '@/core/auth/use-cases/authenticate.use-case'
 import { signIn } from '@/core/auth/use-cases/sign-in.use-case'
 import { socialSignIn } from '@/core/auth/use-cases/social-sign-in.use-case'
 import { signUp } from '@/core/auth/use-cases/sign-up.use-case'
@@ -28,29 +25,6 @@ export const AuthRouter = (dependencies: IDependencies): IRouter => ({
   schemas: {},
 
   paths: {
-    authenticate: {
-      summary: 'Authenticate',
-      description: 'Exchanges an authorizationToken for an accessToken, allowing authenticated access to protected resources.',
-
-      method: 'POST',
-
-      path: '/authenticate',
-
-      parameters: {
-        body: AuthenticateSchema,
-      },
-
-      responses: {
-        200: {
-          schema: AuthenticateSchemaOutput,
-        },
-      },
-
-      execute({ body }) {
-        return authenticate(dependencies)(body)
-      },
-    },
-
     signIn: {
       summary: 'Sign In',
       description: 'Authenticates a user by validating their email and password.',

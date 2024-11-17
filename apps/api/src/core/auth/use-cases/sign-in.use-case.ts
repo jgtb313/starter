@@ -1,6 +1,5 @@
 import { SignInSchema, SignInInput, SignInOutput } from '@starter/schema'
 
-import { env } from '@/config'
 import { AuthError } from '@/support/errors'
 import { createUseCase } from '@/support/utilities'
 import { getTokenPayload } from '@/support/auth'
@@ -9,8 +8,6 @@ import { IUseCaseExecute } from '@/support/types'
 const execute: IUseCaseExecute<SignInInput, SignInOutput> =
   ({ Database, Encrypt, JWT, Logger }) =>
   async ({ email, password }) => {
-    const SERVER_AUTHORIZATION_SECRET = env('SERVER_AUTHORIZATION_SECRET')
-
     Logger.info(`Attempting to sign in user with email: ${email}`)
 
     const user = await Database.user.findOne({ email })
@@ -29,11 +26,11 @@ const execute: IUseCaseExecute<SignInInput, SignInOutput> =
 
     const tokenPayload = getTokenPayload(user.state)
 
-    const authorizationToken = JWT.generate(tokenPayload, SERVER_AUTHORIZATION_SECRET, { expiresIn: '1m' })
+    const accessToken = JWT.generate(tokenPayload, { expiresIn: '1m' })
     Logger.info(`Token generated successfully for user with email: ${email}`)
 
     return {
-      authorizationToken,
+      accessToken,
     }
   }
 

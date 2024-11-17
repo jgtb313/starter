@@ -2,7 +2,7 @@ import { ActionIcon, Icon, useTheme } from '@starter/ui'
 
 import { ToggleColorSchemeProps } from './ToggleColorScheme.types'
 
-export const ToggleColorScheme = ({ size = 'sm' }: ToggleColorSchemeProps) => {
+export const ToggleColorScheme = ({ size = 'md' }: ToggleColorSchemeProps) => {
   const { colorScheme, toggleColorScheme } = useTheme()
 
   return (

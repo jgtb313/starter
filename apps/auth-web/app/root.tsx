@@ -1,18 +1,10 @@
 import '@starter/ui/dist/style.css'
 
 import { PropsWithChildren } from 'react'
-import { Meta, Links, ScrollRestoration, Scripts, Outlet, useRouteLoaderData } from '@remix-run/react'
-import { json, LinksFunction } from '@remix-run/node'
+import { Meta, Links, ScrollRestoration, Scripts, Outlet } from '@remix-run/react'
+import { LinksFunction } from '@remix-run/node'
 import config from '@starter/config'
 import { ColorSchemeScript } from '@starter/ui'
-
-export const loader = async () => {
-  return json({
-    ENV: {
-      STAGE: process.env.STAGE,
-    },
-  })
-}
 
 export const links: LinksFunction = () => [
   {
@@ -23,8 +15,6 @@ export const links: LinksFunction = () => [
 ]
 
 export const Layout = ({ children }: PropsWithChildren) => {
-  const data = useRouteLoaderData<typeof loader>('root')
-
   return (
     <html lang="en">
       <head>
@@ -38,11 +28,6 @@ export const Layout = ({ children }: PropsWithChildren) => {
       <body>
         {children}
         <ScrollRestoration />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `window.ENV = ${JSON.stringify(data?.ENV)}`,
-          }}
-        />
         <Scripts />
       </body>
     </html>

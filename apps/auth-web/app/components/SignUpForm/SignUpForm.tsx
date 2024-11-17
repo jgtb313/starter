@@ -20,8 +20,8 @@ export const SignUpForm = () => {
         ...values,
       },
       {
-        onSuccess: ({ authorizationToken }) => {
-          authenticate(authorizationToken)
+        onSuccess: ({ accessToken }) => {
+          authenticate(accessToken)
         },
       },
     )
