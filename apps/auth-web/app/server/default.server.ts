@@ -1,13 +1,12 @@
 import { redirect, json, LoaderFunctionArgs } from '@remix-run/node'
+import { config } from '@starter/config'
+import { getClientIdInfos } from '~/support/get-client-id-infos'
 
-export const setupDefaultLayout = async ({ request }: LoaderFunctionArgs) => {
-  const url = new URL(request.url)
-  const searchParams = url.searchParams
+export const setupDefaultLayout = async (args: LoaderFunctionArgs) => {
+  const clientIdInfos = getClientIdInfos(args)
 
-  const clientId = searchParams.get('client_id')
-
-  if (!clientId) {
-    return redirect('https://www.google.com')
+  if (clientIdInfos === false) {
+    return redirect(config.oauth.fallbackUrl)
   }
 
   return json({})

@@ -1,35 +1,35 @@
 import { redirect, type MetaFunction, ActionFunctionArgs } from '@remix-run/node'
 import { useFetcher } from '@remix-run/react'
-import config from '@starter/config'
+import { config } from '@starter/config'
 import client from '@starter/client'
 import { SignInInput } from '@starter/schema'
 import { Flex, Card, Typography } from '@starter/ui'
 
-import { cookie } from '~/cookie.server'
+import { getClientIdInfos } from '~/support/get-client-id-infos'
 import { Brand } from '~/common'
 import { SignInForm, ISignInForm } from '~/components'
+import { setupCookie } from '~/support/setup-cookies'
 
 export const meta: MetaFunction = () => {
   return [{ title: `${config.name} | Sign In` }]
 }
 
-export const action = async ({ request }: ActionFunctionArgs) => {
-  const url = new URL(request.url)
-  const clientId = url.searchParams.get('client_id')
+export const action = async (args: ActionFunctionArgs) => {
+  const clientIdInfos = getClientIdInfos(args)
 
-  const formData = await request.formData()
+  if (!clientIdInfos) {
+    return redirect(config.oauth.fallbackUrl)
+  }
+
+  const formData = await args.request.formData()
   const { email, password } = Object.fromEntries(formData) as SignInInput
 
   // client.connect(import.meta.env.STAGE)
   const { accessToken } = await client.auth.signIn({ email, password })
 
-  const session = await cookie.getSession(request.headers.get('Cookie'))
+  const cookieHeader = await setupCookie(args, accessToken)
 
-  await session.set('accessToken', accessToken)
-
-  const cookieHeader = await cookie.commitSession(session)
-
-  return redirect(`${clientId}`, {
+  return redirect(clientIdInfos.redirectUrl, {
     headers: {
       'Set-Cookie': cookieHeader,
     },
