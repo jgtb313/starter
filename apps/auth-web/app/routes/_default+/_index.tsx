@@ -6,7 +6,7 @@ import { SignInInput, SocialSignInInput } from '@starter/schema'
 import { Flex, Card, Typography } from '@starter/ui'
 
 import { getClientIdInfos } from '~/support/get-client-id-infos'
-import { setupCookie } from '~/support/setup-cookies'
+import { setupCookie } from '~/cookie.server'
 import { Brand } from '~/common'
 import { SignInForm, ISignInForm, ISocialAuthentication } from '~/components'
 
