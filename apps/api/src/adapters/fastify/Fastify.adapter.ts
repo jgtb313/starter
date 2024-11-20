@@ -10,6 +10,7 @@ import { server } from './Fastify.server'
 import { Docs } from '../scalar'
 
 const SERVER_PORT = env('SERVER_PORT')
+const SERVER_AUTHENTICATE_SECRET = env('SERVER_AUTHENTICATE_SECRET')
 
 type Request = {
   Querystring: {
@@ -24,7 +25,7 @@ server.register(Docs.instance, {
 
 const checkAuthorization = (dependencies: IDependencies) => (authorization?: string) => {
   if (authorization) {
-    return dependencies.JWT.decode<Auth>(authorization)
+    return dependencies.JWT.decode<Auth>(authorization, SERVER_AUTHENTICATE_SECRET)
   }
 
   return undefined

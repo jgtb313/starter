@@ -1,6 +1,6 @@
 import { Outlet, Link, useLoaderData } from '@remix-run/react'
 import { AuthProvider, ProfileProvider, ProfileProviderProps } from '@starter/store'
-import { UiProvider, Layout, Flex } from '@starter/ui'
+import { UiProvider, Layout, Flex, Avatar, Button } from '@starter/ui'
 
 import { setupDefaultLayout } from '~/server'
 import { Brand, ToggleColorScheme } from '~/common'
@@ -25,10 +25,20 @@ const DefaultLayout = () => {
                 </Header.Start>
 
                 <Header.End>
-                  <Flex justify="center" align="center" gap={24}>
+                  <Flex justify="center" align="center" gap={16}>
                     <ToggleColorScheme />
 
-                    {JSON.stringify(user)}
+                    {user ? (
+                      <>
+                        <Avatar>{user.name.charAt(0)}</Avatar>
+
+                        <Button href="http://localhost:3000/logout?client_id=http://localhost:3001">Sign Out</Button>
+                      </>
+                    ) : (
+                      <Button href="http://localhost:3000?client_id=http://localhost:3001" variant="outline" radius={50}>
+                        Sign In
+                      </Button>
+                    )}
                   </Flex>
                 </Header.End>
               </Header>

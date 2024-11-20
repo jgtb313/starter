@@ -1,3 +1,10 @@
-import { createCookie } from '@remix-run/node'
+import { createCookieSessionStorage, createCookie } from '@remix-run/node'
 
-export const cookie = createCookie('accessToken')
+export const cookie = createCookieSessionStorage({
+  cookie: createCookie('auth', {
+    httpOnly: true,
+    secure: import.meta.env.STAGE === 'prd',
+    sameSite: 'lax',
+    path: '/',
+  }),
+})

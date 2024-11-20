@@ -20,17 +20,18 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const formData = await request.formData()
   const { email, password } = Object.fromEntries(formData) as SignInInput
 
+  // client.connect(import.meta.env.STAGE)
   const { accessToken } = await client.auth.signIn({ email, password })
+
+  const session = await cookie.getSession(request.headers.get('Cookie'))
+
+  await session.set('accessToken', accessToken)
+
+  const cookieHeader = await cookie.commitSession(session)
 
   return redirect(`${clientId}`, {
     headers: {
-      'Set-Cookie': await cookie.serialize(accessToken, {
-        httpOnly: true,
-        secure: false,
-        sameSite: 'lax',
-        path: '/',
-        domain: 'starter.com',
-      }),
+      'Set-Cookie': cookieHeader,
     },
   })
 }
