@@ -1,6 +1,1 @@
-export * from './ForgotPasswordForm'
-export * from './RecoverPasswordForm'
-export * from './SignInForm'
-export * from './SignUpForm'
-export * from './SocialAuthentication'
 export * from './UserMenu'

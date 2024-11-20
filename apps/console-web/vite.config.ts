@@ -12,7 +12,7 @@ export default defineConfig({
   envDir: '../../',
 
   server: {
-    port: 3000,
+    port: 3002,
   },
 
   plugins: [

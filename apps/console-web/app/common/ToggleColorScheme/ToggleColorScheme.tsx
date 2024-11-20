@@ -6,7 +6,7 @@ export const ToggleColorScheme = ({ size = 'xl' }: ToggleColorSchemeProps) => {
   const { colorScheme, toggleColorScheme } = useTheme()
 
   return (
-    <ActionIcon tooltip="Change theme" variant="default" size={size} onClick={toggleColorScheme}>
+    <ActionIcon tooltip="Change Theme" variant="default" size={size} onClick={toggleColorScheme}>
       <Icon name={colorScheme === 'light' ? 'Moon' : 'Sun'} />
     </ActionIcon>
   )

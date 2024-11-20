@@ -7,7 +7,7 @@
   "scripts": {
     "prebuild": "yarn workspace @starter/config build && yarn workspace @starter/shared build && yarn workspace @starter/schema build && yarn workspace @starter/client build && yarn workspace @starter/ui build && yarn workspace @starter/use-hooks build && yarn workspace @starter/use-remix-hooks build && yarn workspace @starter/store build",
     "build": "remix vite:build",
-    "dev": "remix vite:dev --host app.starter",
+    "dev": "remix vite:dev",
     "start": "remix-serve ./build/server/index.js",
     "test": "playwright test --ui",
     "type-check": "tsc"
