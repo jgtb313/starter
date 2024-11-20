@@ -1,27 +1,14 @@
 import { GoogleOAuthProvider, useGoogleLogin } from '@react-oauth/google'
 import FacebookOAuthProvider from '@greatsumini/react-facebook-login'
 import { SocialSignInEnum } from '@starter/schema'
-import { useAuth } from '@starter/store'
 import { Flex, Button, SocialIcon } from '@starter/ui'
 
-import { useAuthenticate } from '~/support/use-authenticate'
+import { SocialAuthenticationProps } from './SocialAuthentication.types'
 
-const SocialAuthenticationWrapper = () => {
-  const { socialSignIn } = useAuth()
-  const authenticate = useAuthenticate()
+const SocialAuthenticationWrapper = ({ onSubmit }: SocialAuthenticationProps) => {
   const login = useGoogleLogin({
     onSuccess: ({ access_token }) => {
-      socialSignIn(
-        {
-          context: SocialSignInEnum.GOOGLE,
-          providerToken: access_token,
-        },
-        {
-          onSuccess: ({ accessToken }) => {
-            authenticate(accessToken)
-          },
-        },
-      )
+      onSubmit?.({ context: SocialSignInEnum.GOOGLE, providerToken: access_token })
     },
   })
 
@@ -34,17 +21,7 @@ const SocialAuthenticationWrapper = () => {
       <FacebookOAuthProvider
         appId={import.meta.env.VITE_FACEBOOK_APP_ID}
         onSuccess={({ accessToken }) => {
-          socialSignIn(
-            {
-              context: SocialSignInEnum.FACEBOOK,
-              providerToken: accessToken,
-            },
-            {
-              onSuccess: ({ accessToken }) => {
-                authenticate(accessToken)
-              },
-            },
-          )
+          onSubmit?.({ context: SocialSignInEnum.FACEBOOK, providerToken: accessToken })
         }}
         render={({ onClick }) => (
           <Button variant="default" leftSection={<SocialIcon name="FACEBOOK" />} onClick={onClick}>
@@ -56,10 +33,10 @@ const SocialAuthenticationWrapper = () => {
   )
 }
 
-export const SocialAuthentication = () => {
+export const SocialAuthentication = (props: SocialAuthenticationProps) => {
   return (
     <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
-      <SocialAuthenticationWrapper />
+      <SocialAuthenticationWrapper {...props} />
     </GoogleOAuthProvider>
   )
 }

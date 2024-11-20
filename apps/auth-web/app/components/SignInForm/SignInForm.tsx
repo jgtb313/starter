@@ -5,7 +5,7 @@ import { useRouter } from '@starter/use-remix-hooks'
 import { SocialAuthentication } from '../SocialAuthentication'
 import { SignInFormProps, ISignInForm } from './SignInForm.types'
 
-export const SignInForm = ({ onSubmit, loading }: SignInFormProps) => {
+export const SignInForm = ({ onSubmit, onSocialSubmit, loading }: SignInFormProps) => {
   const router = useRouter()
 
   const initialValues: ISignInForm['initialValues'] = { email: 'test10@gmail.com', password: '123123123' }
@@ -37,7 +37,7 @@ export const SignInForm = ({ onSubmit, loading }: SignInFormProps) => {
 
           <Divider label="OR" />
 
-          <SocialAuthentication />
+          <SocialAuthentication onSubmit={onSocialSubmit} />
         </Flex>
       )}
     </Form>

@@ -1,5 +1,5 @@
 import { FastifyInstance, FastifyRequest } from 'fastify'
-import config from '@starter/config'
+import { config } from '@starter/config'
 
 import { env } from '@/config'
 import { Auth } from '@/support/auth'

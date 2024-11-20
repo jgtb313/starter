@@ -1,6 +1,6 @@
 import ScalarApiReference from '@scalar/fastify-api-reference'
 import { sample } from 'openapi-sampler'
-import client from '@starter/config'
+import { config } from '@starter/config'
 import { zodSchemaToInstance, ZodSchema } from '@starter/schema'
 import { get, omit } from '@starter/shared'
 
@@ -277,7 +277,7 @@ const schemas = Schemas.reduce((state, { schemas }) => {
 const document = {
   openapi: '3.1.0',
   info: {
-    title: `${client.name} API`,
+    title: `${config.name} API`,
     version: '1.0.0',
     description: ['## Introduction', '## Authentication', '## Filters', '## Pagination', '## Sorting', '## Errors'].join('\n\n'),
     license: {
@@ -286,7 +286,7 @@ const document = {
   },
   servers: [
     {
-      url: STAGE === 'local' ? 'http://localhost:4000' : STAGE === 'prd' ? `https://api.${client.domain}` : `https://api.${STAGE}.${client.domain}`,
+      url: STAGE === 'local' ? 'http://localhost:4000' : STAGE === 'prd' ? `https://api.${config.domain}` : `https://api.${STAGE}.${config.domain}`,
     },
   ],
 
@@ -316,9 +316,9 @@ export const Docs = {
     configuration: {
       hideDownloadButton: true,
       metaData: {
-        title: `${client.name} API`,
+        title: `${config.name} API`,
       },
-      favicon: client.logo.darkSymbol,
+      favicon: config.logo.darkSymbol,
       defaultOpenAllTags: true,
       spec: {
         content: document,

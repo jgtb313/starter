@@ -1,4 +1,5 @@
 import { Outlet, Link, useLoaderData } from '@remix-run/react'
+import { makeAuthRedirectUrl, ClientIdEnum } from '@starter/config'
 import { AuthProvider, ProfileProvider, ProfileProviderProps } from '@starter/store'
 import { UiProvider, Layout, Flex, Avatar, Button } from '@starter/ui'
 
@@ -9,6 +10,21 @@ import { Shell } from '~/Shell'
 export const loader = setupDefaultLayout
 
 const { Header, Content } = Layout
+
+const signInRedirectUrl = makeAuthRedirectUrl({
+  clientId: ClientIdEnum.APP,
+  stage: import.meta.env.VITE_STAGE,
+})
+
+const logoutRedirectUrl = makeAuthRedirectUrl({
+  clientId: ClientIdEnum.APP,
+  stage: import.meta.env.VITE_STAGE,
+  to: 'logout',
+})
+
+console.log({
+  logoutRedirectUrl,
+})
 
 const DefaultLayout = () => {
   const { user } = useLoaderData<typeof loader>() as unknown as Pick<ProfileProviderProps, 'user'>
@@ -32,10 +48,10 @@ const DefaultLayout = () => {
                       <>
                         <Avatar>{user.name.charAt(0)}</Avatar>
 
-                        <Button href="http://localhost:3000/logout?client_id=http://localhost:3001">Sign Out</Button>
+                        <Button href={logoutRedirectUrl}>Sign Out</Button>
                       </>
                     ) : (
-                      <Button href="http://localhost:3000?client_id=http://localhost:3001" variant="outline" radius={50}>
+                      <Button href={signInRedirectUrl} variant="outline" radius={50}>
                         Sign In
                       </Button>
                     )}

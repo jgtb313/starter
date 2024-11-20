@@ -1,5 +1,5 @@
 import { LoaderFunctionArgs } from '@remix-run/node'
-import { isValidClientId, isValidRedirectUri, StageEnum } from '@starter/config'
+import { isValidClientId, isValidRedirectUrl, StageEnum } from '@starter/config'
 
 export const getClientIdInfos = ({ request }: LoaderFunctionArgs) => {
   const url = new URL(request.url)
@@ -14,7 +14,7 @@ export const getClientIdInfos = ({ request }: LoaderFunctionArgs) => {
     return false
   }
 
-  const validRedirectUrl = isValidRedirectUri(clientId, StageEnum.LOCAL, redirectUrl)
+  const validRedirectUrl = isValidRedirectUrl(clientId, StageEnum.LOCAL, redirectUrl)
 
   if (!validRedirectUrl) {
     return false

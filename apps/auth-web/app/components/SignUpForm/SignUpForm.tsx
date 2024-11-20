@@ -1,34 +1,17 @@
 import { SignUpSchema } from '@starter/schema'
-import { useAuth } from '@starter/store'
 import { Flex, Form, Button, Link, Divider, Typography } from '@starter/ui'
 import { useRouter } from '@starter/use-remix-hooks'
 
-import { useAuthenticate } from '~/support/use-authenticate'
 import { SocialAuthentication } from '../SocialAuthentication'
-import { ISignUpForm } from './SignUpForm.types'
+import { SignUpFormProps, ISignUpForm } from './SignUpForm.types'
 
-export const SignUpForm = () => {
+export const SignUpForm = ({ onSubmit, loading }: SignUpFormProps) => {
   const router = useRouter()
-  const { signUp, loadingSignUp } = useAuth()
-  const authenticate = useAuthenticate()
 
   const initialValues: ISignUpForm['initialValues'] = { name: null, email: null, password: null }
 
-  const handleSubmit: ISignUpForm['onSubmit'] = (values) => {
-    signUp(
-      {
-        ...values,
-      },
-      {
-        onSuccess: ({ accessToken }) => {
-          authenticate(accessToken)
-        },
-      },
-    )
-  }
-
   return (
-    <Form initialValues={initialValues} schema={SignUpSchema} onSubmit={handleSubmit}>
+    <Form initialValues={initialValues} schema={SignUpSchema} onSubmit={onSubmit}>
       {() => (
         <Flex direction="column" gap={16}>
           <Form.Input name="name" label="Name" placeholder="Enter your name" />
@@ -37,7 +20,7 @@ export const SignUpForm = () => {
 
           <Form.PasswordInput name="password" label="Password" placeholder="Enter your password" />
 
-          <Button type="submit" size="lg" loading={loadingSignUp} block>
+          <Button type="submit" size="lg" loading={loading} block>
             Sign Up
           </Button>
 

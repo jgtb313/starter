@@ -1,4 +1,4 @@
-import { config } from './config'
+import { config, authRedirectUrls } from './config'
 
 export enum ClientIdEnum {
   APP = 'app',
@@ -12,22 +12,33 @@ export enum StageEnum {
   PRD = 'prd',
 }
 
+export type MakeAuthRedirectUrlOptions = {
+  clientId: ClientIdEnum
+  stage: StageEnum
+  to?: string
+  params?: Record<string, string>
+}
+
 export const isValidClientId = (value: unknown): value is ClientIdEnum => {
   const isValid = Object.hasOwn(config.oauth.clientIds, value as PropertyKey)
 
-  if (!isValid) {
-    throw Error('Invalid clientId')
-  }
-
-  return true
+  return isValid
 }
 
-export const isValidRedirectUri = (value: 'app' | 'console', stage: StageEnum, redirectUrl: string): boolean => {
+export const isValidRedirectUrl = (value: ClientIdEnum, stage: StageEnum, redirectUrl: string): boolean => {
   const clientId = config.oauth.clientIds[value]
 
-  if (!clientId) {
-    throw Error('Invalid redirectUrl')
-  }
-
   return clientId.redirectUrls[stage] === redirectUrl
+}
+
+export const makeAuthRedirectUrl = ({ clientId, stage, to = '', params = {} }: MakeAuthRedirectUrlOptions) => {
+  const qs = Object.entries({
+    ...params,
+    client_id: clientId,
+    redirect_url: config.oauth.clientIds[clientId].redirectUrls[stage],
+  })
+    .map(([key, value]) => `${key}=${value}`)
+    .join('&')
+
+  return `${authRedirectUrls[stage]}/${to}?${qs}`
 }

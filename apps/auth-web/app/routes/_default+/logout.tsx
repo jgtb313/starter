@@ -1,20 +1,21 @@
 import { redirect, LoaderFunctionArgs } from '@remix-run/node'
+import { config } from '@starter/config'
 
-import { cookie } from '~/cookie.server'
+import { getClientIdInfos } from '~/support/get-client-id-infos'
+import { setupCookie } from '~/support/setup-cookies'
 
-export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const url = new URL(request.url)
-  const clientId = url.searchParams.get('client_id')
+export const loader = async (args: LoaderFunctionArgs) => {
+  const clientIdInfos = getClientIdInfos(args)
 
-  const session = await cookie.getSession(request.headers.get('Cookie'))
+  if (!clientIdInfos) {
+    return redirect(config.oauth.fallbackUrl)
+  }
 
-  session.unset('accessToken')
+  const cookieHeader = await setupCookie(args)
 
-  await cookie.commitSession(session)
+  const { redirectUrl } = clientIdInfos
 
-  const cookieHeader = await cookie.commitSession(session)
-
-  return redirect(`${clientId}`, {
+  return redirect(redirectUrl, {
     headers: {
       'Set-Cookie': cookieHeader,
     },

@@ -7,6 +7,13 @@ const createRedirectUrls = ({ local, dev, stg, prd }: Record<StageEnum, string>)
   prd,
 })
 
+export const authRedirectUrls = createRedirectUrls({
+  local: 'http://localhost:3000',
+  dev: 'http://localhost:3000',
+  stg: 'http://localhost:3000',
+  prd: 'http://localhost:3000',
+})
+
 const appRedirectUrls = createRedirectUrls({
   local: 'http://localhost:3001',
   dev: 'http://localhost:3001',

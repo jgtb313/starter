@@ -1,5 +1,5 @@
 import { type MetaFunction } from '@remix-run/node'
-import config from '@starter/config'
+import { config } from '@starter/config'
 import { Flex } from '@starter/ui'
 
 export const meta: MetaFunction = () => {
