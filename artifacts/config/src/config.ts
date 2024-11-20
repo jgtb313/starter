@@ -8,17 +8,17 @@ const createRedirectUrls = ({ local, dev, stg, prd }: Record<StageEnum, string>)
 })
 
 const appRedirectUrls = createRedirectUrls({
-  local: 'https://localhost:3001',
-  dev: 'https://localhost:3001',
-  stg: 'https://localhost:3001',
-  prd: 'https://localhost:3001',
+  local: 'http://localhost:3001',
+  dev: 'http://localhost:3001',
+  stg: 'http://localhost:3001',
+  prd: 'http://localhost:3001',
 })
 
 const consoleRedirectUris = createRedirectUrls({
-  local: 'https://localhost:3002',
-  dev: 'https://localhost:3002',
-  stg: 'https://localhost:3002',
-  prd: 'https://localhost:3002',
+  local: 'http://localhost:3002',
+  dev: 'http://localhost:3002',
+  stg: 'http://localhost:3002',
+  prd: 'http://localhost:3002',
 })
 
 export const config = {
@@ -26,7 +26,7 @@ export const config = {
   domain: 'starter.com',
 
   oauth: {
-    fallbackUrl: '',
+    fallbackUrl: 'https://google.com',
 
     clientIds: {
       app: {

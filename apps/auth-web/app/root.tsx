@@ -3,7 +3,7 @@ import '@starter/ui/dist/style.css'
 import { PropsWithChildren } from 'react'
 import { Meta, Links, ScrollRestoration, Scripts, Outlet } from '@remix-run/react'
 import { LinksFunction } from '@remix-run/node'
-import config from '@starter/config'
+import { config } from '@starter/config'
 import { ColorSchemeScript } from '@starter/ui'
 
 export const links: LinksFunction = () => [

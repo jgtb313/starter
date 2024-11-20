@@ -26,7 +26,7 @@ export const isValidRedirectUri = (value: 'app' | 'console', stage: StageEnum, r
   const clientId = config.oauth.clientIds[value]
 
   if (!clientId) {
-    return false
+    throw Error('Invalid redirectUrl')
   }
 
   return clientId.redirectUrls[stage] === redirectUrl

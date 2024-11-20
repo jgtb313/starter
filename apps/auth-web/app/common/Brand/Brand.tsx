@@ -1,4 +1,4 @@
-import config from '@starter/config'
+import { config } from '@starter/config'
 import { Flex, Link, useTheme } from '@starter/ui'
 
 import { BrandProps } from './Brand.types'
