@@ -18,6 +18,7 @@ export default defineConfig({
   plugins: [
     remix({
       ssr: true,
+
       appDirectory: 'app',
       ignoredRouteFiles: ['**/*'],
       routes: (defineRoutes) => {
