@@ -1,5 +1,6 @@
 import { z } from '@/zod'
 
+import { PasswordSchema } from '@/common'
 import { UserSchema } from '../user/User.schema'
 import { SocialSignInEnum } from './Auth.enums'
 
@@ -36,13 +37,10 @@ export type SignUpOutput = z.infer<typeof SignUpSchemaOutput>
 
 export const ForgotPasswordSchema = z.object({
   email: z.string().min(1).email(),
+  password: PasswordSchema,
+})
+export const ForgotPasswordSchemaOutput = z.object({
+  accessToken: z.string(),
 })
 export type ForgotPasswordInput = z.infer<typeof ForgotPasswordSchema>
-export type ForgotPasswordOutput = void
-
-export const RecoverPasswordSchema = z.object({
-  recoverPasswordToken: z.string().min(1),
-  password: z.string().min(1),
-})
-export type RecoverPasswordInput = z.infer<typeof RecoverPasswordSchema>
-export type RecoverPasswordOutput = void
+export type ForgotPasswordOutput = z.infer<typeof ForgotPasswordSchemaOutput>

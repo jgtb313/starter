@@ -1,28 +1,21 @@
 import { ForgotPasswordSchema, ForgotPasswordInput, ForgotPasswordOutput } from '@starter/schema'
-import { addMinutes, uuid } from '@starter/shared'
 
 import { env } from '@/config'
+import { AuthError } from '@/support/errors'
 import { createUseCase } from '@/support/utilities'
 import { IUseCaseExecute } from '@/support/types'
 import { MailTemplateEnum } from '@/ports/mail'
+import { getTokenPayload } from '@/support/auth'
 
 const execute: IUseCaseExecute<ForgotPasswordInput, ForgotPasswordOutput> =
-  ({ Database, Mail }) =>
+  ({ Database, Mail, JWT }) =>
   async ({ email }) => {
-    const recoverPasswordBaseUrl = env('SERVER_RECOVER_PASSWORD_BASE_URL')
+    const SERVER_AUTHENTICATE_SECRET = env('SERVER_AUTHENTICATE_SECRET')
 
     const user = await Database.user.findOne({ email })
 
     if (!user) {
-      return
-    }
-
-    const recoverPasswordToken = uuid()
-    const recoverPasswordExpiresIn = addMinutes(new Date(), 10)
-
-    user.state.recoverPassword = {
-      token: recoverPasswordToken,
-      expiresIn: recoverPasswordExpiresIn,
+      throw new AuthError('Invalid access dat')
     }
 
     Mail.send({
@@ -30,13 +23,19 @@ const execute: IUseCaseExecute<ForgotPasswordInput, ForgotPasswordOutput> =
       to: user.state.email,
       props: {
         userName: user.state.name,
-        recoverPasswordBaseUrl: `${recoverPasswordBaseUrl}/${recoverPasswordToken}`,
+        recoverPasswordBaseUrl: '',
       },
     })
 
     await Database.user.updateById(user.state.id, user)
 
-    return
+    const tokenPayload = getTokenPayload(user.state)
+
+    const accessToken = JWT.generate(tokenPayload, SERVER_AUTHENTICATE_SECRET, { expiresIn: '7d' })
+
+    return {
+      accessToken,
+    }
   }
 
 export const forgotPassword = createUseCase(execute, ForgotPasswordSchema)

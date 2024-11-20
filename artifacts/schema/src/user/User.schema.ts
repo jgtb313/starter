@@ -38,14 +38,6 @@ const Social = z
     facebook: null,
   })
 
-const RecoverPassword = z
-  .object({
-    token: z.string(),
-    expiresIn: z.date(),
-  })
-  .nullish()
-  .transform((value) => value ?? null)
-
 const Password = PasswordSchema
 
 const Status = z.nativeEnum(UserStatusEnum).default(UserStatusEnum.ACTIVE)
@@ -57,7 +49,6 @@ export const UserSchema = z.object({
   phone: Phone,
   avatar: Avatar,
   social: Social,
-  recoverPassword: RecoverPassword,
   password: Password,
   status: Status,
   deletedAt: DeletedAtSchema,

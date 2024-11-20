@@ -1,4 +1,5 @@
 import {
+  z,
   SignInSchema,
   SignInSchemaOutput,
   SocialSignInSchema,
@@ -6,15 +7,16 @@ import {
   SignUpSchema,
   SignUpSchemaOutput,
   ForgotPasswordSchema,
-  RecoverPasswordSchema,
+  OTPVerificationSchema,
+  OTPContextEnum,
 } from '@starter/schema'
 
 import { IDependencies } from '@/support/types'
+import { validateOTP } from '@/core/otp/use-cases/validate-otp.use-case'
 import { signIn } from '@/core/auth/use-cases/sign-in.use-case'
 import { socialSignIn } from '@/core/auth/use-cases/social-sign-in.use-case'
 import { signUp } from '@/core/auth/use-cases/sign-up.use-case'
 import { forgotPassword } from '@/core/auth/use-cases/forgot-password.use-case'
-import { recoverPassword } from '@/core/auth/use-cases/recover-password.use-case'
 import { IRouter } from '@/ports/http'
 
 export const AuthRouter = (dependencies: IDependencies): IRouter => ({
@@ -104,14 +106,14 @@ export const AuthRouter = (dependencies: IDependencies): IRouter => ({
 
     forgotPassword: {
       summary: 'Forgot Password',
-      description: `Sends a password reset link to the user's email address.`,
+      description: `Validates the OTP sent to the user's email and allows the user to reset their password by submitting the new password.`,
 
       method: 'POST',
 
       path: '/forgot-password',
 
       parameters: {
-        body: ForgotPasswordSchema,
+        body: ForgotPasswordSchema.merge(z.object({ otpVerification: OTPVerificationSchema })),
       },
 
       responses: {
@@ -120,37 +122,10 @@ export const AuthRouter = (dependencies: IDependencies): IRouter => ({
         },
       },
 
-      execute({ body }) {
+      async execute({ body }) {
+        await validateOTP(dependencies)({ ...body.otpVerification, context: OTPContextEnum.FORGOT_PASSWORD, recipient: body.email })
+
         return forgotPassword(dependencies)(body)
-      },
-    },
-
-    recoverPassword: {
-      summary: 'Recover Password',
-      description: 'Allows the user to set a new password.',
-
-      method: 'POST',
-
-      path: '/recover-password',
-
-      parameters: {
-        body: RecoverPasswordSchema,
-      },
-
-      responses: {
-        204: {
-          description: 'The password was successfully updated.',
-        },
-        403: {
-          description: 'recoverPasswordToken {{recoverPasswordToken}} expired',
-        },
-        409: {
-          description: 'Invalid recoverPasswordToken {{recoverPasswordToken}}',
-        },
-      },
-
-      execute({ body }) {
-        return recoverPassword(dependencies)(body)
       },
     },
   },

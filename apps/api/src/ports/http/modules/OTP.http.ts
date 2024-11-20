@@ -1,5 +1,7 @@
 import {
   ValidateOTPSchema,
+  SendForgotPasswordOTPSchema,
+  SendForgotPasswordOTPSchemaOutput,
   SendUpdateEmailOTPSchema,
   SendUpdateEmailOTPSchemaOutput,
   SendUpdatePhoneOTPSchema,
@@ -54,10 +56,58 @@ export const OTPRouter = (dependencies: IDependencies): IRouter => ({
       },
     },
 
+    sendForgotPasswordOTP: {
+      summary: 'Send Forgot Password OTP',
+      description:
+        'Generates and sends a one-time password (OTP) to the user’s email address for the purpose of validating a password reset request.',
+
+      method: 'POST',
+
+      path: '/otps/forgot-password',
+
+      parameters: {
+        body: SendForgotPasswordOTPSchema,
+      },
+
+      responseStatusCode: 201,
+
+      responses: {
+        201: {
+          schema: SendForgotPasswordOTPSchemaOutput,
+        },
+        409: [
+          {
+            description: 'Daily attempt limit exceeded',
+          },
+          {
+            description: 'Insufficient resend time, please try again later',
+          },
+        ],
+      },
+
+      async execute({ body }, context) {
+        requiresAuthorization(context)
+
+        await SendUpdateEmailOTPSchema.parse(body)
+
+        const recipient = body.email
+
+        const { id } = await sendOTP(dependencies)({
+          userId: context.auth.userId,
+          channel: OTPChannelEnum.EMAIL,
+          context: OTPContextEnum.UPDATE_EMAIL,
+          recipient,
+        })
+
+        return {
+          otpId: id,
+        }
+      },
+    },
+
     sendUpdateEmailOTP: {
       summary: 'Send Email Update OTP',
-      description:
-        'Generates and sends a one-time password (OTP) to the user’s email address for the purpose of securely updating their email information.',
+      description: `Validates the OTP sent to the user's email and allows the user to update their email address.`,
 
       method: 'POST',
 
@@ -105,8 +155,7 @@ export const OTPRouter = (dependencies: IDependencies): IRouter => ({
 
     sendUpdatePhoneOTP: {
       summary: 'Send Update Phone OTP',
-      description:
-        'Generates and sends a one-time password (OTP) to the user’s phone number for the purpose of securely updating their phone contact details.',
+      description: `Validates the OTP sent to the user's phone and allows the user to update their phone number.`,
 
       method: 'POST',
 

@@ -30,6 +30,15 @@ export const ValidateOTPSchema = OTPSchema.pick({
 export type ValidateOTPInput = z.infer<typeof ValidateOTPSchema>
 export type ValidateOTPOutput = void
 
+export const SendForgotPasswordOTPSchema = z.object({
+  email: EmailSchema,
+})
+export const SendForgotPasswordOTPSchemaOutput = z.object({
+  otpId: ID,
+})
+export type SendForgotPasswordOTPInput = z.infer<typeof SendForgotPasswordOTPSchema>
+export type SendForgotPasswordOTPOutput = z.infer<typeof SendForgotPasswordOTPSchemaOutput>
+
 export const SendUpdateEmailOTPSchema = z.object({
   email: EmailSchema,
 })

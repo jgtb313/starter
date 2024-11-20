@@ -10,6 +10,7 @@ export enum OTPPhoneChannelEnum {
 }
 
 export enum OTPContextEnum {
+  FORGOT_PASSWORD = 'FORGOT_PASSWORD',
   UPDATE_EMAIL = 'UPDATE_EMAIL',
   UPDATE_PHONE = 'UPDATE_PHONE',
 }

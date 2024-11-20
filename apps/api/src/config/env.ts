@@ -10,7 +10,6 @@ type Env =
   | 'SERVER_AUTHORIZE_SECRET'
   | 'SERVER_REFRESH_AUTHORIZE_SECRET'
   | 'SERVER_AUTHENTICATE_SECRET'
-  | 'SERVER_RECOVER_PASSWORD_BASE_URL'
   | 'MONGODB_URI'
   | 'STATIC_ASSETS_URL'
   | 'AWS_S3_REGION'
@@ -39,7 +38,6 @@ export const EnvSchema = z.object({
   SERVER_AUTHORIZE_SECRET: z.string().min(1),
   SERVER_REFRESH_AUTHORIZE_SECRET: z.string().min(1),
   SERVER_AUTHENTICATE_SECRET: z.string().min(1),
-  SERVER_RECOVER_PASSWORD_BASE_URL: z.string(),
 
   // MongoDB Database
   MONGODB_URI: z.string().min(1),
