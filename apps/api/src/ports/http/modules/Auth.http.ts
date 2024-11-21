@@ -7,6 +7,7 @@ import {
   SignUpSchema,
   SignUpSchemaOutput,
   ForgotPasswordSchema,
+  ForgotPasswordSchemaOutput,
   OTPVerificationSchema,
   OTPContextEnum,
 } from '@starter/schema'
@@ -18,6 +19,8 @@ import { socialSignIn } from '@/core/auth/use-cases/social-sign-in.use-case'
 import { signUp } from '@/core/auth/use-cases/sign-up.use-case'
 import { forgotPassword } from '@/core/auth/use-cases/forgot-password.use-case'
 import { IRouter } from '@/ports/http'
+
+const ForgotPasswordSchemaHTTP = ForgotPasswordSchema.merge(z.object({ otpVerification: OTPVerificationSchema }))
 
 export const AuthRouter = (dependencies: IDependencies): IRouter => ({
   name: 'Auth',
@@ -113,16 +116,18 @@ export const AuthRouter = (dependencies: IDependencies): IRouter => ({
       path: '/forgot-password',
 
       parameters: {
-        body: ForgotPasswordSchema.merge(z.object({ otpVerification: OTPVerificationSchema })),
+        body: ForgotPasswordSchemaHTTP,
       },
 
       responses: {
-        204: {
-          description: 'The password reset email was successfully sent to the user.',
+        200: {
+          schema: ForgotPasswordSchemaOutput,
         },
       },
 
       async execute({ body }) {
+        ForgotPasswordSchemaHTTP.parse(body)
+
         await validateOTP(dependencies)({ ...body.otpVerification, context: OTPContextEnum.FORGOT_PASSWORD, recipient: body.email })
 
         return forgotPassword(dependencies)(body)

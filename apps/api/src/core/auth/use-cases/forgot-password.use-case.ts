@@ -2,30 +2,22 @@ import { ForgotPasswordSchema, ForgotPasswordInput, ForgotPasswordOutput } from 
 
 import { env } from '@/config'
 import { AuthError } from '@/support/errors'
+import { getTokenPayload } from '@/support/auth'
 import { createUseCase } from '@/support/utilities'
 import { IUseCaseExecute } from '@/support/types'
-import { MailTemplateEnum } from '@/ports/mail'
-import { getTokenPayload } from '@/support/auth'
 
 const execute: IUseCaseExecute<ForgotPasswordInput, ForgotPasswordOutput> =
-  ({ Database, Mail, JWT }) =>
-  async ({ email }) => {
+  ({ Database, Encrypt, JWT }) =>
+  async ({ email, password }) => {
     const SERVER_AUTHENTICATE_SECRET = env('SERVER_AUTHENTICATE_SECRET')
 
     const user = await Database.user.findOne({ email })
 
     if (!user) {
-      throw new AuthError('Invalid access dat')
+      throw new AuthError('Invalid access data')
     }
 
-    Mail.send({
-      template: MailTemplateEnum.FORGOT_PASSWORD,
-      to: user.state.email,
-      props: {
-        userName: user.state.name,
-        recoverPasswordBaseUrl: '',
-      },
-    })
+    user.state.password = Encrypt.hash(password)
 
     await Database.user.updateById(user.state.id, user)
 

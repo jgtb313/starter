@@ -30,7 +30,7 @@ const execute: IUseCaseExecute<SendOTPInput, SendOTPOutput> =
     if (channel === OTPChannelEnum.EMAIL) {
       Mail.send({
         template: MailTemplateEnum.SEND_OTP,
-        to: recipient,
+        to: otp.state.recipient,
         props: {
           code: otp.state.code,
         },

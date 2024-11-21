@@ -14,8 +14,8 @@ const transporter = createTransport({
   service: 'gmail',
   auth: {
     user: GOOGLE_MAIL_USER,
-    pass: GOOGLE_MAIL_PASSWORD
-  }
+    pass: GOOGLE_MAIL_PASSWORD,
+  },
 })
 
 export const Mail: IMail = {
@@ -23,22 +23,24 @@ export const Mail: IMail = {
     try {
       const html = await ejs.renderFile(`${templatesPath}/${template.toLowerCase()}.mail.ejs`, props)
 
-      const subject = getSubject(`${html}`)
+      const subject = getSubject(html)
 
       const mailOptions = {
         from: GOOGLE_MAIL_USER,
         to: to === 'SELF' ? GOOGLE_MAIL_USER : to,
         subject,
-        html
+        html,
       }
 
-      await transporter.sendMail(mailOptions)
+      const res = await transporter.sendMail(mailOptions)
+
+      console.log({ res })
     } catch (error) {
       console.log({
-        GOOGLEMAIL_ERROR: JSON.stringify(error, null, 2)
+        GOOGLEMAIL_ERROR: JSON.stringify(error, null, 2),
       })
 
       throw error
     }
-  }
+  },
 }

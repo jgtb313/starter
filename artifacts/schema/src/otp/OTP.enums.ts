@@ -17,6 +17,16 @@ export enum OTPContextEnum {
 
 export const OTPContexts = [
   {
+    id: '2nIKjVyfJJvj2kEorugXTQbkkqq',
+    context: OTPContextEnum.FORGOT_PASSWORD,
+    dailyLimitAttempts: 5,
+    resendTime: 60,
+    maxAttempts: 4,
+    expiresIn: 12000,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  {
     id: '2nIKjVyfJJvj2kEorugXTQbkkgB',
     context: OTPContextEnum.UPDATE_EMAIL,
     dailyLimitAttempts: 5,

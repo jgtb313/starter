@@ -85,17 +85,15 @@ export const OTPRouter = (dependencies: IDependencies): IRouter => ({
         ],
       },
 
-      async execute({ body }, context) {
-        requiresAuthorization(context)
-
+      async execute({ body }) {
         await SendUpdateEmailOTPSchema.parse(body)
 
         const recipient = body.email
 
         const { id } = await sendOTP(dependencies)({
-          userId: context.auth.userId,
+          userId: null,
           channel: OTPChannelEnum.EMAIL,
-          context: OTPContextEnum.UPDATE_EMAIL,
+          context: OTPContextEnum.FORGOT_PASSWORD,
           recipient,
         })
 
