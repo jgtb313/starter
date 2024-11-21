@@ -5,7 +5,7 @@ import { OTP } from '@/core/otp/domain'
 
 export const otpMocks = [
   new OTP({
-    id: uuid(),
+    id: '1ylq82nZJybDbTZzEB6iBzbd5xF',
     channel: OTPChannelEnum.EMAIL,
     context: OTPContextEnum.UPDATE_EMAIL,
     recipient: 'john.doe@acme.com',

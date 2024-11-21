@@ -7,8 +7,6 @@ import { z } from '@starter/schema'
 type Env =
   | 'STAGE'
   | 'SERVER_PORT'
-  | 'SERVER_AUTHORIZE_SECRET'
-  | 'SERVER_REFRESH_AUTHORIZE_SECRET'
   | 'SERVER_AUTHENTICATE_SECRET'
   | 'MONGODB_URI'
   | 'STATIC_ASSETS_URL'
@@ -35,8 +33,6 @@ export const EnvSchema = z.object({
 
   // Server
   SERVER_PORT: z.string().transform(Number),
-  SERVER_AUTHORIZE_SECRET: z.string().min(1),
-  SERVER_REFRESH_AUTHORIZE_SECRET: z.string().min(1),
   SERVER_AUTHENTICATE_SECRET: z.string().min(1),
 
   // MongoDB Database

@@ -20,7 +20,7 @@ describe('signIn', () => {
   it('should successfully sign in a user and generate a token', async () => {
     const input: SignInInput = {
       email: 'john.doe@acme.com',
-      password: '123123123',
+      password: 'hashedPassword',
     }
 
     dependencies.Encrypt.compare.mockReturnValue(true)
@@ -31,7 +31,7 @@ describe('signIn', () => {
     expect(dependencies.Database.user.findOne).toBeCalledWith({ email: input.email })
     expect(dependencies.Encrypt.compare).toBeCalledWith(input.password, 'hashedPassword')
     expect(dependencies.JWT.generate).toBeCalled()
-    expect(output).toEqual({ authorizationToken: 'token' })
+    expect(output).toEqual({ accessToken: 'token' })
   })
 
   it('should throw an AuthError if the user does not exist', async () => {
