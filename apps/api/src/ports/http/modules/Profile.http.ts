@@ -54,7 +54,7 @@ export const ProfileRouter = (dependencies: IDependencies): IRouter => ({
 
     updateProfile: {
       summary: 'Update User Profile',
-      description: 'Updates and returns the user profile.',
+      description: 'Updates and returns the authenticated user profile.',
 
       method: 'PATCH',
 
@@ -80,7 +80,7 @@ export const ProfileRouter = (dependencies: IDependencies): IRouter => ({
 
     updateUserProfileEmail: {
       summary: 'Update User Profile Email',
-      description: 'Updates the user email.',
+      description: `Validates the OTP sent to the user's email and allows the user to reset their email.`,
 
       method: 'PATCH',
 
@@ -119,7 +119,7 @@ export const ProfileRouter = (dependencies: IDependencies): IRouter => ({
 
     updateUserProfilePhone: {
       summary: 'Update User Profile Phone',
-      description: 'Updates the user phone number.',
+      description: `Validates the OTP sent to the user's phone and allows the user to reset their phone number.`,
 
       method: 'PATCH',
 
@@ -160,7 +160,7 @@ export const ProfileRouter = (dependencies: IDependencies): IRouter => ({
 
     updateUserProfilePassword: {
       summary: 'Update User Profile Password',
-      description: 'Updates the user password.',
+      description: 'Updates the authenticated user password.',
 
       method: 'PATCH',
 

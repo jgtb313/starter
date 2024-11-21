@@ -216,14 +216,16 @@ const paths = Schemas.reduce((state, schema) => {
 
     const normalizedPath = normalizePath(path)
 
-    const previousPath = internalState[normalizedPath as keyof typeof internalState] as Record<string, unknown>
+    const fullPath = `/${version}${normalizedPath}`
+
+    const previousPath = internalState[fullPath as keyof typeof internalState] as Record<string, unknown>
 
     return {
       ...internalState,
-      [`/${version}${normalizedPath}`]: {
+      [fullPath]: {
         ...previousPath,
         [method.toLowerCase()]: {
-          operationId: `/${version}${normalizedPath}`,
+          operationId: fullPath,
           tags: [schema.name],
 
           summary,

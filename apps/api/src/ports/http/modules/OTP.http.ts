@@ -105,7 +105,7 @@ export const OTPRouter = (dependencies: IDependencies): IRouter => ({
 
     sendUpdateEmailOTP: {
       summary: 'Send Email Update OTP',
-      description: `Validates the OTP sent to the user's email and allows the user to update their email address.`,
+      description: 'Generates and sends a one-time password (OTP) to the user’s email address for the purpose of validating a email reset request.',
 
       method: 'POST',
 
@@ -153,7 +153,7 @@ export const OTPRouter = (dependencies: IDependencies): IRouter => ({
 
     sendUpdatePhoneOTP: {
       summary: 'Send Update Phone OTP',
-      description: `Validates the OTP sent to the user's phone and allows the user to update their phone number.`,
+      description: 'Generates and sends a one-time password (OTP) to the user’s phone for the purpose of validating a phone number reset request.',
 
       method: 'POST',
 

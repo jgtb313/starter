@@ -10,6 +10,13 @@ export const GetUserByIdSchemaOutput = UserSchema
 export type GetUserByIdInput = z.infer<typeof GetUserByIdSchema>
 export type GetUserByIdOutput = z.infer<typeof GetUserByIdSchemaOutput>
 
+export const GetUserByEmailSchema = UserSchema.pick({
+  email: true,
+})
+export const GetUserByEmailSchemaOutput = UserSchema.optional()
+export type GetUserByEmailInput = z.infer<typeof GetUserByEmailSchema>
+export type GetUserByEmailOutput = z.infer<typeof GetUserByEmailSchemaOutput>
+
 export const UpdateUserSchema = UserSchema.pick({
   id: true,
 }).merge(
