@@ -146,7 +146,7 @@ export const AuthRouter = (dependencies: IDependencies): IRouter => ({
 
         const user = await getUserByEmail(dependencies)({ email: body.email })
 
-        if (user) {
+        if (!user) {
           throw new NotFoundError(`Email ${body.email} not found`)
         }
 
