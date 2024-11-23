@@ -7,6 +7,8 @@
     "rootDir": "./",
     "lib": ["ESNext"],
 
+    "jsx": "react-jsx",
+
     "strict": true,
 
     "noUnusedLocals": true,
@@ -30,6 +32,6 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src/**/*.ts", "src/core/auth/use-cases/authenticate.use-casets"],
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/core/auth/use-cases/authenticate.use-casets"],
   "exclude": ["node_modules", "dist"]
 }

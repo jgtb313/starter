@@ -7,6 +7,7 @@
   "scripts": {
     "start": "node dist/src/index.js",
     "dev": "nodemon --exec ts-node src/index.ts",
+    "email:dev": "yarn email dev --dir src/ports/mail/templates",
     "generate:module": "yarn plop module",
     "generate:use-case": "yarn plop use-case",
     "generate:adapter": "yarn plop adapter",
@@ -25,6 +26,7 @@
     "@fastify/cors": "^8.2.0",
     "@fastify/formbody": "^7.4.0",
     "@fastify/static": "^6.9.0",
+    "@react-email/components": "^0.0.28",
     "@scalar/fastify-api-reference": "^1.25.48",
     "@starter/config": "*",
     "@starter/schema": "*",
@@ -45,6 +47,9 @@
     "pino-elasticsearch": "^8.1.0",
     "plop": "^4.0.1",
     "qs": "^6.11.2",
+    "react": "^18.0",
+    "react-dom": "^18.0",
+    "react-email": "^3.0.2",
     "redis": "^4.6.6",
     "twilio": "^5.3.3"
   },
