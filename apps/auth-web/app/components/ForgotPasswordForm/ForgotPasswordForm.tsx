@@ -1,6 +1,6 @@
 import { OTPContextEnum } from '@starter/schema'
 import { useOTP } from '@starter/store'
-import { Flex, Form, Button, Link, useForm } from '@starter/ui'
+import { Flex, Form, Button, Link, useForm, toast } from '@starter/ui'
 import { useRouter } from '@starter/use-remix-hooks'
 
 import { ForgotPasswordSchema, ForgotPasswordFormProps, IForgotPasswordForm, ForgotPasswordFormStage } from './ForgotPasswordForm.types'
@@ -23,6 +23,8 @@ export const ForgotPasswordForm = ({ onSubmit, loading }: ForgotPasswordFormProp
         { email: values.email },
         {
           onSuccess: ({ otpId }) => {
+            toast.success({ message: 'A verification code has been sent to your email.' })
+
             form.current?.update('stage', ForgotPasswordFormStage.VALIDATE)
             form.current?.update('otpVerification.id', otpId)
           },
@@ -33,6 +35,8 @@ export const ForgotPasswordForm = ({ onSubmit, loading }: ForgotPasswordFormProp
         { id: values.otpVerification.id, context: OTPContextEnum.FORGOT_PASSWORD, recipient: values.email, code: values.otpVerification.code },
         {
           onSuccess: () => {
+            toast.success({ message: 'Your code has been successfully validated.' })
+
             form.current?.update('stage', ForgotPasswordFormStage.RESET)
           },
         },
@@ -59,7 +63,7 @@ export const ForgotPasswordForm = ({ onSubmit, loading }: ForgotPasswordFormProp
           )}
 
           <Button type="submit" size="lg" loading={loading || loadingSendForgotPasswordOTP || loadingValidateOTP} block>
-            Continue
+            {values?.stage === ForgotPasswordFormStage.RESET ? 'Reset' : 'Continue'}
           </Button>
 
           <Link href={`/${router.search}`} fw={600} td="underline" ta="center">
