@@ -1,10 +1,8 @@
 import { createTransport } from 'nodemailer'
-import { render } from '@react-email/components'
+import { renderEmail } from '@starter/emails-marketing'
 
 import { env } from '@/config'
 import { IMail } from '@/ports/mail'
-
-import { Layout } from '@/ports/mail/templates/Layout.mail'
 
 const GOOGLE_MAIL_USER = env('GOOGLE_MAIL_USER')
 const GOOGLE_MAIL_PASSWORD = env('GOOGLE_MAIL_PASSWORD')
@@ -18,9 +16,9 @@ const transporter = createTransport({
 })
 
 export const Mail: IMail = {
-  async send({ to }) {
+  async send({ template, props, to }) {
     try {
-      const html = await render(<Layout title="Test" />)
+      const html = await renderEmail({ email: template, props })
 
       const mailOptions = {
         from: GOOGLE_MAIL_USER,

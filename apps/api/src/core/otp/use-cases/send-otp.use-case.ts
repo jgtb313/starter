@@ -1,9 +1,9 @@
 import { SendOTPSchema, SendOTPInput, SendOTPOutput, OTPChannelEnum } from '@starter/schema'
+import { EmailsEnum } from '@starter/emails-marketing'
 
 import { createUseCase } from '@/support/utilities'
 import { IUseCaseExecute } from '@/support/types'
 import { OTP } from '@/core/otp/domain'
-import { MailTemplateEnum } from '@/ports/mail'
 import { SMSTemplateEnum } from '@/ports/sms'
 import { WhatsappTemplateEnum } from '@/ports/whatsapp'
 
@@ -29,7 +29,7 @@ const execute: IUseCaseExecute<SendOTPInput, SendOTPOutput> =
 
     if (channel === OTPChannelEnum.EMAIL) {
       Mail.send({
-        template: MailTemplateEnum.SEND_OTP,
+        template: EmailsEnum.SEND_OTP,
         to: otp.state.recipient,
         props: {
           code: otp.state.code,

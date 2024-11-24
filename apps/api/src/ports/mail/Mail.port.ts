@@ -1,17 +1,11 @@
-export enum MailTemplateEnum {
-  'SEND_OTP' = 'SEND_OTP',
-}
+import { EmailsEnum, EmailsMarketing } from '@starter/emails-marketing'
 
-export type MailSendOTPInput = {
-  code: string
-}
-
-export type MailInput<T extends MailTemplateEnum> = {
+export type MailInput<T extends EmailsEnum> = {
   to: string
   template: T
-  props: T extends MailTemplateEnum.SEND_OTP ? MailSendOTPInput : never
+  props: EmailsMarketing[T]
 }
 
 export type IMail = {
-  send: <T extends MailTemplateEnum>(input: MailInput<T>) => Promise<void>
+  send: <T extends EmailsEnum>(input: MailInput<T>) => Promise<void>
 }
