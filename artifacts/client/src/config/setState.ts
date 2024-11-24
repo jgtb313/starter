@@ -1,4 +1,6 @@
-import { state, State, StageEnum } from './state'
+import { StageEnum } from '@starter/config'
+
+import { state, State } from './state'
 
 export const setState = (key: keyof Omit<State, 'baseURL'>, value: string) => {
   if (key === 'authorization') {

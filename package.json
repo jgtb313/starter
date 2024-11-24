@@ -11,6 +11,7 @@
     ]
   },
   "scripts": {
+    "command": "node run-command.js",
     "generate": "yarn plop generate",
     "docker": "yarn docker:down && yarn docker:up",
     "docker:up": "docker-compose up -d",

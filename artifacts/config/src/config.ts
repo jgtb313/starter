@@ -14,20 +14,6 @@ export const authRedirectUrls = createRedirectUrls({
   prd: 'http://localhost:3000',
 })
 
-const appRedirectUrls = createRedirectUrls({
-  local: 'http://localhost:3001',
-  dev: 'http://localhost:3001',
-  stg: 'http://localhost:3001',
-  prd: 'http://localhost:3001',
-})
-
-const consoleRedirectUris = createRedirectUrls({
-  local: 'http://localhost:3002',
-  dev: 'http://localhost:3002',
-  stg: 'http://localhost:3002',
-  prd: 'http://localhost:3002',
-})
-
 export const config = {
   name: 'Starter',
   domain: 'starter.com',
@@ -38,12 +24,22 @@ export const config = {
     clientIds: {
       app: {
         clientId: 'app',
-        redirectUrls: appRedirectUrls,
+        redirectUrls: createRedirectUrls({
+          local: 'http://localhost:3001',
+          dev: 'http://localhost:3001',
+          stg: 'http://localhost:3001',
+          prd: 'http://localhost:3001',
+        }),
       },
 
       console: {
         clientId: 'console',
-        redirectUrls: consoleRedirectUris,
+        redirectUrls: createRedirectUrls({
+          local: 'http://localhost:3002',
+          dev: 'http://localhost:3002',
+          stg: 'http://localhost:3002',
+          prd: 'http://localhost:3002',
+        }),
       },
     },
   },

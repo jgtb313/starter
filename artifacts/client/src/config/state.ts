@@ -1,9 +1,4 @@
-export enum StageEnum {
-  LOCAL = 'local',
-  DEV = 'dev',
-  STG = 'stg',
-  PRD = 'prd',
-}
+import { StageEnum } from '@starter/config'
 
 export type Env = keyof typeof StageEnum
 

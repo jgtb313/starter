@@ -1,4 +1,6 @@
-import { setState, StageEnum } from '@/config'
+import { StageEnum } from '@starter/config'
+
+import { setState } from '@/config'
 
 const connect = (stage: StageEnum) => {
   setState('stage', stage)
