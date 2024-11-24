@@ -1,9 +1,10 @@
-import { redirect, type MetaFunction, ActionFunctionArgs } from '@remix-run/node'
-import { useFetcher } from '@remix-run/react'
+import { redirect, json, type MetaFunction, ActionFunctionArgs } from '@remix-run/node'
+import { useActionData, useFetcher } from '@remix-run/react'
 import { config } from '@starter/config'
 import client from '@starter/client'
 import { SignInInput, SocialSignInInput } from '@starter/schema'
-import { Flex, Card, Typography } from '@starter/ui'
+import { Flex, Card, Typography, toast } from '@starter/ui'
+import { useWatch } from '@starter/use-hooks'
 
 import { getClientIdInfos } from '~/support/get-client-id-infos'
 import { setupCookie } from '~/cookie.server'
@@ -29,15 +30,25 @@ export const action = async (args: ActionFunctionArgs) => {
   if (type === 'email') {
     const { email, password } = Object.fromEntries(formData) as SignInInput
 
-    const { accessToken } = await client.auth.signIn({ email, password })
-
-    cookieHeader = await setupCookie(args, accessToken)
-  } else {
+    try {
+      const { accessToken } = await client.auth.signIn({ email, password })
+  
+      cookieHeader = await setupCookie(args, accessToken)
+    } catch (err) {
+      const error = err as Error
+      return json({ error: error.message }, { status: 400} )
+    }
+  } else { 
     const { context, providerToken } = Object.fromEntries(formData) as SocialSignInInput
 
-    const { accessToken } = await client.auth.socialSignIn({ context, providerToken })
-
-    cookieHeader = await setupCookie(args, accessToken)
+    try {
+      const { accessToken } = await client.auth.socialSignIn({ context, providerToken })
+  
+      cookieHeader = await setupCookie(args, accessToken)
+    } catch (err) {
+      const error = err as Error
+      return json({ error: error.message }, { status: 400} )
+    }
   }
 
   return redirect(clientIdInfos.redirectUrl, {
@@ -49,6 +60,7 @@ export const action = async (args: ActionFunctionArgs) => {
 
 const Page = () => {
   const fetcher = useFetcher()
+  const actionData = useActionData<typeof action>()
   const loading = fetcher.state === 'submitting'
 
   const handleSubmit: ISignInForm['onSubmit'] = async (values) => {
@@ -71,9 +83,15 @@ const Page = () => {
     await fetcher.submit(formData, { method: 'post' })
   }
 
+  useWatch(() => {
+    toast.error({ message: actionData?.error })
+  }, [actionData])
+
   return (
     <Flex maw={450} direction="column" align="center" gap={32}>
       <Brand width={350} />
+
+      {JSON.stringify(actionData)}
 
       <Card w={500} padding="lg" bordered>
         <Card.Body>

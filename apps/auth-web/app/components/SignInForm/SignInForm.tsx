@@ -8,7 +8,7 @@ import { SignInFormProps, ISignInForm } from './SignInForm.types'
 export const SignInForm = ({ onSubmit, onSocialSubmit, loading }: SignInFormProps) => {
   const router = useRouter()
 
-  const initialValues: ISignInForm['initialValues'] = { email: 'test10@gmail.com', password: '123123123' }
+  const initialValues: ISignInForm['initialValues'] = { email: null, password: null }
 
   return (
     <Form initialValues={initialValues} schema={SignInSchema} onSubmit={onSubmit}>
