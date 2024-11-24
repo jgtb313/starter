@@ -22,7 +22,7 @@ export const Layout = ({ title, children }: PropsWithChildren<LayoutProps>) => {
 
             <Hr className="border border-solid border-[#eaeaea] my-[26px] mx-0 w-full" />
 
-            {/* <Section>
+            <Section>
               <Row>
                 <Img src="https://react-email-demo-k6qpz0pxq-resend.vercel.app/static/slack-facebook.png" width="24" height="24" alt="Slack" />
 
@@ -32,7 +32,7 @@ export const Layout = ({ title, children }: PropsWithChildren<LayoutProps>) => {
 
                 <Img src="https://react-email-demo-k6qpz0pxq-resend.vercel.app/static/slack-facebook.png" width="24" height="24" alt="Slack" />
               </Row>
-            </Section> */}
+            </Section>
           </Container>
         </Body>
       </Tailwind>

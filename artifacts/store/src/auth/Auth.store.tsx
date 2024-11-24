@@ -12,7 +12,6 @@ export const AuthProvider = ({ children }: PropsWithChildren<AuthProviderProps>)
   const [callSignUp, { loading: loadingSignUp }] = useRequest(client.auth.signUp)
   const [callSocialSignIn, { loading: loadingSocialSignIn }] = useRequest(client.auth.socialSignIn)
   const [callForgotPassword, { loading: loadingForgotPassword }] = useRequest(client.auth.forgotPassword)
-  const [callRecoverPassword, { loading: loadingRecoverPassword }] = useRequest(client.auth.recoverPassword)
 
   const signIn: AuthContextProps['signIn'] = (input, options) =>
     callSignIn({
@@ -50,27 +49,16 @@ export const AuthProvider = ({ children }: PropsWithChildren<AuthProviderProps>)
       onError: store.onError,
     })
 
-  const recoverPassword: AuthContextProps['recoverPassword'] = (input, options) =>
-    callRecoverPassword({
-      params: {
-        ...input,
-      },
-      options,
-      onError: store.onError,
-    })
-
   const value: AuthContextProps = {
     loadingSignIn,
     loadingSignUp,
     loadingSocialSignIn,
     loadingForgotPassword,
-    loadingRecoverPassword,
 
     signIn,
     signUp,
     socialSignIn,
     forgotPassword,
-    recoverPassword,
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

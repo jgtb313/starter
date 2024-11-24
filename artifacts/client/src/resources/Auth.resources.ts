@@ -14,7 +14,6 @@ import {
   SignUpInput,
   SignUpOutput,
   ForgotPasswordInput,
-  RecoverPasswordInput,
 } from '@starter/schema'
 
 import client from '@/request'
@@ -66,17 +65,4 @@ export const signUp = withFields<SignUpInput, SignUpOutput>(({ fields, ...body }
  */
 export const forgotPassword = withFields<ForgotPasswordInput, void>(({ fields, ...body }) =>
   client.post('/v1/forgot-password', body, { params: { fields } }),
-)
-
-/**
- * `POST /v1/recover-password`
- * Makes a request to /v1/recover-password
- *
- * @param {Object} body The body for the request.
- * @param {Object} [body.fields] The fields.
- *
- * @returns Resolves to the result of the request or an error.
- */
-export const recoverPassword = withFields<RecoverPasswordInput, void>(({ fields, ...body }) =>
-  client.post('/v1/recover-password', body, { params: { fields } }),
 )

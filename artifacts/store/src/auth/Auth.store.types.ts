@@ -6,13 +6,11 @@ export type AuthContextProps = {
   signUp: RequestOptions<typeof client.auth.signUp>
   socialSignIn: RequestOptions<typeof client.auth.socialSignIn>
   forgotPassword: RequestOptions<typeof client.auth.forgotPassword>
-  recoverPassword: RequestOptions<typeof client.auth.recoverPassword>
 
   loadingSignIn: boolean
   loadingSignUp: boolean
   loadingSocialSignIn: boolean
   loadingForgotPassword: boolean
-  loadingRecoverPassword: boolean
 }
 
 export type AuthProviderProps = {}
