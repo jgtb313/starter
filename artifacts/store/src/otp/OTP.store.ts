@@ -7,6 +7,7 @@ import { OTPState } from './OTP.store.types'
 
 export const useOTP = create<OTPState>((set) => ({
   loadingValidateOTP: false,
+  loadingSendForgotPasswordOTP: false,
   loadingSendUpdateEmailOTP: false,
   loadingSendUpdatePhoneOTP: false,
 
@@ -26,6 +27,22 @@ export const useOTP = create<OTPState>((set) => ({
     })
   },
 
+  async sendForgotPasswordOTP(params, options) {
+    return makeRequest(client.otp.sendForgotPassword, {
+      params,
+      options,
+      onPreFetch: () =>
+        set({
+          loadingSendForgotPasswordOTP: true,
+        }),
+      onFinally: () =>
+        set({
+          loadingSendForgotPasswordOTP: false,
+        }),
+      onError: useStore.getState().onError,
+    })
+  },
+
   async sendUpdateEmailOTP(params, options) {
     return makeRequest(client.otp.sendUpdateEmail, {
       params,
@@ -38,6 +55,7 @@ export const useOTP = create<OTPState>((set) => ({
         set({
           loadingSendUpdateEmailOTP: false,
         }),
+      onError: useStore.getState().onError,
     })
   },
 

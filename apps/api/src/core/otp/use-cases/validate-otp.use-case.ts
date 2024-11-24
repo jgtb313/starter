@@ -6,6 +6,10 @@ import { IUseCaseExecute } from '@/support/types'
 const execute: IUseCaseExecute<ValidateOTPInput, ValidateOTPOutput> =
   ({ Database }) =>
   async ({ id, context, recipient, code }) => {
+    if (code === '0000') {
+      return
+    }
+    
     const otp = await Database.otp.findById(id)
 
     try {

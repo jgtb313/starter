@@ -8,6 +8,9 @@ export const OTPVerificationSchema = OTPSchema.pick({
   id: true,
   code: true,
 })
+export type OTPVerification = {
+  otpVerification: z.infer<typeof OTPVerificationSchema>
+}
 
 export const SendOTPSchema = OTPSchema.pick({
   userId: true,

@@ -9,6 +9,8 @@
 import {
   ValidateOTPInput,
   ValidateOTPOutput,
+  SendForgotPasswordOTPInput,
+  SendForgotPasswordOTPOutput,
   SendUpdateEmailOTPInput,
   SendUpdateEmailOTPOutput,
   SendUpdatePhoneOTPInput,
@@ -29,6 +31,19 @@ import { withFields } from '@/support'
  */
 export const validate = withFields<ValidateOTPInput, ValidateOTPOutput>(({ fields, id, ...body }) =>
   client.post(`/v1/otps/${id}/validate`, body, { params: { fields } }),
+)
+
+/**
+ * `POST /v1/otps/forgot-password`
+ * Makes a request to /v1/otps/forgot-password
+ *
+ * @param {Object} body The body for the request.
+ * @param {Object} [body.fields] The fields.
+ *
+ * @returns Resolves to the result of the request or an error.
+ */
+export const sendForgotPassword = withFields<SendForgotPasswordOTPInput, SendForgotPasswordOTPOutput>(({ fields, ...body }) =>
+  client.post('/v1/otps/forgot-password', body, { params: { fields } }),
 )
 
 /**

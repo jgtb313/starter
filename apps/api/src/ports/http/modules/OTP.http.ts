@@ -10,9 +10,11 @@ import {
   OTPChannelEnum,
 } from '@starter/schema'
 
+import { NotFoundError } from '@/support/errors'
 import { IDependencies } from '@/support/types'
 import { validateOTP } from '@/core/otp/use-cases/validate-otp.use-case'
 import { sendOTP } from '@/core/otp/use-cases/send-otp.use-case'
+import { getUserByEmail } from '@/core/user/use-cases/get-user-by-email.use-case'
 import { requiresAuthorization, IRouter } from '@/ports/http'
 
 export const OTPRouter = (dependencies: IDependencies): IRouter => ({
@@ -86,9 +88,15 @@ export const OTPRouter = (dependencies: IDependencies): IRouter => ({
       },
 
       async execute({ body }) {
-        await SendUpdateEmailOTPSchema.parse(body)
+        SendUpdateEmailOTPSchema.parse(body)
 
         const recipient = body.email
+
+        const user = await getUserByEmail(dependencies)({ email: recipient })
+
+        if (!user) {
+          throw new NotFoundError(`Email ${body.email} not found`)
+        }
 
         const { id } = await sendOTP(dependencies)({
           userId: null,

@@ -14,6 +14,8 @@ import {
   SignUpInput,
   SignUpOutput,
   ForgotPasswordInput,
+  ValidateOTPInput,
+  OTPVerification
 } from '@starter/schema'
 
 import client from '@/request'
@@ -63,6 +65,6 @@ export const signUp = withFields<SignUpInput, SignUpOutput>(({ fields, ...body }
  *
  * @returns Resolves to the result of the request or an error.
  */
-export const forgotPassword = withFields<ForgotPasswordInput, void>(({ fields, ...body }) =>
+export const forgotPassword = withFields<ForgotPasswordInput & OTPVerification, void>(({ fields, ...body }) =>
   client.post('/v1/forgot-password', body, { params: { fields } }),
 )
