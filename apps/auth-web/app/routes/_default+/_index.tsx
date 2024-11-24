@@ -1,9 +1,9 @@
 import { redirect, json, type MetaFunction, ActionFunctionArgs } from '@remix-run/node'
-import { useActionData, useFetcher } from '@remix-run/react'
 import { config } from '@starter/config'
-import client from '@starter/client'
+import client, { ApiError } from '@starter/client'
 import { SignInInput, SocialSignInInput } from '@starter/schema'
 import { Flex, Card, Typography, toast } from '@starter/ui'
+import { useFetcher } from '@starter/use-remix-hooks'
 import { useWatch } from '@starter/use-hooks'
 
 import { getClientIdInfos } from '~/support/get-client-id-infos'
@@ -28,26 +28,24 @@ export const action = async (args: ActionFunctionArgs) => {
   let cookieHeader = ''
 
   if (type === 'email') {
-    const { email, password } = Object.fromEntries(formData) as SignInInput
+    const data = Object.fromEntries(formData) as SignInInput
 
     try {
-      const { accessToken } = await client.auth.signIn({ email, password })
-  
+      const { accessToken } = await client.auth.signIn(data)
+
       cookieHeader = await setupCookie(args, accessToken)
-    } catch (err) {
-      const error = err as Error
-      return json({ error: error.message }, { status: 400} )
+    } catch (error) {
+      return json(error)
     }
-  } else { 
-    const { context, providerToken } = Object.fromEntries(formData) as SocialSignInInput
+  } else {
+    const data = Object.fromEntries(formData) as SocialSignInInput
 
     try {
-      const { accessToken } = await client.auth.socialSignIn({ context, providerToken })
-  
+      const { accessToken } = await client.auth.socialSignIn(data)
+
       cookieHeader = await setupCookie(args, accessToken)
-    } catch (err) {
-      const error = err as Error
-      return json({ error: error.message }, { status: 400} )
+    } catch (error) {
+      return json(error)
     }
   }
 
@@ -59,39 +57,27 @@ export const action = async (args: ActionFunctionArgs) => {
 }
 
 const Page = () => {
-  const fetcher = useFetcher()
-  const actionData = useActionData<typeof action>()
-  const loading = fetcher.state === 'submitting'
+  const fetcher = useFetcher<ApiError>()
 
   const handleSubmit: ISignInForm['onSubmit'] = async (values) => {
-    const formData = new FormData()
-
-    formData.append('type', 'email')
-    formData.append('email', values.email)
-    formData.append('password', values.password)
-
-    await fetcher.submit(formData, { method: 'post' })
+    await fetcher.submit({ type: 'email', ...values }, { method: 'post' })
   }
 
   const handleSocialSubmit: ISocialAuthentication['onSubmit'] = async (values) => {
-    const formData = new FormData()
-
-    formData.append('type', 'social')
-    formData.append('context', values.context)
-    formData.append('providerToken', values.providerToken)
-
-    await fetcher.submit(formData, { method: 'post' })
+    await fetcher.submit({ type: 'social', ...values }, { method: 'post' })
   }
 
   useWatch(() => {
-    toast.error({ message: actionData?.error })
-  }, [actionData])
+    if (!fetcher.data) {
+      return
+    }
+
+    toast.error({ message: fetcher.data.message })
+  }, [fetcher.data])
 
   return (
     <Flex maw={450} direction="column" align="center" gap={32}>
       <Brand width={350} />
-
-      {JSON.stringify(actionData)}
 
       <Card w={500} padding="lg" bordered>
         <Card.Body>
@@ -104,7 +90,7 @@ const Page = () => {
               Enter your credentials below to access your account.
             </Typography>
 
-            <SignInForm onSubmit={handleSubmit} onSocialSubmit={handleSocialSubmit} loading={loading} />
+            <SignInForm onSubmit={handleSubmit} onSocialSubmit={handleSocialSubmit} loading={fetcher.loading} />
           </Flex>
         </Card.Body>
       </Card>

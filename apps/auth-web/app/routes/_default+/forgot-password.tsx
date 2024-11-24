@@ -1,15 +1,55 @@
-import { type MetaFunction } from '@remix-run/node'
+import { redirect, json, type MetaFunction, ActionFunctionArgs } from '@remix-run/node'
 import { config } from '@starter/config'
+import client, { ApiError } from '@starter/client'
 import { Flex, Card, Typography } from '@starter/ui'
+import { useFetcher } from '@starter/use-remix-hooks'
+import { get } from '@starter/shared'
 
+import { getClientIdInfos } from '~/support/get-client-id-infos'
+import { setupCookie } from '~/cookie.server'
 import { Brand } from '~/common'
-import { ForgotPasswordForm } from '~/components'
+import { ForgotPasswordForm, IForgotPasswordForm } from '~/components'
+import { ForgotPasswordInput, OTPVerification } from '@starter/schema'
 
 export const meta: MetaFunction = () => {
   return [{ title: `${config.name} | Forgot Password` }]
 }
 
+export const action = async (args: ActionFunctionArgs) => {
+  const clientIdInfos = getClientIdInfos(args)
+
+  if (!clientIdInfos) {
+    return redirect(config.oauth.fallbackUrl)
+  }
+
+  const formData = await args.request.formData()
+  const { otpVerification, ...data } = Object.fromEntries(formData) as ForgotPasswordInput & { otpVerification: string }
+
+  try {
+    const { accessToken } = await client.auth.forgotPassword({
+      ...data,
+      otpVerification: JSON.parse(otpVerification),
+    })
+
+    const cookieHeader = await setupCookie(args, accessToken)
+
+    return redirect(clientIdInfos.redirectUrl, {
+      headers: {
+        'Set-Cookie': cookieHeader,
+      },
+    })
+  } catch (error) {
+    return json(error)
+  }
+}
+
 const Page = () => {
+  const fetcher = useFetcher<ApiError>()
+
+  const handleSubmit: IForgotPasswordForm['onSubmit'] = async (values) => {
+    await fetcher.submit({ ...values, otpVerification: JSON.stringify(get(values, 'otpVerification')) }, { method: 'post' })
+  }
+
   return (
     <Flex maw={450} direction="column" align="center" gap={32}>
       <Brand width={350} />
@@ -24,7 +64,7 @@ const Page = () => {
             Don't worry, we’ll help you. Enter your registered email to reset your password.
           </Typography>
 
-          <ForgotPasswordForm />
+          <ForgotPasswordForm onSubmit={handleSubmit} loading={fetcher.loading} />
         </Flex>
       </Card>
     </Flex>

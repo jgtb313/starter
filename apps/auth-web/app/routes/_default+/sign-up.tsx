@@ -1,9 +1,10 @@
-import { useFetcher } from '@remix-run/react'
-import { ActionFunctionArgs, redirect, type MetaFunction } from '@remix-run/node'
-import client from '@starter/client'
+import { redirect, json, type MetaFunction, ActionFunctionArgs } from '@remix-run/node'
+import client, { ApiError } from '@starter/client'
 import { config } from '@starter/config'
 import { SignUpInput } from '@starter/schema'
-import { Flex, Card, Typography } from '@starter/ui'
+import { Flex, Card, Typography, toast } from '@starter/ui'
+import { useFetcher } from '@starter/use-remix-hooks'
+import { useWatch } from '@starter/use-hooks'
 
 import { getClientIdInfos } from '~/support/get-client-id-infos'
 import { setupCookie } from '~/cookie.server'
@@ -22,31 +23,37 @@ export const action = async (args: ActionFunctionArgs) => {
   }
 
   const formData = await args.request.formData()
-  const { name, email, password } = Object.fromEntries(formData) as SignUpInput
+  const data = Object.fromEntries(formData) as SignUpInput
 
-  const { accessToken } = await client.auth.signUp({ name, email, password })
+  try {
+    const { accessToken } = await client.auth.signUp(data)
 
-  const cookieHeader = await setupCookie(args, accessToken)
+    const cookieHeader = await setupCookie(args, accessToken)
 
-  return redirect(clientIdInfos.redirectUrl, {
-    headers: {
-      'Set-Cookie': cookieHeader,
-    },
-  })
+    return redirect(clientIdInfos.redirectUrl, {
+      headers: {
+        'Set-Cookie': cookieHeader,
+      },
+    })
+  } catch (error) {
+    return json(error)
+  }
 }
 
 const Page = () => {
-  const fetcher = useFetcher()
-  const loading = fetcher.state === 'submitting'
+  const fetcher = useFetcher<ApiError>()
 
   const handleSubmit: ISignUpForm['onSubmit'] = async (values) => {
-    const formData = new FormData()
-
-    formData.append('email', values.email)
-    formData.append('password', values.password)
-
-    await fetcher.submit(formData, { method: 'post' })
+    await fetcher.submit(values, { method: 'post' })
   }
+
+  useWatch(() => {
+    if (!fetcher.data) {
+      return
+    }
+
+    toast.error({ message: fetcher.data.message })
+  }, [fetcher.data])
 
   return (
     <Flex maw={450} direction="column" align="center" gap={32}>
@@ -63,7 +70,7 @@ const Page = () => {
               Enter your details below to create an account.
             </Typography>
 
-            <SignUpForm onSubmit={handleSubmit} loading={loading} />
+            <SignUpForm onSubmit={handleSubmit} loading={fetcher.loading} />
           </Flex>
         </Card.Body>
       </Card>

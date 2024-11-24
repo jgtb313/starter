@@ -1,41 +1,44 @@
-import { useAuth, useOTP } from '@starter/store'
+import { OTPContextEnum } from '@starter/schema'
+import { useOTP } from '@starter/store'
 import { Flex, Form, Button, Link, useForm } from '@starter/ui'
 import { useRouter } from '@starter/use-remix-hooks'
 
-import { ForgotPasswordSchema, IForgotPasswordForm, ForgotPasswordFormStage } from './ForgotPasswordForm.types'
-import { OTPContextEnum } from '@starter/schema'
+import { ForgotPasswordSchema, ForgotPasswordFormProps, IForgotPasswordForm, ForgotPasswordFormStage } from './ForgotPasswordForm.types'
 
-export const ForgotPasswordForm = () => {
+export const ForgotPasswordForm = ({ onSubmit, loading }: ForgotPasswordFormProps) => {
   const router = useRouter()
-  const { forgotPassword, loadingForgotPassword } = useAuth()
   const { sendForgotPasswordOTP, validateOTP, loadingSendForgotPasswordOTP, loadingValidateOTP } = useOTP()
   const form = useForm<IForgotPasswordForm['initialValues']>()
 
-  const initialValues: IForgotPasswordForm['initialValues'] = { stage: ForgotPasswordFormStage.SEND, email: null, password: null, otpVerification: { id: null, code: null } } as any
+  const initialValues: IForgotPasswordForm['initialValues'] = {
+    stage: ForgotPasswordFormStage.SEND,
+    email: null,
+    password: null,
+    otpVerification: { id: null, code: null },
+  } as any
 
   const handleSubmit: IForgotPasswordForm['onSubmit'] = (values) => {
     if (values.stage === ForgotPasswordFormStage.SEND) {
-      sendForgotPasswordOTP({ email: values.email }, {
-        onSuccess: ({ otpId }) => {
-          form.current?.update('stage', ForgotPasswordFormStage.VALIDATE)
-          form.current?.update('otpVerification.id', otpId)
-        }
-      })
-    } else if (values.stage === ForgotPasswordFormStage.VALIDATE) {
-      validateOTP({ id: values.otpVerification.id, context: OTPContextEnum.FORGOT_PASSWORD, recipient: values.email, code: values.otpVerification.code }, {
-        onSuccess: () => {
-          form.current?.update('stage', ForgotPasswordFormStage.RESET)
-        }
-      })
-    } else if (values.stage === ForgotPasswordFormStage.RESET) {
-      forgotPassword(
-        values,
+      sendForgotPasswordOTP(
+        { email: values.email },
         {
-          onSuccess: () => {
-            form.current?.reset()
+          onSuccess: ({ otpId }) => {
+            form.current?.update('stage', ForgotPasswordFormStage.VALIDATE)
+            form.current?.update('otpVerification.id', otpId)
           },
         },
       )
+    } else if (values.stage === ForgotPasswordFormStage.VALIDATE) {
+      validateOTP(
+        { id: values.otpVerification.id, context: OTPContextEnum.FORGOT_PASSWORD, recipient: values.email, code: values.otpVerification.code },
+        {
+          onSuccess: () => {
+            form.current?.update('stage', ForgotPasswordFormStage.RESET)
+          },
+        },
+      )
+    } else if (values.stage === ForgotPasswordFormStage.RESET) {
+      onSubmit?.(values)
     }
   }
 
@@ -47,11 +50,15 @@ export const ForgotPasswordForm = () => {
 
           {values?.stage === ForgotPasswordFormStage.VALIDATE && <Form.PinInput name="otpVerification.code" />}
 
-          {values?.stage === ForgotPasswordFormStage.RESET && <Form.PasswordInput name="password" label="Password"  placeholder="Enter your password" />}
+          {values?.stage === ForgotPasswordFormStage.RESET && (
+            <Form.PasswordInput name="password" label="Password" placeholder="Enter your password" />
+          )}
 
-          {values?.stage === ForgotPasswordFormStage.RESET && <Form.PasswordInput name="confirmPassword" label="Confirm password" placeholder="Confirm your password" />}
+          {values?.stage === ForgotPasswordFormStage.RESET && (
+            <Form.PasswordInput name="confirmPassword" label="Confirm password" placeholder="Confirm your password" />
+          )}
 
-          <Button type="submit" size="lg" loading={loadingForgotPassword || loadingSendForgotPasswordOTP || loadingValidateOTP} block>
+          <Button type="submit" size="lg" loading={loading || loadingSendForgotPasswordOTP || loadingValidateOTP} block>
             Continue
           </Button>
 
