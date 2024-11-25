@@ -1,5 +1,5 @@
 export enum EmailsEnum {
-  SEND_OTP = 'SEND_OTP',
+  SEND_OTP = 'SendOTP',
 }
 
 export type EmailsMarketing = {

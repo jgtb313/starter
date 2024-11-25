@@ -1,7 +1,7 @@
 import { render } from '@react-email/components'
 
-import * as Emails from './emails'
-import { EmailsEnum, EmailsMarketing } from './emails-marketing.types'
+import * as Emails from '@/emails'
+import { EmailsEnum, EmailsMarketing } from '@/emails-marketing.types'
 
 export type RenderEmailOptions<T extends EmailsEnum> = {
   email: T
@@ -13,10 +13,3 @@ export const renderEmail = async <T extends EmailsEnum>({ email, props }: Render
 
   return render(<Email {...props} />)
 }
-
-renderEmail({
-  email: EmailsEnum.SEND_OTP,
-  props: {
-    code: '1000',
-  },
-})
