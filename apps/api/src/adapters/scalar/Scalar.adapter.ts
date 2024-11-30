@@ -316,12 +316,19 @@ export const Docs = {
   config: {
     routePrefix: 'reference',
     configuration: {
+      hideModels: false,
       hideDownloadButton: true,
       metaData: {
         title: `${config.name} API`,
       },
       favicon: config.logo.darkSymbol,
       defaultOpenAllTags: true,
+      defaultHttpClient: {
+        targetKey: 'node',
+        clientKey: 'axios',
+      },
+      tagsSorter: 'alpha',
+      operationsSorter: 'method',
       spec: {
         content: document,
       },
