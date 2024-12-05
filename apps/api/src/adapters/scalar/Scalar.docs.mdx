@@ -1,0 +1,182 @@
+## Introduction
+
+Welcome to the **API Documentation**. This API provides a set of endpoints to help you integrate its features into your application efficiently.
+
+---
+
+**SDKs Available**
+
+To simplify integration, we offer SDKs for popular programming languages:
+
+- [Node.js SDK](#)
+
+---
+
+<br />
+
+## Authentication
+
+The API uses **Bearer Token** for authentication. All protected requests must include an `Authorization` header with the token:
+
+**Header Example:**
+
+```json
+Authorization: Bearer <your_token_here>
+```
+
+To obtain a token, authenticate via the `/auth` module. Tokens are valid for a specified duration and must be refreshed periodically.
+
+<br />
+
+---
+
+<br />
+
+## Filters
+
+Filters allow you to narrow down your query results by specifying conditions. Use query parameters to apply filters.
+
+**Example Request:**
+
+```json
+GET /resource?category=books&status=ACTIVE
+```
+
+This example fetches resources filtered by `category=books` and `status=ACTIVE`.
+
+**Filter Field**
+
+Some endpoints provide a special field called `filter`, which allows for advanced filtering using an **OR** logic. This can be useful for querying multiple conditions on specified fields. The fields available for the `filter` parameter will be defined by the specific endpoint.
+
+**Example Request with Filter Field:**
+
+```json
+GET /resource?filter=Harry Potter
+```
+
+In this example, the API applies the `filter` parameter across a static set of fields (e.g., `title`, `description`, and `author`) to retrieve resources that match "Harry Potter" in any of those fields.
+
+<br />
+
+---
+
+<br />
+
+## Pagination
+
+The API supports pagination to manage large sets of data efficiently. Use the `offset` and `limit` query parameters to specify which part of the dataset you want to retrieve.
+
+**How It Works**
+
+- **`offset`**: Defines the starting point of the data subset. The first item is at `offset=0`.
+- **`limit`**: Specifies the maximum number of items to return in the response.
+
+**Example Request:**
+
+```json
+GET /resource?offset=0&limit=10
+```
+
+This example retrieves the first 10 items from the dataset.
+
+**Pagination Response Format:**
+
+```json
+{
+  "values": [...],
+  "metadata": {
+    "total": 100,
+    "offset": 0,
+    "limit": 10,
+    "nextOffset": 10
+  }
+}
+```
+
+**Notes:**
+
+- **`total`**: The total number of items in the dataset.
+- **`offset`**: The starting position of the current subset.
+- **`limit`**: The number of items returned in this request.
+- **`nextOffset`**: The recommended `offset` value for the next subset of data.
+
+This approach ensures efficient data retrieval while giving developers fine-grained control over paginated responses.
+
+<br />
+
+---
+
+<br />
+
+## Fields
+
+The `fields` parameter allows you to specify which fields should be included in the response. This helps reduce the payload size by excluding unnecessary data, making your requests more efficient.
+
+**How It Works**
+
+By using the `fields` parameter, you can define a comma-separated list of fields you want to include in the response.
+
+**Example Request:**
+
+```json
+GET /resource?fields=name,email,phone
+```
+
+In this example, the API will only include the `name`, `email`, and `phone` fields in the response.
+
+**Example Response:**
+
+```json
+{
+  "name": "John Doe",
+  "email": "johndoe@example.com",
+  "phone": "+123456789"
+}
+```
+
+**Notes:**
+
+- If the `fields` parameter is omitted, the API will return all available fields by default.
+- Specifying invalid or unsupported field names will result in those fields being ignored, but the request will still succeed.
+- Nested fields are supported (e.g., `fields=address.city`).
+
+**Benefits of Using Fields:**
+
+- **Performance:** Reduces the size of the response payload, speeding up data transfer.
+- **Clarity:** Returns only the data relevant to your application.
+
+This feature is ideal for optimizing API responses in applications where only specific data points are needed.
+
+<br />
+
+---
+
+<br />
+
+## Error
+
+The API uses standardized error responses to ensure consistency and make error handling easier for developers.
+
+All errors follow a consistent structure:
+
+| **Field**           | **Description**                                                                     | **Example**                            |
+| ------------------- | ----------------------------------------------------------------------------------- | -------------------------------------- |
+| `statusCode`        | The HTTP status code for the error.                                                 | `400`, `404`                           |
+| `error`             | A short description of the error type.                                              | `Bad Request Error`                    |
+| `message`           | A detailed message explaining what caused the error.                                | `Invalid input provided`               |
+| `issues` (optional) | An array of key-value pairs providing details about specific issues in the request. | `[{"email": "Invalid email address"}]` |
+
+**Error Response Format**
+
+```json
+{
+  "statusCode": 400,
+  "error": "Bad Request Error",
+  "message": "Invalid input",
+  "issues": [
+    {
+      "email": "Invalid email address"
+    }
+  ]
+}
+```

@@ -4,7 +4,9 @@ import {
   UpdateUserSchema,
   UpdateUserSchemaOutput,
   UpdateUserEmailSchema,
+  UpdateUserEmailSchemaOutput,
   UpdateUserPhoneSchema,
+  UpdateUserPhoneSchemaOutput,
   UpdateUserPasswordSchema,
   OTPVerificationSchema,
   OTPContextEnum,
@@ -29,12 +31,12 @@ export const ProfileRouter = (dependencies: IDependencies): IRouter => ({
 
   paths: {
     getProfile: {
-      summary: 'Get User Profile',
-      description: 'Retrieves the authenticated user profile.',
+      summary: 'Get Profile',
+      description: 'Retrieves the authenticated profile.',
 
       method: 'GET',
 
-      path: '/users/me',
+      path: '/profile',
 
       parameters: {},
 
@@ -53,12 +55,12 @@ export const ProfileRouter = (dependencies: IDependencies): IRouter => ({
     },
 
     updateProfile: {
-      summary: 'Update User Profile',
-      description: 'Updates and returns the authenticated user profile.',
+      summary: 'Update Profile',
+      description: 'Updates and returns the authenticated profile.',
 
       method: 'PATCH',
 
-      path: '/users/me',
+      path: '/profile',
 
       parameters: {
         body: UpdateUserSchema.omit({ id: true }),
@@ -79,19 +81,19 @@ export const ProfileRouter = (dependencies: IDependencies): IRouter => ({
     },
 
     updateProfileEmail: {
-      summary: 'Update User Profile Email',
+      summary: 'Update Profile Email',
       description: `Validates the OTP sent to the user's email and allows the user to reset their email.`,
 
       method: 'PATCH',
 
-      path: '/users/me/email',
+      path: '/profile/email',
 
       parameters: {
         body: UpdateUserEmailSchema.omit({ id: true }).merge(z.object({ otpVerification: OTPVerificationSchema })),
       },
 
       responses: {
-        204: { description: 'The email was successfully updated.' },
+        200: { schema: UpdateUserEmailSchemaOutput },
         401: {
           description: 'Unauthorized',
         },
@@ -118,19 +120,19 @@ export const ProfileRouter = (dependencies: IDependencies): IRouter => ({
     },
 
     updateProfilePhone: {
-      summary: 'Update User Profile Phone',
+      summary: 'Update Profile Phone',
       description: `Validates the OTP sent to the user's phone and allows the user to reset their phone number.`,
 
       method: 'PATCH',
 
-      path: '/users/me/phone',
+      path: '/profile/phone',
 
       parameters: {
         body: UpdateUserPhoneSchema.omit({ id: true }).merge(z.object({ otpVerification: OTPVerificationSchema })),
       },
 
       responses: {
-        204: { description: 'The phone number was successfully updated.' },
+        200: { schema: UpdateUserPhoneSchemaOutput },
         401: {
           description: 'Unauthorized',
         },
@@ -159,12 +161,12 @@ export const ProfileRouter = (dependencies: IDependencies): IRouter => ({
     },
 
     updateProfilePassword: {
-      summary: 'Update User Profile Password',
+      summary: 'Update Profile Password',
       description: 'Updates the authenticated user password.',
 
       method: 'PATCH',
 
-      path: '/users/me/password',
+      path: '/profile/password',
 
       parameters: {
         body: UpdateUserPasswordSchema.omit({ id: true }),

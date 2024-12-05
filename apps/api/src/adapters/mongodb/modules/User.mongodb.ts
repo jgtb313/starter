@@ -89,7 +89,12 @@ export const user = (Collections: CollectionsType) => (): ReturnType<IUserReposi
 
     return {
       values,
-      total,
+      metadata: {
+        total,
+        offset,
+        limit,
+        nextOffset: offset + limit,
+      },
     }
   },
 

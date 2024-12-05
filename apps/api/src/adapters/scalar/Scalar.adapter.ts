@@ -281,7 +281,8 @@ const document = {
   info: {
     title: `${config.name} API`,
     version: '1.0.0',
-    description: ['## Introduction', '## Authentication', '## Filters', '## Pagination', '## Sorting', '## Errors'].join('\n\n'),
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    description: require('fs').readFileSync(require('path').join(__dirname, './Scalar.docs.mdx'), 'utf-8'),
     license: {
       name: 'MIT',
     },

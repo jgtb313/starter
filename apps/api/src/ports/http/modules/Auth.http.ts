@@ -38,7 +38,7 @@ export const AuthRouter = (dependencies: IDependencies): IRouter => ({
 
       method: 'POST',
 
-      path: '/sign-in',
+      path: '/auth/sign-in',
 
       parameters: {
         body: SignInSchema,
@@ -64,7 +64,7 @@ export const AuthRouter = (dependencies: IDependencies): IRouter => ({
 
       method: 'POST',
 
-      path: '/social-sign-in',
+      path: '/auth/social-sign-in',
 
       parameters: {
         body: SocialSignInSchema,
@@ -87,7 +87,7 @@ export const AuthRouter = (dependencies: IDependencies): IRouter => ({
 
       method: 'POST',
 
-      path: '/sign-up',
+      path: '/auth/sign-up',
 
       parameters: {
         body: SignUpSchema,
@@ -115,7 +115,7 @@ export const AuthRouter = (dependencies: IDependencies): IRouter => ({
 
       method: 'POST',
 
-      path: '/forgot-password',
+      path: '/auth/forgot-password',
 
       parameters: {
         body: ForgotPasswordSchemaHTTP,

@@ -3,6 +3,7 @@
   "ignore": ["node_modules", "package.json"],
   "watch": [
     "./src/*",
+    "./src/adapters/scalar/Scalar.docs.mdx",
     "../../artifacts/config/dist/vite.config.d.ts",
     "../../artifacts/shared/dist/vite.config.d.ts",
     "../../artifacts/schema/dist/vite.config.d.ts"
