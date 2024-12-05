@@ -2,7 +2,7 @@ import { StageEnum } from '@starter/config'
 
 import { state, State } from './state'
 
-export const setState = (key: keyof Omit<State, 'baseURL'>, value: string) => {
+export const setState = <K extends keyof Omit<State, 'baseURL'>>(key: K, value: State[K]) => {
   if (key === 'authorization') {
     state.authorization = value
   }

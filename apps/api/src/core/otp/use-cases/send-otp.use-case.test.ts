@@ -1,10 +1,10 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 import { OTPChannelEnum, OTPContextEnum, SendOTPInput } from '@starter/schema'
+import { EmailsEnum } from '@starter/emails-marketing'
 import { isString } from '@starter/shared'
 
 import { TestDependencies, ITestDependencies } from '@/config/tests'
 import { IDependencies } from '@/support/types'
-import { MailTemplateEnum } from '@/ports/mail'
 import { SMSTemplateEnum } from '@/ports/sms'
 import { WhatsappTemplateEnum } from '@/ports/whatsapp'
 
@@ -35,7 +35,7 @@ describe('sendOTP', () => {
     expect(dependencies.Database.otp.dailyCount).toBeCalledWith(input.recipient, input.context)
     expect(dependencies.Database.otp.create).toBeCalled()
     expect(dependencies.Mail.send).toBeCalledWith({
-      template: MailTemplateEnum.SEND_OTP,
+      template: EmailsEnum.SEND_OTP,
       to: input.recipient,
       props: {
         code: expect.any(String),

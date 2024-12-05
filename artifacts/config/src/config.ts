@@ -67,4 +67,6 @@ export const config = {
     twitter: 'https://x.com/starter',
     instagram: 'https://instagram.com/starter',
   },
+
+  address: 'Rua dos Abacateiros, Jardim São Francisco, São Luís - MA',
 }

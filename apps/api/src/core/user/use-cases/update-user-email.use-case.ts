@@ -10,7 +10,9 @@ const execute: IUseCaseExecute<UpdateUserEmailInput, UpdateUserEmailOutput> =
 
     user.state.email = email
 
-    await Database.user.updateById(user.state.id, user)
+    const { state } = await Database.user.updateById(user.state.id, user)
+
+    return state
   }
 
 export const updateUserEmail = createUseCase(execute, UpdateUserEmailSchema)

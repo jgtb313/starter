@@ -10,7 +10,9 @@ const execute: IUseCaseExecute<UpdateUserPhoneInput, UpdateUserPhoneOutput> =
 
     user.state.phone = phone
 
-    await Database.user.updateById(user.state.id, user)
+    const { state } = await Database.user.updateById(user.state.id, user)
+
+    return state
   }
 
 export const updateUserPhone = createUseCase(execute, UpdateUserPhoneSchema)

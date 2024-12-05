@@ -1,7 +1,7 @@
 import { setState } from '@/config'
 
 const unauthenticate = () => {
-  setState('authorization', '')
+  setState('authorization', undefined)
 }
 
 export default unauthenticate

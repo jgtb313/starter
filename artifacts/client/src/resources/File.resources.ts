@@ -5,7 +5,7 @@
  *
  * @module File
  **/
-import { RequestFilenameInput, RequestFilenameOutput, WithRecaptcha } from '@starter/schema'
+import { RequestFilenameSchemaOutput, RequestFilenameInput, RequestFilenameOutput, WithRecaptcha } from '@starter/schema'
 
 import client from '@/request'
 import { withFields } from '@/support'
@@ -19,5 +19,5 @@ import { withFields } from '@/support'
  *
  */
 export const requestFilename = withFields<WithRecaptcha<RequestFilenameInput>, RequestFilenameOutput>(({ fields, ...input }) =>
-  client.post('/v1/files', input, { params: { fields } }),
+  client.post('/v1/files', input, { params: { fields } }).then(RequestFilenameSchemaOutput.parse),
 )

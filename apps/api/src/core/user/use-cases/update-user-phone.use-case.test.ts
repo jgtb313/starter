@@ -27,12 +27,10 @@ describe('updateUserPhone', () => {
       },
     }
 
-    await sut().execute(input)
-
-    const result = await dependencies.Database.user.findById(input.id)
+    const output = await sut().execute(input)
 
     expect(dependencies.Database.user.findById).toBeCalledWith(input.id)
     expect(dependencies.Database.user.updateById).toBeCalled()
-    expect(result.state.phone).toStrictEqual(input.phone)
+    expect(output.phone).toStrictEqual(input.phone)
   })
 })

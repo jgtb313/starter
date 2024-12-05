@@ -7,15 +7,19 @@
  **/
 
 import {
+  GetUserByIdSchemaOutput,
+  UpdateUserSchemaOutput,
+  UpdateUserEmailSchemaOutput,
+  UpdateUserPhoneSchemaOutput,
   GetUserByIdOutput,
-  UpdateUserOutput,
-  UpdateUserEmailOutput,
-  UpdateUserPhoneOutput,
-  UpdateUserPasswordOutput,
   UpdateUserInput,
+  UpdateUserOutput,
   UpdateUserEmailInput,
+  UpdateUserEmailOutput,
   UpdateUserPhoneInput,
+  UpdateUserPhoneOutput,
   UpdateUserPasswordInput,
+  UpdateUserPasswordOutput,
 } from '@starter/schema'
 
 import client from '@/request'
@@ -30,7 +34,7 @@ import { withFields, WithoutId } from '@/support'
  *
  * @returns Resolves to the result of the request or an error.
  */
-export const retrieve = withFields<{}, GetUserByIdOutput>(() => client.get('/v1/users/me'))
+export const retrieve = withFields<{}, GetUserByIdOutput>(() => client.get('/v1/users/me').then(GetUserByIdSchemaOutput.parse))
 
 /**
  * `PATCH /v1/users/me`
@@ -42,7 +46,7 @@ export const retrieve = withFields<{}, GetUserByIdOutput>(() => client.get('/v1/
  * @returns Resolves to the result of the request or an error.
  */
 export const update = withFields<WithoutId<UpdateUserInput>, UpdateUserOutput>(({ fields, ...body }) =>
-  client.patch('/v1/users/me', body, { params: { fields } }),
+  client.patch('/v1/users/me', body, { params: { fields } }).then(UpdateUserSchemaOutput.parse),
 )
 
 /**
@@ -55,7 +59,7 @@ export const update = withFields<WithoutId<UpdateUserInput>, UpdateUserOutput>((
  * @returns Resolves to the result of the request or an error.
  */
 export const updateEmail = withFields<WithoutId<UpdateUserEmailInput>, UpdateUserEmailOutput>(({ fields, ...body }) =>
-  client.patch('/v1/users/me/email', body, { params: { fields } }),
+  client.patch('/v1/users/me/email', body, { params: { fields } }).then(UpdateUserEmailSchemaOutput.parse),
 )
 
 /**
@@ -68,7 +72,7 @@ export const updateEmail = withFields<WithoutId<UpdateUserEmailInput>, UpdateUse
  * @returns Resolves to the result of the request or an error.
  */
 export const updatePhone = withFields<WithoutId<UpdateUserPhoneInput>, UpdateUserPhoneOutput>(({ fields, ...body }) =>
-  client.patch('/v1/users/me/phone', body, { params: { fields } }),
+  client.patch('/v1/users/me/phone', body, { params: { fields } }).then(UpdateUserPhoneSchemaOutput.parse),
 )
 
 /**

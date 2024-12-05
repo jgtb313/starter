@@ -7,6 +7,9 @@
  **/
 
 import {
+  SendForgotPasswordOTPSchemaOutput,
+  SendUpdateEmailOTPSchemaOutput,
+  SendUpdatePhoneOTPSchemaOutput,
   ValidateOTPInput,
   ValidateOTPOutput,
   SendForgotPasswordOTPInput,
@@ -43,7 +46,7 @@ export const validate = withFields<ValidateOTPInput, ValidateOTPOutput>(({ field
  * @returns Resolves to the result of the request or an error.
  */
 export const sendForgotPassword = withFields<SendForgotPasswordOTPInput, SendForgotPasswordOTPOutput>(({ fields, ...body }) =>
-  client.post('/v1/otps/forgot-password', body, { params: { fields } }),
+  client.post('/v1/otps/forgot-password', body, { params: { fields } }).then(SendForgotPasswordOTPSchemaOutput.parse),
 )
 
 /**
@@ -56,7 +59,7 @@ export const sendForgotPassword = withFields<SendForgotPasswordOTPInput, SendFor
  * @returns Resolves to the result of the request or an error.
  */
 export const sendUpdateEmail = withFields<SendUpdateEmailOTPInput, SendUpdateEmailOTPOutput>(({ fields, ...body }) =>
-  client.post('/v1/otps/update-email', body, { params: { fields } }),
+  client.post('/v1/otps/update-email', body, { params: { fields } }).then(SendUpdateEmailOTPSchemaOutput.parse),
 )
 
 /**
@@ -69,5 +72,5 @@ export const sendUpdateEmail = withFields<SendUpdateEmailOTPInput, SendUpdateEma
  * @returns Resolves to the result of the request or an error.
  */
 export const sendUpdatePhone = withFields<SendUpdatePhoneOTPInput, SendUpdatePhoneOTPOutput>(({ fields, ...body }) =>
-  client.post('/v1/otps/update-phone', body, { params: { fields } }),
+  client.post('/v1/otps/update-phone', body, { params: { fields } }).then(SendUpdatePhoneOTPSchemaOutput.parse),
 )

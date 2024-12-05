@@ -18,7 +18,7 @@ client.interceptors.request.use((config: AxiosRequestConfig) => {
 client.interceptors.response.use(
   (response: AxiosResponse) => response.data,
   (error: AxiosError) => {
-    return Promise.reject(error?.response?.data || error)
+    return Promise.reject(error.response?.data || error)
   },
 )
 

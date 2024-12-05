@@ -28,6 +28,7 @@ const createCollectionMongoDB = async <T extends Document>(database: Db, collect
 
   try {
     await database.createCollection(collectionName, { autoIndexId: true })
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     /* empty */
   }

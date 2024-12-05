@@ -33,8 +33,9 @@ export const UpdateUserEmailSchema = UserSchema.pick({
   id: true,
   email: true,
 })
+export const UpdateUserEmailSchemaOutput = UserSchema
 export type UpdateUserEmailInput = z.infer<typeof UpdateUserEmailSchema>
-export type UpdateUserEmailOutput = void
+export type UpdateUserEmailOutput = z.infer<typeof UpdateUserEmailSchemaOutput>
 
 export const UpdateUserPhoneSchema = UserSchema.pick({
   id: true,
@@ -43,8 +44,9 @@ export const UpdateUserPhoneSchema = UserSchema.pick({
     phone: PhoneSchema,
   }),
 )
+export const UpdateUserPhoneSchemaOutput = UserSchema
 export type UpdateUserPhoneInput = z.infer<typeof UpdateUserPhoneSchema>
-export type UpdateUserPhoneOutput = void
+export type UpdateUserPhoneOutput = z.infer<typeof UpdateUserPhoneSchemaOutput>
 
 export const UpdateUserPasswordSchema = UserSchema.pick({
   id: true,

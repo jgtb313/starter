@@ -78,7 +78,7 @@ export const ProfileRouter = (dependencies: IDependencies): IRouter => ({
       },
     },
 
-    updateUserProfileEmail: {
+    updateProfileEmail: {
       summary: 'Update User Profile Email',
       description: `Validates the OTP sent to the user's email and allows the user to reset their email.`,
 
@@ -109,15 +109,15 @@ export const ProfileRouter = (dependencies: IDependencies): IRouter => ({
       async execute({ body }, context) {
         requiresAuthorization(context)
 
+        UpdateUserEmailSchema.parse(body)
+
         await validateOTP(dependencies)({ ...body.otpVerification, context: OTPContextEnum.UPDATE_EMAIL, recipient: body.email })
 
-        await updateUserEmail(dependencies)({ id: context.auth.userId, email: body.email })
-
-        return
+        return updateUserEmail(dependencies)({ id: context.auth.userId, email: body.email })
       },
     },
 
-    updateUserProfilePhone: {
+    updateProfilePhone: {
       summary: 'Update User Profile Phone',
       description: `Validates the OTP sent to the user's phone and allows the user to reset their phone number.`,
 
@@ -148,17 +148,17 @@ export const ProfileRouter = (dependencies: IDependencies): IRouter => ({
       async execute({ body }, context) {
         requiresAuthorization(context)
 
+        UpdateUserPhoneSchema.parse(body)
+
         const recipient = `${body.phone.ddi}${body.phone.number}`
 
         await validateOTP(dependencies)({ ...body.otpVerification, context: OTPContextEnum.UPDATE_PHONE, recipient })
 
-        await updateUserPhone(dependencies)({ id: context.auth.userId, phone: body.phone })
-
-        return
+        return updateUserPhone(dependencies)({ id: context.auth.userId, phone: body.phone })
       },
     },
 
-    updateUserProfilePassword: {
+    updateProfilePassword: {
       summary: 'Update User Profile Password',
       description: 'Updates the authenticated user password.',
 

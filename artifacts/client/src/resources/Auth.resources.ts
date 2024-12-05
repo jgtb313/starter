@@ -7,6 +7,10 @@
  **/
 
 import {
+  SignInSchemaOutput,
+  SocialSignInSchemaOutput,
+  SignUpSchemaOutput,
+  ForgotPasswordSchemaOutput,
   SignInInput,
   SignInOutput,
   SocialSignInInput,
@@ -30,7 +34,9 @@ import { withFields } from '@/support'
  *
  * @returns Resolves to the result of the request or an error.
  */
-export const signIn = withFields<SignInInput, SignInOutput>(({ fields, ...body }) => client.post('/v1/sign-in', body, { params: { fields } }))
+export const signIn = withFields<SignInInput, SignInOutput>(({ fields, ...body }) =>
+  client.post('/v1/sign-in', body, { params: { fields } }).then(SignInSchemaOutput.parse),
+)
 
 /**
  * `POST /v1/social-sign-in`
@@ -42,7 +48,7 @@ export const signIn = withFields<SignInInput, SignInOutput>(({ fields, ...body }
  * @returns Resolves to the result of the request or an error.
  */
 export const socialSignIn = withFields<SocialSignInInput, SocialSignInOutput>(({ fields, ...body }) =>
-  client.post('/v1/social-sign-in', body, { params: { fields } }),
+  client.post('/v1/social-sign-in', body, { params: { fields } }).then(SocialSignInSchemaOutput.parse),
 )
 
 /**
@@ -54,7 +60,9 @@ export const socialSignIn = withFields<SocialSignInInput, SocialSignInOutput>(({
  *
  * @returns Resolves to the result of the request or an error.
  */
-export const signUp = withFields<SignUpInput, SignUpOutput>(({ fields, ...body }) => client.post('/v1/sign-up', body, { params: { fields } }))
+export const signUp = withFields<SignUpInput, SignUpOutput>(({ fields, ...body }) =>
+  client.post('/v1/sign-up', body, { params: { fields } }).then(SignUpSchemaOutput.parse),
+)
 
 /**
  * `POST /v1/forgot-password`
@@ -66,5 +74,5 @@ export const signUp = withFields<SignUpInput, SignUpOutput>(({ fields, ...body }
  * @returns Resolves to the result of the request or an error.
  */
 export const forgotPassword = withFields<ForgotPasswordInput & OTPVerification, ForgotPasswordOutput>(({ fields, ...body }) =>
-  client.post('/v1/forgot-password', body, { params: { fields } }),
+  client.post('/v1/forgot-password', body, { params: { fields } }).then(ForgotPasswordSchemaOutput.parse),
 )
