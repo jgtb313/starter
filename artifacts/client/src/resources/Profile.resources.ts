@@ -26,19 +26,19 @@ import client from '@/request'
 import { withFields, WithoutId } from '@/support'
 
 /**
- * `GET /v1/users/me`
- * Makes a request to /v1/users/me
+ * `GET /v1/profile`
+ * Makes a request to /v1/profile
  *
  * @param {Object} body The body for the request.
  * @param {Object} [body.fields] The fields.
  *
  * @returns Resolves to the result of the request or an error.
  */
-export const retrieve = withFields<{}, GetUserByIdOutput>(() => client.get('/v1/users/me').then(GetUserByIdSchemaOutput.parse))
+export const retrieve = withFields<{}, GetUserByIdOutput>(() => client.get('/v1/profile').then(GetUserByIdSchemaOutput.parse))
 
 /**
- * `PATCH /v1/users/me`
- * Makes a request to /v1/users/me
+ * `PATCH /v1/profile`
+ * Makes a request to /v1/profile
  *
  * @param {Object} body The body for the request.
  * @param {Object} [body.fields] The fields.
@@ -46,12 +46,12 @@ export const retrieve = withFields<{}, GetUserByIdOutput>(() => client.get('/v1/
  * @returns Resolves to the result of the request or an error.
  */
 export const update = withFields<WithoutId<UpdateUserInput>, UpdateUserOutput>(({ fields, ...body }) =>
-  client.patch('/v1/users/me', body, { params: { fields } }).then(UpdateUserSchemaOutput.parse),
+  client.patch('/v1/profile', body, { params: { fields } }).then(UpdateUserSchemaOutput.parse),
 )
 
 /**
- * `PATCH /v1/users/me/email`
- * Makes a request to /v1/users/me/email
+ * `PATCH /v1/profile/email`
+ * Makes a request to /v1/profile/email
  *
  * @param {Object} body The body for the request.
  * @param {Object} [body.fields] The fields.
@@ -59,12 +59,12 @@ export const update = withFields<WithoutId<UpdateUserInput>, UpdateUserOutput>((
  * @returns Resolves to the result of the request or an error.
  */
 export const updateEmail = withFields<WithoutId<UpdateUserEmailInput>, UpdateUserEmailOutput>(({ fields, ...body }) =>
-  client.patch('/v1/users/me/email', body, { params: { fields } }).then(UpdateUserEmailSchemaOutput.parse),
+  client.patch('/v1/profile/email', body, { params: { fields } }).then(UpdateUserEmailSchemaOutput.parse),
 )
 
 /**
- * `PATCH /v1/users/me/phone`
- * Makes a request to /v1/users/me/phone
+ * `PATCH /v1/profile/phone`
+ * Makes a request to /v1/profile/phone
  *
  * @param {Object} body The body for the request.
  * @param {Object} [body.fields] The fields.
@@ -72,12 +72,12 @@ export const updateEmail = withFields<WithoutId<UpdateUserEmailInput>, UpdateUse
  * @returns Resolves to the result of the request or an error.
  */
 export const updatePhone = withFields<WithoutId<UpdateUserPhoneInput>, UpdateUserPhoneOutput>(({ fields, ...body }) =>
-  client.patch('/v1/users/me/phone', body, { params: { fields } }).then(UpdateUserPhoneSchemaOutput.parse),
+  client.patch('/v1/profile/phone', body, { params: { fields } }).then(UpdateUserPhoneSchemaOutput.parse),
 )
 
 /**
- * `PATCH /v1/users/me/password`
- * Makes a request to /v1/users/me/password
+ * `PATCH /v1/profile/password`
+ * Makes a request to /v1/profile/password
  *
  * @param {Object} body The body for the request.
  * @param {Object} [body.fields] The fields.
@@ -85,5 +85,5 @@ export const updatePhone = withFields<WithoutId<UpdateUserPhoneInput>, UpdateUse
  * @returns Resolves to the result of the request or an error.
  */
 export const updatePassword = withFields<WithoutId<UpdateUserPasswordInput>, UpdateUserPasswordOutput>(({ fields, ...body }) =>
-  client.patch('/v1/users/me/password', body, { params: { fields } }),
+  client.patch('/v1/profile/password', body, { params: { fields } }),
 )

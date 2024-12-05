@@ -26,8 +26,8 @@ import client from '@/request'
 import { withFields } from '@/support'
 
 /**
- * `POST /v1/sign-in`
- * Makes a request to /v1/sign-in
+ * `POST /v1/auth/sign-in`
+ * Makes a request to /v1/auth/sign-in
  *
  * @param {Object} body The body for the request.
  * @param {Object} [body.fields] The fields.
@@ -35,12 +35,12 @@ import { withFields } from '@/support'
  * @returns Resolves to the result of the request or an error.
  */
 export const signIn = withFields<SignInInput, SignInOutput>(({ fields, ...body }) =>
-  client.post('/v1/sign-in', body, { params: { fields } }).then(SignInSchemaOutput.parse),
+  client.post('/v1/auth/sign-in', body, { params: { fields } }).then(SignInSchemaOutput.parse),
 )
 
 /**
- * `POST /v1/social-sign-in`
- * Makes a request to /v1/social-sign-in
+ * `POST /v1/auth/social-sign-in`
+ * Makes a request to /v1/auth/social-sign-in
  *
  * @param {Object} body The body for the request.
  * @param {Object} [body.fields] The fields.
@@ -48,12 +48,12 @@ export const signIn = withFields<SignInInput, SignInOutput>(({ fields, ...body }
  * @returns Resolves to the result of the request or an error.
  */
 export const socialSignIn = withFields<SocialSignInInput, SocialSignInOutput>(({ fields, ...body }) =>
-  client.post('/v1/social-sign-in', body, { params: { fields } }).then(SocialSignInSchemaOutput.parse),
+  client.post('/v1/auth/social-sign-in', body, { params: { fields } }).then(SocialSignInSchemaOutput.parse),
 )
 
 /**
- * `POST /v1/sign-up`
- * Makes a request to /v1/sign-up
+ * `POST /v1/auth/sign-up`
+ * Makes a request to /v1/auth/sign-up
  *
  * @param {Object} body The body for the request.
  * @param {Object} [body.fields] The fields.
@@ -61,12 +61,12 @@ export const socialSignIn = withFields<SocialSignInInput, SocialSignInOutput>(({
  * @returns Resolves to the result of the request or an error.
  */
 export const signUp = withFields<SignUpInput, SignUpOutput>(({ fields, ...body }) =>
-  client.post('/v1/sign-up', body, { params: { fields } }).then(SignUpSchemaOutput.parse),
+  client.post('/v1/auth/sign-up', body, { params: { fields } }).then(SignUpSchemaOutput.parse),
 )
 
 /**
- * `POST /v1/forgot-password`
- * Makes a request to /v1/forgot-password
+ * `POST /v1/auth/forgot-password`
+ * Makes a request to /v1/auth/forgot-password
  *
  * @param {Object} body The body for the request.
  * @param {Object} [body.fields] The fields.
@@ -74,5 +74,5 @@ export const signUp = withFields<SignUpInput, SignUpOutput>(({ fields, ...body }
  * @returns Resolves to the result of the request or an error.
  */
 export const forgotPassword = withFields<ForgotPasswordInput & OTPVerification, ForgotPasswordOutput>(({ fields, ...body }) =>
-  client.post('/v1/forgot-password', body, { params: { fields } }).then(ForgotPasswordSchemaOutput.parse),
+  client.post('/v1/auth/forgot-password', body, { params: { fields } }).then(ForgotPasswordSchemaOutput.parse),
 )
