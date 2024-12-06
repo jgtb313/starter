@@ -7,9 +7,14 @@ import { useFetcher } from '@starter/use-remix-hooks'
 import { useWatch } from '@starter/use-hooks'
 
 import { getClientIdInfos } from '~/support/get-client-id-infos'
+import { getFormData } from '~/support/get-form-data'
 import { setupCookie } from '~/cookie.server'
 import { Brand } from '~/common'
 import { SignInForm, ISignInForm, ISocialAuthentication } from '~/components'
+
+type SignInAction = {
+  type: 'email' | 'social'
+}
 
 export const meta: MetaFunction = () => {
   return [{ title: `${config.name} | Sign In` }]
@@ -22,32 +27,29 @@ export const action = async (args: ActionFunctionArgs) => {
     return redirect(config.oauth.fallbackUrl)
   }
 
-  const formData = await args.request.formData()
-  const type = formData.get('type')
+  const formData = await getFormData<SignInAction>(args)
 
-  let cookieHeader = ''
+  let accessToken = ''
 
-  if (type === 'email') {
-    const data = Object.fromEntries(formData) as SignInInput
-
+  if (formData.type === 'email') {
     try {
-      const { accessToken } = await client.auth.signIn(data)
+      const response = await client.auth.signIn(formData as unknown as SignInInput)
 
-      cookieHeader = await setupCookie(args, accessToken)
+      accessToken = response.accessToken
     } catch (error) {
       return json(error)
     }
   } else {
-    const data = Object.fromEntries(formData) as SocialSignInInput
-
     try {
-      const { accessToken } = await client.auth.socialSignIn(data)
+      const response = await client.auth.socialSignIn(formData as unknown as SocialSignInInput)
 
-      cookieHeader = await setupCookie(args, accessToken)
+      accessToken = response.accessToken
     } catch (error) {
       return json(error)
     }
   }
+
+  const cookieHeader = await setupCookie(args, accessToken)
 
   return redirect(clientIdInfos.redirectUrl, {
     headers: {

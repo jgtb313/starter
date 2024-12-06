@@ -167,8 +167,8 @@ const paths = Schemas.reduce((state, schema) => {
                     'schema' in item
                       ? sample(generateSchema(item.schema))
                       : isHttpResponseError(httpResponse)
-                        ? sample(generateSchema(ErrorSchema[httpResponse](item.description)))
-                        : null,
+                      ? sample(generateSchema(ErrorSchema[httpResponse](item.description)))
+                      : null,
                   ]),
                 ),
               },
@@ -187,8 +187,8 @@ const paths = Schemas.reduce((state, schema) => {
                 'schema' in value
                   ? generateSchema(value.schema)
                   : isHttpResponseError(httpResponse)
-                    ? generateSchema(ErrorSchema[httpResponse](value.description))
-                    : null,
+                  ? generateSchema(ErrorSchema[httpResponse](value.description))
+                  : null,
             },
           },
         },
@@ -338,6 +338,7 @@ export const Docs = {
         '.badges { display: none !important; }',
         '.security-scheme-label { font-weight: var(--scalar-semibold); font-size: var(--scalar-mini); color: var(--scalar-color-3); text-transform: uppercase; display: block; }',
         '.scalar-card-header-actions { display: none !important; }',
+        '.models-list-item .schema-properties { margin-bottom: 0px !important; }',
         '.darklight-reference-promo { display: none !important; }',
       ].join(''),
     },

@@ -1,15 +1,16 @@
 import { redirect, json, type MetaFunction, ActionFunctionArgs } from '@remix-run/node'
 import { config } from '@starter/config'
 import client, { ApiError } from '@starter/client'
+import { ForgotPasswordInput } from '@starter/schema'
 import { Flex, Card, Typography } from '@starter/ui'
 import { useFetcher } from '@starter/use-remix-hooks'
 import { get } from '@starter/shared'
 
 import { getClientIdInfos } from '~/support/get-client-id-infos'
+import { getFormData } from '~/support/get-form-data'
 import { setupCookie } from '~/cookie.server'
 import { Brand } from '~/common'
 import { ForgotPasswordForm, IForgotPasswordForm } from '~/components'
-import { ForgotPasswordInput, OTPVerification } from '@starter/schema'
 
 export const meta: MetaFunction = () => {
   return [{ title: `${config.name} | Forgot Password` }]
@@ -22,8 +23,7 @@ export const action = async (args: ActionFunctionArgs) => {
     return redirect(config.oauth.fallbackUrl)
   }
 
-  const formData = await args.request.formData()
-  const { otpVerification, ...data } = Object.fromEntries(formData) as ForgotPasswordInput & { otpVerification: string }
+  const { otpVerification, ...data } = await getFormData<ForgotPasswordInput & { otpVerification: string }>(args)
 
   try {
     const { accessToken } = await client.auth.forgotPassword({

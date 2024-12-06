@@ -7,6 +7,7 @@ import { useFetcher } from '@starter/use-remix-hooks'
 import { useWatch } from '@starter/use-hooks'
 
 import { getClientIdInfos } from '~/support/get-client-id-infos'
+import { getFormData } from '~/support/get-form-data'
 import { setupCookie } from '~/cookie.server'
 import { Brand } from '~/common'
 import { SignUpForm, ISignUpForm } from '~/components'
@@ -22,11 +23,10 @@ export const action = async (args: ActionFunctionArgs) => {
     return redirect(config.oauth.fallbackUrl)
   }
 
-  const formData = await args.request.formData()
-  const data = Object.fromEntries(formData) as SignUpInput
+  const formData = await getFormData<SignUpInput>(args)
 
   try {
-    const { accessToken } = await client.auth.signUp(data)
+    const { accessToken } = await client.auth.signUp(formData)
 
     const cookieHeader = await setupCookie(args, accessToken)
 

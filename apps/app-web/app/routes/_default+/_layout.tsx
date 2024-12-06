@@ -1,19 +1,40 @@
-import { Outlet, Link, useLoaderData } from '@remix-run/react'
+import { Outlet, Link } from '@remix-run/react'
+import { json, LoaderFunctionArgs } from '@remix-run/node'
 import { makeAuthRedirectUrl, ClientIdEnum } from '@starter/config'
+import client from '@starter/client'
 import { AuthProvider, ProfileProvider, ProfileProviderProps } from '@starter/store'
+import { useLoaderData } from '@starter/use-remix-hooks'
 import { UiProvider, Layout, Flex, Avatar, Button } from '@starter/ui'
 
-import { setupDefaultLayout } from '~/server'
+import { cookie } from '~/cookie.server'
 import { Brand, ToggleColorScheme } from '~/common'
 import { Shell } from '~/Shell'
 
-export const loader = setupDefaultLayout
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+  const Cookie = await cookie.getSession(request.headers.get('Cookie'))
+
+  const accessToken = Cookie.get('accessToken')
+
+  // console.log(import.meta.env.STAGE)
+
+  if (accessToken) {
+    client.authenticate(accessToken)
+
+    const user = await client.profile.retrieve({})
+
+    return json({ user })
+  }
+
+  return json({ user: undefined })
+}
 
 const { Header, Content } = Layout
 
 const signInRedirectUrl = makeAuthRedirectUrl({
   clientId: ClientIdEnum.APP,
   stage: import.meta.env.VITE_STAGE,
+  responseType: 'token',
+  scope: 'user',
 })
 
 const logoutRedirectUrl = makeAuthRedirectUrl({
@@ -27,7 +48,7 @@ console.log({
 })
 
 const DefaultLayout = () => {
-  const { user } = useLoaderData<typeof loader>() as unknown as Pick<ProfileProviderProps, 'user'>
+  const { user } = useLoaderData<Pick<ProfileProviderProps, 'user'>>()
 
   return (
     <Shell>
