@@ -16,6 +16,8 @@ export type MakeAuthRedirectUrlOptions = {
   clientId: ClientIdEnum
   stage: StageEnum
   to?: string
+  responseType?: 'token'
+  scope?: 'user' | 'admin'
   params?: Record<string, string>
 }
 
@@ -31,11 +33,13 @@ export const isValidRedirectUrl = (value: ClientIdEnum, stage: StageEnum, redire
   return clientId.redirectUrls[stage] === redirectUrl
 }
 
-export const makeAuthRedirectUrl = ({ clientId, stage, to = '', params = {} }: MakeAuthRedirectUrlOptions) => {
+export const makeAuthRedirectUrl = ({ clientId, stage, to = '', responseType, scope, params = {} }: MakeAuthRedirectUrlOptions) => {
   const qs = Object.entries({
     ...params,
     client_id: clientId,
     redirect_url: config.oauth.clientIds[clientId].redirectUrls[stage],
+    response_type: responseType,
+    scope,
   })
     .map(([key, value]) => `${key}=${value}`)
     .join('&')
