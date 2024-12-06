@@ -2,14 +2,13 @@ import { redirect, json, type MetaFunction, ActionFunctionArgs } from '@remix-ru
 import { config } from '@starter/config'
 import client, { ApiError } from '@starter/client'
 import { SignInInput, SocialSignInInput } from '@starter/schema'
-import { Flex, Card, Typography, toast } from '@starter/ui'
+import { Flex, Card, Typography, Brand, toast } from '@starter/ui'
 import { useFetcher } from '@starter/use-remix-hooks'
 import { useWatch } from '@starter/use-hooks'
 
 import { getClientIdInfos } from '~/support/get-client-id-infos'
 import { getFormData } from '~/support/get-form-data'
 import { setupCookie } from '~/cookie.server'
-import { Brand } from '~/common'
 import { SignInForm, ISignInForm, ISocialAuthentication } from '~/components'
 
 type SignInAction = {
@@ -49,7 +48,15 @@ export const action = async (args: ActionFunctionArgs) => {
     }
   }
 
+  console.log({
+    accessToken,
+  })
+
   const cookieHeader = await setupCookie(args, accessToken)
+
+  console.log({
+    cookieHeader,
+  })
 
   return redirect(clientIdInfos.redirectUrl, {
     headers: {

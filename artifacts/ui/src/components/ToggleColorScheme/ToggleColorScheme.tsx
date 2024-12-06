@@ -2,11 +2,11 @@ import { ActionIcon, Icon, useTheme } from '@starter/ui'
 
 import { ToggleColorSchemeProps } from './ToggleColorScheme.types'
 
-export const ToggleColorScheme = ({ size = 'xl' }: ToggleColorSchemeProps) => {
+export const ToggleColorScheme = (props: ToggleColorSchemeProps) => {
   const { colorScheme, toggleColorScheme } = useTheme()
 
   return (
-    <ActionIcon tooltip="Change Theme" variant="default" size={size} onClick={toggleColorScheme}>
+    <ActionIcon {...props} onClick={toggleColorScheme}>
       <Icon name={colorScheme === 'light' ? 'Moon' : 'Sun'} />
     </ActionIcon>
   )

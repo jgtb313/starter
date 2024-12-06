@@ -1,14 +1,38 @@
 import { Outlet, Link, useLoaderData } from '@remix-run/react'
+import { json, LoaderFunctionArgs, redirect } from '@remix-run/node'
+import { makeAuthRedirectUrl, ClientIdEnum } from '@starter/config'
+import client from '@starter/client'
 import { ProfileProvider, ProfileProviderProps, ProfileProtected } from '@starter/store'
 import { useRouter } from '@starter/use-remix-hooks'
-import { UiProvider, Layout } from '@starter/ui'
+import { UiProvider, Layout, Brand, ToggleColorScheme } from '@starter/ui'
 
-import { setupDefaultLayout } from '~/server'
-import { Brand, ToggleColorScheme } from '~/common'
+import { cookie } from '~/cookie.server'
 import { UserMenu } from '~/components'
 import { Shell } from '~/Shell'
 
-export const loader = setupDefaultLayout
+const signInRedirectUrl = makeAuthRedirectUrl({
+  clientId: ClientIdEnum.CONSOLE,
+  stage: import.meta.env.VITE_STAGE,
+  responseType: 'token',
+  scope: 'admin',
+})
+
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+  const Cookie = await cookie.getSession(request.headers.get('Cookie'))
+
+  const accessToken = Cookie.get('accessToken')
+
+  if (!accessToken) {
+    return redirect(signInRedirectUrl)
+  }
+
+  client.connect(import.meta.env.VITE_STAGE)
+  client.authenticate(accessToken)
+
+  const user = await client.profile.retrieve({})
+
+  return json({ user })
+}
 
 const DefaultLayout = () => {
   const { user } = useLoaderData<typeof loader>() as unknown as Pick<ProfileProviderProps<ProfileProtected>, 'user'>
@@ -32,7 +56,7 @@ const DefaultLayout = () => {
                 { label: 'Dashboard', href: '/', icon: 'LayoutDashboard' },
                 { label: 'Settings', href: '/settings', icon: 'Settings' },
               ]}
-              footer={<ToggleColorScheme />}
+              footer={<ToggleColorScheme color="default" variant="default" size="xl" />}
             />
 
             <Layout.Content>

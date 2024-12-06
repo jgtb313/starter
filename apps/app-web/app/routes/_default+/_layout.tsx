@@ -4,10 +4,9 @@ import { makeAuthRedirectUrl, ClientIdEnum } from '@starter/config'
 import client from '@starter/client'
 import { AuthProvider, ProfileProvider, ProfileProviderProps } from '@starter/store'
 import { useLoaderData } from '@starter/use-remix-hooks'
-import { UiProvider, Layout, Flex, Avatar, Button } from '@starter/ui'
+import { UiProvider, Layout, Flex, Avatar, Button, Brand, ToggleColorScheme } from '@starter/ui'
 
 import { cookie } from '~/cookie.server'
-import { Brand, ToggleColorScheme } from '~/common'
 import { Shell } from '~/Shell'
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
@@ -15,7 +14,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
   const accessToken = Cookie.get('accessToken')
 
-  // console.log(import.meta.env.STAGE)
+  client.connect(import.meta.env.VITE_STAGE)
 
   if (accessToken) {
     client.authenticate(accessToken)
@@ -43,10 +42,6 @@ const logoutRedirectUrl = makeAuthRedirectUrl({
   to: 'logout',
 })
 
-console.log({
-  logoutRedirectUrl,
-})
-
 const DefaultLayout = () => {
   const { user } = useLoaderData<Pick<ProfileProviderProps, 'user'>>()
 
@@ -63,7 +58,7 @@ const DefaultLayout = () => {
 
                 <Header.End>
                   <Flex justify="center" align="center" gap={16}>
-                    <ToggleColorScheme />
+                    <ToggleColorScheme color="default" variant="transparent" size="md" />
 
                     {user ? (
                       <>

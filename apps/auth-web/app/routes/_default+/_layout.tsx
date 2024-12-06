@@ -3,10 +3,9 @@ import { redirect, json, LoaderFunctionArgs } from '@remix-run/node'
 import { config } from '@starter/config'
 import client from '@starter/client'
 import { AuthProvider } from '@starter/store'
-import { UiProvider, Layout, Flex } from '@starter/ui'
+import { UiProvider, Layout, Flex, ToggleColorScheme } from '@starter/ui'
 
 import { getClientIdInfos } from '~/support/get-client-id-infos'
-import { ToggleColorScheme } from '~/common'
 import { Shell } from '~/Shell'
 
 export const loader = async (args: LoaderFunctionArgs) => {
@@ -33,7 +32,7 @@ const DefaultLayout = () => {
               <Outlet />
 
               <Flex pos="fixed" top={12} right={12}>
-                <ToggleColorScheme />
+                <ToggleColorScheme color="default" variant="default" size="xl" />
               </Flex>
             </Layout.Content>
           </Layout>

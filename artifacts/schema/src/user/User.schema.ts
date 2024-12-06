@@ -56,3 +56,6 @@ export const UserSchema = z.object({
   updatedAt: UpdatedAtSchema,
 })
 export type User = z.infer<typeof UserSchema>
+
+export const ProfileSchema = UserSchema.omit({ password: true })
+export type Profile = z.infer<typeof ProfileSchema>

@@ -1,6 +1,8 @@
-import config from '@starter/config'
-import { Flex, Link, useTheme } from '@starter/ui'
+import { config } from '@starter/config'
+import { Flex } from '@mantine/core'
 
+import { Link } from '../Link'
+import { useTheme } from '../Theme'
 import { BrandProps } from './Brand.types'
 
 const BrandIcon = ({ width, symbol = false }: Pick<BrandProps, 'width' | 'symbol'>) => {

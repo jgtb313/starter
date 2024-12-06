@@ -3,10 +3,8 @@ import Cookie from 'js-cookie'
 import client from '@starter/client'
 
 export const useClient = () => {
-  const stage = import.meta.env.VITE_STAGE
-
   useEffect(() => {
-    client.connect(stage)
+    client.connect(import.meta.env.VITE_STAGE)
 
     const token = Cookie.get('token')
 

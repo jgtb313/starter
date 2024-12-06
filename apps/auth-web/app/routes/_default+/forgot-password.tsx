@@ -2,14 +2,13 @@ import { redirect, json, type MetaFunction, ActionFunctionArgs } from '@remix-ru
 import { config } from '@starter/config'
 import client, { ApiError } from '@starter/client'
 import { ForgotPasswordInput } from '@starter/schema'
-import { Flex, Card, Typography } from '@starter/ui'
+import { Flex, Card, Typography, Brand } from '@starter/ui'
 import { useFetcher } from '@starter/use-remix-hooks'
 import { get } from '@starter/shared'
 
 import { getClientIdInfos } from '~/support/get-client-id-infos'
 import { getFormData } from '~/support/get-form-data'
 import { setupCookie } from '~/cookie.server'
-import { Brand } from '~/common'
 import { ForgotPasswordForm, IForgotPasswordForm } from '~/components'
 
 export const meta: MetaFunction = () => {

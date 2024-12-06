@@ -1,19 +1,19 @@
 import { z } from '@/zod'
 
 import { PhoneSchema } from '@/common'
-import { UserSchema } from './User.schema'
+import { UserSchema, ProfileSchema } from './User.schema'
 
 export const GetUserByIdSchema = UserSchema.pick({
   id: true,
 })
-export const GetUserByIdSchemaOutput = UserSchema
+export const GetUserByIdSchemaOutput = ProfileSchema
 export type GetUserByIdInput = z.infer<typeof GetUserByIdSchema>
 export type GetUserByIdOutput = z.infer<typeof GetUserByIdSchemaOutput>
 
 export const GetUserByEmailSchema = UserSchema.pick({
   email: true,
 })
-export const GetUserByEmailSchemaOutput = UserSchema.optional()
+export const GetUserByEmailSchemaOutput = ProfileSchema.optional()
 export type GetUserByEmailInput = z.infer<typeof GetUserByEmailSchema>
 export type GetUserByEmailOutput = z.infer<typeof GetUserByEmailSchemaOutput>
 
@@ -25,7 +25,7 @@ export const UpdateUserSchema = UserSchema.pick({
     avatar: true,
   }).partial(),
 )
-export const UpdateUserSchemaOutput = UserSchema
+export const UpdateUserSchemaOutput = ProfileSchema
 export type UpdateUserInput = z.infer<typeof UpdateUserSchema>
 export type UpdateUserOutput = z.infer<typeof UpdateUserSchemaOutput>
 
@@ -33,7 +33,7 @@ export const UpdateUserEmailSchema = UserSchema.pick({
   id: true,
   email: true,
 })
-export const UpdateUserEmailSchemaOutput = UserSchema
+export const UpdateUserEmailSchemaOutput = ProfileSchema
 export type UpdateUserEmailInput = z.infer<typeof UpdateUserEmailSchema>
 export type UpdateUserEmailOutput = z.infer<typeof UpdateUserEmailSchemaOutput>
 
@@ -44,7 +44,7 @@ export const UpdateUserPhoneSchema = UserSchema.pick({
     phone: PhoneSchema,
   }),
 )
-export const UpdateUserPhoneSchemaOutput = UserSchema
+export const UpdateUserPhoneSchemaOutput = ProfileSchema
 export type UpdateUserPhoneInput = z.infer<typeof UpdateUserPhoneSchema>
 export type UpdateUserPhoneOutput = z.infer<typeof UpdateUserPhoneSchemaOutput>
 
