@@ -66,10 +66,6 @@ export const setupRoutes = (instance: FastifyInstance, routes: typeof Modules, d
 
             const context: IContext = {}
 
-            console.log({
-              authorization,
-            })
-
             try {
               const auth = checkAuthorization(dependencies)(authorization)
 

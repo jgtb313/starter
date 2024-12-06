@@ -48,15 +48,7 @@ export const action = async (args: ActionFunctionArgs) => {
     }
   }
 
-  console.log({
-    accessToken,
-  })
-
   const cookieHeader = await setupCookie(args, accessToken)
-
-  console.log({
-    cookieHeader,
-  })
 
   return redirect(clientIdInfos.redirectUrl, {
     headers: {
