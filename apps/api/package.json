@@ -11,7 +11,7 @@
     "generate:use-case": "yarn plop use-case",
     "generate:adapter": "yarn plop adapter",
     "generate:port": "yarn plop port",
-    "prebuild": "yarn workspace @starter/config build && yarn workspace @starter/shared build && yarn workspace @starter/schema build",
+    "prebuild": "yarn workspace @starter/config build && yarn workspace @starter/emails-marketing build && yarn workspace @starter/shared build && yarn workspace @starter/schema build",
     "build": "tsc",
     "type-check": "tsc --project tsconfig.json --pretty --skipLibCheck --noEmit",
     "test": "vitest run",
