@@ -4,6 +4,8 @@ import { formatToCapitalized } from '@starter/shared'
 import { ID, EmailSchema, PhoneSchema, PasswordSchema, DeletedAtSchema, CreatedAtSchema, UpdatedAtSchema } from '@/common'
 import { UserStatusEnum } from './User.enums'
 
+export const UserId = ID('user')
+
 const Name = z
   .string()
   .min(1)
@@ -22,13 +24,13 @@ const Social = z
   .object({
     google: z
       .object({
-        id: ID,
+        id: z.string(),
       })
       .nullish()
       .transform((value) => value ?? null),
     facebook: z
       .object({
-        id: ID,
+        id: z.string(),
       })
       .nullish()
       .transform((value) => value ?? null),
@@ -43,7 +45,7 @@ const Password = PasswordSchema
 const Status = z.nativeEnum(UserStatusEnum).default(UserStatusEnum.ACTIVE)
 
 export const UserSchema = z.object({
-  id: ID,
+  id: UserId,
   name: Name,
   email: Email,
   phone: Phone,

@@ -1,17 +1,10 @@
 import { StageEnum } from './config.support'
 
-const createRedirectUrls = ({ local, dev, stg, prd }: Record<StageEnum, string>): Record<StageEnum, string> => ({
+const createUrls = ({ local, dev, stg, prd }: Record<StageEnum, string>): Record<StageEnum, string> => ({
   local,
   dev,
   stg,
   prd,
-})
-
-export const authRedirectUrls = createRedirectUrls({
-  local: 'http://localhost:3000',
-  dev: 'http://localhost:3000',
-  stg: 'http://localhost:3000',
-  prd: 'http://localhost:3000',
 })
 
 export const config = {
@@ -24,7 +17,7 @@ export const config = {
     clientIds: {
       app: {
         clientId: 'app',
-        redirectUrls: createRedirectUrls({
+        redirectUrls: createUrls({
           local: 'http://localhost:3001',
           dev: 'http://localhost:3001',
           stg: 'http://localhost:3001',
@@ -34,7 +27,7 @@ export const config = {
 
       console: {
         clientId: 'console',
-        redirectUrls: createRedirectUrls({
+        redirectUrls: createUrls({
           local: 'http://localhost:3002',
           dev: 'http://localhost:3002',
           stg: 'http://localhost:3002',
@@ -82,3 +75,17 @@ export const config = {
 
   address: '350 Bush Street, 2nd Floor, San Francisco, CA, 94104 - USA',
 }
+
+export const apiUrls = createUrls({
+  local: 'http://127.0.0.1:4000',
+  dev: `https://api.dev.${config.domain}`,
+  stg: `https://api.stg.${config.domain}`,
+  prd: `https://api.${config.domain}`,
+})
+
+export const authRedirectUrls = createUrls({
+  local: 'http://localhost:3000',
+  dev: 'http://localhost:3000',
+  stg: 'http://localhost:3000',
+  prd: 'http://localhost:3000',
+})

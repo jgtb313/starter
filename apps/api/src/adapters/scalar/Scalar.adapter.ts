@@ -1,6 +1,6 @@
 import ScalarApiReference from '@scalar/fastify-api-reference'
 import { sample } from 'openapi-sampler'
-import { config } from '@starter/config'
+import { config, apiUrls, StageEnum } from '@starter/config'
 import { zodSchemaToInstance, ZodSchema } from '@starter/schema'
 import { get, omit } from '@starter/shared'
 
@@ -289,7 +289,7 @@ const document = {
   },
   servers: [
     {
-      url: STAGE === 'local' ? 'http://localhost:4000' : STAGE === 'prd' ? `https://api.${config.domain}` : `https://api.${STAGE}.${config.domain}`,
+      url: apiUrls[STAGE as StageEnum],
     },
   ],
 

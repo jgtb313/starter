@@ -3,6 +3,8 @@ import { clearSpecialChars } from '@starter/shared'
 
 import { ID } from '../base'
 
+const AddressId = ID('address')
+
 const Title = z.string().trim()
 
 const State = z.string().trim().min(1)
@@ -38,19 +40,19 @@ const Landmark = z
 const Main = z.boolean().default(false)
 
 export const BaseAddressSchema = z.object({
-  id: ID,
+  id: AddressId,
   state: State,
   city: City,
   zipcode: Zipcode,
   neighborhood: Neighborhood,
   street: Street,
   number: Number,
-  complement: Complement
+  complement: Complement,
 })
 export type BaseAddress = z.infer<typeof BaseAddressSchema>
 
 export const BusinessAddressSchema = z.object({
-  id: ID,
+  id: AddressId,
   state: State,
   city: City,
   zipcode: Zipcode,
@@ -60,12 +62,12 @@ export const BusinessAddressSchema = z.object({
   lat: Lat,
   lng: Lng,
   complement: Complement,
-  landmark: Landmark
+  landmark: Landmark,
 })
 export type BusinessAddress = z.infer<typeof BusinessAddressSchema>
 
 export const CustomerAddressSchema = z.object({
-  id: ID,
+  id: AddressId,
   title: Title,
   state: State,
   city: City,
@@ -77,6 +79,6 @@ export const CustomerAddressSchema = z.object({
   lng: Lng,
   complement: Complement,
   landmark: Landmark,
-  main: Main
+  main: Main,
 })
 export type CustomerAddress = z.infer<typeof CustomerAddressSchema>

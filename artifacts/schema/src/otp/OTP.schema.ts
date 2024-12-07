@@ -1,9 +1,12 @@
 import { z } from '@/zod'
 
 import { ID, DateSchema, CreatedAtSchema, UpdatedAtSchema } from '@/common'
+import { UserId } from '../user/User.schema'
 import { OTPChannelEnum, OTPContextEnum } from './OTP.enums'
 
-const UserId = ID.nullish().transform((value) => value ?? null)
+export const OTPId = ID('otp')
+
+const OTPUserId = UserId.nullish().transform((value) => value ?? null)
 
 export const OTPChannelSchema = z.nativeEnum(OTPChannelEnum).openapi({
   example: OTPChannelEnum['EMAIL'],
@@ -30,8 +33,8 @@ const DailyLimitAttempts = z.number()
 const ExpiresIn = DateSchema
 
 export const OTPSchema = z.object({
-  id: ID,
-  userId: UserId,
+  id: OTPId,
+  userId: OTPUserId,
   channel: OTPChannelSchema,
   context: OTPContextSchema,
   recipient: Recipient,

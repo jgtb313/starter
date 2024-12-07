@@ -2,10 +2,11 @@ import { isString } from '@starter/shared'
 
 import { z } from '@/zod'
 
-export const ID = z.string().openapi({
-  description: 'Unique identifier for the resource',
-  example: '2i27UIp5E4Wz6ZI8bfpBcgaRiez',
-})
+export const ID = (resourceName: string) =>
+  z.string().openapi({
+    description: `A unique identifier for each ${resourceName}`,
+    example: '2i27UIp5E4Wz6ZI8bfpBcgaRiez',
+  })
 
 export const FilterableSchema = (fields: string[], options: { example: string }) =>
   z
