@@ -11,5 +11,10 @@ export type RenderEmailOptions<T extends EmailsEnum> = {
 export const renderEmail = async <T extends EmailsEnum>({ email, props }: RenderEmailOptions<T>) => {
   const Email = Emails[email as unknown as keyof typeof Emails]
 
-  return render(<Email {...props} />)
+  const html = await render(<Email {...props} />)
+
+  return {
+    html,
+    subject: Email.subject,
+  }
 }

@@ -21,4 +21,6 @@ export const SendOTP = ({ code = '4910' }: EmailsMarketing['SendOTP']) => {
   )
 }
 
+SendOTP.subject = 'Verification Code'
+
 export default SendOTP

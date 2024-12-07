@@ -18,12 +18,12 @@ const transporter = createTransport({
 export const Mail: IMail = {
   async send({ template, props, to }) {
     try {
-      const html = await renderEmail({ email: template, props })
+      const { html, subject } = await renderEmail({ email: template, props })
 
       const mailOptions = {
         from: GOOGLE_MAIL_USER,
         to: to === 'SELF' ? GOOGLE_MAIL_USER : to,
-        subject: 'Subject',
+        subject,
         html,
       }
 
