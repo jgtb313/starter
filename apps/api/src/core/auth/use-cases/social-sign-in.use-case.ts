@@ -40,7 +40,7 @@ const execute: IUseCaseExecute<SocialSignInInput, SocialSignInOutput> =
 
       const tokenPayload = getTokenPayload(user.state)
 
-      const accessToken = JWT.generate(tokenPayload, SERVER_AUTHENTICATE_SECRET, { expiresIn: '1m' })
+      const accessToken = JWT.generate(tokenPayload, SERVER_AUTHENTICATE_SECRET, { expiresIn: '7d' })
 
       return {
         accessToken,
@@ -49,7 +49,7 @@ const execute: IUseCaseExecute<SocialSignInInput, SocialSignInOutput> =
 
     const tokenPayload = getTokenPayload(user.state)
 
-    const accessToken = JWT.generate(tokenPayload, SERVER_AUTHENTICATE_SECRET, { expiresIn: '1m' })
+    const accessToken = JWT.generate(tokenPayload, SERVER_AUTHENTICATE_SECRET, { expiresIn: '7d' })
 
     return {
       accessToken,

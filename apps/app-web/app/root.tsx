@@ -10,7 +10,7 @@ export const links: LinksFunction = () => [
   {
     rel: 'icon',
     sizes: '180x180',
-    href: config.logo.darkSymbol,
+    href: config.logo.darkSymbol.svg,
   },
 ]
 

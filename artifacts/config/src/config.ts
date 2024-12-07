@@ -45,15 +45,27 @@ export const config = {
   },
 
   logo: {
-    light: 'https://nodejs.org/static/logos/nodejsDark.svg',
-    dark: 'https://nodejs.org/static/logos/nodejsLight.svg',
-    lightSymbol: 'https://nodejs.org/static/logos/jsIconGreen.svg',
-    darkSymbol: 'https://nodejs.org/static/logos/jsIconWhite.svg',
+    light: {
+      png: 'https://i.imgur.com/ZZj6MJe.png',
+      svg: 'https://nodejs.org/static/logos/nodejsDark.svg',
+    },
+    dark: {
+      png: 'https://i.imgur.com/XiQWcgF.png',
+      svg: 'https://nodejs.org/static/logos/nodejsLight.svg',
+    },
+    lightSymbol: {
+      png: 'https://i.imgur.com/PKkfhDW.png',
+      svg: 'https://nodejs.org/static/logos/jsIconGreen.svg',
+    },
+    darkSymbol: {
+      png: 'https://i.imgur.com/G9hwluS.png',
+      svg: 'https://nodejs.org/static/logos/jsIconWhite.svg',
+    },
   },
 
   theme: {
     palette: {
-      primary: '#3498db',
+      primary: '#0969ff',
     },
   },
 
@@ -68,5 +80,5 @@ export const config = {
     instagram: 'https://instagram.com/starter',
   },
 
-  address: 'Rua dos Abacateiros, Jardim São Francisco, São Luís - MA',
+  address: '350 Bush Street, 2nd Floor, San Francisco, CA, 94104 - USA',
 }

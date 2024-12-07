@@ -4,7 +4,7 @@ import { makeAuthRedirectUrl, ClientIdEnum } from '@starter/config'
 import client from '@starter/client'
 import { AuthProvider, ProfileProvider, ProfileProviderProps } from '@starter/store'
 import { useLoaderData } from '@starter/use-remix-hooks'
-import { UiProvider, Layout, Flex, Avatar, Button, Brand, ToggleColorScheme } from '@starter/ui'
+import { UiProvider, Layout, Flex, Avatar, Button, Tooltip, Brand, ToggleColorScheme } from '@starter/ui'
 
 import { cookie } from '~/cookie.server'
 import { Shell } from '~/Shell'
@@ -62,9 +62,13 @@ const DefaultLayout = () => {
 
                     {user ? (
                       <>
-                        <Avatar>{user.name.charAt(0)}</Avatar>
+                        <Tooltip label={user.name} position="bottom" withArrow>
+                          <Avatar>{user.name.charAt(0)}</Avatar>
+                        </Tooltip>
 
-                        <Button href={logoutRedirectUrl}>Sign Out</Button>
+                        <Button href={logoutRedirectUrl} variant="outline" radius={50}>
+                          Sign Out
+                        </Button>
                       </>
                     ) : (
                       <Button href={signInRedirectUrl} variant="outline" radius={50}>

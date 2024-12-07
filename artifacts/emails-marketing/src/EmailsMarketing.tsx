@@ -1,5 +1,5 @@
 import { PropsWithChildren } from 'react'
-import { Tailwind, Html, Head, Body, Container, Heading, Section, Img, Hr, Link, Row, Column } from '@react-email/components'
+import { Tailwind, Html, Head, Body, Container, Heading, Section, Img, Hr, Link, Row, Column, Text } from '@react-email/components'
 import { config } from '@starter/config'
 
 type LayoutProps = {
@@ -14,7 +14,7 @@ export const Layout = ({ title, children }: PropsWithChildren<LayoutProps>) => {
       <Tailwind>
         <Body className="bg-white my-auto mx-auto font-sans px-2">
           <Container className="border border-solid border-[#eaeaea] mx-auto my-[40px] p-[20px] max-w-[465px] rounded">
-            <Img className="block mx-auto" src={config.logo.light} alt="Logo" />
+            <Img className="block mx-auto" src={config.logo.light.png} alt="Logo" />
 
             <Heading className="font-normal text-black text-center text-[24px] p-0 my-[30px] mx-0">{title}</Heading>
 
@@ -22,42 +22,32 @@ export const Layout = ({ title, children }: PropsWithChildren<LayoutProps>) => {
 
             <Hr className="border border-solid border-[#eaeaea] my-[26px] mx-0 w-full" />
 
-            <Section className="text-center">
-              <div>
-                <div>
+            <Section>
+              <Row width={90} align="center">
+                <Column className="pr-[8px]">
                   <Link href={config.social.facebook}>
-                    <Img className="inline-block w-[30px] h-[30px]" src="https://i.imgur.com/ess1JW0.png" alt="Facebook" />
+                    <Img src="https://i.imgur.com/ess1JW0.png" alt="Facebook" width={30} height={30} />
                   </Link>
-                </div>
-
-                <div>
+                </Column>
+                <Column className="pr-[8px]">
                   <Link href={config.social.twitter}>
-                    <Img className="inline-block w-[30px] h-[30px]" src="https://i.imgur.com/DsoTAYE.png" alt="Twitter" />
+                    <Img src="https://i.imgur.com/DsoTAYE.png" alt="Twitter" width={30} height={30} />
                   </Link>
-                </div>
-
-                <div>
+                </Column>
+                <Column className="pr-[8px]">
                   <Link href={config.social.instagram}>
-                    <Img className="inline-block w-[30px] h-[30px]" src="https://i.imgur.com/A46ahq8.png" alt="Instagram" />
+                    <Img src="https://i.imgur.com/A46ahq8.png" alt="Instagram" width={30} height={30} />
                   </Link>
-                </div>
-              </div>
+                </Column>
+              </Row>
 
-              <div className="flex flex-col gap-[8px] text-[#999] text-[14px]">
-                <div className="flex items-center justify-center">
-                  <Img className="w-[16px] h-[16px] mr-[8px]" src="https://i.imgur.com/AZMfbyN.png" alt="Phone" />
-                  <p className="m-0">{config.contact.phone}</p>
-                </div>
+              <Row>
+                <Text style={{ textAlign: 'center', color: '#706a7b', fontSize: '12px', lineHeight: '18px', marginTop: 16, marginBottom: 8 }}>
+                  © {new Date().getFullYear()} {config.name}. All Rights Reserved.
+                </Text>
 
-                <div className="flex items-center justify-center">
-                  <Img className="w-[16px] h-[16px] mr-[8px]" src="https://i.imgur.com/NbyQ899.png" alt="Email" />
-                  <p className="m-0">{config.contact.email}</p>
-                </div>
-              </div>
-
-              <div className="flex text-[#999] text-[14px]">
-                <p>{config.address}</p>
-              </div>
+                <Text style={{ textAlign: 'center', color: '#706a7b', fontSize: '12px', lineHeight: '18px', margin: 0 }}>{config.address}</Text>
+              </Row>
             </Section>
           </Container>
         </Body>

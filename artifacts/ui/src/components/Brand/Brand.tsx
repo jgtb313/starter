@@ -9,10 +9,10 @@ const BrandIcon = ({ width, symbol = false }: Pick<BrandProps, 'width' | 'symbol
   const { colorScheme } = useTheme()
 
   if (symbol) {
-    return <img src={colorScheme === 'dark' ? config.logo.darkSymbol : config.logo.lightSymbol} width={width} />
+    return <img src={colorScheme === 'dark' ? config.logo.darkSymbol.svg : config.logo.lightSymbol.svg} width={width} />
   }
 
-  return <img src={colorScheme === 'dark' ? config.logo.dark : config.logo.light} width={width} />
+  return <img src={colorScheme === 'dark' ? config.logo.dark.svg : config.logo.light.svg} width={width} />
 }
 
 export const Brand = ({ to, width = 350, symbol }: BrandProps) => {

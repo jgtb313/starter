@@ -4,5 +4,5 @@ export type ApiError = {
   statusCode: number
   error: string
   message: string
-  issues: Record<string, string>[]
+  issues?: Record<string, string>[]
 }

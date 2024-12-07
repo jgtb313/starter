@@ -2,12 +2,13 @@ import { PropsWithChildren } from 'react'
 import { MantineProvider, createTheme, useMantineColorScheme, MantineColorsTuple } from '@mantine/core'
 import { useColorScheme } from '@mantine/hooks'
 import { generateColors } from '@mantine/colors-generator'
+import { config } from '@starter/config'
 import { useIsMounted, useWatch } from '@starter/use-hooks'
 
 import { ThemeExtends } from './Theme.extends'
 import { ThemeProps } from './Theme.types'
 
-const DEFAULT_PRIMARY_TUPLE: MantineColorsTuple = generateColors('#0969FF')
+const DEFAULT_PRIMARY_TUPLE: MantineColorsTuple = generateColors(config.theme.palette.primary)
 
 const AutoColorScheme = () => {
   const isMounted = useIsMounted()

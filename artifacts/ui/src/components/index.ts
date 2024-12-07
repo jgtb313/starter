@@ -1,4 +1,4 @@
-export { Flex, Box, Space, ColorSchemeScript } from '@mantine/core'
+export { Flex, Box, Space, Tooltip, ColorSchemeScript } from '@mantine/core'
 
 export * from './ActionIcon'
 export * from './Avatar'

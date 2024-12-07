@@ -1,12 +1,12 @@
-import { StageEnum } from '@starter/config'
+import { config, StageEnum } from '@starter/config'
 
 export type Env = keyof typeof StageEnum
 
 export const BASE_URLS = {
   [StageEnum.LOCAL]: 'http://127.0.0.1:4000',
-  [StageEnum.DEV]: 'https://api.starter.com.br',
-  [StageEnum.STG]: 'https://api.stg.starter.com.br',
-  [StageEnum.PRD]: 'https://api.starter.com.br',
+  [StageEnum.DEV]: `https://api.dev.${config.domain}`,
+  [StageEnum.STG]: `https://api.stg.${config.domain}`,
+  [StageEnum.PRD]: `https://api.${config.domain}`,
 }
 
 export const state: State = {

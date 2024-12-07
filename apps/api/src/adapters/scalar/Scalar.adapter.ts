@@ -167,8 +167,8 @@ const paths = Schemas.reduce((state, schema) => {
                     'schema' in item
                       ? sample(generateSchema(item.schema))
                       : isHttpResponseError(httpResponse)
-                      ? sample(generateSchema(ErrorSchema[httpResponse](item.description)))
-                      : null,
+                        ? sample(generateSchema(ErrorSchema[httpResponse](item.description)))
+                        : null,
                   ]),
                 ),
               },
@@ -187,8 +187,8 @@ const paths = Schemas.reduce((state, schema) => {
                 'schema' in value
                   ? generateSchema(value.schema)
                   : isHttpResponseError(httpResponse)
-                  ? generateSchema(ErrorSchema[httpResponse](value.description))
-                  : null,
+                    ? generateSchema(ErrorSchema[httpResponse](value.description))
+                    : null,
             },
           },
         },
@@ -322,7 +322,7 @@ export const Docs = {
       metaData: {
         title: `${config.name} API`,
       },
-      favicon: config.logo.darkSymbol,
+      favicon: config.logo.darkSymbol.svg,
       defaultOpenAllTags: true,
       defaultHttpClient: {
         targetKey: 'node',

@@ -64,6 +64,10 @@ export const setupRoutes = (instance: FastifyInstance, routes: typeof Modules, d
                 ? `${input.headers['authorization']}`
                 : undefined
 
+            console.log({
+              authorization,
+            })
+
             const context: IContext = {}
 
             try {
