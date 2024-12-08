@@ -50,10 +50,10 @@ const Page = () => {
   }
 
   return (
-    <Flex maw={450} direction="column" align="center" gap={32}>
-      <Brand width={350} />
+    <Flex direction="column" align="center" p={16} gap={32}>
+      <Brand width={300} />
 
-      <Card w={500} padding="lg" bordered>
+      <Card padding="lg" bordered>
         <Flex direction="column" gap={16}>
           <Typography component="h2" size="lg" ta="center" fw={600} mb={8}>
             Forgot your password?

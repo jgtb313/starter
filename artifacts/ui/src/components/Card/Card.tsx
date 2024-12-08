@@ -5,11 +5,11 @@ import { pick, set } from '@starter/shared'
 import { CardStyles } from './Card.styles'
 import { CardProps } from './Card.types'
 
-export const Card = ({ padding = 0, children, bordered = false, ...props }: PropsWithChildren<CardProps>) => {
+export const Card = ({ w, h, padding = 0, bordered = false, children, ...props }: PropsWithChildren<CardProps>) => {
   const styles = CardStyles(props)
 
   return (
-    <Component classNames={{ root: styles.root() }} p={padding} {...props} withBorder={bordered}>
+    <Component classNames={{ root: styles.root() }} {...props} miw={w} mih={h} p={padding} withBorder={bordered}>
       {React.Children.toArray(children).map((children) => React.isValidElement(children) && React.cloneElement(children, pick(props, 'bordered')))}
     </Component>
   )

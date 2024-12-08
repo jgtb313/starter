@@ -1,7 +1,9 @@
 import { createCookieSessionStorage, createCookie, LoaderFunctionArgs } from '@remix-run/node'
+import { config } from '@starter/config'
 
 export const cookie = createCookieSessionStorage({
   cookie: createCookie('auth', {
+    secrets: [config.name],
     httpOnly: true,
     secure: import.meta.env.VITE_STAGE !== 'local',
     sameSite: 'lax',

@@ -5,6 +5,7 @@ import '@mantine/dates/styles.css'
 import '@mantine/dropzone/styles.css'
 import '@mantine/nprogress/styles.css'
 
+export { useMatches } from '@mantine/core'
 export { nprogress } from '@mantine/nprogress'
 export * from './components'
 export * from './hooks'

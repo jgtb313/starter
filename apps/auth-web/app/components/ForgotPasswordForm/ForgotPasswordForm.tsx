@@ -1,6 +1,6 @@
 import { OTPContextEnum } from '@starter/schema'
 import { useOTP } from '@starter/store'
-import { Flex, Form, Button, Link, useForm, toast } from '@starter/ui'
+import { Flex, Form, Button, Link, useForm, toast, FormRenderer } from '@starter/ui'
 import { useRouter } from '@starter/use-remix-hooks'
 
 import { ForgotPasswordSchema, ForgotPasswordFormProps, IForgotPasswordForm, ForgotPasswordFormStage } from './ForgotPasswordForm.types'
@@ -48,7 +48,7 @@ export const ForgotPasswordForm = ({ onSubmit, loading }: ForgotPasswordFormProp
 
   return (
     <Form ref={form} initialValues={initialValues} schema={ForgotPasswordSchema} onSubmit={handleSubmit}>
-      {({ values }: any) => (
+      {({ values }: FormRenderer<IForgotPasswordForm['initialValues']>) => (
         <Flex direction="column" gap={16}>
           {values?.stage === ForgotPasswordFormStage.SEND && <Form.Input name="email" label="Email" placeholder="Enter your email" />}
 

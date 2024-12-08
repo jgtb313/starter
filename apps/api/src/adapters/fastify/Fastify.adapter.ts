@@ -7,7 +7,6 @@ import { IDependencies, IContext } from '@/support/types'
 import * as Modules from '@/ports/http/modules'
 import { withResponse, withError, IServer } from '@/ports/http'
 import { server } from './Fastify.server'
-import { Docs } from '../scalar'
 
 const SERVER_PORT = env('SERVER_PORT')
 const SERVER_AUTHENTICATE_SECRET = env('SERVER_AUTHENTICATE_SECRET')
@@ -17,11 +16,6 @@ type Request = {
     fields: string
   }
 }
-
-server.register(Docs.instance, {
-  routePrefix: `/${Docs.config.routePrefix}`,
-  configuration: Docs.config.configuration,
-})
 
 const checkAuthorization = (dependencies: IDependencies) => (authorization?: string) => {
   if (authorization) {

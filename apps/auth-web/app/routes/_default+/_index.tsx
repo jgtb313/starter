@@ -77,10 +77,10 @@ const Page = () => {
   }, [fetcher.data])
 
   return (
-    <Flex maw={450} direction="column" align="center" gap={32}>
-      <Brand width={350} />
+    <Flex direction="column" align="center" p={16} gap={32}>
+      <Brand width={300} />
 
-      <Card w={500} padding="lg" bordered>
+      <Card padding="lg" bordered>
         <Card.Body>
           <Flex direction="column" gap={8}>
             <Typography component="h2" size="lg" ta="center" fw={600} mb={8}>
