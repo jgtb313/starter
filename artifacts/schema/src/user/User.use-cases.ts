@@ -51,11 +51,7 @@ export type UpdateUserPhoneOutput = z.infer<typeof UpdateUserPhoneSchemaOutput>
 export const UpdateUserPasswordSchema = UserSchema.pick({
   id: true,
   password: true,
-}).merge(
-  z.object({
-    currentPassword: z.string().min(1),
-  }),
-)
+})
 export type UpdateUserPasswordInput = z.infer<typeof UpdateUserPasswordSchema>
 export type UpdateUserPasswordOutput = void
 

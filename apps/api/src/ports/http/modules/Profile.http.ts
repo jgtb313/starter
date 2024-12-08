@@ -22,6 +22,8 @@ import { updateUserPhone } from '@/core/user/use-cases/update-user-phone.use-cas
 import { userPasswordVerification } from '@/core/user/use-cases/user-password-verification.use-case'
 import { requiresAuthorization, IRouter } from '@/ports/http'
 
+const UpdateUserPasswordSchemaHTTP = UpdateUserPasswordSchema.omit({ id: true }).and(z.object({ currentPassword: z.string().min(1) }))
+
 export const ProfileRouter = (dependencies: IDependencies): IRouter => ({
   name: 'Profile',
 
@@ -169,7 +171,7 @@ export const ProfileRouter = (dependencies: IDependencies): IRouter => ({
       path: '/profile/password',
 
       parameters: {
-        body: UpdateUserPasswordSchema.omit({ id: true }),
+        body: UpdateUserPasswordSchemaHTTP,
       },
 
       responses: {
@@ -180,6 +182,8 @@ export const ProfileRouter = (dependencies: IDependencies): IRouter => ({
       },
 
       async execute({ body }, context) {
+        UpdateUserPasswordSchemaHTTP.parse(body)
+
         requiresAuthorization(context)
 
         await userPasswordVerification(dependencies)({ id: context.auth.userId, password: body.currentPassword })
