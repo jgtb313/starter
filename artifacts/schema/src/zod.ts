@@ -7,9 +7,10 @@ import translations from './translations.json'
 extendZodWithOpenApi(z)
 
 i18next.init({
-  lng: 'es',
+  compatibilityJSON: 'v3',
+  lng: 'en',
   resources: {
-    es: { zod: translations },
+    en: { zod: translations },
   },
 })
 z.setErrorMap(zodI18nMap)

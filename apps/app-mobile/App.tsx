@@ -1,8 +1,13 @@
 import { StatusBar } from 'expo-status-bar'
 import * as WebBrowser from 'expo-web-browser'
 import * as Linking from 'expo-linking'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import { Button } from '@starter/ui-mobile'
+import { useMount } from '@starter/use-hooks'
+import { useAuth } from '@starter/store'
+import { camelCase } from '@starter/shared'
+import { config } from '@starter/config'
+import { z, BaseAddressSchema } from '@starter/schema'
 
 const handleDeepLink: Linking.URLListener = async (values) => {
   console.log({
@@ -14,6 +19,16 @@ const handleDeepLink: Linking.URLListener = async (values) => {
 Linking.addEventListener('url', handleDeepLink)
 
 export default function App() {
+  useMount(() => {
+    console.log({
+      z,
+      useAuth,
+      camelCase,
+      config,
+      BaseAddressSchema,
+    })
+  })
+
   const handleOpenBrowser = async () => {
     const url = Linking.getLinkingURL()
 
