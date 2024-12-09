@@ -1,0 +1,66 @@
+{
+  "name": "@starter/ui-mobile",
+  "version": "1.0.0",
+  "author": "João <jgtb313@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite build --watch",
+    "build": "vite build",
+    "build:watch": "vite build --watch",
+    "type-check": "tsc --project tsconfig.json --pretty --noEmit"
+  },
+  "peerDependencies": {
+    "react": "^18.2.20",
+    "react-dom": "^18.2.20",
+    "react-native": "0.76.3",
+    "expo": "~52.0.17"
+  },
+  "dependencies": {
+    "@starter/schema": "*",
+    "@starter/shared": "*",
+    "@starter/use-hooks": "*",
+    "@swc/core": "^1.2.165",
+    "eslint": "^9.16.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-native": "0.76.3",
+    "expo": "~52.0.17",
+    "typescript": "5.6.3",
+    "vite": "^5.3.5",
+    "vite-plugin-dts": "^3.9.1"
+  },
+  "main": "./dist/ui-mobile.umd.js",
+  "module": "./dist/ui-mobile.es.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/ui-mobile.es.js",
+      "require": "./dist/ui-mobile.umd.js"
+    },
+    "./dist/style.css": {
+      "import": "./dist/style.css",
+      "require": "./dist/style.css"
+    }
+  },
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18.2.20",
+    "@types/react-dom": "^18.2.7",
+    "@typescript-eslint/eslint-plugin": "^8.11.0",
+    "@typescript-eslint/parser": "^8.11.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.4.16",
+    "eslint": "^9.13.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-config-standard": "17.1.0",
+    "eslint-plugin-promise": "^7.1.0",
+    "init": "^0.1.2",
+    "jsdom": "^24.1.1",
+    "prettier": "^3.3.3"
+  }
+}

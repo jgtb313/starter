@@ -5,7 +5,7 @@ import fastifyFormBody from '@fastify/formbody'
 import { Docs } from '../scalar'
 
 export const server = fastify({
-  logger: false,
+  logger: true,
 })
 
 server.register(fastifyFormBody)
