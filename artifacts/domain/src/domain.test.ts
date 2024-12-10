@@ -1,6 +1,6 @@
 import type { VitestUtils } from 'vitest'
 
-import { Env, CreateTestDependenciesOptions, ITestDependencies } from './domain.types'
+import { DomainEnv, CreateTestDependenciesOptions, ITestDependencies } from './domain.types'
 import { DatabaseInMemory } from './adapters/mongodb-in-memory'
 import { EncryptInMemory } from './adapters/bcrypt-in-memory'
 import { JWTInMemory } from './adapters/json-web-token-in-memory'
@@ -15,7 +15,7 @@ import { LoggerInMemory } from './adapters/pino-es-in-memory'
 export const createTestDependencies = (vi: VitestUtils): ITestDependencies => {
   vi.clearAllMocks()
 
-  const env: Env = {
+  const env: DomainEnv = {
     STAGE: 'development',
 
     // MongoDB Database
@@ -63,9 +63,7 @@ export const createTestDependencies = (vi: VitestUtils): ITestDependencies => {
 
   return {
     Database: {
-      connect: DatabaseInMemoryInstance.connect,
-      disconnect: DatabaseInMemoryInstance.disconnect,
-      createSession: DatabaseInMemoryInstance.createSession,
+      ...DatabaseInMemoryInstance,
       ...DatabaseInMemoryInstance.Repositories,
     },
     Encrypt: EncryptInMemory(options),

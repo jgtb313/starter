@@ -10,9 +10,7 @@ type DefaultErrorInput = {
 
 type BadRequestErrorInput = Omit<DefaultErrorInput, 'metadata'>
 
-type HttpErrorResponses = 400 | 401 | 403 | 404 | 409 | 500
-
-export const ErrorSchema: Record<HttpErrorResponses, (message: string) => ZodSchema> = {
+export const ErrorSchema = {
   400: () =>
     z.object({
       statusCode: z.number().openapi({ example: 400 }),
@@ -20,7 +18,7 @@ export const ErrorSchema: Record<HttpErrorResponses, (message: string) => ZodSch
       issues: z.array(z.record(z.string(), z.string())).openapi({ example: JSON.stringify([{ email: 'Invalid email' }]) }),
     }),
 
-  401: (message) =>
+  401: (message: string) =>
     z.object({
       statusCode: z.number().openapi({ example: 401 }),
       error: z.string().openapi({ example: 'Unauthorized Error' }),
@@ -28,7 +26,7 @@ export const ErrorSchema: Record<HttpErrorResponses, (message: string) => ZodSch
       // metadata: z.record(z.string(), z.string()).optional(),
     }),
 
-  403: (message) =>
+  403: (message: string) =>
     z.object({
       statusCode: z.number().openapi({ example: 403 }),
       error: z.string().openapi({ example: 'Forbidden Error' }),
@@ -36,7 +34,7 @@ export const ErrorSchema: Record<HttpErrorResponses, (message: string) => ZodSch
       // metadata: z.record(z.string(), z.string()).optional(),
     }),
 
-  404: (message) =>
+  404: (message: string) =>
     z.object({
       statusCode: z.number().openapi({ example: 404 }),
       error: z.string().openapi({ example: 'Not Found Error' }),
@@ -44,7 +42,7 @@ export const ErrorSchema: Record<HttpErrorResponses, (message: string) => ZodSch
       // metadata: z.record(z.string(), z.string()).optional(),
     }),
 
-  409: (message) =>
+  409: (message: string) =>
     z.object({
       statusCode: z.number().openapi({ example: 409 }),
       error: z.string().openapi({ example: 'Confict Error' }),
@@ -52,7 +50,7 @@ export const ErrorSchema: Record<HttpErrorResponses, (message: string) => ZodSch
       // metadata: z.record(z.string(), z.string()).optional(),
     }),
 
-  500: (message) =>
+  500: (message: string) =>
     z.object({
       statusCode: z.number().openapi({ example: 500 }),
       error: z.string().openapi({ example: 'Internal Server Error' }),

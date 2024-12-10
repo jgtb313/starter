@@ -3,7 +3,7 @@ import { z } from '@starter/schema'
 
 import { IDependencies } from './domain.support'
 
-export const EnvSchema = z.object({
+export const DomainEnvSchema = z.object({
   STAGE: z.enum(['local', 'development', 'production']),
 
   // MongoDB Database
@@ -41,7 +41,7 @@ export const EnvSchema = z.object({
   LOGGER_PASSWORD: z.string().min(1),
   LOGGER_DISABLED: z.string().min(1),
 })
-export type Env = z.infer<typeof EnvSchema>
+export type DomainEnv = z.infer<typeof DomainEnvSchema>
 
 export type SetupTestDependencies<T> = {
   [K in keyof T]: T[K] extends (...args: infer A) => infer R ? Mock<(...args: A) => R> : T[K] extends object ? SetupTestDependencies<T[K]> : T[K]
@@ -50,10 +50,10 @@ export type SetupTestDependencies<T> = {
 export type ITestDependencies = SetupTestDependencies<IDependencies>
 
 export type CreateDependenciesOptions = {
-  env: Env
+  env: DomainEnv
 }
 
 export type CreateTestDependenciesOptions = {
   vi: VitestUtils
-  env: Env
+  env: DomainEnv
 }
