@@ -9,7 +9,7 @@ import * as Modules from '@/ports/http/modules'
 import { withResponse, withError, IServer } from '@/ports/http'
 import { server } from './Fastify.server'
 
-const SERVER_PORT = [env('SERVER_PORT')]
+const SERVER_PORT = env('SERVER_PORT')
 const SERVER_AUTHENTICATE_SECRET = env('SERVER_AUTHENTICATE_SECRET')
 
 type Request = {

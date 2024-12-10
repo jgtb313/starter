@@ -1,10 +1,19 @@
 import dotenv from 'dotenv'
-// import { Env } from '@starter/domain'
+import { z } from '@starter/schema'
+import { DomainEnvSchema } from '@starter/domain'
 
 dotenv.config()
 
-// export const env = (value: keyof Env) => {
-export const env = (value: string) => {
+export const EnvSchema = DomainEnvSchema.and(
+  z.object({
+    // MongoDB Database
+    SERVER_PORT: z.string().min(1),
+    SERVER_AUTHENTICATE_SECRET: z.string().min(1),
+  }),
+)
+export type EnvSchema = z.infer<typeof EnvSchema>
+
+export const env = (value: keyof EnvSchema) => {
   const prop = process.env[value]
 
   if (prop === undefined) {

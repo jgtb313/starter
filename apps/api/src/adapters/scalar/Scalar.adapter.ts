@@ -135,7 +135,7 @@ const paths = Schemas.reduce((state, schema) => {
         description: httpResponsesDescriptions[400],
         content: {
           'application/json': {
-            schema: generateSchema(ErrorSchema[400]('...')),
+            schema: generateSchema(ErrorSchema[400]()),
           },
         },
       },

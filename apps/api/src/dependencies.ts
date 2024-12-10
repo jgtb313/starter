@@ -1,4 +1,6 @@
-import { createDependencies, EnvSchema } from '@starter/domain'
+import { createDependencies } from '@starter/domain'
+
+import { EnvSchema } from '@/config'
 
 const env = EnvSchema.parse(process.env)
 
