@@ -1,6 +1,6 @@
 import twilio from 'twilio'
 
-import { CreateDependenciesOptions } from '../../domain.types'
+import { CreateDependenciesOptions } from '../../domain.dependencies'
 import { IWhatsapp } from '../../ports/whatsapp'
 import * as templates from '../../ports/whatsapp/templates'
 

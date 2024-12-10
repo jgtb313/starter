@@ -1,7 +1,7 @@
 import pino, { Logger as Pino } from 'pino'
 import pinoES from 'pino-elasticsearch'
 
-import { CreateDependenciesOptions } from '../../domain.types'
+import { CreateDependenciesOptions } from '../../domain.dependencies'
 import { InternalServerError } from '../../domain.errors'
 import { ILogger } from '../../ports/logger'
 

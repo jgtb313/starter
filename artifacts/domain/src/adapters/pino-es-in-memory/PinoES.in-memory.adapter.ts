@@ -1,4 +1,4 @@
-import { CreateTestDependenciesOptions, SetupTestDependencies } from '../../domain.types'
+import { CreateTestDependenciesOptions, SetupTestDependencies } from '../../domain.dependencies'
 import { ILogger } from '../../ports/logger'
 
 export const LoggerInMemory = ({ vi }: CreateTestDependenciesOptions): SetupTestDependencies<ILogger> => ({

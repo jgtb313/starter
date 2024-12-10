@@ -1,7 +1,7 @@
 import { createTransport } from 'nodemailer'
 import { renderEmail } from '@starter/emails-marketing'
 
-import { CreateDependenciesOptions } from '../../domain.types'
+import { CreateDependenciesOptions } from '../../domain.dependencies'
 import { IMail } from '../../ports/mail'
 
 export const Mail = ({ env }: CreateDependenciesOptions): IMail => ({

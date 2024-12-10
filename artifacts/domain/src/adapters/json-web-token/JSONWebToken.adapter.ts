@@ -1,6 +1,6 @@
 import { sign, verify } from 'jsonwebtoken'
 
-import { CreateDependenciesOptions } from '../../domain.types'
+import { CreateDependenciesOptions } from '../../domain.dependencies'
 import { AuthError } from '../../domain.errors'
 import { IJWT } from '../../ports/jwt'
 

@@ -1,4 +1,4 @@
-import { CreateTestDependenciesOptions, SetupTestDependencies } from '../../domain.types'
+import { CreateTestDependenciesOptions, SetupTestDependencies } from '../../domain.dependencies'
 import { ISMS } from '../../ports/sms'
 
 export const TwilioSMSInMemory = ({ vi }: CreateTestDependenciesOptions): SetupTestDependencies<ISMS> => ({

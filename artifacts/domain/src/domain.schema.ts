@@ -1,7 +1,4 @@
-import type { Mock, VitestUtils } from 'vitest'
 import { z } from '@starter/schema'
-
-import { IDependencies } from './domain.support'
 
 export const DomainEnvSchema = z.object({
   STAGE: z.enum(['local', 'development', 'production']),
@@ -42,18 +39,3 @@ export const DomainEnvSchema = z.object({
   LOGGER_DISABLED: z.string().min(1),
 })
 export type DomainEnv = z.infer<typeof DomainEnvSchema>
-
-export type SetupTestDependencies<T> = {
-  [K in keyof T]: T[K] extends (...args: infer A) => infer R ? Mock<(...args: A) => R> : T[K] extends object ? SetupTestDependencies<T[K]> : T[K]
-}
-
-export type ITestDependencies = SetupTestDependencies<IDependencies>
-
-export type CreateDependenciesOptions = {
-  env: DomainEnv
-}
-
-export type CreateTestDependenciesOptions = {
-  vi: VitestUtils
-  env: DomainEnv
-}

@@ -1,6 +1,6 @@
 import { MongoMemoryReplSet } from 'mongodb-memory-server'
 
-import { CreateTestDependenciesOptions, SetupTestDependencies } from '../../domain.types'
+import { CreateTestDependenciesOptions, SetupTestDependencies } from '../../domain.dependencies'
 import { client, connect as connection } from '../../adapters/mongodb/MongoDB.connection'
 import { Repositories } from '../../adapters/mongodb/modules'
 import { IDatabase } from '../../ports/database'

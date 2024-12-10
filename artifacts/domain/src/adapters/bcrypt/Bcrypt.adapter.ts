@@ -1,6 +1,6 @@
 import { genSaltSync, hashSync, compareSync } from 'bcryptjs'
 
-import { CreateDependenciesOptions } from '../../domain.types'
+import { CreateDependenciesOptions } from '../../domain.dependencies'
 import { IEncrypt } from '../../ports/encrypt'
 
 const salt = genSaltSync(10)

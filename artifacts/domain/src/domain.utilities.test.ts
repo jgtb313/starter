@@ -2,10 +2,8 @@ import { vi, describe, expect, it, beforeEach } from 'vitest'
 import { z } from '@starter/schema'
 import { uuid } from '@starter/shared'
 
-import { IDependencies } from './domain.support'
+import { createTestDependencies, IDependencies, ITestDependencies } from './domain.dependencies'
 import { createUseCase, IUseCaseExecute, setupDomain, SetupDomain } from './domain.utilities'
-import { createTestDependencies } from './domain.test'
-import { ITestDependencies } from './domain.types'
 
 describe('utilities', () => {
   let dependencies: ITestDependencies

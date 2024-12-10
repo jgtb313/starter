@@ -1,7 +1,7 @@
 import type { VitestUtils } from 'vitest'
 import { set } from '@starter/shared'
 
-import { SetupTestDependencies } from '../../domain.types'
+import { SetupTestDependencies } from '../../domain.dependencies'
 import { IRepositories } from '../../ports/database/modules'
 
 export const RepositoriesInMemory = (vi: VitestUtils, Repositories: IRepositories) => {

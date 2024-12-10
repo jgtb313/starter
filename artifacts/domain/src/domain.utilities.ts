@@ -1,7 +1,8 @@
 import KSUID from 'ksuid'
 import { z, ZodSchema } from '@starter/schema'
+import { PickNullable, PickNotNullable } from '@starter/shared'
 
-import { IDependencies } from './domain.support'
+import { IDependencies } from './domain.dependencies'
 
 export type IUseCaseExecute<T, P> = (dependencies: IDependencies) => (input: T) => Promise<P>
 
@@ -17,14 +18,6 @@ export const createUseCase =
 
     return execute(dependencies)(input)
   }
-
-type PickNullable<T> = {
-  [P in keyof T as null extends T[P] ? P : never]: T[P]
-}
-
-type PickNotNullable<T> = {
-  [P in keyof T as null extends T[P] ? never : P]: T[P]
-}
 
 export type SetupDomain<T, P extends keyof T = never> = {
   [K in keyof PickNullable<Omit<T, 'createdAt' | 'updatedAt' | P>>]?: Exclude<T[K], null> | null

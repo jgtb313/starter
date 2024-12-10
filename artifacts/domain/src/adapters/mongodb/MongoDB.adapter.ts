@@ -1,4 +1,4 @@
-import { CreateDependenciesOptions } from '@/domain.types'
+import { CreateDependenciesOptions } from '@/domain.dependencies'
 import { IDatabase } from '@/ports/database'
 
 import { Repositories } from './modules'

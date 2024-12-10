@@ -1,4 +1,4 @@
-import { CreateTestDependenciesOptions, SetupTestDependencies } from '../../domain.types'
+import { CreateTestDependenciesOptions, SetupTestDependencies } from '../../domain.dependencies'
 import { ICache } from '../../ports/cache'
 
 const memoryStore: Record<string, any> = {}

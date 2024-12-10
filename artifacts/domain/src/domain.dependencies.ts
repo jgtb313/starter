@@ -1,6 +1,18 @@
-import type { VitestUtils } from 'vitest'
+import type { VitestUtils, Mock } from 'vitest'
 
-import { DomainEnv, CreateTestDependenciesOptions, ITestDependencies } from './domain.types'
+import { DomainEnv } from './domain.schema'
+
+import { Database } from './adapters/mongodb'
+import { Encrypt } from './adapters/bcrypt'
+import { JWT } from './adapters/json-web-token'
+import { Mail } from './adapters/google-mail'
+import { SMS } from './adapters/twilio-sms'
+import { Whatsapp } from './adapters/twilio-whatsapp'
+import { Cache } from './adapters/redis'
+import { Storage } from './adapters/aws-s3'
+import { SocialAuth } from './adapters/social-auth'
+import { Logger } from './adapters/pino-es'
+
 import { DatabaseInMemory } from './adapters/mongodb-in-memory'
 import { EncryptInMemory } from './adapters/bcrypt-in-memory'
 import { JWTInMemory } from './adapters/json-web-token-in-memory'
@@ -11,6 +23,41 @@ import { CacheInMemory } from './adapters/redis-in-memory'
 import { StorageInMemory } from './adapters/aws-s3-in-memory'
 import { SocialAuthInMemory } from './adapters/social-auth-in-memory'
 import { LoggerInMemory } from './adapters/pino-es-in-memory'
+
+export type SetupTestDependencies<T> = {
+  [K in keyof T]: T[K] extends (...args: infer A) => infer R ? Mock<(...args: A) => R> : T[K] extends object ? SetupTestDependencies<T[K]> : T[K]
+}
+
+export type ITestDependencies = SetupTestDependencies<IDependencies>
+
+export type CreateDependenciesOptions = {
+  env: DomainEnv
+}
+
+export type CreateTestDependenciesOptions = {
+  vi: VitestUtils
+  env: DomainEnv
+}
+
+export const createDependencies = (options: CreateDependenciesOptions) => {
+  const DatabaseInstance = Database(options)
+
+  return {
+    Database: {
+      ...DatabaseInstance,
+      ...DatabaseInstance.Repositories,
+    },
+    Encrypt: Encrypt(options),
+    JWT: JWT(options),
+    Mail: Mail(options),
+    SMS: SMS(options),
+    Whatsapp: Whatsapp(options),
+    Cache: Cache(options),
+    Storage: Storage(options),
+    SocialAuth: SocialAuth(options),
+    Logger: Logger(options),
+  }
+}
 
 export const createTestDependencies = (vi: VitestUtils): ITestDependencies => {
   vi.clearAllMocks()
@@ -77,3 +124,5 @@ export const createTestDependencies = (vi: VitestUtils): ITestDependencies => {
     Logger: LoggerInMemory(options),
   }
 }
+
+export type IDependencies = ReturnType<typeof createDependencies>

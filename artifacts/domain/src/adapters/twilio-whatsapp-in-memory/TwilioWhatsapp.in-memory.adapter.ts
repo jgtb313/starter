@@ -1,4 +1,4 @@
-import { CreateTestDependenciesOptions, SetupTestDependencies } from '../../domain.types'
+import { CreateTestDependenciesOptions, SetupTestDependencies } from '../../domain.dependencies'
 import { IWhatsapp } from '../../ports/whatsapp'
 
 export const TwilioWhatsappInMemory = ({ vi }: CreateTestDependenciesOptions): SetupTestDependencies<IWhatsapp> => ({

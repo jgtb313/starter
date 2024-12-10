@@ -1,4 +1,4 @@
-import { CreateTestDependenciesOptions, SetupTestDependencies } from '../../domain.types'
+import { CreateTestDependenciesOptions, SetupTestDependencies } from '../../domain.dependencies'
 import { IEncrypt } from '../../ports/encrypt'
 
 export const EncryptInMemory = ({ vi }: CreateTestDependenciesOptions): SetupTestDependencies<IEncrypt> => ({

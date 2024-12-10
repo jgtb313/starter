@@ -1,6 +1,6 @@
 import { SocialSignInEnum } from '@starter/schema'
 
-import { CreateDependenciesOptions } from '../../domain.types'
+import { CreateDependenciesOptions } from '../../domain.dependencies'
 import { AuthError } from '../../domain.errors'
 import { ISocialAuth } from '../../ports/social-auth'
 

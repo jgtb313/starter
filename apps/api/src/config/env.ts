@@ -6,7 +6,6 @@ dotenv.config()
 
 export const EnvSchema = DomainEnvSchema.and(
   z.object({
-    // MongoDB Database
     SERVER_PORT: z.string().min(1),
     SERVER_AUTHENTICATE_SECRET: z.string().min(1),
   }),

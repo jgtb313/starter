@@ -1,4 +1,4 @@
-import { CreateTestDependenciesOptions, SetupTestDependencies } from '../../domain.types'
+import { CreateTestDependenciesOptions, SetupTestDependencies } from '../../domain.dependencies'
 import { IStorage } from '../../ports/storage'
 
 export const StorageInMemory = ({ vi, env }: CreateTestDependenciesOptions): SetupTestDependencies<IStorage> => ({

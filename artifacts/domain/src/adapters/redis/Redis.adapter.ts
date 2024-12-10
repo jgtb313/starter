@@ -1,6 +1,6 @@
 import { createClient, RedisClientType } from 'redis'
 
-import { CreateDependenciesOptions } from '../../domain.types'
+import { CreateDependenciesOptions } from '../../domain.dependencies'
 import { ConflictError } from '../../domain.errors'
 import { ICache } from '../../ports/cache'
 

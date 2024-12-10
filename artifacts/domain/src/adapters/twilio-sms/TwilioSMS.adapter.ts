@@ -1,7 +1,7 @@
 import twilio from 'twilio'
 import { get } from '@starter/shared'
 
-import { CreateDependenciesOptions } from '../../domain.types'
+import { CreateDependenciesOptions } from '../../domain.dependencies'
 import { ISMS } from '../../ports/sms'
 import * as templates from '../../ports/sms/templates'
 
