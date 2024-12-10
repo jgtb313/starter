@@ -1,4 +1,4 @@
-import { Dependencies } from './dependencies'
+import { Dependencies } from '@/dependencies'
 
 export const Bootstrap = async () => {
   await Dependencies.Logger.connect()
