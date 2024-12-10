@@ -4,11 +4,11 @@ import { createUseCase, User, IUseCaseExecute } from '@starter/domain'
 import { env } from '@/config'
 import { getTokenPayload } from '@/support/auth'
 
+const SERVER_AUTHENTICATE_SECRET = env('SERVER_AUTHENTICATE_SECRET')
+
 const execute: IUseCaseExecute<SocialSignInInput, SocialSignInOutput> =
   ({ Database, SocialAuth, Encrypt, JWT }) =>
   async (input) => {
-    const SERVER_AUTHENTICATE_SECRET = env('SERVER_AUTHENTICATE_SECRET')
-
     const { id, name, email } = await SocialAuth.getInfosByToken(input.context, input.providerToken)
 
     const user = await Database.user.findOne({

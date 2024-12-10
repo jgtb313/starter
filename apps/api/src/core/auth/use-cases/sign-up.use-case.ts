@@ -4,11 +4,11 @@ import { createUseCase, User, ConflictError, IUseCaseExecute } from '@starter/do
 import { env } from '@/config'
 import { getTokenPayload } from '@/support/auth'
 
+const SERVER_AUTHENTICATE_SECRET = env('SERVER_AUTHENTICATE_SECRET')
+
 const execute: IUseCaseExecute<SignUpInput, SignUpOutput> =
   ({ Database, Encrypt, JWT }) =>
   async ({ name, email, password }) => {
-    const SERVER_AUTHENTICATE_SECRET = env('SERVER_AUTHENTICATE_SECRET')
-
     const emailExists = await Database.user.findOne({
       email,
     })
