@@ -13,7 +13,7 @@ describe('update{{pascalCase name}}', () => {
   let dependencies: ITestDependencies
 
   beforeEach(async () => {
-    dependencies = await TestDependencies()
+    dependencies = TestDependencies()
   })
 
   it('should successfully update a {{camelCase name}} and return the updated {{camelCase name}}', async () => {

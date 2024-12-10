@@ -1,9 +1,7 @@
-import { Logger } from '@/adapters/pino-es'
-import { Cache } from '@/adapters/redis'
-import { Database } from '@/adapters/mongodb'
+import { Dependencies } from './dependencies'
 
 export const Bootstrap = async () => {
-  await Logger.connect()
-  await Cache.connect()
-  await Database.connect()
+  await Dependencies.Logger.connect()
+  await Dependencies.Cache.connect()
+  await Dependencies.Database.connect()
 }

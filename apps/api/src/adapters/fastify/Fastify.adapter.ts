@@ -1,14 +1,15 @@
 import { FastifyInstance, FastifyRequest } from 'fastify'
 import { config } from '@starter/config'
+import { IDependencies } from '@starter/domain'
 
 import { env } from '@/config'
 import { Auth } from '@/support/auth'
-import { IDependencies, IContext } from '@/support/types'
+import { IContext } from '@/support/types'
 import * as Modules from '@/ports/http/modules'
 import { withResponse, withError, IServer } from '@/ports/http'
 import { server } from './Fastify.server'
 
-const SERVER_PORT = env('SERVER_PORT')
+const SERVER_PORT = [env('SERVER_PORT')]
 const SERVER_AUTHENTICATE_SECRET = env('SERVER_AUTHENTICATE_SECRET')
 
 type Request = {

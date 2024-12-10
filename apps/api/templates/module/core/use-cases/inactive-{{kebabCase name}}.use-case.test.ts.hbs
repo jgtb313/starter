@@ -14,7 +14,7 @@ describe('inactive{{pascalCase name}}', () => {
   let dependencies: ITestDependencies
 
   beforeEach(async () => {
-    dependencies = await TestDependencies()
+    dependencies = TestDependencies()
   })
 
   it('should successfully deactivate a {{camelCase name}} and return updated {{camelCase name}} state', async () => {

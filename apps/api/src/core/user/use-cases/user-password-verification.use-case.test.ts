@@ -1,9 +1,6 @@
-import { beforeEach, describe, expect, it } from 'vitest'
+import { vi, beforeEach, describe, expect, it } from 'vitest'
 import { UserPasswordVerificationInput } from '@starter/schema'
-
-import { TestDependencies, ITestDependencies } from '@/config/tests'
-import { IDependencies } from '@/support/types'
-import { BadRequestError, NotFoundError } from '@/support/errors'
+import { createTestDependencies, BadRequestError, NotFoundError, IDependencies, ITestDependencies } from '@starter/domain'
 
 import { userPasswordVerification } from './user-password-verification.use-case'
 
@@ -16,7 +13,7 @@ describe('userPasswordVerification', () => {
   let dependencies: ITestDependencies
 
   beforeEach(async () => {
-    dependencies = await TestDependencies()
+    dependencies = createTestDependencies(vi)
   })
 
   it('should successfully verify the user password', async () => {

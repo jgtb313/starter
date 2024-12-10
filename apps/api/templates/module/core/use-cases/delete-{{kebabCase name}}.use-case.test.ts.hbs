@@ -13,7 +13,7 @@ describe('delete{{pascalCase name}}', () => {
   let dependencies: ITestDependencies
 
   beforeEach(async () => {
-    dependencies = await TestDependencies()
+    dependencies = TestDependencies()
   })
 
   it('should successfully delete a {{camelCase name}}', async () => {

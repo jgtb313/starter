@@ -14,7 +14,7 @@ describe('create{{pascalCase name}}', () => {
   let dependencies: ITestDependencies
 
   beforeEach(async () => {
-    dependencies = await TestDependencies()
+    dependencies = TestDependencies()
   })
 
   it(`should successfully create a {{camelCase name}} and return the created {{camelCase name}}`, async () => {

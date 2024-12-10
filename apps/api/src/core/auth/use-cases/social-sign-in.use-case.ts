@@ -1,10 +1,8 @@
 import { SocialSignInSchema, SocialSignInInput, SocialSignInOutput, UserStatusEnum, SocialSignInEnum } from '@starter/schema'
+import { createUseCase, User, IUseCaseExecute } from '@starter/domain'
 
 import { env } from '@/config'
-import { createUseCase } from '@/support/utilities'
 import { getTokenPayload } from '@/support/auth'
-import { IUseCaseExecute } from '@/support/types'
-import { User } from '@/core/user/domain'
 
 const execute: IUseCaseExecute<SocialSignInInput, SocialSignInOutput> =
   ({ Database, SocialAuth, Encrypt, JWT }) =>

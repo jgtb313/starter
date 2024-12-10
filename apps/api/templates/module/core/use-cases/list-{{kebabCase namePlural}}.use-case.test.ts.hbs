@@ -14,7 +14,7 @@ describe('list{{pascalCase namePlural}}', () => {
   let dependencies: ITestDependencies
 
   beforeEach(async () => {
-    dependencies = await TestDependencies()
+    dependencies = TestDependencies()
   })
 
   it('should successfully list all {{kebabCase namePlural}}', async () => {

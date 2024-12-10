@@ -1,10 +1,8 @@
 import { ForgotPasswordSchema, ForgotPasswordInput, ForgotPasswordOutput } from '@starter/schema'
+import { createUseCase, AuthError, IUseCaseExecute } from '@starter/domain'
 
 import { env } from '@/config'
-import { AuthError } from '@/support/errors'
 import { getTokenPayload } from '@/support/auth'
-import { createUseCase } from '@/support/utilities'
-import { IUseCaseExecute } from '@/support/types'
 
 const execute: IUseCaseExecute<ForgotPasswordInput, ForgotPasswordOutput> =
   ({ Database, Encrypt, JWT }) =>

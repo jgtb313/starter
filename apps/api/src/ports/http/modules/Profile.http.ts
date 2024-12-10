@@ -11,8 +11,8 @@ import {
   OTPVerificationSchema,
   OTPContextEnum,
 } from '@starter/schema'
+import { IDependencies } from '@starter/domain'
 
-import { IDependencies } from '@/support/types'
 import { validateOTP } from '@/core/otp/use-cases/validate-otp.use-case'
 import { getUserById } from '@/core/user/use-cases/get-user-by-id.use-case'
 import { updateUser } from '@/core/user/use-cases/update-user.use-case'

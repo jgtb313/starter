@@ -1,11 +1,6 @@
 import { SendOTPSchema, SendOTPInput, SendOTPOutput, OTPChannelEnum } from '@starter/schema'
 import { EmailsEnum } from '@starter/emails-marketing'
-
-import { createUseCase } from '@/support/utilities'
-import { IUseCaseExecute } from '@/support/types'
-import { OTP } from '@/core/otp/domain'
-import { SMSTemplateEnum } from '@/ports/sms'
-import { WhatsappTemplateEnum } from '@/ports/whatsapp'
+import { createUseCase, OTP, IUseCaseExecute, SMSTemplateEnum, WhatsappTemplateEnum } from '@starter/domain'
 
 const execute: IUseCaseExecute<SendOTPInput, SendOTPOutput> =
   ({ Database, Mail, SMS, Whatsapp }) =>

@@ -1,9 +1,6 @@
-import { beforeEach, describe, expect, it } from 'vitest'
+import { vi, beforeEach, describe, expect, it } from 'vitest'
 import { SignInInput } from '@starter/schema'
-
-import { AuthError } from '@/support/errors'
-import { TestDependencies, ITestDependencies } from '@/config/tests'
-import { IDependencies } from '@/support/types'
+import { createTestDependencies, AuthError, IDependencies, ITestDependencies } from '@starter/domain'
 
 import { signIn } from './sign-in.use-case'
 
@@ -14,7 +11,7 @@ describe('signIn', () => {
   let dependencies: ITestDependencies
 
   beforeEach(async () => {
-    dependencies = await TestDependencies()
+    dependencies = createTestDependencies(vi)
   })
 
   it('should successfully sign in a user and generate a token', async () => {

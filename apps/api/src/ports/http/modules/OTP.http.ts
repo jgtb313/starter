@@ -9,9 +9,8 @@ import {
   OTPContextEnum,
   OTPChannelEnum,
 } from '@starter/schema'
+import { NotFoundError, IDependencies } from '@starter/domain'
 
-import { NotFoundError } from '@/support/errors'
-import { IDependencies } from '@/support/types'
 import { validateOTP } from '@/core/otp/use-cases/validate-otp.use-case'
 import { sendOTP } from '@/core/otp/use-cases/send-otp.use-case'
 import { getUserByEmail } from '@/core/user/use-cases/get-user-by-email.use-case'

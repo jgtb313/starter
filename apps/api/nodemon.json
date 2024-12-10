@@ -6,6 +6,8 @@
     "./src/adapters/scalar/Scalar.docs.mdx",
     "../../artifacts/config/dist/vite.config.d.ts",
     "../../artifacts/shared/dist/vite.config.d.ts",
-    "../../artifacts/schema/dist/vite.config.d.ts"
+    "../../artifacts/schema/dist/vite.config.d.ts",
+    "../../artifacts/domain/dist/vite.config.d.ts",
+    "../../artifacts/emails-marketing/dist/vite.config.d.ts"
   ]
 }

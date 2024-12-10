@@ -2,11 +2,10 @@ import ScalarApiReference from '@scalar/fastify-api-reference'
 import { sample } from 'openapi-sampler'
 import { config, apiUrls, StageEnum } from '@starter/config'
 import { zodSchemaToInstance, ZodSchema } from '@starter/schema'
+import { ErrorSchema, IDependencies } from '@starter/domain'
 import { get, omit } from '@starter/shared'
 
 import { env } from '@/config'
-import { ErrorSchema } from '@/support/errors'
-import { IDependencies } from '@/support/types'
 import * as Modules from '@/ports/http/modules'
 import { HttpErrorResponses, HttpResponses } from '@/ports/http'
 

@@ -1,8 +1,5 @@
 import { UserPasswordVerificationSchema, UserPasswordVerificationInput, UserPasswordVerificationOutput } from '@starter/schema'
-
-import { BadRequestError } from '@/support/errors'
-import { createUseCase } from '@/support/utilities'
-import { IUseCaseExecute } from '@/support/types'
+import { createUseCase, BadRequestError, IUseCaseExecute } from '@starter/domain'
 
 const execute: IUseCaseExecute<UserPasswordVerificationInput, UserPasswordVerificationOutput> =
   ({ Database, Encrypt }) =>

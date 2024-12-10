@@ -1,12 +1,8 @@
-import { beforeEach, describe, expect, it } from 'vitest'
+import { vi, beforeEach, describe, expect, it } from 'vitest'
 import { OTPChannelEnum, OTPContextEnum, SendOTPInput } from '@starter/schema'
+import { createTestDependencies, SMSTemplateEnum, WhatsappTemplateEnum, IDependencies, ITestDependencies } from '@starter/domain'
 import { EmailsEnum } from '@starter/emails-marketing'
 import { isString } from '@starter/shared'
-
-import { TestDependencies, ITestDependencies } from '@/config/tests'
-import { IDependencies } from '@/support/types'
-import { SMSTemplateEnum } from '@/ports/sms'
-import { WhatsappTemplateEnum } from '@/ports/whatsapp'
 
 import { sendOTP } from './send-otp.use-case'
 
@@ -18,7 +14,7 @@ describe('sendOTP', () => {
   let dependencies: ITestDependencies
 
   beforeEach(async () => {
-    dependencies = await TestDependencies()
+    dependencies = createTestDependencies(vi)
   })
 
   it('should successfully send email OTP to the user', async () => {

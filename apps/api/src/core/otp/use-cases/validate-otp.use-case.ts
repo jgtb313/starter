@@ -1,7 +1,5 @@
 import { ValidateOTPSchema, ValidateOTPInput, ValidateOTPOutput } from '@starter/schema'
-
-import { createUseCase } from '@/support/utilities'
-import { IUseCaseExecute } from '@/support/types'
+import { createUseCase, IUseCaseExecute } from '@starter/domain'
 
 const execute: IUseCaseExecute<ValidateOTPInput, ValidateOTPOutput> =
   ({ Database }) =>
@@ -9,7 +7,7 @@ const execute: IUseCaseExecute<ValidateOTPInput, ValidateOTPOutput> =
     if (code === '0000') {
       return
     }
-    
+
     const otp = await Database.otp.findById(id)
 
     try {

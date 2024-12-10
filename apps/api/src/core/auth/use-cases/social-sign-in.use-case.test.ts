@@ -1,9 +1,6 @@
-import { beforeEach, describe, expect, it } from 'vitest'
+import { vi, beforeEach, describe, expect, it } from 'vitest'
 import { SocialSignInInput, SocialSignInEnum } from '@starter/schema'
-
-import { AuthError } from '@/support/errors'
-import { TestDependencies, ITestDependencies } from '@/config/tests'
-import { IDependencies } from '@/support/types'
+import { createTestDependencies, AuthError, IDependencies, ITestDependencies } from '@starter/domain'
 
 import { socialSignIn } from './social-sign-in.use-case'
 
@@ -15,7 +12,7 @@ describe('socialSignIn', () => {
   let dependencies: ITestDependencies
 
   beforeEach(async () => {
-    dependencies = await TestDependencies()
+    dependencies = createTestDependencies(vi)
   })
 
   it('should create a new user if user does not exist', async () => {

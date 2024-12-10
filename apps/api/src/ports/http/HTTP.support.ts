@@ -1,7 +1,7 @@
 import { z } from '@starter/schema'
+import { AuthError, DefaultError } from '@starter/domain'
 import { deepPick, deepOmit, isString } from '@starter/shared'
 
-import { AuthError, DefaultError } from '@/support/errors'
 import { Auth } from '@/support/auth'
 import { IContext } from '@/support/types'
 

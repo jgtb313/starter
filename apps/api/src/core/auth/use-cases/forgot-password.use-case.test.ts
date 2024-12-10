@@ -1,9 +1,6 @@
-import { beforeEach, describe, expect, it } from 'vitest'
+import { vi, beforeEach, describe, expect, it } from 'vitest'
 import { ForgotPasswordInput } from '@starter/schema'
-
-import { TestDependencies, ITestDependencies } from '@/config/tests'
-import { AuthError } from '@/support/errors'
-import { IDependencies } from '@/support/types'
+import { createTestDependencies, AuthError, IDependencies, ITestDependencies } from '@starter/domain'
 
 import { forgotPassword } from './forgot-password.use-case'
 
@@ -14,7 +11,7 @@ describe('forgotPassword', async () => {
   let dependencies: ITestDependencies
 
   beforeEach(async () => {
-    dependencies = await TestDependencies()
+    dependencies = createTestDependencies(vi)
   })
 
   it('should successfully send a recovery email and update user token', async () => {

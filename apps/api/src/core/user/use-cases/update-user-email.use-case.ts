@@ -1,7 +1,5 @@
 import { UpdateUserEmailSchema, UpdateUserEmailInput, UpdateUserEmailOutput } from '@starter/schema'
-
-import { createUseCase } from '@/support/utilities'
-import { IUseCaseExecute } from '@/support/types'
+import { createUseCase, IUseCaseExecute } from '@starter/domain'
 
 const execute: IUseCaseExecute<UpdateUserEmailInput, UpdateUserEmailOutput> =
   ({ Database }) =>

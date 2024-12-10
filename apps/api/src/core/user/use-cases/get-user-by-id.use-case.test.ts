@@ -1,9 +1,6 @@
-import { beforeEach, describe, expect, it } from 'vitest'
+import { vi, beforeEach, describe, expect, it } from 'vitest'
 import { GetUserByIdInput } from '@starter/schema'
-
-import { NotFoundError } from '@/support/errors'
-import { TestDependencies, ITestDependencies } from '@/config/tests'
-import { IDependencies } from '@/support/types'
+import { createTestDependencies, NotFoundError, IDependencies, ITestDependencies } from '@starter/domain'
 
 import { getUserById } from './get-user-by-id.use-case'
 
@@ -15,7 +12,7 @@ describe('getUserById', () => {
   let dependencies: ITestDependencies
 
   beforeEach(async () => {
-    dependencies = await TestDependencies()
+    dependencies = createTestDependencies(vi)
   })
 
   it('should retrieve a user by ID successfully', async () => {

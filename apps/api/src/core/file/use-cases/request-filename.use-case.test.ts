@@ -1,8 +1,6 @@
-import { beforeEach, describe, expect, it } from 'vitest'
+import { vi, beforeEach, describe, expect, it } from 'vitest'
 import { RequestFilenameInput, FileContextEnum } from '@starter/schema'
-
-import { TestDependencies, ITestDependencies } from '@/config/tests'
-import { IDependencies } from '@/support/types'
+import { createTestDependencies, IDependencies, ITestDependencies } from '@starter/domain'
 
 import { requestFilename } from './request-filename.use-case'
 
@@ -13,7 +11,7 @@ describe('requestFilename', () => {
   let dependencies: ITestDependencies
 
   beforeEach(async () => {
-    dependencies = await TestDependencies()
+    dependencies = createTestDependencies(vi)
   })
 
   it('should return a signed URL for a user avatar', async () => {
@@ -26,8 +24,8 @@ describe('requestFilename', () => {
 
     expect(dependencies.Storage.getSignedUrl).toBeCalledWith('users/avatar/avatar.png')
     expect(output).toEqual({
-      filename: 'https://static.test.com/users/avatar/avatar.png',
-      filenameSigned: 'https://test-assets.s3.us-east-1.amazonaws.com/users/avatar/avatar.png',
+      filename: 'https://https://fake-static-assets.com/users/avatar/avatar.png',
+      filenameSigned: 'https://fake-assets-bucket.s3.us-east-1.amazonaws.com/users/avatar/avatar.png',
     })
   })
 })

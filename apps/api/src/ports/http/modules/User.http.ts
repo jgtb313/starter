@@ -1,6 +1,6 @@
 import { UserSchema } from '@starter/schema'
+import { IDependencies } from '@starter/domain'
 
-import { IDependencies } from '@/support/types'
 import { IRouter } from '@/ports/http'
 
 export const UserRouter = (_dependencies: IDependencies): IRouter => ({

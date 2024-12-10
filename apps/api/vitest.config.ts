@@ -12,6 +12,6 @@ export default defineConfig({
       exclude: ['src/config/**', 'src/core/shared/types/**'],
       include: ['src/core/**', 'src/support/**'],
     },
-    setupFiles: 'src/config/tests/setup-tests',
+    setupFiles: 'vitest.setup.ts',
   },
 })

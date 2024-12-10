@@ -1,6 +1,7 @@
 import { ZodSchema, z } from '@starter/schema'
+import { IDependencies } from '@starter/domain'
 
-import { IDependencies, IContext } from '@/support/types'
+import { IContext } from '@/support/types'
 import { HTTPMethods, HttpContentTypes, HttpSuccessResponses, HttpMapErrorResponses } from './HTTP.support'
 
 export * from './modules'

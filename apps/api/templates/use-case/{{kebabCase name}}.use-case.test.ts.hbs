@@ -12,7 +12,7 @@ describe('{{camelCase name}}', () => {
   let dependencies: ITestDependencies
 
   beforeEach(async () => {
-    dependencies = await TestDependencies()
+    dependencies = TestDependencies()
   })
 
   it('should be defined', async () => {

@@ -1,8 +1,6 @@
-import { beforeEach, describe, expect, it } from 'vitest'
+import { vi, beforeEach, describe, expect, it } from 'vitest'
 import { UpdateUserPhoneInput } from '@starter/schema'
-
-import { TestDependencies, ITestDependencies } from '@/config/tests'
-import { IDependencies } from '@/support/types'
+import { createTestDependencies, IDependencies, ITestDependencies } from '@starter/domain'
 
 import { updateUserPhone } from './update-user-phone.use-case'
 
@@ -14,7 +12,7 @@ describe('updateUserPhone', () => {
   let dependencies: ITestDependencies
 
   beforeEach(async () => {
-    dependencies = await TestDependencies()
+    dependencies = createTestDependencies(vi)
   })
 
   it('should update the user phone number successfully', async () => {

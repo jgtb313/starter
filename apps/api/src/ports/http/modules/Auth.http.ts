@@ -11,9 +11,8 @@ import {
   OTPVerificationSchema,
   OTPContextEnum,
 } from '@starter/schema'
+import { NotFoundError, IDependencies } from '@starter/domain'
 
-import { NotFoundError } from '@/support/errors'
-import { IDependencies } from '@/support/types'
 import { validateOTP } from '@/core/otp/use-cases/validate-otp.use-case'
 import { signIn } from '@/core/auth/use-cases/sign-in.use-case'
 import { socialSignIn } from '@/core/auth/use-cases/social-sign-in.use-case'

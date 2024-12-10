@@ -1,8 +1,6 @@
-import { beforeEach, describe, expect, it } from 'vitest'
+import { vi, beforeEach, describe, expect, it } from 'vitest'
 import { UpdateUserPasswordInput } from '@starter/schema'
-
-import { TestDependencies, ITestDependencies } from '@/config/tests'
-import { IDependencies } from '@/support/types'
+import { createTestDependencies, IDependencies, ITestDependencies } from '@starter/domain'
 
 import { updateUserPassword } from './update-user-password.use-case'
 
@@ -14,13 +12,12 @@ describe('updateUserPassword', () => {
   let dependencies: ITestDependencies
 
   beforeEach(async () => {
-    dependencies = await TestDependencies()
+    dependencies = createTestDependencies(vi)
   })
 
   it('should update the user password successfully', async () => {
     const input: UpdateUserPasswordInput = {
       id: '1ylq82nZJybDbTZzEB6iBzbd5xF',
-      currentPassword: 'hashedPassword',
       password: 'newPassword',
     }
 
