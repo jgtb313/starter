@@ -20,16 +20,16 @@
     "clean": "npm exec --workspaces -- npx rimraf node_modules && npx rimraf node_modules"
   },
   "devDependencies": {
-    "plop": "^4.0.1",
     "@typescript-eslint/eslint-plugin": "^5.40.1",
     "@typescript-eslint/parser": "^5.41.0",
     "concurrently": "^7.1.0",
-    "eslint": "^8.1.0",
+    "eslint": "^9.16.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-config-standard": "16.0.3",
     "eslint-plugin-import": "^2.25.2",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.1.1",
+    "plop": "^4.0.1",
     "prettier": "^2.8.0",
     "typescript": "5.0.4"
   }
