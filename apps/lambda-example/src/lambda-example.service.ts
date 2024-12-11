@@ -11,4 +11,4 @@ const execute: ILambdaHandlerExecute<SignInInput, SignInOutput> =
     }
   }
 
-export const lambdaExample = createLambdaHandler(execute, SignInSchema)
+export const service = createLambdaHandler(execute, SignInSchema)
