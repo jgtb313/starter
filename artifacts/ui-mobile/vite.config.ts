@@ -14,7 +14,6 @@ export default defineConfig({
     }),
     dts({
       insertTypesEntry: true,
-      logLevel: 'error',
     }) as PluginOption,
   ],
   build: {
