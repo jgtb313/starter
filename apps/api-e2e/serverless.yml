@@ -1,0 +1,19 @@
+service: api-e2e
+
+frameworkVersion: '4'
+
+custom:
+  dotenv:
+    path: ../../.env
+    logging: false
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+
+plugins:
+  - serverless-dotenv-plugin
+
+functions:
+  service:
+    handler: src/index.handler
