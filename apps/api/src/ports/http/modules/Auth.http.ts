@@ -2,8 +2,8 @@ import {
   z,
   SignInSchema,
   SignInSchemaOutput,
-  SocialSignInSchema,
-  SocialSignInSchemaOutput,
+  SocialSignOnSchema,
+  SocialSignOnSchemaOutput,
   SignUpSchema,
   SignUpSchemaOutput,
   ForgotPasswordSchema,
@@ -15,7 +15,7 @@ import { NotFoundError, IDependencies } from '@starter/domain'
 
 import { validateOTP } from '@/core/otp/use-cases/validate-otp.use-case'
 import { signIn } from '@/core/auth/use-cases/sign-in.use-case'
-import { socialSignIn } from '@/core/auth/use-cases/social-sign-in.use-case'
+import { socialSignOn } from '@/core/auth/use-cases/social-sign-in.use-case'
 import { signUp } from '@/core/auth/use-cases/sign-up.use-case'
 import { forgotPassword } from '@/core/auth/use-cases/forgot-password.use-case'
 import { getUserByEmail } from '@/core/user/use-cases/get-user-by-email.use-case'
@@ -32,7 +32,7 @@ export const AuthRouter = (dependencies: IDependencies): IRouter => ({
 
   paths: {
     signIn: {
-      summary: 'Sign In',
+      summary: 'Sign-In',
       description: 'Authenticates a user by validating their email and password.',
 
       method: 'POST',
@@ -57,31 +57,31 @@ export const AuthRouter = (dependencies: IDependencies): IRouter => ({
       },
     },
 
-    socialSignIn: {
-      summary: 'Social Sign In',
+    socialSignOn: {
+      summary: 'Social Sign-On',
       description: 'Allows users to authenticate their accounts using third-party services for a seamless sign-in experience.',
 
       method: 'POST',
 
-      path: '/auth/social-sign-in',
+      path: '/auth/social-sign-on',
 
       parameters: {
-        body: SocialSignInSchema,
+        body: SocialSignOnSchema,
       },
 
       responses: {
         200: {
-          schema: SocialSignInSchemaOutput,
+          schema: SocialSignOnSchemaOutput,
         },
       },
 
       execute({ body }) {
-        return socialSignIn(dependencies)(body)
+        return socialSignOn(dependencies)(body)
       },
     },
 
     signUp: {
-      summary: 'Sign Up',
+      summary: 'Sign-Up',
       description: 'Creates an account.',
 
       method: 'POST',

@@ -1,4 +1,4 @@
-export enum SocialSignInEnum {
+export enum SocialAuthEnum {
   GOOGLE = 'GOOGLE',
-  FACEBOOK = 'FACEBOOK'
+  FACEBOOK = 'FACEBOOK',
 }

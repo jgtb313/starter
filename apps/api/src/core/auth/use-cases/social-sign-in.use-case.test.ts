@@ -1,12 +1,12 @@
 import { vi, beforeEach, describe, expect, it } from 'vitest'
-import { SocialSignInInput, SocialSignInEnum } from '@starter/schema'
+import { SocialSignOnInput, SocialAuthEnum } from '@starter/schema'
 import { createTestDependencies, AuthError, IDependencies, ITestDependencies } from '@starter/domain'
 
-import { socialSignIn } from './social-sign-in.use-case'
+import { socialSignOn } from './social-sign-in.use-case'
 
-describe('socialSignIn', () => {
+describe('socialSignOn', () => {
   const sut = () => ({
-    execute: (input: Parameters<ReturnType<typeof socialSignIn>>[number]) => socialSignIn(dependencies as IDependencies)(input),
+    execute: (input: Parameters<ReturnType<typeof socialSignOn>>[number]) => socialSignOn(dependencies as IDependencies)(input),
   })
 
   let dependencies: ITestDependencies
@@ -16,8 +16,8 @@ describe('socialSignIn', () => {
   })
 
   it('should create a new user if user does not exist', async () => {
-    const input: SocialSignInInput = {
-      context: SocialSignInEnum.GOOGLE,
+    const input: SocialSignOnInput = {
+      context: SocialAuthEnum.GOOGLE,
       providerToken: 'tokenUnregisteredUser',
     }
 
@@ -32,8 +32,8 @@ describe('socialSignIn', () => {
   })
 
   it('should generate a token for the existing user', async () => {
-    const input: SocialSignInInput = {
-      context: SocialSignInEnum.GOOGLE,
+    const input: SocialSignOnInput = {
+      context: SocialAuthEnum.GOOGLE,
       providerToken: 'tokenRegisteredUser',
     }
 
@@ -45,8 +45,8 @@ describe('socialSignIn', () => {
   })
 
   it('should use the generated email if email is not provided by SocialAuth', async () => {
-    const input: SocialSignInInput = {
-      context: SocialSignInEnum.FACEBOOK,
+    const input: SocialSignOnInput = {
+      context: SocialAuthEnum.FACEBOOK,
       providerToken: 'tokenUnregisteredUserWithoutEmail',
     }
 
@@ -61,8 +61,8 @@ describe('socialSignIn', () => {
   })
 
   it('should throw an AuthError if the token is invalid', async () => {
-    const input: SocialSignInInput = {
-      context: SocialSignInEnum.FACEBOOK,
+    const input: SocialSignOnInput = {
+      context: SocialAuthEnum.FACEBOOK,
       providerToken: 'invalidToken',
     }
 

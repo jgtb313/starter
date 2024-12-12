@@ -1,4 +1,4 @@
-import { SocialSignInSchema, SocialSignInInput, SocialSignInOutput, UserStatusEnum, SocialSignInEnum } from '@starter/schema'
+import { SocialSignOnSchema, SocialSignOnInput, SocialSignOnOutput, UserStatusEnum, SocialAuthEnum } from '@starter/schema'
 import { createUseCase, User, IUseCaseExecute } from '@starter/domain'
 
 import { env } from '@/config'
@@ -6,7 +6,7 @@ import { getTokenPayload } from '@/support/auth'
 
 const SERVER_AUTHENTICATE_SECRET = env('SERVER_AUTHENTICATE_SECRET')
 
-const execute: IUseCaseExecute<SocialSignInInput, SocialSignInOutput> =
+const execute: IUseCaseExecute<SocialSignOnInput, SocialSignOnOutput> =
   ({ Database, SocialAuth, Encrypt, JWT }) =>
   async (input) => {
     const { id, name, email } = await SocialAuth.getInfosByToken(input.context, input.providerToken)
@@ -29,8 +29,8 @@ const execute: IUseCaseExecute<SocialSignInInput, SocialSignInOutput> =
           email: email ?? `${id}@${input.context.toLowerCase()}.com`,
           password: hashPassword,
           social: {
-            facebook: input.context === SocialSignInEnum.FACEBOOK ? { id } : null,
-            google: input.context === SocialSignInEnum.GOOGLE ? { id } : null,
+            facebook: input.context === SocialAuthEnum.FACEBOOK ? { id } : null,
+            google: input.context === SocialAuthEnum.GOOGLE ? { id } : null,
           },
           status: UserStatusEnum.ACTIVE,
         }),
@@ -54,4 +54,4 @@ const execute: IUseCaseExecute<SocialSignInInput, SocialSignInOutput> =
     }
   }
 
-export const socialSignIn = createUseCase(execute, SocialSignInSchema)
+export const socialSignOn = createUseCase(execute, SocialSignOnSchema)

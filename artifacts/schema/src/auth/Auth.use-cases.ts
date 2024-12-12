@@ -2,7 +2,7 @@ import { z } from '@/zod'
 
 import { PasswordSchema } from '@/common'
 import { UserSchema } from '../user/User.schema'
-import { SocialSignInEnum } from './Auth.enums'
+import { SocialAuthEnum } from './Auth.enums'
 
 export const SignInSchema = z.object({
   email: z.string().min(1).email(),
@@ -14,15 +14,15 @@ export const SignInSchemaOutput = z.object({
 export type SignInInput = z.infer<typeof SignInSchema>
 export type SignInOutput = z.infer<typeof SignInSchemaOutput>
 
-export const SocialSignInSchema = z.object({
-  context: z.nativeEnum(SocialSignInEnum),
+export const SocialSignOnSchema = z.object({
+  context: z.nativeEnum(SocialAuthEnum),
   providerToken: z.string().min(1),
 })
-export const SocialSignInSchemaOutput = z.object({
+export const SocialSignOnSchemaOutput = z.object({
   accessToken: z.string(),
 })
-export type SocialSignInInput = z.infer<typeof SocialSignInSchema>
-export type SocialSignInOutput = z.infer<typeof SocialSignInSchemaOutput>
+export type SocialSignOnInput = z.infer<typeof SocialSignOnSchema>
+export type SocialSignOnOutput = z.infer<typeof SocialSignOnSchemaOutput>
 
 export const SignUpSchema = UserSchema.pick({
   name: true,

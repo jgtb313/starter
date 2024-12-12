@@ -8,13 +8,13 @@
 
 import {
   SignInSchemaOutput,
-  SocialSignInSchemaOutput,
+  SocialSignOnSchemaOutput,
   SignUpSchemaOutput,
   ForgotPasswordSchemaOutput,
   SignInInput,
   SignInOutput,
-  SocialSignInInput,
-  SocialSignInOutput,
+  SocialSignOnInput,
+  SocialSignOnOutput,
   SignUpInput,
   SignUpOutput,
   ForgotPasswordInput,
@@ -47,8 +47,8 @@ export const signIn = withFields<SignInInput, SignInOutput>(({ fields, ...body }
  *
  * @returns Resolves to the result of the request or an error.
  */
-export const socialSignIn = withFields<SocialSignInInput, SocialSignInOutput>(({ fields, ...body }) =>
-  client.post('/v1/auth/social-sign-in', body, { params: { fields } }).then(SocialSignInSchemaOutput.parse),
+export const socialSignOn = withFields<SocialSignOnInput, SocialSignOnOutput>(({ fields, ...body }) =>
+  client.post('/v1/auth/social-sign-in', body, { params: { fields } }).then(SocialSignOnSchemaOutput.parse),
 )
 
 /**

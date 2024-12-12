@@ -1,7 +1,7 @@
 import { redirect, json, type MetaFunction, ActionFunctionArgs } from '@remix-run/node'
 import { config } from '@starter/config'
 import client, { ApiError } from '@starter/client'
-import { SignInInput, SocialSignInInput } from '@starter/schema'
+import { SignInInput, SocialSignOnInput } from '@starter/schema'
 import { Flex, Card, Typography, Brand, toast } from '@starter/ui'
 import { useFetcher } from '@starter/use-remix-hooks'
 import { useWatch } from '@starter/use-hooks'
@@ -40,7 +40,7 @@ export const action = async (args: ActionFunctionArgs) => {
     }
   } else {
     try {
-      const response = await client.auth.socialSignIn(formData as unknown as SocialSignInInput)
+      const response = await client.auth.socialSignOn(formData as unknown as SocialSignOnInput)
 
       accessToken = response.accessToken
     } catch (error) {

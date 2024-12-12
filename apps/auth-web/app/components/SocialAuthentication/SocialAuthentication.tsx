@@ -1,6 +1,6 @@
 import { GoogleOAuthProvider, useGoogleLogin } from '@react-oauth/google'
 import FacebookOAuthProvider from '@greatsumini/react-facebook-login'
-import { SocialSignInEnum } from '@starter/schema'
+import { SocialAuthEnum } from '@starter/schema'
 import { Flex, Button, SocialIcon } from '@starter/ui'
 
 import { SocialAuthenticationProps } from './SocialAuthentication.types'
@@ -8,7 +8,7 @@ import { SocialAuthenticationProps } from './SocialAuthentication.types'
 const SocialAuthenticationWrapper = ({ onSubmit }: SocialAuthenticationProps) => {
   const login = useGoogleLogin({
     onSuccess: ({ access_token }) => {
-      onSubmit?.({ context: SocialSignInEnum.GOOGLE, providerToken: access_token })
+      onSubmit?.({ context: SocialAuthEnum.GOOGLE, providerToken: access_token })
     },
   })
 
@@ -21,7 +21,7 @@ const SocialAuthenticationWrapper = ({ onSubmit }: SocialAuthenticationProps) =>
       <FacebookOAuthProvider
         appId={import.meta.env.VITE_FACEBOOK_APP_ID}
         onSuccess={({ accessToken }) => {
-          onSubmit?.({ context: SocialSignInEnum.FACEBOOK, providerToken: accessToken })
+          onSubmit?.({ context: SocialAuthEnum.FACEBOOK, providerToken: accessToken })
         }}
         render={({ onClick }) => (
           <Button variant="default" leftSection={<SocialIcon name="FACEBOOK" />} onClick={onClick}>
