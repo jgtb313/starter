@@ -1,4 +1,4 @@
-import { SocialSignInEnum } from '@starter/schema'
+import { SocialAuthEnum } from '@starter/schema'
 
 import { CreateDependenciesOptions } from '../../domain.dependencies'
 import { AuthError } from '../../domain.errors'
@@ -10,8 +10,8 @@ import { SocialAuthFacebook } from './strategy/SocialAuthFacebook.adapter'
 export const SocialAuth = ({}: CreateDependenciesOptions): ISocialAuth => ({
   async getInfosByToken(value, token) {
     const strategies = {
-      [SocialSignInEnum.GOOGLE]: SocialAuthGoogle,
-      [SocialSignInEnum.FACEBOOK]: SocialAuthFacebook,
+      [SocialAuthEnum.GOOGLE]: SocialAuthGoogle,
+      [SocialAuthEnum.FACEBOOK]: SocialAuthFacebook,
     }
 
     const strategy = strategies[value]

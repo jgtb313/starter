@@ -13,16 +13,18 @@ import { Storage } from './adapters/aws-s3'
 import { SocialAuth } from './adapters/social-auth'
 import { Logger } from './adapters/pino-es'
 
-import { DatabaseInMemory } from './adapters/mongodb-in-memory'
-import { EncryptInMemory } from './adapters/bcrypt-in-memory'
-import { JWTInMemory } from './adapters/json-web-token-in-memory'
-import { MailInMemory } from './adapters/google-mail-in-memory'
-import { TwilioSMSInMemory } from './adapters/twilio-sms-in-memory'
-import { TwilioWhatsappInMemory } from './adapters/twilio-whatsapp-in-memory'
-import { CacheInMemory } from './adapters/redis-in-memory'
-import { StorageInMemory } from './adapters/aws-s3-in-memory'
-import { SocialAuthInMemory } from './adapters/social-auth-in-memory'
-import { LoggerInMemory } from './adapters/pino-es-in-memory'
+import {
+  DatabaseInMemory,
+  EncryptInMemory,
+  JWTInMemory,
+  MailInMemory,
+  SMSInMemory,
+  WhatsappInMemory,
+  CacheInMemory,
+  StorageInMemory,
+  SocialAuthInMemory,
+  LoggerInMemory,
+} from './ports'
 
 export type SetupTestDependencies<T> = {
   [K in keyof T]: T[K] extends (...args: infer A) => infer R ? Mock<(...args: A) => R> : T[K] extends object ? SetupTestDependencies<T[K]> : T[K]
@@ -116,8 +118,8 @@ export const createTestDependencies = (vi: VitestUtils): ITestDependencies => {
     Encrypt: EncryptInMemory(options),
     JWT: JWTInMemory(options),
     Mail: MailInMemory(options),
-    SMS: TwilioSMSInMemory(options),
-    Whatsapp: TwilioWhatsappInMemory(options),
+    SMS: SMSInMemory(options),
+    Whatsapp: WhatsappInMemory(options),
     Cache: CacheInMemory(options),
     Storage: StorageInMemory(options),
     SocialAuth: SocialAuthInMemory(options),

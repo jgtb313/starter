@@ -2,7 +2,7 @@ import { SocialAuthEnum } from '@starter/schema'
 
 import { CreateTestDependenciesOptions, SetupTestDependencies } from '../../domain.dependencies'
 import { AuthError } from '../../domain.errors'
-import { ISocialAuth } from '../../ports/social-auth'
+import { ISocialAuth } from './SocialAuth.port'
 
 export const SocialAuthInMemory = ({ vi }: CreateTestDependenciesOptions): SetupTestDependencies<ISocialAuth> => ({
   getInfosByToken: vi.fn(async (_: SocialAuthEnum, token: string) => {
