@@ -1,0 +1,21 @@
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm'
+
+import { Workspace, WorkspaceStatusEnum } from '@/schemas/workspace.schema'
+
+@Entity('workspaces')
+export class WorkspaceEntity {
+  @PrimaryGeneratedColumn('uuid')
+  workspaceId: Workspace['workspaceId']
+
+  @Column({ type: 'varchar' })
+  name: Workspace['name']
+
+  @Column({ type: 'enum', enum: WorkspaceStatusEnum, default: WorkspaceStatusEnum.ACTIVE })
+  status: Workspace['status']
+
+  @CreateDateColumn()
+  createdAt: Workspace['createdAt']
+
+  @UpdateDateColumn()
+  updatedAt: Workspace['updatedAt']
+}

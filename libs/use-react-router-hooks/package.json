@@ -1,0 +1,74 @@
+{
+  "name": "@starter/use-react-router-hooks",
+  "version": "1.0.0",
+  "author": "João <jgtb313@gmail.com>",
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": false,
+  "scripts": {
+    "dev": "vite build --watch",
+    "build": "vite build",
+    "build:watch": "vite build --watch",
+    "type-check": "tsc --project tsconfig.json --pretty --noEmit",
+    "test": "vitest run",
+    "test:ui": "vitest --ui --coverage",
+    "test:coverage": "vitest run --coverage",
+    "test:watch": "vitest --watch --coverage"
+  },
+  "peerDependencies": {
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "react-router": "7.1.5"
+  },
+  "dependencies": {
+    "@starter/client": "*",
+    "@starter/common": "*",
+    "@starter/schema": "*",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "react-router": "7.1.5",
+    "typescript": "5.4.2",
+    "vite": "6.0.5",
+    "vite-plugin-dts": "4.4.0"
+  },
+  "main": "dist/use-react-router-hooks.cjs",
+  "module": "dist/use-react-router-hooks.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/use-react-router-hooks.cjs",
+      "import": "./dist/use-react-router-hooks.js"
+    }
+  },
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "devDependencies": {
+    "@swc/core": "^1.10.1",
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/jest-dom": "^6.4.8",
+    "@testing-library/react": "^16.0.0",
+    "@testing-library/react-hooks": "^8.0.1",
+    "@testing-library/user-event": "^14.5.2",
+    "@types/": "testing-library/user-event",
+    "@types/node": "^22.13.1",
+    "@types/react": "19.0.0",
+    "@types/react-dom": "19.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.11.0",
+    "@typescript-eslint/parser": "^8.11.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "@vitest/coverage-v8": "^2.1.4",
+    "@vitest/ui": "^2.1.4",
+    "autoprefixer": "^10.4.16",
+    "eslint": "^9.13.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-config-standard": "17.1.0",
+    "eslint-plugin-promise": "^7.1.0",
+    "init": "^0.1.2",
+    "jsdom": "^24.1.1",
+    "prettier": "^3.3.3",
+    "ts-node": "^10.9.2",
+    "vitest": "^2.1.4"
+  }
+}

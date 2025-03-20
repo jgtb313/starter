@@ -1,0 +1,90 @@
+{
+  "errors": {
+    "invalid_phone": "Número inválido",
+    "invalid_document": "Documento inválido",
+    "invalid_cpf": "CPF inválido",
+    "invalid_cnpj": "CNPJ inválido",
+    "invalid_credit_card_number": "Número inválido",
+    "invalid_credit_card_cvv": "Código inválido",
+    "invalid_birth_date": "Data de nascimento inválida",
+    "invalid_type": "Tipo esperado {{expected}}, mas recebido {{received}}",
+    "invalid_type_received_undefined": "Campo obrigatório",
+    "invalid_type_received_null": "Campo obrigatório",
+    "invalid_literal": "Valor inválido, esperado {{expected}}",
+    "unrecognized_keys": "Chave(s) não reconhecida(s) no objeto: {{- keys}}",
+    "invalid_union": "Inválido",
+    "invalid_union_discriminator": "Valor de discriminador inválido. Esperado {{- options}}",
+    "invalid_enum_value": "Formato de enum inválido. Esperado {{- options}}, mas recebido '{{received}}'",
+    "invalid_arguments": "Argumento de função inválido",
+    "invalid_return_type": "Tipo de retorno da função inválido",
+    "invalid_date": "Data inválida",
+    "custom": "Inválido",
+    "invalid_intersection_types": "Valores de interseção não puderam ser mesclados",
+    "not_multiple_of": "Deve ser múltiplo de {{multipleOf}}",
+    "not_finite": "Não pode ser infinito",
+    "invalid_string": {
+      "email": "Email inválido",
+      "url": "URL inválido",
+      "uuid": "UUID inválido",
+      "cuid": "CUID inválido",
+      "regex": "Correspondência inválida",
+      "datetime": "Inválido",
+      "startsWith": "Deve começar com \"{{startsWith}}\"",
+      "endsWith": "Deve terminar com \"{{endsWith}}\""
+    },
+    "too_small": {
+      "array": {
+        "exact": "Deve conter exatamente {{minimum}} elemento(s)",
+        "inclusive": "Deve conter pelo menos {{minimum}} elemento(s)",
+        "not_inclusive": "Deve conter mais de {{minimum}} elemento(s)"
+      },
+      "string": {
+        "exact": "Deve conter exatamente {{minimum}} caractere(s)",
+        "inclusive": "Deve conter pelo menos {{minimum}} caractere(s)",
+        "not_inclusive": "Deve conter mais de {{minimum}} caractere(s)"
+      },
+      "number": {
+        "exact": "Deve ser exatamente {{minimum}}",
+        "inclusive": "Deve ser maior ou igual a {{minimum}}",
+        "not_inclusive": "Deve ser maior que {{minimum}}"
+      },
+      "set": {
+        "exact": "Inválido",
+        "inclusive": "Inválido",
+        "not_inclusive": "Inválido"
+      },
+      "date": {
+        "exact": "Deve ser exatamente {{- maximum, datetime}}",
+        "inclusive": "Deve ser maior ou igual a {{- minimum, datetime}}",
+        "not_inclusive": "Deve ser maior que {{- minimum, datetime}}"
+      }
+    },
+    "too_big": {
+      "array": {
+        "exact": "Deve conter exatamente {{maximum}} elemento(s)",
+        "inclusive": "Deve conter no máximo {{maximum}} elemento(s)",
+        "not_inclusive": "Deve conter menos de {{maximum}} elemento(s)"
+      },
+      "string": {
+        "exact": "Deve conter exatamente {{maximum}} caractere(s)",
+        "inclusive": "Deve conter no máximo {{maximum}} caractere(s)",
+        "not_inclusive": "Deve conter menos de {{maximum}} caractere(s)"
+      },
+      "number": {
+        "exact": "Deve ser exatamente {{maximum}}",
+        "inclusive": "Deve ser menor ou igual a {{maximum}}",
+        "not_inclusive": "Deve ser menor que {{maximum}}"
+      },
+      "set": {
+        "exact": "Inválido",
+        "inclusive": "Inválido",
+        "not_inclusive": "Inválido"
+      },
+      "date": {
+        "exact": "Deve ser exatamente {{- maximum, datetime}}",
+        "inclusive": "Deve ser menor ou igual a {{- maximum, datetime}}",
+        "not_inclusive": "Deve ser menor que {{- maximum, datetime}}"
+      }
+    }
+  }
+}

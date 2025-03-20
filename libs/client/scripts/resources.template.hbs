@@ -1,0 +1,51 @@
+// THIS FILE IS AUTO-GENERATED. DO NOT EDIT.
+
+import { z } from '@starter/schema'
+
+import { formatFields, WithFields } from '@/support/fields'
+import { request } from '@/request'
+
+{{#each schemas as |schema|}}
+export const {{schema.name}}Schema = {{{schema.schema}}}
+export type {{schema.name}} = z.infer<typeof {{schema.name}}Schema>
+{{/each}}
+
+{{#each resources as |resource|}}
+export const {{resource.inputSchema}} = {{{resource.SchemaInput}}}
+export const {{resource.outputSchema}} = {{{resource.SchemaOutput}}}
+export type {{resource.inputType}} = WithFields<z.infer<typeof {{resource.inputSchema}}>, {{resource.outputType}}>
+export type {{resource.outputType}} = z.infer<typeof {{resource.outputSchema}}>
+
+{{/each}}
+{{#each resources as |resource|}}
+export const {{resource.resource}} = ({ fields, ...input }: {{resource.inputType}}): Promise<{{resource.outputType}}> => {
+  {{#if (or (eq resource.method "get") (eq resource.method "delete"))}}
+    const { 
+      {{#each resource.params as |param|}}
+        {{param}},
+      {{/each}}
+      ...query
+    } = input
+
+    return request.{{resource.method}}(`{{path resource.path}}`, {
+      params: { 
+        fields: formatFields(fields), 
+        ...query
+      }
+    }).then({{resource.outputSchema}}.parse)
+  {{else}}
+    const { 
+      {{#each resource.params as |param|}}
+        {{param}},
+      {{/each}}
+      ...body 
+    } = input
+
+    return request.{{resource.method}}(`{{path resource.path}}`, body, {
+      params: { 
+        fields: formatFields(fields), 
+      }
+    }).then({{resource.outputSchema}}.parse)
+  {{/if}}
+}
+{{/each}}

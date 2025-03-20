@@ -1,0 +1,82 @@
+import { Injectable, NotFoundException } from '@nestjs/common'
+import { DataSource, Repository, FindOptionsWhere } from 'typeorm'
+
+import { SubscriptionSchema } from '@/schemas'
+import { PaginationService } from '@/support/pagination'
+import { ISubscriptionRepository } from '@/ports/database/subscription'
+import { SubscriptionEntity } from './subscription.typeorm.entity'
+
+@Injectable()
+export class SubscriptionTypeorm implements ISubscriptionRepository {
+  private readonly repository: Repository<SubscriptionEntity>
+
+  constructor(
+    private readonly dataSource: DataSource,
+    private readonly paginationService: PaginationService,
+  ) {
+    this.repository = this.dataSource.getRepository(SubscriptionEntity)
+  }
+
+  findAll: ISubscriptionRepository['findAll'] = async ({ offset, limit, ...query }) => {
+    const { status } = query
+
+    const where: FindOptionsWhere<SubscriptionEntity> = {}
+
+    if (status) {
+      where.status = status
+    }
+
+    const { values, meta } = await this.paginationService.paginate(this.repository, {
+      where,
+      offset,
+      limit,
+    })
+
+    return {
+      values: values.map((subscription) => SubscriptionSchema.parse(subscription)),
+      meta,
+    }
+  }
+
+  findById: ISubscriptionRepository['findById'] = async (subscriptionId) => {
+    const model = await this.repository.findOne({ where: { subscriptionId } })
+
+    if (!model) {
+      throw new NotFoundException(`Subscription ${subscriptionId} not found`)
+    }
+
+    return SubscriptionSchema.parse(model)
+  }
+
+  findOne: ISubscriptionRepository['findOne'] = async (input) => {
+    const where = input as FindOptionsWhere<SubscriptionEntity>
+
+    const model = await this.repository.findOne({ where })
+
+    if (!model) {
+      return null
+    }
+
+    return SubscriptionSchema.parse(model)
+  }
+
+  create: ISubscriptionRepository['create'] = async (input) => {
+    const data = this.repository.create(input)
+
+    const model = await this.repository.save(data)
+
+    return SubscriptionSchema.parse(model)
+  }
+
+  updateById: ISubscriptionRepository['updateById'] = async (subscriptionId, input) => {
+    const subscription = await this.findById(subscriptionId)
+
+    await this.repository.update(subscription.subscriptionId, input)
+
+    return this.findById(subscription.subscriptionId)
+  }
+
+  deleteById: ISubscriptionRepository['deleteById'] = async (subscriptionId) => {
+    await this.repository.softDelete({ subscriptionId })
+  }
+}

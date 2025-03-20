@@ -1,0 +1,1 @@
+import{createElement as e}from"react";import{useMatches as r,useActionData as o,useLoaderData as n,useParams as s}from"react-router";function u(a){return function(){const t={params:s(),loaderData:n(),actionData:o(),matches:r()};return e(a,t)}}export{u as w};

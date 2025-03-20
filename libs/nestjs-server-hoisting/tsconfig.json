@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "strictPropertyInitialization": false,
+    "emitDeclarationOnly": false,
+    "composite": false,
+    "baseUrl": ".",
+    "typeRoots": ["./node_modules/@types"]
+  }
+}

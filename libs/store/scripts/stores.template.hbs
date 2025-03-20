@@ -1,0 +1,78 @@
+// THIS FILE IS AUTO-GENERATED. DO NOT EDIT.
+
+{{#each hooks as |hook|}}
+import { {{hook.resourceName}} } from '@starter/client'
+{{/each}}
+import { useQuery, useMutation, useReadCache, UseRequestOptions, UseQueryOptions, UseMutationOptions, MakeRequestEvents } from '@starter/use-request'
+
+import { useStore } from '@/store.context'
+
+{{#each hooks as |hook|}}
+export const {{hook.hookName}} = (options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof {{hook.resourceName}}>>, Parameters<typeof {{hook.resourceName}}>[number]>, 'events'> & (
+  {{#if (eq hook.hookMethod "useQuery")}}
+    Omit<UseQueryOptions, 'queryKey'>
+  {{else if (eq hook.hookMethod "useMutation")}}
+    UseMutationOptions<StoreInvalidate>
+  {{/if}}
+)) => {
+  const store = useStore()
+  const {{hook.hookName}}Events = store.events['{{hook.hookName}}'] ?? {}
+  const events = {
+    ...{{hook.hookName}}Events,
+    onError: {{hook.hookName}}Events['onError'] ?? store.onError,
+  }
+
+  {{#if (eq hook.hookMethod "useQuery")}}
+    return {{hook.hookMethod}}({{hook.resourceName}}, { ...options, queryKey: '{{hook.hookName}}', events })
+  {{else}}
+    return {{hook.hookMethod}}({{hook.resourceName}}, { ...options, events })
+  {{/if}}
+}
+{{/each}}
+
+export const useReadStore = <T extends keyof UseReadStore>({ queryKey, queryParams }: UseReadStoreOptions<T>): UseReadStore[T] => {
+  const cache = useReadCache<UseReadStore[T]>(queryKey, queryParams)
+
+  return cache
+}
+
+export type UseReadStoreOptions<T extends keyof UseReadStore> = {
+  queryKey: T
+  queryParams?: UseReadStoreParams[T]
+}
+
+export type UseReadStoreParams = {
+{{#each hooksUseQuery as |hook|}}
+  {{hook.hookName}}?: Parameters<typeof {{hook.resourceName}}>[number]
+{{/each}}
+}
+
+export type UseReadStore = {
+{{#each hooksUseQuery as |hook|}}
+  {{hook.hookName}}?: Awaited<ReturnType<typeof {{hook.resourceName}}>>
+{{/each}}
+}
+
+export type StoreParameters = {
+{{#each hooks as |hook|}}
+  {{hook.hookName}}?: Parameters<typeof {{hook.resourceName}}>[number]
+{{/each}}
+}
+
+export type StoreInvalidate = {
+{{#each hooksUseQuery as |hook|}}
+  {{hook.hookName}}?: Parameters<typeof {{hook.resourceName}}>[number] | true
+{{/each}}
+}
+
+export type StoreReturnType = {
+{{#each hooks as |hook|}}
+  {{hook.hookName}}?: Awaited<ReturnType<typeof {{hook.resourceName}}>>
+{{/each}}
+}
+
+export type StoreEvents = {
+{{#each hooks as |hook|}}
+  {{hook.hookName}}?: MakeRequestEvents<StoreReturnType['{{hook.hookName}}'], StoreParameters['{{hook.hookName}}']>
+{{/each}}
+}

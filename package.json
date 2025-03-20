@@ -1,0 +1,38 @@
+{
+  "name": "starter",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "apps/*",
+      "libs/*"
+    ]
+  },
+  "scripts": {
+    "command": "node run-command.js",
+    "openapi-spec:watch": "node openapi-spec.watch.js",
+    "docker": "yarn docker:down && yarn docker:up",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:destroy": "docker-compose down --volumes --remove-orphans",
+    "clean": "npm exec --workspaces -- npx rimraf node_modules && npm exec --workspaces -- npx rimraf dist"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^8.18.1",
+    "@typescript-eslint/parser": "^8.18.1",
+    "concurrently": "^9.1.0",
+    "eslint": "^9.17.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-config-standard": "17.1.0",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^7.2.1",
+    "prettier": "^3.4.2",
+    "typescript": "5.4.2"
+  },
+  "dependencies": {
+    "chalk": "^5.4.1"
+  }
+}
