@@ -3,18 +3,18 @@ import { join } from 'node:path'
 import { NestFactory } from '@nestjs/core'
 import { INestApplication, ConsoleLogger, Type, DynamicModule, ForwardReference } from '@nestjs/common'
 import { ExpressAdapter } from '@nestjs/platform-express'
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
 import { Request, Response } from 'express'
 import { apiReference } from '@scalar/nestjs-api-reference'
 import { OpenAPIV3_1 } from 'openapi-types'
 
-import { openapiGenerator, OpenapiOptions } from '@/openapi'
 import { ResponseInterceptor } from '@/interceptors'
 import { ErrorFilter } from '@/filters'
 import { StateManager } from '@/nestjs-server-hoisting.state'
 
 export type NestServerHoistingOptions = {
   port?: number
-  openapi?: OpenapiOptions
+  openapi?: any
 }
 
 type IEntryNestModule = Type<any> | DynamicModule | ForwardReference | Promise<IEntryNestModule>
@@ -39,20 +39,17 @@ const create = async (entryModule: IEntryNestModule, options?: NestServerHoistin
 
   const state = StateManager.getState()
 
-  const content = openapiGenerator(state, options?.openapi)
+  const builder = new DocumentBuilder()
 
-  Reflect.defineProperty(app, 'openapiSpec', {
-    value: content,
-    writable: true,
-    configurable: true,
-    enumerable: true,
-  })
+  Object.values(state.controllers).forEach((controller) => builder.addTag(controller.name, controller.description))
 
-  app.openapiSpec = content
+  const config = builder.build()
+
+  const document = SwaggerModule.createDocument(app, config)
 
   const outputPath = join(__dirname, '../../..', 'openapi-spec.json')
 
-  writeFileSync(outputPath, JSON.stringify(app.openapiSpec, null, 2))
+  writeFileSync(outputPath, JSON.stringify(document, null, 2))
 
   const http = app.getHttpAdapter()
 
@@ -61,7 +58,7 @@ const create = async (entryModule: IEntryNestModule, options?: NestServerHoistin
   })
 
   http.get('/openapi', (_: Request, res: Response) => {
-    res.json(content)
+    res.json(document)
   })
 
   http.get(
@@ -81,7 +78,7 @@ const create = async (entryModule: IEntryNestModule, options?: NestServerHoistin
       },
       tagsSorter: 'alpha',
       operationsSorter: 'method',
-      spec: { content },
+      spec: { content: document },
       customCss: [
         '.open-api-client-button { display: none !important; }',
         '.badges { display: none !important; }',

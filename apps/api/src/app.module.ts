@@ -39,7 +39,7 @@ import { WorkspaceModule } from '@/core/workspace'
     PlanModule,
     ProfileModule,
     RoleModule,
-    // SubscriptionModule,
+    SubscriptionModule,
     UserModule,
     WorkspaceModule,
   ],
