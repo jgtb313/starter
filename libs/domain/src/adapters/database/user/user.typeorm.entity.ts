@@ -10,7 +10,7 @@ export class UserEntity {
   @Column({ type: 'uuid', nullable: true })
   workspaceId: User['workspaceId']
 
-  @Column({ type: 'jsonb', default: [] })
+  @Column({ type: 'uuid', array: true, default: [] })
   roleIds: User['roleIds']
 
   @Column({ type: 'jsonb', default: [] })

@@ -6,6 +6,7 @@ import { createWorkspaceReference, WithWorkspaceReference } from '@/support/work
 import { User, BaseUser } from '@/schemas'
 import { IUserRepository } from '@/ports/database/user'
 import { EncryptService } from '@/adapters/encrypt'
+import { RoleService } from '../role'
 
 type UserWorkspaceReference = WithWorkspaceReference<'userId'>
 const getUserWorkspaceReference = createWorkspaceReference('userId')
@@ -14,6 +15,7 @@ const getUserWorkspaceReference = createWorkspaceReference('userId')
 export class UserService {
   constructor(
     @Inject('USER_REPOSITORY') private readonly userRepository: IUserRepository,
+    private readonly roleService: RoleService,
     private readonly encryptService: EncryptService,
   ) {}
 
@@ -61,6 +63,8 @@ export class UserService {
     if (emailExists) {
       throw new ConflictException(`Email ${input.email} has already been taken.`)
     }
+
+    await this.roleService.validateRoleIds(input.roleIds)
 
     const hashedPassword = await this.encryptService.hash(input.password)
 

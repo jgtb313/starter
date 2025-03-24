@@ -1,4 +1,4 @@
-import { z, PasswordSchema } from '@starter/schema'
+import { z, PasswordSchema, EmailSchema } from '@starter/schema'
 import { UserSchema, OTPSchema } from '@starter/domain'
 
 import { SocialAuthEnum } from '@/ports/social-auth'
@@ -8,13 +8,13 @@ export const OTPVerificationSchema = z.object({
     otpId: true,
   }).and(
     z.object({
-      code: z.string().min(4).max(4),
+      code: z.string().min(4).max(4).openapi({ example: '0000' }),
     }),
   ),
 })
 
 export const SignInBodySchema = z.object({
-  email: z.string().min(1).email(),
+  email: EmailSchema,
   password: z.string().min(1),
 })
 export const SignInSchemaOutput = z.object({
@@ -24,7 +24,7 @@ export type SignInBodyInput = z.infer<typeof SignInBodySchema>
 
 export const PasswordLessBodySchema = z
   .object({
-    email: z.string().min(1).email(),
+    email: EmailSchema,
   })
   .merge(OTPVerificationSchema)
 export const PasswordLessSchemaOutput = z.object({
@@ -53,7 +53,7 @@ export type SignUpBodyInput = z.infer<typeof SignUpBodySchema>
 
 export const ForgotPasswordBodySchema = z
   .object({
-    email: z.string().min(1).email(),
+    email: EmailSchema,
     password: PasswordSchema,
   })
   .merge(OTPVerificationSchema)

@@ -2,7 +2,7 @@ import { HttpCode, Get, Post, Put, Patch, Delete, Version, applyDecorators } fro
 import { ApiOperation, ApiParam, ApiQuery, ApiBody, ApiResponse } from '@nestjs/swagger'
 import { UseZodGuard, zodToOpenAPI } from 'nestjs-zod'
 import { z } from '@starter/schema'
-import { get } from '@starter/common'
+import { get } from 'lodash'
 
 import { RouteOptions, HttpStatus, HttpStatusErrorResponses } from '@/interfaces'
 import { StateManager } from '@/nestjs-server-hoisting.state'
@@ -99,15 +99,17 @@ export const Route = (options: RouteOptions): MethodDecorator => {
     if (options.parameters.query) {
       const openApiSchema = zodToOpenAPI(options.parameters.query)
 
-      Object.entries(openApiSchema.properties ?? {}).forEach(([name, prop]) => {
-        decorators.push(
-          ApiQuery({
-            ...(prop as {}),
-            name,
-            required: !!openApiSchema.required?.includes(name),
-          }),
-        )
-      })
+      Object.entries(openApiSchema.properties ?? {})
+        .sort(([a], [b]) => (a === 'filter' ? -1 : b === 'filter' ? 1 : 0))
+        .forEach(([name, prop]) => {
+          decorators.push(
+            ApiQuery({
+              ...(prop as {}),
+              name,
+              required: !!openApiSchema.required?.includes(name),
+            }),
+          )
+        })
     }
     if (options.parameters.params) {
       const openApiSchema = zodToOpenAPI(options.parameters.params)
@@ -123,9 +125,23 @@ export const Route = (options: RouteOptions): MethodDecorator => {
       })
     }
     if (options.parameters.body) {
+      const openApiSchema = zodToOpenAPI(options.parameters.body)
+
       decorators.push(
         ApiBody({
-          schema: zodToOpenAPI(options.parameters.body),
+          schema: {
+            ...openApiSchema,
+            properties: Object.fromEntries(
+              Object.entries(openApiSchema.properties ?? {}).map(([name, prop]) => [
+                name,
+                {
+                  ...(prop as {}),
+                  name,
+                  required: get(prop, 'required'),
+                },
+              ]),
+            ),
+          },
           required: true,
         }),
       )

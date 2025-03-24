@@ -17,7 +17,6 @@ request.interceptors.request.use((config) => {
 request.interceptors.response.use(
   (response: AxiosResponse) => response.data,
   (error: AxiosError) => {
-    console.log(!!error.response?.data)
     return Promise.reject(error.response?.data || error)
   },
 )

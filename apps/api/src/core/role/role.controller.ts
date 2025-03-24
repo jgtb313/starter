@@ -123,8 +123,6 @@ export class RoleController {
     },
   })
   createRole(@AuthenticatedUser() user: User, @Request() { params, body }: RequestInput<{}, CreateRoleParamsInput, CreateRoleBodyInput>) {
-    console.log({ user, params, body })
-
     this.aclService.canPerformActionByPermission(user, 'organization:create', {
       workspaceId: params.workspaceId,
     })

@@ -62,4 +62,8 @@ export class RoleService {
 
     await this.roleRepository.deleteById(role.roleId)
   }
+
+  async validateRoleIds(roleIds: string[]) {
+    return this.roleRepository.findByIds(roleIds)
+  }
 }

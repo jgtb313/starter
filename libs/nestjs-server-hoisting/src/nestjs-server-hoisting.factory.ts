@@ -41,6 +41,10 @@ const create = async (entryModule: IEntryNestModule, options?: NestServerHoistin
 
   const builder = new DocumentBuilder()
 
+  builder.addBearerAuth()
+  builder.setTitle(options?.openapi.title)
+  builder.setDescription(options?.openapi.description)
+
   Object.values(state.controllers).forEach((controller) => builder.addTag(controller.name, controller.description))
 
   const config = builder.build()
