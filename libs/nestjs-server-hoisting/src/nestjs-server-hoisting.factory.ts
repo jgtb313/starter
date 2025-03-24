@@ -41,7 +41,13 @@ const create = async (entryModule: IEntryNestModule, options?: NestServerHoistin
 
   const builder = new DocumentBuilder()
 
-  builder.addBearerAuth()
+  builder.addBearerAuth(
+    {
+      type: 'http',
+      name: 'Bearer',
+    },
+    'Bearer',
+  )
   builder.setTitle(options?.openapi.title)
   builder.setDescription(options?.openapi.description)
 

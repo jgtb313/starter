@@ -1,5 +1,5 @@
 import { Controller as NestController, applyDecorators } from '@nestjs/common'
-import { ApiTags } from '@nestjs/swagger'
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger'
 
 import { ControllerOptions } from '@/interfaces'
 import { StateManager } from '@/nestjs-server-hoisting.state'
@@ -9,6 +9,7 @@ export const Controller = (options: ControllerOptions): ClassDecorator => {
     const decorators = []
 
     decorators.push(ApiTags(options.name))
+    decorators.push(ApiBearerAuth())
 
     Object.entries(options.schemas).forEach(([name, { schema, description }]) => {})
 
