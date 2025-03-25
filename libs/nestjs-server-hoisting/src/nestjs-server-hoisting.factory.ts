@@ -3,10 +3,9 @@ import { join } from 'node:path'
 import { NestFactory } from '@nestjs/core'
 import { INestApplication, ConsoleLogger, Type, DynamicModule, ForwardReference } from '@nestjs/common'
 import { ExpressAdapter } from '@nestjs/platform-express'
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
+import { SwaggerModule, DocumentBuilder, OpenAPIObject } from '@nestjs/swagger'
 import { Request, Response } from 'express'
 import { apiReference } from '@scalar/nestjs-api-reference'
-import { OpenAPIV3_1 } from 'openapi-types'
 
 import { ResponseInterceptor } from '@/interceptors'
 import { ErrorFilter } from '@/filters'
@@ -28,7 +27,7 @@ class CustomLogger extends ConsoleLogger {
 }
 
 const create = async (entryModule: IEntryNestModule, options?: NestServerHoistingOptions) => {
-  const app: INestApplication<ExpressAdapter> & { openapiSpec: OpenAPIV3_1.Document } = await NestFactory.create(entryModule, {
+  const app: INestApplication<ExpressAdapter> & { openapiSpec: OpenAPIObject } = await NestFactory.create(entryModule, {
     logger: new CustomLogger(),
   })
 
@@ -56,6 +55,13 @@ const create = async (entryModule: IEntryNestModule, options?: NestServerHoistin
   const config = builder.build()
 
   const document = SwaggerModule.createDocument(app, config)
+
+  Object.defineProperty(app, 'openapiSpec', {
+    value: document,
+    writable: true,
+    enumerable: true,
+    configurable: true,
+  })
 
   const outputPath = join(__dirname, '../../..', 'openapi-spec.json')
 
