@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
-import { DataSource, Repository, ILike, FindOptionsWhere } from 'typeorm'
+import { DataSource, Repository, ILike, In, FindOptionsWhere } from 'typeorm'
 
 import { OrganizationSchema } from '@/schemas'
 import { PaginationService } from '@/support/pagination'
@@ -82,5 +82,16 @@ export class OrganizationTypeorm implements IOrganizationRepository {
 
   deleteById: IOrganizationRepository['deleteById'] = async (organizationId) => {
     await this.repository.softDelete({ organizationId })
+  }
+
+  validateIds: IOrganizationRepository['validateIds'] = async (organizationIds) => {
+    const models = await this.repository.find({ where: { organizationId: In(organizationIds) } })
+
+    const foundRoleIds = models.map((organization) => organization.organizationId)
+    const missingRoleIds = organizationIds.filter((organizationId) => !foundRoleIds.includes(organizationId))
+
+    if (missingRoleIds.length) {
+      throw new NotFoundException(`The following organizationIds were not found: ${missingRoleIds.join(', ')}`)
+    }
   }
 }

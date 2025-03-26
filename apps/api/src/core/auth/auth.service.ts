@@ -65,7 +65,7 @@ export class AuthService {
 
     if (!user) {
       const user = await this.userService.create({
-        roleIds: [],
+        organizations: [],
         permissions: [...PERMISSIONS],
         name,
         email: email ?? `${providerId}@${input.context.toLowerCase()}.com`,
@@ -95,7 +95,7 @@ export class AuthService {
     }
 
     const user = await this.userService.create({
-      roleIds: [],
+      organizations: [],
       permissions: [...PERMISSIONS],
       name,
       email,
@@ -121,7 +121,10 @@ export class AuthService {
 
     user.password = await this.encryptService.hash(password)
 
-    await this.userService.updateById(user.userId, user)
+    await this.userService.updateById(user.userId, {
+      ...user,
+      organizations: [],
+    })
 
     return this.grantAccessToken(user)
   }

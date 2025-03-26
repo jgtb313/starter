@@ -1,24 +1,19 @@
 import { UnauthorizedException } from '@nestjs/common'
-import { Controller, Route, Request, RequestInput } from '@starter/nestjs-server-hoisting'
+import { Controller, Route, Request } from '@starter/nestjs-server-hoisting'
 import { OTPService, UserService, OTPContextEnum } from '@starter/domain'
 
 import { AuthService } from './auth.service'
 import {
-  SignInBodySchema,
-  SignInSchemaOutput,
-  PasswordLessBodySchema,
-  PasswordLessSchemaOutput,
-  SocialSignOnBodySchema,
-  SocialSignOnSchemaOutput,
-  SignUpBodySchema,
-  SignUpSchemaOutput,
-  ForgotPasswordBodySchema,
-  ForgotPasswordSchemaOutput,
-  SignInBodyInput,
-  PasswordLessBodyInput,
-  SocialSignOnBodyInput,
-  SignUpBodyInput,
-  ForgotPasswordBodyInput,
+  SignInSchema,
+  PasswordLessSchema,
+  SocialSignOnSchema,
+  SignUpSchema,
+  ForgotPasswordSchema,
+  SignInRequest,
+  PasswordLessRequest,
+  SocialSignOnRequest,
+  SignUpRequest,
+  ForgotPasswordRequest,
 } from './auth.controller.schema'
 
 @Controller({
@@ -46,19 +41,19 @@ export class AuthController {
     path: '/sign-in',
 
     parameters: {
-      body: SignInBodySchema,
+      body: SignInSchema.body,
     },
 
     responses: {
       200: {
-        schema: SignInSchemaOutput,
+        schema: SignInSchema.output,
       },
       401: {
         description: 'Invalid access data.',
       },
     },
   })
-  signIn(@Request() { body }: RequestInput<{}, {}, SignInBodyInput>) {
+  signIn(@Request() { body }: SignInRequest) {
     return this.authService.signIn(body)
   }
 
@@ -71,12 +66,12 @@ export class AuthController {
     path: '/password-less',
 
     parameters: {
-      body: PasswordLessBodySchema,
+      body: PasswordLessSchema.body,
     },
 
     responses: {
       200: {
-        schema: PasswordLessSchemaOutput,
+        schema: PasswordLessSchema.output,
       },
       401: {
         description: 'Invalid access data.',
@@ -100,7 +95,7 @@ export class AuthController {
       ],
     },
   })
-  async passwordLess(@Request() { body }: RequestInput<{}, {}, PasswordLessBodyInput>) {
+  async passwordLess(@Request() { body }: PasswordLessRequest) {
     const user = await this.userService.findOne({ email: body.email })
 
     if (!user) {
@@ -122,19 +117,19 @@ export class AuthController {
     path: '/social-sign-on',
 
     parameters: {
-      body: SocialSignOnBodySchema,
+      body: SocialSignOnSchema.body,
     },
 
     responses: {
       200: {
-        schema: SocialSignOnSchemaOutput,
+        schema: SocialSignOnSchema.output,
       },
       401: {
         description: 'Invalid access data.',
       },
     },
   })
-  socialSignOn(@Request() { body }: RequestInput<{}, {}, SocialSignOnBodyInput>) {
+  socialSignOn(@Request() { body }: SocialSignOnRequest) {
     return this.authService.socialSignOn(body)
   }
 
@@ -147,19 +142,19 @@ export class AuthController {
     path: '/sign-up',
 
     parameters: {
-      body: SignUpBodySchema,
+      body: SignUpSchema.body,
     },
 
     responses: {
       201: {
-        schema: SignUpSchemaOutput,
+        schema: SignUpSchema.output,
       },
       409: {
         description: 'E-mail {{email}} has already been taken.',
       },
     },
   })
-  signUp(@Request() { body }: RequestInput<{}, {}, SignUpBodyInput>) {
+  signUp(@Request() { body }: SignUpRequest) {
     return this.authService.signUp(body)
   }
 
@@ -172,12 +167,12 @@ export class AuthController {
     path: '/forgot-password',
 
     parameters: {
-      body: ForgotPasswordBodySchema,
+      body: ForgotPasswordSchema.body,
     },
 
     responses: {
       200: {
-        schema: ForgotPasswordSchemaOutput,
+        schema: ForgotPasswordSchema.output,
       },
       401: {
         description: 'Invalid access data.',
@@ -201,7 +196,7 @@ export class AuthController {
       ],
     },
   })
-  async forgotPassword(@Request() { body }: RequestInput<{}, {}, ForgotPasswordBodyInput>) {
+  async forgotPassword(@Request() { body }: ForgotPasswordRequest) {
     await this.otpService.validate({ ...body.otpVerification, context: OTPContextEnum.FORGOT_PASSWORD, recipient: body.email })
 
     return this.authService.forgotPassword({

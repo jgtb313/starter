@@ -1,7 +1,7 @@
-import { Controller, Route, Request, RequestInput } from '@starter/nestjs-server-hoisting'
+import { Controller, Route, Request } from '@starter/nestjs-server-hoisting'
 
 import { FileService } from './file.service'
-import { GetPresignedUrlBodySchema, GetPresignedUrlSchemaOutput, GetPresignedUrlBodyInput } from './file.controller.schema'
+import { GetPresignedUrlSchema, GetPresignedUrlRequest } from './file.controller.schema'
 
 @Controller({
   name: 'File',
@@ -23,16 +23,16 @@ export class FileController {
     method: 'POST',
 
     parameters: {
-      body: GetPresignedUrlBodySchema,
+      body: GetPresignedUrlSchema.body,
     },
 
     responses: {
       200: {
-        schema: GetPresignedUrlSchemaOutput,
+        schema: GetPresignedUrlSchema.output,
       },
     },
   })
-  async getPresignedUrl(@Request() { body }: RequestInput<{}, {}, GetPresignedUrlBodyInput>) {
+  async getPresignedUrl(@Request() { body }: GetPresignedUrlRequest) {
     return this.fileService.getPresignedUrl(body)
   }
 }

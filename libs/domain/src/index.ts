@@ -23,3 +23,5 @@ export * from '@/core/role'
 export * from '@/core/subscription'
 export * from '@/core/user'
 export * from '@/core/workspace'
+
+export * from '@/support/schema'

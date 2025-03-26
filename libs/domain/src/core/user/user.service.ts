@@ -57,29 +57,63 @@ export class UserService {
     return user
   }
 
-  async create(input: BaseUser) {
+  async create({
+    organizations,
+    ...input
+  }: Omit<BaseUser, 'organizationIds' | 'organizations' | 'roleIds'> & { organizations: { organizationId: string; roleIds: string[] }[] }) {
     const emailExists = await this.userRepository.findOne({ email: input.email })
 
     if (emailExists) {
       throw new ConflictException(`Email ${input.email} has already been taken.`)
     }
 
-    await this.roleService.validateRoleIds(input.roleIds)
+    for (const { organizationId, roleIds } of organizations) {
+      await this.roleService.validateRoleIdsByOrganizationId(organizationId, roleIds)
+    }
 
     const hashedPassword = await this.encryptService.hash(input.password)
 
+    const organizationIds = organizations.map((organization) => organization.organizationId)
+
+    const roleIds = organizations.flatMap((organization) => organization.roleIds)
+
     const user = await this.userRepository.create({
       ...input,
+      organizationIds,
+      roleIds,
       password: hashedPassword,
     })
 
     return user
   }
 
-  async updateById(reference: UserWorkspaceReference, input: Partial<User>) {
+  async updateById(
+    reference: UserWorkspaceReference,
+    {
+      organizations = [],
+      ...input
+    }: Partial<
+      Omit<User, 'organizationIds' | 'organizations' | 'roleIds' | 'password'> & { organizations: { organizationId: string; roleIds: string[] }[] }
+    >,
+  ) {
     const user = await this.findById(reference)
 
-    const result = await this.userRepository.updateById(user.userId, input)
+    const payload: Partial<User> = { ...input }
+
+    if (organizations.length) {
+      for (const { organizationId, roleIds } of organizations) {
+        await this.roleService.validateRoleIdsByOrganizationId(organizationId, roleIds)
+      }
+
+      const organizationIds = organizations.map((organization) => organization.organizationId)
+
+      const roleIds = organizations.flatMap((organization) => organization.roleIds)
+
+      payload.organizationIds = organizationIds
+      payload.roleIds = roleIds
+    }
+
+    const result = await this.userRepository.updateById(user.userId, payload)
 
     return result
   }

@@ -10,6 +10,9 @@ export class RoleEntity {
   @Column({ type: 'uuid' })
   workspaceId: Role['workspaceId']
 
+  @Column({ type: 'uuid', array: true, default: [] })
+  organizationIds: Role['organizationIds']
+
   @Column({ type: 'varchar' })
   name: Role['name']
 

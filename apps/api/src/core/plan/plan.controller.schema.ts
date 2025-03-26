@@ -1,6 +1,9 @@
-import { z, PaginationSchema, BasePaginationSchemaOutput } from '@starter/schema'
+import { createRequestSchema, RequestInput } from '@starter/nestjs-server-hoisting'
 import { PlanSchema } from '@starter/domain'
+import { z, PaginationSchema, BasePaginationSchemaOutput } from '@starter/schema'
 
-export const ListPlansSchema = PlanSchema.pick({}).partial().merge(z.object({}).partial()).merge(PaginationSchema)
-export const ListPlansSchemaOutput = BasePaginationSchemaOutput.merge(z.object({ values: z.array(PlanSchema) }))
-export type ListPlansInput = z.infer<typeof ListPlansSchema>
+export const ListPlansSchema = createRequestSchema({
+  query: PlanSchema.partial().merge(PaginationSchema),
+  output: BasePaginationSchemaOutput.merge(z.object({ values: z.array(PlanSchema) })),
+})
+export type ListPlansRequest = RequestInput<typeof ListPlansSchema>

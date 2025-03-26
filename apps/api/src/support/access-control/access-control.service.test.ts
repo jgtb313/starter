@@ -7,6 +7,8 @@ import { ACLService } from './access-control.service'
 const createUser = ({ roles, permissions }: Pick<User, 'roles' | 'permissions'>): User => ({
   userId: 'user-abc',
   workspaceId: 'workspace-xyz',
+  organizationIds: [],
+  organizations: [],
   roleIds: roles.map((role) => role.roleId),
   roles,
   permissions,
@@ -69,6 +71,8 @@ describe('ACLService', () => {
           {
             roleId: 'role-manager',
             workspaceId: 'workspace-xyz',
+            organizationIds: [],
+            organizations: [],
             name: 'Manager',
             permissions: ['user:create', 'user:update'],
             tags: ['manager'],
@@ -91,6 +95,8 @@ describe('ACLService', () => {
           {
             roleId: 'role-staff',
             workspaceId: 'workspace-xyz',
+            organizationIds: [],
+            organizations: [],
             name: 'Staff',
             permissions: ['user:read'],
             tags: ['staff'],

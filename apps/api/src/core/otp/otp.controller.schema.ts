@@ -1,47 +1,61 @@
-import { z, EmailSchema, PhoneSchema } from '@starter/schema'
+import { createRequestSchema, RequestInput } from '@starter/nestjs-server-hoisting'
 import { OTPSchema, OTPPhoneChannelEnum } from '@starter/domain'
+import { z, EmailSchema, PhoneSchema } from '@starter/schema'
 
-export const SendOTPSchema = OTPSchema.pick({
-  userId: true,
-  channel: true,
-  context: true,
-  recipient: true,
+export const SendOTPSchema = createRequestSchema({
+  body: OTPSchema.pick({
+    userId: true,
+    channel: true,
+    context: true,
+    recipient: true,
+  }),
+  output: OTPSchema.pick({
+    otpId: true,
+  }),
 })
-export const SendOTPSchemaOutput = OTPSchema.pick({
-  otpId: true,
-})
-export type SendOTPInput = z.infer<typeof SendOTPSchema>
+export type SendOTPRequest = RequestInput<typeof SendOTPSchema>
 
-export const ValidateOTPSchema = OTPSchema.pick({
-  otpId: true,
-  context: true,
-  recipient: true,
-  code: true,
+export const ValidateOTPSchema = createRequestSchema({
+  params: OTPSchema.pick({
+    otpId: true,
+  }),
+  body: OTPSchema.pick({
+    context: true,
+    recipient: true,
+    code: true,
+  }),
 })
-export type ValidateOTPInput = z.infer<typeof ValidateOTPSchema>
-export type ValidateOTPOutput = void
+export type ValidateOTPRequest = RequestInput<typeof ValidateOTPSchema>
 
-export const SendPasswordLessSchema = z.object({
-  email: EmailSchema,
+export const SendPasswordLessSchema = createRequestSchema({
+  body: z.object({
+    email: EmailSchema,
+  }),
+  output: OTPSchema.pick({ otpId: true }),
 })
-export const SendPasswordLessSchemaOutput = OTPSchema.pick({ otpId: true })
-export type SendPasswordLessInput = z.infer<typeof SendPasswordLessSchema>
+export type SendPasswordLessRequest = RequestInput<typeof SendPasswordLessSchema>
 
-export const SendForgotPasswordOTPSchema = z.object({
-  email: EmailSchema,
+export const SendForgotPasswordOTPSchema = createRequestSchema({
+  body: z.object({
+    email: EmailSchema,
+  }),
+  output: OTPSchema.pick({ otpId: true }),
 })
-export const SendForgotPasswordOTPSchemaOutput = OTPSchema.pick({ otpId: true })
-export type SendForgotPasswordOTPInput = z.infer<typeof SendForgotPasswordOTPSchema>
+export type SendForgotPasswordOTPRequest = RequestInput<typeof SendForgotPasswordOTPSchema>
 
-export const SendUpdateEmailOTPSchema = z.object({
-  email: EmailSchema,
+export const SendUpdateEmailOTPSchema = createRequestSchema({
+  body: z.object({
+    email: EmailSchema,
+  }),
+  output: OTPSchema.pick({ otpId: true }),
 })
-export const SendUpdateEmailOTPSchemaOutput = OTPSchema.pick({ otpId: true })
-export type SendUpdateEmailOTPInput = z.infer<typeof SendUpdateEmailOTPSchema>
+export type SendUpdateEmailOTPRequest = RequestInput<typeof SendUpdateEmailOTPSchema>
 
-export const SendUpdatePhoneOTPSchema = z.object({
-  channel: z.nativeEnum(OTPPhoneChannelEnum),
-  phone: PhoneSchema,
+export const SendUpdatePhoneOTPSchema = createRequestSchema({
+  body: z.object({
+    channel: z.nativeEnum(OTPPhoneChannelEnum),
+    phone: PhoneSchema,
+  }),
+  output: OTPSchema.pick({ otpId: true }),
 })
-export const SendUpdatePhoneOTPSchemaOutput = OTPSchema.pick({ otpId: true })
-export type SendUpdatePhoneOTPInput = z.infer<typeof SendUpdatePhoneOTPSchema>
+export type SendUpdatePhoneOTPRequest = RequestInput<typeof SendUpdatePhoneOTPSchema>

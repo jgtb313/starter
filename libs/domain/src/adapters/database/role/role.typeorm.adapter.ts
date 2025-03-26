@@ -56,19 +56,6 @@ export class RoleTypeorm implements IRoleRepository {
     return RoleSchema.parse(model)
   }
 
-  findByIds: IRoleRepository['findByIds'] = async (roleIds) => {
-    const models = await this.repository.find({ where: { roleId: In(roleIds) } })
-
-    const foundRoleIds = models.map((role) => role.roleId)
-    const missingRoleIds = roleIds.filter((roleId) => !foundRoleIds.includes(roleId))
-
-    if (missingRoleIds.length) {
-      throw new NotFoundException(`The following roleIds were not found: ${missingRoleIds.join(', ')}`)
-    }
-
-    return models.map((role) => RoleSchema.parse(role))
-  }
-
   findOne: IRoleRepository['findOne'] = async (input) => {
     const where = input as FindOptionsWhere<RoleEntity>
 
@@ -99,5 +86,16 @@ export class RoleTypeorm implements IRoleRepository {
 
   deleteById: IRoleRepository['deleteById'] = async (roleId) => {
     await this.repository.softDelete({ roleId })
+  }
+
+  validateIdsByOrganizationId: IRoleRepository['validateIdsByOrganizationId'] = async (organizationId, roleIds) => {
+    const models = await this.repository.find({ where: { organizationIds: In([organizationId]), roleId: In(roleIds) } })
+
+    const foundRoleIds = models.map((role) => role.roleId)
+    const missingRoleIds = roleIds.filter((roleId) => !foundRoleIds.includes(roleId))
+
+    if (missingRoleIds.length) {
+      throw new NotFoundException(`The following roleIds were not found for organizationId ${organizationId}: ${missingRoleIds.join(', ')}`)
+    }
   }
 }

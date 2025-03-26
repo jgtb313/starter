@@ -1,31 +1,21 @@
 import { UseGuards } from '@nestjs/common'
-import { Controller, Route, Request, RequestInput } from '@starter/nestjs-server-hoisting'
+import { Controller, Route, Request } from '@starter/nestjs-server-hoisting'
 import { OrganizationService, OrganizationSchema, User } from '@starter/domain'
 
 import { AuthGuard } from '@/support/guards'
 import { ACLService } from '@/support/access-control'
 import { AuthenticatedUser } from '@/support/decorators'
 import {
-  ListOrganizationsParamsSchema,
-  ListOrganizationsQuerySchema,
-  ListOrganizationsSchemaOutput,
-  GetOrganizationParamsSchema,
-  GetOrganizationSchemaOutput,
-  CreateOrganizationParamsSchema,
-  CreateOrganizationBodySchema,
-  CreateOrganizationSchemaOutput,
-  UpdateOrganizationParamsSchema,
-  UpdateOrganizationBodySchema,
-  UpdateOrganizationSchemaOutput,
-  DeleteOrganizationParamsSchema,
-  ListOrganizationsParamsInput,
-  ListOrganizationsQueryInput,
-  GetOrganizationParamsInput,
-  CreateOrganizationParamsInput,
-  CreateOrganizationBodyInput,
-  UpdateOrganizationParamsInput,
-  UpdateOrganizationBodyInput,
-  DeleteOrganizationParamsInput,
+  ListOrganizationsSchema,
+  GetOrganizationSchema,
+  CreateOrganizationSchema,
+  UpdateOrganizationSchema,
+  DeleteOrganizationSchema,
+  ListOrganizationsRequest,
+  GetOrganizationRequest,
+  CreateOrganizationRequest,
+  UpdateOrganizationRequest,
+  DeleteOrganizationRequest,
 } from './organization.controller.schema'
 
 @UseGuards(AuthGuard)
@@ -56,20 +46,17 @@ export class OrganizationController {
     method: 'GET',
 
     parameters: {
-      params: ListOrganizationsParamsSchema,
-      query: ListOrganizationsQuerySchema,
+      params: ListOrganizationsSchema.params,
+      query: ListOrganizationsSchema.query,
     },
 
     responses: {
       200: {
-        schema: ListOrganizationsSchemaOutput,
+        schema: ListOrganizationsSchema.output,
       },
     },
   })
-  listOrganizations(
-    @AuthenticatedUser() user: User,
-    @Request() { params, query }: RequestInput<ListOrganizationsQueryInput, ListOrganizationsParamsInput, {}>,
-  ) {
+  listOrganizations(@AuthenticatedUser() user: User, @Request() { params, query }: ListOrganizationsRequest) {
     this.aclService.canPerformActionByPermission(user, 'organization:read', {
       workspaceId: params.workspaceId,
     })
@@ -90,16 +77,16 @@ export class OrganizationController {
     path: '/:organizationId',
 
     parameters: {
-      params: GetOrganizationParamsSchema,
+      params: GetOrganizationSchema.params,
     },
 
     responses: {
       200: {
-        schema: GetOrganizationSchemaOutput,
+        schema: GetOrganizationSchema.output,
       },
     },
   })
-  getOrganization(@AuthenticatedUser() user: User, @Request() { params }: RequestInput<{}, GetOrganizationParamsInput, {}>) {
+  getOrganization(@AuthenticatedUser() user: User, @Request() { params }: GetOrganizationRequest) {
     this.aclService.canPerformActionByPermission(user, 'organization:read', {
       workspaceId: params.workspaceId,
     })
@@ -115,20 +102,17 @@ export class OrganizationController {
     method: 'POST',
 
     parameters: {
-      params: CreateOrganizationParamsSchema,
-      body: CreateOrganizationBodySchema,
+      params: CreateOrganizationSchema.params,
+      body: CreateOrganizationSchema.body,
     },
 
     responses: {
       201: {
-        schema: CreateOrganizationSchemaOutput,
+        schema: CreateOrganizationSchema.output,
       },
     },
   })
-  createOrganization(
-    @AuthenticatedUser() user: User,
-    @Request() { params, body }: RequestInput<{}, CreateOrganizationParamsInput, CreateOrganizationBodyInput>,
-  ) {
+  createOrganization(@AuthenticatedUser() user: User, @Request() { params, body }: CreateOrganizationRequest) {
     this.aclService.canPerformActionByPermission(user, 'organization:create', {
       workspaceId: params.workspaceId,
     })
@@ -149,20 +133,17 @@ export class OrganizationController {
     path: '/:organizationId',
 
     parameters: {
-      params: UpdateOrganizationParamsSchema,
-      body: UpdateOrganizationBodySchema,
+      params: UpdateOrganizationSchema.params,
+      body: UpdateOrganizationSchema.body,
     },
 
     responses: {
       200: {
-        schema: UpdateOrganizationSchemaOutput,
+        schema: UpdateOrganizationSchema.output,
       },
     },
   })
-  updateOrganization(
-    @AuthenticatedUser() user: User,
-    @Request() { params, body }: RequestInput<{}, UpdateOrganizationParamsInput, UpdateOrganizationBodyInput>,
-  ) {
+  updateOrganization(@AuthenticatedUser() user: User, @Request() { params, body }: UpdateOrganizationRequest) {
     this.aclService.canPerformActionByPermission(user, 'organization:update', {
       workspaceId: params.workspaceId,
     })
@@ -182,7 +163,7 @@ export class OrganizationController {
     path: '/:organizationId',
 
     parameters: {
-      params: DeleteOrganizationParamsSchema,
+      params: DeleteOrganizationSchema.params,
     },
 
     responses: {
@@ -191,7 +172,7 @@ export class OrganizationController {
       },
     },
   })
-  deleteOrganization(@AuthenticatedUser() user: User, @Request() { params }: RequestInput<{}, DeleteOrganizationParamsInput, {}>) {
+  deleteOrganization(@AuthenticatedUser() user: User, @Request() { params }: DeleteOrganizationRequest) {
     this.aclService.canPerformActionByPermission(user, 'organization:delete', {
       workspaceId: params.workspaceId,
     })

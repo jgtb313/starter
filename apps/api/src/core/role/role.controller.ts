@@ -1,31 +1,21 @@
 import { UseGuards } from '@nestjs/common'
-import { Controller, Route, Request, RequestInput } from '@starter/nestjs-server-hoisting'
+import { Controller, Route, Request } from '@starter/nestjs-server-hoisting'
 import { RoleService, RoleSchema, User } from '@starter/domain'
 
 import { AuthGuard } from '@/support/guards'
 import { ACLService } from '@/support/access-control'
 import { AuthenticatedUser } from '@/support/decorators'
 import {
-  ListRolesParamsSchema,
-  ListRolesQuerySchema,
-  ListRolesSchemaOutput,
-  GetRoleParamsSchema,
-  GetRoleSchemaOutput,
-  CreateRoleParamsSchema,
-  CreateRoleBodySchema,
-  CreateRoleSchemaOutput,
-  UpdateRoleParamsSchema,
-  UpdateRoleBodySchema,
-  UpdateRoleSchemaOutput,
-  DeleteRoleParamsSchema,
-  ListRolesParamsInput,
-  ListRolesQueryInput,
-  GetRoleParamsInput,
-  CreateRoleParamsInput,
-  CreateRoleBodyInput,
-  UpdateRoleParamsInput,
-  UpdateRoleBodyInput,
-  DeleteRoleParamsInput,
+  ListRolesSchema,
+  GetRoleSchema,
+  CreateRoleSchema,
+  UpdateRoleSchema,
+  DeleteRoleSchema,
+  ListRolesRequest,
+  GetRoleRequest,
+  CreateRoleRequest,
+  UpdateRoleRequest,
+  DeleteRoleRequest,
 } from './role.controller.schema'
 
 @UseGuards(AuthGuard)
@@ -56,17 +46,17 @@ export class RoleController {
     method: 'GET',
 
     parameters: {
-      params: ListRolesParamsSchema,
-      query: ListRolesQuerySchema,
+      params: ListRolesSchema.params,
+      query: ListRolesSchema.query,
     },
 
     responses: {
       200: {
-        schema: ListRolesSchemaOutput,
+        schema: ListRolesSchema.output,
       },
     },
   })
-  listRoles(@AuthenticatedUser() user: User, @Request() { params, query }: RequestInput<ListRolesQueryInput, ListRolesParamsInput, {}>) {
+  listRoles(@AuthenticatedUser() user: User, @Request() { params, query }: ListRolesRequest) {
     this.aclService.canPerformActionByPermission(user, 'organization:read', {
       workspaceId: params.workspaceId,
     })
@@ -87,16 +77,16 @@ export class RoleController {
     path: '/:roleId',
 
     parameters: {
-      params: GetRoleParamsSchema,
+      params: GetRoleSchema.params,
     },
 
     responses: {
       200: {
-        schema: GetRoleSchemaOutput,
+        schema: GetRoleSchema.output,
       },
     },
   })
-  getRole(@AuthenticatedUser() user: User, @Request() { params }: RequestInput<{}, GetRoleParamsInput, {}>) {
+  getRole(@AuthenticatedUser() user: User, @Request() { params }: GetRoleRequest) {
     this.aclService.canPerformActionByPermission(user, 'organization:read', {
       workspaceId: params.workspaceId,
     })
@@ -112,17 +102,17 @@ export class RoleController {
     method: 'POST',
 
     parameters: {
-      params: CreateRoleParamsSchema,
-      body: CreateRoleBodySchema,
+      params: CreateRoleSchema.params,
+      body: CreateRoleSchema.body,
     },
 
     responses: {
       201: {
-        schema: CreateRoleSchemaOutput,
+        schema: CreateRoleSchema.output,
       },
     },
   })
-  createRole(@AuthenticatedUser() user: User, @Request() { params, body }: RequestInput<{}, CreateRoleParamsInput, CreateRoleBodyInput>) {
+  createRole(@AuthenticatedUser() user: User, @Request() { params, body }: CreateRoleRequest) {
     this.aclService.canPerformActionByPermission(user, 'organization:create', {
       workspaceId: params.workspaceId,
     })
@@ -143,17 +133,17 @@ export class RoleController {
     path: '/:roleId',
 
     parameters: {
-      params: UpdateRoleParamsSchema,
-      body: UpdateRoleBodySchema,
+      params: UpdateRoleSchema.params,
+      body: UpdateRoleSchema.body,
     },
 
     responses: {
       200: {
-        schema: UpdateRoleSchemaOutput,
+        schema: UpdateRoleSchema.output,
       },
     },
   })
-  updateRole(@AuthenticatedUser() user: User, @Request() { params, body }: RequestInput<{}, UpdateRoleParamsInput, UpdateRoleBodyInput>) {
+  updateRole(@AuthenticatedUser() user: User, @Request() { params, body }: UpdateRoleRequest) {
     this.aclService.canPerformActionByPermission(user, 'organization:update', {
       workspaceId: params.workspaceId,
     })
@@ -173,7 +163,7 @@ export class RoleController {
     path: '/:roleId',
 
     parameters: {
-      params: DeleteRoleParamsSchema,
+      params: DeleteRoleSchema.params,
     },
 
     responses: {
@@ -182,7 +172,7 @@ export class RoleController {
       },
     },
   })
-  deleteRole(@AuthenticatedUser() user: User, @Request() { params }: RequestInput<{}, DeleteRoleParamsInput, {}>) {
+  deleteRole(@AuthenticatedUser() user: User, @Request() { params }: DeleteRoleRequest) {
     this.aclService.canPerformActionByPermission(user, 'organization:delete', {
       workspaceId: params.workspaceId,
     })

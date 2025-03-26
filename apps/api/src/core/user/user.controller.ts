@@ -1,31 +1,21 @@
 import { UseGuards } from '@nestjs/common'
-import { Controller, Route, Request, RequestInput } from '@starter/nestjs-server-hoisting'
+import { Controller, Route, Request } from '@starter/nestjs-server-hoisting'
 import { UserService, UserSchema, User, UserStatusEnum } from '@starter/domain'
 
 import { AuthGuard } from '@/support/guards'
 import { ACLService } from '@/support/access-control'
 import { AuthenticatedUser } from '@/support/decorators'
 import {
-  ListUsersParamsSchema,
-  ListUsersQuerySchema,
-  ListUsersSchemaOutput,
-  GetUserParamsSchema,
-  GetUserSchemaOutput,
-  CreateUserParamsSchema,
-  CreateUserBodySchema,
-  CreateUserSchemaOutput,
-  UpdateUserParamsSchema,
-  UpdateUserBodySchema,
-  UpdateUserSchemaOutput,
-  DeleteUserParamsSchema,
-  ListUsersParamsInput,
-  ListUsersQueryInput,
-  GetUserParamsInput,
-  CreateUserParamsInput,
-  CreateUserBodyInput,
-  UpdateUserParamsInput,
-  UpdateUserBodyInput,
-  DeleteUserParamsInput,
+  ListUsersSchema,
+  GetUserSchema,
+  CreateUserSchema,
+  UpdateUserSchema,
+  DeleteUserSchema,
+  ListUsersRequest,
+  GetUserRequest,
+  CreateUserRequest,
+  UpdateUserRequest,
+  DeleteUserRequest,
 } from './user.controller.schema'
 
 @UseGuards(AuthGuard)
@@ -56,17 +46,17 @@ export class UserController {
     method: 'GET',
 
     parameters: {
-      params: ListUsersParamsSchema,
-      query: ListUsersQuerySchema,
+      params: ListUsersSchema.params,
+      query: ListUsersSchema.query,
     },
 
     responses: {
       200: {
-        schema: ListUsersSchemaOutput,
+        schema: ListUsersSchema.output,
       },
     },
   })
-  listUsers(@AuthenticatedUser() user: User, @Request() { params, query }: RequestInput<ListUsersQueryInput, ListUsersParamsInput, {}>) {
+  listUsers(@AuthenticatedUser() user: User, @Request() { params, query }: ListUsersRequest) {
     this.aclService.canPerformActionByPermission(user, 'user:read', {
       workspaceId: params.workspaceId,
     })
@@ -87,16 +77,16 @@ export class UserController {
     path: '/:userId',
 
     parameters: {
-      params: GetUserParamsSchema,
+      params: GetUserSchema.params,
     },
 
     responses: {
       200: {
-        schema: GetUserSchemaOutput,
+        schema: GetUserSchema.output,
       },
     },
   })
-  getUser(@AuthenticatedUser() user: User, @Request() { params }: RequestInput<{}, GetUserParamsInput, {}>) {
+  getUser(@AuthenticatedUser() user: User, @Request() { params }: GetUserRequest) {
     this.aclService.canPerformActionByPermission(user, 'user:read', {
       workspaceId: params.workspaceId,
     })
@@ -112,17 +102,17 @@ export class UserController {
     method: 'POST',
 
     parameters: {
-      params: CreateUserParamsSchema,
-      body: CreateUserBodySchema,
+      params: CreateUserSchema.params,
+      body: CreateUserSchema.body,
     },
 
     responses: {
       201: {
-        schema: CreateUserSchemaOutput,
+        schema: CreateUserSchema.output,
       },
     },
   })
-  createUser(@AuthenticatedUser() user: User, @Request() { params, body }: RequestInput<{}, CreateUserParamsInput, CreateUserBodyInput>) {
+  createUser(@AuthenticatedUser() user: User, @Request() { params, body }: CreateUserRequest) {
     this.aclService.canPerformActionByPermission(user, 'user:create', {
       workspaceId: params.workspaceId,
     })
@@ -144,17 +134,17 @@ export class UserController {
     path: '/:userId',
 
     parameters: {
-      params: UpdateUserParamsSchema,
-      body: UpdateUserBodySchema,
+      params: UpdateUserSchema.params,
+      body: UpdateUserSchema.body,
     },
 
     responses: {
       200: {
-        schema: UpdateUserSchemaOutput,
+        schema: UpdateUserSchema.output,
       },
     },
   })
-  updateUser(@AuthenticatedUser() user: User, @Request() { params, body }: RequestInput<{}, UpdateUserParamsInput, UpdateUserBodyInput>) {
+  updateUser(@AuthenticatedUser() user: User, @Request() { params, body }: UpdateUserRequest) {
     this.aclService.canPerformActionByPermission(user, 'user:update', {
       workspaceId: params.workspaceId,
     })

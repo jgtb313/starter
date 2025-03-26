@@ -62,4 +62,8 @@ export class OrganizationService {
 
     await this.organizationRepository.deleteById(organization.organizationId)
   }
+
+  async validateOrganizationIds(roleIds: string[]) {
+    return this.organizationRepository.validateIds(roleIds)
+  }
 }

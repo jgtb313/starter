@@ -6,17 +6,12 @@ import { AuthGuard } from '@/support/guards'
 import { ACLService } from '@/support/access-control'
 import { AuthenticatedUser } from '@/support/decorators'
 import {
-  GetWorkspaceParamsSchema,
-  GetWorkspaceSchemaOutput,
-  CreateWorkspaceBodySchema,
-  CreateWorkspaceSchemaOutput,
-  UpdateWorkspaceParamsSchema,
-  UpdateWorkspaceBodySchema,
-  UpdateWorkspaceSchemaOutput,
-  GetWorkspaceParamsInput,
-  CreateWorkspaceBodyInput,
-  UpdateWorkspaceBodyInput,
-  UpdateWorkspaceParamsInput,
+  GetWorkspaceSchema,
+  CreateWorkspaceSchema,
+  UpdateWorkspaceSchema,
+  GetWorkspaceRequest,
+  CreateWorkspaceRequest,
+  UpdateWorkspaceRequest,
 } from './workspace.controller.schema'
 
 @UseGuards(AuthGuard)
@@ -49,16 +44,16 @@ export class WorkspaceController {
     path: '/:workspaceId',
 
     parameters: {
-      params: GetWorkspaceParamsSchema,
+      params: GetWorkspaceSchema.params,
     },
 
     responses: {
       200: {
-        schema: GetWorkspaceSchemaOutput,
+        schema: GetWorkspaceSchema.output,
       },
     },
   })
-  getWorkspace(@AuthenticatedUser() user: User, @Request() { params }: RequestInput<{}, GetWorkspaceParamsInput, {}>) {
+  getWorkspace(@AuthenticatedUser() user: User, @Request() { params }: GetWorkspaceRequest) {
     this.aclService.canPerformActionByPermission(user, 'workspace:read', {
       workspaceId: params.workspaceId,
     })
@@ -74,16 +69,16 @@ export class WorkspaceController {
     method: 'POST',
 
     parameters: {
-      body: CreateWorkspaceBodySchema,
+      body: CreateWorkspaceSchema.body,
     },
 
     responses: {
       200: {
-        schema: CreateWorkspaceSchemaOutput,
+        schema: CreateWorkspaceSchema.output,
       },
     },
   })
-  createWorkspace(@AuthenticatedUser() user: User, @Request() { body }: RequestInput<{}, {}, CreateWorkspaceBodyInput>) {
+  createWorkspace(@AuthenticatedUser() user: User, @Request() { body }: CreateWorkspaceRequest) {
     this.aclService.canPerformActionByPermission(user, 'workspace:create')
 
     return this.workspaceService.create(user, {
@@ -102,20 +97,17 @@ export class WorkspaceController {
     path: '/:workspaceId',
 
     parameters: {
-      params: UpdateWorkspaceParamsSchema,
-      body: UpdateWorkspaceBodySchema,
+      params: UpdateWorkspaceSchema.params,
+      body: UpdateWorkspaceSchema.body,
     },
 
     responses: {
       200: {
-        schema: UpdateWorkspaceSchemaOutput,
+        schema: UpdateWorkspaceSchema.output,
       },
     },
   })
-  updateWorkspace(
-    @AuthenticatedUser() user: User,
-    @Request() { params, body }: RequestInput<{}, UpdateWorkspaceParamsInput, UpdateWorkspaceBodyInput>,
-  ) {
+  updateWorkspace(@AuthenticatedUser() user: User, @Request() { params, body }: UpdateWorkspaceRequest) {
     this.aclService.canPerformActionByPermission(user, 'workspace:read', {
       workspaceId: params.workspaceId,
     })

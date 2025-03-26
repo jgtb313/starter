@@ -1,60 +1,66 @@
-import { z, PaginationSchema, BasePaginationSchemaOutput } from '@starter/schema'
+import { createRequestSchema, RequestInput } from '@starter/nestjs-server-hoisting'
 import { RoleSchema } from '@starter/domain'
+import { z, PaginationSchema, BasePaginationSchemaOutput } from '@starter/schema'
 
 import { FilterSchema } from '@/support/schema'
 
-export const ListRolesParamsSchema = RoleSchema.pick({
-  workspaceId: true,
+export const ListRolesSchema = createRequestSchema({
+  params: RoleSchema.pick({
+    workspaceId: true,
+  }),
+  query: RoleSchema.pick({
+    name: true,
+    status: true,
+  })
+    .partial()
+    .merge(
+      z
+        .object({
+          filter: FilterSchema(['name', 'status'], { example: 'Acme' }),
+        })
+        .partial(),
+    )
+    .merge(PaginationSchema),
+  output: BasePaginationSchemaOutput.merge(z.object({ values: z.array(RoleSchema) })),
 })
-export const ListRolesQuerySchema = RoleSchema.pick({
-  name: true,
-  status: true,
-})
-  .partial()
-  .merge(
-    z
-      .object({
-        filter: FilterSchema(['name', 'status'], { example: 'Acme' }),
-      })
-      .partial(),
-  )
-  .merge(PaginationSchema)
-export const ListRolesSchemaOutput = BasePaginationSchemaOutput.merge(z.object({ values: z.array(RoleSchema) }))
-export type ListRolesParamsInput = z.infer<typeof ListRolesParamsSchema>
-export type ListRolesQueryInput = z.infer<typeof ListRolesQuerySchema>
+export type ListRolesRequest = RequestInput<typeof ListRolesSchema>
 
-export const GetRoleParamsSchema = RoleSchema.pick({
-  workspaceId: true,
-  roleId: true,
+export const GetRoleSchema = createRequestSchema({
+  params: RoleSchema.pick({
+    workspaceId: true,
+    roleId: true,
+  }),
+  output: RoleSchema,
 })
-export const GetRoleSchemaOutput = RoleSchema
-export type GetRoleParamsInput = z.infer<typeof GetRoleParamsSchema>
+export type GetRoleRequest = RequestInput<typeof GetRoleSchema>
 
-export const CreateRoleParamsSchema = RoleSchema.pick({
-  workspaceId: true,
+export const CreateRoleSchema = createRequestSchema({
+  params: RoleSchema.pick({
+    workspaceId: true,
+  }),
+  body: RoleSchema.pick({
+    organizationIds: true,
+    name: true,
+    tags: true,
+    permissions: true,
+    status: true,
+  }),
+  output: RoleSchema,
 })
-export const CreateRoleBodySchema = RoleSchema.pick({
-  name: true,
-  tags: true,
-  permissions: true,
-  status: true,
-})
-export const CreateRoleSchemaOutput = RoleSchema
-export type CreateRoleParamsInput = z.infer<typeof CreateRoleParamsSchema>
-export type CreateRoleBodyInput = z.infer<typeof CreateRoleBodySchema>
+export type CreateRoleRequest = RequestInput<typeof CreateRoleSchema>
 
-export const UpdateRoleParamsSchema = RoleSchema.pick({ workspaceId: true, roleId: true })
-export const UpdateRoleBodySchema = RoleSchema.pick({
-  name: true,
-  tags: true,
-  permissions: true,
-}).partial()
-export const UpdateRoleSchemaOutput = RoleSchema
-export type UpdateRoleParamsInput = z.infer<typeof UpdateRoleParamsSchema>
-export type UpdateRoleBodyInput = z.infer<typeof UpdateRoleBodySchema>
-
-export const DeleteRoleParamsSchema = RoleSchema.pick({
-  workspaceId: true,
-  roleId: true,
+export const UpdateRoleSchema = createRequestSchema({
+  params: RoleSchema.pick({ workspaceId: true, roleId: true }),
+  body: RoleSchema.pick({ organizationIds: true, name: true, tags: true, permissions: true }).partial(),
+  output: RoleSchema,
 })
-export type DeleteRoleParamsInput = z.infer<typeof DeleteRoleParamsSchema>
+export type UpdateRoleRequest = RequestInput<typeof UpdateRoleSchema>
+
+export const DeleteRoleSchema = createRequestSchema({
+  params: RoleSchema.pick({
+    workspaceId: true,
+    roleId: true,
+  }),
+  output: RoleSchema,
+})
+export type DeleteRoleRequest = RequestInput<typeof DeleteRoleSchema>

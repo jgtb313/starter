@@ -1,23 +1,29 @@
-import { z } from '@starter/schema'
+import { createRequestSchema, RequestInput } from '@starter/nestjs-server-hoisting'
 import { WorkspaceSchema } from '@starter/domain'
+import { z } from '@starter/schema'
 
-export const GetWorkspaceParamsSchema = WorkspaceSchema.pick({
-  workspaceId: true,
+export const GetWorkspaceSchema = createRequestSchema({
+  params: WorkspaceSchema.pick({
+    workspaceId: true,
+  }),
+  output: WorkspaceSchema,
 })
-export const GetWorkspaceSchemaOutput = WorkspaceSchema
-export type GetWorkspaceParamsInput = z.infer<typeof GetWorkspaceParamsSchema>
+export type GetWorkspaceRequest = RequestInput<typeof GetWorkspaceSchema>
 
-export const CreateWorkspaceBodySchema = WorkspaceSchema.pick({
-  name: true,
+export const CreateWorkspaceSchema = createRequestSchema({
+  body: WorkspaceSchema.pick({
+    name: true,
+  }),
+  output: WorkspaceSchema,
 })
-export const CreateWorkspaceSchemaOutput = WorkspaceSchema
-export type CreateWorkspaceBodyInput = z.infer<typeof CreateWorkspaceBodySchema>
+export type CreateWorkspaceRequest = RequestInput<typeof CreateWorkspaceSchema>
 
-export const UpdateWorkspaceParamsSchema = WorkspaceSchema.pick({ workspaceId: true })
-export const UpdateWorkspaceBodySchema = WorkspaceSchema.pick({
-  name: true,
-  status: true,
-}).partial()
-export const UpdateWorkspaceSchemaOutput = WorkspaceSchema
-export type UpdateWorkspaceParamsInput = z.infer<typeof UpdateWorkspaceParamsSchema>
-export type UpdateWorkspaceBodyInput = z.infer<typeof UpdateWorkspaceBodySchema>
+export const UpdateWorkspaceSchema = createRequestSchema({
+  params: WorkspaceSchema.pick({ workspaceId: true }),
+  body: WorkspaceSchema.pick({
+    name: true,
+    status: true,
+  }).partial(),
+  output: WorkspaceSchema,
+})
+export type UpdateWorkspaceRequest = RequestInput<typeof UpdateWorkspaceSchema>

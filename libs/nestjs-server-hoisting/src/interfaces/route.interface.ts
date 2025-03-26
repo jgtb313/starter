@@ -1,4 +1,4 @@
-import { ZodSchema } from '@starter/schema'
+import { z, ZodSchema } from '@starter/schema'
 
 export type HTTPMethods = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
 

@@ -6,16 +6,14 @@ import { AuthGuard } from '@/support/guards'
 import { AuthenticatedUser } from '@/support/decorators'
 import {
   ValidateOTPSchema,
+  SendPasswordLessSchema,
   SendForgotPasswordOTPSchema,
-  SendForgotPasswordOTPSchemaOutput,
   SendUpdateEmailOTPSchema,
-  SendUpdateEmailOTPSchemaOutput,
   SendUpdatePhoneOTPSchema,
-  SendUpdatePhoneOTPSchemaOutput,
-  ValidateOTPInput,
-  SendForgotPasswordOTPInput,
-  SendUpdateEmailOTPInput,
-  SendUpdatePhoneOTPInput,
+  ValidateOTPRequest,
+  SendForgotPasswordOTPRequest,
+  SendUpdateEmailOTPRequest,
+  SendUpdatePhoneOTPRequest,
 } from './otp.controller.schema'
 
 @Controller({
@@ -43,8 +41,8 @@ export class OTPController {
     path: '/:otpId/validate',
 
     parameters: {
-      params: ValidateOTPSchema.pick({ otpId: true }),
-      body: ValidateOTPSchema.omit({ otpId: true }),
+      params: ValidateOTPSchema.params,
+      body: ValidateOTPSchema.body,
     },
 
     responses: {
@@ -70,7 +68,7 @@ export class OTPController {
       ],
     },
   })
-  validateOTP(@Request() { params, body }: RequestInput<{}, Pick<ValidateOTPInput, 'otpId'>, Omit<ValidateOTPInput, 'otpId'>>) {
+  validateOTP(@Request() { params, body }: ValidateOTPRequest) {
     return this.otpService.validate({ ...params, ...body })
   }
 
@@ -84,12 +82,12 @@ export class OTPController {
     path: '/password-less',
 
     parameters: {
-      body: SendForgotPasswordOTPSchema,
+      body: SendPasswordLessSchema.body,
     },
 
     responses: {
       201: {
-        schema: SendForgotPasswordOTPSchemaOutput,
+        schema: SendPasswordLessSchema.output,
       },
       404: { description: 'Email {{email}} not found.' },
       409: [
@@ -102,7 +100,7 @@ export class OTPController {
       ],
     },
   })
-  async sendPasswordLessOTP(@Request() { body }: RequestInput<{}, {}, SendForgotPasswordOTPInput>) {
+  async sendPasswordLessOTP(@Request() { body }: SendForgotPasswordOTPRequest) {
     const recipient = body.email
 
     const otp = await this.otpService.sendPasswordLess({ recipient })
@@ -121,12 +119,12 @@ export class OTPController {
     path: '/forgot-password',
 
     parameters: {
-      body: SendForgotPasswordOTPSchema,
+      body: SendForgotPasswordOTPSchema.body,
     },
 
     responses: {
       201: {
-        schema: SendForgotPasswordOTPSchemaOutput,
+        schema: SendForgotPasswordOTPSchema.output,
       },
       404: { description: 'Email {{email}} not found.' },
       409: [
@@ -139,7 +137,7 @@ export class OTPController {
       ],
     },
   })
-  async sendForgotPasswordOTP(@Request() { body }: RequestInput<{}, {}, SendForgotPasswordOTPInput>) {
+  async sendForgotPasswordOTP(@Request() { body }: SendForgotPasswordOTPRequest) {
     const recipient = body.email
 
     const otp = await this.otpService.sendForgotPassword({ recipient })
@@ -160,12 +158,12 @@ export class OTPController {
     path: '/update-email',
 
     parameters: {
-      body: SendUpdateEmailOTPSchema,
+      body: SendUpdateEmailOTPSchema.body,
     },
 
     responses: {
       201: {
-        schema: SendUpdateEmailOTPSchemaOutput,
+        schema: SendUpdateEmailOTPSchema.output,
       },
       409: [
         {
@@ -180,7 +178,7 @@ export class OTPController {
       ],
     },
   })
-  async sendUpdateEmailOTP(@AuthenticatedUser() user: User, @Request() { body }: RequestInput<{}, {}, SendUpdateEmailOTPInput>) {
+  async sendUpdateEmailOTP(@AuthenticatedUser() user: User, @Request() { body }: SendUpdateEmailOTPRequest) {
     const otp = await this.otpService.sendUpdateEmail({
       userId: user.userId,
       email: body.email,
@@ -202,12 +200,12 @@ export class OTPController {
     path: '/update-phone',
 
     parameters: {
-      body: SendUpdatePhoneOTPSchema,
+      body: SendUpdatePhoneOTPSchema.body,
     },
 
     responses: {
       201: {
-        schema: SendUpdatePhoneOTPSchemaOutput,
+        schema: SendUpdatePhoneOTPSchema.output,
       },
       409: [
         {
@@ -222,7 +220,7 @@ export class OTPController {
       ],
     },
   })
-  async sendUpdatePhoneOTP(@AuthenticatedUser() user: User, @Request() { body }: RequestInput<{}, {}, SendUpdatePhoneOTPInput>) {
+  async sendUpdatePhoneOTP(@AuthenticatedUser() user: User, @Request() { body }: SendUpdatePhoneOTPRequest) {
     const otp = await this.otpService.sendUpdatePhone({
       userId: user.userId,
       channel: body.channel,

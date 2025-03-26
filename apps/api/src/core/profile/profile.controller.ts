@@ -5,18 +5,15 @@ import { UserService, OTPService, User, OTPContextEnum } from '@starter/domain'
 import { AuthGuard } from '@/support/guards'
 import { AuthenticatedUser } from '@/support/decorators'
 import {
-  GetProfileSchemaOutput,
+  GetProfileSchema,
   UpdateProfileSchema,
-  UpdateProfileSchemaOutput,
   UpdateProfileEmailSchema,
-  UpdateProfileEmailSchemaOutput,
   UpdateProfilePhoneSchema,
-  UpdateProfilePhoneSchemaOutput,
   UpdateProfilePasswordSchema,
-  UpdateProfileInput,
-  UpdateProfileEmailInput,
-  UpdateProfilePhoneInput,
-  UpdateProfilePasswordInput,
+  UpdateProfileRequest,
+  UpdateProfileEmailRequest,
+  UpdateProfilePhoneRequest,
+  UpdateProfilePasswordRequest,
 } from './profile.controller.schema'
 
 @UseGuards(AuthGuard)
@@ -45,14 +42,14 @@ export class ProfileController {
 
     responses: {
       200: {
-        schema: GetProfileSchemaOutput,
+        schema: GetProfileSchema.output,
       },
       401: {
         description: 'Unauthorized',
       },
     },
   })
-  async getProfile(@AuthenticatedUser() user: User, @Request() {}: RequestInput<{}, {}, {}>) {
+  async getProfile(@AuthenticatedUser() user: User) {
     return this.userService.findById(user.userId)
   }
 
@@ -63,17 +60,17 @@ export class ProfileController {
     method: 'PATCH',
 
     parameters: {
-      body: UpdateProfileSchema,
+      body: UpdateProfileSchema.body,
     },
 
     responses: {
-      200: { schema: UpdateProfileSchemaOutput },
+      200: { schema: UpdateProfileSchema.output },
       401: {
         description: 'Unauthorized',
       },
     },
   })
-  updateProfile(@AuthenticatedUser() user: User, @Request() { body }: RequestInput<{}, {}, Omit<UpdateProfileInput, 'userId'>>) {
+  updateProfile(@AuthenticatedUser() user: User, @Request() { body }: UpdateProfileRequest) {
     return this.userService.updateById(user.userId, body)
   }
 
@@ -86,11 +83,11 @@ export class ProfileController {
     path: '/email',
 
     parameters: {
-      body: UpdateProfileEmailSchema,
+      body: UpdateProfileEmailSchema.output,
     },
 
     responses: {
-      200: { schema: UpdateProfileEmailSchemaOutput },
+      200: { schema: UpdateProfileEmailSchema.output },
       401: {
         description: 'Unauthorized',
       },
@@ -116,7 +113,7 @@ export class ProfileController {
       ],
     },
   })
-  async updateProfileEmail(@AuthenticatedUser() user: User, @Request() { body }: RequestInput<{}, {}, UpdateProfileEmailInput>) {
+  async updateProfileEmail(@AuthenticatedUser() user: User, @Request() { body }: UpdateProfileEmailRequest) {
     const recipient = body.email
 
     await this.otpService.validate({ ...body.otpVerification, context: OTPContextEnum.UPDATE_EMAIL, recipient })
@@ -133,11 +130,11 @@ export class ProfileController {
     path: '/phone',
 
     parameters: {
-      body: UpdateProfilePhoneSchema,
+      body: UpdateProfilePhoneSchema.body,
     },
 
     responses: {
-      200: { schema: UpdateProfilePhoneSchemaOutput },
+      200: { schema: UpdateProfilePhoneSchema.output },
       401: {
         description: 'Unauthorized',
       },
@@ -163,7 +160,7 @@ export class ProfileController {
       ],
     },
   })
-  async updateProfilePhone(@AuthenticatedUser() user: User, @Request() { body }: RequestInput<{}, {}, UpdateProfilePhoneInput>) {
+  async updateProfilePhone(@AuthenticatedUser() user: User, @Request() { body }: UpdateProfilePhoneRequest) {
     const recipient = `${body.phone.ddi}${body.phone.number}`
 
     await this.otpService.validate({ ...body.otpVerification, context: OTPContextEnum.UPDATE_PHONE, recipient })
@@ -180,7 +177,7 @@ export class ProfileController {
     path: '/password',
 
     parameters: {
-      body: UpdateProfilePasswordSchema,
+      body: UpdateProfilePasswordSchema.body,
     },
 
     responses: {
@@ -190,7 +187,7 @@ export class ProfileController {
       },
     },
   })
-  async updateProfilePassword(@AuthenticatedUser() user: User, @Request() { body }: RequestInput<{}, {}, UpdateProfilePasswordInput>) {
+  async updateProfilePassword(@AuthenticatedUser() user: User, @Request() { body }: UpdateProfilePasswordRequest) {
     await this.userService.verifyPassword(user.userId, body.currentPassword)
 
     await this.userService.updatePassword(user.userId, body.password)
@@ -211,7 +208,7 @@ export class ProfileController {
       },
     },
   })
-  deactivateProfile(@AuthenticatedUser() user: User, @Request() {}: RequestInput<{}, {}, {}>) {
+  deactivateProfile(@AuthenticatedUser() user: User) {
     return this.userService.deleteById(user.userId)
   }
 }

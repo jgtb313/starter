@@ -2,7 +2,7 @@ import { HttpCode, Get, Post, Put, Patch, Delete, Version, applyDecorators } fro
 import { ApiOperation, ApiParam, ApiQuery, ApiBody, ApiResponse } from '@nestjs/swagger'
 import { UseZodGuard, zodToOpenAPI } from 'nestjs-zod'
 import { z } from '@starter/schema'
-import { get } from 'lodash'
+import { get } from '@starter/common'
 
 import { RouteOptions, HttpStatus, HttpStatusErrorResponses } from '@/interfaces'
 import { StateManager } from '@/nestjs-server-hoisting.state'

@@ -5,13 +5,17 @@ import { Pagination } from '@starter/schema'
 import { createWorkspaceReference, WithWorkspaceReference } from '@/support/workspace-reference'
 import { Role, BaseRole } from '@/schemas'
 import { IRoleRepository } from '@/ports/database/role'
+import { OrganizationService } from '@/core/organization'
 
 type RoleWorkspaceReference = WithWorkspaceReference<'roleId'>
 const getRoleWorkspaceReference = createWorkspaceReference('roleId')
 
 @Injectable()
 export class RoleService {
-  constructor(@Inject('ROLE_REPOSITORY') private readonly roleRepository: IRoleRepository) {}
+  constructor(
+    @Inject('ROLE_REPOSITORY') private readonly roleRepository: IRoleRepository,
+    private readonly organizationService: OrganizationService,
+  ) {}
 
   async findAll(input: Pagination<Role>) {
     const result = await this.roleRepository.findAll({
@@ -42,6 +46,8 @@ export class RoleService {
   }
 
   async create(input: BaseRole) {
+    await this.organizationService.validateOrganizationIds(input.organizationIds)
+
     const role = await this.roleRepository.create({
       ...input,
     })
@@ -63,7 +69,7 @@ export class RoleService {
     await this.roleRepository.deleteById(role.roleId)
   }
 
-  async validateRoleIds(roleIds: string[]) {
-    return this.roleRepository.findByIds(roleIds)
+  async validateRoleIdsByOrganizationId(organizationId: string, roleIds: string[]) {
+    return this.roleRepository.validateIdsByOrganizationId(organizationId, roleIds)
   }
 }

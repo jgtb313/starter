@@ -1,7 +1,7 @@
-import { Controller, Route, Request, RequestInput } from '@starter/nestjs-server-hoisting'
+import { Controller, Route, Request } from '@starter/nestjs-server-hoisting'
 import { PlanService, PlanSchema } from '@starter/domain'
 
-import { ListPlansSchema, ListPlansSchemaOutput, ListPlansInput } from './plan.controller.schema'
+import { ListPlansSchema, ListPlansRequest } from './plan.controller.schema'
 
 @Controller({
   name: 'Plan',
@@ -27,16 +27,16 @@ export class PlanController {
     method: 'GET',
 
     parameters: {
-      query: ListPlansSchema,
+      query: ListPlansSchema.query,
     },
 
     responses: {
       200: {
-        schema: ListPlansSchemaOutput,
+        schema: ListPlansSchema.output,
       },
     },
   })
-  listPlans(@Request() { query }: RequestInput<ListPlansInput, {}, {}>) {
+  listPlans(@Request() { query }: ListPlansRequest) {
     return this.planService.findAll(query)
   }
 }

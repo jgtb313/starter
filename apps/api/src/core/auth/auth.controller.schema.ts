@@ -1,9 +1,10 @@
-import { z, PasswordSchema, EmailSchema } from '@starter/schema'
+import { createRequestSchema, RequestInput } from '@starter/nestjs-server-hoisting'
 import { UserSchema, OTPSchema } from '@starter/domain'
+import { z, PasswordSchema, EmailSchema } from '@starter/schema'
 
 import { SocialAuthEnum } from '@/ports/social-auth'
 
-export const OTPVerificationSchema = z.object({
+const OTPVerificationSchema = z.object({
   otpVerification: OTPSchema.pick({
     otpId: true,
   }).and(
@@ -13,51 +14,61 @@ export const OTPVerificationSchema = z.object({
   ),
 })
 
-export const SignInBodySchema = z.object({
-  email: EmailSchema,
-  password: z.string().min(1),
-})
-export const SignInSchemaOutput = z.object({
-  accessToken: z.string(),
-})
-export type SignInBodyInput = z.infer<typeof SignInBodySchema>
-
-export const PasswordLessBodySchema = z
-  .object({
+export const SignInSchema = createRequestSchema({
+  body: z.object({
     email: EmailSchema,
-  })
-  .merge(OTPVerificationSchema)
-export const PasswordLessSchemaOutput = z.object({
-  accessToken: z.string(),
+    password: z.string().min(1),
+  }),
+  output: z.object({
+    accessToken: z.string(),
+  }),
 })
-export type PasswordLessBodyInput = z.infer<typeof PasswordLessBodySchema>
+export type SignInRequest = RequestInput<typeof SignInSchema>
 
-export const SocialSignOnBodySchema = z.object({
-  context: z.nativeEnum(SocialAuthEnum),
-  providerToken: z.string().min(1),
+export const PasswordLessSchema = createRequestSchema({
+  body: z
+    .object({
+      email: EmailSchema,
+    })
+    .merge(OTPVerificationSchema),
+  output: z.object({
+    accessToken: z.string(),
+  }),
 })
-export const SocialSignOnSchemaOutput = z.object({
-  accessToken: z.string(),
-})
-export type SocialSignOnBodyInput = z.infer<typeof SocialSignOnBodySchema>
+export type PasswordLessRequest = RequestInput<typeof PasswordLessSchema>
 
-export const SignUpBodySchema = UserSchema.pick({
-  name: true,
-  email: true,
-  password: true,
+export const SocialSignOnSchema = createRequestSchema({
+  body: z.object({
+    context: z.nativeEnum(SocialAuthEnum),
+    providerToken: z.string().min(1),
+  }),
+  output: z.object({
+    accessToken: z.string(),
+  }),
 })
-export const SignUpSchemaOutput = z.object({
-  accessToken: z.string(),
-})
-export type SignUpBodyInput = z.infer<typeof SignUpBodySchema>
+export type SocialSignOnRequest = RequestInput<typeof SocialSignOnSchema>
 
-export const ForgotPasswordBodySchema = z
-  .object({
-    email: EmailSchema,
-    password: PasswordSchema,
-  })
-  .merge(OTPVerificationSchema)
-export const ForgotPasswordSchemaOutput = z.object({
-  accessToken: z.string(),
+export const SignUpSchema = createRequestSchema({
+  body: UserSchema.pick({
+    name: true,
+    email: true,
+    password: true,
+  }),
+  output: z.object({
+    accessToken: z.string(),
+  }),
 })
-export type ForgotPasswordBodyInput = z.infer<typeof ForgotPasswordBodySchema>
+export type SignUpRequest = RequestInput<typeof SignUpSchema>
+
+export const ForgotPasswordSchema = createRequestSchema({
+  body: z
+    .object({
+      email: EmailSchema,
+      password: PasswordSchema,
+    })
+    .merge(OTPVerificationSchema),
+  output: z.object({
+    accessToken: z.string(),
+  }),
+})
+export type ForgotPasswordRequest = RequestInput<typeof ForgotPasswordSchema>

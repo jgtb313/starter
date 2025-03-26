@@ -1,9 +1,10 @@
-import { z, PhoneSchema } from '@starter/schema'
+import { createRequestSchema, RequestInput } from '@starter/nestjs-server-hoisting'
 import { UserSchema, OTPSchema } from '@starter/domain'
+import { z, PhoneSchema } from '@starter/schema'
 
 export const ProfileSchema = UserSchema.omit({ password: true })
 
-export const OTPVerificationSchema = z.object({
+const OTPVerificationSchema = z.object({
   otpVerification: OTPSchema.pick({
     otpId: true,
   }).and(
@@ -13,34 +14,46 @@ export const OTPVerificationSchema = z.object({
   ),
 })
 
-export const GetProfileSchemaOutput = ProfileSchema
+export const GetProfileSchema = createRequestSchema({
+  query: z.object({}),
+  output: ProfileSchema,
+})
+export type GetProfileRequest = RequestInput<typeof GetProfileSchema>
 
-export const UpdateProfileSchema = ProfileSchema.pick({
-  name: true,
-  avatar: true,
-}).partial()
-export const UpdateProfileSchemaOutput = ProfileSchema
-export type UpdateProfileInput = z.infer<typeof UpdateProfileSchema>
+export const UpdateProfileSchema = createRequestSchema({
+  body: ProfileSchema.pick({
+    name: true,
+    avatar: true,
+  }).partial(),
+  output: ProfileSchema,
+})
+export type UpdateProfileRequest = RequestInput<typeof UpdateProfileSchema>
 
-export const UpdateProfileEmailSchema = ProfileSchema.pick({
-  email: true,
-}).merge(OTPVerificationSchema)
-export const UpdateProfileEmailSchemaOutput = ProfileSchema
-export type UpdateProfileEmailInput = z.infer<typeof UpdateProfileEmailSchema>
+export const UpdateProfileEmailSchema = createRequestSchema({
+  body: ProfileSchema.pick({
+    email: true,
+  }).merge(OTPVerificationSchema),
+  output: ProfileSchema,
+})
+export type UpdateProfileEmailRequest = RequestInput<typeof UpdateProfileEmailSchema>
 
-export const UpdateProfilePhoneSchema = z
-  .object({
-    phone: PhoneSchema,
-  })
-  .merge(OTPVerificationSchema)
-export const UpdateProfilePhoneSchemaOutput = ProfileSchema
-export type UpdateProfilePhoneInput = z.infer<typeof UpdateProfilePhoneSchema>
+export const UpdateProfilePhoneSchema = createRequestSchema({
+  body: z
+    .object({
+      phone: PhoneSchema,
+    })
+    .merge(OTPVerificationSchema),
+  output: ProfileSchema,
+})
+export type UpdateProfilePhoneRequest = RequestInput<typeof UpdateProfilePhoneSchema>
 
-export const UpdateProfilePasswordSchema = UserSchema.pick({
-  password: true,
-}).merge(
-  z.object({
-    currentPassword: z.string().min(1),
-  }),
-)
-export type UpdateProfilePasswordInput = z.infer<typeof UpdateProfilePasswordSchema>
+export const UpdateProfilePasswordSchema = createRequestSchema({
+  body: UserSchema.pick({
+    password: true,
+  }).merge(
+    z.object({
+      currentPassword: z.string().min(1),
+    }),
+  ),
+})
+export type UpdateProfilePasswordRequest = RequestInput<typeof UpdateProfilePasswordSchema>

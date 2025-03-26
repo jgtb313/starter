@@ -1,11 +1,14 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common'
 
-import { RequestInput } from '@/interfaces'
+import { RequestSchemaInput, RequestInput } from '@/interfaces'
 
-export const Request = createParamDecorator((_, ctx: ExecutionContext): RequestInput => {
-  const request = ctx.switchToHttp().getRequest()
+export const createRequestSchema = <T extends RequestSchemaInput>(schemas: T) => schemas
 
-  const { query, params, body } = request
+export const Request = <T extends RequestSchemaInput>() =>
+  createParamDecorator((_, ctx: ExecutionContext): RequestInput<T> => {
+    const request = ctx.switchToHttp().getRequest()
 
-  return { query, params, body }
-})
+    const { query, params, body } = request
+
+    return { query, params, body }
+  })()

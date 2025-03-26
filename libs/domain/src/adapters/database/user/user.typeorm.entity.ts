@@ -11,6 +11,9 @@ export class UserEntity {
   workspaceId: User['workspaceId']
 
   @Column({ type: 'uuid', array: true, default: [] })
+  organizationIds: User['organizationIds']
+
+  @Column({ type: 'uuid', array: true, default: [] })
   roleIds: User['roleIds']
 
   @Column({ type: 'jsonb', default: [] })

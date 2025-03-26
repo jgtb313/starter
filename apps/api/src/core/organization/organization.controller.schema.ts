@@ -1,57 +1,68 @@
-import { z, PaginationSchema, BasePaginationSchemaOutput } from '@starter/schema'
+import { createRequestSchema, RequestInput } from '@starter/nestjs-server-hoisting'
 import { OrganizationSchema } from '@starter/domain'
+import { z, PaginationSchema, BasePaginationSchemaOutput } from '@starter/schema'
 
 import { FilterSchema } from '@/support/schema'
 
-export const ListOrganizationsParamsSchema = OrganizationSchema.pick({
-  workspaceId: true,
+export const ListOrganizationsSchema = createRequestSchema({
+  params: OrganizationSchema.pick({
+    workspaceId: true,
+  }),
+  query: OrganizationSchema.pick({
+    name: true,
+    status: true,
+  })
+    .partial()
+    .merge(
+      z
+        .object({
+          filter: FilterSchema(['name', 'status'], { example: 'Acme' }),
+        })
+        .partial(),
+    )
+    .merge(PaginationSchema),
+  output: BasePaginationSchemaOutput.merge(z.object({ values: z.array(OrganizationSchema) })),
 })
-export const ListOrganizationsQuerySchema = OrganizationSchema.pick({
-  name: true,
-  status: true,
-})
-  .partial()
-  .merge(
-    z
-      .object({
-        filter: FilterSchema(['name', 'status'], { example: 'Acme' }),
-      })
-      .partial(),
-  )
-  .merge(PaginationSchema)
-export const ListOrganizationsSchemaOutput = BasePaginationSchemaOutput.merge(z.object({ values: z.array(OrganizationSchema) }))
-export type ListOrganizationsParamsInput = z.infer<typeof ListOrganizationsParamsSchema>
-export type ListOrganizationsQueryInput = z.infer<typeof ListOrganizationsQuerySchema>
+export type ListOrganizationsRequest = RequestInput<typeof ListOrganizationsSchema>
 
-export const GetOrganizationParamsSchema = OrganizationSchema.pick({
-  workspaceId: true,
-  organizationId: true,
+export const GetOrganizationSchema = createRequestSchema({
+  params: OrganizationSchema.pick({
+    workspaceId: true,
+    organizationId: true,
+  }),
+  output: OrganizationSchema,
 })
-export const GetOrganizationSchemaOutput = OrganizationSchema
-export type GetOrganizationParamsInput = z.infer<typeof GetOrganizationParamsSchema>
+export type GetOrganizationRequest = RequestInput<typeof GetOrganizationSchema>
 
-export const CreateOrganizationParamsSchema = OrganizationSchema.pick({
-  workspaceId: true,
+export const CreateOrganizationSchema = createRequestSchema({
+  params: OrganizationSchema.pick({
+    workspaceId: true,
+  }),
+  body: OrganizationSchema.pick({
+    name: true,
+    status: true,
+  }),
+  output: OrganizationSchema,
 })
-export const CreateOrganizationBodySchema = OrganizationSchema.pick({
-  name: true,
-  status: true,
-})
-export const CreateOrganizationSchemaOutput = OrganizationSchema
-export type CreateOrganizationParamsInput = z.infer<typeof CreateOrganizationParamsSchema>
-export type CreateOrganizationBodyInput = z.infer<typeof CreateOrganizationBodySchema>
+export type CreateOrganizationRequest = RequestInput<typeof CreateOrganizationSchema>
 
-export const UpdateOrganizationParamsSchema = OrganizationSchema.pick({ workspaceId: true, organizationId: true })
-export const UpdateOrganizationBodySchema = OrganizationSchema.pick({
-  name: true,
-  status: true,
-}).partial()
-export const UpdateOrganizationSchemaOutput = OrganizationSchema
-export type UpdateOrganizationParamsInput = z.infer<typeof UpdateOrganizationParamsSchema>
-export type UpdateOrganizationBodyInput = z.infer<typeof UpdateOrganizationBodySchema>
-
-export const DeleteOrganizationParamsSchema = OrganizationSchema.pick({
-  workspaceId: true,
-  organizationId: true,
+export const UpdateOrganizationSchema = createRequestSchema({
+  params: OrganizationSchema.pick({
+    workspaceId: true,
+    organizationId: true,
+  }),
+  body: OrganizationSchema.pick({
+    name: true,
+    status: true,
+  }).partial(),
+  output: OrganizationSchema,
 })
-export type DeleteOrganizationParamsInput = z.infer<typeof DeleteOrganizationParamsSchema>
+export type UpdateOrganizationRequest = RequestInput<typeof UpdateOrganizationSchema>
+
+export const DeleteOrganizationSchema = createRequestSchema({
+  params: OrganizationSchema.pick({
+    workspaceId: true,
+    organizationId: true,
+  }),
+})
+export type DeleteOrganizationRequest = RequestInput<typeof DeleteOrganizationSchema>
