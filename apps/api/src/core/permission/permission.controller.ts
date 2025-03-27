@@ -1,5 +1,5 @@
 import { Controller, Route } from '@starter/nestjs-server-hoisting'
-import { PERMISSIONS } from '@starter/domain'
+import { PERMISSION_SUBJECT_ACTIONS } from '@starter/domain'
 import { z } from '@starter/schema'
 
 @Controller({
@@ -28,6 +28,6 @@ export class PermissionController {
     },
   })
   async getPermissions() {
-    return [...PERMISSIONS]
+    return Object.values(PERMISSION_SUBJECT_ACTIONS).flatMap((permissionSubjectAction) => permissionSubjectAction)
   }
 }

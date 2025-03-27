@@ -89,6 +89,7 @@ export class OrganizationController {
   getOrganization(@AuthenticatedUser() user: User, @Request() { params }: GetOrganizationRequest) {
     this.aclService.canPerformActionByPermission(user, 'organization:read', {
       workspaceId: params.workspaceId,
+      organizationId: params.organizationId,
     })
 
     return this.organizationService.findById(params)
@@ -146,6 +147,7 @@ export class OrganizationController {
   updateOrganization(@AuthenticatedUser() user: User, @Request() { params, body }: UpdateOrganizationRequest) {
     this.aclService.canPerformActionByPermission(user, 'organization:update', {
       workspaceId: params.workspaceId,
+      organizationId: params.organizationId,
     })
 
     return this.organizationService.updateById(params, {
@@ -175,6 +177,7 @@ export class OrganizationController {
   deleteOrganization(@AuthenticatedUser() user: User, @Request() { params }: DeleteOrganizationRequest) {
     this.aclService.canPerformActionByPermission(user, 'organization:delete', {
       workspaceId: params.workspaceId,
+      organizationId: params.organizationId,
     })
 
     return this.organizationService.deleteById(params)

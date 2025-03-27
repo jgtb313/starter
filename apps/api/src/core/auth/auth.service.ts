@@ -1,6 +1,6 @@
 import { ConflictException, Injectable, UnauthorizedException } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
-import { LoggerService, EncryptService, UserService, PERMISSIONS, User, UserStatusEnum } from '@starter/domain'
+import { LoggerService, EncryptService, UserService, User, UserStatusEnum } from '@starter/domain'
 
 import { SocialAuthEnum } from '@/ports/social-auth'
 import { SocialAuthService } from '@/adapters/social-auth'
@@ -66,7 +66,7 @@ export class AuthService {
     if (!user) {
       const user = await this.userService.create({
         organizations: [],
-        permissions: [...PERMISSIONS],
+        permissions: ['workspace:manage'],
         name,
         email: email ?? `${providerId}@${input.context.toLowerCase()}.com`,
         phone: null,
@@ -96,7 +96,7 @@ export class AuthService {
 
     const user = await this.userService.create({
       organizations: [],
-      permissions: [...PERMISSIONS],
+      permissions: ['workspace:manage'],
       name,
       email,
       phone: null,

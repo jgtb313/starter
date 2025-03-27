@@ -24,7 +24,7 @@ export const createDataSourceConfig = (options: CreateDataSourceConfigOptions): 
     migrations,
     migrationsTableName: 'migrations',
     migrationsRun: false,
-    synchronize: true,
+    synchronize: false,
     ...options,
   }
 }

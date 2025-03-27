@@ -1,4 +1,4 @@
-import { Controller, Route, Request, RequestInput } from '@starter/nestjs-server-hoisting'
+import { Controller, Route, Request } from '@starter/nestjs-server-hoisting'
 import { SubscriptionService, SubscriptionSchema } from '@starter/domain'
 
 import { ListSubscriptionsSchema, ListSubscriptionsSchemaOutput } from './subscription.controller.schema'
@@ -36,7 +36,7 @@ export class SubscriptionController {
       },
     },
   })
-  example(@Request() {}: RequestInput<{}, {}, {}>) {
+  example(@Request() {}) {
     return ''
   }
 }
