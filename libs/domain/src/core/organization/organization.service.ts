@@ -5,13 +5,17 @@ import { Pagination } from '@starter/schema'
 import { createWorkspaceReference, WithWorkspaceReference } from '@/support/workspace-reference'
 import { Organization, BaseOrganization } from '@/schemas'
 import { IOrganizationRepository } from '@/ports/database/organization'
+import { WorkspaceService } from '../workspace'
 
 type OrganizationWorkspaceReference = WithWorkspaceReference<'organizationId'>
 const getOrganizationWorkspaceReference = createWorkspaceReference('organizationId')
 
 @Injectable()
 export class OrganizationService {
-  constructor(@Inject('ORGANIZATION_REPOSITORY') private readonly organizationRepository: IOrganizationRepository) {}
+  constructor(
+    @Inject('ORGANIZATION_REPOSITORY') private readonly organizationRepository: IOrganizationRepository,
+    private readonly workspaceService: WorkspaceService,
+  ) {}
 
   async findAll(input: Pagination<Organization>) {
     const result = await this.organizationRepository.findAll({
@@ -41,9 +45,12 @@ export class OrganizationService {
     return organization
   }
 
-  async create(input: BaseOrganization) {
+  async create({ workspaceId, ...input }: BaseOrganization) {
+    const workspace = await this.workspaceService.findById(workspaceId)
+
     const result = await this.organizationRepository.create({
       ...input,
+      workspaceId: workspace.workspaceId,
     })
 
     return result
@@ -63,7 +70,7 @@ export class OrganizationService {
     await this.organizationRepository.deleteById(organization.organizationId)
   }
 
-  async validateOrganizationIds(roleIds: string[]) {
+  async validateIds(roleIds: string[]) {
     return this.organizationRepository.validateIds(roleIds)
   }
 }

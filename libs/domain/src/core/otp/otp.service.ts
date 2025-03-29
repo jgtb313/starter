@@ -1,5 +1,5 @@
 import { Injectable, Inject, BadRequestException, NotFoundException, ConflictException, ForbiddenException } from '@nestjs/common'
-import { random, getDate, addSeconds, isFuture, Required } from '@starter/common'
+import { random, getDate, addSeconds, isFuture, isBefore, Required } from '@starter/common'
 import crypto from 'crypto'
 
 import { getContext, User, OTP, BaseOTP, OTPChannelEnum, OTPContextEnum, OTPPhoneChannelEnum } from '@/schemas'
@@ -180,13 +180,15 @@ export class OTPService {
   }
 
   private checkIfCanResend(mostRecent: OTP | null, resendTime: number) {
-    // if (!mostRecent) {
-    //   return
-    // }
-    // const canResend = isBefore(addSeconds(getDate(mostRecent.createdAt), resendTime), new Date())
-    // if (!canResend) {
-    //   throw new ConflictException('OTP insufficient resend time, please try again later.')
-    // }
+    if (!mostRecent) {
+      return
+    }
+
+    const canResend = isBefore(addSeconds(getDate(mostRecent.createdAt), resendTime), new Date())
+
+    if (!canResend) {
+      throw new ConflictException('OTP insufficient resend time, please try again later.')
+    }
   }
 
   private checkIfHasValidRecipient(otp: OTP, recipient: string) {

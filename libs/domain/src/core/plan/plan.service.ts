@@ -15,15 +15,15 @@ export class PlanService {
   }
 
   async findById(planId: string) {
-    const result = await this.planRepository.findById(planId)
+    const plan = await this.planRepository.findById(planId)
 
-    return result
+    return plan
   }
 
   async findOne(input: Partial<Plan>) {
-    const result = await this.planRepository.findOne(input)
+    const plan = await this.planRepository.findOne(input)
 
-    return result
+    return plan
   }
 
   async create(input: BasePlan) {
