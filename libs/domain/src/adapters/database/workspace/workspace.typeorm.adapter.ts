@@ -81,6 +81,8 @@ export class WorkspaceTypeorm implements IWorkspaceRepository {
   }
 
   deleteById: IWorkspaceRepository['deleteById'] = async (workspaceId) => {
-    await this.repository.softDelete({ workspaceId })
+    const workspace = await this.findById(workspaceId)
+
+    await this.repository.softDelete({ workspaceId: workspace.workspaceId })
   }
 }

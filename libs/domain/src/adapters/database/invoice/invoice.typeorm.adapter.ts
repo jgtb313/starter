@@ -81,6 +81,8 @@ export class InvoiceTypeorm implements IInvoiceRepository {
   }
 
   deleteById: IInvoiceRepository['deleteById'] = async (invoiceId) => {
-    await this.repository.softDelete({ invoiceId })
+    const invoice = await this.findById(invoiceId)
+
+    await this.repository.softDelete({ invoiceId: invoice.invoiceId })
   }
 }

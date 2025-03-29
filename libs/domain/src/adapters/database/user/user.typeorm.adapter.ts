@@ -5,7 +5,6 @@ import { UserSchema } from '@/schemas'
 import { PaginationService } from '@/support/pagination'
 import { IUserRepository } from '@/ports/database/user'
 import { UserEntity } from './user.typeorm.entity'
-import { RoleEntity } from '../role'
 
 @Injectable()
 export class UserTypeorm implements IUserRepository {
@@ -40,7 +39,6 @@ export class UserTypeorm implements IUserRepository {
   }
 
   findById: IUserRepository['findById'] = async (userId) => {
-    // const model = await this.repository.findOne({ where: { userId } })
     const model = await this.repository
       .createQueryBuilder('user')
       .where('user.userId = :userId', { userId })
@@ -101,6 +99,8 @@ export class UserTypeorm implements IUserRepository {
   }
 
   deleteById: IUserRepository['deleteById'] = async (userId) => {
-    await this.repository.softDelete({ userId })
+    const user = await this.findById(userId)
+
+    await this.repository.softDelete({ userId: user.userId })
   }
 }

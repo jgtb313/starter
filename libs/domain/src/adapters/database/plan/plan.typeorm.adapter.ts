@@ -81,6 +81,8 @@ export class PlanTypeorm implements IPlanRepository {
   }
 
   deleteById: IPlanRepository['deleteById'] = async (planId) => {
-    await this.repository.softDelete({ planId })
+    const plan = await this.findById(planId)
+
+    await this.repository.softDelete({ planId: plan.planId })
   }
 }

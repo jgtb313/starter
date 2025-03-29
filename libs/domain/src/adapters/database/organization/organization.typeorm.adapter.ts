@@ -17,8 +17,8 @@ export class OrganizationTypeorm implements IOrganizationRepository {
     this.repository = this.dataSource.getRepository(OrganizationEntity)
   }
 
-  findAll: IOrganizationRepository['findAll'] = async ({ offset, limit, ...query }) => {
-    const { name, status } = query
+  findAll: IOrganizationRepository['findAll'] = async ({ offset, limit, ...input }) => {
+    const { name, status } = input
 
     const where: FindOptionsWhere<OrganizationEntity> = {}
 
@@ -53,7 +53,17 @@ export class OrganizationTypeorm implements IOrganizationRepository {
   }
 
   findOne: IOrganizationRepository['findOne'] = async (input) => {
-    const where = input as FindOptionsWhere<OrganizationEntity>
+    const { name, status } = input
+
+    const where: FindOptionsWhere<OrganizationEntity> = {}
+
+    if (name) {
+      where.name = ILike(`%${name}%`)
+    }
+
+    if (status) {
+      where.status = status
+    }
 
     const model = await this.repository.findOne({ where })
 
@@ -81,17 +91,19 @@ export class OrganizationTypeorm implements IOrganizationRepository {
   }
 
   deleteById: IOrganizationRepository['deleteById'] = async (organizationId) => {
-    await this.repository.softDelete({ organizationId })
+    const organization = await this.findById(organizationId)
+
+    await this.repository.softDelete({ organizationId: organization.organizationId })
   }
 
   validateIds: IOrganizationRepository['validateIds'] = async (organizationIds) => {
     const models = await this.repository.find({ where: { organizationId: In(organizationIds) } })
 
-    const foundRoleIds = models.map((organization) => organization.organizationId)
-    const missingRoleIds = organizationIds.filter((organizationId) => !foundRoleIds.includes(organizationId))
+    const foundOrganizationIds = models.map((organization) => organization.organizationId)
+    const missingOrganizationIds = organizationIds.filter((organizationId) => !foundOrganizationIds.includes(organizationId))
 
-    if (missingRoleIds.length) {
-      throw new NotFoundException(`The following organizationIds were not found: ${missingRoleIds.join(', ')}`)
+    if (missingOrganizationIds.length) {
+      throw new NotFoundException(`The following organizationIds were not found: ${missingOrganizationIds.join(', ')}`)
     }
   }
 }

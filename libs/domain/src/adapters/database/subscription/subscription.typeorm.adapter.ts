@@ -77,6 +77,8 @@ export class SubscriptionTypeorm implements ISubscriptionRepository {
   }
 
   deleteById: ISubscriptionRepository['deleteById'] = async (subscriptionId) => {
-    await this.repository.softDelete({ subscriptionId })
+    const subscription = await this.findById(subscriptionId)
+
+    await this.repository.softDelete({ subscriptionId: subscription.subscriptionId })
   }
 }

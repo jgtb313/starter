@@ -48,12 +48,12 @@ export class OrganizationService {
   async create({ workspaceId, ...input }: BaseOrganization) {
     const workspace = await this.workspaceService.findById(workspaceId)
 
-    const result = await this.organizationRepository.create({
+    const organization = await this.organizationRepository.create({
       ...input,
       workspaceId: workspace.workspaceId,
     })
 
-    return result
+    return organization
   }
 
   async updateById(reference: OrganizationWorkspaceReference, input: Partial<Organization>) {

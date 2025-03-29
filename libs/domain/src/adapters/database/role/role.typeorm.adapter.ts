@@ -85,7 +85,9 @@ export class RoleTypeorm implements IRoleRepository {
   }
 
   deleteById: IRoleRepository['deleteById'] = async (roleId) => {
-    await this.repository.softDelete({ roleId })
+    const role = await this.findById(roleId)
+
+    await this.repository.softDelete({ roleId: role.roleId })
   }
 
   validateIdsByOrganizationId: IRoleRepository['validateIdsByOrganizationId'] = async (organizationId, roleIds) => {
