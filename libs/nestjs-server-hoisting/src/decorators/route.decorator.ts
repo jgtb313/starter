@@ -1,5 +1,7 @@
+import { Reflector } from '@nestjs/core'
 import { HttpCode, Get, Post, Put, Patch, Delete, Version, applyDecorators } from '@nestjs/common'
-import { ApiOperation, ApiParam, ApiQuery, ApiBody, ApiResponse } from '@nestjs/swagger'
+import { GUARDS_METADATA } from '@nestjs/common/constants'
+import { ApiOperation, ApiBearerAuth, ApiHeader, ApiParam, ApiQuery, ApiBody, ApiResponse } from '@nestjs/swagger'
 import { UseZodGuard, zodToOpenAPI } from 'nestjs-zod'
 import { z } from '@starter/schema'
 import { get } from '@starter/common'
@@ -76,6 +78,11 @@ export const Route = (options: RouteOptions): MethodDecorator => {
     const decorators = []
 
     const version = options.version ?? 'v1'
+
+    const reflector = new Reflector()
+    const guards = reflector.get(GUARDS_METADATA, target.constructor.prototype[propertyKey as keyof typeof target]) ?? []
+
+    const authenticated = !!guards.length
 
     decorators.push(
       ApiOperation({
@@ -227,6 +234,18 @@ export const Route = (options: RouteOptions): MethodDecorator => {
     }
 
     decorators.push(Version(version.replace('v', '')))
+
+    if (authenticated) {
+      decorators.push(ApiBearerAuth())
+      decorators.push(
+        ApiHeader({
+          name: 'authorization',
+          description: 'The authorization token for user authentication.',
+          example: 'Bearer <your_token_here>',
+          required: true,
+        }),
+      )
+    }
 
     applyDecorators(...decorators)(target, propertyKey, descriptor)
 

@@ -25,10 +25,7 @@
                     "name": "password"
                   }
                 },
-                "required": [
-                  "email",
-                  "password"
-                ]
+                "required": ["email", "password"]
               }
             }
           }
@@ -45,9 +42,7 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "accessToken"
-                  ]
+                  "required": ["accessToken"]
                 }
               }
             }
@@ -75,11 +70,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "issues"
-                  ]
+                  "required": ["statusCode", "error", "issues"]
                 }
               }
             }
@@ -107,11 +98,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
@@ -139,25 +126,14 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
           }
         },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
         "summary": "Sign In",
-        "tags": [
-          "Auth"
-        ]
+        "tags": ["Auth"]
       }
     },
     "/v1/auth/password-less": {
@@ -192,17 +168,11 @@
                         "maxLength": 4
                       }
                     },
-                    "required": [
-                      "otpId",
-                      "code"
-                    ],
+                    "required": ["otpId", "code"],
                     "name": "otpVerification"
                   }
                 },
-                "required": [
-                  "email",
-                  "otpVerification"
-                ]
+                "required": ["email", "otpVerification"]
               }
             }
           }
@@ -219,9 +189,7 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "accessToken"
-                  ]
+                  "required": ["accessToken"]
                 }
               }
             }
@@ -249,11 +217,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "issues"
-                  ]
+                  "required": ["statusCode", "error", "issues"]
                 }
               }
             }
@@ -281,11 +245,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
@@ -313,11 +273,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
@@ -345,11 +301,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
@@ -377,11 +329,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 },
                 "examples": {
                   "OTP insufficient resend time, please try again later.": {
@@ -403,11 +351,7 @@
                         }
                       }
                     },
-                    "required": [
-                      "statusCode",
-                      "error",
-                      "message"
-                    ]
+                    "required": ["statusCode", "error", "message"]
                   },
                   "OTP daily attempt limit exceeded.": {
                     "type": "object",
@@ -428,11 +372,7 @@
                         }
                       }
                     },
-                    "required": [
-                      "statusCode",
-                      "error",
-                      "message"
-                    ]
+                    "required": ["statusCode", "error", "message"]
                   },
                   "OTP attempts expired.": {
                     "type": "object",
@@ -453,11 +393,7 @@
                         }
                       }
                     },
-                    "required": [
-                      "statusCode",
-                      "error",
-                      "message"
-                    ]
+                    "required": ["statusCode", "error", "message"]
                   }
                 }
               }
@@ -486,25 +422,14 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
           }
         },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
         "summary": "Password Less",
-        "tags": [
-          "Auth"
-        ]
+        "tags": ["Auth"]
       }
     },
     "/v1/auth/social-sign-on": {
@@ -521,14 +446,8 @@
                 "properties": {
                   "context": {
                     "type": "string",
-                    "enum": [
-                      "GOOGLE",
-                      "FACEBOOK"
-                    ],
-                    "x-enumNames": [
-                      "GOOGLE",
-                      "FACEBOOK"
-                    ],
+                    "enum": ["GOOGLE", "FACEBOOK"],
+                    "x-enumNames": ["GOOGLE", "FACEBOOK"],
                     "name": "context"
                   },
                   "providerToken": {
@@ -537,10 +456,7 @@
                     "name": "providerToken"
                   }
                 },
-                "required": [
-                  "context",
-                  "providerToken"
-                ]
+                "required": ["context", "providerToken"]
               }
             }
           }
@@ -557,9 +473,7 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "accessToken"
-                  ]
+                  "required": ["accessToken"]
                 }
               }
             }
@@ -587,11 +501,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "issues"
-                  ]
+                  "required": ["statusCode", "error", "issues"]
                 }
               }
             }
@@ -619,11 +529,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
@@ -651,25 +557,14 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
           }
         },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
         "summary": "Social Sign-On",
-        "tags": [
-          "Auth"
-        ]
+        "tags": ["Auth"]
       }
     },
     "/v1/auth/sign-up": {
@@ -701,11 +596,7 @@
                     "name": "password"
                   }
                 },
-                "required": [
-                  "name",
-                  "email",
-                  "password"
-                ]
+                "required": ["name", "email", "password"]
               }
             }
           }
@@ -722,9 +613,7 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "accessToken"
-                  ]
+                  "required": ["accessToken"]
                 }
               }
             }
@@ -752,11 +641,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "issues"
-                  ]
+                  "required": ["statusCode", "error", "issues"]
                 }
               }
             }
@@ -784,11 +669,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
@@ -816,25 +697,14 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
           }
         },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
         "summary": "Sign Up",
-        "tags": [
-          "Auth"
-        ]
+        "tags": ["Auth"]
       }
     },
     "/v1/auth/forgot-password": {
@@ -874,18 +744,11 @@
                         "maxLength": 4
                       }
                     },
-                    "required": [
-                      "otpId",
-                      "code"
-                    ],
+                    "required": ["otpId", "code"],
                     "name": "otpVerification"
                   }
                 },
-                "required": [
-                  "email",
-                  "password",
-                  "otpVerification"
-                ]
+                "required": ["email", "password", "otpVerification"]
               }
             }
           }
@@ -902,9 +765,7 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "accessToken"
-                  ]
+                  "required": ["accessToken"]
                 }
               }
             }
@@ -932,11 +793,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "issues"
-                  ]
+                  "required": ["statusCode", "error", "issues"]
                 }
               }
             }
@@ -964,11 +821,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
@@ -996,11 +849,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
@@ -1028,11 +877,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
@@ -1060,11 +905,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 },
                 "examples": {
                   "OTP insufficient resend time, please try again later.": {
@@ -1086,11 +927,7 @@
                         }
                       }
                     },
-                    "required": [
-                      "statusCode",
-                      "error",
-                      "message"
-                    ]
+                    "required": ["statusCode", "error", "message"]
                   },
                   "OTP daily attempt limit exceeded.": {
                     "type": "object",
@@ -1111,11 +948,7 @@
                         }
                       }
                     },
-                    "required": [
-                      "statusCode",
-                      "error",
-                      "message"
-                    ]
+                    "required": ["statusCode", "error", "message"]
                   },
                   "OTP attempts expired.": {
                     "type": "object",
@@ -1136,11 +969,7 @@
                         }
                       }
                     },
-                    "required": [
-                      "statusCode",
-                      "error",
-                      "message"
-                    ]
+                    "required": ["statusCode", "error", "message"]
                   }
                 }
               }
@@ -1169,25 +998,14 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
           }
         },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
         "summary": "Forgot Password",
-        "tags": [
-          "Auth"
-        ]
+        "tags": ["Auth"]
       }
     },
     "/v1/files": {
@@ -1208,23 +1026,12 @@
                   },
                   "context": {
                     "type": "string",
-                    "enum": [
-                      "USER_AVATAR",
-                      "WORKSPACE_LOGO",
-                      "ORGANIZATION_LOGO"
-                    ],
-                    "x-enumNames": [
-                      "USER_AVATAR",
-                      "WORKSPACE_LOGO",
-                      "ORGANIZATION_LOGO"
-                    ],
+                    "enum": ["USER_AVATAR", "WORKSPACE_LOGO", "ORGANIZATION_LOGO"],
+                    "x-enumNames": ["USER_AVATAR", "WORKSPACE_LOGO", "ORGANIZATION_LOGO"],
                     "name": "context"
                   }
                 },
-                "required": [
-                  "filename",
-                  "context"
-                ]
+                "required": ["filename", "context"]
               }
             }
           }
@@ -1244,10 +1051,7 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "filename",
-                    "filenameSigned"
-                  ]
+                  "required": ["filename", "filenameSigned"]
                 }
               }
             }
@@ -1275,11 +1079,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "issues"
-                  ]
+                  "required": ["statusCode", "error", "issues"]
                 }
               }
             }
@@ -1307,25 +1107,14 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
           }
         },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
         "summary": "Get a presigned URL",
-        "tags": [
-          "File"
-        ]
+        "tags": ["File"]
       }
     },
     "/v1/workspaces/{workspaceId}/organizations": {
@@ -1333,6 +1122,15 @@
         "description": "Retrieves a list of organizations.",
         "operationId": "listOrganizations",
         "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "The authorization token for user authentication.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
           {
             "name": "filter",
             "required": false,
@@ -1354,15 +1152,9 @@
             "name": "status",
             "required": false,
             "in": "query",
-            "x-enumNames": [
-              "ACTIVE",
-              "INACTIVE"
-            ],
+            "x-enumNames": ["ACTIVE", "INACTIVE"],
             "schema": {
-              "enum": [
-                "ACTIVE",
-                "INACTIVE"
-              ],
+              "enum": ["ACTIVE", "INACTIVE"],
               "type": "string"
             }
           },
@@ -1424,14 +1216,8 @@
                           },
                           "status": {
                             "type": "string",
-                            "enum": [
-                              "ACTIVE",
-                              "INACTIVE"
-                            ],
-                            "x-enumNames": [
-                              "ACTIVE",
-                              "INACTIVE"
-                            ],
+                            "enum": ["ACTIVE", "INACTIVE"],
+                            "x-enumNames": ["ACTIVE", "INACTIVE"],
                             "default": "ACTIVE"
                           },
                           "deletedAt": {
@@ -1440,14 +1226,7 @@
                           "createdAt": {},
                           "updatedAt": {}
                         },
-                        "required": [
-                          "organizationId",
-                          "workspaceId",
-                          "name",
-                          "deletedAt",
-                          "createdAt",
-                          "updatedAt"
-                        ]
+                        "required": ["organizationId", "workspaceId", "name", "deletedAt", "createdAt", "updatedAt"]
                       }
                     },
                     "meta": {
@@ -1463,17 +1242,10 @@
                           "type": "integer"
                         }
                       },
-                      "required": [
-                        "total",
-                        "offset",
-                        "limit"
-                      ]
+                      "required": ["total", "offset", "limit"]
                     }
                   },
-                  "required": [
-                    "values",
-                    "meta"
-                  ]
+                  "required": ["values", "meta"]
                 }
               }
             }
@@ -1501,11 +1273,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "issues"
-                  ]
+                  "required": ["statusCode", "error", "issues"]
                 }
               }
             }
@@ -1533,11 +1301,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
@@ -1549,14 +1313,21 @@
           }
         ],
         "summary": "List Organizations",
-        "tags": [
-          "Organization"
-        ]
+        "tags": ["Organization"]
       },
       "post": {
         "description": "Creates a new organization.",
         "operationId": "createOrganization",
         "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "The authorization token for user authentication.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
           {
             "name": "workspaceId",
             "required": true,
@@ -1582,21 +1353,13 @@
                   },
                   "status": {
                     "type": "string",
-                    "enum": [
-                      "ACTIVE",
-                      "INACTIVE"
-                    ],
-                    "x-enumNames": [
-                      "ACTIVE",
-                      "INACTIVE"
-                    ],
+                    "enum": ["ACTIVE", "INACTIVE"],
+                    "x-enumNames": ["ACTIVE", "INACTIVE"],
                     "default": "ACTIVE",
                     "name": "status"
                   }
                 },
-                "required": [
-                  "name"
-                ]
+                "required": ["name"]
               }
             }
           }
@@ -1625,14 +1388,8 @@
                     },
                     "status": {
                       "type": "string",
-                      "enum": [
-                        "ACTIVE",
-                        "INACTIVE"
-                      ],
-                      "x-enumNames": [
-                        "ACTIVE",
-                        "INACTIVE"
-                      ],
+                      "enum": ["ACTIVE", "INACTIVE"],
+                      "x-enumNames": ["ACTIVE", "INACTIVE"],
                       "default": "ACTIVE"
                     },
                     "deletedAt": {
@@ -1641,14 +1398,7 @@
                     "createdAt": {},
                     "updatedAt": {}
                   },
-                  "required": [
-                    "organizationId",
-                    "workspaceId",
-                    "name",
-                    "deletedAt",
-                    "createdAt",
-                    "updatedAt"
-                  ]
+                  "required": ["organizationId", "workspaceId", "name", "deletedAt", "createdAt", "updatedAt"]
                 }
               }
             }
@@ -1676,11 +1426,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "issues"
-                  ]
+                  "required": ["statusCode", "error", "issues"]
                 }
               }
             }
@@ -1708,11 +1454,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
@@ -1724,9 +1466,7 @@
           }
         ],
         "summary": "Create Organization",
-        "tags": [
-          "Organization"
-        ]
+        "tags": ["Organization"]
       }
     },
     "/v1/workspaces/{workspaceId}/organizations/{organizationId}": {
@@ -1734,6 +1474,15 @@
         "description": "Retrieves a single organization by their ID.",
         "operationId": "getOrganization",
         "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "The authorization token for user authentication.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
           {
             "name": "workspaceId",
             "required": true,
@@ -1779,14 +1528,8 @@
                     },
                     "status": {
                       "type": "string",
-                      "enum": [
-                        "ACTIVE",
-                        "INACTIVE"
-                      ],
-                      "x-enumNames": [
-                        "ACTIVE",
-                        "INACTIVE"
-                      ],
+                      "enum": ["ACTIVE", "INACTIVE"],
+                      "x-enumNames": ["ACTIVE", "INACTIVE"],
                       "default": "ACTIVE"
                     },
                     "deletedAt": {
@@ -1795,14 +1538,7 @@
                     "createdAt": {},
                     "updatedAt": {}
                   },
-                  "required": [
-                    "organizationId",
-                    "workspaceId",
-                    "name",
-                    "deletedAt",
-                    "createdAt",
-                    "updatedAt"
-                  ]
+                  "required": ["organizationId", "workspaceId", "name", "deletedAt", "createdAt", "updatedAt"]
                 }
               }
             }
@@ -1830,11 +1566,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "issues"
-                  ]
+                  "required": ["statusCode", "error", "issues"]
                 }
               }
             }
@@ -1862,11 +1594,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
@@ -1878,14 +1606,21 @@
           }
         ],
         "summary": "Get Organization",
-        "tags": [
-          "Organization"
-        ]
+        "tags": ["Organization"]
       },
       "patch": {
         "description": "Updates an existing organization by their ID.",
         "operationId": "updateOrganization",
         "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "The authorization token for user authentication.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
           {
             "name": "workspaceId",
             "required": true,
@@ -1921,14 +1656,8 @@
                   },
                   "status": {
                     "type": "string",
-                    "enum": [
-                      "ACTIVE",
-                      "INACTIVE"
-                    ],
-                    "x-enumNames": [
-                      "ACTIVE",
-                      "INACTIVE"
-                    ],
+                    "enum": ["ACTIVE", "INACTIVE"],
+                    "x-enumNames": ["ACTIVE", "INACTIVE"],
                     "default": "ACTIVE",
                     "name": "status"
                   }
@@ -1961,14 +1690,8 @@
                     },
                     "status": {
                       "type": "string",
-                      "enum": [
-                        "ACTIVE",
-                        "INACTIVE"
-                      ],
-                      "x-enumNames": [
-                        "ACTIVE",
-                        "INACTIVE"
-                      ],
+                      "enum": ["ACTIVE", "INACTIVE"],
+                      "x-enumNames": ["ACTIVE", "INACTIVE"],
                       "default": "ACTIVE"
                     },
                     "deletedAt": {
@@ -1977,14 +1700,7 @@
                     "createdAt": {},
                     "updatedAt": {}
                   },
-                  "required": [
-                    "organizationId",
-                    "workspaceId",
-                    "name",
-                    "deletedAt",
-                    "createdAt",
-                    "updatedAt"
-                  ]
+                  "required": ["organizationId", "workspaceId", "name", "deletedAt", "createdAt", "updatedAt"]
                 }
               }
             }
@@ -2012,11 +1728,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "issues"
-                  ]
+                  "required": ["statusCode", "error", "issues"]
                 }
               }
             }
@@ -2044,11 +1756,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
@@ -2060,14 +1768,21 @@
           }
         ],
         "summary": "Update Organization",
-        "tags": [
-          "Organization"
-        ]
+        "tags": ["Organization"]
       },
       "delete": {
         "description": "Deletes a organization by their ID.",
         "operationId": "deleteOrganization",
         "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "The authorization token for user authentication.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
           {
             "name": "workspaceId",
             "required": true,
@@ -2119,11 +1834,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "issues"
-                  ]
+                  "required": ["statusCode", "error", "issues"]
                 }
               }
             }
@@ -2151,11 +1862,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
@@ -2167,9 +1874,7 @@
           }
         ],
         "summary": "Delete Organization",
-        "tags": [
-          "Organization"
-        ]
+        "tags": ["Organization"]
       }
     },
     "/v1/otps/{otpId}/validate": {
@@ -2197,18 +1902,8 @@
                 "properties": {
                   "context": {
                     "type": "string",
-                    "enum": [
-                      "PASSWORD_LESS",
-                      "FORGOT_PASSWORD",
-                      "UPDATE_EMAIL",
-                      "UPDATE_PHONE"
-                    ],
-                    "x-enumNames": [
-                      "PASSWORD_LESS",
-                      "FORGOT_PASSWORD",
-                      "UPDATE_EMAIL",
-                      "UPDATE_PHONE"
-                    ],
+                    "enum": ["PASSWORD_LESS", "FORGOT_PASSWORD", "UPDATE_EMAIL", "UPDATE_PHONE"],
+                    "x-enumNames": ["PASSWORD_LESS", "FORGOT_PASSWORD", "UPDATE_EMAIL", "UPDATE_PHONE"],
                     "name": "context"
                   },
                   "recipient": {
@@ -2222,11 +1917,7 @@
                     "name": "code"
                   }
                 },
-                "required": [
-                  "context",
-                  "recipient",
-                  "code"
-                ]
+                "required": ["context", "recipient", "code"]
               }
             }
           }
@@ -2261,11 +1952,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "issues"
-                  ]
+                  "required": ["statusCode", "error", "issues"]
                 }
               }
             }
@@ -2293,11 +1980,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
@@ -2325,11 +2008,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
@@ -2357,11 +2036,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 },
                 "examples": {
                   "OTP insufficient resend time, please try again later.": {
@@ -2383,11 +2058,7 @@
                         }
                       }
                     },
-                    "required": [
-                      "statusCode",
-                      "error",
-                      "message"
-                    ]
+                    "required": ["statusCode", "error", "message"]
                   },
                   "OTP daily attempt limit exceeded.": {
                     "type": "object",
@@ -2408,11 +2079,7 @@
                         }
                       }
                     },
-                    "required": [
-                      "statusCode",
-                      "error",
-                      "message"
-                    ]
+                    "required": ["statusCode", "error", "message"]
                   },
                   "OTP attempts expired.": {
                     "type": "object",
@@ -2433,11 +2100,7 @@
                         }
                       }
                     },
-                    "required": [
-                      "statusCode",
-                      "error",
-                      "message"
-                    ]
+                    "required": ["statusCode", "error", "message"]
                   }
                 }
               }
@@ -2466,25 +2129,14 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
           }
         },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
         "summary": "Validate OTP",
-        "tags": [
-          "OTP"
-        ]
+        "tags": ["OTP"]
       }
     },
     "/v1/otps/password-less": {
@@ -2506,9 +2158,7 @@
                     "name": "email"
                   }
                 },
-                "required": [
-                  "email"
-                ]
+                "required": ["email"]
               }
             }
           }
@@ -2527,9 +2177,7 @@
                       "format": "uuid"
                     }
                   },
-                  "required": [
-                    "otpId"
-                  ]
+                  "required": ["otpId"]
                 }
               }
             }
@@ -2557,11 +2205,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "issues"
-                  ]
+                  "required": ["statusCode", "error", "issues"]
                 }
               }
             }
@@ -2589,11 +2233,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
@@ -2621,11 +2261,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 },
                 "examples": {
                   "OTP insufficient resend time, please try again later.": {
@@ -2647,11 +2283,7 @@
                         }
                       }
                     },
-                    "required": [
-                      "statusCode",
-                      "error",
-                      "message"
-                    ]
+                    "required": ["statusCode", "error", "message"]
                   },
                   "OTP daily attempt limit exceeded.": {
                     "type": "object",
@@ -2672,11 +2304,7 @@
                         }
                       }
                     },
-                    "required": [
-                      "statusCode",
-                      "error",
-                      "message"
-                    ]
+                    "required": ["statusCode", "error", "message"]
                   }
                 }
               }
@@ -2705,25 +2333,14 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
           }
         },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
         "summary": "Send Password Less OTP",
-        "tags": [
-          "OTP"
-        ]
+        "tags": ["OTP"]
       }
     },
     "/v1/otps/forgot-password": {
@@ -2745,9 +2362,7 @@
                     "name": "email"
                   }
                 },
-                "required": [
-                  "email"
-                ]
+                "required": ["email"]
               }
             }
           }
@@ -2766,9 +2381,7 @@
                       "format": "uuid"
                     }
                   },
-                  "required": [
-                    "otpId"
-                  ]
+                  "required": ["otpId"]
                 }
               }
             }
@@ -2796,11 +2409,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "issues"
-                  ]
+                  "required": ["statusCode", "error", "issues"]
                 }
               }
             }
@@ -2828,11 +2437,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
@@ -2860,11 +2465,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 },
                 "examples": {
                   "OTP insufficient resend time, please try again later.": {
@@ -2886,11 +2487,7 @@
                         }
                       }
                     },
-                    "required": [
-                      "statusCode",
-                      "error",
-                      "message"
-                    ]
+                    "required": ["statusCode", "error", "message"]
                   },
                   "OTP daily attempt limit exceeded.": {
                     "type": "object",
@@ -2911,11 +2508,7 @@
                         }
                       }
                     },
-                    "required": [
-                      "statusCode",
-                      "error",
-                      "message"
-                    ]
+                    "required": ["statusCode", "error", "message"]
                   }
                 }
               }
@@ -2944,32 +2537,31 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
           }
         },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
         "summary": "Send Forgot Password OTP",
-        "tags": [
-          "OTP"
-        ]
+        "tags": ["OTP"]
       }
     },
     "/v1/otps/update-email": {
       "post": {
         "description": "Generates and sends a one-time password (OTP) to the user’s email address for the purpose of validating an email address reset request.",
         "operationId": "sendUpdateEmailOTP",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "The authorization token for user authentication.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -2984,9 +2576,7 @@
                     "name": "email"
                   }
                 },
-                "required": [
-                  "email"
-                ]
+                "required": ["email"]
               }
             }
           }
@@ -3005,9 +2595,7 @@
                       "format": "uuid"
                     }
                   },
-                  "required": [
-                    "otpId"
-                  ]
+                  "required": ["otpId"]
                 }
               }
             }
@@ -3035,11 +2623,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "issues"
-                  ]
+                  "required": ["statusCode", "error", "issues"]
                 }
               }
             }
@@ -3067,11 +2651,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 },
                 "examples": {
                   "OTP insufficient resend time, please try again later.": {
@@ -3093,11 +2673,7 @@
                         }
                       }
                     },
-                    "required": [
-                      "statusCode",
-                      "error",
-                      "message"
-                    ]
+                    "required": ["statusCode", "error", "message"]
                   },
                   "OTP daily attempt limit exceeded.": {
                     "type": "object",
@@ -3118,11 +2694,7 @@
                         }
                       }
                     },
-                    "required": [
-                      "statusCode",
-                      "error",
-                      "message"
-                    ]
+                    "required": ["statusCode", "error", "message"]
                   },
                   "E-mail {{email}} has already been taken.": {
                     "type": "object",
@@ -3143,11 +2715,7 @@
                         }
                       }
                     },
-                    "required": [
-                      "statusCode",
-                      "error",
-                      "message"
-                    ]
+                    "required": ["statusCode", "error", "message"]
                   }
                 }
               }
@@ -3176,11 +2744,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
@@ -3192,16 +2756,24 @@
           }
         ],
         "summary": "Send Email Update OTP",
-        "tags": [
-          "OTP"
-        ]
+        "tags": ["OTP"]
       }
     },
     "/v1/otps/update-phone": {
       "post": {
         "description": "Generates and sends a one-time password (OTP) to the user’s phone number for the purpose of validating a phone number update request.",
         "operationId": "sendUpdatePhoneOTP",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "The authorization token for user authentication.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -3211,14 +2783,8 @@
                 "properties": {
                   "channel": {
                     "type": "string",
-                    "enum": [
-                      "SMS",
-                      "WHATSAPP"
-                    ],
-                    "x-enumNames": [
-                      "SMS",
-                      "WHATSAPP"
-                    ],
+                    "enum": ["SMS", "WHATSAPP"],
+                    "x-enumNames": ["SMS", "WHATSAPP"],
                     "name": "channel"
                   },
                   "phone": {
@@ -3237,18 +2803,11 @@
                         "minLength": 1
                       }
                     },
-                    "required": [
-                      "iso",
-                      "ddi",
-                      "number"
-                    ],
+                    "required": ["iso", "ddi", "number"],
                     "name": "phone"
                   }
                 },
-                "required": [
-                  "channel",
-                  "phone"
-                ]
+                "required": ["channel", "phone"]
               }
             }
           }
@@ -3267,9 +2826,7 @@
                       "format": "uuid"
                     }
                   },
-                  "required": [
-                    "otpId"
-                  ]
+                  "required": ["otpId"]
                 }
               }
             }
@@ -3297,11 +2854,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "issues"
-                  ]
+                  "required": ["statusCode", "error", "issues"]
                 }
               }
             }
@@ -3329,11 +2882,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 },
                 "examples": {
                   "OTP insufficient resend time, please try again later.": {
@@ -3355,11 +2904,7 @@
                         }
                       }
                     },
-                    "required": [
-                      "statusCode",
-                      "error",
-                      "message"
-                    ]
+                    "required": ["statusCode", "error", "message"]
                   },
                   "OTP daily attempt limit exceeded.": {
                     "type": "object",
@@ -3380,11 +2925,7 @@
                         }
                       }
                     },
-                    "required": [
-                      "statusCode",
-                      "error",
-                      "message"
-                    ]
+                    "required": ["statusCode", "error", "message"]
                   },
                   "Phone {{phone}} has already been taken.": {
                     "type": "object",
@@ -3405,11 +2946,7 @@
                         }
                       }
                     },
-                    "required": [
-                      "statusCode",
-                      "error",
-                      "message"
-                    ]
+                    "required": ["statusCode", "error", "message"]
                   }
                 }
               }
@@ -3438,11 +2975,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
@@ -3454,9 +2987,7 @@
           }
         ],
         "summary": "Send Update Phone OTP",
-        "tags": [
-          "OTP"
-        ]
+        "tags": ["OTP"]
       }
     },
     "/v1/permissions": {
@@ -3501,11 +3032,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "issues"
-                  ]
+                  "required": ["statusCode", "error", "issues"]
                 }
               }
             }
@@ -3533,25 +3060,14 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
           }
         },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
         "summary": "List Permissions",
-        "tags": [
-          "Permission"
-        ]
+        "tags": ["Permission"]
       }
     },
     "/v1/plans": {
@@ -3610,19 +3126,9 @@
             "name": "interval",
             "required": false,
             "in": "query",
-            "x-enumNames": [
-              "DAY",
-              "WEEK",
-              "MONTH",
-              "YEAR"
-            ],
+            "x-enumNames": ["DAY", "WEEK", "MONTH", "YEAR"],
             "schema": {
-              "enum": [
-                "DAY",
-                "WEEK",
-                "MONTH",
-                "YEAR"
-              ],
+              "enum": ["DAY", "WEEK", "MONTH", "YEAR"],
               "type": "string"
             }
           },
@@ -3661,9 +3167,7 @@
                       },
                       "code": {
                         "type": "string",
-                        "enum": [
-                          "ORGANIZATION_COUNT"
-                        ]
+                        "enum": ["ORGANIZATION_COUNT"]
                       },
                       "props": {
                         "type": "object",
@@ -3674,16 +3178,10 @@
                             "exclusiveMinimum": false
                           }
                         },
-                        "required": [
-                          "maxOrganizations"
-                        ]
+                        "required": ["maxOrganizations"]
                       }
                     },
-                    "required": [
-                      "description",
-                      "code",
-                      "props"
-                    ]
+                    "required": ["description", "code", "props"]
                   }
                 ]
               }
@@ -3702,15 +3200,9 @@
             "name": "status",
             "required": false,
             "in": "query",
-            "x-enumNames": [
-              "ACTIVE",
-              "INACTIVE"
-            ],
+            "x-enumNames": ["ACTIVE", "INACTIVE"],
             "schema": {
-              "enum": [
-                "ACTIVE",
-                "INACTIVE"
-              ],
+              "enum": ["ACTIVE", "INACTIVE"],
               "type": "string"
             }
           },
@@ -3790,18 +3282,8 @@
                           },
                           "interval": {
                             "type": "string",
-                            "enum": [
-                              "DAY",
-                              "WEEK",
-                              "MONTH",
-                              "YEAR"
-                            ],
-                            "x-enumNames": [
-                              "DAY",
-                              "WEEK",
-                              "MONTH",
-                              "YEAR"
-                            ]
+                            "enum": ["DAY", "WEEK", "MONTH", "YEAR"],
+                            "x-enumNames": ["DAY", "WEEK", "MONTH", "YEAR"]
                           },
                           "intervalCount": {
                             "type": "number",
@@ -3823,9 +3305,7 @@
                                     },
                                     "code": {
                                       "type": "string",
-                                      "enum": [
-                                        "ORGANIZATION_COUNT"
-                                      ]
+                                      "enum": ["ORGANIZATION_COUNT"]
                                     },
                                     "props": {
                                       "type": "object",
@@ -3836,16 +3316,10 @@
                                           "exclusiveMinimum": false
                                         }
                                       },
-                                      "required": [
-                                        "maxOrganizations"
-                                      ]
+                                      "required": ["maxOrganizations"]
                                     }
                                   },
-                                  "required": [
-                                    "description",
-                                    "code",
-                                    "props"
-                                  ]
+                                  "required": ["description", "code", "props"]
                                 }
                               ]
                             },
@@ -3857,14 +3331,8 @@
                           },
                           "status": {
                             "type": "string",
-                            "enum": [
-                              "ACTIVE",
-                              "INACTIVE"
-                            ],
-                            "x-enumNames": [
-                              "ACTIVE",
-                              "INACTIVE"
-                            ],
+                            "enum": ["ACTIVE", "INACTIVE"],
+                            "x-enumNames": ["ACTIVE", "INACTIVE"],
                             "default": "ACTIVE"
                           },
                           "deletedAt": {
@@ -3900,17 +3368,10 @@
                           "type": "integer"
                         }
                       },
-                      "required": [
-                        "total",
-                        "offset",
-                        "limit"
-                      ]
+                      "required": ["total", "offset", "limit"]
                     }
                   },
-                  "required": [
-                    "values",
-                    "meta"
-                  ]
+                  "required": ["values", "meta"]
                 }
               }
             }
@@ -3938,11 +3399,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "issues"
-                  ]
+                  "required": ["statusCode", "error", "issues"]
                 }
               }
             }
@@ -3970,32 +3427,31 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
           }
         },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
         "summary": "List Plans",
-        "tags": [
-          "Plan"
-        ]
+        "tags": ["Plan"]
       }
     },
     "/v1/profile": {
       "get": {
         "description": "Retrieves the profile information of the authenticated user.",
         "operationId": "getProfile",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "The authorization token for user authentication.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -4044,14 +3500,8 @@
                           },
                           "status": {
                             "type": "string",
-                            "enum": [
-                              "ACTIVE",
-                              "INACTIVE"
-                            ],
-                            "x-enumNames": [
-                              "ACTIVE",
-                              "INACTIVE"
-                            ],
+                            "enum": ["ACTIVE", "INACTIVE"],
+                            "x-enumNames": ["ACTIVE", "INACTIVE"],
                             "default": "ACTIVE"
                           },
                           "deletedAt": {
@@ -4060,14 +3510,7 @@
                           "createdAt": {},
                           "updatedAt": {}
                         },
-                        "required": [
-                          "organizationId",
-                          "workspaceId",
-                          "name",
-                          "deletedAt",
-                          "createdAt",
-                          "updatedAt"
-                        ]
+                        "required": ["organizationId", "workspaceId", "name", "deletedAt", "createdAt", "updatedAt"]
                       },
                       "default": []
                     },
@@ -4123,14 +3566,8 @@
                                 },
                                 "status": {
                                   "type": "string",
-                                  "enum": [
-                                    "ACTIVE",
-                                    "INACTIVE"
-                                  ],
-                                  "x-enumNames": [
-                                    "ACTIVE",
-                                    "INACTIVE"
-                                  ],
+                                  "enum": ["ACTIVE", "INACTIVE"],
+                                  "x-enumNames": ["ACTIVE", "INACTIVE"],
                                   "default": "ACTIVE"
                                 },
                                 "deletedAt": {
@@ -4139,14 +3576,7 @@
                                 "createdAt": {},
                                 "updatedAt": {}
                               },
-                              "required": [
-                                "organizationId",
-                                "workspaceId",
-                                "name",
-                                "deletedAt",
-                                "createdAt",
-                                "updatedAt"
-                              ]
+                              "required": ["organizationId", "workspaceId", "name", "deletedAt", "createdAt", "updatedAt"]
                             },
                             "default": []
                           },
@@ -4169,14 +3599,8 @@
                           },
                           "status": {
                             "type": "string",
-                            "enum": [
-                              "ACTIVE",
-                              "INACTIVE"
-                            ],
-                            "x-enumNames": [
-                              "ACTIVE",
-                              "INACTIVE"
-                            ],
+                            "enum": ["ACTIVE", "INACTIVE"],
+                            "x-enumNames": ["ACTIVE", "INACTIVE"],
                             "default": "ACTIVE"
                           },
                           "deletedAt": {
@@ -4185,17 +3609,7 @@
                           "createdAt": {},
                           "updatedAt": {}
                         },
-                        "required": [
-                          "roleId",
-                          "workspaceId",
-                          "organizationIds",
-                          "name",
-                          "permissions",
-                          "tags",
-                          "deletedAt",
-                          "createdAt",
-                          "updatedAt"
-                        ]
+                        "required": ["roleId", "workspaceId", "organizationIds", "name", "permissions", "tags", "deletedAt", "createdAt", "updatedAt"]
                       },
                       "default": []
                     },
@@ -4230,11 +3644,7 @@
                           "minLength": 1
                         }
                       },
-                      "required": [
-                        "iso",
-                        "ddi",
-                        "number"
-                      ],
+                      "required": ["iso", "ddi", "number"],
                       "nullable": true
                     },
                     "avatar": {
@@ -4253,10 +3663,7 @@
                           "nullable": true
                         }
                       },
-                      "required": [
-                        "googleId",
-                        "facebookId"
-                      ],
+                      "required": ["googleId", "facebookId"],
                       "default": {
                         "googleId": null,
                         "facebookId": null
@@ -4265,14 +3672,8 @@
                     },
                     "status": {
                       "type": "string",
-                      "enum": [
-                        "ACTIVE",
-                        "INACTIVE"
-                      ],
-                      "x-enumNames": [
-                        "ACTIVE",
-                        "INACTIVE"
-                      ],
+                      "enum": ["ACTIVE", "INACTIVE"],
+                      "x-enumNames": ["ACTIVE", "INACTIVE"],
                       "default": "ACTIVE"
                     },
                     "createdAt": {},
@@ -4318,11 +3719,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "issues"
-                  ]
+                  "required": ["statusCode", "error", "issues"]
                 }
               }
             }
@@ -4350,11 +3747,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
@@ -4382,11 +3775,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
@@ -4398,14 +3787,22 @@
           }
         ],
         "summary": "Get Profile",
-        "tags": [
-          "Profile"
-        ]
+        "tags": ["Profile"]
       },
       "patch": {
         "description": "Updates and returns the authenticated profile.",
         "operationId": "updateProfile",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "The authorization token for user authentication.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -4476,14 +3873,8 @@
                           },
                           "status": {
                             "type": "string",
-                            "enum": [
-                              "ACTIVE",
-                              "INACTIVE"
-                            ],
-                            "x-enumNames": [
-                              "ACTIVE",
-                              "INACTIVE"
-                            ],
+                            "enum": ["ACTIVE", "INACTIVE"],
+                            "x-enumNames": ["ACTIVE", "INACTIVE"],
                             "default": "ACTIVE"
                           },
                           "deletedAt": {
@@ -4492,14 +3883,7 @@
                           "createdAt": {},
                           "updatedAt": {}
                         },
-                        "required": [
-                          "organizationId",
-                          "workspaceId",
-                          "name",
-                          "deletedAt",
-                          "createdAt",
-                          "updatedAt"
-                        ]
+                        "required": ["organizationId", "workspaceId", "name", "deletedAt", "createdAt", "updatedAt"]
                       },
                       "default": []
                     },
@@ -4555,14 +3939,8 @@
                                 },
                                 "status": {
                                   "type": "string",
-                                  "enum": [
-                                    "ACTIVE",
-                                    "INACTIVE"
-                                  ],
-                                  "x-enumNames": [
-                                    "ACTIVE",
-                                    "INACTIVE"
-                                  ],
+                                  "enum": ["ACTIVE", "INACTIVE"],
+                                  "x-enumNames": ["ACTIVE", "INACTIVE"],
                                   "default": "ACTIVE"
                                 },
                                 "deletedAt": {
@@ -4571,14 +3949,7 @@
                                 "createdAt": {},
                                 "updatedAt": {}
                               },
-                              "required": [
-                                "organizationId",
-                                "workspaceId",
-                                "name",
-                                "deletedAt",
-                                "createdAt",
-                                "updatedAt"
-                              ]
+                              "required": ["organizationId", "workspaceId", "name", "deletedAt", "createdAt", "updatedAt"]
                             },
                             "default": []
                           },
@@ -4601,14 +3972,8 @@
                           },
                           "status": {
                             "type": "string",
-                            "enum": [
-                              "ACTIVE",
-                              "INACTIVE"
-                            ],
-                            "x-enumNames": [
-                              "ACTIVE",
-                              "INACTIVE"
-                            ],
+                            "enum": ["ACTIVE", "INACTIVE"],
+                            "x-enumNames": ["ACTIVE", "INACTIVE"],
                             "default": "ACTIVE"
                           },
                           "deletedAt": {
@@ -4617,17 +3982,7 @@
                           "createdAt": {},
                           "updatedAt": {}
                         },
-                        "required": [
-                          "roleId",
-                          "workspaceId",
-                          "organizationIds",
-                          "name",
-                          "permissions",
-                          "tags",
-                          "deletedAt",
-                          "createdAt",
-                          "updatedAt"
-                        ]
+                        "required": ["roleId", "workspaceId", "organizationIds", "name", "permissions", "tags", "deletedAt", "createdAt", "updatedAt"]
                       },
                       "default": []
                     },
@@ -4662,11 +4017,7 @@
                           "minLength": 1
                         }
                       },
-                      "required": [
-                        "iso",
-                        "ddi",
-                        "number"
-                      ],
+                      "required": ["iso", "ddi", "number"],
                       "nullable": true
                     },
                     "avatar": {
@@ -4685,10 +4036,7 @@
                           "nullable": true
                         }
                       },
-                      "required": [
-                        "googleId",
-                        "facebookId"
-                      ],
+                      "required": ["googleId", "facebookId"],
                       "default": {
                         "googleId": null,
                         "facebookId": null
@@ -4697,14 +4045,8 @@
                     },
                     "status": {
                       "type": "string",
-                      "enum": [
-                        "ACTIVE",
-                        "INACTIVE"
-                      ],
-                      "x-enumNames": [
-                        "ACTIVE",
-                        "INACTIVE"
-                      ],
+                      "enum": ["ACTIVE", "INACTIVE"],
+                      "x-enumNames": ["ACTIVE", "INACTIVE"],
                       "default": "ACTIVE"
                     },
                     "createdAt": {},
@@ -4750,11 +4092,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "issues"
-                  ]
+                  "required": ["statusCode", "error", "issues"]
                 }
               }
             }
@@ -4782,11 +4120,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
@@ -4814,11 +4148,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
@@ -4830,14 +4160,22 @@
           }
         ],
         "summary": "Update Profile",
-        "tags": [
-          "Profile"
-        ]
+        "tags": ["Profile"]
       },
       "delete": {
         "description": "Deactivates the authenticated account.",
         "operationId": "deactivateProfile",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "The authorization token for user authentication.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "204": {
             "description": "The account was successfully deactivated.",
@@ -4868,11 +4206,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "issues"
-                  ]
+                  "required": ["statusCode", "error", "issues"]
                 }
               }
             }
@@ -4900,11 +4234,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
@@ -4932,11 +4262,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
@@ -4948,16 +4274,24 @@
           }
         ],
         "summary": "Deactivate Profile",
-        "tags": [
-          "Profile"
-        ]
+        "tags": ["Profile"]
       }
     },
     "/v1/profile/email": {
       "patch": {
         "description": "Validates the OTP sent to the user's email and allows the user to reset their email.",
         "operationId": "updateProfileEmail",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "The authorization token for user authentication.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -5008,14 +4342,8 @@
                         },
                         "status": {
                           "type": "string",
-                          "enum": [
-                            "ACTIVE",
-                            "INACTIVE"
-                          ],
-                          "x-enumNames": [
-                            "ACTIVE",
-                            "INACTIVE"
-                          ],
+                          "enum": ["ACTIVE", "INACTIVE"],
+                          "x-enumNames": ["ACTIVE", "INACTIVE"],
                           "default": "ACTIVE"
                         },
                         "deletedAt": {
@@ -5024,14 +4352,7 @@
                         "createdAt": {},
                         "updatedAt": {}
                       },
-                      "required": [
-                        "organizationId",
-                        "workspaceId",
-                        "name",
-                        "deletedAt",
-                        "createdAt",
-                        "updatedAt"
-                      ]
+                      "required": ["organizationId", "workspaceId", "name", "deletedAt", "createdAt", "updatedAt"]
                     },
                     "default": [],
                     "name": "organizations"
@@ -5089,14 +4410,8 @@
                               },
                               "status": {
                                 "type": "string",
-                                "enum": [
-                                  "ACTIVE",
-                                  "INACTIVE"
-                                ],
-                                "x-enumNames": [
-                                  "ACTIVE",
-                                  "INACTIVE"
-                                ],
+                                "enum": ["ACTIVE", "INACTIVE"],
+                                "x-enumNames": ["ACTIVE", "INACTIVE"],
                                 "default": "ACTIVE"
                               },
                               "deletedAt": {
@@ -5105,14 +4420,7 @@
                               "createdAt": {},
                               "updatedAt": {}
                             },
-                            "required": [
-                              "organizationId",
-                              "workspaceId",
-                              "name",
-                              "deletedAt",
-                              "createdAt",
-                              "updatedAt"
-                            ]
+                            "required": ["organizationId", "workspaceId", "name", "deletedAt", "createdAt", "updatedAt"]
                           },
                           "default": []
                         },
@@ -5135,14 +4443,8 @@
                         },
                         "status": {
                           "type": "string",
-                          "enum": [
-                            "ACTIVE",
-                            "INACTIVE"
-                          ],
-                          "x-enumNames": [
-                            "ACTIVE",
-                            "INACTIVE"
-                          ],
+                          "enum": ["ACTIVE", "INACTIVE"],
+                          "x-enumNames": ["ACTIVE", "INACTIVE"],
                           "default": "ACTIVE"
                         },
                         "deletedAt": {
@@ -5151,17 +4453,7 @@
                         "createdAt": {},
                         "updatedAt": {}
                       },
-                      "required": [
-                        "roleId",
-                        "workspaceId",
-                        "organizationIds",
-                        "name",
-                        "permissions",
-                        "tags",
-                        "deletedAt",
-                        "createdAt",
-                        "updatedAt"
-                      ]
+                      "required": ["roleId", "workspaceId", "organizationIds", "name", "permissions", "tags", "deletedAt", "createdAt", "updatedAt"]
                     },
                     "default": [],
                     "name": "roles"
@@ -5200,11 +4492,7 @@
                         "minLength": 1
                       }
                     },
-                    "required": [
-                      "iso",
-                      "ddi",
-                      "number"
-                    ],
+                    "required": ["iso", "ddi", "number"],
                     "nullable": true,
                     "name": "phone"
                   },
@@ -5225,10 +4513,7 @@
                         "nullable": true
                       }
                     },
-                    "required": [
-                      "googleId",
-                      "facebookId"
-                    ],
+                    "required": ["googleId", "facebookId"],
                     "default": {
                       "googleId": null,
                       "facebookId": null
@@ -5238,14 +4523,8 @@
                   },
                   "status": {
                     "type": "string",
-                    "enum": [
-                      "ACTIVE",
-                      "INACTIVE"
-                    ],
-                    "x-enumNames": [
-                      "ACTIVE",
-                      "INACTIVE"
-                    ],
+                    "enum": ["ACTIVE", "INACTIVE"],
+                    "x-enumNames": ["ACTIVE", "INACTIVE"],
                     "default": "ACTIVE",
                     "name": "status"
                   },
@@ -5321,14 +4600,8 @@
                           },
                           "status": {
                             "type": "string",
-                            "enum": [
-                              "ACTIVE",
-                              "INACTIVE"
-                            ],
-                            "x-enumNames": [
-                              "ACTIVE",
-                              "INACTIVE"
-                            ],
+                            "enum": ["ACTIVE", "INACTIVE"],
+                            "x-enumNames": ["ACTIVE", "INACTIVE"],
                             "default": "ACTIVE"
                           },
                           "deletedAt": {
@@ -5337,14 +4610,7 @@
                           "createdAt": {},
                           "updatedAt": {}
                         },
-                        "required": [
-                          "organizationId",
-                          "workspaceId",
-                          "name",
-                          "deletedAt",
-                          "createdAt",
-                          "updatedAt"
-                        ]
+                        "required": ["organizationId", "workspaceId", "name", "deletedAt", "createdAt", "updatedAt"]
                       },
                       "default": []
                     },
@@ -5400,14 +4666,8 @@
                                 },
                                 "status": {
                                   "type": "string",
-                                  "enum": [
-                                    "ACTIVE",
-                                    "INACTIVE"
-                                  ],
-                                  "x-enumNames": [
-                                    "ACTIVE",
-                                    "INACTIVE"
-                                  ],
+                                  "enum": ["ACTIVE", "INACTIVE"],
+                                  "x-enumNames": ["ACTIVE", "INACTIVE"],
                                   "default": "ACTIVE"
                                 },
                                 "deletedAt": {
@@ -5416,14 +4676,7 @@
                                 "createdAt": {},
                                 "updatedAt": {}
                               },
-                              "required": [
-                                "organizationId",
-                                "workspaceId",
-                                "name",
-                                "deletedAt",
-                                "createdAt",
-                                "updatedAt"
-                              ]
+                              "required": ["organizationId", "workspaceId", "name", "deletedAt", "createdAt", "updatedAt"]
                             },
                             "default": []
                           },
@@ -5446,14 +4699,8 @@
                           },
                           "status": {
                             "type": "string",
-                            "enum": [
-                              "ACTIVE",
-                              "INACTIVE"
-                            ],
-                            "x-enumNames": [
-                              "ACTIVE",
-                              "INACTIVE"
-                            ],
+                            "enum": ["ACTIVE", "INACTIVE"],
+                            "x-enumNames": ["ACTIVE", "INACTIVE"],
                             "default": "ACTIVE"
                           },
                           "deletedAt": {
@@ -5462,17 +4709,7 @@
                           "createdAt": {},
                           "updatedAt": {}
                         },
-                        "required": [
-                          "roleId",
-                          "workspaceId",
-                          "organizationIds",
-                          "name",
-                          "permissions",
-                          "tags",
-                          "deletedAt",
-                          "createdAt",
-                          "updatedAt"
-                        ]
+                        "required": ["roleId", "workspaceId", "organizationIds", "name", "permissions", "tags", "deletedAt", "createdAt", "updatedAt"]
                       },
                       "default": []
                     },
@@ -5507,11 +4744,7 @@
                           "minLength": 1
                         }
                       },
-                      "required": [
-                        "iso",
-                        "ddi",
-                        "number"
-                      ],
+                      "required": ["iso", "ddi", "number"],
                       "nullable": true
                     },
                     "avatar": {
@@ -5530,10 +4763,7 @@
                           "nullable": true
                         }
                       },
-                      "required": [
-                        "googleId",
-                        "facebookId"
-                      ],
+                      "required": ["googleId", "facebookId"],
                       "default": {
                         "googleId": null,
                         "facebookId": null
@@ -5542,14 +4772,8 @@
                     },
                     "status": {
                       "type": "string",
-                      "enum": [
-                        "ACTIVE",
-                        "INACTIVE"
-                      ],
-                      "x-enumNames": [
-                        "ACTIVE",
-                        "INACTIVE"
-                      ],
+                      "enum": ["ACTIVE", "INACTIVE"],
+                      "x-enumNames": ["ACTIVE", "INACTIVE"],
                       "default": "ACTIVE"
                     },
                     "createdAt": {},
@@ -5595,11 +4819,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "issues"
-                  ]
+                  "required": ["statusCode", "error", "issues"]
                 }
               }
             }
@@ -5627,11 +4847,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
@@ -5659,11 +4875,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
@@ -5691,11 +4903,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
@@ -5723,11 +4931,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 },
                 "examples": {
                   "OTP insufficient resend time, please try again later.": {
@@ -5749,11 +4953,7 @@
                         }
                       }
                     },
-                    "required": [
-                      "statusCode",
-                      "error",
-                      "message"
-                    ]
+                    "required": ["statusCode", "error", "message"]
                   },
                   "OTP daily attempt limit exceeded.": {
                     "type": "object",
@@ -5774,11 +4974,7 @@
                         }
                       }
                     },
-                    "required": [
-                      "statusCode",
-                      "error",
-                      "message"
-                    ]
+                    "required": ["statusCode", "error", "message"]
                   },
                   "OTP attempts expired.": {
                     "type": "object",
@@ -5799,11 +4995,7 @@
                         }
                       }
                     },
-                    "required": [
-                      "statusCode",
-                      "error",
-                      "message"
-                    ]
+                    "required": ["statusCode", "error", "message"]
                   },
                   "E-mail {{email}} has already been taken.": {
                     "type": "object",
@@ -5824,11 +5016,7 @@
                         }
                       }
                     },
-                    "required": [
-                      "statusCode",
-                      "error",
-                      "message"
-                    ]
+                    "required": ["statusCode", "error", "message"]
                   }
                 }
               }
@@ -5857,11 +5045,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
@@ -5873,16 +5057,24 @@
           }
         ],
         "summary": "Update Profile Email",
-        "tags": [
-          "Profile"
-        ]
+        "tags": ["Profile"]
       }
     },
     "/v1/profile/phone": {
       "patch": {
         "description": "Validates the OTP sent to the user's phone and allows the user to reset their phone number.",
         "operationId": "updateProfilePhone",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "The authorization token for user authentication.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -5906,11 +5098,7 @@
                         "minLength": 1
                       }
                     },
-                    "required": [
-                      "iso",
-                      "ddi",
-                      "number"
-                    ],
+                    "required": ["iso", "ddi", "number"],
                     "name": "phone"
                   },
                   "otpVerification": {
@@ -5927,17 +5115,11 @@
                         "maxLength": 4
                       }
                     },
-                    "required": [
-                      "otpId",
-                      "code"
-                    ],
+                    "required": ["otpId", "code"],
                     "name": "otpVerification"
                   }
                 },
-                "required": [
-                  "phone",
-                  "otpVerification"
-                ]
+                "required": ["phone", "otpVerification"]
               }
             }
           }
@@ -5990,14 +5172,8 @@
                           },
                           "status": {
                             "type": "string",
-                            "enum": [
-                              "ACTIVE",
-                              "INACTIVE"
-                            ],
-                            "x-enumNames": [
-                              "ACTIVE",
-                              "INACTIVE"
-                            ],
+                            "enum": ["ACTIVE", "INACTIVE"],
+                            "x-enumNames": ["ACTIVE", "INACTIVE"],
                             "default": "ACTIVE"
                           },
                           "deletedAt": {
@@ -6006,14 +5182,7 @@
                           "createdAt": {},
                           "updatedAt": {}
                         },
-                        "required": [
-                          "organizationId",
-                          "workspaceId",
-                          "name",
-                          "deletedAt",
-                          "createdAt",
-                          "updatedAt"
-                        ]
+                        "required": ["organizationId", "workspaceId", "name", "deletedAt", "createdAt", "updatedAt"]
                       },
                       "default": []
                     },
@@ -6069,14 +5238,8 @@
                                 },
                                 "status": {
                                   "type": "string",
-                                  "enum": [
-                                    "ACTIVE",
-                                    "INACTIVE"
-                                  ],
-                                  "x-enumNames": [
-                                    "ACTIVE",
-                                    "INACTIVE"
-                                  ],
+                                  "enum": ["ACTIVE", "INACTIVE"],
+                                  "x-enumNames": ["ACTIVE", "INACTIVE"],
                                   "default": "ACTIVE"
                                 },
                                 "deletedAt": {
@@ -6085,14 +5248,7 @@
                                 "createdAt": {},
                                 "updatedAt": {}
                               },
-                              "required": [
-                                "organizationId",
-                                "workspaceId",
-                                "name",
-                                "deletedAt",
-                                "createdAt",
-                                "updatedAt"
-                              ]
+                              "required": ["organizationId", "workspaceId", "name", "deletedAt", "createdAt", "updatedAt"]
                             },
                             "default": []
                           },
@@ -6115,14 +5271,8 @@
                           },
                           "status": {
                             "type": "string",
-                            "enum": [
-                              "ACTIVE",
-                              "INACTIVE"
-                            ],
-                            "x-enumNames": [
-                              "ACTIVE",
-                              "INACTIVE"
-                            ],
+                            "enum": ["ACTIVE", "INACTIVE"],
+                            "x-enumNames": ["ACTIVE", "INACTIVE"],
                             "default": "ACTIVE"
                           },
                           "deletedAt": {
@@ -6131,17 +5281,7 @@
                           "createdAt": {},
                           "updatedAt": {}
                         },
-                        "required": [
-                          "roleId",
-                          "workspaceId",
-                          "organizationIds",
-                          "name",
-                          "permissions",
-                          "tags",
-                          "deletedAt",
-                          "createdAt",
-                          "updatedAt"
-                        ]
+                        "required": ["roleId", "workspaceId", "organizationIds", "name", "permissions", "tags", "deletedAt", "createdAt", "updatedAt"]
                       },
                       "default": []
                     },
@@ -6176,11 +5316,7 @@
                           "minLength": 1
                         }
                       },
-                      "required": [
-                        "iso",
-                        "ddi",
-                        "number"
-                      ],
+                      "required": ["iso", "ddi", "number"],
                       "nullable": true
                     },
                     "avatar": {
@@ -6199,10 +5335,7 @@
                           "nullable": true
                         }
                       },
-                      "required": [
-                        "googleId",
-                        "facebookId"
-                      ],
+                      "required": ["googleId", "facebookId"],
                       "default": {
                         "googleId": null,
                         "facebookId": null
@@ -6211,14 +5344,8 @@
                     },
                     "status": {
                       "type": "string",
-                      "enum": [
-                        "ACTIVE",
-                        "INACTIVE"
-                      ],
-                      "x-enumNames": [
-                        "ACTIVE",
-                        "INACTIVE"
-                      ],
+                      "enum": ["ACTIVE", "INACTIVE"],
+                      "x-enumNames": ["ACTIVE", "INACTIVE"],
                       "default": "ACTIVE"
                     },
                     "createdAt": {},
@@ -6264,11 +5391,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "issues"
-                  ]
+                  "required": ["statusCode", "error", "issues"]
                 }
               }
             }
@@ -6296,11 +5419,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
@@ -6328,11 +5447,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
@@ -6360,11 +5475,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
@@ -6392,11 +5503,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 },
                 "examples": {
                   "OTP insufficient resend time, please try again later.": {
@@ -6418,11 +5525,7 @@
                         }
                       }
                     },
-                    "required": [
-                      "statusCode",
-                      "error",
-                      "message"
-                    ]
+                    "required": ["statusCode", "error", "message"]
                   },
                   "OTP daily attempt limit exceeded.": {
                     "type": "object",
@@ -6443,11 +5546,7 @@
                         }
                       }
                     },
-                    "required": [
-                      "statusCode",
-                      "error",
-                      "message"
-                    ]
+                    "required": ["statusCode", "error", "message"]
                   },
                   "OTP attempts expired.": {
                     "type": "object",
@@ -6468,11 +5567,7 @@
                         }
                       }
                     },
-                    "required": [
-                      "statusCode",
-                      "error",
-                      "message"
-                    ]
+                    "required": ["statusCode", "error", "message"]
                   },
                   "Phone {{phone}} has already been taken.": {
                     "type": "object",
@@ -6493,11 +5588,7 @@
                         }
                       }
                     },
-                    "required": [
-                      "statusCode",
-                      "error",
-                      "message"
-                    ]
+                    "required": ["statusCode", "error", "message"]
                   }
                 }
               }
@@ -6526,11 +5617,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
@@ -6542,16 +5629,24 @@
           }
         ],
         "summary": "Update Profile Phone",
-        "tags": [
-          "Profile"
-        ]
+        "tags": ["Profile"]
       }
     },
     "/v1/profile/password": {
       "patch": {
         "description": "Updates the authenticated user password.",
         "operationId": "updateProfilePassword",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "The authorization token for user authentication.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -6570,10 +5665,7 @@
                     "name": "currentPassword"
                   }
                 },
-                "required": [
-                  "password",
-                  "currentPassword"
-                ]
+                "required": ["password", "currentPassword"]
               }
             }
           }
@@ -6608,11 +5700,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "issues"
-                  ]
+                  "required": ["statusCode", "error", "issues"]
                 }
               }
             }
@@ -6640,11 +5728,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
@@ -6672,11 +5756,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
@@ -6688,9 +5768,7 @@
           }
         ],
         "summary": "Update Profile Password",
-        "tags": [
-          "Profile"
-        ]
+        "tags": ["Profile"]
       }
     },
     "/v1/workspaces/{workspaceId}/roles": {
@@ -6698,6 +5776,15 @@
         "description": "Retrieves a list of roles.",
         "operationId": "listRoles",
         "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "The authorization token for user authentication.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
           {
             "name": "filter",
             "required": false,
@@ -6719,15 +5806,9 @@
             "name": "status",
             "required": false,
             "in": "query",
-            "x-enumNames": [
-              "ACTIVE",
-              "INACTIVE"
-            ],
+            "x-enumNames": ["ACTIVE", "INACTIVE"],
             "schema": {
-              "enum": [
-                "ACTIVE",
-                "INACTIVE"
-              ],
+              "enum": ["ACTIVE", "INACTIVE"],
               "type": "string"
             }
           },
@@ -6812,14 +5893,8 @@
                                 },
                                 "status": {
                                   "type": "string",
-                                  "enum": [
-                                    "ACTIVE",
-                                    "INACTIVE"
-                                  ],
-                                  "x-enumNames": [
-                                    "ACTIVE",
-                                    "INACTIVE"
-                                  ],
+                                  "enum": ["ACTIVE", "INACTIVE"],
+                                  "x-enumNames": ["ACTIVE", "INACTIVE"],
                                   "default": "ACTIVE"
                                 },
                                 "deletedAt": {
@@ -6828,14 +5903,7 @@
                                 "createdAt": {},
                                 "updatedAt": {}
                               },
-                              "required": [
-                                "organizationId",
-                                "workspaceId",
-                                "name",
-                                "deletedAt",
-                                "createdAt",
-                                "updatedAt"
-                              ]
+                              "required": ["organizationId", "workspaceId", "name", "deletedAt", "createdAt", "updatedAt"]
                             },
                             "default": []
                           },
@@ -6858,14 +5926,8 @@
                           },
                           "status": {
                             "type": "string",
-                            "enum": [
-                              "ACTIVE",
-                              "INACTIVE"
-                            ],
-                            "x-enumNames": [
-                              "ACTIVE",
-                              "INACTIVE"
-                            ],
+                            "enum": ["ACTIVE", "INACTIVE"],
+                            "x-enumNames": ["ACTIVE", "INACTIVE"],
                             "default": "ACTIVE"
                           },
                           "deletedAt": {
@@ -6874,17 +5936,7 @@
                           "createdAt": {},
                           "updatedAt": {}
                         },
-                        "required": [
-                          "roleId",
-                          "workspaceId",
-                          "organizationIds",
-                          "name",
-                          "permissions",
-                          "tags",
-                          "deletedAt",
-                          "createdAt",
-                          "updatedAt"
-                        ]
+                        "required": ["roleId", "workspaceId", "organizationIds", "name", "permissions", "tags", "deletedAt", "createdAt", "updatedAt"]
                       }
                     },
                     "meta": {
@@ -6900,17 +5952,10 @@
                           "type": "integer"
                         }
                       },
-                      "required": [
-                        "total",
-                        "offset",
-                        "limit"
-                      ]
+                      "required": ["total", "offset", "limit"]
                     }
                   },
-                  "required": [
-                    "values",
-                    "meta"
-                  ]
+                  "required": ["values", "meta"]
                 }
               }
             }
@@ -6938,11 +5983,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "issues"
-                  ]
+                  "required": ["statusCode", "error", "issues"]
                 }
               }
             }
@@ -6970,11 +6011,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
@@ -6986,14 +6023,21 @@
           }
         ],
         "summary": "List Roles",
-        "tags": [
-          "Role"
-        ]
+        "tags": ["Role"]
       },
       "post": {
         "description": "Creates a new organization.",
         "operationId": "createRole",
         "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "The authorization token for user authentication.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
           {
             "name": "workspaceId",
             "required": true,
@@ -7043,24 +6087,13 @@
                   },
                   "status": {
                     "type": "string",
-                    "enum": [
-                      "ACTIVE",
-                      "INACTIVE"
-                    ],
-                    "x-enumNames": [
-                      "ACTIVE",
-                      "INACTIVE"
-                    ],
+                    "enum": ["ACTIVE", "INACTIVE"],
+                    "x-enumNames": ["ACTIVE", "INACTIVE"],
                     "default": "ACTIVE",
                     "name": "status"
                   }
                 },
-                "required": [
-                  "organizationIds",
-                  "name",
-                  "tags",
-                  "permissions"
-                ]
+                "required": ["organizationIds", "name", "tags", "permissions"]
               }
             }
           }
@@ -7112,14 +6145,8 @@
                           },
                           "status": {
                             "type": "string",
-                            "enum": [
-                              "ACTIVE",
-                              "INACTIVE"
-                            ],
-                            "x-enumNames": [
-                              "ACTIVE",
-                              "INACTIVE"
-                            ],
+                            "enum": ["ACTIVE", "INACTIVE"],
+                            "x-enumNames": ["ACTIVE", "INACTIVE"],
                             "default": "ACTIVE"
                           },
                           "deletedAt": {
@@ -7128,14 +6155,7 @@
                           "createdAt": {},
                           "updatedAt": {}
                         },
-                        "required": [
-                          "organizationId",
-                          "workspaceId",
-                          "name",
-                          "deletedAt",
-                          "createdAt",
-                          "updatedAt"
-                        ]
+                        "required": ["organizationId", "workspaceId", "name", "deletedAt", "createdAt", "updatedAt"]
                       },
                       "default": []
                     },
@@ -7158,14 +6178,8 @@
                     },
                     "status": {
                       "type": "string",
-                      "enum": [
-                        "ACTIVE",
-                        "INACTIVE"
-                      ],
-                      "x-enumNames": [
-                        "ACTIVE",
-                        "INACTIVE"
-                      ],
+                      "enum": ["ACTIVE", "INACTIVE"],
+                      "x-enumNames": ["ACTIVE", "INACTIVE"],
                       "default": "ACTIVE"
                     },
                     "deletedAt": {
@@ -7174,17 +6188,7 @@
                     "createdAt": {},
                     "updatedAt": {}
                   },
-                  "required": [
-                    "roleId",
-                    "workspaceId",
-                    "organizationIds",
-                    "name",
-                    "permissions",
-                    "tags",
-                    "deletedAt",
-                    "createdAt",
-                    "updatedAt"
-                  ]
+                  "required": ["roleId", "workspaceId", "organizationIds", "name", "permissions", "tags", "deletedAt", "createdAt", "updatedAt"]
                 }
               }
             }
@@ -7212,11 +6216,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "issues"
-                  ]
+                  "required": ["statusCode", "error", "issues"]
                 }
               }
             }
@@ -7244,11 +6244,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
@@ -7260,9 +6256,7 @@
           }
         ],
         "summary": "Create Role",
-        "tags": [
-          "Role"
-        ]
+        "tags": ["Role"]
       }
     },
     "/v1/workspaces/{workspaceId}/roles/{roleId}": {
@@ -7270,6 +6264,15 @@
         "description": "Retrieves a single organization by their ID.",
         "operationId": "getRole",
         "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "The authorization token for user authentication.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
           {
             "name": "workspaceId",
             "required": true,
@@ -7338,14 +6341,8 @@
                           },
                           "status": {
                             "type": "string",
-                            "enum": [
-                              "ACTIVE",
-                              "INACTIVE"
-                            ],
-                            "x-enumNames": [
-                              "ACTIVE",
-                              "INACTIVE"
-                            ],
+                            "enum": ["ACTIVE", "INACTIVE"],
+                            "x-enumNames": ["ACTIVE", "INACTIVE"],
                             "default": "ACTIVE"
                           },
                           "deletedAt": {
@@ -7354,14 +6351,7 @@
                           "createdAt": {},
                           "updatedAt": {}
                         },
-                        "required": [
-                          "organizationId",
-                          "workspaceId",
-                          "name",
-                          "deletedAt",
-                          "createdAt",
-                          "updatedAt"
-                        ]
+                        "required": ["organizationId", "workspaceId", "name", "deletedAt", "createdAt", "updatedAt"]
                       },
                       "default": []
                     },
@@ -7384,14 +6374,8 @@
                     },
                     "status": {
                       "type": "string",
-                      "enum": [
-                        "ACTIVE",
-                        "INACTIVE"
-                      ],
-                      "x-enumNames": [
-                        "ACTIVE",
-                        "INACTIVE"
-                      ],
+                      "enum": ["ACTIVE", "INACTIVE"],
+                      "x-enumNames": ["ACTIVE", "INACTIVE"],
                       "default": "ACTIVE"
                     },
                     "deletedAt": {
@@ -7400,17 +6384,7 @@
                     "createdAt": {},
                     "updatedAt": {}
                   },
-                  "required": [
-                    "roleId",
-                    "workspaceId",
-                    "organizationIds",
-                    "name",
-                    "permissions",
-                    "tags",
-                    "deletedAt",
-                    "createdAt",
-                    "updatedAt"
-                  ]
+                  "required": ["roleId", "workspaceId", "organizationIds", "name", "permissions", "tags", "deletedAt", "createdAt", "updatedAt"]
                 }
               }
             }
@@ -7438,11 +6412,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "issues"
-                  ]
+                  "required": ["statusCode", "error", "issues"]
                 }
               }
             }
@@ -7470,11 +6440,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
@@ -7486,14 +6452,21 @@
           }
         ],
         "summary": "Get Role",
-        "tags": [
-          "Role"
-        ]
+        "tags": ["Role"]
       },
       "patch": {
         "description": "Updates an existing organization by their ID.",
         "operationId": "updateRole",
         "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "The authorization token for user authentication.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
           {
             "name": "workspaceId",
             "required": true,
@@ -7603,14 +6576,8 @@
                           },
                           "status": {
                             "type": "string",
-                            "enum": [
-                              "ACTIVE",
-                              "INACTIVE"
-                            ],
-                            "x-enumNames": [
-                              "ACTIVE",
-                              "INACTIVE"
-                            ],
+                            "enum": ["ACTIVE", "INACTIVE"],
+                            "x-enumNames": ["ACTIVE", "INACTIVE"],
                             "default": "ACTIVE"
                           },
                           "deletedAt": {
@@ -7619,14 +6586,7 @@
                           "createdAt": {},
                           "updatedAt": {}
                         },
-                        "required": [
-                          "organizationId",
-                          "workspaceId",
-                          "name",
-                          "deletedAt",
-                          "createdAt",
-                          "updatedAt"
-                        ]
+                        "required": ["organizationId", "workspaceId", "name", "deletedAt", "createdAt", "updatedAt"]
                       },
                       "default": []
                     },
@@ -7649,14 +6609,8 @@
                     },
                     "status": {
                       "type": "string",
-                      "enum": [
-                        "ACTIVE",
-                        "INACTIVE"
-                      ],
-                      "x-enumNames": [
-                        "ACTIVE",
-                        "INACTIVE"
-                      ],
+                      "enum": ["ACTIVE", "INACTIVE"],
+                      "x-enumNames": ["ACTIVE", "INACTIVE"],
                       "default": "ACTIVE"
                     },
                     "deletedAt": {
@@ -7665,17 +6619,7 @@
                     "createdAt": {},
                     "updatedAt": {}
                   },
-                  "required": [
-                    "roleId",
-                    "workspaceId",
-                    "organizationIds",
-                    "name",
-                    "permissions",
-                    "tags",
-                    "deletedAt",
-                    "createdAt",
-                    "updatedAt"
-                  ]
+                  "required": ["roleId", "workspaceId", "organizationIds", "name", "permissions", "tags", "deletedAt", "createdAt", "updatedAt"]
                 }
               }
             }
@@ -7703,11 +6647,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "issues"
-                  ]
+                  "required": ["statusCode", "error", "issues"]
                 }
               }
             }
@@ -7735,11 +6675,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
@@ -7751,14 +6687,21 @@
           }
         ],
         "summary": "Update Role",
-        "tags": [
-          "Role"
-        ]
+        "tags": ["Role"]
       },
       "delete": {
         "description": "Deletes a organization by their ID.",
         "operationId": "deleteRole",
         "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "The authorization token for user authentication.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
           {
             "name": "workspaceId",
             "required": true,
@@ -7810,11 +6753,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "issues"
-                  ]
+                  "required": ["statusCode", "error", "issues"]
                 }
               }
             }
@@ -7842,11 +6781,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
@@ -7858,9 +6793,7 @@
           }
         ],
         "summary": "Delete Role",
-        "tags": [
-          "Role"
-        ]
+        "tags": ["Role"]
       }
     },
     "/v1/subscriptions": {
@@ -7872,19 +6805,9 @@
             "name": "status",
             "required": false,
             "in": "query",
-            "x-enumNames": [
-              "TRIAL",
-              "ACTIVE",
-              "OVERDUE",
-              "CANCELED"
-            ],
+            "x-enumNames": ["TRIAL", "ACTIVE", "OVERDUE", "CANCELED"],
             "schema": {
-              "enum": [
-                "TRIAL",
-                "ACTIVE",
-                "OVERDUE",
-                "CANCELED"
-              ],
+              "enum": ["TRIAL", "ACTIVE", "OVERDUE", "CANCELED"],
               "type": "string"
             }
           },
@@ -7939,9 +6862,7 @@
                               },
                               "paymentMethod": {
                                 "type": "string",
-                                "enum": [
-                                  "CREDIT_CARD"
-                                ]
+                                "enum": ["CREDIT_CARD"]
                               },
                               "deadline": {},
                               "billingDueDate": {},
@@ -7976,11 +6897,7 @@
                                         "minLength": 1
                                       }
                                     },
-                                    "required": [
-                                      "iso",
-                                      "ddi",
-                                      "number"
-                                    ]
+                                    "required": ["iso", "ddi", "number"]
                                   },
                                   "document": {
                                     "type": "object",
@@ -7991,20 +6908,11 @@
                                       },
                                       "type": {
                                         "type": "string",
-                                        "enum": [
-                                          "INDIVIDUAL",
-                                          "COMPANY"
-                                        ],
-                                        "x-enumNames": [
-                                          "INDIVIDUAL",
-                                          "COMPANY"
-                                        ]
+                                        "enum": ["INDIVIDUAL", "COMPANY"],
+                                        "x-enumNames": ["INDIVIDUAL", "COMPANY"]
                                       }
                                     },
-                                    "required": [
-                                      "number",
-                                      "type"
-                                    ]
+                                    "required": ["number", "type"]
                                   },
                                   "address": {
                                     "type": "object",
@@ -8042,40 +6950,15 @@
                                         "nullable": true
                                       }
                                     },
-                                    "required": [
-                                      "id",
-                                      "state",
-                                      "city",
-                                      "zipCode",
-                                      "neighborhood",
-                                      "street",
-                                      "number",
-                                      "complement"
-                                    ]
+                                    "required": ["id", "state", "city", "zipCode", "neighborhood", "street", "number", "complement"]
                                   }
                                 },
-                                "required": [
-                                  "name",
-                                  "email",
-                                  "phone",
-                                  "document",
-                                  "address"
-                                ]
+                                "required": ["name", "email", "phone", "document", "address"]
                               },
                               "status": {
                                 "type": "string",
-                                "enum": [
-                                  "TRIAL",
-                                  "ACTIVE",
-                                  "OVERDUE",
-                                  "CANCELED"
-                                ],
-                                "x-enumNames": [
-                                  "TRIAL",
-                                  "ACTIVE",
-                                  "OVERDUE",
-                                  "CANCELED"
-                                ],
+                                "enum": ["TRIAL", "ACTIVE", "OVERDUE", "CANCELED"],
+                                "x-enumNames": ["TRIAL", "ACTIVE", "OVERDUE", "CANCELED"],
                                 "default": "ACTIVE"
                               },
                               "createdAt": {},
@@ -8102,12 +6985,7 @@
                                     "maxLength": 4
                                   }
                                 },
-                                "required": [
-                                  "number",
-                                  "holderName",
-                                  "expirationDate",
-                                  "cvv"
-                                ]
+                                "required": ["number", "holderName", "expirationDate", "cvv"]
                               }
                             },
                             "required": [
@@ -8144,9 +7022,7 @@
                               },
                               "paymentMethod": {
                                 "type": "string",
-                                "enum": [
-                                  "DEBIT_CARD"
-                                ]
+                                "enum": ["DEBIT_CARD"]
                               },
                               "deadline": {},
                               "billingDueDate": {},
@@ -8181,11 +7057,7 @@
                                         "minLength": 1
                                       }
                                     },
-                                    "required": [
-                                      "iso",
-                                      "ddi",
-                                      "number"
-                                    ]
+                                    "required": ["iso", "ddi", "number"]
                                   },
                                   "document": {
                                     "type": "object",
@@ -8196,20 +7068,11 @@
                                       },
                                       "type": {
                                         "type": "string",
-                                        "enum": [
-                                          "INDIVIDUAL",
-                                          "COMPANY"
-                                        ],
-                                        "x-enumNames": [
-                                          "INDIVIDUAL",
-                                          "COMPANY"
-                                        ]
+                                        "enum": ["INDIVIDUAL", "COMPANY"],
+                                        "x-enumNames": ["INDIVIDUAL", "COMPANY"]
                                       }
                                     },
-                                    "required": [
-                                      "number",
-                                      "type"
-                                    ]
+                                    "required": ["number", "type"]
                                   },
                                   "address": {
                                     "type": "object",
@@ -8247,40 +7110,15 @@
                                         "nullable": true
                                       }
                                     },
-                                    "required": [
-                                      "id",
-                                      "state",
-                                      "city",
-                                      "zipCode",
-                                      "neighborhood",
-                                      "street",
-                                      "number",
-                                      "complement"
-                                    ]
+                                    "required": ["id", "state", "city", "zipCode", "neighborhood", "street", "number", "complement"]
                                   }
                                 },
-                                "required": [
-                                  "name",
-                                  "email",
-                                  "phone",
-                                  "document",
-                                  "address"
-                                ]
+                                "required": ["name", "email", "phone", "document", "address"]
                               },
                               "status": {
                                 "type": "string",
-                                "enum": [
-                                  "TRIAL",
-                                  "ACTIVE",
-                                  "OVERDUE",
-                                  "CANCELED"
-                                ],
-                                "x-enumNames": [
-                                  "TRIAL",
-                                  "ACTIVE",
-                                  "OVERDUE",
-                                  "CANCELED"
-                                ],
+                                "enum": ["TRIAL", "ACTIVE", "OVERDUE", "CANCELED"],
+                                "x-enumNames": ["TRIAL", "ACTIVE", "OVERDUE", "CANCELED"],
                                 "default": "ACTIVE"
                               },
                               "createdAt": {},
@@ -8307,12 +7145,7 @@
                                     "maxLength": 4
                                   }
                                 },
-                                "required": [
-                                  "number",
-                                  "holderName",
-                                  "expirationDate",
-                                  "cvv"
-                                ]
+                                "required": ["number", "holderName", "expirationDate", "cvv"]
                               }
                             },
                             "required": [
@@ -8345,17 +7178,10 @@
                           "type": "integer"
                         }
                       },
-                      "required": [
-                        "total",
-                        "offset",
-                        "limit"
-                      ]
+                      "required": ["total", "offset", "limit"]
                     }
                   },
-                  "required": [
-                    "values",
-                    "meta"
-                  ]
+                  "required": ["values", "meta"]
                 }
               }
             }
@@ -8383,11 +7209,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "issues"
-                  ]
+                  "required": ["statusCode", "error", "issues"]
                 }
               }
             }
@@ -8415,25 +7237,14 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
           }
         },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
         "summary": "List Subscriptions",
-        "tags": [
-          "Subscription"
-        ]
+        "tags": ["Subscription"]
       }
     },
     "/v1/workspaces/{workspaceId}/users": {
@@ -8441,6 +7252,15 @@
         "description": "Retrieves a list of users.",
         "operationId": "listUsers",
         "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "The authorization token for user authentication.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
           {
             "name": "filter",
             "required": false,
@@ -8462,15 +7282,9 @@
             "name": "status",
             "required": false,
             "in": "query",
-            "x-enumNames": [
-              "ACTIVE",
-              "INACTIVE"
-            ],
+            "x-enumNames": ["ACTIVE", "INACTIVE"],
             "schema": {
-              "enum": [
-                "ACTIVE",
-                "INACTIVE"
-              ],
+              "enum": ["ACTIVE", "INACTIVE"],
               "type": "string"
             }
           },
@@ -8556,14 +7370,8 @@
                                 },
                                 "status": {
                                   "type": "string",
-                                  "enum": [
-                                    "ACTIVE",
-                                    "INACTIVE"
-                                  ],
-                                  "x-enumNames": [
-                                    "ACTIVE",
-                                    "INACTIVE"
-                                  ],
+                                  "enum": ["ACTIVE", "INACTIVE"],
+                                  "x-enumNames": ["ACTIVE", "INACTIVE"],
                                   "default": "ACTIVE"
                                 },
                                 "deletedAt": {
@@ -8572,14 +7380,7 @@
                                 "createdAt": {},
                                 "updatedAt": {}
                               },
-                              "required": [
-                                "organizationId",
-                                "workspaceId",
-                                "name",
-                                "deletedAt",
-                                "createdAt",
-                                "updatedAt"
-                              ]
+                              "required": ["organizationId", "workspaceId", "name", "deletedAt", "createdAt", "updatedAt"]
                             },
                             "default": []
                           },
@@ -8635,14 +7436,8 @@
                                       },
                                       "status": {
                                         "type": "string",
-                                        "enum": [
-                                          "ACTIVE",
-                                          "INACTIVE"
-                                        ],
-                                        "x-enumNames": [
-                                          "ACTIVE",
-                                          "INACTIVE"
-                                        ],
+                                        "enum": ["ACTIVE", "INACTIVE"],
+                                        "x-enumNames": ["ACTIVE", "INACTIVE"],
                                         "default": "ACTIVE"
                                       },
                                       "deletedAt": {
@@ -8651,14 +7446,7 @@
                                       "createdAt": {},
                                       "updatedAt": {}
                                     },
-                                    "required": [
-                                      "organizationId",
-                                      "workspaceId",
-                                      "name",
-                                      "deletedAt",
-                                      "createdAt",
-                                      "updatedAt"
-                                    ]
+                                    "required": ["organizationId", "workspaceId", "name", "deletedAt", "createdAt", "updatedAt"]
                                   },
                                   "default": []
                                 },
@@ -8681,14 +7469,8 @@
                                 },
                                 "status": {
                                   "type": "string",
-                                  "enum": [
-                                    "ACTIVE",
-                                    "INACTIVE"
-                                  ],
-                                  "x-enumNames": [
-                                    "ACTIVE",
-                                    "INACTIVE"
-                                  ],
+                                  "enum": ["ACTIVE", "INACTIVE"],
+                                  "x-enumNames": ["ACTIVE", "INACTIVE"],
                                   "default": "ACTIVE"
                                 },
                                 "deletedAt": {
@@ -8742,11 +7524,7 @@
                                 "minLength": 1
                               }
                             },
-                            "required": [
-                              "iso",
-                              "ddi",
-                              "number"
-                            ],
+                            "required": ["iso", "ddi", "number"],
                             "nullable": true
                           },
                           "avatar": {
@@ -8765,10 +7543,7 @@
                                 "nullable": true
                               }
                             },
-                            "required": [
-                              "googleId",
-                              "facebookId"
-                            ],
+                            "required": ["googleId", "facebookId"],
                             "default": {
                               "googleId": null,
                               "facebookId": null
@@ -8781,14 +7556,8 @@
                           },
                           "status": {
                             "type": "string",
-                            "enum": [
-                              "ACTIVE",
-                              "INACTIVE"
-                            ],
-                            "x-enumNames": [
-                              "ACTIVE",
-                              "INACTIVE"
-                            ],
+                            "enum": ["ACTIVE", "INACTIVE"],
+                            "x-enumNames": ["ACTIVE", "INACTIVE"],
                             "default": "ACTIVE"
                           },
                           "createdAt": {},
@@ -8823,17 +7592,10 @@
                           "type": "integer"
                         }
                       },
-                      "required": [
-                        "total",
-                        "offset",
-                        "limit"
-                      ]
+                      "required": ["total", "offset", "limit"]
                     }
                   },
-                  "required": [
-                    "values",
-                    "meta"
-                  ]
+                  "required": ["values", "meta"]
                 }
               }
             }
@@ -8861,11 +7623,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "issues"
-                  ]
+                  "required": ["statusCode", "error", "issues"]
                 }
               }
             }
@@ -8893,11 +7651,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
@@ -8909,14 +7663,21 @@
           }
         ],
         "summary": "List Users",
-        "tags": [
-          "User"
-        ]
+        "tags": ["User"]
       },
       "post": {
         "description": "Creates a new user.",
         "operationId": "createUser",
         "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "The authorization token for user authentication.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
           {
             "name": "workspaceId",
             "required": true,
@@ -8969,11 +7730,7 @@
                         "minLength": 1
                       }
                     },
-                    "required": [
-                      "iso",
-                      "ddi",
-                      "number"
-                    ],
+                    "required": ["iso", "ddi", "number"],
                     "nullable": true,
                     "name": "phone"
                   },
@@ -9006,23 +7763,12 @@
                           }
                         }
                       },
-                      "required": [
-                        "organizationId",
-                        "roleIds"
-                      ]
+                      "required": ["organizationId", "roleIds"]
                     },
                     "name": "organizations"
                   }
                 },
-                "required": [
-                  "permissions",
-                  "name",
-                  "email",
-                  "phone",
-                  "avatar",
-                  "password",
-                  "organizations"
-                ]
+                "required": ["permissions", "name", "email", "phone", "avatar", "password", "organizations"]
               }
             }
           }
@@ -9075,14 +7821,8 @@
                           },
                           "status": {
                             "type": "string",
-                            "enum": [
-                              "ACTIVE",
-                              "INACTIVE"
-                            ],
-                            "x-enumNames": [
-                              "ACTIVE",
-                              "INACTIVE"
-                            ],
+                            "enum": ["ACTIVE", "INACTIVE"],
+                            "x-enumNames": ["ACTIVE", "INACTIVE"],
                             "default": "ACTIVE"
                           },
                           "deletedAt": {
@@ -9091,14 +7831,7 @@
                           "createdAt": {},
                           "updatedAt": {}
                         },
-                        "required": [
-                          "organizationId",
-                          "workspaceId",
-                          "name",
-                          "deletedAt",
-                          "createdAt",
-                          "updatedAt"
-                        ]
+                        "required": ["organizationId", "workspaceId", "name", "deletedAt", "createdAt", "updatedAt"]
                       },
                       "default": []
                     },
@@ -9154,14 +7887,8 @@
                                 },
                                 "status": {
                                   "type": "string",
-                                  "enum": [
-                                    "ACTIVE",
-                                    "INACTIVE"
-                                  ],
-                                  "x-enumNames": [
-                                    "ACTIVE",
-                                    "INACTIVE"
-                                  ],
+                                  "enum": ["ACTIVE", "INACTIVE"],
+                                  "x-enumNames": ["ACTIVE", "INACTIVE"],
                                   "default": "ACTIVE"
                                 },
                                 "deletedAt": {
@@ -9170,14 +7897,7 @@
                                 "createdAt": {},
                                 "updatedAt": {}
                               },
-                              "required": [
-                                "organizationId",
-                                "workspaceId",
-                                "name",
-                                "deletedAt",
-                                "createdAt",
-                                "updatedAt"
-                              ]
+                              "required": ["organizationId", "workspaceId", "name", "deletedAt", "createdAt", "updatedAt"]
                             },
                             "default": []
                           },
@@ -9200,14 +7920,8 @@
                           },
                           "status": {
                             "type": "string",
-                            "enum": [
-                              "ACTIVE",
-                              "INACTIVE"
-                            ],
-                            "x-enumNames": [
-                              "ACTIVE",
-                              "INACTIVE"
-                            ],
+                            "enum": ["ACTIVE", "INACTIVE"],
+                            "x-enumNames": ["ACTIVE", "INACTIVE"],
                             "default": "ACTIVE"
                           },
                           "deletedAt": {
@@ -9216,17 +7930,7 @@
                           "createdAt": {},
                           "updatedAt": {}
                         },
-                        "required": [
-                          "roleId",
-                          "workspaceId",
-                          "organizationIds",
-                          "name",
-                          "permissions",
-                          "tags",
-                          "deletedAt",
-                          "createdAt",
-                          "updatedAt"
-                        ]
+                        "required": ["roleId", "workspaceId", "organizationIds", "name", "permissions", "tags", "deletedAt", "createdAt", "updatedAt"]
                       },
                       "default": []
                     },
@@ -9261,11 +7965,7 @@
                           "minLength": 1
                         }
                       },
-                      "required": [
-                        "iso",
-                        "ddi",
-                        "number"
-                      ],
+                      "required": ["iso", "ddi", "number"],
                       "nullable": true
                     },
                     "avatar": {
@@ -9284,10 +7984,7 @@
                           "nullable": true
                         }
                       },
-                      "required": [
-                        "googleId",
-                        "facebookId"
-                      ],
+                      "required": ["googleId", "facebookId"],
                       "default": {
                         "googleId": null,
                         "facebookId": null
@@ -9300,14 +7997,8 @@
                     },
                     "status": {
                       "type": "string",
-                      "enum": [
-                        "ACTIVE",
-                        "INACTIVE"
-                      ],
-                      "x-enumNames": [
-                        "ACTIVE",
-                        "INACTIVE"
-                      ],
+                      "enum": ["ACTIVE", "INACTIVE"],
+                      "x-enumNames": ["ACTIVE", "INACTIVE"],
                       "default": "ACTIVE"
                     },
                     "createdAt": {},
@@ -9354,11 +8045,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "issues"
-                  ]
+                  "required": ["statusCode", "error", "issues"]
                 }
               }
             }
@@ -9386,11 +8073,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
@@ -9402,9 +8085,7 @@
           }
         ],
         "summary": "Create User",
-        "tags": [
-          "User"
-        ]
+        "tags": ["User"]
       }
     },
     "/v1/workspaces/{workspaceId}/users/{userId}": {
@@ -9412,6 +8093,15 @@
         "description": "Retrieves a single user by their ID.",
         "operationId": "getUser",
         "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "The authorization token for user authentication.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
           {
             "name": "userId",
             "required": true,
@@ -9481,14 +8171,8 @@
                           },
                           "status": {
                             "type": "string",
-                            "enum": [
-                              "ACTIVE",
-                              "INACTIVE"
-                            ],
-                            "x-enumNames": [
-                              "ACTIVE",
-                              "INACTIVE"
-                            ],
+                            "enum": ["ACTIVE", "INACTIVE"],
+                            "x-enumNames": ["ACTIVE", "INACTIVE"],
                             "default": "ACTIVE"
                           },
                           "deletedAt": {
@@ -9497,14 +8181,7 @@
                           "createdAt": {},
                           "updatedAt": {}
                         },
-                        "required": [
-                          "organizationId",
-                          "workspaceId",
-                          "name",
-                          "deletedAt",
-                          "createdAt",
-                          "updatedAt"
-                        ]
+                        "required": ["organizationId", "workspaceId", "name", "deletedAt", "createdAt", "updatedAt"]
                       },
                       "default": []
                     },
@@ -9560,14 +8237,8 @@
                                 },
                                 "status": {
                                   "type": "string",
-                                  "enum": [
-                                    "ACTIVE",
-                                    "INACTIVE"
-                                  ],
-                                  "x-enumNames": [
-                                    "ACTIVE",
-                                    "INACTIVE"
-                                  ],
+                                  "enum": ["ACTIVE", "INACTIVE"],
+                                  "x-enumNames": ["ACTIVE", "INACTIVE"],
                                   "default": "ACTIVE"
                                 },
                                 "deletedAt": {
@@ -9576,14 +8247,7 @@
                                 "createdAt": {},
                                 "updatedAt": {}
                               },
-                              "required": [
-                                "organizationId",
-                                "workspaceId",
-                                "name",
-                                "deletedAt",
-                                "createdAt",
-                                "updatedAt"
-                              ]
+                              "required": ["organizationId", "workspaceId", "name", "deletedAt", "createdAt", "updatedAt"]
                             },
                             "default": []
                           },
@@ -9606,14 +8270,8 @@
                           },
                           "status": {
                             "type": "string",
-                            "enum": [
-                              "ACTIVE",
-                              "INACTIVE"
-                            ],
-                            "x-enumNames": [
-                              "ACTIVE",
-                              "INACTIVE"
-                            ],
+                            "enum": ["ACTIVE", "INACTIVE"],
+                            "x-enumNames": ["ACTIVE", "INACTIVE"],
                             "default": "ACTIVE"
                           },
                           "deletedAt": {
@@ -9622,17 +8280,7 @@
                           "createdAt": {},
                           "updatedAt": {}
                         },
-                        "required": [
-                          "roleId",
-                          "workspaceId",
-                          "organizationIds",
-                          "name",
-                          "permissions",
-                          "tags",
-                          "deletedAt",
-                          "createdAt",
-                          "updatedAt"
-                        ]
+                        "required": ["roleId", "workspaceId", "organizationIds", "name", "permissions", "tags", "deletedAt", "createdAt", "updatedAt"]
                       },
                       "default": []
                     },
@@ -9667,11 +8315,7 @@
                           "minLength": 1
                         }
                       },
-                      "required": [
-                        "iso",
-                        "ddi",
-                        "number"
-                      ],
+                      "required": ["iso", "ddi", "number"],
                       "nullable": true
                     },
                     "avatar": {
@@ -9690,10 +8334,7 @@
                           "nullable": true
                         }
                       },
-                      "required": [
-                        "googleId",
-                        "facebookId"
-                      ],
+                      "required": ["googleId", "facebookId"],
                       "default": {
                         "googleId": null,
                         "facebookId": null
@@ -9706,14 +8347,8 @@
                     },
                     "status": {
                       "type": "string",
-                      "enum": [
-                        "ACTIVE",
-                        "INACTIVE"
-                      ],
-                      "x-enumNames": [
-                        "ACTIVE",
-                        "INACTIVE"
-                      ],
+                      "enum": ["ACTIVE", "INACTIVE"],
+                      "x-enumNames": ["ACTIVE", "INACTIVE"],
                       "default": "ACTIVE"
                     },
                     "createdAt": {},
@@ -9760,11 +8395,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "issues"
-                  ]
+                  "required": ["statusCode", "error", "issues"]
                 }
               }
             }
@@ -9792,11 +8423,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
@@ -9808,14 +8435,21 @@
           }
         ],
         "summary": "Get User",
-        "tags": [
-          "User"
-        ]
+        "tags": ["User"]
       },
       "patch": {
         "description": "Updates an existing user by their ID.",
         "operationId": "updateUser",
         "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "The authorization token for user authentication.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
           {
             "name": "userId",
             "required": true,
@@ -9851,14 +8485,8 @@
                   },
                   "status": {
                     "type": "string",
-                    "enum": [
-                      "ACTIVE",
-                      "INACTIVE"
-                    ],
-                    "x-enumNames": [
-                      "ACTIVE",
-                      "INACTIVE"
-                    ],
+                    "enum": ["ACTIVE", "INACTIVE"],
+                    "x-enumNames": ["ACTIVE", "INACTIVE"],
                     "default": "ACTIVE",
                     "name": "status"
                   },
@@ -9881,10 +8509,7 @@
                           }
                         }
                       },
-                      "required": [
-                        "organizationId",
-                        "roleIds"
-                      ]
+                      "required": ["organizationId", "roleIds"]
                     },
                     "name": "organizations"
                   }
@@ -9941,14 +8566,8 @@
                           },
                           "status": {
                             "type": "string",
-                            "enum": [
-                              "ACTIVE",
-                              "INACTIVE"
-                            ],
-                            "x-enumNames": [
-                              "ACTIVE",
-                              "INACTIVE"
-                            ],
+                            "enum": ["ACTIVE", "INACTIVE"],
+                            "x-enumNames": ["ACTIVE", "INACTIVE"],
                             "default": "ACTIVE"
                           },
                           "deletedAt": {
@@ -9957,14 +8576,7 @@
                           "createdAt": {},
                           "updatedAt": {}
                         },
-                        "required": [
-                          "organizationId",
-                          "workspaceId",
-                          "name",
-                          "deletedAt",
-                          "createdAt",
-                          "updatedAt"
-                        ]
+                        "required": ["organizationId", "workspaceId", "name", "deletedAt", "createdAt", "updatedAt"]
                       },
                       "default": []
                     },
@@ -10020,14 +8632,8 @@
                                 },
                                 "status": {
                                   "type": "string",
-                                  "enum": [
-                                    "ACTIVE",
-                                    "INACTIVE"
-                                  ],
-                                  "x-enumNames": [
-                                    "ACTIVE",
-                                    "INACTIVE"
-                                  ],
+                                  "enum": ["ACTIVE", "INACTIVE"],
+                                  "x-enumNames": ["ACTIVE", "INACTIVE"],
                                   "default": "ACTIVE"
                                 },
                                 "deletedAt": {
@@ -10036,14 +8642,7 @@
                                 "createdAt": {},
                                 "updatedAt": {}
                               },
-                              "required": [
-                                "organizationId",
-                                "workspaceId",
-                                "name",
-                                "deletedAt",
-                                "createdAt",
-                                "updatedAt"
-                              ]
+                              "required": ["organizationId", "workspaceId", "name", "deletedAt", "createdAt", "updatedAt"]
                             },
                             "default": []
                           },
@@ -10066,14 +8665,8 @@
                           },
                           "status": {
                             "type": "string",
-                            "enum": [
-                              "ACTIVE",
-                              "INACTIVE"
-                            ],
-                            "x-enumNames": [
-                              "ACTIVE",
-                              "INACTIVE"
-                            ],
+                            "enum": ["ACTIVE", "INACTIVE"],
+                            "x-enumNames": ["ACTIVE", "INACTIVE"],
                             "default": "ACTIVE"
                           },
                           "deletedAt": {
@@ -10082,17 +8675,7 @@
                           "createdAt": {},
                           "updatedAt": {}
                         },
-                        "required": [
-                          "roleId",
-                          "workspaceId",
-                          "organizationIds",
-                          "name",
-                          "permissions",
-                          "tags",
-                          "deletedAt",
-                          "createdAt",
-                          "updatedAt"
-                        ]
+                        "required": ["roleId", "workspaceId", "organizationIds", "name", "permissions", "tags", "deletedAt", "createdAt", "updatedAt"]
                       },
                       "default": []
                     },
@@ -10127,11 +8710,7 @@
                           "minLength": 1
                         }
                       },
-                      "required": [
-                        "iso",
-                        "ddi",
-                        "number"
-                      ],
+                      "required": ["iso", "ddi", "number"],
                       "nullable": true
                     },
                     "avatar": {
@@ -10150,10 +8729,7 @@
                           "nullable": true
                         }
                       },
-                      "required": [
-                        "googleId",
-                        "facebookId"
-                      ],
+                      "required": ["googleId", "facebookId"],
                       "default": {
                         "googleId": null,
                         "facebookId": null
@@ -10166,14 +8742,8 @@
                     },
                     "status": {
                       "type": "string",
-                      "enum": [
-                        "ACTIVE",
-                        "INACTIVE"
-                      ],
-                      "x-enumNames": [
-                        "ACTIVE",
-                        "INACTIVE"
-                      ],
+                      "enum": ["ACTIVE", "INACTIVE"],
+                      "x-enumNames": ["ACTIVE", "INACTIVE"],
                       "default": "ACTIVE"
                     },
                     "createdAt": {},
@@ -10220,11 +8790,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "issues"
-                  ]
+                  "required": ["statusCode", "error", "issues"]
                 }
               }
             }
@@ -10252,11 +8818,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
@@ -10268,9 +8830,7 @@
           }
         ],
         "summary": "Update User",
-        "tags": [
-          "User"
-        ]
+        "tags": ["User"]
       }
     },
     "/v1/workspaces/{workspaceId}": {
@@ -10278,6 +8838,15 @@
         "description": "Retrieves a single workspace by their ID.",
         "operationId": "getWorkspace",
         "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "The authorization token for user authentication.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
           {
             "name": "workspaceId",
             "required": true,
@@ -10308,25 +8877,14 @@
                     },
                     "status": {
                       "type": "string",
-                      "enum": [
-                        "ACTIVE",
-                        "INACTIVE"
-                      ],
-                      "x-enumNames": [
-                        "ACTIVE",
-                        "INACTIVE"
-                      ],
+                      "enum": ["ACTIVE", "INACTIVE"],
+                      "x-enumNames": ["ACTIVE", "INACTIVE"],
                       "default": "ACTIVE"
                     },
                     "createdAt": {},
                     "updatedAt": {}
                   },
-                  "required": [
-                    "workspaceId",
-                    "name",
-                    "createdAt",
-                    "updatedAt"
-                  ]
+                  "required": ["workspaceId", "name", "createdAt", "updatedAt"]
                 }
               }
             }
@@ -10354,11 +8912,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "issues"
-                  ]
+                  "required": ["statusCode", "error", "issues"]
                 }
               }
             }
@@ -10386,11 +8940,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
@@ -10402,14 +8952,21 @@
           }
         ],
         "summary": "Get Workspace",
-        "tags": [
-          "Workspace"
-        ]
+        "tags": ["Workspace"]
       },
       "patch": {
         "description": "Updates an existing workspace by their ID.",
         "operationId": "updateWorkspace",
         "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "The authorization token for user authentication.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
           {
             "name": "workspaceId",
             "required": true,
@@ -10435,14 +8992,8 @@
                   },
                   "status": {
                     "type": "string",
-                    "enum": [
-                      "ACTIVE",
-                      "INACTIVE"
-                    ],
-                    "x-enumNames": [
-                      "ACTIVE",
-                      "INACTIVE"
-                    ],
+                    "enum": ["ACTIVE", "INACTIVE"],
+                    "x-enumNames": ["ACTIVE", "INACTIVE"],
                     "default": "ACTIVE",
                     "name": "status"
                   }
@@ -10470,25 +9021,14 @@
                     },
                     "status": {
                       "type": "string",
-                      "enum": [
-                        "ACTIVE",
-                        "INACTIVE"
-                      ],
-                      "x-enumNames": [
-                        "ACTIVE",
-                        "INACTIVE"
-                      ],
+                      "enum": ["ACTIVE", "INACTIVE"],
+                      "x-enumNames": ["ACTIVE", "INACTIVE"],
                       "default": "ACTIVE"
                     },
                     "createdAt": {},
                     "updatedAt": {}
                   },
-                  "required": [
-                    "workspaceId",
-                    "name",
-                    "createdAt",
-                    "updatedAt"
-                  ]
+                  "required": ["workspaceId", "name", "createdAt", "updatedAt"]
                 }
               }
             }
@@ -10516,11 +9056,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "issues"
-                  ]
+                  "required": ["statusCode", "error", "issues"]
                 }
               }
             }
@@ -10548,11 +9084,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
@@ -10564,16 +9096,24 @@
           }
         ],
         "summary": "Update Workspace",
-        "tags": [
-          "Workspace"
-        ]
+        "tags": ["Workspace"]
       }
     },
     "/v1/workspaces": {
       "post": {
         "description": "Creates a new workspace.",
         "operationId": "createWorkspace",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "The authorization token for user authentication.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -10587,9 +9127,7 @@
                     "name": "name"
                   }
                 },
-                "required": [
-                  "name"
-                ]
+                "required": ["name"]
               }
             }
           }
@@ -10613,25 +9151,14 @@
                     },
                     "status": {
                       "type": "string",
-                      "enum": [
-                        "ACTIVE",
-                        "INACTIVE"
-                      ],
-                      "x-enumNames": [
-                        "ACTIVE",
-                        "INACTIVE"
-                      ],
+                      "enum": ["ACTIVE", "INACTIVE"],
+                      "x-enumNames": ["ACTIVE", "INACTIVE"],
                       "default": "ACTIVE"
                     },
                     "createdAt": {},
                     "updatedAt": {}
                   },
-                  "required": [
-                    "workspaceId",
-                    "name",
-                    "createdAt",
-                    "updatedAt"
-                  ]
+                  "required": ["workspaceId", "name", "createdAt", "updatedAt"]
                 }
               }
             }
@@ -10659,11 +9186,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "issues"
-                  ]
+                  "required": ["statusCode", "error", "issues"]
                 }
               }
             }
@@ -10691,11 +9214,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "statusCode",
-                    "error",
-                    "message"
-                  ]
+                  "required": ["statusCode", "error", "message"]
                 }
               }
             }
@@ -10707,9 +9226,7 @@
           }
         ],
         "summary": "Create Workspace",
-        "tags": [
-          "Workspace"
-        ]
+        "tags": ["Workspace"]
       }
     }
   },
@@ -10765,7 +9282,11 @@
       "description": "Handles operations for managing and retrieving workspaces."
     }
   ],
-  "servers": [],
+  "servers": [
+    {
+      "url": "http://127.0.0.1:4000"
+    }
+  ],
   "components": {
     "securitySchemes": {
       "Bearer": {

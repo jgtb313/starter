@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { NestServerHoistingFactory } from '@starter/nestjs-server-hoisting'
-import { config } from '@starter/config'
+import { config, StageEnum } from '@starter/config'
 
 import { AppModule } from '@/app.module'
 
@@ -12,11 +12,11 @@ const execute = () => {
   NestServerHoistingFactory.create(AppModule, {
     port: 4000,
 
-    openapi: {
+    documentation: {
       title: `${config.name} API`,
       description: documentation,
       favicon: config.logo.darkSymbol,
-      server: 'http://localhost:4000',
+      server: config.apiUrls[process.env.STAGE as StageEnum],
     },
   })
 }

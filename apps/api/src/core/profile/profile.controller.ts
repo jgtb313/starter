@@ -16,7 +16,6 @@ import {
   UpdateProfilePasswordRequest,
 } from './profile.controller.schema'
 
-@UseGuards(AuthGuard)
 @Controller({
   name: 'Profile',
 
@@ -26,6 +25,7 @@ import {
 
   schemas: {},
 })
+@UseGuards(AuthGuard)
 export class ProfileController {
   constructor(
     private readonly userService: UserService,

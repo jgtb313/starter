@@ -18,7 +18,6 @@ import {
   DeleteOrganizationRequest,
 } from './organization.controller.schema'
 
-@UseGuards(AuthGuard)
 @Controller({
   name: 'Organization',
 
@@ -32,6 +31,7 @@ import {
     },
   },
 })
+@UseGuards(AuthGuard)
 export class OrganizationController {
   constructor(
     private readonly aclService: ACLService,

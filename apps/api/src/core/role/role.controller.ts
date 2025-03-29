@@ -18,7 +18,6 @@ import {
   DeleteRoleRequest,
 } from './role.controller.schema'
 
-@UseGuards(AuthGuard)
 @Controller({
   name: 'Role',
 
@@ -32,6 +31,7 @@ import {
     },
   },
 })
+@UseGuards(AuthGuard)
 export class RoleController {
   constructor(
     private readonly aclService: ACLService,

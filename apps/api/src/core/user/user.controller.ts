@@ -18,7 +18,6 @@ import {
   DeleteUserRequest,
 } from './user.controller.schema'
 
-@UseGuards(AuthGuard)
 @Controller({
   name: 'User',
 
@@ -32,6 +31,7 @@ import {
     },
   },
 })
+@UseGuards(AuthGuard)
 export class UserController {
   constructor(
     private readonly aclService: ACLService,

@@ -147,7 +147,6 @@ export class OTPController {
     }
   }
 
-  @UseGuards(AuthGuard)
   @Route({
     summary: 'Send Email Update OTP',
     description:
@@ -178,6 +177,7 @@ export class OTPController {
       ],
     },
   })
+  @UseGuards(AuthGuard)
   async sendUpdateEmailOTP(@AuthenticatedUser() user: User, @Request() { body }: SendUpdateEmailOTPRequest) {
     const otp = await this.otpService.sendUpdateEmail({
       userId: user.userId,
@@ -189,7 +189,6 @@ export class OTPController {
     }
   }
 
-  @UseGuards(AuthGuard)
   @Route({
     summary: 'Send Update Phone OTP',
     description:
@@ -220,6 +219,7 @@ export class OTPController {
       ],
     },
   })
+  @UseGuards(AuthGuard)
   async sendUpdatePhoneOTP(@AuthenticatedUser() user: User, @Request() { body }: SendUpdatePhoneOTPRequest) {
     const otp = await this.otpService.sendUpdatePhone({
       userId: user.userId,

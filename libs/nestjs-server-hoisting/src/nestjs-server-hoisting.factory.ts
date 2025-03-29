@@ -13,7 +13,12 @@ import { StateManager } from '@/nestjs-server-hoisting.state'
 
 export type NestServerHoistingOptions = {
   port?: number
-  openapi?: any
+  documentation: {
+    title: string
+    description: string
+    favicon: string
+    server: string
+  }
 }
 
 type IEntryNestModule = Type<any> | DynamicModule | ForwardReference | Promise<IEntryNestModule>
@@ -26,7 +31,7 @@ class CustomLogger extends ConsoleLogger {
   }
 }
 
-const create = async (entryModule: IEntryNestModule, options?: NestServerHoistingOptions) => {
+const create = async (entryModule: IEntryNestModule, options: NestServerHoistingOptions) => {
   const app: INestApplication<ExpressAdapter> & { openapiSpec: OpenAPIObject } = await NestFactory.create(entryModule, {
     logger: new CustomLogger(),
   })
@@ -40,6 +45,11 @@ const create = async (entryModule: IEntryNestModule, options?: NestServerHoistin
 
   const builder = new DocumentBuilder()
 
+  builder.setTitle(options.documentation.title)
+  builder.setDescription(options.documentation.description)
+
+  builder.addServer(options.documentation.server)
+
   builder.addBearerAuth(
     {
       type: 'http',
@@ -47,8 +57,6 @@ const create = async (entryModule: IEntryNestModule, options?: NestServerHoistin
     },
     'Bearer',
   )
-  builder.setTitle(options?.openapi.title)
-  builder.setDescription(options?.openapi.description)
 
   Object.values(state.controllers).forEach((controller) => builder.addTag(controller.name, controller.description))
 
@@ -84,9 +92,9 @@ const create = async (entryModule: IEntryNestModule, options?: NestServerHoistin
       hideModels: false,
       hideDownloadButton: true,
       metaData: {
-        title: options?.openapi?.title,
+        title: options.documentation.title,
       },
-      favicon: options?.openapi?.favicon,
+      favicon: options.documentation.favicon,
       defaultOpenAllTags: true,
       defaultHttpClient: {
         targetKey: 'node',
@@ -108,7 +116,7 @@ const create = async (entryModule: IEntryNestModule, options?: NestServerHoistin
   )
 
   http.get('/', (_: Request, res: Response) => {
-    res.send(options?.openapi?.title ?? 'API')
+    res.send(options.documentation.title)
   })
 
   await app.listen(options?.port ?? 3000)

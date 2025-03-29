@@ -1,14 +1,18 @@
 import { ControllerOptions, RouteOptions } from '@/interfaces'
 
+type CustomControllerOptions = ControllerOptions & {
+  authenticated: boolean
+}
+
 type CustomRouteOptions = RouteOptions & {
   operationId: string
 }
 
 export class StateManager {
-  private static controllers: Record<string, ControllerOptions> = {}
+  private static controllers: Record<string, CustomControllerOptions> = {}
   private static routes: Record<string, CustomRouteOptions[]> = {}
 
-  static addController(name: string, options: ControllerOptions) {
+  static addController(name: string, options: CustomControllerOptions) {
     const controllerName = `${name}Controller`
 
     this.controllers[controllerName] = options
@@ -25,12 +29,12 @@ export class StateManager {
     }
   }
 
-  static getController(target: Function): ControllerOptions | undefined {
+  static getController(target: Function): CustomControllerOptions | undefined {
     return this.controllers[target.name]
   }
 }
 
 export type State = {
-  controllers: Record<string, ControllerOptions>
+  controllers: Record<string, CustomControllerOptions>
   routes: Record<string, CustomRouteOptions[]>
 }

@@ -14,7 +14,6 @@ import {
   UpdateWorkspaceRequest,
 } from './workspace.controller.schema'
 
-@UseGuards(AuthGuard)
 @Controller({
   name: 'Workspace',
 
@@ -28,6 +27,7 @@ import {
     },
   },
 })
+@UseGuards(AuthGuard)
 export class WorkspaceController {
   constructor(
     private readonly aclService: ACLService,
