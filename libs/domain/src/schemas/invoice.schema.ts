@@ -1,4 +1,4 @@
-import { z, CreditCardSchema } from '@starter/schema'
+import { z, PaymentCardSchema, BoletoSchema, PixSchema } from '@starter/schema'
 
 import { ID, CreatedAt, UpdatedAt, BaseSchema } from '@/support/schema'
 
@@ -22,6 +22,8 @@ const WorkspaceId = ID('workspace')
 
 const SubscriptionId = ID('subscription')
 
+const ExternalId = z.string().min(1)
+
 const Description = z.string().min(1)
 
 const Amount = z.number().min(1)
@@ -37,12 +39,15 @@ const CanceledAt = z.coerce
 
 const Status = z.nativeEnum(InvoiceStatusEnum).default(InvoiceStatusEnum.PENDING)
 
-const BaseInvoiceSchema = z.object({
+export const InvoiceCreditCardSchema = z.object({
   invoiceId: InvoiceId,
   workspaceId: WorkspaceId,
   subscriptionId: SubscriptionId,
+  externalId: ExternalId,
   description: Description,
   amount: Amount,
+  paymentMethod: z.literal(InvoicePaymentMethodEnum.CREDIT_CARD),
+  creditCard: PaymentCardSchema,
   issuedAt: IssuedAt,
   billingDueDate: BillingDueDate,
   canceledAt: CanceledAt,
@@ -50,30 +55,59 @@ const BaseInvoiceSchema = z.object({
   createdAt: CreatedAt,
   updatedAt: UpdatedAt,
 })
-
-export const InvoiceCreditCardSchema = BaseInvoiceSchema.extend({
-  paymentMethod: z.literal(InvoicePaymentMethodEnum.CREDIT_CARD),
-  creditCard: CreditCardSchema,
-})
 export type InvoiceCreditCard = z.infer<typeof InvoiceCreditCardSchema>
 
-export const InvoiceDebitCardSchema = BaseInvoiceSchema.extend({
+export const InvoiceDebitCardSchema = z.object({
+  invoiceId: InvoiceId,
+  workspaceId: WorkspaceId,
+  subscriptionId: SubscriptionId,
+  externalId: ExternalId,
+  description: Description,
+  amount: Amount,
   paymentMethod: z.literal(InvoicePaymentMethodEnum.DEBIT_CARD),
-  debitCard: CreditCardSchema,
+  debitCard: PaymentCardSchema,
+  issuedAt: IssuedAt,
+  billingDueDate: BillingDueDate,
+  canceledAt: CanceledAt,
+  status: Status,
+  createdAt: CreatedAt,
+  updatedAt: UpdatedAt,
 })
 export type InvoiceDebitCard = z.infer<typeof InvoiceDebitCardSchema>
 
-export const InvoicePixSchema = BaseInvoiceSchema.extend({
+export const InvoicePixSchema = z.object({
+  invoiceId: InvoiceId,
+  workspaceId: WorkspaceId,
+  subscriptionId: SubscriptionId,
+  externalId: ExternalId,
+  description: Description,
+  amount: Amount,
   paymentMethod: z.literal(InvoicePaymentMethodEnum.PIX),
-  pixQrCode: z.string().min(1),
+  pix: PixSchema,
+  issuedAt: IssuedAt,
+  billingDueDate: BillingDueDate,
+  canceledAt: CanceledAt,
+  status: Status,
+  createdAt: CreatedAt,
+  updatedAt: UpdatedAt,
 })
 export type InvoicePix = z.infer<typeof InvoicePixSchema>
 
-export const InvoiceBoletoSchema = BaseInvoiceSchema.extend({
+export const InvoiceBoletoSchema = z.object({
+  invoiceId: InvoiceId,
+  workspaceId: WorkspaceId,
+  subscriptionId: SubscriptionId,
+  externalId: ExternalId,
+  description: Description,
+  amount: Amount,
   paymentMethod: z.literal(InvoicePaymentMethodEnum.BOLETO),
-  boletoURL: z.string().min(1),
-  boletoInstructions: z.string().min(1),
-  boletoDueDate: z.coerce.date(),
+  boleto: BoletoSchema,
+  issuedAt: IssuedAt,
+  billingDueDate: BillingDueDate,
+  canceledAt: CanceledAt,
+  status: Status,
+  createdAt: CreatedAt,
+  updatedAt: UpdatedAt,
 })
 export type InvoiceBoleto = z.infer<typeof InvoiceBoletoSchema>
 

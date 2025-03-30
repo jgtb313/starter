@@ -1,5 +1,4 @@
 import { z } from '@starter/schema'
-import { formatToCapitalized } from '@starter/common'
 
 import { ID, DeletedAt, CreatedAt, UpdatedAt, BaseSchema } from '@/support/schema'
 
@@ -12,10 +11,7 @@ const OrganizationId = ID('organization')
 
 const WorkspaceId = ID('workspace')
 
-const Name = z
-  .string()
-  .min(1)
-  .transform((value) => formatToCapitalized(value))
+const Name = z.string().min(1)
 
 const Status = z.nativeEnum(OrganizationStatusEnum).default(OrganizationStatusEnum.ACTIVE)
 

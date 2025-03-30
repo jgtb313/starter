@@ -56,7 +56,7 @@ export class UserService {
       throw new NotFoundException(`User ${userId} not found`)
     }
 
-    if (user.workspaceId !== workspaceId) {
+    if (workspaceId && user.workspaceId !== workspaceId) {
       throw new AclForbiddenException()
     }
 

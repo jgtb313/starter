@@ -1,2 +1,2 @@
-export * from './invoice.typeorm.entity'
 export * from './invoice.repository.module'
+export * from './invoice.typeorm.entity'

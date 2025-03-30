@@ -17,8 +17,8 @@ export class InvoiceTypeorm implements IInvoiceRepository {
     this.repository = this.dataSource.getRepository(InvoiceEntity)
   }
 
-  findAll: IInvoiceRepository['findAll'] = async ({ offset, limit, ...query }) => {
-    const { description, status } = query
+  findPaginated: IInvoiceRepository['findPaginated'] = async ({ offset, limit, ...input }) => {
+    const { description, status } = input
 
     const where: FindOptionsWhere<InvoiceEntity> = {}
 
@@ -78,11 +78,5 @@ export class InvoiceTypeorm implements IInvoiceRepository {
     await this.repository.update(invoice.invoiceId, input)
 
     return this.findById(invoice.invoiceId)
-  }
-
-  deleteById: IInvoiceRepository['deleteById'] = async (invoiceId) => {
-    const invoice = await this.findById(invoiceId)
-
-    await this.repository.softDelete({ invoiceId: invoice.invoiceId })
   }
 }
