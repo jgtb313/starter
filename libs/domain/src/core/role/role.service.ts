@@ -46,7 +46,7 @@ export class RoleService {
   }
 
   async create(input: BaseRole) {
-    await this.organizationService.validateOrganizationIds(input.organizationIds)
+    await this.organizationService.validateIds(input.organizationIds)
 
     const role = await this.roleRepository.create({
       ...input,

@@ -1,11 +1,13 @@
-import { Injectable, Inject, BadRequestException, ConflictException } from '@nestjs/common'
-import { AclForbiddenException } from '@starter/nestjs-error-handling'
-import { Pagination } from '@starter/schema'
+import { Injectable } from '@nestjs/common'
+import { ILike, FindOptionsWhere } from 'typeorm'
+import { BadRequestException, ConflictException, NotFoundException, AclForbiddenException } from '@starter/nestjs-error-handling'
+import { Pagination, Phone } from '@starter/schema'
 
+import { UserSchema, User, BaseUser } from '@/schemas'
 import { createWorkspaceReference, WithWorkspaceReference } from '@/support/workspace-reference'
-import { User, BaseUser } from '@/schemas'
-import { IUserRepository } from '@/ports/database/user'
+import { PaginationService } from '@/support/pagination'
 import { EncryptService } from '@/adapters/encrypt'
+import { UserRepository, UserEntity } from '@/adapters/database/user'
 import { RoleService } from '../role'
 
 type UserWorkspaceReference = WithWorkspaceReference<'userId'>
@@ -14,54 +16,111 @@ const getUserWorkspaceReference = createWorkspaceReference('userId')
 @Injectable()
 export class UserService {
   constructor(
-    @Inject('USER_REPOSITORY') private readonly userRepository: IUserRepository,
+    private readonly userRepository: UserRepository,
     private readonly roleService: RoleService,
     private readonly encryptService: EncryptService,
+    private readonly paginationService: PaginationService,
   ) {}
 
-  async findAll(input: Pagination<User>) {
-    const result = await this.userRepository.findAll({
-      ...input,
+  async getPaginatedUsers({ offset, limit, ...input }: Pagination<User>) {
+    const { name } = input
+
+    const where: FindOptionsWhere<UserEntity> = {}
+
+    if (name) {
+      where.name = ILike(`%${name}%`)
+    }
+
+    const { values, meta } = await this.paginationService.paginate(this.userRepository, {
+      where,
+      offset,
+      limit,
     })
 
-    return result
+    return {
+      values: values.map((user) => UserSchema.parse(user)),
+      meta,
+    }
   }
 
-  async findById(reference: UserWorkspaceReference) {
+  async getUser(reference: UserWorkspaceReference) {
     const { userId, workspaceId } = getUserWorkspaceReference(reference)
 
-    const user = await this.userRepository.findById(userId)
+    const user = await this.userRepository
+      .createQueryBuilder('user')
+      .where('user.userId = :userId', { userId })
+      .leftJoinAndMapMany('user.roles', 'roles', 'role', 'role.roleId = ANY(user.roleIds)')
+      .getOne()
 
-    if (workspaceId && user.workspaceId !== workspaceId) {
+    if (!user) {
+      throw new NotFoundException(`User ${userId} not found`)
+    }
+
+    if (user.workspaceId !== workspaceId) {
       throw new AclForbiddenException()
     }
 
-    return user
+    return UserSchema.parse(user)
   }
 
-  async findBySocial(context: 'FACEBOOK' | 'GOOGLE', input: { socialId: string; email: string | null }) {
-    const user = await this.userRepository.findBySocial(context, input)
-
-    return user
-  }
-
-  async findOne(input: Partial<User>) {
-    const user = await this.userRepository.findOne({
-      ...input,
-    })
-
-    if (input.workspaceId && user && user.workspaceId !== input.workspaceId) {
-      throw new AclForbiddenException()
+  async getUserByEmail(email: string, options?: { workspaceId: string }) {
+    const where: FindOptionsWhere<UserEntity> = {
+      email,
+      ...options,
     }
 
-    return user
+    const user = await this.userRepository.findOne({ where })
+
+    if (!user) {
+      return
+    }
+
+    return UserSchema.parse(user)
   }
 
-  async create({
+  async getUserByPhone(phone: Phone, options?: { workspaceId: string }) {
+    const where: FindOptionsWhere<UserEntity> = {
+      phone,
+      ...options,
+    }
+
+    const user = await this.userRepository.findOne({ where })
+
+    if (!user) {
+      return
+    }
+
+    return UserSchema.parse(user)
+  }
+
+  async getUserBySocial(context: 'FACEBOOK' | 'GOOGLE', input: { socialId: string; email: string | null }) {
+    const { socialId, email } = input
+    const socialKey = `${context.toLowerCase()}Id`
+
+    const where: FindOptionsWhere<UserEntity>[] = [{ social: { [socialKey]: socialId } }]
+
+    if (email) {
+      where.push({ email })
+    }
+
+    const user = await this.userRepository.findOne({ where })
+
+    if (!user) {
+      return
+    }
+
+    return UserSchema.parse(user)
+  }
+
+  async createUser({
     organizations,
     ...input
   }: Omit<BaseUser, 'organizationIds' | 'organizations' | 'roleIds'> & { organizations: { organizationId: string; roleIds: string[] }[] }) {
-    const emailExists = await this.userRepository.findOne({ email: input.email })
+    const emailExists = await this.userRepository.findOne({
+      where: {
+        email: input.email,
+      },
+    })
 
     if (emailExists) {
       throw new ConflictException(`Email ${input.email} has already been taken.`)
@@ -77,17 +136,19 @@ export class UserService {
 
     const roleIds = organizations.flatMap((organization) => organization.roleIds)
 
-    const user = await this.userRepository.create({
-      ...input,
-      organizationIds,
-      roleIds,
-      password: hashedPassword,
-    })
+    const user = await this.userRepository.save(
+      this.userRepository.create({
+        ...input,
+        organizationIds,
+        roleIds,
+        password: hashedPassword,
+      }),
+    )
 
     return user
   }
 
-  async updateById(
+  async updateUser(
     reference: UserWorkspaceReference,
     {
       organizations = [],
@@ -96,7 +157,7 @@ export class UserService {
       Omit<User, 'organizationIds' | 'organizations' | 'roleIds' | 'password'> & { organizations: { organizationId: string; roleIds: string[] }[] }
     >,
   ) {
-    const user = await this.findById(reference)
+    const user = await this.getUser(reference)
 
     const payload: Partial<User> = { ...input }
 
@@ -113,13 +174,23 @@ export class UserService {
       payload.roleIds = roleIds
     }
 
-    const result = await this.userRepository.updateById(user.userId, payload)
+    await this.userRepository.update(user.userId, payload)
 
-    return result
+    return this.getUser(user.userId)
   }
 
-  async verifyPassword(userId: string, password: string) {
-    const user = await this.userRepository.findById(userId)
+  async updateUserPassword(userId: string, password: string) {
+    const user = await this.getUser(userId)
+
+    const newPassword = await this.encryptService.hash(password)
+
+    await this.userRepository.update(user.userId, {
+      password: newPassword,
+    })
+  }
+
+  async verifyUserPassword(userId: string, password: string) {
+    const user = await this.getUser(userId)
 
     const isValidPassword = await this.encryptService.compare(password, user.password)
 
@@ -134,19 +205,11 @@ export class UserService {
     }
   }
 
-  async updatePassword(userId: string, password: string) {
-    const user = await this.userRepository.findById(userId)
+  async deleteUser(reference: UserWorkspaceReference) {
+    const user = await this.getUser(reference)
 
-    const newPassword = await this.encryptService.hash(password)
-
-    await this.userRepository.updateById(user.userId, {
-      password: newPassword,
+    await this.userRepository.softDelete({
+      userId: user.userId,
     })
-  }
-
-  async deleteById(reference: UserWorkspaceReference) {
-    const user = await this.findById(reference)
-
-    await this.userRepository.deleteById(user.userId)
   }
 }

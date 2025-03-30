@@ -15,21 +15,21 @@ export class InvoiceService {
   }
 
   async findById(invoiceId: string) {
-    const result = await this.invoiceRepository.findById(invoiceId)
+    const invoice = await this.invoiceRepository.findById(invoiceId)
 
-    return result
+    return invoice
   }
 
   async findOne(input: Partial<Invoice>) {
-    const result = await this.invoiceRepository.findOne(input)
+    const invoice = await this.invoiceRepository.findOne(input)
 
-    return result
+    return invoice
   }
 
   async create(input: BaseInvoice) {
-    const result = await this.invoiceRepository.create(input)
+    const invoice = await this.invoiceRepository.create(input)
 
-    return result
+    return invoice
   }
 
   async updateById(invoiceId: string, input: Partial<Invoice>) {
