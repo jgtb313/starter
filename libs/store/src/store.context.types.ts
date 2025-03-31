@@ -1,4 +1,4 @@
-import { CacheProviderProps, MakeRequestEvents } from '@starter/use-request'
+import { UseRequestProviderProps, MakeRequestEvents } from '@starter/use-request'
 
 import { StoreEvents } from '@/stores.generated'
 
@@ -8,7 +8,7 @@ export type StoreContextProps = {
 }
 
 export type StoreProviderProps = {
-  cache: CacheProviderProps
+  cache: UseRequestProviderProps['cacheProvider']
   events?: StoreEvents
   onError?: MakeRequestEvents<{}, {}>['onError']
 }

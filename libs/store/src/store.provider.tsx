@@ -1,12 +1,12 @@
 import { PropsWithChildren } from 'react'
-import { CacheProvider } from '@starter/use-request'
+import { UseRequestProvider } from '@starter/use-request'
 
 import { StoreContext } from '@/store.context'
 import { StoreProviderProps } from '@/store.context.types'
 
 export const StoreProvider = ({ cache, events = {}, onError, children }: PropsWithChildren<StoreProviderProps>) => {
   return (
-    <CacheProvider {...cache}>
+    <UseRequestProvider cacheProvider={cache}>
       <StoreContext.Provider
         value={{
           events,
@@ -15,6 +15,6 @@ export const StoreProvider = ({ cache, events = {}, onError, children }: PropsWi
       >
         {children}
       </StoreContext.Provider>
-    </CacheProvider>
+    </UseRequestProvider>
   )
 }
