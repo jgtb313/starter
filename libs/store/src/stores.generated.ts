@@ -40,9 +40,10 @@ import { useQuery, useMutation, useReadCache, UseRequestOptions, UseQueryOptions
 
 import { useStore } from '@/store.context'
 
-export const useSignIn = (options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof signIn>>, Parameters<typeof signIn>[number]>, 'events'> & (
-    UseMutationOptions<StoreInvalidate>
-  )) => {
+export const useSignIn = (
+  options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof signIn>>, Parameters<typeof signIn>[number]>, 'events'> &
+    UseMutationOptions<StoreInvalidate>,
+) => {
   const store = useStore()
   const useSignInEvents = store.events['useSignIn'] ?? {}
   const events = {
@@ -50,11 +51,12 @@ export const useSignIn = (options?: Omit<UseRequestOptions<Awaited<ReturnType<ty
     onError: useSignInEvents['onError'] ?? store.onError,
   }
 
-    return useMutation(signIn, { ...options, events })
+  return useMutation(signIn, { ...options, events })
 }
-export const usePasswordLess = (options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof passwordLess>>, Parameters<typeof passwordLess>[number]>, 'events'> & (
-    UseMutationOptions<StoreInvalidate>
-  )) => {
+export const usePasswordLess = (
+  options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof passwordLess>>, Parameters<typeof passwordLess>[number]>, 'events'> &
+    UseMutationOptions<StoreInvalidate>,
+) => {
   const store = useStore()
   const usePasswordLessEvents = store.events['usePasswordLess'] ?? {}
   const events = {
@@ -62,11 +64,12 @@ export const usePasswordLess = (options?: Omit<UseRequestOptions<Awaited<ReturnT
     onError: usePasswordLessEvents['onError'] ?? store.onError,
   }
 
-    return useMutation(passwordLess, { ...options, events })
+  return useMutation(passwordLess, { ...options, events })
 }
-export const useSocialSignOn = (options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof socialSignOn>>, Parameters<typeof socialSignOn>[number]>, 'events'> & (
-    UseMutationOptions<StoreInvalidate>
-  )) => {
+export const useSocialSignOn = (
+  options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof socialSignOn>>, Parameters<typeof socialSignOn>[number]>, 'events'> &
+    UseMutationOptions<StoreInvalidate>,
+) => {
   const store = useStore()
   const useSocialSignOnEvents = store.events['useSocialSignOn'] ?? {}
   const events = {
@@ -74,11 +77,12 @@ export const useSocialSignOn = (options?: Omit<UseRequestOptions<Awaited<ReturnT
     onError: useSocialSignOnEvents['onError'] ?? store.onError,
   }
 
-    return useMutation(socialSignOn, { ...options, events })
+  return useMutation(socialSignOn, { ...options, events })
 }
-export const useSignUp = (options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof signUp>>, Parameters<typeof signUp>[number]>, 'events'> & (
-    UseMutationOptions<StoreInvalidate>
-  )) => {
+export const useSignUp = (
+  options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof signUp>>, Parameters<typeof signUp>[number]>, 'events'> &
+    UseMutationOptions<StoreInvalidate>,
+) => {
   const store = useStore()
   const useSignUpEvents = store.events['useSignUp'] ?? {}
   const events = {
@@ -86,11 +90,12 @@ export const useSignUp = (options?: Omit<UseRequestOptions<Awaited<ReturnType<ty
     onError: useSignUpEvents['onError'] ?? store.onError,
   }
 
-    return useMutation(signUp, { ...options, events })
+  return useMutation(signUp, { ...options, events })
 }
-export const useForgotPassword = (options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof forgotPassword>>, Parameters<typeof forgotPassword>[number]>, 'events'> & (
-    UseMutationOptions<StoreInvalidate>
-  )) => {
+export const useForgotPassword = (
+  options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof forgotPassword>>, Parameters<typeof forgotPassword>[number]>, 'events'> &
+    UseMutationOptions<StoreInvalidate>,
+) => {
   const store = useStore()
   const useForgotPasswordEvents = store.events['useForgotPassword'] ?? {}
   const events = {
@@ -98,11 +103,12 @@ export const useForgotPassword = (options?: Omit<UseRequestOptions<Awaited<Retur
     onError: useForgotPasswordEvents['onError'] ?? store.onError,
   }
 
-    return useMutation(forgotPassword, { ...options, events })
+  return useMutation(forgotPassword, { ...options, events })
 }
-export const useGetPresignedUrl = (options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof getPresignedUrl>>, Parameters<typeof getPresignedUrl>[number]>, 'events'> & (
-    UseMutationOptions<StoreInvalidate>
-  )) => {
+export const useGetPresignedUrl = (
+  options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof getPresignedUrl>>, Parameters<typeof getPresignedUrl>[number]>, 'events'> &
+    UseMutationOptions<StoreInvalidate>,
+) => {
   const store = useStore()
   const useGetPresignedUrlEvents = store.events['useGetPresignedUrl'] ?? {}
   const events = {
@@ -110,11 +116,12 @@ export const useGetPresignedUrl = (options?: Omit<UseRequestOptions<Awaited<Retu
     onError: useGetPresignedUrlEvents['onError'] ?? store.onError,
   }
 
-    return useMutation(getPresignedUrl, { ...options, events })
+  return useMutation(getPresignedUrl, { ...options, events })
 }
-export const useListOrganizations = (options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof listOrganizations>>, Parameters<typeof listOrganizations>[number]>, 'events'> & (
-    Omit<UseQueryOptions, 'queryKey'>
-)) => {
+export const useListOrganizations = (
+  options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof listOrganizations>>, Parameters<typeof listOrganizations>[number]>, 'events'> &
+    Omit<UseQueryOptions, 'queryKey'>,
+) => {
   const store = useStore()
   const useListOrganizationsEvents = store.events['useListOrganizations'] ?? {}
   const events = {
@@ -122,11 +129,12 @@ export const useListOrganizations = (options?: Omit<UseRequestOptions<Awaited<Re
     onError: useListOrganizationsEvents['onError'] ?? store.onError,
   }
 
-    return useQuery(listOrganizations, { ...options, queryKey: 'useListOrganizations', events })
+  return useQuery(listOrganizations, { ...options, queryKey: 'useListOrganizations', events })
 }
-export const useCreateOrganization = (options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof createOrganization>>, Parameters<typeof createOrganization>[number]>, 'events'> & (
-    UseMutationOptions<StoreInvalidate>
-  )) => {
+export const useCreateOrganization = (
+  options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof createOrganization>>, Parameters<typeof createOrganization>[number]>, 'events'> &
+    UseMutationOptions<StoreInvalidate>,
+) => {
   const store = useStore()
   const useCreateOrganizationEvents = store.events['useCreateOrganization'] ?? {}
   const events = {
@@ -134,11 +142,12 @@ export const useCreateOrganization = (options?: Omit<UseRequestOptions<Awaited<R
     onError: useCreateOrganizationEvents['onError'] ?? store.onError,
   }
 
-    return useMutation(createOrganization, { ...options, events })
+  return useMutation(createOrganization, { ...options, events })
 }
-export const useGetOrganization = (options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof getOrganization>>, Parameters<typeof getOrganization>[number]>, 'events'> & (
-    Omit<UseQueryOptions, 'queryKey'>
-)) => {
+export const useGetOrganization = (
+  options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof getOrganization>>, Parameters<typeof getOrganization>[number]>, 'events'> &
+    Omit<UseQueryOptions, 'queryKey'>,
+) => {
   const store = useStore()
   const useGetOrganizationEvents = store.events['useGetOrganization'] ?? {}
   const events = {
@@ -146,11 +155,12 @@ export const useGetOrganization = (options?: Omit<UseRequestOptions<Awaited<Retu
     onError: useGetOrganizationEvents['onError'] ?? store.onError,
   }
 
-    return useQuery(getOrganization, { ...options, queryKey: 'useGetOrganization', events })
+  return useQuery(getOrganization, { ...options, queryKey: 'useGetOrganization', events })
 }
-export const useUpdateOrganization = (options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof updateOrganization>>, Parameters<typeof updateOrganization>[number]>, 'events'> & (
-    UseMutationOptions<StoreInvalidate>
-  )) => {
+export const useUpdateOrganization = (
+  options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof updateOrganization>>, Parameters<typeof updateOrganization>[number]>, 'events'> &
+    UseMutationOptions<StoreInvalidate>,
+) => {
   const store = useStore()
   const useUpdateOrganizationEvents = store.events['useUpdateOrganization'] ?? {}
   const events = {
@@ -158,11 +168,12 @@ export const useUpdateOrganization = (options?: Omit<UseRequestOptions<Awaited<R
     onError: useUpdateOrganizationEvents['onError'] ?? store.onError,
   }
 
-    return useMutation(updateOrganization, { ...options, events })
+  return useMutation(updateOrganization, { ...options, events })
 }
-export const useDeleteOrganization = (options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof deleteOrganization>>, Parameters<typeof deleteOrganization>[number]>, 'events'> & (
-    UseMutationOptions<StoreInvalidate>
-  )) => {
+export const useDeleteOrganization = (
+  options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof deleteOrganization>>, Parameters<typeof deleteOrganization>[number]>, 'events'> &
+    UseMutationOptions<StoreInvalidate>,
+) => {
   const store = useStore()
   const useDeleteOrganizationEvents = store.events['useDeleteOrganization'] ?? {}
   const events = {
@@ -170,11 +181,12 @@ export const useDeleteOrganization = (options?: Omit<UseRequestOptions<Awaited<R
     onError: useDeleteOrganizationEvents['onError'] ?? store.onError,
   }
 
-    return useMutation(deleteOrganization, { ...options, events })
+  return useMutation(deleteOrganization, { ...options, events })
 }
-export const useValidateOTP = (options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof validateOTP>>, Parameters<typeof validateOTP>[number]>, 'events'> & (
-    UseMutationOptions<StoreInvalidate>
-  )) => {
+export const useValidateOTP = (
+  options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof validateOTP>>, Parameters<typeof validateOTP>[number]>, 'events'> &
+    UseMutationOptions<StoreInvalidate>,
+) => {
   const store = useStore()
   const useValidateOTPEvents = store.events['useValidateOTP'] ?? {}
   const events = {
@@ -182,11 +194,12 @@ export const useValidateOTP = (options?: Omit<UseRequestOptions<Awaited<ReturnTy
     onError: useValidateOTPEvents['onError'] ?? store.onError,
   }
 
-    return useMutation(validateOTP, { ...options, events })
+  return useMutation(validateOTP, { ...options, events })
 }
-export const useSendPasswordLessOTP = (options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof sendPasswordLessOTP>>, Parameters<typeof sendPasswordLessOTP>[number]>, 'events'> & (
-    UseMutationOptions<StoreInvalidate>
-  )) => {
+export const useSendPasswordLessOTP = (
+  options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof sendPasswordLessOTP>>, Parameters<typeof sendPasswordLessOTP>[number]>, 'events'> &
+    UseMutationOptions<StoreInvalidate>,
+) => {
   const store = useStore()
   const useSendPasswordLessOTPEvents = store.events['useSendPasswordLessOTP'] ?? {}
   const events = {
@@ -194,11 +207,12 @@ export const useSendPasswordLessOTP = (options?: Omit<UseRequestOptions<Awaited<
     onError: useSendPasswordLessOTPEvents['onError'] ?? store.onError,
   }
 
-    return useMutation(sendPasswordLessOTP, { ...options, events })
+  return useMutation(sendPasswordLessOTP, { ...options, events })
 }
-export const useSendForgotPasswordOTP = (options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof sendForgotPasswordOTP>>, Parameters<typeof sendForgotPasswordOTP>[number]>, 'events'> & (
-    UseMutationOptions<StoreInvalidate>
-  )) => {
+export const useSendForgotPasswordOTP = (
+  options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof sendForgotPasswordOTP>>, Parameters<typeof sendForgotPasswordOTP>[number]>, 'events'> &
+    UseMutationOptions<StoreInvalidate>,
+) => {
   const store = useStore()
   const useSendForgotPasswordOTPEvents = store.events['useSendForgotPasswordOTP'] ?? {}
   const events = {
@@ -206,11 +220,12 @@ export const useSendForgotPasswordOTP = (options?: Omit<UseRequestOptions<Awaite
     onError: useSendForgotPasswordOTPEvents['onError'] ?? store.onError,
   }
 
-    return useMutation(sendForgotPasswordOTP, { ...options, events })
+  return useMutation(sendForgotPasswordOTP, { ...options, events })
 }
-export const useSendUpdateEmailOTP = (options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof sendUpdateEmailOTP>>, Parameters<typeof sendUpdateEmailOTP>[number]>, 'events'> & (
-    UseMutationOptions<StoreInvalidate>
-  )) => {
+export const useSendUpdateEmailOTP = (
+  options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof sendUpdateEmailOTP>>, Parameters<typeof sendUpdateEmailOTP>[number]>, 'events'> &
+    UseMutationOptions<StoreInvalidate>,
+) => {
   const store = useStore()
   const useSendUpdateEmailOTPEvents = store.events['useSendUpdateEmailOTP'] ?? {}
   const events = {
@@ -218,11 +233,12 @@ export const useSendUpdateEmailOTP = (options?: Omit<UseRequestOptions<Awaited<R
     onError: useSendUpdateEmailOTPEvents['onError'] ?? store.onError,
   }
 
-    return useMutation(sendUpdateEmailOTP, { ...options, events })
+  return useMutation(sendUpdateEmailOTP, { ...options, events })
 }
-export const useSendUpdatePhoneOTP = (options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof sendUpdatePhoneOTP>>, Parameters<typeof sendUpdatePhoneOTP>[number]>, 'events'> & (
-    UseMutationOptions<StoreInvalidate>
-  )) => {
+export const useSendUpdatePhoneOTP = (
+  options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof sendUpdatePhoneOTP>>, Parameters<typeof sendUpdatePhoneOTP>[number]>, 'events'> &
+    UseMutationOptions<StoreInvalidate>,
+) => {
   const store = useStore()
   const useSendUpdatePhoneOTPEvents = store.events['useSendUpdatePhoneOTP'] ?? {}
   const events = {
@@ -230,11 +246,12 @@ export const useSendUpdatePhoneOTP = (options?: Omit<UseRequestOptions<Awaited<R
     onError: useSendUpdatePhoneOTPEvents['onError'] ?? store.onError,
   }
 
-    return useMutation(sendUpdatePhoneOTP, { ...options, events })
+  return useMutation(sendUpdatePhoneOTP, { ...options, events })
 }
-export const useGetPermissions = (options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof getPermissions>>, Parameters<typeof getPermissions>[number]>, 'events'> & (
-    Omit<UseQueryOptions, 'queryKey'>
-)) => {
+export const useGetPermissions = (
+  options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof getPermissions>>, Parameters<typeof getPermissions>[number]>, 'events'> &
+    Omit<UseQueryOptions, 'queryKey'>,
+) => {
   const store = useStore()
   const useGetPermissionsEvents = store.events['useGetPermissions'] ?? {}
   const events = {
@@ -242,11 +259,12 @@ export const useGetPermissions = (options?: Omit<UseRequestOptions<Awaited<Retur
     onError: useGetPermissionsEvents['onError'] ?? store.onError,
   }
 
-    return useQuery(getPermissions, { ...options, queryKey: 'useGetPermissions', events })
+  return useQuery(getPermissions, { ...options, queryKey: 'useGetPermissions', events })
 }
-export const useListPlans = (options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof listPlans>>, Parameters<typeof listPlans>[number]>, 'events'> & (
-    Omit<UseQueryOptions, 'queryKey'>
-)) => {
+export const useListPlans = (
+  options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof listPlans>>, Parameters<typeof listPlans>[number]>, 'events'> &
+    Omit<UseQueryOptions, 'queryKey'>,
+) => {
   const store = useStore()
   const useListPlansEvents = store.events['useListPlans'] ?? {}
   const events = {
@@ -254,11 +272,12 @@ export const useListPlans = (options?: Omit<UseRequestOptions<Awaited<ReturnType
     onError: useListPlansEvents['onError'] ?? store.onError,
   }
 
-    return useQuery(listPlans, { ...options, queryKey: 'useListPlans', events })
+  return useQuery(listPlans, { ...options, queryKey: 'useListPlans', events })
 }
-export const useGetProfile = (options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof getProfile>>, Parameters<typeof getProfile>[number]>, 'events'> & (
-    Omit<UseQueryOptions, 'queryKey'>
-)) => {
+export const useGetProfile = (
+  options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof getProfile>>, Parameters<typeof getProfile>[number]>, 'events'> &
+    Omit<UseQueryOptions, 'queryKey'>,
+) => {
   const store = useStore()
   const useGetProfileEvents = store.events['useGetProfile'] ?? {}
   const events = {
@@ -266,11 +285,12 @@ export const useGetProfile = (options?: Omit<UseRequestOptions<Awaited<ReturnTyp
     onError: useGetProfileEvents['onError'] ?? store.onError,
   }
 
-    return useQuery(getProfile, { ...options, queryKey: 'useGetProfile', events })
+  return useQuery(getProfile, { ...options, queryKey: 'useGetProfile', events })
 }
-export const useUpdateProfile = (options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof updateProfile>>, Parameters<typeof updateProfile>[number]>, 'events'> & (
-    UseMutationOptions<StoreInvalidate>
-  )) => {
+export const useUpdateProfile = (
+  options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof updateProfile>>, Parameters<typeof updateProfile>[number]>, 'events'> &
+    UseMutationOptions<StoreInvalidate>,
+) => {
   const store = useStore()
   const useUpdateProfileEvents = store.events['useUpdateProfile'] ?? {}
   const events = {
@@ -278,11 +298,12 @@ export const useUpdateProfile = (options?: Omit<UseRequestOptions<Awaited<Return
     onError: useUpdateProfileEvents['onError'] ?? store.onError,
   }
 
-    return useMutation(updateProfile, { ...options, events })
+  return useMutation(updateProfile, { ...options, events })
 }
-export const useDeactivateProfile = (options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof deactivateProfile>>, Parameters<typeof deactivateProfile>[number]>, 'events'> & (
-    UseMutationOptions<StoreInvalidate>
-  )) => {
+export const useDeactivateProfile = (
+  options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof deactivateProfile>>, Parameters<typeof deactivateProfile>[number]>, 'events'> &
+    UseMutationOptions<StoreInvalidate>,
+) => {
   const store = useStore()
   const useDeactivateProfileEvents = store.events['useDeactivateProfile'] ?? {}
   const events = {
@@ -290,11 +311,12 @@ export const useDeactivateProfile = (options?: Omit<UseRequestOptions<Awaited<Re
     onError: useDeactivateProfileEvents['onError'] ?? store.onError,
   }
 
-    return useMutation(deactivateProfile, { ...options, events })
+  return useMutation(deactivateProfile, { ...options, events })
 }
-export const useUpdateProfileEmail = (options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof updateProfileEmail>>, Parameters<typeof updateProfileEmail>[number]>, 'events'> & (
-    UseMutationOptions<StoreInvalidate>
-  )) => {
+export const useUpdateProfileEmail = (
+  options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof updateProfileEmail>>, Parameters<typeof updateProfileEmail>[number]>, 'events'> &
+    UseMutationOptions<StoreInvalidate>,
+) => {
   const store = useStore()
   const useUpdateProfileEmailEvents = store.events['useUpdateProfileEmail'] ?? {}
   const events = {
@@ -302,11 +324,12 @@ export const useUpdateProfileEmail = (options?: Omit<UseRequestOptions<Awaited<R
     onError: useUpdateProfileEmailEvents['onError'] ?? store.onError,
   }
 
-    return useMutation(updateProfileEmail, { ...options, events })
+  return useMutation(updateProfileEmail, { ...options, events })
 }
-export const useUpdateProfilePhone = (options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof updateProfilePhone>>, Parameters<typeof updateProfilePhone>[number]>, 'events'> & (
-    UseMutationOptions<StoreInvalidate>
-  )) => {
+export const useUpdateProfilePhone = (
+  options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof updateProfilePhone>>, Parameters<typeof updateProfilePhone>[number]>, 'events'> &
+    UseMutationOptions<StoreInvalidate>,
+) => {
   const store = useStore()
   const useUpdateProfilePhoneEvents = store.events['useUpdateProfilePhone'] ?? {}
   const events = {
@@ -314,11 +337,12 @@ export const useUpdateProfilePhone = (options?: Omit<UseRequestOptions<Awaited<R
     onError: useUpdateProfilePhoneEvents['onError'] ?? store.onError,
   }
 
-    return useMutation(updateProfilePhone, { ...options, events })
+  return useMutation(updateProfilePhone, { ...options, events })
 }
-export const useUpdateProfilePassword = (options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof updateProfilePassword>>, Parameters<typeof updateProfilePassword>[number]>, 'events'> & (
-    UseMutationOptions<StoreInvalidate>
-  )) => {
+export const useUpdateProfilePassword = (
+  options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof updateProfilePassword>>, Parameters<typeof updateProfilePassword>[number]>, 'events'> &
+    UseMutationOptions<StoreInvalidate>,
+) => {
   const store = useStore()
   const useUpdateProfilePasswordEvents = store.events['useUpdateProfilePassword'] ?? {}
   const events = {
@@ -326,11 +350,12 @@ export const useUpdateProfilePassword = (options?: Omit<UseRequestOptions<Awaite
     onError: useUpdateProfilePasswordEvents['onError'] ?? store.onError,
   }
 
-    return useMutation(updateProfilePassword, { ...options, events })
+  return useMutation(updateProfilePassword, { ...options, events })
 }
-export const useListRoles = (options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof listRoles>>, Parameters<typeof listRoles>[number]>, 'events'> & (
-    Omit<UseQueryOptions, 'queryKey'>
-)) => {
+export const useListRoles = (
+  options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof listRoles>>, Parameters<typeof listRoles>[number]>, 'events'> &
+    Omit<UseQueryOptions, 'queryKey'>,
+) => {
   const store = useStore()
   const useListRolesEvents = store.events['useListRoles'] ?? {}
   const events = {
@@ -338,11 +363,12 @@ export const useListRoles = (options?: Omit<UseRequestOptions<Awaited<ReturnType
     onError: useListRolesEvents['onError'] ?? store.onError,
   }
 
-    return useQuery(listRoles, { ...options, queryKey: 'useListRoles', events })
+  return useQuery(listRoles, { ...options, queryKey: 'useListRoles', events })
 }
-export const useCreateRole = (options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof createRole>>, Parameters<typeof createRole>[number]>, 'events'> & (
-    UseMutationOptions<StoreInvalidate>
-  )) => {
+export const useCreateRole = (
+  options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof createRole>>, Parameters<typeof createRole>[number]>, 'events'> &
+    UseMutationOptions<StoreInvalidate>,
+) => {
   const store = useStore()
   const useCreateRoleEvents = store.events['useCreateRole'] ?? {}
   const events = {
@@ -350,11 +376,12 @@ export const useCreateRole = (options?: Omit<UseRequestOptions<Awaited<ReturnTyp
     onError: useCreateRoleEvents['onError'] ?? store.onError,
   }
 
-    return useMutation(createRole, { ...options, events })
+  return useMutation(createRole, { ...options, events })
 }
-export const useGetRole = (options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof getRole>>, Parameters<typeof getRole>[number]>, 'events'> & (
-    Omit<UseQueryOptions, 'queryKey'>
-)) => {
+export const useGetRole = (
+  options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof getRole>>, Parameters<typeof getRole>[number]>, 'events'> &
+    Omit<UseQueryOptions, 'queryKey'>,
+) => {
   const store = useStore()
   const useGetRoleEvents = store.events['useGetRole'] ?? {}
   const events = {
@@ -362,11 +389,12 @@ export const useGetRole = (options?: Omit<UseRequestOptions<Awaited<ReturnType<t
     onError: useGetRoleEvents['onError'] ?? store.onError,
   }
 
-    return useQuery(getRole, { ...options, queryKey: 'useGetRole', events })
+  return useQuery(getRole, { ...options, queryKey: 'useGetRole', events })
 }
-export const useUpdateRole = (options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof updateRole>>, Parameters<typeof updateRole>[number]>, 'events'> & (
-    UseMutationOptions<StoreInvalidate>
-  )) => {
+export const useUpdateRole = (
+  options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof updateRole>>, Parameters<typeof updateRole>[number]>, 'events'> &
+    UseMutationOptions<StoreInvalidate>,
+) => {
   const store = useStore()
   const useUpdateRoleEvents = store.events['useUpdateRole'] ?? {}
   const events = {
@@ -374,11 +402,12 @@ export const useUpdateRole = (options?: Omit<UseRequestOptions<Awaited<ReturnTyp
     onError: useUpdateRoleEvents['onError'] ?? store.onError,
   }
 
-    return useMutation(updateRole, { ...options, events })
+  return useMutation(updateRole, { ...options, events })
 }
-export const useDeleteRole = (options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof deleteRole>>, Parameters<typeof deleteRole>[number]>, 'events'> & (
-    UseMutationOptions<StoreInvalidate>
-  )) => {
+export const useDeleteRole = (
+  options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof deleteRole>>, Parameters<typeof deleteRole>[number]>, 'events'> &
+    UseMutationOptions<StoreInvalidate>,
+) => {
   const store = useStore()
   const useDeleteRoleEvents = store.events['useDeleteRole'] ?? {}
   const events = {
@@ -386,11 +415,12 @@ export const useDeleteRole = (options?: Omit<UseRequestOptions<Awaited<ReturnTyp
     onError: useDeleteRoleEvents['onError'] ?? store.onError,
   }
 
-    return useMutation(deleteRole, { ...options, events })
+  return useMutation(deleteRole, { ...options, events })
 }
-export const useListUsers = (options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof listUsers>>, Parameters<typeof listUsers>[number]>, 'events'> & (
-    Omit<UseQueryOptions, 'queryKey'>
-)) => {
+export const useListUsers = (
+  options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof listUsers>>, Parameters<typeof listUsers>[number]>, 'events'> &
+    Omit<UseQueryOptions, 'queryKey'>,
+) => {
   const store = useStore()
   const useListUsersEvents = store.events['useListUsers'] ?? {}
   const events = {
@@ -398,11 +428,12 @@ export const useListUsers = (options?: Omit<UseRequestOptions<Awaited<ReturnType
     onError: useListUsersEvents['onError'] ?? store.onError,
   }
 
-    return useQuery(listUsers, { ...options, queryKey: 'useListUsers', events })
+  return useQuery(listUsers, { ...options, queryKey: 'useListUsers', events })
 }
-export const useCreateUser = (options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof createUser>>, Parameters<typeof createUser>[number]>, 'events'> & (
-    UseMutationOptions<StoreInvalidate>
-  )) => {
+export const useCreateUser = (
+  options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof createUser>>, Parameters<typeof createUser>[number]>, 'events'> &
+    UseMutationOptions<StoreInvalidate>,
+) => {
   const store = useStore()
   const useCreateUserEvents = store.events['useCreateUser'] ?? {}
   const events = {
@@ -410,11 +441,12 @@ export const useCreateUser = (options?: Omit<UseRequestOptions<Awaited<ReturnTyp
     onError: useCreateUserEvents['onError'] ?? store.onError,
   }
 
-    return useMutation(createUser, { ...options, events })
+  return useMutation(createUser, { ...options, events })
 }
-export const useGetUser = (options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof getUser>>, Parameters<typeof getUser>[number]>, 'events'> & (
-    Omit<UseQueryOptions, 'queryKey'>
-)) => {
+export const useGetUser = (
+  options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof getUser>>, Parameters<typeof getUser>[number]>, 'events'> &
+    Omit<UseQueryOptions, 'queryKey'>,
+) => {
   const store = useStore()
   const useGetUserEvents = store.events['useGetUser'] ?? {}
   const events = {
@@ -422,11 +454,12 @@ export const useGetUser = (options?: Omit<UseRequestOptions<Awaited<ReturnType<t
     onError: useGetUserEvents['onError'] ?? store.onError,
   }
 
-    return useQuery(getUser, { ...options, queryKey: 'useGetUser', events })
+  return useQuery(getUser, { ...options, queryKey: 'useGetUser', events })
 }
-export const useUpdateUser = (options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof updateUser>>, Parameters<typeof updateUser>[number]>, 'events'> & (
-    UseMutationOptions<StoreInvalidate>
-  )) => {
+export const useUpdateUser = (
+  options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof updateUser>>, Parameters<typeof updateUser>[number]>, 'events'> &
+    UseMutationOptions<StoreInvalidate>,
+) => {
   const store = useStore()
   const useUpdateUserEvents = store.events['useUpdateUser'] ?? {}
   const events = {
@@ -434,11 +467,12 @@ export const useUpdateUser = (options?: Omit<UseRequestOptions<Awaited<ReturnTyp
     onError: useUpdateUserEvents['onError'] ?? store.onError,
   }
 
-    return useMutation(updateUser, { ...options, events })
+  return useMutation(updateUser, { ...options, events })
 }
-export const useGetWorkspace = (options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof getWorkspace>>, Parameters<typeof getWorkspace>[number]>, 'events'> & (
-    Omit<UseQueryOptions, 'queryKey'>
-)) => {
+export const useGetWorkspace = (
+  options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof getWorkspace>>, Parameters<typeof getWorkspace>[number]>, 'events'> &
+    Omit<UseQueryOptions, 'queryKey'>,
+) => {
   const store = useStore()
   const useGetWorkspaceEvents = store.events['useGetWorkspace'] ?? {}
   const events = {
@@ -446,11 +480,12 @@ export const useGetWorkspace = (options?: Omit<UseRequestOptions<Awaited<ReturnT
     onError: useGetWorkspaceEvents['onError'] ?? store.onError,
   }
 
-    return useQuery(getWorkspace, { ...options, queryKey: 'useGetWorkspace', events })
+  return useQuery(getWorkspace, { ...options, queryKey: 'useGetWorkspace', events })
 }
-export const useUpdateWorkspace = (options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof updateWorkspace>>, Parameters<typeof updateWorkspace>[number]>, 'events'> & (
-    UseMutationOptions<StoreInvalidate>
-  )) => {
+export const useUpdateWorkspace = (
+  options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof updateWorkspace>>, Parameters<typeof updateWorkspace>[number]>, 'events'> &
+    UseMutationOptions<StoreInvalidate>,
+) => {
   const store = useStore()
   const useUpdateWorkspaceEvents = store.events['useUpdateWorkspace'] ?? {}
   const events = {
@@ -458,11 +493,12 @@ export const useUpdateWorkspace = (options?: Omit<UseRequestOptions<Awaited<Retu
     onError: useUpdateWorkspaceEvents['onError'] ?? store.onError,
   }
 
-    return useMutation(updateWorkspace, { ...options, events })
+  return useMutation(updateWorkspace, { ...options, events })
 }
-export const useCreateWorkspace = (options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof createWorkspace>>, Parameters<typeof createWorkspace>[number]>, 'events'> & (
-    UseMutationOptions<StoreInvalidate>
-  )) => {
+export const useCreateWorkspace = (
+  options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof createWorkspace>>, Parameters<typeof createWorkspace>[number]>, 'events'> &
+    UseMutationOptions<StoreInvalidate>,
+) => {
   const store = useStore()
   const useCreateWorkspaceEvents = store.events['useCreateWorkspace'] ?? {}
   const events = {
@@ -470,7 +506,7 @@ export const useCreateWorkspace = (options?: Omit<UseRequestOptions<Awaited<Retu
     onError: useCreateWorkspaceEvents['onError'] ?? store.onError,
   }
 
-    return useMutation(createWorkspace, { ...options, events })
+  return useMutation(createWorkspace, { ...options, events })
 }
 
 export const useReadStore = <T extends keyof UseReadStore>({ queryKey, queryParams }: UseReadStoreOptions<T>): UseReadStore[T] => {
