@@ -1,5 +1,4 @@
 import { z } from '@starter/schema'
-import { formatToCapitalized } from '@starter/common'
 
 import { ID, CreatedAt, UpdatedAt, BaseSchema } from '@/support/schema'
 
@@ -10,10 +9,7 @@ export enum WorkspaceStatusEnum {
 
 const WorkspaceId = ID('workspace')
 
-const Name = z
-  .string()
-  .min(1)
-  .transform((value) => formatToCapitalized(value))
+const Name = z.string().min(1)
 
 const Status = z.nativeEnum(WorkspaceStatusEnum).default(WorkspaceStatusEnum.ACTIVE)
 

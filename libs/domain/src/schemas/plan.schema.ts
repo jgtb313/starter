@@ -1,5 +1,4 @@
 import { z } from '@starter/schema'
-import { formatToCapitalized } from '@starter/common'
 
 import { ID, DeletedAt, CreatedAt, UpdatedAt, BaseSchema } from '@/support/schema'
 
@@ -23,10 +22,7 @@ const PlanId = ID('plan')
 
 const ExternalId = z.string().min(1)
 
-const Name = z
-  .string()
-  .min(1)
-  .transform((value) => formatToCapitalized(value))
+const Name = z.string().min(1)
 
 const Description = z.string().min(1)
 

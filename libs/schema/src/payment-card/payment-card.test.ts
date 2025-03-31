@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest'
 
-import { CreditCardSchema, BaseCreditCardSchema } from './credit-card'
+import { PaymentCardSchema, BasePaymentCardSchema } from './payment-card'
 
-describe('CreditCardSchema', () => {
+describe('PaymentCardSchema', () => {
   it('should validate a valid credit card number', () => {
     const input = {
       number: '4111111111111111',
@@ -11,7 +11,7 @@ describe('CreditCardSchema', () => {
       cvv: '123',
     }
 
-    const result = CreditCardSchema.safeParse(input)
+    const result = PaymentCardSchema.safeParse(input)
 
     expect(result.success).toBe(true)
   })
@@ -24,7 +24,7 @@ describe('CreditCardSchema', () => {
       cvv: '123',
     }
 
-    const result = CreditCardSchema.safeParse(input)
+    const result = PaymentCardSchema.safeParse(input)
 
     expect(result.success).toBe(false)
   })
@@ -37,7 +37,7 @@ describe('CreditCardSchema', () => {
       cvv: '123',
     }
 
-    const result = CreditCardSchema.safeParse(input)
+    const result = PaymentCardSchema.safeParse(input)
 
     expect(result.success).toBe(true)
   })
@@ -50,7 +50,7 @@ describe('CreditCardSchema', () => {
       cvv: '123',
     }
 
-    const result = CreditCardSchema.safeParse(input)
+    const result = PaymentCardSchema.safeParse(input)
 
     expect(result.success).toBe(false)
   })
@@ -63,7 +63,7 @@ describe('CreditCardSchema', () => {
       cvv: '123',
     }
 
-    const result = CreditCardSchema.safeParse(input)
+    const result = PaymentCardSchema.safeParse(input)
 
     expect(result.success).toBe(true)
   })
@@ -76,31 +76,31 @@ describe('CreditCardSchema', () => {
       cvv: '9999',
     }
 
-    const result = CreditCardSchema.safeParse(input)
+    const result = PaymentCardSchema.safeParse(input)
 
     expect(result.success).toBe(false)
   })
 
-  it('should validate BaseCreditCardSchema without cvv', () => {
+  it('should validate BasePaymentCardSchema without cvv', () => {
     const input = {
       number: '4111111111111111',
       holderName: 'John Doe',
       expirationDate: '10/25',
     }
 
-    const result = BaseCreditCardSchema.safeParse(input)
+    const result = BasePaymentCardSchema.safeParse(input)
 
     expect(result.success).toBe(true)
   })
 
-  it('should invalidate BaseCreditCardSchema with invalid expiration date format', () => {
+  it('should invalidate BasePaymentCardSchema with invalid expiration date format', () => {
     const input = {
       number: '4111111111111111',
       holderName: 'John Doe',
       expirationDate: '1025',
     }
 
-    const result = BaseCreditCardSchema.safeParse(input)
+    const result = BasePaymentCardSchema.safeParse(input)
 
     expect(result.success).toBe(false)
   })

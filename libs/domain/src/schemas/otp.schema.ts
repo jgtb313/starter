@@ -1,8 +1,6 @@
-import { BaseSchema } from '@/support/schema'
-import { NotFoundException } from '@nestjs/common'
 import { z, DateSchema } from '@starter/schema'
 
-import { ID, CreatedAt, UpdatedAt } from '@/support/schema'
+import { ID, CreatedAt, UpdatedAt, BaseSchema } from '@/support/schema'
 
 export enum OTPChannelEnum {
   EMAIL = 'EMAIL',
@@ -64,16 +62,6 @@ export const OTPContexts = [
     updatedAt: new Date(),
   },
 ]
-
-export const getContext = (type: OTPContextEnum) => {
-  const context = OTPContexts.find((otpContext) => otpContext.context === type)
-
-  if (!context) {
-    throw new NotFoundException(`OTP Context ${type} not found`)
-  }
-
-  return context
-}
 
 const OTPId = ID('otp')
 

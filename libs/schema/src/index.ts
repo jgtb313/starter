@@ -7,7 +7,7 @@ export const zodSchemaToOpenapiSchema = generateSchema
 export * from './address'
 export * from './birthday'
 export * from './boleto'
-export * from './credit-card'
+export * from './payment-card'
 export * from './date'
 export * from './document'
 export * from './document-type'
