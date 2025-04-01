@@ -2,16 +2,21 @@ import { Injectable, Inject } from '@nestjs/common'
 
 import { Subscription, BaseSubscription } from '@/schemas'
 import { ISubscriptionRepository } from '@/ports/database/subscription'
+import { InvoiceService } from '../invoice'
 
 @Injectable()
 export class SubscriptionService {
-  constructor(@Inject('SUBSCRIPTION_REPOSITORY') private readonly subscriptionRepository: ISubscriptionRepository) {}
+  constructor(
+    @Inject('SUBSCRIPTION_REPOSITORY') private readonly subscriptionRepository: ISubscriptionRepository,
+    private readonly invoiceService: InvoiceService,
+    // private readonly recurrenceService: RecurrenceService
+  ) {}
 
-  create() {}
+  createSubscription() {}
 
-  changePaymentMethod() {}
+  changeSubscriptionPaymentMethod() {}
 
-  changePlan() {}
+  changeSubscriptionPlan() {}
 
-  cancel() {}
+  cancelSubscription() {}
 }

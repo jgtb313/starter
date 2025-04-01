@@ -2,7 +2,7 @@ import { Injectable, Inject, BadRequestException, NotFoundException, ConflictExc
 import { random, getDate, addSeconds, isFuture, isBefore, Required } from '@starter/common'
 import crypto from 'crypto'
 
-import { getContext, User, OTP, BaseOTP, OTPChannelEnum, OTPContextEnum, OTPPhoneChannelEnum } from '@/schemas'
+import { OTPContexts, User, OTP, BaseOTP, OTPChannelEnum, OTPContextEnum, OTPPhoneChannelEnum } from '@/schemas'
 import { IOTPRepository } from '@/ports/database/otp'
 import { NotificationService } from '@/adapters/notification'
 import { UserService } from '@/core/user'
@@ -28,7 +28,7 @@ export class OTPService {
   ) {}
 
   async send({ userId, channel, context, recipient }: SendOTPInput): Promise<OTP> {
-    const ctx = getContext(context)
+    const ctx = this.getContext(context)
 
     const code = random(1000, 9999).toString()
     const hashedCode = this.hashCode(code)
@@ -46,11 +46,11 @@ export class OTPService {
       expiresIn: addSeconds(new Date(), ctx.expiresIn),
     }
 
-    const mostRecent = await this.otpRepository.mostRecent(recipient, context)
+    const mostRecent = await this.otpRepository.findMostRecent(recipient, context)
 
     this.checkIfCanResend(mostRecent, baseOTP.resendTime)
 
-    const dailyCount = await this.otpRepository.dailyCount(recipient, context)
+    const dailyCount = await this.otpRepository.countTodayAttempts(recipient, context)
 
     this.checkIfHasReachedDailyLimit(baseOTP, dailyCount)
 
@@ -104,7 +104,7 @@ export class OTPService {
   }
 
   async sendPasswordLess({ recipient }: SendPasswordLessInput) {
-    const user = await this.userService.findOne({ email: recipient })
+    const user = await this.userService.getUserByEmail(recipient)
 
     if (!user) {
       throw new NotFoundException(`Email ${recipient} not found.`)
@@ -121,7 +121,7 @@ export class OTPService {
   }
 
   async sendForgotPassword({ recipient }: SendForgotPasswordInput) {
-    const user = await this.userService.findOne({ email: recipient })
+    const user = await this.userService.getUserByEmail(recipient)
 
     if (!user) {
       throw new NotFoundException(`Email ${recipient} not found.`)
@@ -140,7 +140,7 @@ export class OTPService {
   async sendUpdateEmail({ userId, email }: SendUpdateEmailInput) {
     const recipient = email
 
-    const existingUser = await this.userService.findOne({ email: recipient })
+    const existingUser = await this.userService.getUser(recipient)
 
     if (existingUser && existingUser.userId !== userId) {
       throw new ConflictException(`Email ${recipient} has already been taken.`)
@@ -159,7 +159,7 @@ export class OTPService {
   async sendUpdatePhone({ userId, channel, phone }: SendUpdatePhoneInput) {
     const recipient = `${phone.ddi}${phone.number}`
 
-    const existingUser = await this.userService.findOne({ phone })
+    const existingUser = await this.userService.getUserByPhone(phone)
 
     if (existingUser && existingUser.userId !== userId) {
       throw new ConflictException(`Phone ${recipient} has already been taken.`)
@@ -257,5 +257,15 @@ export class OTPService {
     if (hasExpired) {
       throw new ForbiddenException('OTP expired.')
     }
+  }
+
+  private getContext(context: OTPContextEnum) {
+    const ctx = OTPContexts.find((ctx) => ctx.context === context)
+
+    if (!ctx) {
+      throw new NotFoundException(`OTP context ${context} not found`)
+    }
+
+    return ctx
   }
 }

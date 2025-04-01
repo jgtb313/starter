@@ -3,10 +3,10 @@ import { Pagination, PaginationOutput } from '@starter/schema'
 import { Plan, BasePlan } from '@/schemas'
 
 export type IPlanRepository = {
-  findAll(query: Pagination<Plan>): Promise<PaginationOutput<Plan>>
-  findById(userId: string): Promise<Plan>
+  findAllPaginated(input: Pagination<Plan>): Promise<PaginationOutput<Plan>>
+  findAll(input: Partial<Plan>): Promise<Plan[]>
+  findById(planId: string): Promise<Plan>
   findOne(input: Partial<Plan>): Promise<Plan | null>
   create(input: BasePlan): Promise<Plan>
-  updateById(userId: string, input: Partial<Plan>): Promise<Plan>
-  deleteById(userId: string): Promise<void>
+  updateById(planId: string, input: Partial<Plan>): Promise<Plan>
 }

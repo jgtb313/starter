@@ -17,7 +17,7 @@ export class OrganizationTypeorm implements IOrganizationRepository {
     this.repository = this.dataSource.getRepository(OrganizationEntity)
   }
 
-  findAll: IOrganizationRepository['findAll'] = async ({ offset, limit, ...input }) => {
+  findAllPaginated: IOrganizationRepository['findAllPaginated'] = async ({ offset, limit, ...input }) => {
     const { name, status } = input
 
     const where: FindOptionsWhere<OrganizationEntity> = {}
@@ -40,6 +40,24 @@ export class OrganizationTypeorm implements IOrganizationRepository {
       values: values.map((organization) => OrganizationSchema.parse(organization)),
       meta,
     }
+  }
+
+  findAll: IOrganizationRepository['findAll'] = async (input) => {
+    const { name, status } = input
+
+    const where: FindOptionsWhere<OrganizationEntity> = {}
+
+    if (name) {
+      where.name = ILike(`%${name}%`)
+    }
+
+    if (status) {
+      where.status = status
+    }
+
+    const values = await this.repository.find({ where })
+
+    return values.map((invoice) => OrganizationSchema.parse(invoice))
   }
 
   findById: IOrganizationRepository['findById'] = async (organizationId) => {
@@ -83,17 +101,11 @@ export class OrganizationTypeorm implements IOrganizationRepository {
   }
 
   updateById: IOrganizationRepository['updateById'] = async (organizationId, input) => {
-    const organization = await this.findById(organizationId)
+    const model = await this.findById(organizationId)
 
-    await this.repository.update(organization.organizationId, input)
+    await this.repository.update(model.organizationId, input)
 
-    return this.findById(organization.organizationId)
-  }
-
-  deleteById: IOrganizationRepository['deleteById'] = async (organizationId) => {
-    const organization = await this.findById(organizationId)
-
-    await this.repository.softDelete({ organizationId: organization.organizationId })
+    return this.findById(model.organizationId)
   }
 
   validateIds: IOrganizationRepository['validateIds'] = async (organizationIds) => {

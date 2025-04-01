@@ -1,9 +1,9 @@
 import { OTP, BaseOTP, OTPContextEnum } from '@/schemas'
 
 export type IOTPRepository = {
-  findById(userId: string): Promise<OTP>
-  dailyCount(recipient: string, context: OTPContextEnum): Promise<number>
-  mostRecent(recipient: string, context: OTPContextEnum): Promise<OTP | null>
+  findById(otpId: string): Promise<OTP>
+  findMostRecent(recipient: string, context: OTPContextEnum): Promise<OTP | null>
+  countTodayAttempts(recipient: string, context: OTPContextEnum): Promise<number>
   create(input: BaseOTP): Promise<OTP>
-  updateById(userId: string, input: Partial<OTP>): Promise<OTP>
+  updateById(otpId: string, input: Partial<OTP>): Promise<OTP>
 }

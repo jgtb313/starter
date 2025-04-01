@@ -17,7 +17,7 @@ export class SubscriptionTypeorm implements ISubscriptionRepository {
     this.repository = this.dataSource.getRepository(SubscriptionEntity)
   }
 
-  findAll: ISubscriptionRepository['findAll'] = async ({ offset, limit, ...query }) => {
+  findAllPaginated: ISubscriptionRepository['findAllPaginated'] = async ({ offset, limit, ...query }) => {
     const { status } = query
 
     const where: FindOptionsWhere<SubscriptionEntity> = {}
@@ -36,6 +36,20 @@ export class SubscriptionTypeorm implements ISubscriptionRepository {
       values: values.map((subscription) => SubscriptionSchema.parse(subscription)),
       meta,
     }
+  }
+
+  findAll: ISubscriptionRepository['findAll'] = async (input) => {
+    const { status } = input
+
+    const where: FindOptionsWhere<SubscriptionEntity> = {}
+
+    if (status) {
+      where.status = status
+    }
+
+    const values = await this.repository.find({ where })
+
+    return values.map((invoice) => SubscriptionSchema.parse(invoice))
   }
 
   findById: ISubscriptionRepository['findById'] = async (subscriptionId) => {
@@ -69,16 +83,10 @@ export class SubscriptionTypeorm implements ISubscriptionRepository {
   }
 
   updateById: ISubscriptionRepository['updateById'] = async (subscriptionId, input) => {
-    const subscription = await this.findById(subscriptionId)
+    const model = await this.findById(subscriptionId)
 
-    await this.repository.update(subscription.subscriptionId, input)
+    await this.repository.update(model.subscriptionId, input)
 
-    return this.findById(subscription.subscriptionId)
-  }
-
-  deleteById: ISubscriptionRepository['deleteById'] = async (subscriptionId) => {
-    const subscription = await this.findById(subscriptionId)
-
-    await this.repository.softDelete({ subscriptionId: subscription.subscriptionId })
+    return this.findById(model.subscriptionId)
   }
 }

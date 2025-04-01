@@ -23,11 +23,7 @@ export class OTPTypeorm implements IOTPRepository {
     return OTPSchema.parse(model)
   }
 
-  dailyCount: IOTPRepository['dailyCount'] = async (recipient, context) => {
-    return this.repository.count({ where: { recipient, context } })
-  }
-
-  mostRecent: IOTPRepository['mostRecent'] = async (recipient, context) => {
+  findMostRecent: IOTPRepository['findMostRecent'] = async (recipient, context) => {
     const model = await this.repository.findOne({ where: { recipient, context }, order: { createdAt: 'DESC' } })
 
     if (!model) {
@@ -35,6 +31,10 @@ export class OTPTypeorm implements IOTPRepository {
     }
 
     return OTPSchema.parse(model)
+  }
+
+  countTodayAttempts: IOTPRepository['countTodayAttempts'] = async (recipient, context) => {
+    return this.repository.count({ where: { recipient, context } })
   }
 
   create: IOTPRepository['create'] = async (input) => {
@@ -46,10 +46,10 @@ export class OTPTypeorm implements IOTPRepository {
   }
 
   updateById: IOTPRepository['updateById'] = async (otpId, input) => {
-    const otp = await this.findById(otpId)
+    const model = await this.findById(otpId)
 
-    await this.repository.update(otp.otpId, input)
+    await this.repository.update(model.otpId, input)
 
-    return this.findById(otp.otpId)
+    return this.findById(model.otpId)
   }
 }

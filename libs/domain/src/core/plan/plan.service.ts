@@ -8,31 +8,25 @@ import { IPlanRepository } from '@/ports/database/plan'
 export class PlanService {
   constructor(@Inject('PLAN_REPOSITORY') private readonly planRepository: IPlanRepository) {}
 
-  async findAll(input: Pagination<Plan>) {
-    const result = await this.planRepository.findAll(input)
+  async getPaginatedPlans(input: Pagination<Plan>) {
+    const result = await this.planRepository.findAllPaginated(input)
 
     return result
   }
 
-  async findById(planId: string) {
+  async getPlan(planId: string) {
     const plan = await this.planRepository.findById(planId)
 
     return plan
   }
 
-  async findOne(input: Partial<Plan>) {
-    const plan = await this.planRepository.findOne(input)
+  async createPlan(input: BasePlan) {
+    const plan = await this.planRepository.create(input)
 
     return plan
   }
 
-  async create(input: BasePlan) {
-    const result = await this.planRepository.create(input)
-
-    return result
-  }
-
-  async updateById(planId: string, input: Partial<Plan>) {
+  async updatePlan(planId: string, input: Partial<Plan>) {
     const plan = await this.planRepository.findById(planId)
 
     const result = await this.planRepository.updateById(plan.planId, input)
@@ -40,7 +34,11 @@ export class PlanService {
     return result
   }
 
-  async deleteById(planId: string) {
-    await this.planRepository.deleteById(planId)
+  async deletePlan(planId: string) {
+    const plan = await this.getPlan(planId)
+
+    plan.deletedAt = new Date()
+
+    await this.planRepository.updateById(plan.planId, plan)
   }
 }

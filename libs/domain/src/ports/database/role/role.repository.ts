@@ -3,11 +3,11 @@ import { Pagination, PaginationOutput } from '@starter/schema'
 import { Role, BaseRole } from '@/schemas'
 
 export type IRoleRepository = {
-  findAll(query: Pagination<Role>): Promise<PaginationOutput<Role>>
-  findById(userId: string): Promise<Role>
+  findAllPaginated(input: Pagination<Role>): Promise<PaginationOutput<Role>>
+  findAll(input: Partial<Role>): Promise<Role[]>
+  findById(roleId: string): Promise<Role>
   findOne(input: Partial<Role>): Promise<Role | null>
   create(input: BaseRole): Promise<Role>
-  updateById(userId: string, input: Partial<Role>): Promise<Role>
-  deleteById(userId: string): Promise<void>
-  validateIdsByOrganizationId(organizationId: string, userId: string[]): Promise<void>
+  updateById(roleId: string, input: Partial<Role>): Promise<Role>
+  validateIdsByOrganizationId(organizationId: string, roleId: string[]): Promise<void>
 }

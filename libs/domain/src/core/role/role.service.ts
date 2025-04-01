@@ -17,7 +17,7 @@ export class RoleService {
     private readonly organizationService: OrganizationService,
   ) {}
 
-  async findAll(input: Pagination<Role>) {
+  async getPaginatedRoles(input: Pagination<Role>) {
     const result = await this.roleRepository.findAll({
       ...input,
     })
@@ -25,7 +25,7 @@ export class RoleService {
     return result
   }
 
-  async findById(reference: RoleWorkspaceReference) {
+  async getRole(reference: RoleWorkspaceReference) {
     const { roleId, workspaceId } = getRoleWorkspaceReference(reference)
 
     const role = await this.roleRepository.findById(roleId)
@@ -37,16 +37,8 @@ export class RoleService {
     return role
   }
 
-  async findOne(input: Partial<Role>) {
-    const role = await this.roleRepository.findOne({
-      ...input,
-    })
-
-    return role
-  }
-
-  async create(input: BaseRole) {
-    await this.organizationService.validateIds(input.organizationIds)
+  async createRole(input: BaseRole) {
+    await this.organizationService.validateOrganizationIds(input.organizationIds)
 
     const role = await this.roleRepository.create({
       ...input,
@@ -55,18 +47,20 @@ export class RoleService {
     return role
   }
 
-  async updateById(reference: RoleWorkspaceReference, input: Partial<Role>) {
-    const role = await this.findById(reference)
+  async updateRole(reference: RoleWorkspaceReference, input: Partial<Role>) {
+    const role = await this.getRole(reference)
 
     const result = await this.roleRepository.updateById(role.roleId, input)
 
     return result
   }
 
-  async deleteById(reference: RoleWorkspaceReference) {
-    const role = await this.findById(reference)
+  async deleteRole(reference: RoleWorkspaceReference) {
+    const role = await this.getRole(reference)
 
-    await this.roleRepository.deleteById(role.roleId)
+    role.deletedAt = new Date()
+
+    await this.roleRepository.updateById(role.roleId, role)
   }
 
   async validateRoleIdsByOrganizationId(organizationId: string, roleIds: string[]) {

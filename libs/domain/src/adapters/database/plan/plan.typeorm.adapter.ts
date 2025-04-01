@@ -17,7 +17,7 @@ export class PlanTypeorm implements IPlanRepository {
     this.repository = this.dataSource.getRepository(PlanEntity)
   }
 
-  findAll: IPlanRepository['findAll'] = async ({ offset, limit, ...query }) => {
+  findAllPaginated: IPlanRepository['findAllPaginated'] = async ({ offset, limit, ...query }) => {
     const { name, status } = query
 
     const where: FindOptionsWhere<PlanEntity> = {}
@@ -40,6 +40,24 @@ export class PlanTypeorm implements IPlanRepository {
       values: values.map((plan) => PlanSchema.parse(plan)),
       meta,
     }
+  }
+
+  findAll: IPlanRepository['findAll'] = async (input) => {
+    const { name, status } = input
+
+    const where: FindOptionsWhere<PlanEntity> = {}
+
+    if (name) {
+      where.name = ILike(`%${name}%`)
+    }
+
+    if (status) {
+      where.status = status
+    }
+
+    const values = await this.repository.find({ where })
+
+    return values.map((invoice) => PlanSchema.parse(invoice))
   }
 
   findById: IPlanRepository['findById'] = async (planId) => {
@@ -73,16 +91,10 @@ export class PlanTypeorm implements IPlanRepository {
   }
 
   updateById: IPlanRepository['updateById'] = async (planId, input) => {
-    const plan = await this.findById(planId)
+    const model = await this.findById(planId)
 
-    await this.repository.update(plan.planId, input)
+    await this.repository.update(model.planId, input)
 
-    return this.findById(plan.planId)
-  }
-
-  deleteById: IPlanRepository['deleteById'] = async (planId) => {
-    const plan = await this.findById(planId)
-
-    await this.repository.softDelete({ planId: plan.planId })
+    return this.findById(model.planId)
   }
 }

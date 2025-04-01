@@ -17,7 +17,7 @@ export class InvoiceTypeorm implements IInvoiceRepository {
     this.repository = this.dataSource.getRepository(InvoiceEntity)
   }
 
-  findPaginated: IInvoiceRepository['findPaginated'] = async ({ offset, limit, ...input }) => {
+  findAllPaginated: IInvoiceRepository['findAllPaginated'] = async ({ offset, limit, ...input }) => {
     const { description, status } = input
 
     const where: FindOptionsWhere<InvoiceEntity> = {}
@@ -40,6 +40,24 @@ export class InvoiceTypeorm implements IInvoiceRepository {
       values: values.map((invoice) => InvoiceSchema.parse(invoice)),
       meta,
     }
+  }
+
+  findAll: IInvoiceRepository['findAll'] = async (input) => {
+    const { description, status } = input
+
+    const where: FindOptionsWhere<InvoiceEntity> = {}
+
+    if (description) {
+      where.description = ILike(`%${description}%`)
+    }
+
+    if (status) {
+      where.status = status
+    }
+
+    const values = await this.repository.find({ where })
+
+    return values.map((invoice) => InvoiceSchema.parse(invoice))
   }
 
   findById: IInvoiceRepository['findById'] = async (invoiceId) => {
@@ -73,10 +91,10 @@ export class InvoiceTypeorm implements IInvoiceRepository {
   }
 
   updateById: IInvoiceRepository['updateById'] = async (invoiceId, input) => {
-    const invoice = await this.findById(invoiceId)
+    const model = await this.findById(invoiceId)
 
-    await this.repository.update(invoice.invoiceId, input)
+    await this.repository.update(model.invoiceId, input)
 
-    return this.findById(invoice.invoiceId)
+    return this.findById(model.invoiceId)
   }
 }

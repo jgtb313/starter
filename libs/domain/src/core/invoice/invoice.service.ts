@@ -9,7 +9,7 @@ export class InvoiceService {
   constructor(@Inject('INVOICE_REPOSITORY') private readonly invoiceRepository: IInvoiceRepository) {}
 
   async getPaginatedInvoices(input: Pagination<Invoice>) {
-    const result = await this.invoiceRepository.findPaginated(input)
+    const result = await this.invoiceRepository.findAllPaginated(input)
 
     return result
   }

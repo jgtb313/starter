@@ -17,7 +17,7 @@ export class RoleTypeorm implements IRoleRepository {
     this.repository = this.dataSource.getRepository(RoleEntity)
   }
 
-  findAll: IRoleRepository['findAll'] = async ({ offset, limit, ...query }) => {
+  findAllPaginated: IRoleRepository['findAllPaginated'] = async ({ offset, limit, ...query }) => {
     const { name, workspaceId, status } = query
 
     const where: FindOptionsWhere<RoleEntity> = {}
@@ -44,6 +44,24 @@ export class RoleTypeorm implements IRoleRepository {
       values: values.map((role) => RoleSchema.parse(role)),
       meta,
     }
+  }
+
+  findAll: IRoleRepository['findAll'] = async (input) => {
+    const { name, status } = input
+
+    const where: FindOptionsWhere<RoleEntity> = {}
+
+    if (name) {
+      where.name = ILike(`%${name}%`)
+    }
+
+    if (status) {
+      where.status = status
+    }
+
+    const values = await this.repository.find({ where })
+
+    return values.map((invoice) => RoleSchema.parse(invoice))
   }
 
   findById: IRoleRepository['findById'] = async (roleId) => {
@@ -77,17 +95,11 @@ export class RoleTypeorm implements IRoleRepository {
   }
 
   updateById: IRoleRepository['updateById'] = async (roleId, input) => {
-    const role = await this.findById(roleId)
+    const model = await this.findById(roleId)
 
-    await this.repository.update(role.roleId, input)
+    await this.repository.update(model.roleId, input)
 
-    return this.findById(role.roleId)
-  }
-
-  deleteById: IRoleRepository['deleteById'] = async (roleId) => {
-    const role = await this.findById(roleId)
-
-    await this.repository.softDelete({ roleId: role.roleId })
+    return this.findById(model.roleId)
   }
 
   validateIdsByOrganizationId: IRoleRepository['validateIdsByOrganizationId'] = async (organizationId, roleIds) => {

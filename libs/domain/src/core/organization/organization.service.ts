@@ -17,15 +17,15 @@ export class OrganizationService {
     private readonly workspaceService: WorkspaceService,
   ) {}
 
-  async findAll(input: Pagination<Organization>) {
-    const result = await this.organizationRepository.findAll({
+  async getPaginatedOrganizations(input: Pagination<Organization>) {
+    const result = await this.organizationRepository.findAllPaginated({
       ...input,
     })
 
     return result
   }
 
-  async findById(reference: OrganizationWorkspaceReference) {
+  async getOrganization(reference: OrganizationWorkspaceReference) {
     const { organizationId, workspaceId } = getOrganizationWorkspaceReference(reference)
 
     const organization = await this.organizationRepository.findById(organizationId)
@@ -37,16 +37,8 @@ export class OrganizationService {
     return organization
   }
 
-  async findOne(input: Partial<Organization>) {
-    const organization = await this.organizationRepository.findOne({
-      ...input,
-    })
-
-    return organization
-  }
-
   async create({ workspaceId, ...input }: BaseOrganization) {
-    const workspace = await this.workspaceService.findById(workspaceId)
+    const workspace = await this.workspaceService.getWorkspace(workspaceId)
 
     const organization = await this.organizationRepository.create({
       ...input,
@@ -56,21 +48,23 @@ export class OrganizationService {
     return organization
   }
 
-  async updateById(reference: OrganizationWorkspaceReference, input: Partial<Organization>) {
-    const organization = await this.findById(reference)
+  async updateOrganization(reference: OrganizationWorkspaceReference, input: Partial<Organization>) {
+    const organization = await this.getOrganization(reference)
 
     const result = await this.organizationRepository.updateById(organization.organizationId, input)
 
     return result
   }
 
-  async deleteById(reference: OrganizationWorkspaceReference) {
-    const organization = await this.findById(reference)
+  async deleteOrganization(reference: OrganizationWorkspaceReference) {
+    const organization = await this.getOrganization(reference)
 
-    await this.organizationRepository.deleteById(organization.organizationId)
+    organization.deletedAt = new Date()
+
+    await this.organizationRepository.updateById(organization.organizationId, organization)
   }
 
-  async validateIds(roleIds: string[]) {
+  async validateOrganizationIds(roleIds: string[]) {
     return this.organizationRepository.validateIds(roleIds)
   }
 }

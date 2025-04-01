@@ -13,32 +13,26 @@ export class WorkspaceService {
     private readonly userService: UserService,
   ) {}
 
-  async findAll(input: Pagination<Workspace>) {
-    const result = await this.workspaceRepository.findAll(input)
+  async getPaginatedWorkspaces(input: Pagination<Workspace>) {
+    const result = await this.workspaceRepository.findAllPaginated(input)
 
     return result
   }
 
-  async findById(workspaceId: string) {
+  async getWorkspace(workspaceId: string) {
     const workspace = await this.workspaceRepository.findById(workspaceId)
 
     return workspace
   }
 
-  async findOne(input: Partial<Workspace>) {
-    const workspace = await this.workspaceRepository.findOne(input)
-
-    return workspace
-  }
-
-  async create(user: User, input: BaseWorkspace) {
+  async createWorkspace(user: User, input: BaseWorkspace) {
     if (user.workspaceId) {
       throw new ConflictException('Workspace already exists.')
     }
 
     const workspace = await this.workspaceRepository.create(input)
 
-    await this.userService.updateById(user.userId, {
+    await this.userService.updateUser(user.userId, {
       workspaceId: workspace.workspaceId,
     })
 
@@ -51,9 +45,5 @@ export class WorkspaceService {
     const result = await this.workspaceRepository.updateById(workspace.workspaceId, input)
 
     return result
-  }
-
-  async deleteById(workspaceId: string) {
-    await this.workspaceRepository.deleteById(workspaceId)
   }
 }

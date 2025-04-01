@@ -17,7 +17,7 @@ export class WorkspaceTypeorm implements IWorkspaceRepository {
     this.repository = this.dataSource.getRepository(WorkspaceEntity)
   }
 
-  findAll: IWorkspaceRepository['findAll'] = async ({ offset, limit, ...query }) => {
+  findAllPaginated: IWorkspaceRepository['findAllPaginated'] = async ({ offset, limit, ...query }) => {
     const { name, status } = query
 
     const where: FindOptionsWhere<WorkspaceEntity> = {}
@@ -40,6 +40,24 @@ export class WorkspaceTypeorm implements IWorkspaceRepository {
       values: values.map((workspace) => WorkspaceSchema.parse(workspace)),
       meta,
     }
+  }
+
+  findAll: IWorkspaceRepository['findAll'] = async (input) => {
+    const { name, status } = input
+
+    const where: FindOptionsWhere<WorkspaceEntity> = {}
+
+    if (name) {
+      where.name = ILike(`%${name}%`)
+    }
+
+    if (status) {
+      where.status = status
+    }
+
+    const values = await this.repository.find({ where })
+
+    return values.map((invoice) => WorkspaceSchema.parse(invoice))
   }
 
   findById: IWorkspaceRepository['findById'] = async (workspaceId) => {
@@ -73,16 +91,10 @@ export class WorkspaceTypeorm implements IWorkspaceRepository {
   }
 
   updateById: IWorkspaceRepository['updateById'] = async (workspaceId, input) => {
-    const workspace = await this.findById(workspaceId)
+    const model = await this.findById(workspaceId)
 
-    await this.repository.update(workspace.workspaceId, input)
+    await this.repository.update(model.workspaceId, input)
 
-    return this.findById(workspace.workspaceId)
-  }
-
-  deleteById: IWorkspaceRepository['deleteById'] = async (workspaceId) => {
-    const workspace = await this.findById(workspaceId)
-
-    await this.repository.softDelete({ workspaceId: workspace.workspaceId })
+    return this.findById(model.workspaceId)
   }
 }
