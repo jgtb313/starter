@@ -26,16 +26,10 @@ export class InvoiceEntity {
   debitCard?: InvoiceDebitCard['debitCard']
 
   @Column({ type: 'varchar', nullable: true })
-  pixQrCode?: InvoicePix['pixQrCode']
+  pix?: InvoicePix['pix']
 
   @Column({ type: 'varchar', nullable: true })
-  boletoURL?: InvoiceBoleto['boletoURL']
-
-  @Column({ type: 'varchar', nullable: true })
-  boletoInstructions?: InvoiceBoleto['boletoInstructions']
-
-  @Column({ type: 'timestamp', nullable: true })
-  boletoDueDate?: InvoiceBoleto['boletoDueDate']
+  boleto?: InvoiceBoleto['boleto']
 
   @Column({ type: 'int' })
   amount: Invoice['amount']
