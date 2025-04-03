@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common'
 
-import { NotificationService } from '@/adapters/notification/notification.service'
+import { NotificationService } from '@/adapters/notification'
 import { EmailModule, SMSModule, WhatsappModule, WebPushModule, MobilePushModule } from '@/adapters/notification/strategies'
 
 @Module({

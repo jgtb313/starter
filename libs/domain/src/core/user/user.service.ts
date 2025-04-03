@@ -2,24 +2,25 @@ import { Injectable, Inject } from '@nestjs/common'
 import { BadRequestException, ConflictException, AclForbiddenException } from '@starter/nestjs-error-handling'
 import { Pagination, Phone } from '@starter/schema'
 
-import { UserSchema, User, BaseUser } from '@/schemas'
+import { UserSchema, User, Workspace, BaseUser } from '@/schemas'
 import { createWorkspaceReference, WithWorkspaceReference } from '@/support/workspace-reference'
 import { IUserRepository } from '@/ports/database/user'
-
 import { EncryptService } from '@/adapters/encrypt'
+import { WorkspaceService } from '../workspace'
 import { RoleService } from '../role'
-import { UserEntity } from '@/adapters/database/user'
-import { FindOptionsWhere } from 'typeorm'
 
 type UserWorkspaceReference = WithWorkspaceReference<'userId'>
 const getUserWorkspaceReference = createWorkspaceReference('userId')
+
+type UserOrganizations = { organizations: { organizationId: string; roleIds: string[] }[] }
 
 @Injectable()
 export class UserService {
   constructor(
     @Inject('USER_REPOSITORY') private readonly userRepository: IUserRepository,
-    private readonly roleService: RoleService,
     private readonly encryptService: EncryptService,
+    private readonly workspaceService: WorkspaceService,
+    private readonly roleService: RoleService,
   ) {}
 
   async getPaginatedUsers(input: Pagination<User>) {
@@ -33,7 +34,7 @@ export class UserService {
 
     const user = await this.userRepository.findById(userId)
 
-    if (user.workspaceId !== workspaceId) {
+    if (workspaceId && user.workspaceId !== workspaceId) {
       throw new AclForbiddenException()
     }
 
@@ -70,10 +71,13 @@ export class UserService {
     return UserSchema.parse(user)
   }
 
-  async createUser({
-    organizations,
-    ...input
-  }: Omit<BaseUser, 'organizationIds' | 'organizations' | 'roleIds'> & { organizations: { organizationId: string; roleIds: string[] }[] }) {
+  async createUser({ workspaceId, organizations, ...input }: Omit<BaseUser, 'organizationIds' | 'organizations' | 'roleIds'> & UserOrganizations) {
+    let workspace: Workspace | undefined = undefined
+
+    if (workspaceId) {
+      workspace = await this.workspaceService.getWorkspace(workspaceId)
+    }
+
     const emailExists = await this.userRepository.findOne({
       email: input.email,
     })

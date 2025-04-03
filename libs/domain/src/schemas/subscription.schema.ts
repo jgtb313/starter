@@ -80,4 +80,4 @@ export type SubscriptionDebitCard = z.infer<typeof SubscriptionDebitCardSchema>
 
 export const SubscriptionSchema = z.discriminatedUnion('paymentMethod', [SubscriptionCreditCardSchema, SubscriptionDebitCardSchema])
 export type Subscription = z.infer<typeof SubscriptionSchema>
-export type BaseSubscription = BaseSchema<'subscriptionId', Subscription>
+export type BaseSubscription = BaseSchema<'subscriptionId' | 'externalId', Subscription>
