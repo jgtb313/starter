@@ -50,7 +50,7 @@ export class ProfileController {
     },
   })
   async getProfile(@AuthenticatedUser() user: User) {
-    return this.userService.findById(user.userId)
+    return this.userService.getUser(user.userId)
   }
 
   @Route({
@@ -71,7 +71,7 @@ export class ProfileController {
     },
   })
   updateProfile(@AuthenticatedUser() user: User, @Request() { body }: UpdateProfileRequest) {
-    return this.userService.updateById(user.userId, body)
+    return this.userService.updateUser(user.userId, body)
   }
 
   @Route({
@@ -118,7 +118,7 @@ export class ProfileController {
 
     await this.otpService.validate({ ...body.otpVerification, context: OTPContextEnum.UPDATE_EMAIL, recipient })
 
-    return this.userService.updateById(user.userId, { email: body.email })
+    return this.userService.updateUser(user.userId, { email: body.email })
   }
 
   @Route({
@@ -165,7 +165,7 @@ export class ProfileController {
 
     await this.otpService.validate({ ...body.otpVerification, context: OTPContextEnum.UPDATE_PHONE, recipient })
 
-    return this.userService.updateById(user.userId, { phone: body.phone })
+    return this.userService.updateUser(user.userId, { phone: body.phone })
   }
 
   @Route({
@@ -188,9 +188,9 @@ export class ProfileController {
     },
   })
   async updateProfilePassword(@AuthenticatedUser() user: User, @Request() { body }: UpdateProfilePasswordRequest) {
-    await this.userService.verifyPassword(user.userId, body.currentPassword)
+    await this.userService.verifyUserPassword(user.userId, body.currentPassword)
 
-    await this.userService.updatePassword(user.userId, body.password)
+    await this.userService.updateUserPassword(user.userId, body.password)
   }
 
   @Route({
@@ -209,6 +209,6 @@ export class ProfileController {
     },
   })
   deactivateProfile(@AuthenticatedUser() user: User) {
-    return this.userService.deleteById(user.userId)
+    return this.userService.deleteUser(user.userId)
   }
 }

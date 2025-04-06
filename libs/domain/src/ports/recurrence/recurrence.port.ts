@@ -1,7 +1,12 @@
+import { Invoice } from '@/schemas'
+
 export type IRecurrenceAdapter = {}
 
 export type RecurrenceCreateInput = {}
-export type RecurrenceCreateOutput = { recurrenceId: string }
+export type RecurrenceCreateOutput = {
+  recurrenceId: string
+  invoice: Pick<Invoice, 'externalId' | 'amount' | 'paymentMethod' | 'billingDueDate' | 'status'>
+}
 
 export type RecurrenceChangePaymentMethodInput = {}
 export type RecurrenceChangePaymentMethodOutput = { recurrenceId: string }

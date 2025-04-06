@@ -61,7 +61,7 @@ export class UserController {
       workspaceId: params.workspaceId,
     })
 
-    return this.userService.findAll({
+    return this.userService.getPaginatedUsers({
       ...params,
       ...query,
     })
@@ -91,7 +91,7 @@ export class UserController {
       workspaceId: params.workspaceId,
     })
 
-    return this.userService.findById(params)
+    return this.userService.getUser(params)
   }
 
   @Route({
@@ -117,7 +117,7 @@ export class UserController {
       workspaceId: params.workspaceId,
     })
 
-    return this.userService.create({
+    return this.userService.createUser({
       ...params,
       ...body,
       status: UserStatusEnum.ACTIVE,
@@ -149,7 +149,7 @@ export class UserController {
       workspaceId: params.workspaceId,
     })
 
-    return this.userService.updateById(params, {
+    return this.userService.updateUser(params, {
       ...body,
     })
   }

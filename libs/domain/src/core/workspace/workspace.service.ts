@@ -39,7 +39,7 @@ export class WorkspaceService {
     return workspace
   }
 
-  async updateById(workspaceId: string, input: Partial<Workspace>) {
+  async updateWorkspace(workspaceId: string, input: Partial<Workspace>) {
     const workspace = await this.workspaceRepository.findById(workspaceId)
 
     const result = await this.workspaceRepository.updateById(workspace.workspaceId, input)

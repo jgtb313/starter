@@ -96,7 +96,7 @@ export class AuthController {
     },
   })
   async passwordLess(@Request() { body }: PasswordLessRequest) {
-    const user = await this.userService.findOne({ email: body.email })
+    const user = await this.userService.getUserByEmail(body.email)
 
     if (!user) {
       throw new UnauthorizedException('Invalid access data.')

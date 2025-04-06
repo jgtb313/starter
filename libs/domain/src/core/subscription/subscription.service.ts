@@ -28,7 +28,7 @@ export class SubscriptionService {
 
     const plan = await this.planService.getPlan(planId)
 
-    const { recurrenceId } = await this.recurrenceService.create()
+    const { recurrenceId, invoice } = await this.recurrenceService.create({})
 
     const subscription = await this.subscriptionRepository.create({
       ...input,
@@ -37,13 +37,15 @@ export class SubscriptionService {
       externalId: recurrenceId,
     })
 
-    const invoice = await this.invoiceService.createInvoice({
+    await this.invoiceService.createInvoice({
+      ...invoice,
       workspaceId: workspace.workspaceId,
       subscriptionId: subscription.subscriptionId,
-      externalId: '',
+      description: '',
+      issuedAt: new Date(),
     })
 
-    await this.workspaceService.updateById(subscription.workspaceId, {})
+    await this.workspaceService.updateWorkspace(subscription.workspaceId, {})
 
     return subscription
   }

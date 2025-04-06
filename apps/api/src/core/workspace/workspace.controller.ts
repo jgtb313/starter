@@ -58,7 +58,7 @@ export class WorkspaceController {
       workspaceId: params.workspaceId,
     })
 
-    return this.workspaceService.findById(params.workspaceId)
+    return this.workspaceService.getWorkspace(params.workspaceId)
   }
 
   @Route({
@@ -81,7 +81,7 @@ export class WorkspaceController {
   createWorkspace(@AuthenticatedUser() user: User, @Request() { body }: CreateWorkspaceRequest) {
     this.aclService.canPerformActionByPermission(user, 'workspace:create')
 
-    return this.workspaceService.create(user, {
+    return this.workspaceService.createWorkspace(user, {
       ...body,
       status: WorkspaceStatusEnum.ACTIVE,
     })
@@ -112,6 +112,6 @@ export class WorkspaceController {
       workspaceId: params.workspaceId,
     })
 
-    return this.workspaceService.updateById(params.workspaceId, body)
+    return this.workspaceService.updateWorkspace(params.workspaceId, body)
   }
 }

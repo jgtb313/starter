@@ -37,6 +37,6 @@ export class PlanController {
     },
   })
   listPlans(@Request() { query }: ListPlansRequest) {
-    return this.planService.findAll(query)
+    return this.planService.getPaginatedPlans(query)
   }
 }

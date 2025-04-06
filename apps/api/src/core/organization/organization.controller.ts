@@ -61,7 +61,7 @@ export class OrganizationController {
       workspaceId: params.workspaceId,
     })
 
-    return this.organizationService.findAll({
+    return this.organizationService.getPaginatedOrganizations({
       ...query,
       workspaceId: params.workspaceId,
     })
@@ -92,7 +92,7 @@ export class OrganizationController {
       organizationId: params.organizationId,
     })
 
-    return this.organizationService.findById(params)
+    return this.organizationService.getOrganization(params)
   }
 
   @Route({
@@ -150,7 +150,7 @@ export class OrganizationController {
       organizationId: params.organizationId,
     })
 
-    return this.organizationService.updateById(params, {
+    return this.organizationService.updateOrganization(params, {
       ...body,
     })
   }
@@ -180,6 +180,6 @@ export class OrganizationController {
       organizationId: params.organizationId,
     })
 
-    return this.organizationService.deleteById(params)
+    return this.organizationService.deleteOrganization(params)
   }
 }

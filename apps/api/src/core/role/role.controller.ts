@@ -61,7 +61,7 @@ export class RoleController {
       workspaceId: params.workspaceId,
     })
 
-    return this.roleService.findAll({
+    return this.roleService.getPaginatedRoles({
       ...query,
       workspaceId: params.workspaceId,
     })
@@ -91,7 +91,7 @@ export class RoleController {
       workspaceId: params.workspaceId,
     })
 
-    return this.roleService.findById(params)
+    return this.roleService.getRole(params)
   }
 
   @Route({
@@ -117,7 +117,7 @@ export class RoleController {
       workspaceId: params.workspaceId,
     })
 
-    return this.roleService.create({
+    return this.roleService.createRole({
       ...body,
       workspaceId: params.workspaceId,
     })
@@ -148,7 +148,7 @@ export class RoleController {
       workspaceId: params.workspaceId,
     })
 
-    return this.roleService.updateById(params, {
+    return this.roleService.updateRole(params, {
       ...body,
     })
   }
@@ -177,6 +177,6 @@ export class RoleController {
       workspaceId: params.workspaceId,
     })
 
-    return this.roleService.deleteById(params)
+    return this.roleService.deleteRole(params)
   }
 }
