@@ -6,9 +6,13 @@ import { parseLambdaEvent, LambdaEvent } from './parse-lambda-event'
 
 export type NestServerlessHoistingOptions = {}
 
+export interface IServerlessHoistingApplicationContext<K = unknown> extends INestApplicationContext {
+  execute(event: LambdaEvent): Promise<K>
+}
+
 type IEntryNestModule = Type<any> | DynamicModule | ForwardReference | Promise<IEntryNestModule>
 
-const create = <T extends {}, K extends {}>(
+const create = async <T extends {}, K extends {}>(
   entryModule: IEntryNestModule,
   serviceClass: Type<IServerlessService<T, K>>,
   options?: NestServerlessHoistingOptions,
@@ -17,9 +21,9 @@ const create = <T extends {}, K extends {}>(
     throw new Error('The provided class must have an "execute" method.')
   }
 
-  return async (event: LambdaEvent) => {
-    const app: INestApplicationContext = await NestFactory.createApplicationContext(entryModule)
+  const app: INestApplicationContext = await NestFactory.createApplicationContext(entryModule)
 
+  const execute = async (event: LambdaEvent) => {
     const service = app.get(serviceClass)
 
     const input = parseLambdaEvent<T>(event)
@@ -30,6 +34,15 @@ const create = <T extends {}, K extends {}>(
 
     return result
   }
+
+  Reflect.defineProperty(app, 'execute', {
+    value: execute,
+    writable: false,
+    enumerable: false,
+    configurable: false,
+  })
+
+  return app as IServerlessHoistingApplicationContext<K>
 }
 
 export const NestServerlessHoistingFactory = {

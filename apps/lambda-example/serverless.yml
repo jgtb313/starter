@@ -1,0 +1,35 @@
+service: lambda-example
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: us-east-1
+
+custom:
+  dotenv:
+    path: ../../.env
+    logging: false
+
+plugins:
+  - serverless-dotenv-plugin
+
+resources:
+  Resources:
+    LambdaExampleQueue:
+      Type: AWS::SQS::Queue
+      Properties:
+        QueueName: lambda-example-queue
+
+functions:
+  service:
+    handler: dist/main.handler
+    events:
+      - sqs:
+          arn:
+            Fn::GetAtt:
+              - LambdaExampleQueue
+              - Arn
+          batchSize: 1
+          maximumBatchingWindow: 0

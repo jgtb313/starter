@@ -1,0 +1,7 @@
+{
+  "Records": [
+    {
+      "body": "{\"message\":\"Olá do SQS!\"}"
+    }
+  ]
+}
