@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@nestjs/common'
+import { Injectable, Inject, forwardRef } from '@nestjs/common'
 import { AclForbiddenException } from '@starter/nestjs-error-handling'
 import { Pagination } from '@starter/schema'
 
@@ -15,8 +15,8 @@ const getInvoiceWorkspaceReference = createWorkspaceReference('invoiceId')
 export class InvoiceService {
   constructor(
     @Inject('INVOICE_REPOSITORY') private readonly invoiceRepository: IInvoiceRepository,
-    private readonly workspaceService: WorkspaceService,
-    private readonly subscriptionService: SubscriptionService,
+    // private readonly workspaceService: WorkspaceService,
+    // @Inject(forwardRef(() => SubscriptionService)) private readonly subscriptionService: SubscriptionService,
   ) {}
 
   async getPaginatedInvoices(input: Pagination<Invoice>) {
@@ -38,17 +38,14 @@ export class InvoiceService {
   }
 
   async createInvoice({ workspaceId, subscriptionId, ...input }: BaseInvoice) {
-    const workspace = await this.workspaceService.getWorkspace(workspaceId)
-
-    const subscription = await this.subscriptionService.getSubscription(subscriptionId)
-
-    const invoice = await this.invoiceRepository.create({
-      ...input,
-      workspaceId: workspace.workspaceId,
-      subscriptionId: subscription.subscriptionId,
-    })
-
-    return invoice
+    // const workspace = await this.workspaceService.getWorkspace(workspaceId)
+    // const subscription = await this.subscriptionService.getSubscription(subscriptionId)
+    // const invoice = await this.invoiceRepository.create({
+    //   ...input,
+    //   workspaceId: workspace.workspaceId,
+    //   subscriptionId: subscription.subscriptionId,
+    // })
+    // return invoice
   }
 
   async updateInvoice(invoiceId: string, input: Partial<Invoice>) {

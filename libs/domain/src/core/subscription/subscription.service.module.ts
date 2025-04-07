@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common'
+import { Module, forwardRef } from '@nestjs/common'
 
 import { SubscriptionRepositoryModule } from '@/adapters/database/subscription'
 import { RecurrenceModule } from '@/adapters/recurrence'
@@ -8,7 +8,7 @@ import { PlanServiceModule } from '../plan'
 import { InvoiceServiceModule } from '../invoice'
 
 @Module({
-  imports: [SubscriptionRepositoryModule, WorkspaceServiceModule, PlanServiceModule, InvoiceServiceModule, RecurrenceModule],
+  imports: [SubscriptionRepositoryModule],
   providers: [SubscriptionService],
   exports: [SubscriptionService],
 })

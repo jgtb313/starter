@@ -1,9 +1,10 @@
 import { z, PaginationSchema, BasePaginationSchemaOutput } from '@starter/schema'
-import { SubscriptionSchema, BaseSubscriptionSchema } from '@starter/domain'
+import { SubscriptionSchema } from '@starter/domain'
 
-export const ListSubscriptionsSchema = BaseSubscriptionSchema.pick({
-  status: true,
-})
+export const ListSubscriptionsSchema = z
+  .object({
+    // status: true,
+  })
   .partial()
   .merge(
     z
@@ -15,11 +16,3 @@ export const ListSubscriptionsSchema = BaseSubscriptionSchema.pick({
   .merge(PaginationSchema)
 export const ListSubscriptionsSchemaOutput = BasePaginationSchemaOutput.merge(z.object({ values: z.array(SubscriptionSchema) }))
 export type ListSubscriptionsInput = z.infer<typeof ListSubscriptionsSchema>
-
-// create() {}
-
-// changePaymentMethod() {}
-
-// changePlan() {}
-
-// cancel() {}

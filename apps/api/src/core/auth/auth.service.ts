@@ -41,7 +41,7 @@ export class AuthService {
   async signIn({ email, password }: SignInInput) {
     this.loggerService.info(`Attempting to sign in user with email: ${email}`, {})
 
-    const user = await this.userService.findOne({ email })
+    const user = await this.userService.getUserByEmail(email)
 
     if (!user) {
       this.loggerService.warn(`Failed login attempt - user not found for email: ${email}`, {})
@@ -61,10 +61,10 @@ export class AuthService {
   async socialSignOn(input: SocialSignOnInput) {
     const { providerId, name, email, avatar } = await this.socialAuthService.getInfo(input.context, input.providerToken)
 
-    const user = await this.userService.findBySocial(input.context, { socialId: providerId, email })
+    const user = await this.userService.getUserBySocial(input.context, { socialId: providerId, email })
 
     if (!user) {
-      const user = await this.userService.create({
+      const user = await this.userService.createUser({
         organizations: [],
         permissions: ['workspace:manage'],
         name,
@@ -86,15 +86,13 @@ export class AuthService {
   }
 
   async signUp({ name, email, password }: SignUpInput) {
-    const emailExists = await this.userService.findOne({
-      email,
-    })
+    const emailExists = await this.userService.getUserByEmail(email)
 
     if (emailExists) {
       throw new ConflictException(`E-mail ${email} has already been taken.`)
     }
 
-    const user = await this.userService.create({
+    const user = await this.userService.createUser({
       organizations: [],
       permissions: ['workspace:manage'],
       name,
@@ -113,7 +111,7 @@ export class AuthService {
   }
 
   async forgotPassword({ email, password }: ForgotPasswordInput) {
-    const user = await this.userService.findOne({ email })
+    const user = await this.userService.getUserByEmail(email)
 
     if (!user) {
       throw new UnauthorizedException('Invalid access data.')
@@ -121,7 +119,7 @@ export class AuthService {
 
     user.password = await this.encryptService.hash(password)
 
-    await this.userService.updateById(user.userId, {
+    await this.userService.updateUser(user.userId, {
       ...user,
       organizations: [],
     })
