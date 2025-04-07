@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { uuid } from '@starter/common'
 
+import { Invoice } from '@/schemas'
 import { IRecurrence } from '@/ports/recurrence'
 
 @Injectable()
@@ -12,6 +13,7 @@ export class RecurrenceService implements IRecurrence {
 
     return {
       recurrenceId,
+      invoice: {} as Invoice,
     }
   }
 

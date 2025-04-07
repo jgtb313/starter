@@ -43,7 +43,7 @@ export default defineConfig({
     emptyOutDir: false,
     sourcemap: false,
     rollupOptions: {
-      external: [...deps, 'node:path', 'path', 'os', 'stream'],
+      external: [...deps, 'glob', 'node:path', 'path', 'os', 'stream'],
       input: ['src/index.ts', ...migrations, ...entities],
       plugins: [
         typescript({

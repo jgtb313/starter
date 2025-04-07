@@ -6,7 +6,7 @@ import { parseLambdaEvent, LambdaEvent } from './parse-lambda-event'
 
 export type NestServerlessHoistingOptions = {}
 
-export interface IServerlessHoistingApplicationContext<K = unknown> extends INestApplicationContext {
+export interface IServerlessHoistingApplicationContext<K = unknown> {
   execute(event: LambdaEvent): Promise<K>
 }
 
@@ -42,7 +42,7 @@ const create = async <T extends {}, K extends {}>(
     configurable: false,
   })
 
-  return app as IServerlessHoistingApplicationContext<K>
+  return app as unknown as IServerlessHoistingApplicationContext<K>
 }
 
 export const NestServerlessHoistingFactory = {

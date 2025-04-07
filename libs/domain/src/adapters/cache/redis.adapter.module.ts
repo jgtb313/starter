@@ -1,6 +1,6 @@
 import { Module, Logger } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
-import { createClient } from 'redis'
+import { createClient, RedisClientType } from 'redis'
 
 @Module({
   imports: [ConfigModule],
@@ -27,7 +27,7 @@ import { createClient } from 'redis'
 
         await client.connect()
 
-        logger.log(`Connected to Redis: ${REDIS_URL}`)
+        logger.log(`Connected to Redis: ${REDIS_URL}.`)
 
         return client
       },
