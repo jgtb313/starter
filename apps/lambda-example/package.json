@@ -6,7 +6,12 @@
   "scripts": {
     "dev": "yarn build && serverless invoke local --function service --path event.json",
     "build": "tsc -p tsconfig.build.json",
-    "deploy": "serverless deploy"
+    "deploy": "serverless deploy",
+    "test": "vitest run",
+    "test:ui": "vitest --watch --coverage --ui",
+    "test:coverage": "vitest --watch --coverage",
+    "test:watch": "vitest --watch --coverage",
+    "type-check": "tsc --project tsconfig.json --pretty --noEmit"
   },
   "engines": {
     "npm": ">=10.0.0",
@@ -29,6 +34,10 @@
     "@types/node": "^22.14.0",
     "serverless": "^3.38.0",
     "serverless-dotenv-plugin": "^6.0.0",
-    "typescript": "^5.8.3"
+    "@vitest/coverage-c8": "^0.33.0",
+    "@vitest/ui": "^2.1.8",
+    "typescript": "5.4.2",
+    "vite": "6.0.5",
+    "vitest": "^2.1.8"
   }
 }

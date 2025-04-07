@@ -2,6 +2,8 @@ import { Module, Logger } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { createClient, RedisClientType } from 'redis'
 
+let redisClient: RedisClientType | undefined
+
 @Module({
   imports: [ConfigModule],
   providers: [
@@ -16,20 +18,24 @@ import { createClient, RedisClientType } from 'redis'
           return
         }
 
+        if (redisClient) {
+          return redisClient
+        }
+
         const STAGE = configService.get<string>('STAGE')
         const REDIS_URL = configService.get<string>('REDIS_URL')
         const REDIS_PASSWORD = configService.get<string>('REDIS_PASSWORD')
 
-        const client = createClient({
+        redisClient = createClient({
           url: REDIS_URL,
           password: STAGE !== 'local' ? REDIS_PASSWORD : undefined,
         })
 
-        await client.connect()
+        await redisClient.connect()
 
         logger.log(`Connected to Redis: ${REDIS_URL}.`)
 
-        return client
+        return redisClient
       },
       inject: [ConfigService],
     },

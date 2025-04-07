@@ -12,7 +12,5 @@ export const handler = async (event: LambdaEvent) => {
     app = await NestServerlessHoistingFactory.create(AppModule, LambdaExampleService)
   }
 
-  const result = await app.execute(event)
-
-  console.log(result)
+  return app.execute(event)
 }

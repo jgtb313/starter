@@ -2,15 +2,13 @@ import { Injectable } from '@nestjs/common'
 import { IServerlessService } from '@starter/nestjs-serverless-hoisting'
 import { CacheService } from '@starter/domain'
 
-export type Service = IServerlessService<{ abc: string }, { abc: string }>
+export type Service = IServerlessService<{}, number>
 
 @Injectable()
 export class LambdaExampleService implements Service {
   constructor(private readonly cacheService: CacheService) {}
 
   async execute() {
-    return {
-      abc: '123',
-    }
+    return 10
   }
 }
