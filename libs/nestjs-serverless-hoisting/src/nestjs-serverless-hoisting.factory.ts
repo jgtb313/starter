@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core'
-import { INestApplicationContext, Type, DynamicModule, ForwardReference } from '@nestjs/common'
+import { ConsoleLogger, INestApplicationContext, Type, DynamicModule, ForwardReference } from '@nestjs/common'
 
 import { IServerlessService } from '@/interfaces'
 import { parseLambdaEvent, LambdaEvent } from './parse-lambda-event'
@@ -12,6 +12,18 @@ export interface IServerlessHoistingApplicationContext<K = unknown> {
 
 type IEntryNestModule = Type<any> | DynamicModule | ForwardReference | Promise<IEntryNestModule>
 
+class CustomLogger extends ConsoleLogger {
+  log(message: string, context?: string) {
+    if (context === 'InstanceLoader') {
+      const [moduleName, ...parts] = message.split(' ')
+
+      const cleanMessage = `${moduleName.replace(/\d+/g, '')} ${parts.join(' ')}`
+
+      super.log(cleanMessage, context)
+    }
+  }
+}
+
 const create = async <T extends {}, K extends {}>(
   entryModule: IEntryNestModule,
   serviceClass: Type<IServerlessService<T, K>>,
@@ -21,7 +33,9 @@ const create = async <T extends {}, K extends {}>(
     throw new Error('The provided class must have an "execute" method.')
   }
 
-  const app: INestApplicationContext = await NestFactory.createApplicationContext(entryModule)
+  const app: INestApplicationContext = await NestFactory.createApplicationContext(entryModule, {
+    logger: new CustomLogger(),
+  })
 
   const execute = async (event: LambdaEvent) => {
     const service = app.get(serviceClass)

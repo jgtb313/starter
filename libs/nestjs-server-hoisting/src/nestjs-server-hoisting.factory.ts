@@ -1,7 +1,7 @@
 import { writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { NestFactory } from '@nestjs/core'
-import { INestApplication, ConsoleLogger, Type, DynamicModule, ForwardReference } from '@nestjs/common'
+import { ConsoleLogger, INestApplication, Type, DynamicModule, ForwardReference } from '@nestjs/common'
 import { ExpressAdapter } from '@nestjs/platform-express'
 import { SwaggerModule, DocumentBuilder, OpenAPIObject } from '@nestjs/swagger'
 import { Request, Response } from 'express'
@@ -25,8 +25,12 @@ type IEntryNestModule = Type<any> | DynamicModule | ForwardReference | Promise<I
 
 class CustomLogger extends ConsoleLogger {
   log(message: string, context?: string) {
-    if (context !== 'InstanceLoader') {
-      super.log(message, context)
+    if (context === 'InstanceLoader') {
+      const [moduleName, ...parts] = message.split(' ')
+
+      const cleanMessage = `${moduleName.replace(/\d+/g, '')} ${parts.join(' ')}`
+
+      super.log(cleanMessage, context)
     }
   }
 }
