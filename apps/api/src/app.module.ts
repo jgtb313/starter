@@ -24,24 +24,24 @@ import { WorkspaceModule } from '@/core/workspace'
       envFilePath: '../../.env',
     }),
 
-    AuthGuardModule,
-    ACLModule,
+    // AuthGuardModule,
+    // ACLModule,
 
-    DatabaseModule.register({
-      migrationsRun: true,
-    }),
+    // DatabaseModule.register({
+    //   migrationsRun: true,
+    // }),
 
-    AuthModule,
-    FileModule,
-    OrganizationModule,
-    OTPModule,
-    PermissionModule,
-    PlanModule,
-    ProfileModule,
-    RoleModule,
-    SubscriptionModule,
-    UserModule,
-    WorkspaceModule,
+    // AuthModule,
+    // FileModule,
+    // OrganizationModule,
+    // OTPModule,
+    // PermissionModule,
+    // PlanModule,
+    // ProfileModule,
+    // RoleModule,
+    // SubscriptionModule,
+    // UserModule,
+    // WorkspaceModule,
   ],
 })
 export class AppModule {}
