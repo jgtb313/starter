@@ -1,8 +1,4 @@
-import { generateSchema } from '@anatine/zod-openapi'
-
 export { z, ZodSchema, ZodType } from './zod'
-
-export const zodSchemaToOpenapiSchema = generateSchema
 
 export * from './address'
 export * from './birthday'
