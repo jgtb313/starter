@@ -1,4 +1,4 @@
-service: lambda-example
+service: lambda-service-example
 
 frameworkVersion: '3'
 
@@ -17,10 +17,10 @@ plugins:
 
 resources:
   Resources:
-    LambdaExampleQueue:
+    LambdaServiceExampleQueue:
       Type: AWS::SQS::Queue
       Properties:
-        QueueName: lambda-example-queue
+        QueueName: lambda-service-example-queue
 
 functions:
   service:
@@ -29,7 +29,7 @@ functions:
       - sqs:
           arn:
             Fn::GetAtt:
-              - LambdaExampleQueue
+              - LambdaServiceExampleQueue
               - Arn
           batchSize: 1
           maximumBatchingWindow: 0
