@@ -1,11 +1,11 @@
 import { z } from '@/zod'
-import { isCreditCardNumberValid, isCreditCardExpirationDateValid, isCreditCardCVVValid } from '@starter/common'
+import { isPaymentCardNumberValid, isPaymentCardExpirationDateValid, isPaymentCardCVVValid } from '@starter/common'
 
 export const BasePaymentCardSchema = z.object({
   number: z
     .string()
     .min(1)
-    .refine((number) => isCreditCardNumberValid(number), { params: { i18n: 'invalid_payment_card_number' } }),
+    .refine((number) => isPaymentCardNumberValid(number), { params: { i18n: 'invalid_payment_card_number' } }),
   holderName: z.string().min(1),
   expirationDate: z
     .string()
@@ -14,7 +14,7 @@ export const BasePaymentCardSchema = z.object({
     .refine(
       (expirationDate) => {
         const [month, year] = expirationDate.split('/')
-        return isCreditCardExpirationDateValid(month, year)
+        return isPaymentCardExpirationDateValid(month, year)
       },
       {
         params: { i18n: 'invalid_date' },
@@ -25,7 +25,7 @@ export const BasePaymentCardSchema = z.object({
 export type BasePaymentCard = z.infer<typeof BasePaymentCardSchema>
 
 export const PaymentCardSchema = BasePaymentCardSchema.and(z.object({ cvv: z.string().min(3).max(4) })).refine(
-  ({ number, cvv }) => isCreditCardCVVValid(number, cvv),
+  ({ number, cvv }) => isPaymentCardCVVValid(number, cvv),
   { path: ['cvv'], params: { i18n: 'invalid_payment_card_cvv' } },
 )
 export type PaymentCard = z.infer<typeof PaymentCardSchema>

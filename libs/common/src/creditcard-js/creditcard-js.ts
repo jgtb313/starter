@@ -1,6 +1,6 @@
 import { isValid, isExpirationDateValid, isSecurityCodeValid, getCreditCardNameByNumber } from 'creditcard.js'
 
-export type CreditCard =
+export type PaymentCard =
   | 'ALIPAY'
   | 'AMEX'
   | 'DINERS'
@@ -14,14 +14,14 @@ export type CreditCard =
   | 'VISA'
   | 'GENERIC'
 
-export const isCreditCardNumberValid = (cardNumber: string) => isValid(cardNumber)
+export const isPaymentCardNumberValid = (cardNumber: string) => isValid(cardNumber)
 
-export const isCreditCardExpirationDateValid = (month: string, year: string) => isExpirationDateValid(month, year)
+export const isPaymentCardExpirationDateValid = (month: string, year: string) => isExpirationDateValid(month, year)
 
-export const isCreditCardCVVValid = (cardNumber: string, cvv: string) => isSecurityCodeValid(cardNumber, cvv)
+export const isPaymentCardCVVValid = (cardNumber: string, cvv: string) => isSecurityCodeValid(cardNumber, cvv)
 
-export const getCreditCardName = (cardNumber: string): CreditCard => {
-  const mapping: Record<string, CreditCard> = {
+export const getPaymentCardName = (cardNumber: string): PaymentCard => {
+  const mapping: Record<string, PaymentCard> = {
     'American Express': 'AMEX',
     Aura: 'GENERIC',
     Banescard: 'GENERIC',
