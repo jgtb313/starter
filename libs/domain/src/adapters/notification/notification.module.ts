@@ -4,7 +4,7 @@ import { NotificationService } from '@/adapters/notification'
 import { EmailModule, SMSModule, WhatsappModule, WebPushModule, MobilePushModule } from '@/adapters/notification/strategies'
 
 @Module({
-  imports: [EmailModule, SMSModule, WhatsappModule, WebPushModule, MobilePushModule],
+  imports: [EmailModule],
   providers: [NotificationService],
   exports: [NotificationService],
 })

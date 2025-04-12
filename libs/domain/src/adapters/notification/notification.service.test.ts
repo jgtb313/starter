@@ -8,10 +8,10 @@ describe('NotificationService', () => {
   let notificationService: NotificationService
 
   const mockEmailStrategy = { send: vi.fn() }
-  const mockSMSStrategy = { send: vi.fn() }
-  const mockWhatsappStrategy = { send: vi.fn() }
-  const mockWebPushStrategy = { send: vi.fn() }
-  const mockMobilePushStrategy = { send: vi.fn() }
+  // const mockSMSStrategy = { send: vi.fn() }
+  // const mockWhatsappStrategy = { send: vi.fn() }
+  // const mockWebPushStrategy = { send: vi.fn() }
+  // const mockMobilePushStrategy = { send: vi.fn() }
 
   beforeEach(async () => {
     vi.clearAllMocks()
@@ -20,10 +20,10 @@ describe('NotificationService', () => {
       providers: [
         NotificationService,
         { provide: EmailStrategy, useValue: mockEmailStrategy },
-        { provide: SMSStrategy, useValue: mockSMSStrategy },
-        { provide: WhatsappStrategy, useValue: mockWhatsappStrategy },
-        { provide: WebPushStrategy, useValue: mockWebPushStrategy },
-        { provide: MobilePushStrategy, useValue: mockMobilePushStrategy },
+        // { provide: SMSStrategy, useValue: mockSMSStrategy },
+        // { provide: WhatsappStrategy, useValue: mockWhatsappStrategy },
+        // { provide: WebPushStrategy, useValue: mockWebPushStrategy },
+        // { provide: MobilePushStrategy, useValue: mockMobilePushStrategy },
       ],
     }).compile()
 
