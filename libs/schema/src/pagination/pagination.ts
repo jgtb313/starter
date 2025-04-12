@@ -17,14 +17,18 @@ export const PaginationSchemaTransform = PaginationSchema.transform((pagination)
 })
 
 const PaginationMeta = z.object({
-  total: z.number().int().openapi({ example: 150 }),
-  offset: z.number().int().openapi({ example: 20 }),
-  limit: z.number().int().openapi({ example: 10 }),
+  total: z.number().int().default(0).openapi({ example: 150 }),
+  offset: z.number().int().default(0).openapi({ example: 20 }),
+  limit: z.number().int().default(0).openapi({ example: 10 }),
 })
 
 export const BasePaginationSchemaOutput = z.object({
   values: z.array(z.unknown()).default([]),
-  meta: PaginationMeta,
+  meta: PaginationMeta.default({
+    total: 0,
+    offset: 0,
+    limit: 0,
+  }),
 })
 
 export type Pagination<T> = Partial<T> & Partial<z.infer<typeof PaginationSchema>>

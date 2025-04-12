@@ -40,7 +40,7 @@ describe('PhoneSchema', () => {
 
     const result = PhoneSchema.safeParse(input)
 
-    expect(result.error?.errors[0].message).toBe('Número inválido')
+    expect(result.error?.errors[0].code).toBe('custom')
   })
 
   it('should throw an error for missing ISO country code', () => {

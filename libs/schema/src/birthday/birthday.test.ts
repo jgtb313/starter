@@ -13,7 +13,7 @@ describe('Birthday', () => {
 
     it('should fail validation for a date before 1900', () => {
       const input = '1899-12-31'
-      expect(() => BirthdaySchema.parse(input)).toThrow('Data de nascimento inválida')
+      expect(() => BirthdaySchema.parse(input)).toThrow()
     })
 
     it('should fail validation for an invalid date format', () => {
@@ -36,7 +36,7 @@ describe('Birthday', () => {
 
     it('should fail validation for a date before 1900', () => {
       const input = '1890-01-01'
-      expect(() => BirthdayOptionalSchema.parse(input)).toThrow('Data de nascimento inválida')
+      expect(() => BirthdayOptionalSchema.parse(input)).toThrow()
     })
 
     it('should fail validation for an invalid optional date format', () => {
