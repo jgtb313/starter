@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@nestjs/common'
+import { Injectable, Inject, forwardRef } from '@nestjs/common'
 import { AclForbiddenException } from '@starter/nestjs-error-handling'
 import { Pagination } from '@starter/schema'
 
@@ -14,7 +14,7 @@ const getRoleWorkspaceReference = createWorkspaceReference('roleId')
 export class RoleService {
   constructor(
     @Inject('ROLE_REPOSITORY') private readonly roleRepository: IRoleRepository,
-    private readonly organizationService: OrganizationService,
+    @Inject(forwardRef(() => OrganizationService)) private readonly organizationService: OrganizationService,
   ) {}
 
   async getPaginatedRoles(input: Pagination<Role>) {

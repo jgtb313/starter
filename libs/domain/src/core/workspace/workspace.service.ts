@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@nestjs/common'
+import { Injectable, Inject, forwardRef } from '@nestjs/common'
 import { ConflictException } from '@starter/nestjs-error-handling'
 import { Pagination } from '@starter/schema'
 
@@ -10,7 +10,7 @@ import { UserService } from '@/core/user'
 export class WorkspaceService {
   constructor(
     @Inject('WORKSPACE_REPOSITORY') private readonly workspaceRepository: IWorkspaceRepository,
-    private readonly userService: UserService,
+    @Inject(forwardRef(() => UserService)) private readonly userService: UserService,
   ) {}
 
   async getPaginatedWorkspaces(input: Pagination<Workspace>) {

@@ -1,11 +1,11 @@
-import { Module } from '@nestjs/common'
+import { Module, forwardRef } from '@nestjs/common'
 
 import { WorkspaceRepositoryModule } from '@/adapters/database/workspace'
 import { UserServiceModule } from '@/core/user'
 import { WorkspaceService } from './workspace.service'
 
 @Module({
-  imports: [UserServiceModule, WorkspaceRepositoryModule],
+  imports: [WorkspaceRepositoryModule, forwardRef(() => UserServiceModule)],
   providers: [WorkspaceService],
   exports: [WorkspaceService],
 })

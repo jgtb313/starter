@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@nestjs/common'
+import { Injectable, Inject, forwardRef } from '@nestjs/common'
 import { BadRequestException, ConflictException, AclForbiddenException } from '@starter/nestjs-error-handling'
 import { Pagination, Phone } from '@starter/schema'
 
@@ -19,8 +19,8 @@ export class UserService {
   constructor(
     @Inject('USER_REPOSITORY') private readonly userRepository: IUserRepository,
     private readonly encryptService: EncryptService,
-    private readonly workspaceService: WorkspaceService,
-    private readonly roleService: RoleService,
+    @Inject(forwardRef(() => WorkspaceService)) private readonly workspaceService: WorkspaceService,
+    @Inject(forwardRef(() => RoleService)) private readonly roleService: RoleService,
   ) {}
 
   async getPaginatedUsers(input: Pagination<User>) {
