@@ -15,8 +15,8 @@ const getInvoiceWorkspaceReference = createWorkspaceReference('invoiceId')
 export class InvoiceService {
   constructor(
     @Inject('INVOICE_REPOSITORY') private readonly invoiceRepository: IInvoiceRepository,
-    // private readonly workspaceService: WorkspaceService,
-    // @Inject(forwardRef(() => SubscriptionService)) private readonly subscriptionService: SubscriptionService,
+    @Inject(forwardRef(() => WorkspaceService)) private readonly workspaceService: WorkspaceService,
+    @Inject(forwardRef(() => SubscriptionService)) private readonly subscriptionService: SubscriptionService,
   ) {}
 
   async getPaginatedInvoices(input: Pagination<Invoice>) {
@@ -38,14 +38,15 @@ export class InvoiceService {
   }
 
   async createInvoice({ workspaceId, subscriptionId, ...input }: BaseInvoice) {
-    // const workspace = await this.workspaceService.getWorkspace(workspaceId)
-    // const subscription = await this.subscriptionService.getSubscription(subscriptionId)
-    // const invoice = await this.invoiceRepository.create({
-    //   ...input,
-    //   workspaceId: workspace.workspaceId,
-    //   subscriptionId: subscription.subscriptionId,
-    // })
-    // return invoice
+    const workspace = await this.workspaceService.getWorkspace(workspaceId)
+    const subscription = await this.subscriptionService.getSubscription(subscriptionId)
+    const invoice = await this.invoiceRepository.create({
+      ...input,
+      workspaceId: workspace.workspaceId,
+      subscriptionId: subscription.subscriptionId,
+    })
+
+    return invoice
   }
 
   async updateInvoice(invoiceId: string, input: Partial<Invoice>) {

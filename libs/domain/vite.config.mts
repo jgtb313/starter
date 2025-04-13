@@ -3,6 +3,7 @@ import { glob } from 'glob'
 import { defineConfig } from 'vite'
 import dts from 'vite-plugin-dts'
 import typescript from '@rollup/plugin-typescript'
+
 import pkg from './package.json'
 
 const deps = [...Object.keys(pkg.dependencies)]
