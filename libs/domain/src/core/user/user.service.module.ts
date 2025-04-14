@@ -14,6 +14,6 @@ import { UserService } from '@/core/user/user.service'
       useClass: UserService,
     },
   ],
-  exports: [UserService],
+  exports: ['USER_SERVICE'],
 })
 export class UserServiceModule {}

@@ -1,23 +1,18 @@
-import { Injectable, Inject, forwardRef } from '@nestjs/common'
+import { Injectable, Inject } from '@nestjs/common'
 import { AclForbiddenException } from '@starter/nestjs-error-handling'
-import { Pagination } from '@starter/schema'
 
-import { createWorkspaceReference, WithWorkspaceReference } from '@/support/workspace-reference'
-import { Organization, BaseOrganization } from '@/schemas'
 import { IOrganizationRepository } from '@/ports/database/organization'
-import { WorkspaceService } from '../workspace'
-
-type OrganizationWorkspaceReference = WithWorkspaceReference<'organizationId'>
-const getOrganizationWorkspaceReference = createWorkspaceReference('organizationId')
+import { IWorkspaceService } from '@/core/workspace/workspace.service.interface'
+import { getOrganizationWorkspaceReference, IOrganizationService } from '@/core/organization/organization.service.interface'
 
 @Injectable()
-export class OrganizationService {
+export class OrganizationService implements IOrganizationService {
   constructor(
     @Inject('ORGANIZATION_REPOSITORY') private readonly organizationRepository: IOrganizationRepository,
-    @Inject(forwardRef(() => WorkspaceService)) private readonly workspaceService: WorkspaceService,
+    @Inject('WORKSPACE_SERVICE') private readonly workspaceService: IWorkspaceService,
   ) {}
 
-  async getPaginatedOrganizations(input: Pagination<Organization>) {
+  getPaginatedOrganizations: IOrganizationService['getPaginatedOrganizations'] = async (input) => {
     const result = await this.organizationRepository.findAllPaginated({
       ...input,
     })
@@ -25,7 +20,7 @@ export class OrganizationService {
     return result
   }
 
-  async getOrganization(reference: OrganizationWorkspaceReference) {
+  getOrganization: IOrganizationService['getOrganization'] = async (reference) => {
     const { organizationId, workspaceId } = getOrganizationWorkspaceReference(reference)
 
     const organization = await this.organizationRepository.findById(organizationId)
@@ -37,7 +32,7 @@ export class OrganizationService {
     return organization
   }
 
-  async create({ workspaceId, ...input }: BaseOrganization) {
+  create: IOrganizationService['create'] = async ({ workspaceId, ...input }) => {
     const workspace = await this.workspaceService.getWorkspace(workspaceId)
 
     const organization = await this.organizationRepository.create({
@@ -48,7 +43,7 @@ export class OrganizationService {
     return organization
   }
 
-  async updateOrganization(reference: OrganizationWorkspaceReference, input: Partial<Organization>) {
+  updateOrganization: IOrganizationService['updateOrganization'] = async (reference, input) => {
     const organization = await this.getOrganization(reference)
 
     const result = await this.organizationRepository.updateById(organization.organizationId, input)
@@ -56,7 +51,7 @@ export class OrganizationService {
     return result
   }
 
-  async deleteOrganization(reference: OrganizationWorkspaceReference) {
+  deleteOrganization: IOrganizationService['deleteOrganization'] = async (reference) => {
     const organization = await this.getOrganization(reference)
 
     organization.deletedAt = new Date()
@@ -64,7 +59,7 @@ export class OrganizationService {
     await this.organizationRepository.updateById(organization.organizationId, organization)
   }
 
-  async validateOrganizationIds(roleIds: string[]) {
-    return this.organizationRepository.validateIds(roleIds)
+  validateOrganizationIds: IOrganizationService['validateOrganizationIds'] = async (organizationIds) => {
+    await this.organizationRepository.validateIds(organizationIds)
   }
 }
