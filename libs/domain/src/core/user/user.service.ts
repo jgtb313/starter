@@ -7,7 +7,6 @@ import { createWorkspaceReference, WithWorkspaceReference } from '@/support/work
 import { IUserRepository } from '@/ports/database/user'
 import { EncryptService } from '@/adapters/encrypt'
 import { WorkspaceService } from '../workspace'
-import { RoleService } from '../role'
 
 type UserWorkspaceReference = WithWorkspaceReference<'userId'>
 const getUserWorkspaceReference = createWorkspaceReference('userId')
@@ -20,7 +19,6 @@ export class UserService {
     @Inject('USER_REPOSITORY') private readonly userRepository: IUserRepository,
     private readonly encryptService: EncryptService,
     @Inject(forwardRef(() => WorkspaceService)) private readonly workspaceService: WorkspaceService,
-    @Inject(forwardRef(() => RoleService)) private readonly roleService: RoleService,
   ) {}
 
   async getPaginatedUsers(input: Pagination<User>) {
@@ -86,10 +84,6 @@ export class UserService {
       throw new ConflictException(`Email ${input.email} has already been taken.`)
     }
 
-    for (const { organizationId, roleIds } of organizations) {
-      await this.roleService.validateRoleIdsByOrganizationId(organizationId, roleIds)
-    }
-
     const hashedPassword = await this.encryptService.hash(input.password)
 
     const organizationIds = organizations.map((organization) => organization.organizationId)
@@ -115,10 +109,6 @@ export class UserService {
     const payload: Partial<User> = { ...input }
 
     if (organizations.length) {
-      for (const { organizationId, roleIds } of organizations) {
-        await this.roleService.validateRoleIdsByOrganizationId(organizationId, roleIds)
-      }
-
       const organizationIds = organizations.map((organization) => organization.organizationId)
 
       const roleIds = organizations.flatMap((organization) => organization.roleIds)
