@@ -3,13 +3,17 @@ import { Module, forwardRef } from '@nestjs/common'
 import { PaginationModule } from '@/support/pagination'
 import { UserRepositoryModule } from '@/adapters/database/user'
 import { EncryptModule } from '@/adapters/encrypt'
-import { WorkspaceServiceModule } from '../workspace'
-import { UserService } from './user.service'
-import { UserServiceProvider } from './user.service.provider'
+import { WorkspaceServiceModule } from '@/core/workspace/workspace.service.module'
+import { UserService } from '@/core/user/user.service'
 
 @Module({
   imports: [UserRepositoryModule, PaginationModule, EncryptModule, forwardRef(() => WorkspaceServiceModule)],
-  providers: [UserServiceProvider],
+  providers: [
+    {
+      provide: 'USER_SERVICE',
+      useClass: UserService,
+    },
+  ],
   exports: [UserService],
 })
 export class UserServiceModule {}

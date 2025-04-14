@@ -1,33 +1,25 @@
-import { Injectable, Inject, forwardRef } from '@nestjs/common'
+import { Injectable, Inject } from '@nestjs/common'
 import { BadRequestException, ConflictException, AclForbiddenException } from '@starter/nestjs-error-handling'
-import { Pagination, Phone } from '@starter/schema'
 
-import { UserSchema, User, Workspace, BaseUser } from '@/schemas'
-import { createWorkspaceReference, WithWorkspaceReference } from '@/support/workspace-reference'
+import { User, Workspace } from '@/schemas'
 import { IUserRepository } from '@/ports/database/user'
 import { EncryptService } from '@/adapters/encrypt'
-import { WorkspaceService } from '../workspace'
-
-type UserWorkspaceReference = WithWorkspaceReference<'userId'>
-const getUserWorkspaceReference = createWorkspaceReference('userId')
-
-type UserOrganizations = { organizations: { organizationId: string; roleIds: string[] }[] }
+import { getUserWorkspaceReference, IUserService } from '@/core/user/user.service.interface'
+import { IWorkspaceService } from '@/core/workspace/workspace.service.interface'
 
 @Injectable()
-export class UserService {
+export class UserService implements IUserService {
   constructor(
     @Inject('USER_REPOSITORY') private readonly userRepository: IUserRepository,
+    @Inject('WORKSPACE_SERVICE') private readonly workspaceService: IWorkspaceService,
     private readonly encryptService: EncryptService,
-    @Inject(forwardRef(() => WorkspaceService)) private readonly workspaceService: WorkspaceService,
   ) {}
 
-  async getPaginatedUsers(input: Pagination<User>) {
-    const result = await this.userRepository.findAllPaginated(input)
-
-    return result
+  getPaginatedUsers: IUserService['getPaginatedUsers'] = async (input) => {
+    return this.userRepository.findAllPaginated(input)
   }
 
-  async getUser(reference: UserWorkspaceReference) {
+  getUser: IUserService['getUser'] = async (reference) => {
     const { userId, workspaceId } = getUserWorkspaceReference(reference)
 
     const user = await this.userRepository.findById(userId)
@@ -39,37 +31,37 @@ export class UserService {
     return user
   }
 
-  async getUserByEmail(email: string, options?: { workspaceId: string }) {
+  getUserByEmail: IUserService['getUserByEmail'] = async (email, options) => {
     const user = await this.userRepository.findOne({ email, ...options })
 
     if (!user) {
       return
     }
 
-    return UserSchema.parse(user)
+    return user
   }
 
-  async getUserByPhone(phone: Phone, options?: { workspaceId: string }) {
+  getUserByPhone: IUserService['getUserByPhone'] = async (phone, options) => {
     const user = await this.userRepository.findOne({ phone, ...options })
 
     if (!user) {
       return
     }
 
-    return UserSchema.parse(user)
+    return user
   }
 
-  async getUserBySocial(context: 'FACEBOOK' | 'GOOGLE', input: { socialId: string; email: string | null }) {
+  getUserBySocial: IUserService['getUserBySocial'] = async (context, input) => {
     const user = await this.userRepository.findBySocial(context, input)
 
     if (!user) {
       return
     }
 
-    return UserSchema.parse(user)
+    return user
   }
 
-  async createUser({ workspaceId, organizations, ...input }: Omit<BaseUser, 'organizationIds' | 'organizations' | 'roleIds'> & UserOrganizations) {
+  createUser: IUserService['createUser'] = async ({ workspaceId, organizations, ...input }) => {
     let workspace: Workspace | undefined = undefined
 
     if (workspaceId) {
@@ -95,15 +87,7 @@ export class UserService {
     return user
   }
 
-  async updateUser(
-    reference: UserWorkspaceReference,
-    {
-      organizations = [],
-      ...input
-    }: Partial<
-      Omit<User, 'organizationIds' | 'organizations' | 'roleIds' | 'password'> & { organizations: { organizationId: string; roleIds: string[] }[] }
-    >,
-  ) {
+  updateUser: IUserService['updateUser'] = async (reference, { organizations = [], ...input }) => {
     const user = await this.getUser(reference)
 
     const payload: Partial<User> = { ...input }
@@ -119,10 +103,10 @@ export class UserService {
 
     await this.userRepository.updateById(user.userId, payload)
 
-    return this.getUser(user.userId)
+    return this.getUser('')
   }
 
-  async updateUserPassword(userId: string, password: string) {
+  updateUserPassword: IUserService['updateUserPassword'] = async (userId, password) => {
     const user = await this.getUser(userId)
 
     const newPassword = await this.encryptService.hash(password)
@@ -132,7 +116,7 @@ export class UserService {
     })
   }
 
-  async verifyUserPassword(userId: string, password: string) {
+  verifyUserPassword: IUserService['verifyUserPassword'] = async (userId, password) => {
     const user = await this.getUser(userId)
 
     const isValidPassword = await this.encryptService.compare(password, user.password)
@@ -148,7 +132,7 @@ export class UserService {
     }
   }
 
-  async deleteUser(reference: UserWorkspaceReference) {
+  deleteUser: IUserService['deleteUser'] = async (reference) => {
     const user = await this.getUser(reference)
 
     await this.userRepository.updateById(user.userId, {

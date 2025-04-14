@@ -1,31 +1,30 @@
-import { Injectable, Inject, forwardRef } from '@nestjs/common'
+import { Injectable, Inject } from '@nestjs/common'
 import { ConflictException } from '@starter/nestjs-error-handling'
-import { Pagination } from '@starter/schema'
 
-import { User, Workspace, BaseWorkspace } from '@/schemas'
 import { IWorkspaceRepository } from '@/ports/database/workspace'
-import { UserService } from '@/core/user'
+import { IWorkspaceService } from '@/core/workspace/workspace.service.interface'
+import { IUserService } from '@/core/user/user.service.interface'
 
 @Injectable()
-export class WorkspaceService {
+export class WorkspaceService implements IWorkspaceService {
   constructor(
     @Inject('WORKSPACE_REPOSITORY') private readonly workspaceRepository: IWorkspaceRepository,
-    @Inject(forwardRef(() => UserService)) private readonly userService: UserService,
+    @Inject('USER_SERVICE') private readonly userService: IUserService,
   ) {}
 
-  async getPaginatedWorkspaces(input: Pagination<Workspace>) {
+  getPaginatedWorkspaces: IWorkspaceService['getPaginatedWorkspaces'] = async (input) => {
     const result = await this.workspaceRepository.findAllPaginated(input)
 
     return result
   }
 
-  async getWorkspace(workspaceId: string) {
+  getWorkspace: IWorkspaceService['getWorkspace'] = async (workspaceId) => {
     const workspace = await this.workspaceRepository.findById(workspaceId)
 
     return workspace
   }
 
-  async createWorkspace(user: User, input: BaseWorkspace) {
+  createWorkspace: IWorkspaceService['createWorkspace'] = async (user, input) => {
     if (user.workspaceId) {
       throw new ConflictException('Workspace already exists.')
     }
@@ -39,7 +38,7 @@ export class WorkspaceService {
     return workspace
   }
 
-  async updateWorkspace(workspaceId: string, input: Partial<Workspace>) {
+  updateWorkspace: IWorkspaceService['updateWorkspace'] = async (workspaceId, input) => {
     const workspace = await this.workspaceRepository.findById(workspaceId)
 
     const result = await this.workspaceRepository.updateById(workspace.workspaceId, input)
