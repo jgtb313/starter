@@ -1,10 +1,17 @@
 import { Module } from '@nestjs/common'
-import { CacheModule } from '@starter/domain'
+import { DatabaseModule, UserServiceModule, CacheModule } from '@starter/domain'
 
 import { LambdaExampleService } from './lambda-example.service'
 
 @Module({
-  imports: [CacheModule],
+  imports: [
+    DatabaseModule.register({
+      migrationsRun: false,
+    }),
+
+    UserServiceModule,
+    CacheModule,
+  ],
   providers: [LambdaExampleService],
 })
 export class AppModule {}

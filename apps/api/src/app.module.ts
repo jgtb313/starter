@@ -6,7 +6,7 @@ import { AuthGuardModule } from '@/support/guards'
 import { ACLModule } from '@/support/access-control'
 
 import { AuthModule } from '@/core/auth'
-import { FileModule } from '@/core/file'
+import { StorageModule } from '@/core/storage'
 import { OrganizationModule } from '@/core/organization'
 import { OTPModule } from '@/core/otp'
 import { PermissionModule } from '@/core/permission'
@@ -24,15 +24,15 @@ import { WorkspaceModule } from '@/core/workspace'
       envFilePath: '../../.env',
     }),
 
-    // AuthGuardModule,
-    // ACLModule,
+    AuthGuardModule,
+    ACLModule,
 
-    // DatabaseModule.register({
-    //   migrationsRun: true,
-    // }),
+    DatabaseModule.register({
+      migrationsRun: true,
+    }),
 
-    // AuthModule,
-    // FileModule,
+    AuthModule,
+    StorageModule,
     // OrganizationModule,
     // OTPModule,
     // PermissionModule,

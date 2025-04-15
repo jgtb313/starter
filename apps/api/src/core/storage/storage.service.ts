@@ -1,32 +1,22 @@
 import { Injectable } from '@nestjs/common'
 
 import { PresignedUrlService } from '@/adapters/presigned-url'
-
-export enum FileContextEnum {
-  USER_AVATAR = 'USER_AVATAR',
-  WORKSPACE_LOGO = 'WORKSPACE_LOGO',
-  ORGANIZATION_LOGO = 'ORGANIZATION_LOGO',
-}
-
-export type GetPresignedUrl = {
-  context: FileContextEnum
-  filename: string
-}
+import { FileContextEnum } from '@/core/storage/storage.controller.schema'
 
 @Injectable()
-export class FileService {
+export class StorageService {
   constructor(private readonly presignedUrlService: PresignedUrlService) {}
 
-  getPresignedUrl({ context, filename }: GetPresignedUrl) {
-    const contexts: Record<FileContextEnum, string> = {
+  getPresignedUrl(fileContext: FileContextEnum, fileName: string) {
+    const fileContexts: Record<FileContextEnum, string> = {
       [FileContextEnum.USER_AVATAR]: 'users/avatar',
       [FileContextEnum.WORKSPACE_LOGO]: 'workspaces/logo',
       [FileContextEnum.ORGANIZATION_LOGO]: 'organizations/logo',
     }
 
-    const bucket = contexts[context]
+    const bucket = fileContexts[fileContext]
 
-    const key = `${bucket}/${filename}`
+    const key = `${bucket}/${fileName}`
 
     return this.presignedUrlService.generateUrl(key, { expiresInSeconds: 120 })
   }

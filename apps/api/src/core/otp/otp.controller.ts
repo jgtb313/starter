@@ -1,5 +1,5 @@
 import { UseGuards } from '@nestjs/common'
-import { Controller, Route, Request, RequestInput } from '@starter/nestjs-server-hoisting'
+import { Controller, Route, Request } from '@starter/nestjs-server-hoisting'
 import { OTPSchema, OTPService, User } from '@starter/domain'
 
 import { AuthGuard } from '@/support/guards'
@@ -14,7 +14,7 @@ import {
   SendForgotPasswordOTPRequest,
   SendUpdateEmailOTPRequest,
   SendUpdatePhoneOTPRequest,
-} from './otp.controller.schema'
+} from '@/core/otp/otp.controller.schema'
 
 @Controller({
   name: 'OTP',
@@ -221,9 +221,8 @@ export class OTPController {
   })
   @UseGuards(AuthGuard)
   async sendUpdatePhoneOTP(@AuthenticatedUser() user: User, @Request() { body }: SendUpdatePhoneOTPRequest) {
-    const otp = await this.otpService.sendUpdatePhone({
+    const otp = await this.otpService.sendUpdatePhone(body.channel, {
       userId: user.userId,
-      channel: body.channel,
       phone: body.phone,
     })
 

@@ -6,12 +6,7 @@ import { WorkspaceService } from '@/core/workspace/workspace.service'
 
 @Module({
   imports: [WorkspaceRepositoryModule, forwardRef(() => UserServiceModule)],
-  providers: [
-    {
-      provide: 'WORKSPACE_SERVICE',
-      useClass: WorkspaceService,
-    },
-  ],
-  exports: ['WORKSPACE_SERVICE'],
+  providers: [WorkspaceService],
+  exports: [WorkspaceService],
 })
 export class WorkspaceServiceModule {}

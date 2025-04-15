@@ -4,7 +4,7 @@ import { DataSource, Repository, ILike, FindOptionsWhere } from 'typeorm'
 import { UserSchema } from '@/schemas'
 import { PaginationService } from '@/support/pagination'
 import { IUserRepository } from '@/ports/database/user'
-import { UserEntity } from './user.typeorm.entity'
+import { UserEntity } from '@/adapters/database/user/user.typeorm.entity'
 
 @Injectable()
 export class UserTypeorm implements IUserRepository {

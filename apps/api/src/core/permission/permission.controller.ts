@@ -16,9 +16,10 @@ export class PermissionController {
 
   @Route({
     summary: 'List Permissions',
-    description: '',
+    description: 'Retrieves a list of all available permission used for access control within the API.',
 
     method: 'GET',
+
     parameters: {},
 
     responses: {

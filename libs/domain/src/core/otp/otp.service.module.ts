@@ -7,12 +7,7 @@ import { OTPService } from '@/core/otp/otp.service'
 
 @Module({
   imports: [OTPRepositoryModule, UserServiceModule, NotificationModule],
-  providers: [
-    {
-      provide: 'OTP_SERVICE',
-      useClass: OTPService,
-    },
-  ],
-  exports: ['OTP_SERVICE'],
+  providers: [OTPService],
+  exports: [OTPService],
 })
 export class OTPServiceModule {}

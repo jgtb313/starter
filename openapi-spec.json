@@ -1,13 +1,1320 @@
 {
   "openapi": "3.0.0",
-  "paths": {},
+  "paths": {
+    "/v1/auth/sign-in": {
+      "post": {
+        "description": "Authenticates a user by verifying their email and password.",
+        "operationId": "signIn",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "minLength": 1,
+                    "format": "email",
+                    "name": "email"
+                  },
+                  "password": {
+                    "type": "string",
+                    "minLength": 1,
+                    "name": "password"
+                  }
+                },
+                "required": [
+                  "email",
+                  "password"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "accessToken": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "accessToken"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number"
+                    },
+                    "error": {
+                      "type": "string"
+                    },
+                    "issues": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "statusCode",
+                    "error",
+                    "issues"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number"
+                    },
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "metadata": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "statusCode",
+                    "error",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number"
+                    },
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "metadata": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "statusCode",
+                    "error",
+                    "message"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "summary": "Sign In",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/v1/auth/password-less": {
+      "post": {
+        "description": "Allows users to authenticate by using an OTP sent to their email, without requiring a password.",
+        "operationId": "passwordLess",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "minLength": 1,
+                    "format": "email",
+                    "name": "email"
+                  },
+                  "otpVerification": {
+                    "type": "object",
+                    "properties": {
+                      "otpId": {
+                        "description": "Unique identifier for otp",
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "code": {
+                        "type": "string",
+                        "minLength": 4,
+                        "maxLength": 4
+                      }
+                    },
+                    "required": [
+                      "otpId",
+                      "code"
+                    ],
+                    "name": "otpVerification"
+                  }
+                },
+                "required": [
+                  "email",
+                  "otpVerification"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "accessToken": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "accessToken"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number"
+                    },
+                    "error": {
+                      "type": "string"
+                    },
+                    "issues": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "statusCode",
+                    "error",
+                    "issues"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number"
+                    },
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "metadata": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "statusCode",
+                    "error",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number"
+                    },
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "metadata": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "statusCode",
+                    "error",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number"
+                    },
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "metadata": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "statusCode",
+                    "error",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number"
+                    },
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "metadata": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "statusCode",
+                    "error",
+                    "message"
+                  ]
+                },
+                "examples": {
+                  "OTP insufficient resend time, please try again later.": {
+                    "type": "object",
+                    "properties": {
+                      "statusCode": {
+                        "type": "number"
+                      },
+                      "error": {
+                        "type": "string"
+                      },
+                      "message": {
+                        "type": "string"
+                      },
+                      "metadata": {
+                        "type": "object",
+                        "additionalProperties": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "required": [
+                      "statusCode",
+                      "error",
+                      "message"
+                    ]
+                  },
+                  "OTP daily attempt limit exceeded.": {
+                    "type": "object",
+                    "properties": {
+                      "statusCode": {
+                        "type": "number"
+                      },
+                      "error": {
+                        "type": "string"
+                      },
+                      "message": {
+                        "type": "string"
+                      },
+                      "metadata": {
+                        "type": "object",
+                        "additionalProperties": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "required": [
+                      "statusCode",
+                      "error",
+                      "message"
+                    ]
+                  },
+                  "OTP attempts expired.": {
+                    "type": "object",
+                    "properties": {
+                      "statusCode": {
+                        "type": "number"
+                      },
+                      "error": {
+                        "type": "string"
+                      },
+                      "message": {
+                        "type": "string"
+                      },
+                      "metadata": {
+                        "type": "object",
+                        "additionalProperties": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "required": [
+                      "statusCode",
+                      "error",
+                      "message"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number"
+                    },
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "metadata": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "statusCode",
+                    "error",
+                    "message"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "summary": "Password Less",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/v1/auth/social-sign-on": {
+      "post": {
+        "description": "Allows users to sign in using third-party services (such as Google, Facebook, etc.), providing a seamless authentication experience.",
+        "operationId": "socialSignOn",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "context": {
+                    "type": "string",
+                    "enum": [
+                      "GOOGLE",
+                      "FACEBOOK"
+                    ],
+                    "x-enumNames": [
+                      "GOOGLE",
+                      "FACEBOOK"
+                    ],
+                    "name": "context"
+                  },
+                  "providerToken": {
+                    "type": "string",
+                    "minLength": 1,
+                    "name": "providerToken"
+                  }
+                },
+                "required": [
+                  "context",
+                  "providerToken"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "accessToken": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "accessToken"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number"
+                    },
+                    "error": {
+                      "type": "string"
+                    },
+                    "issues": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "statusCode",
+                    "error",
+                    "issues"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number"
+                    },
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "metadata": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "statusCode",
+                    "error",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number"
+                    },
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "metadata": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "statusCode",
+                    "error",
+                    "message"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "summary": "Social Sign-On",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/v1/auth/sign-up": {
+      "post": {
+        "description": "Creates a new user account.",
+        "operationId": "signUp",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "name": "name"
+                  },
+                  "email": {
+                    "type": "string",
+                    "minLength": 1,
+                    "format": "email",
+                    "name": "email"
+                  },
+                  "password": {
+                    "type": "string",
+                    "minLength": 8,
+                    "name": "password"
+                  }
+                },
+                "required": [
+                  "name",
+                  "email",
+                  "password"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "accessToken": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "accessToken"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number"
+                    },
+                    "error": {
+                      "type": "string"
+                    },
+                    "issues": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "statusCode",
+                    "error",
+                    "issues"
+                  ]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number"
+                    },
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "metadata": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "statusCode",
+                    "error",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number"
+                    },
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "metadata": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "statusCode",
+                    "error",
+                    "message"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "summary": "Sign Up",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/v1/auth/forgot-password": {
+      "post": {
+        "description": "Validates the OTP sent to the user’s email and allows them to reset their password.",
+        "operationId": "forgotPassword",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "minLength": 1,
+                    "format": "email",
+                    "name": "email"
+                  },
+                  "password": {
+                    "type": "string",
+                    "minLength": 8,
+                    "name": "password"
+                  },
+                  "otpVerification": {
+                    "type": "object",
+                    "properties": {
+                      "otpId": {
+                        "description": "Unique identifier for otp",
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "code": {
+                        "type": "string",
+                        "minLength": 4,
+                        "maxLength": 4
+                      }
+                    },
+                    "required": [
+                      "otpId",
+                      "code"
+                    ],
+                    "name": "otpVerification"
+                  }
+                },
+                "required": [
+                  "email",
+                  "password",
+                  "otpVerification"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "accessToken": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "accessToken"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number"
+                    },
+                    "error": {
+                      "type": "string"
+                    },
+                    "issues": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "statusCode",
+                    "error",
+                    "issues"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number"
+                    },
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "metadata": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "statusCode",
+                    "error",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number"
+                    },
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "metadata": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "statusCode",
+                    "error",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number"
+                    },
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "metadata": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "statusCode",
+                    "error",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number"
+                    },
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "metadata": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "statusCode",
+                    "error",
+                    "message"
+                  ]
+                },
+                "examples": {
+                  "OTP insufficient resend time, please try again later.": {
+                    "type": "object",
+                    "properties": {
+                      "statusCode": {
+                        "type": "number"
+                      },
+                      "error": {
+                        "type": "string"
+                      },
+                      "message": {
+                        "type": "string"
+                      },
+                      "metadata": {
+                        "type": "object",
+                        "additionalProperties": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "required": [
+                      "statusCode",
+                      "error",
+                      "message"
+                    ]
+                  },
+                  "OTP daily attempt limit exceeded.": {
+                    "type": "object",
+                    "properties": {
+                      "statusCode": {
+                        "type": "number"
+                      },
+                      "error": {
+                        "type": "string"
+                      },
+                      "message": {
+                        "type": "string"
+                      },
+                      "metadata": {
+                        "type": "object",
+                        "additionalProperties": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "required": [
+                      "statusCode",
+                      "error",
+                      "message"
+                    ]
+                  },
+                  "OTP attempts expired.": {
+                    "type": "object",
+                    "properties": {
+                      "statusCode": {
+                        "type": "number"
+                      },
+                      "error": {
+                        "type": "string"
+                      },
+                      "message": {
+                        "type": "string"
+                      },
+                      "metadata": {
+                        "type": "object",
+                        "additionalProperties": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "required": [
+                      "statusCode",
+                      "error",
+                      "message"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number"
+                    },
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "metadata": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "statusCode",
+                    "error",
+                    "message"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "summary": "Forgot Password",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/v1/storage/files": {
+      "post": {
+        "description": "Generates a presigned URL that allows secure uploading of files to a specified cloud storage context. This URL can be used for direct file uploads.",
+        "operationId": "getPresignedUrl",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "fileName": {
+                    "type": "string",
+                    "name": "fileName"
+                  },
+                  "context": {
+                    "type": "string",
+                    "enum": [
+                      "USER_AVATAR",
+                      "WORKSPACE_LOGO",
+                      "ORGANIZATION_LOGO"
+                    ],
+                    "x-enumNames": [
+                      "USER_AVATAR",
+                      "WORKSPACE_LOGO",
+                      "ORGANIZATION_LOGO"
+                    ],
+                    "name": "context"
+                  }
+                },
+                "required": [
+                  "fileName",
+                  "context"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "fileName": {
+                      "type": "string"
+                    },
+                    "fileNameSigned": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "fileName",
+                    "fileNameSigned"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number"
+                    },
+                    "error": {
+                      "type": "string"
+                    },
+                    "issues": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "statusCode",
+                    "error",
+                    "issues"
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number"
+                    },
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "metadata": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "statusCode",
+                    "error",
+                    "message"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get a presigned URL",
+        "tags": [
+          "Storage"
+        ]
+      }
+    }
+  },
   "info": {
     "title": "Starter API",
     "description": "## Introduction\n\nWelcome to the **API Documentation**. This API provides a set of endpoints to help you integrate its features into your application efficiently.\n\n---\n\n**SDKs Available**\n\nTo simplify integration, we offer SDKs for popular programming languages:\n\n- [Node.js SDK](#)\n\n---\n\n<br />\n\n## Authentication\n\nThe API uses **Bearer Token** for authentication. All protected requests must include an `Authorization` header with the token:\n\n**Header Example:**\n\n```json\nAuthorization: Bearer <your_token_here>\n```\n\nTo obtain a token, authenticate via the `/auth` module. Tokens are valid for a specified duration and must be refreshed periodically.\n\n<br />\n\n---\n\n<br />\n\n## Filters\n\nFilters allow you to narrow down your query results by specifying conditions. Use query parameters to apply filters.\n\n**Example Request:**\n\n```json\nGET /resource?category=books&status=ACTIVE\n```\n\nThis example fetches resources filtered by `category=books` and `status=ACTIVE`.\n\n**Filter Field**\n\nSome endpoints provide a special field called `filter`, which allows for advanced filtering using an **OR** logic. This can be useful for querying multiple conditions on specified fields. The fields available for the `filter` parameter will be defined by the specific endpoint.\n\n**Example Request with Filter Field:**\n\n```json\nGET /resource?filter=Harry Potter\n```\n\nIn this example, the API applies the `filter` parameter across a static set of fields (e.g., `title`, `description`, and `author`) to retrieve resources that match \"Harry Potter\" in any of those fields.\n\n<br />\n\n---\n\n<br />\n\n## Pagination\n\nThe API supports pagination to manage large sets of data efficiently. Use the `offset` and `limit` query parameters to specify which part of the dataset you want to retrieve.\n\n**How It Works**\n\n- **`offset`**: Defines the starting point of the data subset. The first item is at `offset=0`.\n- **`limit`**: Specifies the maximum number of items to return in the response.\n\n**Example Request:**\n\n```json\nGET /resource?offset=0&limit=10\n```\n\nThis example retrieves the first 10 items from the dataset.\n\n**Pagination Response Format:**\n\n```json\n{\n  \"values\": [...],\n  \"meta\": {\n    \"total\": 100,\n    \"offset\": 0,\n    \"limit\": 10,\n  }\n}\n```\n\n**Notes:**\n\n- **`total`**: The total number of items in the dataset.\n- **`offset`**: The starting position of the current subset.\n- **`limit`**: The number of items returned in this request.\n\nThis approach ensures efficient data retrieval while giving developers fine-grained control over paginated responses.\n\n<br />\n\n---\n\n<br />\n\n## Fields\n\nThe `fields` parameter allows you to specify which fields should be included in the response. This helps reduce the payload size by excluding unnecessary data, making your requests more efficient.\n\n**How It Works**\n\nBy using the `fields` parameter, you can define a comma-separated list of fields you want to include in the response.\n\n**Example Request:**\n\n```json\nGET /resource?fields=name,email,phone\n```\n\nIn this example, the API will only include the `name`, `email`, and `phone` fields in the response.\n\n**Example Response:**\n\n```json\n{\n  \"name\": \"John Doe\",\n  \"email\": \"johndoe@example.com\",\n  \"phone\": \"+123456789\"\n}\n```\n\n**Notes:**\n\n- If the `fields` parameter is omitted, the API will return all available fields by default.\n- Specifying invalid or unsupported field names will result in those fields being ignored, but the request will still succeed.\n- Nested fields are supported (e.g., `fields=address.city`).\n\n**Benefits of Using Fields:**\n\n- **Performance:** Reduces the size of the response payload, speeding up data transfer.\n- **Clarity:** Returns only the data relevant to your application.\n\nThis feature is ideal for optimizing API responses in applications where only specific data points are needed.\n\n<br />\n\n---\n\n<br />\n\n## Error\n\nThe API uses standardized error responses to ensure consistency and make error handling easier for developers.\n\nAll errors follow a consistent structure:\n\n| **Field**           | **Description**                                                                     | **Example**               |\n| ------------------- | ----------------------------------------------------------------------------------- | ------------------------- |\n| `statusCode`        | The HTTP status code for the error.                                                 | `400`, `404`              |\n| `error`             | A short description of the error type.                                              | `Bad Request Error`       |\n| `message`           | A detailed message explaining what caused the error.                                | `Invalid input`           |\n| `issues` (optional) | An array of key-value pairs providing details about specific issues in the request. | `[{\"email\": \"Required\"}]` |\n\n**Error Response Format**\n\n```json\n{\n  \"statusCode\": 400,\n  \"error\": \"Bad Request Error\",\n  \"message\": \"Invalid input\",\n  \"issues\": [\n    {\n      \"email\": \"Required\"\n    }\n  ]\n}\n```\n",
     "version": "1.0.0",
     "contact": {}
   },
-  "tags": [],
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "Provides functionalities for user authentication."
+    },
+    {
+      "name": "Storage",
+      "description": "Module to manage storage and access using cloud integration services."
+    }
+  ],
   "servers": [
     {
       "url": "http://127.0.0.1:4000"

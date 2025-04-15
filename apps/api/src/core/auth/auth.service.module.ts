@@ -3,7 +3,7 @@ import { LoggerModule, EncryptModule, UserServiceModule } from '@starter/domain'
 
 import { SocialAuthModule } from '@/adapters/social-auth'
 import { JWTModule } from '@/adapters/jwt'
-import { AuthService } from './auth.service'
+import { AuthService } from '@/core/auth/auth.service'
 
 @Module({
   imports: [LoggerModule, JWTModule, EncryptModule, UserServiceModule, SocialAuthModule],

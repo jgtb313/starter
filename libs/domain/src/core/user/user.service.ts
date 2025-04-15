@@ -1,19 +1,19 @@
-import { Injectable, Inject } from '@nestjs/common'
+import { Injectable, Inject, forwardRef } from '@nestjs/common'
 import { BadRequestException, ConflictException, AclForbiddenException } from '@starter/nestjs-error-handling'
 
 import { User, Workspace } from '@/schemas'
 import { IUserRepository } from '@/ports/database/user'
 import { EncryptService } from '@/adapters/encrypt'
 import { getUserWorkspaceReference, IUserService } from '@/core/user/user.service.interface'
-import { IWorkspaceService } from '@/core/workspace/workspace.service.interface'
-import { IRoleService } from '@/core/role/role.service.interface'
+import { WorkspaceService } from '@/core/workspace/workspace.service'
+// import { IRoleService } from '@/core/role/role.service.interface'
 
 @Injectable()
 export class UserService implements IUserService {
   constructor(
     @Inject('USER_REPOSITORY') private readonly userRepository: IUserRepository,
-    @Inject('WORKSPACE_SERVICE') private readonly workspaceService: IWorkspaceService,
-    @Inject('ROLE_SERVICE') private readonly roleService: IRoleService,
+    @Inject(forwardRef(() => WorkspaceService)) private readonly workspaceService: WorkspaceService,
+    // @Inject('ROLE_SERVICE') private readonly roleService: IRoleService,
     private readonly encryptService: EncryptService,
   ) {}
 
@@ -79,7 +79,7 @@ export class UserService implements IUserService {
     }
 
     for (const { organizationId, roleIds } of organizations) {
-      await this.roleService.validateRoleIdsByOrganizationId(organizationId, roleIds)
+      // await this.roleService.validateRoleIdsByOrganizationId(organizationId, roleIds)
     }
 
     const hashedPassword = await this.encryptService.hash(input.password)
@@ -100,7 +100,7 @@ export class UserService implements IUserService {
 
     if (organizations.length) {
       for (const { organizationId, roleIds } of organizations) {
-        await this.roleService.validateRoleIdsByOrganizationId(organizationId, roleIds)
+        // await this.roleService.validateRoleIdsByOrganizationId(organizationId, roleIds)
       }
 
       const organizationIds = organizations.map((organization) => organization.organizationId)
@@ -113,7 +113,7 @@ export class UserService implements IUserService {
 
     await this.userRepository.updateById(user.userId, payload)
 
-    return this.getUser('')
+    return this.getUser(user.userId)
   }
 
   updateUserPassword: IUserService['updateUserPassword'] = async (userId, password) => {

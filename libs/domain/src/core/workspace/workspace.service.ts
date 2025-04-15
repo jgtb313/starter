@@ -1,15 +1,15 @@
-import { Injectable, Inject } from '@nestjs/common'
+import { Injectable, Inject, forwardRef } from '@nestjs/common'
 import { ConflictException } from '@starter/nestjs-error-handling'
 
 import { IWorkspaceRepository } from '@/ports/database/workspace'
 import { IWorkspaceService } from '@/core/workspace/workspace.service.interface'
-import { IUserService } from '@/core/user/user.service.interface'
+import { UserService } from '@/core/user/user.service'
 
 @Injectable()
 export class WorkspaceService implements IWorkspaceService {
   constructor(
     @Inject('WORKSPACE_REPOSITORY') private readonly workspaceRepository: IWorkspaceRepository,
-    @Inject('USER_SERVICE') private readonly userService: IUserService,
+    @Inject(forwardRef(() => UserService)) private readonly userService: UserService,
   ) {}
 
   getPaginatedWorkspaces: IWorkspaceService['getPaginatedWorkspaces'] = async (input) => {

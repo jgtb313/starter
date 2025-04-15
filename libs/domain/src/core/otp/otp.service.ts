@@ -1,4 +1,4 @@
-import { Injectable, Inject, BadRequestException, NotFoundException, ConflictException, ForbiddenException } from '@nestjs/common'
+import { Injectable, Inject, forwardRef, BadRequestException, NotFoundException, ConflictException, ForbiddenException } from '@nestjs/common'
 import { random, getDate, addSeconds, isFuture, isBefore } from '@starter/common'
 import crypto from 'crypto'
 
@@ -6,13 +6,13 @@ import { OTPContexts, OTP, BaseOTP, OTPChannelEnum, OTPContextEnum, OTPPhoneChan
 import { IOTPRepository } from '@/ports/database/otp'
 import { NotificationService } from '@/adapters/notification'
 import { IOTPService } from '@/core/otp/otp.service.interface'
-import { IUserService } from '@/core/user/user.service.interface'
+import { UserService } from '@/core/user/user.service'
 
 @Injectable()
 export class OTPService implements IOTPService {
   constructor(
     @Inject('OTP_REPOSITORY') private readonly otpRepository: IOTPRepository,
-    @Inject('USER_SERVICE') private readonly userService: IUserService,
+    @Inject(forwardRef(() => UserService)) private readonly userService: UserService,
     private readonly notificationService: NotificationService,
   ) {}
 
