@@ -5,12 +5,7 @@ import { PlanService } from '@/core/plan/plan.service'
 
 @Module({
   imports: [PlanRepositoryModule],
-  providers: [
-    {
-      provide: 'PLAN_SERVICE',
-      useClass: PlanService,
-    },
-  ],
-  exports: ['PLAN_SERVICE'],
+  providers: [PlanService],
+  exports: [PlanService],
 })
 export class PlanServiceModule {}

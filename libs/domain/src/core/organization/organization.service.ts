@@ -1,23 +1,21 @@
-import { Injectable, Inject } from '@nestjs/common'
+import { Injectable, Inject, forwardRef } from '@nestjs/common'
 import { AclForbiddenException } from '@starter/nestjs-error-handling'
 
 import { IOrganizationRepository } from '@/ports/database/organization'
-import { IWorkspaceService } from '@/core/workspace/workspace.service.interface'
+import { WorkspaceService } from '@/core/workspace/workspace.service'
 import { getOrganizationWorkspaceReference, IOrganizationService } from '@/core/organization/organization.service.interface'
 
 @Injectable()
 export class OrganizationService implements IOrganizationService {
   constructor(
     @Inject('ORGANIZATION_REPOSITORY') private readonly organizationRepository: IOrganizationRepository,
-    @Inject('WORKSPACE_SERVICE') private readonly workspaceService: IWorkspaceService,
+    @Inject(forwardRef(() => WorkspaceService)) private readonly workspaceService: WorkspaceService,
   ) {}
 
   getPaginatedOrganizations: IOrganizationService['getPaginatedOrganizations'] = async (input) => {
-    const result = await this.organizationRepository.findAllPaginated({
+    return this.organizationRepository.findAllPaginated({
       ...input,
     })
-
-    return result
   }
 
   getOrganization: IOrganizationService['getOrganization'] = async (reference) => {
@@ -35,20 +33,16 @@ export class OrganizationService implements IOrganizationService {
   create: IOrganizationService['create'] = async ({ workspaceId, ...input }) => {
     const workspace = await this.workspaceService.getWorkspace(workspaceId)
 
-    const organization = await this.organizationRepository.create({
+    return await this.organizationRepository.create({
       ...input,
       workspaceId: workspace.workspaceId,
     })
-
-    return organization
   }
 
   updateOrganization: IOrganizationService['updateOrganization'] = async (reference, input) => {
     const organization = await this.getOrganization(reference)
 
-    const result = await this.organizationRepository.updateById(organization.organizationId, input)
-
-    return result
+    return this.organizationRepository.updateById(organization.organizationId, input)
   }
 
   deleteOrganization: IOrganizationService['deleteOrganization'] = async (reference) => {

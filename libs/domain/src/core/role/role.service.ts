@@ -1,23 +1,21 @@
-import { Injectable, Inject } from '@nestjs/common'
+import { Injectable, Inject, forwardRef } from '@nestjs/common'
 import { AclForbiddenException } from '@starter/nestjs-error-handling'
 
 import { IRoleRepository } from '@/ports/database/role'
-import { IOrganizationService } from '@/core/organization/organization.service.interface'
+import { OrganizationService } from '@/core/organization/organization.service'
 import { getRoleWorkspaceReference, IRoleService } from '@/core/role/role.service.interface'
 
 @Injectable()
 export class RoleService implements IRoleService {
   constructor(
     @Inject('ROLE_REPOSITORY') private readonly roleRepository: IRoleRepository,
-    @Inject('ORGANIZATION_SERVICE') private readonly organizationService: IOrganizationService,
+    @Inject(forwardRef(() => OrganizationService)) private readonly organizationService: OrganizationService,
   ) {}
 
   getPaginatedRoles: IRoleService['getPaginatedRoles'] = async (input) => {
-    const result = await this.roleRepository.findAll({
+    return this.roleRepository.findAll({
       ...input,
     })
-
-    return result
   }
 
   getRole: IRoleService['getRole'] = async (reference) => {
@@ -35,19 +33,15 @@ export class RoleService implements IRoleService {
   createRole: IRoleService['createRole'] = async (input) => {
     await this.organizationService.validateOrganizationIds(input.organizationIds)
 
-    const role = await this.roleRepository.create({
+    return this.roleRepository.create({
       ...input,
     })
-
-    return role
   }
 
   updateRole: IRoleService['updateRole'] = async (reference, input) => {
     const role = await this.getRole(reference)
 
-    const result = await this.roleRepository.updateById(role.roleId, input)
-
-    return result
+    return this.roleRepository.updateById(role.roleId, input)
   }
 
   deleteRole: IRoleService['deleteRole'] = async (reference) => {

@@ -13,15 +13,11 @@ export class WorkspaceService implements IWorkspaceService {
   ) {}
 
   getPaginatedWorkspaces: IWorkspaceService['getPaginatedWorkspaces'] = async (input) => {
-    const result = await this.workspaceRepository.findAllPaginated(input)
-
-    return result
+    return this.workspaceRepository.findAllPaginated(input)
   }
 
   getWorkspace: IWorkspaceService['getWorkspace'] = async (workspaceId) => {
-    const workspace = await this.workspaceRepository.findById(workspaceId)
-
-    return workspace
+    return this.workspaceRepository.findById(workspaceId)
   }
 
   createWorkspace: IWorkspaceService['createWorkspace'] = async (user, input) => {
@@ -41,8 +37,6 @@ export class WorkspaceService implements IWorkspaceService {
   updateWorkspace: IWorkspaceService['updateWorkspace'] = async (workspaceId, input) => {
     const workspace = await this.workspaceRepository.findById(workspaceId)
 
-    const result = await this.workspaceRepository.updateById(workspace.workspaceId, input)
-
-    return result
+    return this.workspaceRepository.updateById(workspace.workspaceId, input)
   }
 }

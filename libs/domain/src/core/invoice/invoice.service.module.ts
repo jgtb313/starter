@@ -7,12 +7,7 @@ import { InvoiceService } from '@/core/invoice/invoice.service'
 
 @Module({
   imports: [InvoiceRepositoryModule, forwardRef(() => WorkspaceServiceModule), forwardRef(() => SubscriptionServiceModule)],
-  providers: [
-    {
-      provide: 'INVOICE_SERVICE',
-      useClass: InvoiceService,
-    },
-  ],
-  exports: ['INVOICE_SERVICE'],
+  providers: [InvoiceService],
+  exports: [InvoiceService],
 })
 export class InvoiceServiceModule {}

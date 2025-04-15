@@ -6,12 +6,7 @@ import { RoleService } from '@/core/role/role.service'
 
 @Module({
   imports: [RoleRepositoryModule, forwardRef(() => OrganizationServiceModule)],
-  providers: [
-    {
-      provide: 'ROLE_SERVICE',
-      useClass: RoleService,
-    },
-  ],
-  exports: ['ROLE_SERVICE'],
+  providers: [RoleService],
+  exports: [RoleService],
 })
 export class RoleServiceModule {}

@@ -1,23 +1,23 @@
-import { Injectable, Inject } from '@nestjs/common'
+import { Injectable, Inject, forwardRef } from '@nestjs/common'
 import { AclForbiddenException } from '@starter/nestjs-error-handling'
 
 import { IInvoiceRepository } from '@/ports/database/invoice'
-import { IWorkspaceService } from '@/core/workspace/workspace.service.interface'
-import { ISubscriptionService } from '@/core/subscription/subscription.service.interface'
+import { WorkspaceService } from '@/core/workspace/workspace.service'
+import { SubscriptionService } from '@/core/subscription/subscription.service'
 import { getInvoiceWorkspaceReference, IInvoiceService } from '@/core/invoice/invoice.service.interface'
 
 @Injectable()
 export class InvoiceService implements IInvoiceService {
   constructor(
     @Inject('INVOICE_REPOSITORY') private readonly invoiceRepository: IInvoiceRepository,
-    @Inject('WORKSPACE_SERVICE') private readonly workspaceService: IWorkspaceService,
-    @Inject('SUBSCRIPTION_SERVICE') private readonly subscriptionService: ISubscriptionService,
+    @Inject(forwardRef(() => WorkspaceService)) private readonly workspaceService: WorkspaceService,
+    @Inject(forwardRef(() => SubscriptionService)) private readonly subscriptionService: SubscriptionService,
   ) {}
 
   getPaginatedInvoices: IInvoiceService['getPaginatedInvoices'] = async (input) => {
-    const result = await this.invoiceRepository.findAllPaginated(input)
-
-    return result
+    return this.invoiceRepository.findAllPaginated({
+      ...input,
+    })
   }
 
   getInvoice: IInvoiceService['getInvoice'] = async (reference) => {
@@ -37,20 +37,16 @@ export class InvoiceService implements IInvoiceService {
 
     const subscription = await this.subscriptionService.getSubscription(subscriptionId)
 
-    const invoice = await this.invoiceRepository.create({
+    return this.invoiceRepository.create({
       ...input,
       workspaceId: workspace.workspaceId,
       subscriptionId: subscription.subscriptionId,
     })
-
-    return invoice
   }
 
   updateInvoice: IInvoiceService['updateInvoice'] = async (invoiceId, input) => {
     const invoice = await this.invoiceRepository.findById(invoiceId)
 
-    const result = await this.invoiceRepository.updateById(invoice.invoiceId, input)
-
-    return result
+    return this.invoiceRepository.updateById(invoice.invoiceId, input)
   }
 }

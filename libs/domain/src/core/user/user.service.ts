@@ -4,16 +4,16 @@ import { BadRequestException, ConflictException, AclForbiddenException } from '@
 import { User, Workspace } from '@/schemas'
 import { IUserRepository } from '@/ports/database/user'
 import { EncryptService } from '@/adapters/encrypt'
-import { getUserWorkspaceReference, IUserService } from '@/core/user/user.service.interface'
 import { WorkspaceService } from '@/core/workspace/workspace.service'
-// import { IRoleService } from '@/core/role/role.service.interface'
+import { RoleService } from '@/core/role/role.service'
+import { getUserWorkspaceReference, IUserService } from '@/core/user/user.service.interface'
 
 @Injectable()
 export class UserService implements IUserService {
   constructor(
     @Inject('USER_REPOSITORY') private readonly userRepository: IUserRepository,
     @Inject(forwardRef(() => WorkspaceService)) private readonly workspaceService: WorkspaceService,
-    // @Inject('ROLE_SERVICE') private readonly roleService: IRoleService,
+    @Inject(forwardRef(() => RoleService)) private readonly roleService: RoleService,
     private readonly encryptService: EncryptService,
   ) {}
 
@@ -79,7 +79,7 @@ export class UserService implements IUserService {
     }
 
     for (const { organizationId, roleIds } of organizations) {
-      // await this.roleService.validateRoleIdsByOrganizationId(organizationId, roleIds)
+      await this.roleService.validateRoleIdsByOrganizationId(organizationId, roleIds)
     }
 
     const hashedPassword = await this.encryptService.hash(input.password)
@@ -100,7 +100,7 @@ export class UserService implements IUserService {
 
     if (organizations.length) {
       for (const { organizationId, roleIds } of organizations) {
-        // await this.roleService.validateRoleIdsByOrganizationId(organizationId, roleIds)
+        await this.roleService.validateRoleIdsByOrganizationId(organizationId, roleIds)
       }
 
       const organizationIds = organizations.map((organization) => organization.organizationId)

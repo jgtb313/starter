@@ -16,7 +16,7 @@ import {
   CreateOrganizationRequest,
   UpdateOrganizationRequest,
   DeleteOrganizationRequest,
-} from './organization.controller.schema'
+} from '@/core/organization/organization.controller.schema'
 
 @Controller({
   name: 'Organization',

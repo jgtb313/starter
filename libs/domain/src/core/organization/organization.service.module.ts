@@ -6,12 +6,7 @@ import { OrganizationService } from '@/core/organization/organization.service'
 
 @Module({
   imports: [OrganizationRepositoryModule, forwardRef(() => WorkspaceServiceModule)],
-  providers: [
-    {
-      provide: 'ORGANIZATION_SERVICE',
-      useClass: OrganizationService,
-    },
-  ],
-  exports: ['ORGANIZATION_SERVICE'],
+  providers: [OrganizationService],
+  exports: [OrganizationService],
 })
 export class OrganizationServiceModule {}

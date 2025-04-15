@@ -1,20 +1,20 @@
-import { Injectable, Inject } from '@nestjs/common'
+import { Injectable, Inject, forwardRef } from '@nestjs/common'
 import { AclForbiddenException } from '@starter/nestjs-error-handling'
 
 import { ISubscriptionRepository } from '@/ports/database/subscription'
 import { RecurrenceService } from '@/adapters/recurrence'
-import { IWorkspaceService } from '@/core/workspace/workspace.service.interface'
-import { IInvoiceService } from '@/core/invoice/invoice.service.interface'
-import { IPlanService } from '@/core/plan/plan.service.interface'
+import { WorkspaceService } from '@/core/workspace/workspace.service'
+import { InvoiceService } from '@/core/invoice/invoice.service'
+import { PlanService } from '@/core/plan/plan.service'
 import { getSubscriptionWorkspaceReference, ISubscriptionService } from '@/core/subscription/subscription.service.interface'
 
 @Injectable()
 export class SubscriptionService implements ISubscriptionService {
   constructor(
     @Inject('SUBSCRIPTION_REPOSITORY') private readonly subscriptionRepository: ISubscriptionRepository,
-    @Inject('WORKSPACE_SERVICE') private readonly workspaceService: IWorkspaceService,
-    @Inject('INVOICE_SERVICE') private readonly invoiceService: IInvoiceService,
-    @Inject('PLAN_SERVICE') private readonly planService: IPlanService,
+    @Inject(forwardRef(() => WorkspaceService)) private readonly workspaceService: WorkspaceService,
+    @Inject(forwardRef(() => InvoiceService)) private readonly invoiceService: InvoiceService,
+    @Inject(forwardRef(() => PlanService)) private readonly planService: PlanService,
 
     private readonly recurrenceService: RecurrenceService,
   ) {}

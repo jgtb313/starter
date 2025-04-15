@@ -4,7 +4,7 @@ import { DataSource, Repository, ILike, FindOptionsWhere } from 'typeorm'
 import { InvoiceSchema } from '@/schemas'
 import { PaginationService } from '@/support/pagination'
 import { IInvoiceRepository } from '@/ports/database/invoice'
-import { InvoiceEntity } from './invoice.typeorm.entity'
+import { InvoiceEntity } from '@/adapters/database/invoice/invoice.typeorm.entity'
 
 @Injectable()
 export class InvoiceTypeorm implements IInvoiceRepository {
