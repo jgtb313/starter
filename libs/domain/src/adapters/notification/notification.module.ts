@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common'
 
-import { NotificationService } from '@/adapters/notification'
-import { EmailModule, SMSModule, WhatsappModule, WebPushModule, MobilePushModule } from '@/adapters/notification/strategies'
+import { EmailModule, MobilePushModule, SMSModule, WebPushModule, WhatsappModule } from '@/adapters/notification/strategies'
+import { NotificationService } from '@/adapters/notification/notification.service'
 
 @Module({
-  imports: [EmailModule],
+  imports: [EmailModule, MobilePushModule, SMSModule, WebPushModule, WhatsappModule],
   providers: [NotificationService],
   exports: [NotificationService],
 })
