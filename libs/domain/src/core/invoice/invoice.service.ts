@@ -1,59 +1,56 @@
-// import { Injectable, Inject, forwardRef } from '@nestjs/common'
-// import { AclForbiddenException } from '@starter/nestjs-error-handling'
-// import { Pagination } from '@starter/schema'
+import { Injectable, Inject } from '@nestjs/common'
+import { AclForbiddenException } from '@starter/nestjs-error-handling'
 
-// import { Invoice, BaseInvoice } from '@/schemas'
-// import { createWorkspaceReference, WithWorkspaceReference } from '@/support/workspace-reference'
-// import { IInvoiceRepository } from '@/ports/database/invoice'
-// import { WorkspaceService } from '../workspace'
-// import { SubscriptionService } from '../subscription'
+import { IInvoiceRepository } from '@/ports/database/invoice'
+import { IWorkspaceService } from '@/core/workspace/workspace.service.interface'
+import { ISubscriptionService } from '@/core/subscription/subscription.service.interface'
+import { getInvoiceWorkspaceReference, IInvoiceService } from '@/core/invoice/invoice.service.interface'
 
-// type InvoiceWorkspaceReference = WithWorkspaceReference<'invoiceId'>
-// const getInvoiceWorkspaceReference = createWorkspaceReference('invoiceId')
+@Injectable()
+export class InvoiceService implements IInvoiceService {
+  constructor(
+    @Inject('INVOICE_REPOSITORY') private readonly invoiceRepository: IInvoiceRepository,
+    @Inject('WORKSPACE_SERVICE') private readonly workspaceService: IWorkspaceService,
+    @Inject('SUBSCRIPTION_SERVICE') private readonly subscriptionService: ISubscriptionService,
+  ) {}
 
-// @Injectable()
-// export class InvoiceService {
-//   constructor(
-//     @Inject('INVOICE_REPOSITORY') private readonly invoiceRepository: IInvoiceRepository,
-//     @Inject(forwardRef(() => WorkspaceService)) private readonly workspaceService: WorkspaceService,
-//     @Inject(forwardRef(() => SubscriptionService)) private readonly subscriptionService: SubscriptionService,
-//   ) {}
+  getPaginatedInvoices: IInvoiceService['getPaginatedInvoices'] = async (input) => {
+    const result = await this.invoiceRepository.findAllPaginated(input)
 
-//   async getPaginatedInvoices(input: Pagination<Invoice>) {
-//     const result = await this.invoiceRepository.findAllPaginated(input)
+    return result
+  }
 
-//     return result
-//   }
+  getInvoice: IInvoiceService['getInvoice'] = async (reference) => {
+    const { invoiceId, workspaceId } = getInvoiceWorkspaceReference(reference)
 
-//   async getInvoice(reference: InvoiceWorkspaceReference) {
-//     const { invoiceId, workspaceId } = getInvoiceWorkspaceReference(reference)
+    const invoice = await this.invoiceRepository.findById(invoiceId)
 
-//     const invoice = await this.invoiceRepository.findById(invoiceId)
+    if (workspaceId && invoice.workspaceId !== workspaceId) {
+      throw new AclForbiddenException()
+    }
 
-//     if (workspaceId && invoice.workspaceId !== workspaceId) {
-//       throw new AclForbiddenException()
-//     }
+    return invoice
+  }
 
-//     return invoice
-//   }
+  createInvoice: IInvoiceService['createInvoice'] = async ({ workspaceId, subscriptionId, ...input }) => {
+    const workspace = await this.workspaceService.getWorkspace(workspaceId)
 
-//   async createInvoice({ workspaceId, subscriptionId, ...input }: BaseInvoice) {
-//     const workspace = await this.workspaceService.getWorkspace(workspaceId)
-//     const subscription = await this.subscriptionService.getSubscription(subscriptionId)
-//     const invoice = await this.invoiceRepository.create({
-//       ...input,
-//       workspaceId: workspace.workspaceId,
-//       subscriptionId: subscription.subscriptionId,
-//     })
+    const subscription = await this.subscriptionService.getSubscription(subscriptionId)
 
-//     return invoice
-//   }
+    const invoice = await this.invoiceRepository.create({
+      ...input,
+      workspaceId: workspace.workspaceId,
+      subscriptionId: subscription.subscriptionId,
+    })
 
-//   async updateInvoice(invoiceId: string, input: Partial<Invoice>) {
-//     const invoice = await this.invoiceRepository.findById(invoiceId)
+    return invoice
+  }
 
-//     const result = await this.invoiceRepository.updateById(invoice.invoiceId, input)
+  updateInvoice: IInvoiceService['updateInvoice'] = async (invoiceId, input) => {
+    const invoice = await this.invoiceRepository.findById(invoiceId)
 
-//     return result
-//   }
-// }
+    const result = await this.invoiceRepository.updateById(invoice.invoiceId, input)
+
+    return result
+  }
+}
