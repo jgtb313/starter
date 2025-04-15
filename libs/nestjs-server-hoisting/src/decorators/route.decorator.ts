@@ -70,6 +70,11 @@ const ErrorSchema = {
     }),
 }
 
+const FieldsSchema = z.string().optional().openapi({
+  description: 'Comma-separated list of fields to return in the response.',
+  example: 'id,name,email',
+})
+
 const isHttpResponseError = (value: HttpStatus): value is HttpStatusErrorResponses =>
   ['400', '401', '403', '404', '409', '500'].includes(value.toString())
 
@@ -153,6 +158,14 @@ export const Route = (options: RouteOptions): MethodDecorator => {
         }),
       )
     }
+
+    decorators.push(
+      ApiQuery({
+        ...zodToOpenAPI(FieldsSchema).properties,
+        name: 'fields',
+        required: false,
+      }),
+    )
 
     Object.entries(options.responses).forEach(([response, value]) => {
       const httpResponse = Number(response) as HttpStatus
