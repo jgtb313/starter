@@ -6,12 +6,14 @@ import { IUserRepository } from '@/ports/database/user'
 import { EncryptService } from '@/adapters/encrypt'
 import { getUserWorkspaceReference, IUserService } from '@/core/user/user.service.interface'
 import { IWorkspaceService } from '@/core/workspace/workspace.service.interface'
+import { IRoleService } from '@/core/role/role.service.interface'
 
 @Injectable()
 export class UserService implements IUserService {
   constructor(
     @Inject('USER_REPOSITORY') private readonly userRepository: IUserRepository,
     @Inject('WORKSPACE_SERVICE') private readonly workspaceService: IWorkspaceService,
+    @Inject('ROLE_SERVICE') private readonly roleService: IRoleService,
     private readonly encryptService: EncryptService,
   ) {}
 
@@ -76,6 +78,10 @@ export class UserService implements IUserService {
       throw new ConflictException(`Email ${input.email} has already been taken.`)
     }
 
+    for (const { organizationId, roleIds } of organizations) {
+      await this.roleService.validateRoleIdsByOrganizationId(organizationId, roleIds)
+    }
+
     const hashedPassword = await this.encryptService.hash(input.password)
 
     const organizationIds = organizations.map((organization) => organization.organizationId)
@@ -93,6 +99,10 @@ export class UserService implements IUserService {
     const payload: Partial<User> = { ...input }
 
     if (organizations.length) {
+      for (const { organizationId, roleIds } of organizations) {
+        await this.roleService.validateRoleIdsByOrganizationId(organizationId, roleIds)
+      }
+
       const organizationIds = organizations.map((organization) => organization.organizationId)
 
       const roleIds = organizations.flatMap((organization) => organization.roleIds)

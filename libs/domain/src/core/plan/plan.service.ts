@@ -1,40 +1,31 @@
 import { Injectable, Inject } from '@nestjs/common'
-import { Pagination } from '@starter/schema'
 
-import { Plan, BasePlan } from '@/schemas'
 import { IPlanRepository } from '@/ports/database/plan'
+import { IPlanService } from '@/core/plan/plan.service.interface'
 
 @Injectable()
-export class PlanService {
+export class PlanService implements IPlanService {
   constructor(@Inject('PLAN_REPOSITORY') private readonly planRepository: IPlanRepository) {}
 
-  async getPaginatedPlans(input: Pagination<Plan>) {
-    const result = await this.planRepository.findAllPaginated(input)
-
-    return result
+  getPaginatedPlans: IPlanService['getPaginatedPlans'] = async (input) => {
+    return this.planRepository.findAllPaginated(input)
   }
 
-  async getPlan(planId: string) {
+  getPlan: IPlanService['getPlan'] = async (planId) => {
+    return this.planRepository.findById(planId)
+  }
+
+  createPlan: IPlanService['createPlan'] = async (input) => {
+    return this.planRepository.create(input)
+  }
+
+  updatePlan: IPlanService['updatePlan'] = async (planId, input) => {
     const plan = await this.planRepository.findById(planId)
 
-    return plan
+    return this.planRepository.updateById(plan.planId, input)
   }
 
-  async createPlan(input: BasePlan) {
-    const plan = await this.planRepository.create(input)
-
-    return plan
-  }
-
-  async updatePlan(planId: string, input: Partial<Plan>) {
-    const plan = await this.planRepository.findById(planId)
-
-    const result = await this.planRepository.updateById(plan.planId, input)
-
-    return result
-  }
-
-  async deletePlan(planId: string) {
+  deletePlan: IPlanService['deletePlan'] = async (planId) => {
     const plan = await this.getPlan(planId)
 
     plan.deletedAt = new Date()

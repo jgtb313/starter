@@ -1,33 +1,22 @@
 import { Injectable, Inject, BadRequestException, NotFoundException, ConflictException, ForbiddenException } from '@nestjs/common'
-import { random, getDate, addSeconds, isFuture, isBefore, Required } from '@starter/common'
+import { random, getDate, addSeconds, isFuture, isBefore } from '@starter/common'
 import crypto from 'crypto'
 
-import { OTPContexts, User, OTP, BaseOTP, OTPChannelEnum, OTPContextEnum, OTPPhoneChannelEnum } from '@/schemas'
+import { OTPContexts, OTP, BaseOTP, OTPChannelEnum, OTPContextEnum, OTPPhoneChannelEnum } from '@/schemas'
 import { IOTPRepository } from '@/ports/database/otp'
 import { NotificationService } from '@/adapters/notification'
-import { UserService } from '@/core/user'
-
-export type SendOTPInput = Pick<OTP, 'userId' | 'channel' | 'context' | 'recipient'>
-
-export type SendPasswordLessInput = Pick<OTP, 'recipient'>
-
-export type SendForgotPasswordInput = Pick<OTP, 'recipient'>
-
-export type SendUpdateEmailInput = { userId: User['userId']; email: User['email'] }
-
-export type SendUpdatePhoneInput = { channel: OTPPhoneChannelEnum; userId: User['userId']; phone: Required<User['phone']> }
-
-export type ValidateOTPInput = Pick<OTP, 'otpId' | 'context' | 'recipient' | 'code'>
+import { IOTPService } from '@/core/otp/otp.service.interface'
+import { IUserService } from '@/core/user/user.service.interface'
 
 @Injectable()
-export class OTPService {
+export class OTPService implements IOTPService {
   constructor(
     @Inject('OTP_REPOSITORY') private readonly otpRepository: IOTPRepository,
-    private readonly userService: UserService,
+    @Inject('USER_SERVICE') private readonly userService: IUserService,
     private readonly notificationService: NotificationService,
   ) {}
 
-  async send({ userId, channel, context, recipient }: SendOTPInput): Promise<OTP> {
+  send: IOTPService['send'] = async ({ userId, channel, context, recipient }) => {
     const ctx = this.getContext(context)
 
     const code = random(1000, 9999).toString()
@@ -85,7 +74,7 @@ export class OTPService {
     return otp
   }
 
-  async validate({ otpId, context, recipient, code }: ValidateOTPInput) {
+  validate: IOTPService['validate'] = async ({ otpId, context, recipient, code }) => {
     if (code === '0000') {
       return
     }
@@ -103,7 +92,7 @@ export class OTPService {
     }
   }
 
-  async sendPasswordLess({ recipient }: SendPasswordLessInput) {
+  sendPasswordLess: IOTPService['sendPasswordLess'] = async ({ recipient }) => {
     const user = await this.userService.getUserByEmail(recipient)
 
     if (!user) {
@@ -120,7 +109,7 @@ export class OTPService {
     return otp
   }
 
-  async sendForgotPassword({ recipient }: SendForgotPasswordInput) {
+  sendForgotPassword: IOTPService['sendForgotPassword'] = async ({ recipient }) => {
     const user = await this.userService.getUserByEmail(recipient)
 
     if (!user) {
@@ -137,7 +126,7 @@ export class OTPService {
     return otp
   }
 
-  async sendUpdateEmail({ userId, email }: SendUpdateEmailInput) {
+  sendUpdateEmail: IOTPService['sendUpdateEmail'] = async ({ userId, email }) => {
     const recipient = email
 
     const existingUser = await this.userService.getUser(recipient)
@@ -156,7 +145,7 @@ export class OTPService {
     return otp
   }
 
-  async sendUpdatePhone({ userId, channel, phone }: SendUpdatePhoneInput) {
+  sendUpdatePhone: IOTPService['sendUpdatePhone'] = async (channel, { userId, phone }) => {
     const recipient = `${phone.ddi}${phone.number}`
 
     const existingUser = await this.userService.getUserByPhone(phone)
