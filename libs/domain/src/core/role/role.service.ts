@@ -2,14 +2,14 @@ import { Injectable, Inject } from '@nestjs/common'
 import { AclForbiddenException } from '@starter/nestjs-error-handling'
 
 import { IRoleRepository } from '@/ports/database/role'
-import { OrganizationService } from '@/core/organization'
+import { IOrganizationService } from '@/core/organization/organization.service.interface'
 import { getRoleWorkspaceReference, IRoleService } from '@/core/role/role.service.interface'
 
 @Injectable()
 export class RoleService implements IRoleService {
   constructor(
     @Inject('ROLE_REPOSITORY') private readonly roleRepository: IRoleRepository,
-    @Inject('ORGANIZATION_SERVICE') private readonly organizationService: OrganizationService,
+    @Inject('ORGANIZATION_SERVICE') private readonly organizationService: IOrganizationService,
   ) {}
 
   getPaginatedRoles: IRoleService['getPaginatedRoles'] = async (input) => {
