@@ -15,12 +15,12 @@ export * from '@/adapters/notification'
 
 export * from '@/schemas'
 
-// export * from '@/core/invoice'
+export * from '@/core/invoice'
 export * from '@/core/organization'
 export * from '@/core/otp'
 export * from '@/core/plan'
 export * from '@/core/role'
-// export * from '@/core/subscription'
+export * from '@/core/subscription'
 export * from '@/core/user'
 export * from '@/core/workspace'
 
