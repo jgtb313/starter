@@ -15,12 +15,7 @@ import { SubscriptionService } from '@/core/subscription/subscription.service'
     forwardRef(() => PlanServiceModule),
     forwardRef(() => InvoiceServiceModule),
   ],
-  providers: [
-    {
-      provide: 'SUBSCRIPTION_SERVICE',
-      useClass: SubscriptionService,
-    },
-  ],
-  exports: ['SUBSCRIPTION_SERVICE'],
+  providers: [SubscriptionService],
+  exports: [SubscriptionService],
 })
 export class SubscriptionServiceModule {}

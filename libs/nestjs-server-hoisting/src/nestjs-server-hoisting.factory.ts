@@ -58,6 +58,7 @@ const create = async (entryModule: IEntryNestModule, options: NestServerHoisting
     {
       type: 'http',
       name: 'Bearer',
+      scheme: 'Bearer',
     },
     'Bearer',
   )

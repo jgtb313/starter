@@ -1,11 +1,9 @@
-import { NestServerHoistingFactory } from '@starter/nestjs-server-hoisting'
-
-import { AppModule } from '../src/app.module'
+import { bootstrap } from '../src/main'
 
 const execute = async () => {
-  const app = await NestServerHoistingFactory.create(AppModule)
+  const app = await bootstrap()
 
-  await app.close()
+  app.close()
 }
 
 execute()

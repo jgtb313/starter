@@ -5,11 +5,11 @@ import { config, StageEnum } from '@starter/config'
 
 import { AppModule } from '@/app.module'
 
-const execute = () => {
+export const bootstrap = async () => {
   const documentationPath = resolve(process.cwd(), 'docs/Documentation.md')
   const documentation = readFileSync(documentationPath, 'utf-8')
 
-  NestServerHoistingFactory.create(AppModule, {
+  const app = await NestServerHoistingFactory.create(AppModule, {
     port: 4000,
 
     documentation: {
@@ -19,6 +19,8 @@ const execute = () => {
       server: config.apiUrls[process.env.STAGE as StageEnum],
     },
   })
+
+  return app
 }
 
-execute()
+bootstrap()
