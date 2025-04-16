@@ -19,7 +19,7 @@ Handlebars.registerHelper('eq', (a, b) => {
 
 type Path = {
   operationId: string
-  parameters: { in: 'path' | 'query'; name: string; schema: any; required: boolean }[]
+  parameters: { in: 'header' | 'path' | 'query'; name: string; schema: any; required: boolean }[]
 
   requestBody: any
   responses: any
@@ -36,7 +36,7 @@ const execute = async () => {
       const inputSchema = `${upperFirst(resource)}Schema`
       const outputSchema = `${upperFirst(resource)}SchemaOutput`
 
-      const pathParameters = path.parameters ?? []
+      const pathParameters = (path.parameters ?? []).filter((parameter) => !['authorization', 'fields'].includes(parameter.name))
 
       const parametersSchemas = Object.fromEntries(
         pathParameters.filter((paramater) => paramater.schema).map((parameter) => [parameter.name, parameter.schema]),
@@ -95,7 +95,7 @@ const execute = async () => {
   const schemas = Object.entries(components.schemas).map(([name, schema]) => {
     return {
       name,
-      schema: jsonSchemaToZod({ ...schema, type: 'object' }),
+      schema: jsonSchemaToZod({ ...(schema as any), type: 'object' }),
     }
   })
 
