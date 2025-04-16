@@ -5244,309 +5244,36 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "userId": {
-                    "description": "Unique identifier for user",
-                    "type": "string",
-                    "format": "uuid",
-                    "name": "userId"
-                  },
-                  "workspaceId": {
-                    "description": "Unique identifier for workspaceId",
-                    "type": "string",
-                    "format": "uuid",
-                    "nullable": true,
-                    "name": "workspaceId"
-                  },
-                  "organizationIds": {
-                    "type": "array",
-                    "items": {
-                      "description": "Unique identifier for organization",
-                      "type": "string",
-                      "format": "uuid"
-                    },
-                    "name": "organizationIds"
-                  },
-                  "organizations": {
-                    "type": "array",
-                    "items": {
-                      "type": "object",
-                      "properties": {
-                        "organizationId": {
-                          "description": "Unique identifier for organization",
-                          "type": "string",
-                          "format": "uuid"
-                        },
-                        "workspaceId": {
-                          "description": "Unique identifier for workspace",
-                          "type": "string",
-                          "format": "uuid"
-                        },
-                        "name": {
-                          "type": "string",
-                          "minLength": 1
-                        },
-                        "status": {
-                          "type": "string",
-                          "enum": [
-                            "ACTIVE",
-                            "INACTIVE"
-                          ],
-                          "x-enumNames": [
-                            "ACTIVE",
-                            "INACTIVE"
-                          ],
-                          "default": "ACTIVE"
-                        },
-                        "deletedAt": {
-                          "nullable": true
-                        },
-                        "createdAt": {},
-                        "updatedAt": {}
-                      },
-                      "required": [
-                        "organizationId",
-                        "workspaceId",
-                        "name",
-                        "deletedAt",
-                        "createdAt",
-                        "updatedAt"
-                      ]
-                    },
-                    "default": [],
-                    "name": "organizations"
-                  },
-                  "roleIds": {
-                    "type": "array",
-                    "items": {
-                      "description": "Unique identifier for role",
-                      "type": "string",
-                      "format": "uuid"
-                    },
-                    "name": "roleIds"
-                  },
-                  "roles": {
-                    "type": "array",
-                    "items": {
-                      "type": "object",
-                      "properties": {
-                        "roleId": {
-                          "description": "Unique identifier for role",
-                          "type": "string",
-                          "format": "uuid"
-                        },
-                        "workspaceId": {
-                          "description": "Unique identifier for workspace",
-                          "type": "string",
-                          "format": "uuid"
-                        },
-                        "organizationIds": {
-                          "type": "array",
-                          "items": {
-                            "description": "Unique identifier for organization",
-                            "type": "string",
-                            "format": "uuid"
-                          }
-                        },
-                        "organizations": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "organizationId": {
-                                "description": "Unique identifier for organization",
-                                "type": "string",
-                                "format": "uuid"
-                              },
-                              "workspaceId": {
-                                "description": "Unique identifier for workspace",
-                                "type": "string",
-                                "format": "uuid"
-                              },
-                              "name": {
-                                "type": "string",
-                                "minLength": 1
-                              },
-                              "status": {
-                                "type": "string",
-                                "enum": [
-                                  "ACTIVE",
-                                  "INACTIVE"
-                                ],
-                                "x-enumNames": [
-                                  "ACTIVE",
-                                  "INACTIVE"
-                                ],
-                                "default": "ACTIVE"
-                              },
-                              "deletedAt": {
-                                "nullable": true
-                              },
-                              "createdAt": {},
-                              "updatedAt": {}
-                            },
-                            "required": [
-                              "organizationId",
-                              "workspaceId",
-                              "name",
-                              "deletedAt",
-                              "createdAt",
-                              "updatedAt"
-                            ]
-                          },
-                          "default": []
-                        },
-                        "name": {
-                          "type": "string",
-                          "minLength": 1
-                        },
-                        "permissions": {
-                          "type": "array",
-                          "items": {
-                            "type": "string"
-                          }
-                        },
-                        "tags": {
-                          "type": "array",
-                          "items": {
-                            "type": "string"
-                          },
-                          "nullable": true
-                        },
-                        "status": {
-                          "type": "string",
-                          "enum": [
-                            "ACTIVE",
-                            "INACTIVE"
-                          ],
-                          "x-enumNames": [
-                            "ACTIVE",
-                            "INACTIVE"
-                          ],
-                          "default": "ACTIVE"
-                        },
-                        "deletedAt": {
-                          "nullable": true
-                        },
-                        "createdAt": {},
-                        "updatedAt": {}
-                      },
-                      "required": [
-                        "roleId",
-                        "workspaceId",
-                        "organizationIds",
-                        "name",
-                        "permissions",
-                        "tags",
-                        "deletedAt",
-                        "createdAt",
-                        "updatedAt"
-                      ]
-                    },
-                    "default": [],
-                    "name": "roles"
-                  },
-                  "permissions": {
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    },
-                    "name": "permissions"
-                  },
-                  "name": {
-                    "type": "string",
-                    "minLength": 1,
-                    "name": "name"
-                  },
                   "email": {
                     "type": "string",
                     "minLength": 1,
                     "format": "email",
                     "name": "email"
                   },
-                  "phone": {
+                  "otpVerification": {
                     "type": "object",
                     "properties": {
-                      "iso": {
+                      "otpId": {
+                        "description": "Unique identifier for otp",
                         "type": "string",
-                        "minLength": 1
+                        "format": "uuid"
                       },
-                      "ddi": {
+                      "code": {
                         "type": "string",
-                        "minLength": 1
-                      },
-                      "number": {
-                        "type": "string",
-                        "minLength": 1
+                        "minLength": 4,
+                        "maxLength": 4
                       }
                     },
                     "required": [
-                      "iso",
-                      "ddi",
-                      "number"
+                      "otpId",
+                      "code"
                     ],
-                    "nullable": true,
-                    "name": "phone"
-                  },
-                  "avatar": {
-                    "type": "string",
-                    "nullable": true,
-                    "name": "avatar"
-                  },
-                  "social": {
-                    "type": "object",
-                    "properties": {
-                      "googleId": {
-                        "type": "string",
-                        "nullable": true
-                      },
-                      "facebookId": {
-                        "type": "string",
-                        "nullable": true
-                      }
-                    },
-                    "required": [
-                      "googleId",
-                      "facebookId"
-                    ],
-                    "default": {
-                      "googleId": null,
-                      "facebookId": null
-                    },
-                    "nullable": true,
-                    "name": "social"
-                  },
-                  "status": {
-                    "type": "string",
-                    "enum": [
-                      "ACTIVE",
-                      "INACTIVE"
-                    ],
-                    "x-enumNames": [
-                      "ACTIVE",
-                      "INACTIVE"
-                    ],
-                    "default": "ACTIVE",
-                    "name": "status"
-                  },
-                  "createdAt": {
-                    "name": "createdAt"
-                  },
-                  "updatedAt": {
-                    "name": "updatedAt"
+                    "name": "otpVerification"
                   }
                 },
                 "required": [
-                  "userId",
-                  "organizationIds",
-                  "roleIds",
-                  "permissions",
-                  "name",
                   "email",
-                  "phone",
-                  "avatar",
-                  "social",
-                  "createdAt",
-                  "updatedAt"
+                  "otpVerification"
                 ]
               }
             }

@@ -83,7 +83,7 @@ export class ProfileController {
     path: '/email',
 
     parameters: {
-      body: UpdateProfileEmailSchema.output,
+      body: UpdateProfileEmailSchema.body,
     },
 
     responses: {
