@@ -1,15 +1,16 @@
 service: api-e2e
 
-frameworkVersion: '4'
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: us-east-1
 
 custom:
   dotenv:
     path: ../../.env
     logging: false
-
-provider:
-  name: aws
-  runtime: nodejs20.x
 
 plugins:
   - serverless-dotenv-plugin
