@@ -3,7 +3,7 @@ import { HttpCode, Get, Post, Put, Patch, Delete, Version, applyDecorators } fro
 import { GUARDS_METADATA } from '@nestjs/common/constants'
 import { ApiOperation, ApiBearerAuth, ApiHeader, ApiParam, ApiQuery, ApiBody, ApiResponse } from '@nestjs/swagger'
 import { UseZodGuard } from 'nestjs-zod'
-import { z, generateSchema } from '@starter/schema'
+import { z, zodSchemaToOpenAPi } from '@starter/schema'
 import { get } from '@starter/common'
 
 import { RouteOptions, HttpStatus, HttpStatusErrorResponses } from '@/interfaces'
@@ -104,7 +104,7 @@ export const Route = (options: RouteOptions): MethodDecorator => {
     if (options.parameters.body) decorators.push(UseZodGuard('body', options.parameters.body))
 
     if (options.parameters.query) {
-      const openApiSchema = generateSchema(options.parameters.query)
+      const openApiSchema = zodSchemaToOpenAPi(options.parameters.query)
 
       Object.entries(openApiSchema.properties ?? {})
         .sort(([a], [b]) => (a === 'filter' ? -1 : b === 'filter' ? 1 : 0))
@@ -119,7 +119,7 @@ export const Route = (options: RouteOptions): MethodDecorator => {
         })
     }
     if (options.parameters.params) {
-      const openApiSchema = generateSchema(options.parameters.params)
+      const openApiSchema = zodSchemaToOpenAPi(options.parameters.params)
 
       Object.entries(openApiSchema.properties ?? {}).forEach(([name, prop]) => {
         decorators.push(
@@ -132,7 +132,7 @@ export const Route = (options: RouteOptions): MethodDecorator => {
       })
     }
     if (options.parameters.body) {
-      const openApiSchema = generateSchema(options.parameters.body)
+      const openApiSchema = zodSchemaToOpenAPi(options.parameters.body)
 
       decorators.push(
         ApiBody({
@@ -174,15 +174,15 @@ export const Route = (options: RouteOptions): MethodDecorator => {
             content: {
               'application/json': {
                 schema: isHttpResponseError(httpResponse)
-                  ? generateSchema(ErrorSchema[httpResponse](httpResponsesDescriptions[httpResponse]))
+                  ? zodSchemaToOpenAPi(ErrorSchema[httpResponse](httpResponsesDescriptions[httpResponse]))
                   : undefined,
                 examples: Object.fromEntries(
                   value.map((item) => [
                     'description' in item ? item.description : httpResponsesDescriptions[httpResponse],
                     'schema' in item
-                      ? generateSchema(item.schema)
+                      ? zodSchemaToOpenAPi(item.schema)
                       : isHttpResponseError(httpResponse)
-                        ? generateSchema(ErrorSchema[httpResponse](item.description))
+                        ? zodSchemaToOpenAPi(ErrorSchema[httpResponse](item.description))
                         : {},
                   ]),
                 ),
@@ -199,9 +199,9 @@ export const Route = (options: RouteOptions): MethodDecorator => {
               'application/json': {
                 schema:
                   'schema' in value
-                    ? generateSchema(value.schema)
+                    ? zodSchemaToOpenAPi(value.schema)
                     : isHttpResponseError(httpResponse)
-                      ? generateSchema(ErrorSchema[httpResponse](value.description))
+                      ? zodSchemaToOpenAPi(ErrorSchema[httpResponse](value.description))
                       : undefined,
               },
             },
@@ -216,7 +216,7 @@ export const Route = (options: RouteOptions): MethodDecorator => {
         description: httpResponsesDescriptions[400],
         content: {
           'application/json': {
-            schema: generateSchema(ErrorSchema[400]()),
+            schema: zodSchemaToOpenAPi(ErrorSchema[400]()),
           },
         },
       }),
@@ -227,7 +227,7 @@ export const Route = (options: RouteOptions): MethodDecorator => {
         description: httpResponsesDescriptions[500],
         content: {
           'application/json': {
-            schema: generateSchema(ErrorSchema[500]('...')),
+            schema: zodSchemaToOpenAPi(ErrorSchema[500]('...')),
           },
         },
       }),
