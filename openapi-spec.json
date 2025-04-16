@@ -1373,7 +1373,7 @@
             "name": "authorization",
             "in": "header",
             "description": "The authorization token for user authentication.",
-            "required": true,
+            "required": false,
             "schema": {
               "type": "string"
             }
@@ -1509,25 +1509,27 @@
                       "type": "object",
                       "properties": {
                         "total": {
-                          "type": "integer"
+                          "type": "integer",
+                          "default": 0
                         },
                         "offset": {
-                          "type": "integer"
+                          "type": "integer",
+                          "default": 0
                         },
                         "limit": {
-                          "type": "integer"
+                          "type": "integer",
+                          "default": 0
                         }
                       },
-                      "required": [
-                        "total",
-                        "offset",
-                        "limit"
-                      ]
+                      "default": {
+                        "total": 0,
+                        "offset": 0,
+                        "limit": 0
+                      }
                     }
                   },
                   "required": [
-                    "values",
-                    "meta"
+                    "values"
                   ]
                 }
               }
@@ -1616,7 +1618,7 @@
             "name": "authorization",
             "in": "header",
             "description": "The authorization token for user authentication.",
-            "required": true,
+            "required": false,
             "schema": {
               "type": "string"
             }
@@ -1812,7 +1814,7 @@
             "name": "authorization",
             "in": "header",
             "description": "The authorization token for user authentication.",
-            "required": true,
+            "required": false,
             "schema": {
               "type": "string"
             }
@@ -1983,7 +1985,7 @@
             "name": "authorization",
             "in": "header",
             "description": "The authorization token for user authentication.",
-            "required": true,
+            "required": false,
             "schema": {
               "type": "string"
             }
@@ -2184,7 +2186,7 @@
             "name": "authorization",
             "in": "header",
             "description": "The authorization token for user authentication.",
-            "required": true,
+            "required": false,
             "schema": {
               "type": "string"
             }
@@ -3920,25 +3922,27 @@
                       "type": "object",
                       "properties": {
                         "total": {
-                          "type": "integer"
+                          "type": "integer",
+                          "default": 0
                         },
                         "offset": {
-                          "type": "integer"
+                          "type": "integer",
+                          "default": 0
                         },
                         "limit": {
-                          "type": "integer"
+                          "type": "integer",
+                          "default": 0
                         }
                       },
-                      "required": [
-                        "total",
-                        "offset",
-                        "limit"
-                      ]
+                      "default": {
+                        "total": 0,
+                        "offset": 0,
+                        "limit": 0
+                      }
                     }
                   },
                   "required": [
-                    "values",
-                    "meta"
+                    "values"
                   ]
                 }
               }
@@ -4024,7 +4028,7 @@
             "name": "authorization",
             "in": "header",
             "description": "The authorization token for user authentication.",
-            "required": true,
+            "required": false,
             "schema": {
               "type": "string"
             }
@@ -4454,7 +4458,7 @@
             "name": "authorization",
             "in": "header",
             "description": "The authorization token for user authentication.",
-            "required": true,
+            "required": false,
             "schema": {
               "type": "string"
             }
@@ -4906,7 +4910,7 @@
             "name": "authorization",
             "in": "header",
             "description": "The authorization token for user authentication.",
-            "required": true,
+            "required": false,
             "schema": {
               "type": "string"
             }
@@ -5046,7 +5050,7 @@
             "name": "authorization",
             "in": "header",
             "description": "The authorization token for user authentication.",
-            "required": true,
+            "required": false,
             "schema": {
               "type": "string"
             }
@@ -5718,7 +5722,7 @@
             "name": "authorization",
             "in": "header",
             "description": "The authorization token for user authentication.",
-            "required": true,
+            "required": false,
             "schema": {
               "type": "string"
             }
@@ -6407,7 +6411,7 @@
             "name": "authorization",
             "in": "header",
             "description": "The authorization token for user authentication.",
-            "required": true,
+            "required": false,
             "schema": {
               "type": "string"
             }
@@ -6573,7 +6577,7 @@
             "name": "authorization",
             "in": "header",
             "description": "The authorization token for user authentication.",
-            "required": true,
+            "required": false,
             "schema": {
               "type": "string"
             }
@@ -6781,25 +6785,27 @@
                       "type": "object",
                       "properties": {
                         "total": {
-                          "type": "integer"
+                          "type": "integer",
+                          "default": 0
                         },
                         "offset": {
-                          "type": "integer"
+                          "type": "integer",
+                          "default": 0
                         },
                         "limit": {
-                          "type": "integer"
+                          "type": "integer",
+                          "default": 0
                         }
                       },
-                      "required": [
-                        "total",
-                        "offset",
-                        "limit"
-                      ]
+                      "default": {
+                        "total": 0,
+                        "offset": 0,
+                        "limit": 0
+                      }
                     }
                   },
                   "required": [
-                    "values",
-                    "meta"
+                    "values"
                   ]
                 }
               }
@@ -6888,7 +6894,7 @@
             "name": "authorization",
             "in": "header",
             "description": "The authorization token for user authentication.",
-            "required": true,
+            "required": false,
             "schema": {
               "type": "string"
             }
@@ -7183,7 +7189,7 @@
             "name": "authorization",
             "in": "header",
             "description": "The authorization token for user authentication.",
-            "required": true,
+            "required": false,
             "schema": {
               "type": "string"
             }
@@ -7426,7 +7432,7 @@
             "name": "authorization",
             "in": "header",
             "description": "The authorization token for user authentication.",
-            "required": true,
+            "required": false,
             "schema": {
               "type": "string"
             }
@@ -7710,7 +7716,7 @@
             "name": "authorization",
             "in": "header",
             "description": "The authorization token for user authentication.",
-            "required": true,
+            "required": false,
             "schema": {
               "type": "string"
             }
@@ -8314,25 +8320,27 @@
                       "type": "object",
                       "properties": {
                         "total": {
-                          "type": "integer"
+                          "type": "integer",
+                          "default": 0
                         },
                         "offset": {
-                          "type": "integer"
+                          "type": "integer",
+                          "default": 0
                         },
                         "limit": {
-                          "type": "integer"
+                          "type": "integer",
+                          "default": 0
                         }
                       },
-                      "required": [
-                        "total",
-                        "offset",
-                        "limit"
-                      ]
+                      "default": {
+                        "total": 0,
+                        "offset": 0,
+                        "limit": 0
+                      }
                     }
                   },
                   "required": [
-                    "values",
-                    "meta"
+                    "values"
                   ]
                 }
               }
@@ -8418,7 +8426,7 @@
             "name": "authorization",
             "in": "header",
             "description": "The authorization token for user authentication.",
-            "required": true,
+            "required": false,
             "schema": {
               "type": "string"
             }
@@ -8806,25 +8814,27 @@
                       "type": "object",
                       "properties": {
                         "total": {
-                          "type": "integer"
+                          "type": "integer",
+                          "default": 0
                         },
                         "offset": {
-                          "type": "integer"
+                          "type": "integer",
+                          "default": 0
                         },
                         "limit": {
-                          "type": "integer"
+                          "type": "integer",
+                          "default": 0
                         }
                       },
-                      "required": [
-                        "total",
-                        "offset",
-                        "limit"
-                      ]
+                      "default": {
+                        "total": 0,
+                        "offset": 0,
+                        "limit": 0
+                      }
                     }
                   },
                   "required": [
-                    "values",
-                    "meta"
+                    "values"
                   ]
                 }
               }
@@ -8913,7 +8923,7 @@
             "name": "authorization",
             "in": "header",
             "description": "The authorization token for user authentication.",
-            "required": true,
+            "required": false,
             "schema": {
               "type": "string"
             }
@@ -9427,7 +9437,7 @@
             "name": "authorization",
             "in": "header",
             "description": "The authorization token for user authentication.",
-            "required": true,
+            "required": false,
             "schema": {
               "type": "string"
             }
@@ -9850,7 +9860,7 @@
             "name": "authorization",
             "in": "header",
             "description": "The authorization token for user authentication.",
-            "required": true,
+            "required": false,
             "schema": {
               "type": "string"
             }
@@ -10331,7 +10341,7 @@
             "name": "authorization",
             "in": "header",
             "description": "The authorization token for user authentication.",
-            "required": true,
+            "required": false,
             "schema": {
               "type": "string"
             }
@@ -10482,7 +10492,7 @@
             "name": "authorization",
             "in": "header",
             "description": "The authorization token for user authentication.",
-            "required": true,
+            "required": false,
             "schema": {
               "type": "string"
             }
@@ -10665,7 +10675,7 @@
             "name": "authorization",
             "in": "header",
             "description": "The authorization token for user authentication.",
-            "required": true,
+            "required": false,
             "schema": {
               "type": "string"
             }

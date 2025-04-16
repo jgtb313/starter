@@ -15,11 +15,11 @@ export const ID = (resourceName: string) => {
   return z.string().uuid().describe(`Unique identifier for ${resourceName}`)
 }
 
-export const CreatedAt = z.date()
+export const CreatedAt = z.coerce.date()
 
-export const UpdatedAt = z.date()
+export const UpdatedAt = z.coerce.date()
 
-export const DeletedAt = z
+export const DeletedAt = z.coerce
   .date()
   .nullish()
   .transform((value) => value ?? null)

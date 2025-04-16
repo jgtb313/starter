@@ -16,12 +16,10 @@ const execute = () => {
     .flat()
 
   const hooks = data.map(({ operationId, method }) => {
-    const [moduleName, resourceName] = operationId.split('.')
-
-    const hookName = `use${upperFirst(resourceName)}`
+    const hookName = `use${upperFirst(operationId)}`
     const hookMethod = method === 'get' ? 'useQuery' : 'useMutation'
 
-    return { moduleName, resourceName, hookName, hookMethod }
+    return { resourceName: operationId, hookName, hookMethod }
   })
 
   const hooksUseQuery = hooks.filter((hook) => hook.hookMethod === 'useQuery')
