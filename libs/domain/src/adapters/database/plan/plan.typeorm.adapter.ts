@@ -1,10 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { DataSource, Repository, ILike, FindOptionsWhere } from 'typeorm'
 
-import { PlanSchema } from '@/schemas'
 import { PaginationService } from '@/support/pagination'
 import { IPlanRepository } from '@/ports/database/plan'
-import { PlanEntity } from './plan.typeorm.entity'
+import { PlanDomain } from '@/core/plan/plan.domain'
+import { PlanEntity } from '@/adapters/database/plan/plan.typeorm.entity'
 
 @Injectable()
 export class PlanTypeorm implements IPlanRepository {
@@ -37,7 +37,7 @@ export class PlanTypeorm implements IPlanRepository {
     })
 
     return {
-      values: values.map((plan) => PlanSchema.parse(plan)),
+      values: values.map((plan) => new PlanDomain(plan)),
       meta,
     }
   }
@@ -57,44 +57,44 @@ export class PlanTypeorm implements IPlanRepository {
 
     const values = await this.repository.find({ where })
 
-    return values.map((invoice) => PlanSchema.parse(invoice))
+    return values.map((plan) => new PlanDomain(plan))
   }
 
   findById: IPlanRepository['findById'] = async (planId) => {
-    const model = await this.repository.findOne({ where: { planId } })
+    const plan = await this.repository.findOne({ where: { planId } })
 
-    if (!model) {
+    if (!plan) {
       throw new NotFoundException(`Plan ${planId} not found`)
     }
 
-    return PlanSchema.parse(model)
+    return new PlanDomain(plan)
   }
 
   findOne: IPlanRepository['findOne'] = async (input) => {
     const where = input as FindOptionsWhere<PlanEntity>
 
-    const model = await this.repository.findOne({ where })
+    const plan = await this.repository.findOne({ where })
 
-    if (!model) {
+    if (!plan) {
       return null
     }
 
-    return PlanSchema.parse(model)
+    return new PlanDomain(plan)
   }
 
   create: IPlanRepository['create'] = async (input) => {
     const data = this.repository.create(input)
 
-    const model = await this.repository.save(data)
+    const plan = await this.repository.save(data)
 
-    return PlanSchema.parse(model)
+    return new PlanDomain(plan)
   }
 
   updateById: IPlanRepository['updateById'] = async (planId, input) => {
-    const model = await this.findById(planId)
+    const plan = await this.findById(planId)
 
-    await this.repository.update(model.planId, input)
+    await this.repository.update(plan.state.planId, input)
 
-    return this.findById(model.planId)
+    return this.findById(plan.state.planId)
   }
 }

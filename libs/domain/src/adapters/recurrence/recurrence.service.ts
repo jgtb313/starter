@@ -8,36 +8,52 @@ import { IRecurrence } from '@/ports/recurrence'
 export class RecurrenceService implements IRecurrence {
   constructor() {}
 
-  create: IRecurrence['create'] = async () => {
-    const recurrenceId = uuid()
+  createPlan: IRecurrence['createPlan'] = async () => {
+    const planId = uuid()
 
     return {
-      recurrenceId,
+      planId,
+    }
+  }
+
+  updatePlan: IRecurrence['updatePlan'] = async () => {
+    return
+  }
+
+  cancelPlan: IRecurrence['cancelPlan'] = async () => {
+    return
+  }
+
+  createSubscription: IRecurrence['createSubscription'] = async () => {
+    const subscriptionId = uuid()
+
+    return {
+      subscriptionId,
       invoice: {} as Invoice,
     }
   }
 
-  changePaymentMethod: IRecurrence['changePaymentMethod'] = async () => {
-    const recurrenceId = uuid()
+  changeSubscriptionPaymentMethod: IRecurrence['changeSubscriptionPaymentMethod'] = async () => {
+    const subscriptionId = uuid()
 
     return {
-      recurrenceId,
+      subscriptionId,
     }
   }
 
-  changePlan: IRecurrence['changePlan'] = async () => {
-    const recurrenceId = uuid()
+  changeSubscriptionPlan: IRecurrence['changeSubscriptionPlan'] = async () => {
+    const subscriptionId = uuid()
 
     return {
-      recurrenceId,
+      subscriptionId,
     }
   }
 
-  cancel: IRecurrence['cancel'] = async () => {
-    const recurrenceId = uuid()
+  cancelSubscription: IRecurrence['cancelSubscription'] = async () => {
+    const subscriptionId = uuid()
 
     return {
-      recurrenceId,
+      subscriptionId,
     }
   }
 }

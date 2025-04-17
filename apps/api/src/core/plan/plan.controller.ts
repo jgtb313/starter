@@ -1,7 +1,7 @@
 import { Controller, Route, Request } from '@starter/nestjs-server-hoisting'
-import { PlanService, PlanSchema } from '@starter/domain'
+import { PlanService, PlanSchema, PlanStatusEnum } from '@starter/domain'
 
-import { ListPlansSchema, ListPlansRequest } from './plan.controller.schema'
+import { ListPlansSchema, ListPlansRequest } from '@/core/plan/plan.controller.schema'
 
 @Controller({
   name: 'Plan',
@@ -36,7 +36,15 @@ export class PlanController {
       },
     },
   })
-  listPlans(@Request() { query }: ListPlansRequest) {
-    return this.planService.getPaginatedPlans(query)
+  async listPlans(@Request() { query }: ListPlansRequest) {
+    return this.planService
+      .getPaginatedPlans({
+        ...query,
+        status: PlanStatusEnum.ACTIVE,
+      })
+      .then((response) => ({
+        ...response,
+        values: response.values.map((plan) => plan.toJSON()),
+      }))
   }
 }

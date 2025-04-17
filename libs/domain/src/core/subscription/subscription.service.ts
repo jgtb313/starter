@@ -36,13 +36,13 @@ export class SubscriptionService implements ISubscriptionService {
 
     const plan = await this.planService.getPlan(planId)
 
-    const { recurrenceId, invoice } = await this.recurrenceService.create({})
+    const { subscriptionId, invoice } = await this.recurrenceService.createSubscription({})
 
     const subscription = await this.subscriptionRepository.create({
       ...input,
       workspaceId: workspace.workspaceId,
-      planId: plan.planId,
-      externalId: recurrenceId,
+      planId: plan.state.planId,
+      externalId: subscriptionId,
     })
 
     await this.invoiceService.createInvoice({
