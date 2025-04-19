@@ -9,14 +9,6 @@ export class PlanDomain extends BaseDomain<Plan> {
     super(PlanSchema, plan)
   }
 
-  checkIfIsSignable() {
-    if (this.signable()) {
-      return
-    }
-
-    throw new ConflictException('Plano não disponível para assinatura')
-  }
-
   isActive() {
     return this.state.status === PlanStatusEnum.ACTIVE
   }
@@ -65,9 +57,17 @@ export class PlanDomain extends BaseDomain<Plan> {
 
   markAsDeleted() {
     if (this.isDeleted()) {
-      throw new ConflictException('Este plano já está deletado')
+      throw new ConflictException(`Plan ${this.state.planId} is already deleted`)
     }
 
     this.state.deletedAt = new Date()
+  }
+
+  checkIfIsSignable() {
+    if (this.signable()) {
+      return
+    }
+
+    throw new ConflictException(`Plan ${this.state.planId} is not available for subscription`)
   }
 }

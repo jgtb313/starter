@@ -1,19 +1,16 @@
 import { Injectable } from '@nestjs/common'
 import { uuid } from '@starter/common'
 
-import { Invoice } from '@/schemas'
 import { IRecurrence } from '@/ports/recurrence'
+import { StripeRecurrenceAdapter } from '@/adapters/recurrence/stripe.recurrence.adapter'
+import { Invoice } from '@/core/invoice/invoice.schema'
 
 @Injectable()
 export class RecurrenceService implements IRecurrence {
-  constructor() {}
+  constructor(private readonly stripe: StripeRecurrenceAdapter) {}
 
-  createPlan: IRecurrence['createPlan'] = async () => {
-    const planId = uuid()
-
-    return {
-      planId,
-    }
+  createPlan: IRecurrence['createPlan'] = async (input) => {
+    return this.stripe.createPlan(input)
   }
 
   updatePlan: IRecurrence['updatePlan'] = async () => {
@@ -50,10 +47,6 @@ export class RecurrenceService implements IRecurrence {
   }
 
   cancelSubscription: IRecurrence['cancelSubscription'] = async () => {
-    const subscriptionId = uuid()
-
-    return {
-      subscriptionId,
-    }
+    return
   }
 }

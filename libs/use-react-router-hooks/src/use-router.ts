@@ -31,9 +31,8 @@ export const useRouter = <Q extends ZodSchema | undefined = undefined, P extends
   const navigate = useNavigate()
   const location = useLocation()
   const routeParams = useParams()
-  const [locationSearch, setLocationSearch] = useState(location.search)
-  const path = `${location.pathname}${locationSearch}`
-  const parsedQuery = querySchema ? (querySchema.parse(queryParamsToObject(locationSearch)) as SchemaType<Q>) : ({} as EmptySchema)
+  const path = `${location.pathname}${location.search}`
+  const parsedQuery = querySchema ? (querySchema.parse(queryParamsToObject(location.search)) as SchemaType<Q>) : ({} as EmptySchema)
   const parsedParams = paramsSchema ? (paramsSchema.parse(routeParams) as SchemaType<P>) : ({} as EmptySchema)
 
   const push = (path: string) => {
@@ -48,7 +47,6 @@ export const useRouter = <Q extends ZodSchema | undefined = undefined, P extends
     const url = new URL(window.location.href)
 
     if (!Object.keys(query).length) {
-      setLocationSearch('')
       const newUrl = new URL(window.location.href)
       newUrl.search = ''
       window.history.replaceState({}, '', newUrl)
@@ -64,7 +62,6 @@ export const useRouter = <Q extends ZodSchema | undefined = undefined, P extends
       url.searchParams.set(key, `${value}`)
     })
 
-    setLocationSearch(url.search)
     window.history.replaceState({}, '', url)
   }
 
@@ -73,9 +70,9 @@ export const useRouter = <Q extends ZodSchema | undefined = undefined, P extends
   }
 
   return {
+    path,
     pathname: location.pathname,
     search: location.search,
-    path,
     query: parsedQuery,
     params: parsedParams,
     push,

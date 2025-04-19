@@ -1,12 +1,10 @@
-import { z, PaymentCardSchema, BoletoSchema, PixSchema } from '@starter/schema'
+import { z, PaymentCardSchema } from '@starter/schema'
 
 import { ID, CreatedAt, UpdatedAt, BaseSchema } from '@/support/schema'
 
 export enum InvoicePaymentMethodEnum {
   'CREDIT_CARD' = 'CREDIT_CARD',
   'DEBIT_CARD' = 'DEBIT_CARD',
-  'PIX' = 'PIX',
-  'BOLETO' = 'BOLETO',
 }
 
 export enum InvoiceStatusEnum {
@@ -75,48 +73,7 @@ export const InvoiceDebitCardSchema = z.object({
 })
 export type InvoiceDebitCard = z.infer<typeof InvoiceDebitCardSchema>
 
-export const InvoicePixSchema = z.object({
-  invoiceId: InvoiceId,
-  workspaceId: WorkspaceId,
-  subscriptionId: SubscriptionId,
-  externalId: ExternalId,
-  description: Description,
-  amount: Amount,
-  paymentMethod: z.literal(InvoicePaymentMethodEnum.PIX),
-  pix: PixSchema,
-  issuedAt: IssuedAt,
-  billingDueDate: BillingDueDate,
-  canceledAt: CanceledAt,
-  status: Status,
-  createdAt: CreatedAt,
-  updatedAt: UpdatedAt,
-})
-export type InvoicePix = z.infer<typeof InvoicePixSchema>
-
-export const InvoiceBoletoSchema = z.object({
-  invoiceId: InvoiceId,
-  workspaceId: WorkspaceId,
-  subscriptionId: SubscriptionId,
-  externalId: ExternalId,
-  description: Description,
-  amount: Amount,
-  paymentMethod: z.literal(InvoicePaymentMethodEnum.BOLETO),
-  boleto: BoletoSchema,
-  issuedAt: IssuedAt,
-  billingDueDate: BillingDueDate,
-  canceledAt: CanceledAt,
-  status: Status,
-  createdAt: CreatedAt,
-  updatedAt: UpdatedAt,
-})
-export type InvoiceBoleto = z.infer<typeof InvoiceBoletoSchema>
-
-export const InvoiceSchema = z.discriminatedUnion('paymentMethod', [
-  InvoiceCreditCardSchema,
-  InvoiceDebitCardSchema,
-  InvoicePixSchema,
-  InvoiceBoletoSchema,
-])
+export const InvoiceSchema = z.discriminatedUnion('paymentMethod', [InvoiceCreditCardSchema, InvoiceDebitCardSchema])
 
 export type Invoice = z.infer<typeof InvoiceSchema>
 export type BaseInvoice = BaseSchema<'invoiceId', Invoice>

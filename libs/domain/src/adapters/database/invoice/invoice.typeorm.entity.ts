@@ -1,6 +1,14 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm'
 
-import { Invoice, InvoiceCreditCard, InvoiceDebitCard, InvoicePix, InvoiceBoleto, InvoicePaymentMethodEnum, InvoiceStatusEnum } from '@/schemas'
+import {
+  Invoice,
+  InvoiceCreditCard,
+  InvoiceDebitCard,
+  InvoicePix,
+  InvoiceBoleto,
+  InvoicePaymentMethodEnum,
+  InvoiceStatusEnum,
+} from '@/core/invoice/invoice.schema'
 
 @Entity('invoices')
 export class InvoiceEntity {
@@ -12,6 +20,9 @@ export class InvoiceEntity {
 
   @Column({ type: 'uuid' })
   subscriptionId: Invoice['subscriptionId']
+
+  @Column({ type: 'varchar' })
+  externalId: Invoice['externalId']
 
   @Column({ type: 'varchar' })
   description: Invoice['description']

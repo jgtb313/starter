@@ -13,8 +13,6 @@ export * from '@/adapters/encrypt'
 export * from '@/adapters/logger'
 export * from '@/adapters/notification'
 
-export * from '@/schemas'
-
 export * from '@/core/invoice'
 export * from '@/core/organization'
 export * from '@/core/otp'

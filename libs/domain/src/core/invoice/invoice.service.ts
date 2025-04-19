@@ -25,7 +25,7 @@ export class InvoiceService implements IInvoiceService {
 
     const invoice = await this.invoiceRepository.findById(invoiceId)
 
-    if (workspaceId && invoice.workspaceId !== workspaceId) {
+    if (workspaceId && invoice.state.workspaceId !== workspaceId) {
       throw new AclForbiddenException()
     }
 
@@ -47,6 +47,6 @@ export class InvoiceService implements IInvoiceService {
   updateInvoice: IInvoiceService['updateInvoice'] = async (invoiceId, input) => {
     const invoice = await this.invoiceRepository.findById(invoiceId)
 
-    return this.invoiceRepository.updateById(invoice.invoiceId, input)
+    return this.invoiceRepository.updateById(invoice.state.invoiceId, input)
   }
 }

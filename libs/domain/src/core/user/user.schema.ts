@@ -2,9 +2,8 @@ import { z, EmailSchema, PhoneSchema, PasswordSchema } from '@starter/schema'
 import { formatToCapitalized } from '@starter/common'
 
 import { ID, CreatedAt, UpdatedAt, BaseSchema } from '@/support/schema'
-import { OrganizationSchema } from './organization.schema'
-import { RoleSchema } from './role.schema'
-import { PermissionsSchema } from './permission.schema'
+import { OrganizationSchema } from '@/core/organization/organization.schema'
+import { RoleSchema } from '@/core/role/role.schema'
 
 export enum UserStatusEnum {
   'ACTIVE' = 'ACTIVE',
@@ -23,7 +22,7 @@ const RoleIds = z.array(ID('role'))
 
 const Roles = z.array(RoleSchema).default([])
 
-const Permissions = PermissionsSchema
+const Permissions = z.array(z.string()).default([])
 
 const Name = z
   .string()

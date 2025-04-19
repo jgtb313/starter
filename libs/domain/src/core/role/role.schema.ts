@@ -2,8 +2,7 @@ import { z } from '@starter/schema'
 import { formatToCapitalized } from '@starter/common'
 
 import { ID, DeletedAt, CreatedAt, UpdatedAt, BaseSchema } from '@/support/schema'
-import { OrganizationSchema } from './organization.schema'
-import { PermissionsSchema } from './permission.schema'
+import { OrganizationSchema } from '@/core/organization/organization.schema'
 
 export enum RoleStatusEnum {
   'ACTIVE' = 'ACTIVE',
@@ -28,7 +27,7 @@ const Tags = z
   .nullish()
   .transform((value) => value ?? null)
 
-const Permissions = PermissionsSchema
+const Permissions = z.array(z.string()).default([])
 
 const Status = z.nativeEnum(RoleStatusEnum).default(RoleStatusEnum.ACTIVE)
 

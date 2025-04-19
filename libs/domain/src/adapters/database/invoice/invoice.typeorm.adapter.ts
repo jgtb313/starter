@@ -1,10 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { DataSource, Repository, ILike, FindOptionsWhere } from 'typeorm'
 
-import { InvoiceSchema } from '@/schemas'
 import { PaginationService } from '@/support/pagination'
 import { IInvoiceRepository } from '@/ports/database/invoice'
 import { InvoiceEntity } from '@/adapters/database/invoice/invoice.typeorm.entity'
+import { Invoice } from '@/core/invoice/invoice.schema'
+import { InvoiceDomain } from '@/core/invoice/invoice.domain'
 
 @Injectable()
 export class InvoiceTypeorm implements IInvoiceRepository {
@@ -37,7 +38,7 @@ export class InvoiceTypeorm implements IInvoiceRepository {
     })
 
     return {
-      values: values.map((invoice) => InvoiceSchema.parse(invoice)),
+      values: values.map((invoice) => new InvoiceDomain(invoice as Invoice)),
       meta,
     }
   }
@@ -57,44 +58,44 @@ export class InvoiceTypeorm implements IInvoiceRepository {
 
     const values = await this.repository.find({ where })
 
-    return values.map((invoice) => InvoiceSchema.parse(invoice))
+    return values.map((invoice) => new InvoiceDomain(invoice as Invoice))
   }
 
   findById: IInvoiceRepository['findById'] = async (invoiceId) => {
-    const model = await this.repository.findOne({ where: { invoiceId } })
+    const invoice = await this.repository.findOne({ where: { invoiceId } })
 
-    if (!model) {
+    if (!invoice) {
       throw new NotFoundException(`Invoice ${invoiceId} not found`)
     }
 
-    return InvoiceSchema.parse(model)
+    return new InvoiceDomain(invoice as Invoice)
   }
 
   findOne: IInvoiceRepository['findOne'] = async (input) => {
     const where = input as FindOptionsWhere<InvoiceEntity>
 
-    const model = await this.repository.findOne({ where })
+    const invoice = await this.repository.findOne({ where })
 
-    if (!model) {
+    if (!invoice) {
       return null
     }
 
-    return InvoiceSchema.parse(model)
+    return new InvoiceDomain(invoice as Invoice)
   }
 
   create: IInvoiceRepository['create'] = async (input) => {
     const data = this.repository.create(input)
 
-    const model = await this.repository.save(data)
+    const invoice = await this.repository.save(data)
 
-    return InvoiceSchema.parse(model)
+    return new InvoiceDomain(invoice as Invoice)
   }
 
   updateById: IInvoiceRepository['updateById'] = async (invoiceId, input) => {
-    const model = await this.findById(invoiceId)
+    const invoice = await this.findById(invoiceId)
 
-    await this.repository.update(model.invoiceId, input)
+    await this.repository.update(invoice.state.invoiceId, input)
 
-    return this.findById(model.invoiceId)
+    return this.findById(invoice.state.invoiceId)
   }
 }
