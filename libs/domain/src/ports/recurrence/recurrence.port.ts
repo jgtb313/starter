@@ -1,15 +1,48 @@
-import { PaymentCard } from '@starter/schema'
-
-import { PlanIntervalEnum } from '@/core/plan/plan.schema'
-import { Subscription, SubscriptionPaymentMethodEnum } from '@/core/subscription/subscription.schema'
+import { PaymentCard, Pix, Boleto } from '@starter/schema'
 import { Invoice } from '@/core/invoice/invoice.schema'
+
+export enum RecurrenceIntervalEnum {
+  'DAY' = 'DAY',
+  'WEEK' = 'WEEK',
+  'MONTH' = 'MONTH',
+  'YEAR' = 'YEAR',
+}
+
+export enum RecurrencePaymentMethodEnum {
+  'CREDIT_CARD' = 'CREDIT_CARD',
+  'DEBIT_CARD' = 'DEBIT_CARD',
+  'PIX' = 'PIX',
+  'BOLETO' = 'BOLETO',
+}
+
+type CreditCardPayment = {
+  paymentMethod: RecurrencePaymentMethodEnum.CREDIT_CARD
+  creditCard: PaymentCard
+}
+
+type DebitCardPayment = {
+  paymentMethod: RecurrencePaymentMethodEnum.DEBIT_CARD
+  debitCard: PaymentCard
+}
+
+type PixPayment = {
+  paymentMethod: RecurrencePaymentMethodEnum.PIX
+  pix: Pix
+}
+
+type BoletoPayment = {
+  paymentMethod: RecurrencePaymentMethodEnum.BOLETO
+  boleto: Boleto
+}
+
+type RecurrencePaymentMethodInput = CreditCardPayment | DebitCardPayment | PixPayment | BoletoPayment
 
 export type RecurrenceCreatePlanInput = {
   referenceId: string
   name: string
   description?: string
   amount: number
-  interval: PlanIntervalEnum
+  interval: RecurrenceIntervalEnum
   intervalCount: number
   trialDays?: number
 }
@@ -22,7 +55,7 @@ export type RecurrenceUpdatePlanInput = {
   name?: string
   description?: string
   amount?: number
-  interval?: PlanIntervalEnum
+  interval?: RecurrenceIntervalEnum
   intervalCount?: number
   trialDays?: number
 }
@@ -37,11 +70,7 @@ export type RecurrenceCreateSubscriptionInput = {
   referenceId: string
   customerId: string
   planId: string
-  paymentMethod: Subscription['paymentMethod']
-  payer: Subscription['payer']
-  creditCard?: PaymentCard
-  debitCard?: PaymentCard
-}
+} & RecurrencePaymentMethodInput
 export type RecurrenceCreateSubscriptionOutput = {
   subscriptionId: string
   invoice: Pick<Invoice, 'externalId' | 'amount' | 'paymentMethod' | 'billingDueDate' | 'status'>
@@ -49,10 +78,7 @@ export type RecurrenceCreateSubscriptionOutput = {
 
 export type RecurrenceChangeSubscriptionPaymentMethodInput = {
   subscriptionId: string
-  paymentMethod: SubscriptionPaymentMethodEnum
-  creditCard?: PaymentCard
-  debitCard?: PaymentCard
-}
+} & RecurrencePaymentMethodInput
 export type RecurrenceChangeSubscriptionPaymentMethodOutput = {
   subscriptionId: string
   invoice?: Pick<Invoice, 'externalId' | 'amount' | 'paymentMethod' | 'billingDueDate' | 'status'>

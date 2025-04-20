@@ -5,3 +5,4 @@ export const BoletoSchema = z.object({
   instructions: z.string().min(1),
   dueDate: z.coerce.date(),
 })
+export type Boleto = z.infer<typeof BoletoSchema>

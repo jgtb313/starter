@@ -1,11 +1,7 @@
 import { z, PaymentCardSchema } from '@starter/schema'
 
 import { ID, CreatedAt, UpdatedAt, BaseSchema } from '@/support/schema'
-
-export enum InvoicePaymentMethodEnum {
-  'CREDIT_CARD' = 'CREDIT_CARD',
-  'DEBIT_CARD' = 'DEBIT_CARD',
-}
+import { RecurrencePaymentMethodEnum } from '@/ports/recurrence'
 
 export enum InvoiceStatusEnum {
   'PENDING' = 'PENDING',
@@ -28,7 +24,12 @@ const Amount = z.number().min(1)
 
 const IssuedAt = z.coerce.date()
 
-const BillingDueDate = z.coerce.date()
+const DueDate = z.coerce.date()
+
+const PaidAt = z.coerce
+  .date()
+  .nullish()
+  .transform((value) => value ?? null)
 
 const CanceledAt = z.coerce
   .date()
@@ -44,10 +45,10 @@ export const InvoiceCreditCardSchema = z.object({
   externalId: ExternalId,
   description: Description,
   amount: Amount,
-  paymentMethod: z.literal(InvoicePaymentMethodEnum.CREDIT_CARD),
+  paymentMethod: z.literal(RecurrencePaymentMethodEnum.CREDIT_CARD),
   creditCard: PaymentCardSchema,
+  dueDate: DueDate,
   issuedAt: IssuedAt,
-  billingDueDate: BillingDueDate,
   canceledAt: CanceledAt,
   status: Status,
   createdAt: CreatedAt,
@@ -62,10 +63,10 @@ export const InvoiceDebitCardSchema = z.object({
   externalId: ExternalId,
   description: Description,
   amount: Amount,
-  paymentMethod: z.literal(InvoicePaymentMethodEnum.DEBIT_CARD),
+  paymentMethod: z.literal(RecurrencePaymentMethodEnum.DEBIT_CARD),
   debitCard: PaymentCardSchema,
+  dueDate: DueDate,
   issuedAt: IssuedAt,
-  billingDueDate: BillingDueDate,
   canceledAt: CanceledAt,
   status: Status,
   createdAt: CreatedAt,
