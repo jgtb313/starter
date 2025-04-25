@@ -1,4 +1,4 @@
-import { z, DateSchema } from '@starter/schema'
+import { z } from '@starter/schema'
 
 import { ID, CreatedAt, UpdatedAt, BaseSchema } from '@/support/schema'
 
@@ -89,7 +89,7 @@ const ResendTime = z.number()
 
 const DailyLimitAttempts = z.number()
 
-const ExpiresIn = DateSchema
+const ExpiresIn = z.iso.datetime().transform((value) => new Date(value))
 
 export const OTPSchema = z.object({
   otpId: OTPId,

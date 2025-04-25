@@ -29,7 +29,7 @@ const Tags = z
 
 const Permissions = z.array(z.string()).default([])
 
-const Status = z.nativeEnum(RoleStatusEnum).default(RoleStatusEnum.ACTIVE)
+const Status = z.enum(RoleStatusEnum).default(RoleStatusEnum.ACTIVE)
 
 export const RoleSchema = z.object({
   roleId: RoleId,

@@ -58,7 +58,7 @@ const Social = z
 
 const Password = PasswordSchema
 
-const Status = z.nativeEnum(UserStatusEnum).default(UserStatusEnum.ACTIVE)
+const Status = z.enum(UserStatusEnum).default(UserStatusEnum.ACTIVE)
 
 export const UserSchema = z.object({
   userId: UserId,

@@ -22,7 +22,7 @@ const Description = z.string().min(1)
 
 const Amount = z.number().positive()
 
-const Interval = z.nativeEnum(RecurrenceIntervalEnum)
+const Interval = z.enum(RecurrenceIntervalEnum)
 
 const IntervalCount = z.number().default(1)
 
@@ -35,7 +35,7 @@ const BaseFeature = z.object({
 const OrganizationCountFeature = BaseFeature.extend({
   code: z.literal(PlanFeatureCodeEnum.ORGANIZATION_COUNT),
   props: z.object({
-    maxOrganizations: z.number().min(1),
+    maxOrganizations: z.number().positive().default(1),
   }),
 })
 
@@ -43,7 +43,7 @@ export const PlanFeaturesSchema = z.array(z.discriminatedUnion('code', [Organiza
 
 const Highlight = z.boolean().default(false)
 
-const Status = z.nativeEnum(PlanStatusEnum).default(PlanStatusEnum.ACTIVE)
+const Status = z.enum(PlanStatusEnum).default(PlanStatusEnum.ACTIVE)
 
 export const PlanSchema = z.object({
   planId: PlanId,

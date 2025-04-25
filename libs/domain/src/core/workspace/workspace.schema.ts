@@ -11,7 +11,7 @@ const WorkspaceId = ID('workspace')
 
 const Name = z.string().min(1)
 
-const Status = z.nativeEnum(WorkspaceStatusEnum).default(WorkspaceStatusEnum.ACTIVE)
+const Status = z.enum(WorkspaceStatusEnum).default(WorkspaceStatusEnum.ACTIVE)
 
 export const WorkspaceSchema = z.object({
   workspaceId: WorkspaceId,

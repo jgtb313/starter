@@ -20,7 +20,7 @@ const ExternalId = z.string().min(1)
 
 const Description = z.string().min(1)
 
-const Amount = z.number().min(1)
+const Amount = z.number().positive()
 
 const DueDate = z.iso.datetime().transform((value) => new Date(value))
 
