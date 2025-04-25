@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { DataSource, Repository } from 'typeorm'
 
-import { OTPSchema } from '@/schemas'
+import { OTPSchema } from '@/core/otp/otp.schema'
 import { IOTPRepository } from '@/ports/database/otp'
-import { OTPEntity } from './otp.typeorm.entity'
+import { OTPEntity } from '@/adapters/database/otp/otp.typeorm.entity'
 
 @Injectable()
 export class OTPTypeorm implements IOTPRepository {

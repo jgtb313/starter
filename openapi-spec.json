@@ -1345,6 +1345,637 @@
         ]
       }
     },
+    "/v1/invoices": {
+      "get": {
+        "description": "Retrieves a list of invoices.",
+        "operationId": "listInvoices",
+        "parameters": [
+          {
+            "name": "offset",
+            "required": false,
+            "in": "query",
+            "description": "Number of items to skip in the result set.",
+            "schema": {
+              "default": 0,
+              "example": 10,
+              "type": "integer"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Maximum number of items to return.",
+            "schema": {
+              "default": 10,
+              "example": 20,
+              "type": "integer"
+            }
+          },
+          {
+            "name": "fields",
+            "required": false,
+            "in": "query",
+            "description": "Comma-separated list of fields to return in the response.",
+            "schema": {
+              "example": "id,name,email",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "values": {
+                      "type": "array",
+                      "items": {
+                        "discriminator": {
+                          "propertyName": "paymentMethod"
+                        },
+                        "oneOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "invoiceId": {
+                                "type": "string",
+                                "format": "uuid",
+                                "description": "Unique identifier for invoice"
+                              },
+                              "workspaceId": {
+                                "type": "string",
+                                "format": "uuid",
+                                "description": "Unique identifier for workspace"
+                              },
+                              "subscriptionId": {
+                                "type": "string",
+                                "format": "uuid",
+                                "description": "Unique identifier for subscription"
+                              },
+                              "externalId": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "description": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "amount": {
+                                "type": "number",
+                                "minimum": 1
+                              },
+                              "paymentMethod": {
+                                "type": "string",
+                                "enum": [
+                                  "CREDIT_CARD"
+                                ]
+                              },
+                              "creditCard": {
+                                "allOf": [
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "number": {
+                                        "type": "string",
+                                        "minLength": 1
+                                      },
+                                      "holderName": {
+                                        "type": "string",
+                                        "minLength": 1
+                                      },
+                                      "expirationDate": {
+                                        "type": "string",
+                                        "minLength": 5,
+                                        "maxLength": 5,
+                                        "example": "10/10"
+                                      }
+                                    },
+                                    "required": [
+                                      "number",
+                                      "holderName",
+                                      "expirationDate"
+                                    ]
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "cvv": {
+                                        "type": "string",
+                                        "minLength": 3,
+                                        "maxLength": 4
+                                      }
+                                    },
+                                    "required": [
+                                      "cvv"
+                                    ]
+                                  }
+                                ]
+                              },
+                              "issuedAt": {
+                                "type": "string",
+                                "format": "date-time"
+                              },
+                              "billingDueDate": {
+                                "type": "string",
+                                "format": "date-time"
+                              },
+                              "canceledAt": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ],
+                                "format": "date-time"
+                              },
+                              "status": {
+                                "default": "PENDING",
+                                "type": "string",
+                                "enum": [
+                                  "PENDING",
+                                  "PAID",
+                                  "OVERDUE",
+                                  "CANCELED"
+                                ]
+                              },
+                              "createdAt": {
+                                "type": "string",
+                                "format": "date-time"
+                              },
+                              "updatedAt": {
+                                "type": "string",
+                                "format": "date-time"
+                              }
+                            },
+                            "required": [
+                              "invoiceId",
+                              "workspaceId",
+                              "subscriptionId",
+                              "externalId",
+                              "description",
+                              "amount",
+                              "paymentMethod",
+                              "creditCard",
+                              "issuedAt",
+                              "billingDueDate",
+                              "createdAt",
+                              "updatedAt"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "invoiceId": {
+                                "type": "string",
+                                "format": "uuid",
+                                "description": "Unique identifier for invoice"
+                              },
+                              "workspaceId": {
+                                "type": "string",
+                                "format": "uuid",
+                                "description": "Unique identifier for workspace"
+                              },
+                              "subscriptionId": {
+                                "type": "string",
+                                "format": "uuid",
+                                "description": "Unique identifier for subscription"
+                              },
+                              "externalId": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "description": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "amount": {
+                                "type": "number",
+                                "minimum": 1
+                              },
+                              "paymentMethod": {
+                                "type": "string",
+                                "enum": [
+                                  "DEBIT_CARD"
+                                ]
+                              },
+                              "debitCard": {
+                                "allOf": [
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "number": {
+                                        "type": "string",
+                                        "minLength": 1
+                                      },
+                                      "holderName": {
+                                        "type": "string",
+                                        "minLength": 1
+                                      },
+                                      "expirationDate": {
+                                        "type": "string",
+                                        "minLength": 5,
+                                        "maxLength": 5,
+                                        "example": "10/10"
+                                      }
+                                    },
+                                    "required": [
+                                      "number",
+                                      "holderName",
+                                      "expirationDate"
+                                    ]
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "cvv": {
+                                        "type": "string",
+                                        "minLength": 3,
+                                        "maxLength": 4
+                                      }
+                                    },
+                                    "required": [
+                                      "cvv"
+                                    ]
+                                  }
+                                ]
+                              },
+                              "issuedAt": {
+                                "type": "string",
+                                "format": "date-time"
+                              },
+                              "billingDueDate": {
+                                "type": "string",
+                                "format": "date-time"
+                              },
+                              "canceledAt": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ],
+                                "format": "date-time"
+                              },
+                              "status": {
+                                "default": "PENDING",
+                                "type": "string",
+                                "enum": [
+                                  "PENDING",
+                                  "PAID",
+                                  "OVERDUE",
+                                  "CANCELED"
+                                ]
+                              },
+                              "createdAt": {
+                                "type": "string",
+                                "format": "date-time"
+                              },
+                              "updatedAt": {
+                                "type": "string",
+                                "format": "date-time"
+                              }
+                            },
+                            "required": [
+                              "invoiceId",
+                              "workspaceId",
+                              "subscriptionId",
+                              "externalId",
+                              "description",
+                              "amount",
+                              "paymentMethod",
+                              "debitCard",
+                              "issuedAt",
+                              "billingDueDate",
+                              "createdAt",
+                              "updatedAt"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "invoiceId": {
+                                "type": "string",
+                                "format": "uuid",
+                                "description": "Unique identifier for invoice"
+                              },
+                              "workspaceId": {
+                                "type": "string",
+                                "format": "uuid",
+                                "description": "Unique identifier for workspace"
+                              },
+                              "subscriptionId": {
+                                "type": "string",
+                                "format": "uuid",
+                                "description": "Unique identifier for subscription"
+                              },
+                              "externalId": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "description": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "amount": {
+                                "type": "number",
+                                "minimum": 1
+                              },
+                              "paymentMethod": {
+                                "type": "string",
+                                "enum": [
+                                  "PIX"
+                                ]
+                              },
+                              "pix": {
+                                "type": "object",
+                                "properties": {
+                                  "qrCode": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "dueDate": {
+                                    "type": "string",
+                                    "format": "date-time"
+                                  }
+                                },
+                                "required": [
+                                  "qrCode",
+                                  "dueDate"
+                                ]
+                              },
+                              "issuedAt": {
+                                "type": "string",
+                                "format": "date-time"
+                              },
+                              "billingDueDate": {
+                                "type": "string",
+                                "format": "date-time"
+                              },
+                              "canceledAt": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ],
+                                "format": "date-time"
+                              },
+                              "status": {
+                                "default": "PENDING",
+                                "type": "string",
+                                "enum": [
+                                  "PENDING",
+                                  "PAID",
+                                  "OVERDUE",
+                                  "CANCELED"
+                                ]
+                              },
+                              "createdAt": {
+                                "type": "string",
+                                "format": "date-time"
+                              },
+                              "updatedAt": {
+                                "type": "string",
+                                "format": "date-time"
+                              }
+                            },
+                            "required": [
+                              "invoiceId",
+                              "workspaceId",
+                              "subscriptionId",
+                              "externalId",
+                              "description",
+                              "amount",
+                              "paymentMethod",
+                              "pix",
+                              "issuedAt",
+                              "billingDueDate",
+                              "createdAt",
+                              "updatedAt"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "invoiceId": {
+                                "type": "string",
+                                "format": "uuid",
+                                "description": "Unique identifier for invoice"
+                              },
+                              "workspaceId": {
+                                "type": "string",
+                                "format": "uuid",
+                                "description": "Unique identifier for workspace"
+                              },
+                              "subscriptionId": {
+                                "type": "string",
+                                "format": "uuid",
+                                "description": "Unique identifier for subscription"
+                              },
+                              "externalId": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "description": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "amount": {
+                                "type": "number",
+                                "minimum": 1
+                              },
+                              "paymentMethod": {
+                                "type": "string",
+                                "enum": [
+                                  "BOLETO"
+                                ]
+                              },
+                              "boleto": {
+                                "type": "object",
+                                "properties": {
+                                  "url": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "instructions": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "dueDate": {
+                                    "type": "string",
+                                    "format": "date-time"
+                                  }
+                                },
+                                "required": [
+                                  "url",
+                                  "instructions",
+                                  "dueDate"
+                                ]
+                              },
+                              "issuedAt": {
+                                "type": "string",
+                                "format": "date-time"
+                              },
+                              "billingDueDate": {
+                                "type": "string",
+                                "format": "date-time"
+                              },
+                              "canceledAt": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ],
+                                "format": "date-time"
+                              },
+                              "status": {
+                                "default": "PENDING",
+                                "type": "string",
+                                "enum": [
+                                  "PENDING",
+                                  "PAID",
+                                  "OVERDUE",
+                                  "CANCELED"
+                                ]
+                              },
+                              "createdAt": {
+                                "type": "string",
+                                "format": "date-time"
+                              },
+                              "updatedAt": {
+                                "type": "string",
+                                "format": "date-time"
+                              }
+                            },
+                            "required": [
+                              "invoiceId",
+                              "workspaceId",
+                              "subscriptionId",
+                              "externalId",
+                              "description",
+                              "amount",
+                              "paymentMethod",
+                              "boleto",
+                              "issuedAt",
+                              "billingDueDate",
+                              "createdAt",
+                              "updatedAt"
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "meta": {
+                      "default": {
+                        "total": 0,
+                        "offset": 0,
+                        "limit": 0
+                      },
+                      "type": "object",
+                      "properties": {
+                        "total": {
+                          "default": 0,
+                          "type": "integer",
+                          "example": 150
+                        },
+                        "offset": {
+                          "default": 0,
+                          "type": "integer",
+                          "example": 20
+                        },
+                        "limit": {
+                          "default": 0,
+                          "type": "integer",
+                          "example": 10
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "values"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 400
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Bad Request Error"
+                    },
+                    "issues": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": {
+                          "type": "string"
+                        }
+                      },
+                      "example": [
+                        {
+                          "propertyKey": "errorMessage"
+                        }
+                      ]
+                    }
+                  },
+                  "required": [
+                    "statusCode",
+                    "error",
+                    "issues"
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 500
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Internal Server Error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "..."
+                    },
+                    "metadata": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "statusCode",
+                    "error",
+                    "message"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "summary": "List Invoices",
+        "tags": [
+          "Invoice"
+        ]
+      }
+    },
     "/v1/storage/files": {
       "post": {
         "description": "Generates a presigned URL that allows secure uploading of files to a specified cloud storage context. This URL can be used for direct file uploads.",
@@ -8535,31 +9166,29 @@
         ]
       }
     },
-    "/v1/subscriptions": {
+    "/v1/workspaces/{workspaceId}/subscriptions": {
       "get": {
-        "description": "Retrieves a list of subscriptions.",
-        "operationId": "example",
+        "description": "Retrieves a current subscription.",
+        "operationId": "getSubscription",
         "parameters": [
           {
-            "name": "offset",
-            "required": false,
-            "in": "query",
-            "description": "Number of items to skip in the result set.",
+            "name": "workspaceId",
+            "required": true,
+            "in": "path",
+            "description": "Unique identifier for workspace",
             "schema": {
-              "default": 0,
-              "example": 10,
-              "type": "integer"
+              "format": "uuid",
+              "type": "string"
             }
           },
           {
-            "name": "limit",
-            "required": false,
-            "in": "query",
-            "description": "Maximum number of items to return.",
+            "name": "subscriptionId",
+            "required": true,
+            "in": "path",
+            "description": "Unique identifier for subscription",
             "schema": {
-              "default": 10,
-              "example": 20,
-              "type": "integer"
+              "format": "uuid",
+              "type": "string"
             }
           },
           {
@@ -8579,524 +9208,488 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "values": {
-                      "type": "array",
-                      "items": {
-                        "discriminator": {
-                          "propertyName": "paymentMethod"
-                        },
-                        "oneOf": [
-                          {
-                            "type": "object",
-                            "properties": {
-                              "subscriptionId": {
-                                "type": "string",
-                                "format": "uuid",
-                                "description": "Unique identifier for subscription"
-                              },
-                              "workspaceId": {
-                                "type": "string",
-                                "format": "uuid",
-                                "description": "Unique identifier for workspace"
-                              },
-                              "planId": {
-                                "type": "string",
-                                "format": "uuid",
-                                "description": "Unique identifier for plan"
-                              },
-                              "externalId": {
-                                "type": "string",
-                                "minLength": 1
-                              },
-                              "amount": {
-                                "type": "number",
-                                "minimum": 1
-                              },
-                              "paymentMethod": {
-                                "type": "string",
-                                "enum": [
-                                  "CREDIT_CARD"
-                                ]
-                              },
-                              "creditCard": {
-                                "allOf": [
-                                  {
-                                    "type": "object",
-                                    "properties": {
-                                      "number": {
-                                        "type": "string",
-                                        "minLength": 1
-                                      },
-                                      "holderName": {
-                                        "type": "string",
-                                        "minLength": 1
-                                      },
-                                      "expirationDate": {
-                                        "type": "string",
-                                        "minLength": 5,
-                                        "maxLength": 5,
-                                        "example": "10/10"
-                                      }
-                                    },
-                                    "required": [
-                                      "number",
-                                      "holderName",
-                                      "expirationDate"
-                                    ]
-                                  },
-                                  {
-                                    "type": "object",
-                                    "properties": {
-                                      "cvv": {
-                                        "type": "string",
-                                        "minLength": 3,
-                                        "maxLength": 4
-                                      }
-                                    },
-                                    "required": [
-                                      "cvv"
-                                    ]
-                                  }
-                                ]
-                              },
-                              "deadline": {
-                                "type": "string",
-                                "format": "date-time"
-                              },
-                              "billingDueDate": {
-                                "type": "string",
-                                "format": "date-time"
-                              },
-                              "canceledAt": {
-                                "type": [
-                                  "string",
-                                  "null"
-                                ],
-                                "format": "date-time"
-                              },
-                              "payer": {
-                                "type": "object",
-                                "properties": {
-                                  "name": {
-                                    "type": "string",
-                                    "minLength": 1
-                                  },
-                                  "email": {
-                                    "type": "string",
-                                    "minLength": 1,
-                                    "format": "email",
-                                    "example": "example@email.com"
-                                  },
-                                  "phone": {
-                                    "type": "object",
-                                    "properties": {
-                                      "iso": {
-                                        "type": "string",
-                                        "minLength": 1,
-                                        "description": "The ISO 3166-1 country code.",
-                                        "example": "BR"
-                                      },
-                                      "ddi": {
-                                        "type": "string",
-                                        "minLength": 1,
-                                        "description": "The international dialing code for the country, prefixed by the plus sign (+).",
-                                        "example": "+55"
-                                      },
-                                      "number": {
-                                        "type": "string",
-                                        "minLength": 1
-                                      }
-                                    },
-                                    "required": [
-                                      "iso",
-                                      "ddi",
-                                      "number"
-                                    ]
-                                  },
-                                  "document": {
-                                    "type": "object",
-                                    "properties": {
-                                      "number": {
-                                        "type": "string",
-                                        "minLength": 1
-                                      },
-                                      "type": {
-                                        "type": "string",
-                                        "enum": [
-                                          "INDIVIDUAL",
-                                          "COMPANY"
-                                        ],
-                                        "description": "Represents document types for individuals or companies"
-                                      }
-                                    },
-                                    "required": [
-                                      "number",
-                                      "type"
-                                    ]
-                                  },
-                                  "address": {
-                                    "type": "object",
-                                    "properties": {
-                                      "id": {
-                                        "type": "string",
-                                        "minLength": 1
-                                      },
-                                      "state": {
-                                        "type": "string",
-                                        "minLength": 1
-                                      },
-                                      "city": {
-                                        "type": "string",
-                                        "minLength": 1
-                                      },
-                                      "zipCode": {
-                                        "type": "string",
-                                        "minLength": 1
-                                      },
-                                      "neighborhood": {
-                                        "type": "string",
-                                        "minLength": 1
-                                      },
-                                      "street": {
-                                        "type": "string",
-                                        "minLength": 1
-                                      },
-                                      "number": {
-                                        "type": "string",
-                                        "minLength": 1
-                                      },
-                                      "complement": {
-                                        "type": [
-                                          "string",
-                                          "null"
-                                        ]
-                                      }
-                                    },
-                                    "required": [
-                                      "id",
-                                      "state",
-                                      "city",
-                                      "zipCode",
-                                      "neighborhood",
-                                      "street",
-                                      "number"
-                                    ]
-                                  }
-                                },
-                                "required": [
-                                  "name",
-                                  "email",
-                                  "phone",
-                                  "document",
-                                  "address"
-                                ]
-                              },
-                              "status": {
-                                "default": "ACTIVE",
-                                "type": "string",
-                                "enum": [
-                                  "TRIAL",
-                                  "ACTIVE",
-                                  "OVERDUE",
-                                  "CANCELED"
-                                ]
-                              },
-                              "createdAt": {
-                                "type": "string",
-                                "format": "date-time"
-                              },
-                              "updatedAt": {
-                                "type": "string",
-                                "format": "date-time"
-                              }
-                            },
-                            "required": [
-                              "subscriptionId",
-                              "workspaceId",
-                              "planId",
-                              "externalId",
-                              "amount",
-                              "paymentMethod",
-                              "creditCard",
-                              "deadline",
-                              "billingDueDate",
-                              "payer",
-                              "createdAt",
-                              "updatedAt"
-                            ]
-                          },
-                          {
-                            "type": "object",
-                            "properties": {
-                              "subscriptionId": {
-                                "type": "string",
-                                "format": "uuid",
-                                "description": "Unique identifier for subscription"
-                              },
-                              "workspaceId": {
-                                "type": "string",
-                                "format": "uuid",
-                                "description": "Unique identifier for workspace"
-                              },
-                              "planId": {
-                                "type": "string",
-                                "format": "uuid",
-                                "description": "Unique identifier for plan"
-                              },
-                              "externalId": {
-                                "type": "string",
-                                "minLength": 1
-                              },
-                              "amount": {
-                                "type": "number",
-                                "minimum": 1
-                              },
-                              "paymentMethod": {
-                                "type": "string",
-                                "enum": [
-                                  "DEBIT_CARD"
-                                ]
-                              },
-                              "debitCard": {
-                                "allOf": [
-                                  {
-                                    "type": "object",
-                                    "properties": {
-                                      "number": {
-                                        "type": "string",
-                                        "minLength": 1
-                                      },
-                                      "holderName": {
-                                        "type": "string",
-                                        "minLength": 1
-                                      },
-                                      "expirationDate": {
-                                        "type": "string",
-                                        "minLength": 5,
-                                        "maxLength": 5,
-                                        "example": "10/10"
-                                      }
-                                    },
-                                    "required": [
-                                      "number",
-                                      "holderName",
-                                      "expirationDate"
-                                    ]
-                                  },
-                                  {
-                                    "type": "object",
-                                    "properties": {
-                                      "cvv": {
-                                        "type": "string",
-                                        "minLength": 3,
-                                        "maxLength": 4
-                                      }
-                                    },
-                                    "required": [
-                                      "cvv"
-                                    ]
-                                  }
-                                ]
-                              },
-                              "deadline": {
-                                "type": "string",
-                                "format": "date-time"
-                              },
-                              "billingDueDate": {
-                                "type": "string",
-                                "format": "date-time"
-                              },
-                              "canceledAt": {
-                                "type": [
-                                  "string",
-                                  "null"
-                                ],
-                                "format": "date-time"
-                              },
-                              "payer": {
-                                "type": "object",
-                                "properties": {
-                                  "name": {
-                                    "type": "string",
-                                    "minLength": 1
-                                  },
-                                  "email": {
-                                    "type": "string",
-                                    "minLength": 1,
-                                    "format": "email",
-                                    "example": "example@email.com"
-                                  },
-                                  "phone": {
-                                    "type": "object",
-                                    "properties": {
-                                      "iso": {
-                                        "type": "string",
-                                        "minLength": 1,
-                                        "description": "The ISO 3166-1 country code.",
-                                        "example": "BR"
-                                      },
-                                      "ddi": {
-                                        "type": "string",
-                                        "minLength": 1,
-                                        "description": "The international dialing code for the country, prefixed by the plus sign (+).",
-                                        "example": "+55"
-                                      },
-                                      "number": {
-                                        "type": "string",
-                                        "minLength": 1
-                                      }
-                                    },
-                                    "required": [
-                                      "iso",
-                                      "ddi",
-                                      "number"
-                                    ]
-                                  },
-                                  "document": {
-                                    "type": "object",
-                                    "properties": {
-                                      "number": {
-                                        "type": "string",
-                                        "minLength": 1
-                                      },
-                                      "type": {
-                                        "type": "string",
-                                        "enum": [
-                                          "INDIVIDUAL",
-                                          "COMPANY"
-                                        ],
-                                        "description": "Represents document types for individuals or companies"
-                                      }
-                                    },
-                                    "required": [
-                                      "number",
-                                      "type"
-                                    ]
-                                  },
-                                  "address": {
-                                    "type": "object",
-                                    "properties": {
-                                      "id": {
-                                        "type": "string",
-                                        "minLength": 1
-                                      },
-                                      "state": {
-                                        "type": "string",
-                                        "minLength": 1
-                                      },
-                                      "city": {
-                                        "type": "string",
-                                        "minLength": 1
-                                      },
-                                      "zipCode": {
-                                        "type": "string",
-                                        "minLength": 1
-                                      },
-                                      "neighborhood": {
-                                        "type": "string",
-                                        "minLength": 1
-                                      },
-                                      "street": {
-                                        "type": "string",
-                                        "minLength": 1
-                                      },
-                                      "number": {
-                                        "type": "string",
-                                        "minLength": 1
-                                      },
-                                      "complement": {
-                                        "type": [
-                                          "string",
-                                          "null"
-                                        ]
-                                      }
-                                    },
-                                    "required": [
-                                      "id",
-                                      "state",
-                                      "city",
-                                      "zipCode",
-                                      "neighborhood",
-                                      "street",
-                                      "number"
-                                    ]
-                                  }
-                                },
-                                "required": [
-                                  "name",
-                                  "email",
-                                  "phone",
-                                  "document",
-                                  "address"
-                                ]
-                              },
-                              "status": {
-                                "default": "ACTIVE",
-                                "type": "string",
-                                "enum": [
-                                  "TRIAL",
-                                  "ACTIVE",
-                                  "OVERDUE",
-                                  "CANCELED"
-                                ]
-                              },
-                              "createdAt": {
-                                "type": "string",
-                                "format": "date-time"
-                              },
-                              "updatedAt": {
-                                "type": "string",
-                                "format": "date-time"
-                              }
-                            },
-                            "required": [
-                              "subscriptionId",
-                              "workspaceId",
-                              "planId",
-                              "externalId",
-                              "amount",
-                              "paymentMethod",
-                              "debitCard",
-                              "deadline",
-                              "billingDueDate",
-                              "payer",
-                              "createdAt",
-                              "updatedAt"
-                            ]
-                          }
-                        ]
-                      }
-                    },
-                    "meta": {
-                      "default": {
-                        "total": 0,
-                        "offset": 0,
-                        "limit": 0
-                      },
+                  "discriminator": {
+                    "propertyName": "paymentMethod"
+                  },
+                  "oneOf": [
+                    {
                       "type": "object",
                       "properties": {
-                        "total": {
-                          "default": 0,
-                          "type": "integer",
-                          "example": 150
+                        "subscriptionId": {
+                          "type": "string",
+                          "format": "uuid",
+                          "description": "Unique identifier for subscription"
                         },
-                        "offset": {
-                          "default": 0,
-                          "type": "integer",
-                          "example": 20
+                        "workspaceId": {
+                          "type": "string",
+                          "format": "uuid",
+                          "description": "Unique identifier for workspace"
                         },
-                        "limit": {
-                          "default": 0,
-                          "type": "integer",
-                          "example": 10
+                        "planId": {
+                          "type": "string",
+                          "format": "uuid",
+                          "description": "Unique identifier for plan"
+                        },
+                        "externalId": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "amount": {
+                          "type": "number",
+                          "minimum": 1
+                        },
+                        "paymentMethod": {
+                          "type": "string",
+                          "enum": [
+                            "CREDIT_CARD"
+                          ]
+                        },
+                        "creditCard": {
+                          "allOf": [
+                            {
+                              "type": "object",
+                              "properties": {
+                                "number": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "holderName": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "expirationDate": {
+                                  "type": "string",
+                                  "minLength": 5,
+                                  "maxLength": 5,
+                                  "example": "10/10"
+                                }
+                              },
+                              "required": [
+                                "number",
+                                "holderName",
+                                "expirationDate"
+                              ]
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "cvv": {
+                                  "type": "string",
+                                  "minLength": 3,
+                                  "maxLength": 4
+                                }
+                              },
+                              "required": [
+                                "cvv"
+                              ]
+                            }
+                          ]
+                        },
+                        "deadline": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "billingDueDate": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "canceledAt": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "format": "date-time"
+                        },
+                        "payer": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "email": {
+                              "type": "string",
+                              "minLength": 1,
+                              "format": "email",
+                              "example": "example@email.com"
+                            },
+                            "phone": {
+                              "type": "object",
+                              "properties": {
+                                "iso": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "description": "The ISO 3166-1 country code.",
+                                  "example": "BR"
+                                },
+                                "ddi": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "description": "The international dialing code for the country, prefixed by the plus sign (+).",
+                                  "example": "+55"
+                                },
+                                "number": {
+                                  "type": "string",
+                                  "minLength": 1
+                                }
+                              },
+                              "required": [
+                                "iso",
+                                "ddi",
+                                "number"
+                              ]
+                            },
+                            "document": {
+                              "type": "object",
+                              "properties": {
+                                "number": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "type": {
+                                  "type": "string",
+                                  "enum": [
+                                    "INDIVIDUAL",
+                                    "COMPANY"
+                                  ],
+                                  "description": "Represents document types for individuals or companies"
+                                }
+                              },
+                              "required": [
+                                "number",
+                                "type"
+                              ]
+                            },
+                            "address": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "state": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "city": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "zipCode": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "neighborhood": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "street": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "number": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "complement": {
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "id",
+                                "state",
+                                "city",
+                                "zipCode",
+                                "neighborhood",
+                                "street",
+                                "number"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "name",
+                            "email",
+                            "phone",
+                            "document",
+                            "address"
+                          ]
+                        },
+                        "status": {
+                          "default": "ACTIVE",
+                          "type": "string",
+                          "enum": [
+                            "TRIAL",
+                            "ACTIVE",
+                            "OVERDUE",
+                            "CANCELED"
+                          ]
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "format": "date-time"
                         }
-                      }
+                      },
+                      "required": [
+                        "subscriptionId",
+                        "workspaceId",
+                        "planId",
+                        "externalId",
+                        "amount",
+                        "paymentMethod",
+                        "creditCard",
+                        "deadline",
+                        "billingDueDate",
+                        "payer",
+                        "createdAt",
+                        "updatedAt"
+                      ]
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "subscriptionId": {
+                          "type": "string",
+                          "format": "uuid",
+                          "description": "Unique identifier for subscription"
+                        },
+                        "workspaceId": {
+                          "type": "string",
+                          "format": "uuid",
+                          "description": "Unique identifier for workspace"
+                        },
+                        "planId": {
+                          "type": "string",
+                          "format": "uuid",
+                          "description": "Unique identifier for plan"
+                        },
+                        "externalId": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "amount": {
+                          "type": "number",
+                          "minimum": 1
+                        },
+                        "paymentMethod": {
+                          "type": "string",
+                          "enum": [
+                            "DEBIT_CARD"
+                          ]
+                        },
+                        "debitCard": {
+                          "allOf": [
+                            {
+                              "type": "object",
+                              "properties": {
+                                "number": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "holderName": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "expirationDate": {
+                                  "type": "string",
+                                  "minLength": 5,
+                                  "maxLength": 5,
+                                  "example": "10/10"
+                                }
+                              },
+                              "required": [
+                                "number",
+                                "holderName",
+                                "expirationDate"
+                              ]
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "cvv": {
+                                  "type": "string",
+                                  "minLength": 3,
+                                  "maxLength": 4
+                                }
+                              },
+                              "required": [
+                                "cvv"
+                              ]
+                            }
+                          ]
+                        },
+                        "deadline": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "billingDueDate": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "canceledAt": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "format": "date-time"
+                        },
+                        "payer": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "email": {
+                              "type": "string",
+                              "minLength": 1,
+                              "format": "email",
+                              "example": "example@email.com"
+                            },
+                            "phone": {
+                              "type": "object",
+                              "properties": {
+                                "iso": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "description": "The ISO 3166-1 country code.",
+                                  "example": "BR"
+                                },
+                                "ddi": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "description": "The international dialing code for the country, prefixed by the plus sign (+).",
+                                  "example": "+55"
+                                },
+                                "number": {
+                                  "type": "string",
+                                  "minLength": 1
+                                }
+                              },
+                              "required": [
+                                "iso",
+                                "ddi",
+                                "number"
+                              ]
+                            },
+                            "document": {
+                              "type": "object",
+                              "properties": {
+                                "number": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "type": {
+                                  "type": "string",
+                                  "enum": [
+                                    "INDIVIDUAL",
+                                    "COMPANY"
+                                  ],
+                                  "description": "Represents document types for individuals or companies"
+                                }
+                              },
+                              "required": [
+                                "number",
+                                "type"
+                              ]
+                            },
+                            "address": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "state": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "city": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "zipCode": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "neighborhood": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "street": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "number": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "complement": {
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "id",
+                                "state",
+                                "city",
+                                "zipCode",
+                                "neighborhood",
+                                "street",
+                                "number"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "name",
+                            "email",
+                            "phone",
+                            "document",
+                            "address"
+                          ]
+                        },
+                        "status": {
+                          "default": "ACTIVE",
+                          "type": "string",
+                          "enum": [
+                            "TRIAL",
+                            "ACTIVE",
+                            "OVERDUE",
+                            "CANCELED"
+                          ]
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      },
+                      "required": [
+                        "subscriptionId",
+                        "workspaceId",
+                        "planId",
+                        "externalId",
+                        "amount",
+                        "paymentMethod",
+                        "debitCard",
+                        "deadline",
+                        "billingDueDate",
+                        "payer",
+                        "createdAt",
+                        "updatedAt"
+                      ]
                     }
-                  },
-                  "required": [
-                    "values"
                   ]
                 }
               }
@@ -9177,7 +9770,2926 @@
             }
           }
         },
-        "summary": "List Subscriptions",
+        "summary": "Get Subscription",
+        "tags": [
+          "Subscription"
+        ]
+      },
+      "post": {
+        "description": "Creates a new subscription.",
+        "operationId": "createSubscription",
+        "parameters": [
+          {
+            "name": "workspaceId",
+            "required": true,
+            "in": "path",
+            "description": "Unique identifier for workspace",
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "name": "fields",
+            "required": false,
+            "in": "query",
+            "description": "Comma-separated list of fields to return in the response.",
+            "schema": {
+              "example": "id,name,email",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "discriminator": {
+                  "propertyName": "paymentMethod"
+                },
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "subscriptionId": {
+                        "type": "string",
+                        "format": "uuid",
+                        "description": "Unique identifier for subscription"
+                      },
+                      "workspaceId": {
+                        "type": "string",
+                        "format": "uuid",
+                        "description": "Unique identifier for workspace"
+                      },
+                      "planId": {
+                        "type": "string",
+                        "format": "uuid",
+                        "description": "Unique identifier for plan"
+                      },
+                      "externalId": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "amount": {
+                        "type": "number",
+                        "minimum": 1
+                      },
+                      "paymentMethod": {
+                        "type": "string",
+                        "enum": [
+                          "CREDIT_CARD"
+                        ]
+                      },
+                      "creditCard": {
+                        "allOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "number": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "holderName": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "expirationDate": {
+                                "type": "string",
+                                "minLength": 5,
+                                "maxLength": 5,
+                                "example": "10/10"
+                              }
+                            },
+                            "required": [
+                              "number",
+                              "holderName",
+                              "expirationDate"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "cvv": {
+                                "type": "string",
+                                "minLength": 3,
+                                "maxLength": 4
+                              }
+                            },
+                            "required": [
+                              "cvv"
+                            ]
+                          }
+                        ]
+                      },
+                      "deadline": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "billingDueDate": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "canceledAt": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "format": "date-time"
+                      },
+                      "payer": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "email": {
+                            "type": "string",
+                            "minLength": 1,
+                            "format": "email",
+                            "example": "example@email.com"
+                          },
+                          "phone": {
+                            "type": "object",
+                            "properties": {
+                              "iso": {
+                                "type": "string",
+                                "minLength": 1,
+                                "description": "The ISO 3166-1 country code.",
+                                "example": "BR"
+                              },
+                              "ddi": {
+                                "type": "string",
+                                "minLength": 1,
+                                "description": "The international dialing code for the country, prefixed by the plus sign (+).",
+                                "example": "+55"
+                              },
+                              "number": {
+                                "type": "string",
+                                "minLength": 1
+                              }
+                            },
+                            "required": [
+                              "iso",
+                              "ddi",
+                              "number"
+                            ]
+                          },
+                          "document": {
+                            "type": "object",
+                            "properties": {
+                              "number": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "type": {
+                                "type": "string",
+                                "enum": [
+                                  "INDIVIDUAL",
+                                  "COMPANY"
+                                ],
+                                "description": "Represents document types for individuals or companies"
+                              }
+                            },
+                            "required": [
+                              "number",
+                              "type"
+                            ]
+                          },
+                          "address": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "state": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "city": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "zipCode": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "neighborhood": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "street": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "number": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "complement": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "state",
+                              "city",
+                              "zipCode",
+                              "neighborhood",
+                              "street",
+                              "number"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "name",
+                          "email",
+                          "phone",
+                          "document",
+                          "address"
+                        ]
+                      },
+                      "status": {
+                        "default": "ACTIVE",
+                        "type": "string",
+                        "enum": [
+                          "TRIAL",
+                          "ACTIVE",
+                          "OVERDUE",
+                          "CANCELED"
+                        ]
+                      },
+                      "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                      }
+                    },
+                    "required": [
+                      "subscriptionId",
+                      "workspaceId",
+                      "planId",
+                      "externalId",
+                      "amount",
+                      "paymentMethod",
+                      "creditCard",
+                      "deadline",
+                      "billingDueDate",
+                      "payer",
+                      "createdAt",
+                      "updatedAt"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "subscriptionId": {
+                        "type": "string",
+                        "format": "uuid",
+                        "description": "Unique identifier for subscription"
+                      },
+                      "workspaceId": {
+                        "type": "string",
+                        "format": "uuid",
+                        "description": "Unique identifier for workspace"
+                      },
+                      "planId": {
+                        "type": "string",
+                        "format": "uuid",
+                        "description": "Unique identifier for plan"
+                      },
+                      "externalId": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "amount": {
+                        "type": "number",
+                        "minimum": 1
+                      },
+                      "paymentMethod": {
+                        "type": "string",
+                        "enum": [
+                          "DEBIT_CARD"
+                        ]
+                      },
+                      "debitCard": {
+                        "allOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "number": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "holderName": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "expirationDate": {
+                                "type": "string",
+                                "minLength": 5,
+                                "maxLength": 5,
+                                "example": "10/10"
+                              }
+                            },
+                            "required": [
+                              "number",
+                              "holderName",
+                              "expirationDate"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "cvv": {
+                                "type": "string",
+                                "minLength": 3,
+                                "maxLength": 4
+                              }
+                            },
+                            "required": [
+                              "cvv"
+                            ]
+                          }
+                        ]
+                      },
+                      "deadline": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "billingDueDate": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "canceledAt": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "format": "date-time"
+                      },
+                      "payer": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "email": {
+                            "type": "string",
+                            "minLength": 1,
+                            "format": "email",
+                            "example": "example@email.com"
+                          },
+                          "phone": {
+                            "type": "object",
+                            "properties": {
+                              "iso": {
+                                "type": "string",
+                                "minLength": 1,
+                                "description": "The ISO 3166-1 country code.",
+                                "example": "BR"
+                              },
+                              "ddi": {
+                                "type": "string",
+                                "minLength": 1,
+                                "description": "The international dialing code for the country, prefixed by the plus sign (+).",
+                                "example": "+55"
+                              },
+                              "number": {
+                                "type": "string",
+                                "minLength": 1
+                              }
+                            },
+                            "required": [
+                              "iso",
+                              "ddi",
+                              "number"
+                            ]
+                          },
+                          "document": {
+                            "type": "object",
+                            "properties": {
+                              "number": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "type": {
+                                "type": "string",
+                                "enum": [
+                                  "INDIVIDUAL",
+                                  "COMPANY"
+                                ],
+                                "description": "Represents document types for individuals or companies"
+                              }
+                            },
+                            "required": [
+                              "number",
+                              "type"
+                            ]
+                          },
+                          "address": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "state": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "city": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "zipCode": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "neighborhood": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "street": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "number": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "complement": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "state",
+                              "city",
+                              "zipCode",
+                              "neighborhood",
+                              "street",
+                              "number"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "name",
+                          "email",
+                          "phone",
+                          "document",
+                          "address"
+                        ]
+                      },
+                      "status": {
+                        "default": "ACTIVE",
+                        "type": "string",
+                        "enum": [
+                          "TRIAL",
+                          "ACTIVE",
+                          "OVERDUE",
+                          "CANCELED"
+                        ]
+                      },
+                      "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                      }
+                    },
+                    "required": [
+                      "subscriptionId",
+                      "workspaceId",
+                      "planId",
+                      "externalId",
+                      "amount",
+                      "paymentMethod",
+                      "debitCard",
+                      "deadline",
+                      "billingDueDate",
+                      "payer",
+                      "createdAt",
+                      "updatedAt"
+                    ]
+                  }
+                ],
+                "properties": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "discriminator": {
+                    "propertyName": "paymentMethod"
+                  },
+                  "oneOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "subscriptionId": {
+                          "type": "string",
+                          "format": "uuid",
+                          "description": "Unique identifier for subscription"
+                        },
+                        "workspaceId": {
+                          "type": "string",
+                          "format": "uuid",
+                          "description": "Unique identifier for workspace"
+                        },
+                        "planId": {
+                          "type": "string",
+                          "format": "uuid",
+                          "description": "Unique identifier for plan"
+                        },
+                        "externalId": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "amount": {
+                          "type": "number",
+                          "minimum": 1
+                        },
+                        "paymentMethod": {
+                          "type": "string",
+                          "enum": [
+                            "CREDIT_CARD"
+                          ]
+                        },
+                        "creditCard": {
+                          "allOf": [
+                            {
+                              "type": "object",
+                              "properties": {
+                                "number": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "holderName": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "expirationDate": {
+                                  "type": "string",
+                                  "minLength": 5,
+                                  "maxLength": 5,
+                                  "example": "10/10"
+                                }
+                              },
+                              "required": [
+                                "number",
+                                "holderName",
+                                "expirationDate"
+                              ]
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "cvv": {
+                                  "type": "string",
+                                  "minLength": 3,
+                                  "maxLength": 4
+                                }
+                              },
+                              "required": [
+                                "cvv"
+                              ]
+                            }
+                          ]
+                        },
+                        "deadline": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "billingDueDate": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "canceledAt": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "format": "date-time"
+                        },
+                        "payer": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "email": {
+                              "type": "string",
+                              "minLength": 1,
+                              "format": "email",
+                              "example": "example@email.com"
+                            },
+                            "phone": {
+                              "type": "object",
+                              "properties": {
+                                "iso": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "description": "The ISO 3166-1 country code.",
+                                  "example": "BR"
+                                },
+                                "ddi": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "description": "The international dialing code for the country, prefixed by the plus sign (+).",
+                                  "example": "+55"
+                                },
+                                "number": {
+                                  "type": "string",
+                                  "minLength": 1
+                                }
+                              },
+                              "required": [
+                                "iso",
+                                "ddi",
+                                "number"
+                              ]
+                            },
+                            "document": {
+                              "type": "object",
+                              "properties": {
+                                "number": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "type": {
+                                  "type": "string",
+                                  "enum": [
+                                    "INDIVIDUAL",
+                                    "COMPANY"
+                                  ],
+                                  "description": "Represents document types for individuals or companies"
+                                }
+                              },
+                              "required": [
+                                "number",
+                                "type"
+                              ]
+                            },
+                            "address": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "state": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "city": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "zipCode": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "neighborhood": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "street": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "number": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "complement": {
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "id",
+                                "state",
+                                "city",
+                                "zipCode",
+                                "neighborhood",
+                                "street",
+                                "number"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "name",
+                            "email",
+                            "phone",
+                            "document",
+                            "address"
+                          ]
+                        },
+                        "status": {
+                          "default": "ACTIVE",
+                          "type": "string",
+                          "enum": [
+                            "TRIAL",
+                            "ACTIVE",
+                            "OVERDUE",
+                            "CANCELED"
+                          ]
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      },
+                      "required": [
+                        "subscriptionId",
+                        "workspaceId",
+                        "planId",
+                        "externalId",
+                        "amount",
+                        "paymentMethod",
+                        "creditCard",
+                        "deadline",
+                        "billingDueDate",
+                        "payer",
+                        "createdAt",
+                        "updatedAt"
+                      ]
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "subscriptionId": {
+                          "type": "string",
+                          "format": "uuid",
+                          "description": "Unique identifier for subscription"
+                        },
+                        "workspaceId": {
+                          "type": "string",
+                          "format": "uuid",
+                          "description": "Unique identifier for workspace"
+                        },
+                        "planId": {
+                          "type": "string",
+                          "format": "uuid",
+                          "description": "Unique identifier for plan"
+                        },
+                        "externalId": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "amount": {
+                          "type": "number",
+                          "minimum": 1
+                        },
+                        "paymentMethod": {
+                          "type": "string",
+                          "enum": [
+                            "DEBIT_CARD"
+                          ]
+                        },
+                        "debitCard": {
+                          "allOf": [
+                            {
+                              "type": "object",
+                              "properties": {
+                                "number": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "holderName": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "expirationDate": {
+                                  "type": "string",
+                                  "minLength": 5,
+                                  "maxLength": 5,
+                                  "example": "10/10"
+                                }
+                              },
+                              "required": [
+                                "number",
+                                "holderName",
+                                "expirationDate"
+                              ]
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "cvv": {
+                                  "type": "string",
+                                  "minLength": 3,
+                                  "maxLength": 4
+                                }
+                              },
+                              "required": [
+                                "cvv"
+                              ]
+                            }
+                          ]
+                        },
+                        "deadline": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "billingDueDate": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "canceledAt": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "format": "date-time"
+                        },
+                        "payer": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "email": {
+                              "type": "string",
+                              "minLength": 1,
+                              "format": "email",
+                              "example": "example@email.com"
+                            },
+                            "phone": {
+                              "type": "object",
+                              "properties": {
+                                "iso": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "description": "The ISO 3166-1 country code.",
+                                  "example": "BR"
+                                },
+                                "ddi": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "description": "The international dialing code for the country, prefixed by the plus sign (+).",
+                                  "example": "+55"
+                                },
+                                "number": {
+                                  "type": "string",
+                                  "minLength": 1
+                                }
+                              },
+                              "required": [
+                                "iso",
+                                "ddi",
+                                "number"
+                              ]
+                            },
+                            "document": {
+                              "type": "object",
+                              "properties": {
+                                "number": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "type": {
+                                  "type": "string",
+                                  "enum": [
+                                    "INDIVIDUAL",
+                                    "COMPANY"
+                                  ],
+                                  "description": "Represents document types for individuals or companies"
+                                }
+                              },
+                              "required": [
+                                "number",
+                                "type"
+                              ]
+                            },
+                            "address": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "state": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "city": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "zipCode": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "neighborhood": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "street": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "number": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "complement": {
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "id",
+                                "state",
+                                "city",
+                                "zipCode",
+                                "neighborhood",
+                                "street",
+                                "number"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "name",
+                            "email",
+                            "phone",
+                            "document",
+                            "address"
+                          ]
+                        },
+                        "status": {
+                          "default": "ACTIVE",
+                          "type": "string",
+                          "enum": [
+                            "TRIAL",
+                            "ACTIVE",
+                            "OVERDUE",
+                            "CANCELED"
+                          ]
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      },
+                      "required": [
+                        "subscriptionId",
+                        "workspaceId",
+                        "planId",
+                        "externalId",
+                        "amount",
+                        "paymentMethod",
+                        "debitCard",
+                        "deadline",
+                        "billingDueDate",
+                        "payer",
+                        "createdAt",
+                        "updatedAt"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 400
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Bad Request Error"
+                    },
+                    "issues": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": {
+                          "type": "string"
+                        }
+                      },
+                      "example": [
+                        {
+                          "propertyKey": "errorMessage"
+                        }
+                      ]
+                    }
+                  },
+                  "required": [
+                    "statusCode",
+                    "error",
+                    "issues"
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 500
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Internal Server Error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "..."
+                    },
+                    "metadata": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "statusCode",
+                    "error",
+                    "message"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create Subscription",
+        "tags": [
+          "Subscription"
+        ]
+      },
+      "delete": {
+        "description": "Cancels an existing subscription by its ID.",
+        "operationId": "cancelSubscription",
+        "parameters": [
+          {
+            "name": "workspaceId",
+            "required": true,
+            "in": "path",
+            "description": "Unique identifier for workspace",
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "name": "subscriptionId",
+            "required": true,
+            "in": "path",
+            "description": "Unique identifier for subscription",
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "name": "fields",
+            "required": false,
+            "in": "query",
+            "description": "Comma-separated list of fields to return in the response.",
+            "schema": {
+              "example": "id,name,email",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "discriminator": {
+                    "propertyName": "paymentMethod"
+                  },
+                  "oneOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "subscriptionId": {
+                          "type": "string",
+                          "format": "uuid",
+                          "description": "Unique identifier for subscription"
+                        },
+                        "workspaceId": {
+                          "type": "string",
+                          "format": "uuid",
+                          "description": "Unique identifier for workspace"
+                        },
+                        "planId": {
+                          "type": "string",
+                          "format": "uuid",
+                          "description": "Unique identifier for plan"
+                        },
+                        "externalId": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "amount": {
+                          "type": "number",
+                          "minimum": 1
+                        },
+                        "paymentMethod": {
+                          "type": "string",
+                          "enum": [
+                            "CREDIT_CARD"
+                          ]
+                        },
+                        "creditCard": {
+                          "allOf": [
+                            {
+                              "type": "object",
+                              "properties": {
+                                "number": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "holderName": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "expirationDate": {
+                                  "type": "string",
+                                  "minLength": 5,
+                                  "maxLength": 5,
+                                  "example": "10/10"
+                                }
+                              },
+                              "required": [
+                                "number",
+                                "holderName",
+                                "expirationDate"
+                              ]
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "cvv": {
+                                  "type": "string",
+                                  "minLength": 3,
+                                  "maxLength": 4
+                                }
+                              },
+                              "required": [
+                                "cvv"
+                              ]
+                            }
+                          ]
+                        },
+                        "deadline": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "billingDueDate": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "canceledAt": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "format": "date-time"
+                        },
+                        "payer": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "email": {
+                              "type": "string",
+                              "minLength": 1,
+                              "format": "email",
+                              "example": "example@email.com"
+                            },
+                            "phone": {
+                              "type": "object",
+                              "properties": {
+                                "iso": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "description": "The ISO 3166-1 country code.",
+                                  "example": "BR"
+                                },
+                                "ddi": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "description": "The international dialing code for the country, prefixed by the plus sign (+).",
+                                  "example": "+55"
+                                },
+                                "number": {
+                                  "type": "string",
+                                  "minLength": 1
+                                }
+                              },
+                              "required": [
+                                "iso",
+                                "ddi",
+                                "number"
+                              ]
+                            },
+                            "document": {
+                              "type": "object",
+                              "properties": {
+                                "number": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "type": {
+                                  "type": "string",
+                                  "enum": [
+                                    "INDIVIDUAL",
+                                    "COMPANY"
+                                  ],
+                                  "description": "Represents document types for individuals or companies"
+                                }
+                              },
+                              "required": [
+                                "number",
+                                "type"
+                              ]
+                            },
+                            "address": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "state": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "city": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "zipCode": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "neighborhood": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "street": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "number": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "complement": {
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "id",
+                                "state",
+                                "city",
+                                "zipCode",
+                                "neighborhood",
+                                "street",
+                                "number"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "name",
+                            "email",
+                            "phone",
+                            "document",
+                            "address"
+                          ]
+                        },
+                        "status": {
+                          "default": "ACTIVE",
+                          "type": "string",
+                          "enum": [
+                            "TRIAL",
+                            "ACTIVE",
+                            "OVERDUE",
+                            "CANCELED"
+                          ]
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      },
+                      "required": [
+                        "subscriptionId",
+                        "workspaceId",
+                        "planId",
+                        "externalId",
+                        "amount",
+                        "paymentMethod",
+                        "creditCard",
+                        "deadline",
+                        "billingDueDate",
+                        "payer",
+                        "createdAt",
+                        "updatedAt"
+                      ]
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "subscriptionId": {
+                          "type": "string",
+                          "format": "uuid",
+                          "description": "Unique identifier for subscription"
+                        },
+                        "workspaceId": {
+                          "type": "string",
+                          "format": "uuid",
+                          "description": "Unique identifier for workspace"
+                        },
+                        "planId": {
+                          "type": "string",
+                          "format": "uuid",
+                          "description": "Unique identifier for plan"
+                        },
+                        "externalId": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "amount": {
+                          "type": "number",
+                          "minimum": 1
+                        },
+                        "paymentMethod": {
+                          "type": "string",
+                          "enum": [
+                            "DEBIT_CARD"
+                          ]
+                        },
+                        "debitCard": {
+                          "allOf": [
+                            {
+                              "type": "object",
+                              "properties": {
+                                "number": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "holderName": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "expirationDate": {
+                                  "type": "string",
+                                  "minLength": 5,
+                                  "maxLength": 5,
+                                  "example": "10/10"
+                                }
+                              },
+                              "required": [
+                                "number",
+                                "holderName",
+                                "expirationDate"
+                              ]
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "cvv": {
+                                  "type": "string",
+                                  "minLength": 3,
+                                  "maxLength": 4
+                                }
+                              },
+                              "required": [
+                                "cvv"
+                              ]
+                            }
+                          ]
+                        },
+                        "deadline": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "billingDueDate": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "canceledAt": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "format": "date-time"
+                        },
+                        "payer": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "email": {
+                              "type": "string",
+                              "minLength": 1,
+                              "format": "email",
+                              "example": "example@email.com"
+                            },
+                            "phone": {
+                              "type": "object",
+                              "properties": {
+                                "iso": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "description": "The ISO 3166-1 country code.",
+                                  "example": "BR"
+                                },
+                                "ddi": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "description": "The international dialing code for the country, prefixed by the plus sign (+).",
+                                  "example": "+55"
+                                },
+                                "number": {
+                                  "type": "string",
+                                  "minLength": 1
+                                }
+                              },
+                              "required": [
+                                "iso",
+                                "ddi",
+                                "number"
+                              ]
+                            },
+                            "document": {
+                              "type": "object",
+                              "properties": {
+                                "number": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "type": {
+                                  "type": "string",
+                                  "enum": [
+                                    "INDIVIDUAL",
+                                    "COMPANY"
+                                  ],
+                                  "description": "Represents document types for individuals or companies"
+                                }
+                              },
+                              "required": [
+                                "number",
+                                "type"
+                              ]
+                            },
+                            "address": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "state": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "city": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "zipCode": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "neighborhood": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "street": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "number": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "complement": {
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "id",
+                                "state",
+                                "city",
+                                "zipCode",
+                                "neighborhood",
+                                "street",
+                                "number"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "name",
+                            "email",
+                            "phone",
+                            "document",
+                            "address"
+                          ]
+                        },
+                        "status": {
+                          "default": "ACTIVE",
+                          "type": "string",
+                          "enum": [
+                            "TRIAL",
+                            "ACTIVE",
+                            "OVERDUE",
+                            "CANCELED"
+                          ]
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      },
+                      "required": [
+                        "subscriptionId",
+                        "workspaceId",
+                        "planId",
+                        "externalId",
+                        "amount",
+                        "paymentMethod",
+                        "debitCard",
+                        "deadline",
+                        "billingDueDate",
+                        "payer",
+                        "createdAt",
+                        "updatedAt"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 400
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Bad Request Error"
+                    },
+                    "issues": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": {
+                          "type": "string"
+                        }
+                      },
+                      "example": [
+                        {
+                          "propertyKey": "errorMessage"
+                        }
+                      ]
+                    }
+                  },
+                  "required": [
+                    "statusCode",
+                    "error",
+                    "issues"
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 500
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Internal Server Error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "..."
+                    },
+                    "metadata": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "statusCode",
+                    "error",
+                    "message"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "summary": "Cancel Subscription",
+        "tags": [
+          "Subscription"
+        ]
+      }
+    },
+    "/v1/workspaces/{workspaceId}/subscriptions/{subscriptionId}/plan": {
+      "post": {
+        "description": "Updates plan of an existing subscription by its ID.",
+        "operationId": "changeSubscriptionPlan",
+        "parameters": [
+          {
+            "name": "workspaceId",
+            "required": true,
+            "in": "path",
+            "description": "Unique identifier for workspace",
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "name": "subscriptionId",
+            "required": true,
+            "in": "path",
+            "description": "Unique identifier for subscription",
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "name": "fields",
+            "required": false,
+            "in": "query",
+            "description": "Comma-separated list of fields to return in the response.",
+            "schema": {
+              "example": "id,name,email",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "discriminator": {
+                    "propertyName": "paymentMethod"
+                  },
+                  "oneOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "subscriptionId": {
+                          "type": "string",
+                          "format": "uuid",
+                          "description": "Unique identifier for subscription"
+                        },
+                        "workspaceId": {
+                          "type": "string",
+                          "format": "uuid",
+                          "description": "Unique identifier for workspace"
+                        },
+                        "planId": {
+                          "type": "string",
+                          "format": "uuid",
+                          "description": "Unique identifier for plan"
+                        },
+                        "externalId": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "amount": {
+                          "type": "number",
+                          "minimum": 1
+                        },
+                        "paymentMethod": {
+                          "type": "string",
+                          "enum": [
+                            "CREDIT_CARD"
+                          ]
+                        },
+                        "creditCard": {
+                          "allOf": [
+                            {
+                              "type": "object",
+                              "properties": {
+                                "number": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "holderName": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "expirationDate": {
+                                  "type": "string",
+                                  "minLength": 5,
+                                  "maxLength": 5,
+                                  "example": "10/10"
+                                }
+                              },
+                              "required": [
+                                "number",
+                                "holderName",
+                                "expirationDate"
+                              ]
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "cvv": {
+                                  "type": "string",
+                                  "minLength": 3,
+                                  "maxLength": 4
+                                }
+                              },
+                              "required": [
+                                "cvv"
+                              ]
+                            }
+                          ]
+                        },
+                        "deadline": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "billingDueDate": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "canceledAt": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "format": "date-time"
+                        },
+                        "payer": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "email": {
+                              "type": "string",
+                              "minLength": 1,
+                              "format": "email",
+                              "example": "example@email.com"
+                            },
+                            "phone": {
+                              "type": "object",
+                              "properties": {
+                                "iso": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "description": "The ISO 3166-1 country code.",
+                                  "example": "BR"
+                                },
+                                "ddi": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "description": "The international dialing code for the country, prefixed by the plus sign (+).",
+                                  "example": "+55"
+                                },
+                                "number": {
+                                  "type": "string",
+                                  "minLength": 1
+                                }
+                              },
+                              "required": [
+                                "iso",
+                                "ddi",
+                                "number"
+                              ]
+                            },
+                            "document": {
+                              "type": "object",
+                              "properties": {
+                                "number": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "type": {
+                                  "type": "string",
+                                  "enum": [
+                                    "INDIVIDUAL",
+                                    "COMPANY"
+                                  ],
+                                  "description": "Represents document types for individuals or companies"
+                                }
+                              },
+                              "required": [
+                                "number",
+                                "type"
+                              ]
+                            },
+                            "address": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "state": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "city": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "zipCode": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "neighborhood": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "street": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "number": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "complement": {
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "id",
+                                "state",
+                                "city",
+                                "zipCode",
+                                "neighborhood",
+                                "street",
+                                "number"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "name",
+                            "email",
+                            "phone",
+                            "document",
+                            "address"
+                          ]
+                        },
+                        "status": {
+                          "default": "ACTIVE",
+                          "type": "string",
+                          "enum": [
+                            "TRIAL",
+                            "ACTIVE",
+                            "OVERDUE",
+                            "CANCELED"
+                          ]
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      },
+                      "required": [
+                        "subscriptionId",
+                        "workspaceId",
+                        "planId",
+                        "externalId",
+                        "amount",
+                        "paymentMethod",
+                        "creditCard",
+                        "deadline",
+                        "billingDueDate",
+                        "payer",
+                        "createdAt",
+                        "updatedAt"
+                      ]
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "subscriptionId": {
+                          "type": "string",
+                          "format": "uuid",
+                          "description": "Unique identifier for subscription"
+                        },
+                        "workspaceId": {
+                          "type": "string",
+                          "format": "uuid",
+                          "description": "Unique identifier for workspace"
+                        },
+                        "planId": {
+                          "type": "string",
+                          "format": "uuid",
+                          "description": "Unique identifier for plan"
+                        },
+                        "externalId": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "amount": {
+                          "type": "number",
+                          "minimum": 1
+                        },
+                        "paymentMethod": {
+                          "type": "string",
+                          "enum": [
+                            "DEBIT_CARD"
+                          ]
+                        },
+                        "debitCard": {
+                          "allOf": [
+                            {
+                              "type": "object",
+                              "properties": {
+                                "number": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "holderName": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "expirationDate": {
+                                  "type": "string",
+                                  "minLength": 5,
+                                  "maxLength": 5,
+                                  "example": "10/10"
+                                }
+                              },
+                              "required": [
+                                "number",
+                                "holderName",
+                                "expirationDate"
+                              ]
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "cvv": {
+                                  "type": "string",
+                                  "minLength": 3,
+                                  "maxLength": 4
+                                }
+                              },
+                              "required": [
+                                "cvv"
+                              ]
+                            }
+                          ]
+                        },
+                        "deadline": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "billingDueDate": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "canceledAt": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "format": "date-time"
+                        },
+                        "payer": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "email": {
+                              "type": "string",
+                              "minLength": 1,
+                              "format": "email",
+                              "example": "example@email.com"
+                            },
+                            "phone": {
+                              "type": "object",
+                              "properties": {
+                                "iso": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "description": "The ISO 3166-1 country code.",
+                                  "example": "BR"
+                                },
+                                "ddi": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "description": "The international dialing code for the country, prefixed by the plus sign (+).",
+                                  "example": "+55"
+                                },
+                                "number": {
+                                  "type": "string",
+                                  "minLength": 1
+                                }
+                              },
+                              "required": [
+                                "iso",
+                                "ddi",
+                                "number"
+                              ]
+                            },
+                            "document": {
+                              "type": "object",
+                              "properties": {
+                                "number": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "type": {
+                                  "type": "string",
+                                  "enum": [
+                                    "INDIVIDUAL",
+                                    "COMPANY"
+                                  ],
+                                  "description": "Represents document types for individuals or companies"
+                                }
+                              },
+                              "required": [
+                                "number",
+                                "type"
+                              ]
+                            },
+                            "address": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "state": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "city": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "zipCode": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "neighborhood": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "street": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "number": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "complement": {
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "id",
+                                "state",
+                                "city",
+                                "zipCode",
+                                "neighborhood",
+                                "street",
+                                "number"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "name",
+                            "email",
+                            "phone",
+                            "document",
+                            "address"
+                          ]
+                        },
+                        "status": {
+                          "default": "ACTIVE",
+                          "type": "string",
+                          "enum": [
+                            "TRIAL",
+                            "ACTIVE",
+                            "OVERDUE",
+                            "CANCELED"
+                          ]
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      },
+                      "required": [
+                        "subscriptionId",
+                        "workspaceId",
+                        "planId",
+                        "externalId",
+                        "amount",
+                        "paymentMethod",
+                        "debitCard",
+                        "deadline",
+                        "billingDueDate",
+                        "payer",
+                        "createdAt",
+                        "updatedAt"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 400
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Bad Request Error"
+                    },
+                    "issues": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": {
+                          "type": "string"
+                        }
+                      },
+                      "example": [
+                        {
+                          "propertyKey": "errorMessage"
+                        }
+                      ]
+                    }
+                  },
+                  "required": [
+                    "statusCode",
+                    "error",
+                    "issues"
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 500
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Internal Server Error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "..."
+                    },
+                    "metadata": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "statusCode",
+                    "error",
+                    "message"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "summary": "Change Subscription Plan",
+        "tags": [
+          "Subscription"
+        ]
+      }
+    },
+    "/v1/workspaces/{workspaceId}/subscriptions/{subscriptionId}/payment-method": {
+      "post": {
+        "description": "Updates payment method of an existing subscription by its ID.",
+        "operationId": "changeSubscriptionPaymentMethod",
+        "parameters": [
+          {
+            "name": "workspaceId",
+            "required": true,
+            "in": "path",
+            "description": "Unique identifier for workspace",
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "name": "subscriptionId",
+            "required": true,
+            "in": "path",
+            "description": "Unique identifier for subscription",
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "name": "fields",
+            "required": false,
+            "in": "query",
+            "description": "Comma-separated list of fields to return in the response.",
+            "schema": {
+              "example": "id,name,email",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "discriminator": {
+                    "propertyName": "paymentMethod"
+                  },
+                  "oneOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "subscriptionId": {
+                          "type": "string",
+                          "format": "uuid",
+                          "description": "Unique identifier for subscription"
+                        },
+                        "workspaceId": {
+                          "type": "string",
+                          "format": "uuid",
+                          "description": "Unique identifier for workspace"
+                        },
+                        "planId": {
+                          "type": "string",
+                          "format": "uuid",
+                          "description": "Unique identifier for plan"
+                        },
+                        "externalId": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "amount": {
+                          "type": "number",
+                          "minimum": 1
+                        },
+                        "paymentMethod": {
+                          "type": "string",
+                          "enum": [
+                            "CREDIT_CARD"
+                          ]
+                        },
+                        "creditCard": {
+                          "allOf": [
+                            {
+                              "type": "object",
+                              "properties": {
+                                "number": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "holderName": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "expirationDate": {
+                                  "type": "string",
+                                  "minLength": 5,
+                                  "maxLength": 5,
+                                  "example": "10/10"
+                                }
+                              },
+                              "required": [
+                                "number",
+                                "holderName",
+                                "expirationDate"
+                              ]
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "cvv": {
+                                  "type": "string",
+                                  "minLength": 3,
+                                  "maxLength": 4
+                                }
+                              },
+                              "required": [
+                                "cvv"
+                              ]
+                            }
+                          ]
+                        },
+                        "deadline": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "billingDueDate": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "canceledAt": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "format": "date-time"
+                        },
+                        "payer": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "email": {
+                              "type": "string",
+                              "minLength": 1,
+                              "format": "email",
+                              "example": "example@email.com"
+                            },
+                            "phone": {
+                              "type": "object",
+                              "properties": {
+                                "iso": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "description": "The ISO 3166-1 country code.",
+                                  "example": "BR"
+                                },
+                                "ddi": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "description": "The international dialing code for the country, prefixed by the plus sign (+).",
+                                  "example": "+55"
+                                },
+                                "number": {
+                                  "type": "string",
+                                  "minLength": 1
+                                }
+                              },
+                              "required": [
+                                "iso",
+                                "ddi",
+                                "number"
+                              ]
+                            },
+                            "document": {
+                              "type": "object",
+                              "properties": {
+                                "number": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "type": {
+                                  "type": "string",
+                                  "enum": [
+                                    "INDIVIDUAL",
+                                    "COMPANY"
+                                  ],
+                                  "description": "Represents document types for individuals or companies"
+                                }
+                              },
+                              "required": [
+                                "number",
+                                "type"
+                              ]
+                            },
+                            "address": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "state": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "city": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "zipCode": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "neighborhood": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "street": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "number": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "complement": {
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "id",
+                                "state",
+                                "city",
+                                "zipCode",
+                                "neighborhood",
+                                "street",
+                                "number"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "name",
+                            "email",
+                            "phone",
+                            "document",
+                            "address"
+                          ]
+                        },
+                        "status": {
+                          "default": "ACTIVE",
+                          "type": "string",
+                          "enum": [
+                            "TRIAL",
+                            "ACTIVE",
+                            "OVERDUE",
+                            "CANCELED"
+                          ]
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      },
+                      "required": [
+                        "subscriptionId",
+                        "workspaceId",
+                        "planId",
+                        "externalId",
+                        "amount",
+                        "paymentMethod",
+                        "creditCard",
+                        "deadline",
+                        "billingDueDate",
+                        "payer",
+                        "createdAt",
+                        "updatedAt"
+                      ]
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "subscriptionId": {
+                          "type": "string",
+                          "format": "uuid",
+                          "description": "Unique identifier for subscription"
+                        },
+                        "workspaceId": {
+                          "type": "string",
+                          "format": "uuid",
+                          "description": "Unique identifier for workspace"
+                        },
+                        "planId": {
+                          "type": "string",
+                          "format": "uuid",
+                          "description": "Unique identifier for plan"
+                        },
+                        "externalId": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "amount": {
+                          "type": "number",
+                          "minimum": 1
+                        },
+                        "paymentMethod": {
+                          "type": "string",
+                          "enum": [
+                            "DEBIT_CARD"
+                          ]
+                        },
+                        "debitCard": {
+                          "allOf": [
+                            {
+                              "type": "object",
+                              "properties": {
+                                "number": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "holderName": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "expirationDate": {
+                                  "type": "string",
+                                  "minLength": 5,
+                                  "maxLength": 5,
+                                  "example": "10/10"
+                                }
+                              },
+                              "required": [
+                                "number",
+                                "holderName",
+                                "expirationDate"
+                              ]
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "cvv": {
+                                  "type": "string",
+                                  "minLength": 3,
+                                  "maxLength": 4
+                                }
+                              },
+                              "required": [
+                                "cvv"
+                              ]
+                            }
+                          ]
+                        },
+                        "deadline": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "billingDueDate": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "canceledAt": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "format": "date-time"
+                        },
+                        "payer": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "email": {
+                              "type": "string",
+                              "minLength": 1,
+                              "format": "email",
+                              "example": "example@email.com"
+                            },
+                            "phone": {
+                              "type": "object",
+                              "properties": {
+                                "iso": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "description": "The ISO 3166-1 country code.",
+                                  "example": "BR"
+                                },
+                                "ddi": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "description": "The international dialing code for the country, prefixed by the plus sign (+).",
+                                  "example": "+55"
+                                },
+                                "number": {
+                                  "type": "string",
+                                  "minLength": 1
+                                }
+                              },
+                              "required": [
+                                "iso",
+                                "ddi",
+                                "number"
+                              ]
+                            },
+                            "document": {
+                              "type": "object",
+                              "properties": {
+                                "number": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "type": {
+                                  "type": "string",
+                                  "enum": [
+                                    "INDIVIDUAL",
+                                    "COMPANY"
+                                  ],
+                                  "description": "Represents document types for individuals or companies"
+                                }
+                              },
+                              "required": [
+                                "number",
+                                "type"
+                              ]
+                            },
+                            "address": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "state": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "city": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "zipCode": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "neighborhood": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "street": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "number": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "complement": {
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "id",
+                                "state",
+                                "city",
+                                "zipCode",
+                                "neighborhood",
+                                "street",
+                                "number"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "name",
+                            "email",
+                            "phone",
+                            "document",
+                            "address"
+                          ]
+                        },
+                        "status": {
+                          "default": "ACTIVE",
+                          "type": "string",
+                          "enum": [
+                            "TRIAL",
+                            "ACTIVE",
+                            "OVERDUE",
+                            "CANCELED"
+                          ]
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      },
+                      "required": [
+                        "subscriptionId",
+                        "workspaceId",
+                        "planId",
+                        "externalId",
+                        "amount",
+                        "paymentMethod",
+                        "debitCard",
+                        "deadline",
+                        "billingDueDate",
+                        "payer",
+                        "createdAt",
+                        "updatedAt"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 400
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Bad Request Error"
+                    },
+                    "issues": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": {
+                          "type": "string"
+                        }
+                      },
+                      "example": [
+                        {
+                          "propertyKey": "errorMessage"
+                        }
+                      ]
+                    }
+                  },
+                  "required": [
+                    "statusCode",
+                    "error",
+                    "issues"
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 500
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Internal Server Error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "..."
+                    },
+                    "metadata": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "statusCode",
+                    "error",
+                    "message"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "summary": "Change Subscription Payment Method",
         "tags": [
           "Subscription"
         ]
@@ -11770,6 +15282,10 @@
     {
       "name": "Auth",
       "description": "Provides functionalities for user authentication."
+    },
+    {
+      "name": "Invoice",
+      "description": "Handles operations for managing and retrieving invoices."
     },
     {
       "name": "Storage",

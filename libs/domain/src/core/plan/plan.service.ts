@@ -1,4 +1,5 @@
 import { Injectable, Inject } from '@nestjs/common'
+import { uuid } from '@starter/common'
 
 import { IPlanRepository } from '@/ports/database/plan'
 import { RecurrenceService } from '@/adapters/recurrence'
@@ -20,10 +21,16 @@ export class PlanService implements IPlanService {
   }
 
   createPlan: IPlanService['createPlan'] = async (input) => {
-    const recurrencePlan = await this.recurrenceService.createPlan({})
+    const planId = uuid()
+
+    const recurrencePlan = await this.recurrenceService.createPlan({
+      ...input,
+      referenceId: planId,
+    })
 
     return this.planRepository.create({
       ...input,
+      planId,
       externalId: recurrencePlan.planId,
     })
   }
@@ -31,7 +38,10 @@ export class PlanService implements IPlanService {
   updatePlan: IPlanService['updatePlan'] = async (planId, input) => {
     const plan = await this.planRepository.findById(planId)
 
-    await this.recurrenceService.updatePlan({})
+    await this.recurrenceService.updatePlan({
+      planId,
+      ...input,
+    })
 
     return this.planRepository.updateById(plan.state.planId, input)
   }
@@ -39,7 +49,9 @@ export class PlanService implements IPlanService {
   deletePlan: IPlanService['deletePlan'] = async (planId) => {
     const plan = await this.planRepository.findById(planId)
 
-    await this.recurrenceService.cancelPlan({})
+    await this.recurrenceService.cancelPlan({
+      planId,
+    })
 
     plan.markAsDeleted()
 

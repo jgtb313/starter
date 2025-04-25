@@ -1,6 +1,6 @@
 import { Pagination, PaginationOutput } from '@starter/schema'
 
-import { Workspace, BaseWorkspace } from '@/schemas'
+import { Workspace, BaseWorkspace } from '@/core/workspace/workspace.schema'
 
 export type IWorkspaceRepository = {
   findAllPaginated(input: Pagination<Workspace>): Promise<PaginationOutput<Workspace>>

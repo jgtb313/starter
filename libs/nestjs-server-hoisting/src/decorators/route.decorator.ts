@@ -3,7 +3,7 @@ import { HttpCode, Get, Post, Put, Patch, Delete, Version, applyDecorators } fro
 import { GUARDS_METADATA } from '@nestjs/common/constants'
 import { ApiOperation, ApiBearerAuth, ApiHeader, ApiParam, ApiQuery, ApiBody, ApiResponse } from '@nestjs/swagger'
 import { UseZodGuard } from 'nestjs-zod'
-import { z, zodSchemaToOpenAPi } from '@starter/schema'
+import { z } from '@starter/schema'
 import { get } from '@starter/common'
 
 import { RouteOptions, HttpStatus, HttpStatusErrorResponses } from '@/interfaces'
@@ -24,48 +24,48 @@ const httpResponsesDescriptions: Record<HttpStatus, string> = {
 const ErrorSchema = {
   400: () =>
     z.object({
-      statusCode: z.number().openapi({ example: 400 }),
-      error: z.string().openapi({ example: 'Bad Request Error' }),
-      issues: z.array(z.record(z.string(), z.string())).openapi({ example: [{ propertyKey: 'errorMessage' }] }),
+      statusCode: z.number().meta({ example: 400 }),
+      error: z.string().meta({ example: 'Bad Request Error' }),
+      issues: z.array(z.record(z.string(), z.string())).meta({ example: [{ propertyKey: 'errorMessage' }] }),
     }),
 
   401: (message: string) =>
     z.object({
-      statusCode: z.number().openapi({ example: 401 }),
-      error: z.string().openapi({ example: 'Unauthorized Error' }),
-      message: z.string().openapi({ example: message }),
+      statusCode: z.number().meta({ example: 401 }),
+      error: z.string().meta({ example: 'Unauthorized Error' }),
+      message: z.string().meta({ example: message }),
       metadata: z.record(z.string(), z.string()).optional(),
     }),
 
   403: (message: string) =>
     z.object({
-      statusCode: z.number().openapi({ example: 403 }),
-      error: z.string().openapi({ example: 'Forbidden Error' }),
-      message: z.string().openapi({ example: message }),
+      statusCode: z.number().meta({ example: 403 }),
+      error: z.string().meta({ example: 'Forbidden Error' }),
+      message: z.string().meta({ example: message }),
       metadata: z.record(z.string(), z.string()).optional(),
     }),
 
   404: (message: string) =>
     z.object({
-      statusCode: z.number().openapi({ example: 404 }),
-      error: z.string().openapi({ example: 'Not Found Error' }),
-      message: z.string().openapi({ example: message }),
+      statusCode: z.number().meta({ example: 404 }),
+      error: z.string().meta({ example: 'Not Found Error' }),
+      message: z.string().meta({ example: message }),
       metadata: z.record(z.string(), z.string()).optional(),
     }),
 
   409: (message: string) =>
     z.object({
-      statusCode: z.number().openapi({ example: 409 }),
-      error: z.string().openapi({ example: 'Confict Error' }),
-      message: z.string().openapi({ example: message }),
+      statusCode: z.number().meta({ example: 409 }),
+      error: z.string().meta({ example: 'Confict Error' }),
+      message: z.string().meta({ example: message }),
       metadata: z.record(z.string(), z.string()).optional(),
     }),
 
   500: (message: string) =>
     z.object({
-      statusCode: z.number().openapi({ example: 500 }),
-      error: z.string().openapi({ example: 'Internal Server Error' }),
-      message: z.string().openapi({ example: message }),
+      statusCode: z.number().meta({ example: 500 }),
+      error: z.string().meta({ example: 'Internal Server Error' }),
+      message: z.string().meta({ example: message }),
       metadata: z.record(z.string(), z.string()).optional(),
     }),
 }
@@ -104,7 +104,7 @@ export const Route = (options: RouteOptions): MethodDecorator => {
     if (options.parameters.body) decorators.push(UseZodGuard('body', options.parameters.body))
 
     if (options.parameters.query) {
-      const openApiSchema = zodSchemaToOpenAPi(options.parameters.query)
+      const openApiSchema = z.toJSONSchema(options.parameters.query)
 
       Object.entries(openApiSchema.properties ?? {})
         .sort(([a], [b]) => (a === 'filter' ? -1 : b === 'filter' ? 1 : 0))
@@ -113,26 +113,26 @@ export const Route = (options: RouteOptions): MethodDecorator => {
             ApiQuery({
               ...(prop as {}),
               name,
-              required: !!openApiSchema.required?.includes(name),
+              // required: !!openApiSchema.required?.includes(name),
             }),
           )
         })
     }
     if (options.parameters.params) {
-      const openApiSchema = zodSchemaToOpenAPi(options.parameters.params)
+      const openApiSchema = z.toJSONSchema(options.parameters.params)
 
       Object.entries(openApiSchema.properties ?? {}).forEach(([name, prop]) => {
         decorators.push(
           ApiParam({
             ...(prop as {}),
             name,
-            required: !!openApiSchema.required?.includes(name),
+            // required: !!openApiSchema.required?.includes(name),
           }),
         )
       })
     }
     if (options.parameters.body) {
-      const openApiSchema = zodSchemaToOpenAPi(options.parameters.body)
+      const openApiSchema = z.toJSONSchema(options.parameters.body)
 
       decorators.push(
         ApiBody({
@@ -174,15 +174,15 @@ export const Route = (options: RouteOptions): MethodDecorator => {
             content: {
               'application/json': {
                 schema: isHttpResponseError(httpResponse)
-                  ? zodSchemaToOpenAPi(ErrorSchema[httpResponse](httpResponsesDescriptions[httpResponse]))
+                  ? z.toJSONSchema(ErrorSchema[httpResponse](httpResponsesDescriptions[httpResponse]))
                   : undefined,
                 examples: Object.fromEntries(
                   value.map((item) => [
                     'description' in item ? item.description : httpResponsesDescriptions[httpResponse],
                     'schema' in item
-                      ? zodSchemaToOpenAPi(item.schema)
+                      ? z.toJSONSchema(item.schema)
                       : isHttpResponseError(httpResponse)
-                        ? zodSchemaToOpenAPi(ErrorSchema[httpResponse](item.description))
+                        ? z.toJSONSchema(ErrorSchema[httpResponse](item.description))
                         : {},
                   ]),
                 ),
@@ -199,9 +199,9 @@ export const Route = (options: RouteOptions): MethodDecorator => {
               'application/json': {
                 schema:
                   'schema' in value
-                    ? zodSchemaToOpenAPi(value.schema)
+                    ? z.toJSONSchema(value.schema)
                     : isHttpResponseError(httpResponse)
-                      ? zodSchemaToOpenAPi(ErrorSchema[httpResponse](value.description))
+                      ? z.toJSONSchema(ErrorSchema[httpResponse](value.description))
                       : undefined,
               },
             },
@@ -216,7 +216,7 @@ export const Route = (options: RouteOptions): MethodDecorator => {
         description: httpResponsesDescriptions[400],
         content: {
           'application/json': {
-            schema: zodSchemaToOpenAPi(ErrorSchema[400]()),
+            schema: z.toJSONSchema(ErrorSchema[400]()),
           },
         },
       }),
@@ -227,7 +227,7 @@ export const Route = (options: RouteOptions): MethodDecorator => {
         description: httpResponsesDescriptions[500],
         content: {
           'application/json': {
-            schema: zodSchemaToOpenAPi(ErrorSchema[500]('...')),
+            schema: z.toJSONSchema(ErrorSchema[500]('...')),
           },
         },
       }),

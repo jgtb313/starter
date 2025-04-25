@@ -1,7 +1,7 @@
 import { Pagination, PaginationOutput } from '@starter/schema'
 
-import { Organization, BaseOrganization } from '@/schemas'
 import { createWorkspaceReference, WithWorkspaceReference } from '@/support/workspace-reference'
+import { Organization, BaseOrganization } from '@/core/organization/organization.schema'
 
 export type OrganizationWorkspaceReference = WithWorkspaceReference<'organizationId'>
 

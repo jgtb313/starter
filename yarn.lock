@@ -5701,6 +5701,11 @@
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
 
+"@zod/core@0.9.0":
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/@zod/core/-/core-0.9.0.tgz#53dfa0a61916cf7e53980ecbd9681e57362edcd1"
+  integrity sha512-bVfPiV2kDUkAJ4ArvV4MHcPZA8y3xOX6/SjzSy2kX2ACopbaaAP4wk6hd/byRmfi9MLNai+4SFJMmcATdOyclg==
+
 abort-controller@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/abort-controller/-/abort-controller-3.0.0.tgz#eaf54d53b62bae4138e809ca225c8439a6efb392"
@@ -14478,10 +14483,12 @@ zod-i18n-map@^2.27.0:
   resolved "https://registry.yarnpkg.com/zod-i18n-map/-/zod-i18n-map-2.27.0.tgz#ad4e7f702de4d1f49e3edc79c1ac147a56f17152"
   integrity sha512-ORu9XpiVh3WDiEUs5Cr9siGgnpeODoBsTIgSD8sQCH9B//f9KowlzqHUEdPYb3vFonaSH8yPvPCOFM4niwp3Sg==
 
-zod@3.23.8:
-  version "3.23.8"
-  resolved "https://registry.yarnpkg.com/zod/-/zod-3.23.8.tgz#e37b957b5d52079769fb8097099b592f0ef4067d"
-  integrity sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==
+zod@^4.0.0-beta.20250424T163858:
+  version "4.0.0-beta.20250424T163858"
+  resolved "https://registry.yarnpkg.com/zod/-/zod-4.0.0-beta.20250424T163858.tgz#182eed707f41dc1aa3524ad79b171ce780cd926a"
+  integrity sha512-fKhW+lEJnfUGo0fvQjmam39zUytARR2UdCEh7/OXJSBbKScIhD343K74nW+UUHu/r6dkzN6Uc/GqwogFjzpCXg==
+  dependencies:
+    "@zod/core" "0.9.0"
 
 zustand@^5.0.3:
   version "5.0.3"

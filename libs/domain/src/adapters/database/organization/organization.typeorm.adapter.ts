@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { DataSource, Repository, ILike, In, FindOptionsWhere } from 'typeorm'
 
-import { OrganizationSchema } from '@/schemas'
+import { OrganizationSchema } from '@/core/organization/organization.schema'
 import { PaginationService } from '@/support/pagination'
 import { IOrganizationRepository } from '@/ports/database/organization'
 import { OrganizationEntity } from './organization.typeorm.entity'

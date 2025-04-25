@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { DataSource, Repository, FindOptionsWhere } from 'typeorm'
 
-import { SubscriptionSchema } from '@/schemas'
+import { SubscriptionSchema } from '@/core/subscription/subscription.schema'
 import { PaginationService } from '@/support/pagination'
 import { ISubscriptionRepository } from '@/ports/database/subscription'
 import { SubscriptionEntity } from './subscription.typeorm.entity'

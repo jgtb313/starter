@@ -1,6 +1,7 @@
 import { Controller, Route } from '@starter/nestjs-server-hoisting'
-import { PERMISSION_SUBJECT_ACTIONS } from '@starter/domain'
 import { z } from '@starter/schema'
+
+import { PERMISSION_SUBJECT_ACTIONS } from '@/support/access-control/permission'
 
 @Controller({
   name: 'Permission',

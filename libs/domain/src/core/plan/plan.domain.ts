@@ -2,7 +2,8 @@ import { ConflictException } from '@starter/nestjs-error-handling'
 import { addDays, addWeeks, addMonths, addYears } from '@starter/common'
 
 import { BaseDomain } from '@/support/base-domain'
-import { PlanSchema, Plan, PlanIntervalEnum, PlanStatusEnum } from '@/core/plan/plan.schema'
+import { RecurrenceIntervalEnum } from '@/ports/recurrence'
+import { PlanSchema, Plan, PlanStatusEnum } from '@/core/plan/plan.schema'
 
 export class PlanDomain extends BaseDomain<Plan> {
   constructor(plan: Plan) {
@@ -21,16 +22,16 @@ export class PlanDomain extends BaseDomain<Plan> {
     return !!this.state.deletedAt
   }
 
-  signable() {
+  isSignable() {
     return this.isActive()
   }
 
   getMonthlyRevenue() {
     const intervals = {
-      [PlanIntervalEnum.DAY]: this.state.amount * 31,
-      [PlanIntervalEnum.WEEK]: this.state.amount * 4,
-      [PlanIntervalEnum.MONTH]: this.state.amount * 1,
-      [PlanIntervalEnum.YEAR]: Math.ceil(this.state.amount / 12),
+      [RecurrenceIntervalEnum.DAY]: this.state.amount * 31,
+      [RecurrenceIntervalEnum.WEEK]: this.state.amount * 4,
+      [RecurrenceIntervalEnum.MONTH]: this.state.amount * 1,
+      [RecurrenceIntervalEnum.YEAR]: Math.ceil(this.state.amount / 12),
     }
 
     return intervals[this.state.interval]
@@ -38,10 +39,10 @@ export class PlanDomain extends BaseDomain<Plan> {
 
   nextBillingDate(lastBillingDate: Date) {
     const intervals = {
-      [PlanIntervalEnum.DAY]: addDays(new Date(lastBillingDate), this.state.intervalCount),
-      [PlanIntervalEnum.WEEK]: addWeeks(new Date(lastBillingDate), this.state.intervalCount),
-      [PlanIntervalEnum.MONTH]: addMonths(new Date(lastBillingDate), this.state.intervalCount),
-      [PlanIntervalEnum.YEAR]: addYears(new Date(lastBillingDate), this.state.intervalCount),
+      [RecurrenceIntervalEnum.DAY]: addDays(new Date(lastBillingDate), this.state.intervalCount),
+      [RecurrenceIntervalEnum.WEEK]: addWeeks(new Date(lastBillingDate), this.state.intervalCount),
+      [RecurrenceIntervalEnum.MONTH]: addMonths(new Date(lastBillingDate), this.state.intervalCount),
+      [RecurrenceIntervalEnum.YEAR]: addYears(new Date(lastBillingDate), this.state.intervalCount),
     }
 
     return intervals[this.state.interval]
@@ -64,7 +65,7 @@ export class PlanDomain extends BaseDomain<Plan> {
   }
 
   checkIfIsSignable() {
-    if (this.signable()) {
+    if (this.isSignable()) {
       return
     }
 

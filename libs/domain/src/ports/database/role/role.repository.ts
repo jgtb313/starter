@@ -1,6 +1,6 @@
 import { Pagination, PaginationOutput } from '@starter/schema'
 
-import { Role, BaseRole } from '@/schemas'
+import { Role, BaseRole } from '@/core/role/role.schema'
 
 export type IRoleRepository = {
   findAllPaginated(input: Pagination<Role>): Promise<PaginationOutput<Role>>

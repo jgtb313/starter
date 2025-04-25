@@ -1,18 +1,21 @@
-import { z, PaginationSchema, BasePaginationSchemaOutput } from '@starter/schema'
-import { SubscriptionSchema } from '@starter/domain'
+import { createRequestSchema, RequestInput } from '@starter/nestjs-server-hoisting'
+import { ID, SubscriptionSchema } from '@starter/domain'
+import { z } from '@starter/schema'
 
-export const ListSubscriptionsSchema = z
-  .object({
-    // status: true,
-  })
-  .partial()
-  .merge(
-    z
-      .object({
-        // filter: FilterSchema(['name', 'email'], { example: 'John Doe' }),
-      })
-      .partial(),
-  )
-  .merge(PaginationSchema)
-export const ListSubscriptionsSchemaOutput = BasePaginationSchemaOutput.merge(z.object({ values: z.array(SubscriptionSchema) }))
-export type ListSubscriptionsInput = z.infer<typeof ListSubscriptionsSchema>
+export const GetSubscriptionSchema = createRequestSchema({
+  params: z.object({
+    workspaceId: ID('workspace'),
+    subscriptionId: ID('subscription'),
+  }),
+  output: SubscriptionSchema,
+})
+export type GetSubscriptionRequest = RequestInput<typeof GetSubscriptionSchema>
+
+export const CreateSubscriptionSchema = createRequestSchema({
+  params: z.object({
+    workspaceId: ID('workspace'),
+  }),
+  body: SubscriptionSchema,
+  output: SubscriptionSchema,
+})
+export type CreateSubscriptionRequest = RequestInput<typeof CreateSubscriptionSchema>

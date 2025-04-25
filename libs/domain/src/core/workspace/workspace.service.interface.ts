@@ -1,6 +1,7 @@
 import { Pagination, PaginationOutput } from '@starter/schema'
 
-import { User, Workspace, BaseWorkspace } from '@/schemas'
+import { User } from '@/core/user/user.schema'
+import { Workspace, BaseWorkspace } from '@/core/workspace/workspace.schema'
 
 export interface IWorkspaceService {
   getPaginatedWorkspaces(input: Pagination<Workspace>): Promise<PaginationOutput<Workspace>>

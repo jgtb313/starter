@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { DataSource, Repository, ILike, FindOptionsWhere } from 'typeorm'
 
-import { WorkspaceSchema } from '@/schemas/workspace.schema'
+import { WorkspaceSchema } from '@/core/workspace/workspace.schema'
 import { PaginationService } from '@/support/pagination'
 import { IWorkspaceRepository } from '@/ports/database/workspace'
 import { WorkspaceEntity } from './workspace.typeorm.entity'

@@ -1,11 +1,12 @@
 import { Injectable, Inject, forwardRef } from '@nestjs/common'
 import { BadRequestException, ConflictException, AclForbiddenException } from '@starter/nestjs-error-handling'
 
-import { User, Workspace } from '@/schemas'
 import { IUserRepository } from '@/ports/database/user'
 import { EncryptService } from '@/adapters/encrypt'
+import { Workspace } from '@/core/workspace/workspace.schema'
 import { WorkspaceService } from '@/core/workspace/workspace.service'
 import { RoleService } from '@/core/role/role.service'
+import { User } from '@/core/user/user.schema'
 import { getUserWorkspaceReference, IUserService } from '@/core/user/user.service.interface'
 
 @Injectable()

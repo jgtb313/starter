@@ -1,6 +1,6 @@
 import { Pagination, PaginationOutput } from '@starter/schema'
 
-import { User, BaseUser } from '@/schemas'
+import { User, BaseUser } from '@/core/user/user.schema'
 
 export type IUserRepository = {
   findAllPaginated(input: Pagination<User>): Promise<PaginationOutput<User>>

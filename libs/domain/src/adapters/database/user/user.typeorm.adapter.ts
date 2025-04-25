@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { DataSource, Repository, ILike, FindOptionsWhere } from 'typeorm'
 
-import { UserSchema } from '@/schemas'
+import { UserSchema } from '@/core/user/user.schema'
 import { PaginationService } from '@/support/pagination'
 import { IUserRepository } from '@/ports/database/user'
 import { UserEntity } from '@/adapters/database/user/user.typeorm.entity'

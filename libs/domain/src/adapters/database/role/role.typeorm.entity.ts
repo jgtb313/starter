@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm'
 
-import { Role, RoleStatusEnum } from '@/schemas'
+import { Role, RoleStatusEnum } from '@/core/role/role.schema'
 
 @Entity('roles')
 export class RoleEntity {

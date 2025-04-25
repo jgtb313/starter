@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm'
 
-import { Organization, OrganizationStatusEnum } from '@/schemas'
+import { Organization, OrganizationStatusEnum } from '@/core/organization/organization.schema'
 
 @Entity('organizations')
 export class OrganizationEntity {

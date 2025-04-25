@@ -1,4 +1,5 @@
 import { PaymentCard, Pix, Boleto } from '@starter/schema'
+
 import { Invoice } from '@/core/invoice/invoice.schema'
 
 export enum RecurrenceIntervalEnum {
@@ -54,9 +55,6 @@ export type RecurrenceUpdatePlanInput = {
   planId: string
   name?: string
   description?: string
-  amount?: number
-  interval?: RecurrenceIntervalEnum
-  intervalCount?: number
   trialDays?: number
 }
 export type RecurrenceUpdatePlanOutput = void
@@ -73,7 +71,7 @@ export type RecurrenceCreateSubscriptionInput = {
 } & RecurrencePaymentMethodInput
 export type RecurrenceCreateSubscriptionOutput = {
   subscriptionId: string
-  invoice: Pick<Invoice, 'externalId' | 'amount' | 'paymentMethod' | 'billingDueDate' | 'status'>
+  invoice: Pick<Invoice, 'externalId' | 'amount' | 'paymentMethod' | 'dueDate' | 'status'>
 }
 
 export type RecurrenceChangeSubscriptionPaymentMethodInput = {
@@ -81,7 +79,7 @@ export type RecurrenceChangeSubscriptionPaymentMethodInput = {
 } & RecurrencePaymentMethodInput
 export type RecurrenceChangeSubscriptionPaymentMethodOutput = {
   subscriptionId: string
-  invoice?: Pick<Invoice, 'externalId' | 'amount' | 'paymentMethod' | 'billingDueDate' | 'status'>
+  invoice?: Pick<Invoice, 'externalId' | 'amount' | 'paymentMethod' | 'dueDate' | 'status'>
 }
 
 export type RecurrenceChangeSubscriptionPlanInput = {
@@ -90,7 +88,7 @@ export type RecurrenceChangeSubscriptionPlanInput = {
 }
 export type RecurrenceChangeSubscriptionPlanOutput = {
   subscriptionId: string
-  invoice?: Pick<Invoice, 'externalId' | 'amount' | 'paymentMethod' | 'billingDueDate' | 'status'>
+  invoice?: Pick<Invoice, 'externalId' | 'amount' | 'paymentMethod' | 'dueDate' | 'status'>
 }
 
 export type RecurrenceCancelSubscriptionInput = {

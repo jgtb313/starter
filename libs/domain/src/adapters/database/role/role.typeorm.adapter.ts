@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { DataSource, Repository, ILike, In, FindOptionsWhere } from 'typeorm'
 
-import { RoleSchema } from '@/schemas'
+import { RoleSchema } from '@/core/role/role.schema'
 import { PaginationService } from '@/support/pagination'
 import { IRoleRepository } from '@/ports/database/role'
 import { RoleEntity } from './role.typeorm.entity'

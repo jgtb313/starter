@@ -69,11 +69,11 @@ const UserId = ID('user')
   .nullish()
   .transform((value) => value ?? null)
 
-const OTPChannelSchema = z.nativeEnum(OTPChannelEnum).openapi({
+const OTPChannelSchema = z.nativeEnum(OTPChannelEnum).meta({
   example: OTPChannelEnum['EMAIL'],
 })
 
-const OTPContextSchema = z.nativeEnum(OTPContextEnum).openapi({
+const OTPContextSchema = z.nativeEnum(OTPContextEnum).meta({
   example: OTPContextEnum['UPDATE_EMAIL'],
 })
 

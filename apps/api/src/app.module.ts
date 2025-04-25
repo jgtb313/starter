@@ -6,6 +6,7 @@ import { AuthGuardModule } from '@/support/guards'
 import { ACLModule } from '@/support/access-control'
 
 import { AuthModule } from '@/core/auth'
+import { InvoiceModule } from '@/core/invoice'
 import { StorageModule } from '@/core/storage'
 import { OrganizationModule } from '@/core/organization'
 import { OTPModule } from '@/core/otp'
@@ -32,6 +33,7 @@ import { WorkspaceModule } from '@/core/workspace'
     }),
 
     AuthModule,
+    InvoiceModule,
     StorageModule,
     OrganizationModule,
     OTPModule,

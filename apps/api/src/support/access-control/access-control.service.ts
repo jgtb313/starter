@@ -1,8 +1,10 @@
 import { Injectable } from '@nestjs/common'
 import { AclForbiddenException } from '@starter/nestjs-error-handling'
-import { PERMISSION_SUBJECT_ACTIONS, User, Permission, PermissionSubjects, PermissionActions } from '@starter/domain'
+import { User } from '@starter/domain'
 import { AbilityBuilder, subject as subjectFactory, Ability, MongoQuery } from '@casl/ability'
 import { AnyObject } from '@casl/ability/dist/types/types'
+
+import { PERMISSION_SUBJECT_ACTIONS, Permission, PermissionSubjects, PermissionActions } from '@/support/access-control/permission'
 
 @Injectable()
 export class ACLService {

@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm'
 
-import { Workspace, WorkspaceStatusEnum } from '@/schemas/workspace.schema'
+import { Workspace, WorkspaceStatusEnum } from '@/core/workspace/workspace.schema'
 
 @Entity('workspaces')
 export class WorkspaceEntity {

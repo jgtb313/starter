@@ -40,7 +40,7 @@ describe('PhoneSchema', () => {
 
     const result = PhoneSchema.safeParse(input)
 
-    expect(result.error?.errors[0].code).toBe('custom')
+    expect(result.error?.issues[0].code).toBe('custom')
   })
 
   it('should throw an error for missing ISO country code', () => {
@@ -52,8 +52,8 @@ describe('PhoneSchema', () => {
 
     const result = PhoneSchema.safeParse(input)
 
-    expect(result.error?.errors[0].code).toBe('too_small')
-    expect(result.error?.errors[0].path[0]).toBe('iso')
+    expect(result.error?.issues[0].code).toBe('too_small')
+    expect(result.error?.issues[0].path[0]).toBe('iso')
   })
 
   it('should throw an error for missing DDI code', () => {
@@ -65,8 +65,8 @@ describe('PhoneSchema', () => {
 
     const result = PhoneSchema.safeParse(input)
 
-    expect(result.error?.errors[0].code).toBe('too_small')
-    expect(result.error?.errors[0].path[0]).toBe('ddi')
+    expect(result?.error?.issues[0].code).toBe('too_small')
+    expect(result.error?.issues[0].path[0]).toBe('ddi')
   })
 
   it('should throw an error for missing phone number', () => {
@@ -78,7 +78,7 @@ describe('PhoneSchema', () => {
 
     const result = PhoneSchema.safeParse(input)
 
-    expect(result.error?.errors[0].code).toBe('too_small')
-    expect(result.error?.errors[0].path[0]).toBe('number')
+    expect(result.error?.issues[0].code).toBe('too_small')
+    expect(result.error?.issues[0].path[0]).toBe('number')
   })
 })

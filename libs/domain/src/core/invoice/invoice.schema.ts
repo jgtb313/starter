@@ -1,4 +1,4 @@
-import { z, PaymentCardSchema } from '@starter/schema'
+import { z, BasePaymentCardSchema } from '@starter/schema'
 
 import { ID, CreatedAt, UpdatedAt, BaseSchema } from '@/support/schema'
 import { RecurrencePaymentMethodEnum } from '@/ports/recurrence'
@@ -46,7 +46,7 @@ export const InvoiceCreditCardSchema = z.object({
   description: Description,
   amount: Amount,
   paymentMethod: z.literal(RecurrencePaymentMethodEnum.CREDIT_CARD),
-  creditCard: PaymentCardSchema,
+  creditCard: BasePaymentCardSchema,
   dueDate: DueDate,
   issuedAt: IssuedAt,
   canceledAt: CanceledAt,
@@ -64,7 +64,7 @@ export const InvoiceDebitCardSchema = z.object({
   description: Description,
   amount: Amount,
   paymentMethod: z.literal(RecurrencePaymentMethodEnum.DEBIT_CARD),
-  debitCard: PaymentCardSchema,
+  debitCard: BasePaymentCardSchema,
   dueDate: DueDate,
   issuedAt: IssuedAt,
   canceledAt: CanceledAt,
@@ -74,7 +74,48 @@ export const InvoiceDebitCardSchema = z.object({
 })
 export type InvoiceDebitCard = z.infer<typeof InvoiceDebitCardSchema>
 
-export const InvoiceSchema = z.discriminatedUnion('paymentMethod', [InvoiceCreditCardSchema, InvoiceDebitCardSchema])
+export const InvoicePixSchema = z.object({
+  invoiceId: InvoiceId,
+  workspaceId: WorkspaceId,
+  subscriptionId: SubscriptionId,
+  externalId: ExternalId,
+  description: Description,
+  amount: Amount,
+  paymentMethod: z.literal(RecurrencePaymentMethodEnum.PIX),
+  pix: BasePaymentCardSchema,
+  dueDate: DueDate,
+  issuedAt: IssuedAt,
+  canceledAt: CanceledAt,
+  status: Status,
+  createdAt: CreatedAt,
+  updatedAt: UpdatedAt,
+})
+export type InvoicePix = z.infer<typeof InvoicePixSchema>
+
+export const InvoiceBoletoSchema = z.object({
+  invoiceId: InvoiceId,
+  workspaceId: WorkspaceId,
+  subscriptionId: SubscriptionId,
+  externalId: ExternalId,
+  description: Description,
+  amount: Amount,
+  paymentMethod: z.literal(RecurrencePaymentMethodEnum.BOLETO),
+  boleto: BasePaymentCardSchema,
+  dueDate: DueDate,
+  issuedAt: IssuedAt,
+  canceledAt: CanceledAt,
+  status: Status,
+  createdAt: CreatedAt,
+  updatedAt: UpdatedAt,
+})
+export type InvoiceBoleto = z.infer<typeof InvoiceBoletoSchema>
+
+export const InvoiceSchema = z.discriminatedUnion('paymentMethod', [
+  InvoiceCreditCardSchema,
+  InvoiceDebitCardSchema,
+  InvoicePixSchema,
+  InvoiceBoletoSchema,
+])
 
 export type Invoice = z.infer<typeof InvoiceSchema>
 export type BaseInvoice = BaseSchema<'invoiceId', Invoice>

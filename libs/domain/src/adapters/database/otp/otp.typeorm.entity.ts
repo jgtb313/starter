@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm'
 
-import { OTP, OTPChannelEnum, OTPContextEnum } from '@/schemas'
+import { OTP, OTPChannelEnum, OTPContextEnum } from '@/core/otp/otp.schema'
 
 @Entity('otps')
 export class OTPEntity {

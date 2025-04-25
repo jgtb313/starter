@@ -1,6 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm'
 
-import { Subscription, SubscriptionCreditCard, SubscriptionDebitCard, SubscriptionPaymentMethodEnum, SubscriptionStatusEnum } from '@/schemas'
+import { RecurrencePaymentMethodEnum } from '@/ports/recurrence'
+import { Subscription, SubscriptionCreditCard, SubscriptionDebitCard, SubscriptionStatusEnum } from '@/core/subscription/subscription.schema'
 
 @Entity('invoices')
 export class SubscriptionEntity {
@@ -13,7 +14,7 @@ export class SubscriptionEntity {
   @Column({ type: 'uuid' })
   planId: Subscription['planId']
 
-  @Column({ type: 'enum', enum: SubscriptionPaymentMethodEnum })
+  @Column({ type: 'enum', enum: RecurrencePaymentMethodEnum })
   paymentMethod: Subscription['paymentMethod']
 
   @Column({ type: 'json' })

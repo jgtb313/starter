@@ -12,7 +12,10 @@ export type BaseSchema<K extends keyof T, T, P extends keyof T = never> = {
 }
 
 export const ID = (resourceName: string) => {
-  return z.string().uuid().describe(`Unique identifier for ${resourceName}`)
+  return z.uuid().meta({
+    description: `Unique identifier for ${resourceName}`,
+    example: '96738ebc-7da1-48e2-8685-705c7b9268cb',
+  })
 }
 
 export const CreatedAt = z.coerce.date()

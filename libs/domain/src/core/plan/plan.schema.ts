@@ -1,13 +1,7 @@
 import { z } from '@starter/schema'
 
 import { ID, DeletedAt, CreatedAt, UpdatedAt, BaseSchema } from '@/support/schema'
-
-export enum PlanIntervalEnum {
-  'DAY' = 'DAY',
-  'WEEK' = 'WEEK',
-  'MONTH' = 'MONTH',
-  'YEAR' = 'YEAR',
-}
+import { RecurrenceIntervalEnum } from '@/ports/recurrence'
 
 export enum PlanFeatureCodeEnum {
   'ORGANIZATION_COUNT' = 'ORGANIZATION_COUNT',
@@ -28,7 +22,7 @@ const Description = z.string().min(1)
 
 const Amount = z.number().positive()
 
-const Interval = z.nativeEnum(PlanIntervalEnum)
+const Interval = z.nativeEnum(RecurrenceIntervalEnum)
 
 const IntervalCount = z.number().default(1)
 
@@ -68,4 +62,4 @@ export const PlanSchema = z.object({
   updatedAt: UpdatedAt,
 })
 export type Plan = z.infer<typeof PlanSchema>
-export type BasePlan = BaseSchema<'planId', Plan>
+export type BasePlan = BaseSchema<'planId' | 'externalId' | 'status', Plan>

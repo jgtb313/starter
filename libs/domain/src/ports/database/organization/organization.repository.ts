@@ -1,6 +1,6 @@
 import { Pagination, PaginationOutput } from '@starter/schema'
 
-import { Organization, BaseOrganization } from '@/schemas'
+import { Organization, BaseOrganization } from '@/core/organization/organization.schema'
 
 export type IOrganizationRepository = {
   findAllPaginated(input: Pagination<Organization>): Promise<PaginationOutput<Organization>>

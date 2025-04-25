@@ -24,9 +24,13 @@ export class InvoiceDomain extends BaseDomain<Invoice> {
     return this.state.status === InvoiceStatusEnum.CANCELED
   }
 
+  isPayable() {
+    return !this.isPending()
+  }
+
   markAsPaid() {
     if (!this.isPending()) {
-      throw new ConflictException(`Invoice ${this.state.invoiceId} cannot be marked as paid because it's not pending`)
+      throw new ConflictException(`Unable to mark invoice ${this.state.invoiceId} as paid: status must be 'PENDING', but is '${this.state.status}'.`)
     }
 
     this.state.status = InvoiceStatusEnum.PAID
@@ -34,7 +38,9 @@ export class InvoiceDomain extends BaseDomain<Invoice> {
 
   markAsOverdue() {
     if (!this.isPending()) {
-      throw new ConflictException(`Invoice ${this.state.invoiceId} cannot be marked as overdue because it's not pending`)
+      throw new ConflictException(
+        `Unable to mark invoice ${this.state.invoiceId} as overdue: status must be 'PENDING', but is '${this.state.status}'.`,
+      )
     }
 
     this.state.status = InvoiceStatusEnum.OVERDUE
@@ -42,7 +48,7 @@ export class InvoiceDomain extends BaseDomain<Invoice> {
 
   markAsCanceled() {
     if (this.isCanceled()) {
-      throw new ConflictException(`Invoice ${this.state.invoiceId} is already canceled`)
+      throw new ConflictException(`Invoice ${this.state.invoiceId} is already canceled.`)
     }
 
     this.state.status = InvoiceStatusEnum.CANCELED
@@ -50,8 +56,8 @@ export class InvoiceDomain extends BaseDomain<Invoice> {
   }
 
   checkIfIsPayable() {
-    if (!this.isPending()) {
-      throw new ConflictException(`Invoice ${this.state.invoiceId} cannot be paid because its status is ${this.state.status}`)
+    if (!this.isPayable()) {
+      throw new ConflictException(`Invoice ${this.state.invoiceId} cannot be paid: status '${this.state.status}' is not valid for payment.`)
     }
   }
 }

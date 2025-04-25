@@ -1,14 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm'
 
-import {
-  Invoice,
-  InvoiceCreditCard,
-  InvoiceDebitCard,
-  InvoicePix,
-  InvoiceBoleto,
-  InvoicePaymentMethodEnum,
-  InvoiceStatusEnum,
-} from '@/core/invoice/invoice.schema'
+import { RecurrencePaymentMethodEnum } from '@/ports/recurrence'
+import { Invoice, InvoiceCreditCard, InvoiceDebitCard, InvoicePix, InvoiceBoleto, InvoiceStatusEnum } from '@/core/invoice/invoice.schema'
 
 @Entity('invoices')
 export class InvoiceEntity {
@@ -27,7 +20,7 @@ export class InvoiceEntity {
   @Column({ type: 'varchar' })
   description: Invoice['description']
 
-  @Column({ type: 'enum', enum: InvoicePaymentMethodEnum })
+  @Column({ type: 'enum', enum: RecurrencePaymentMethodEnum })
   paymentMethod: Invoice['paymentMethod']
 
   @Column({ type: 'json', nullable: true })
@@ -49,7 +42,7 @@ export class InvoiceEntity {
   issuedAt: Invoice['issuedAt']
 
   @Column({ type: 'timestamp' })
-  billingDueDate: Invoice['billingDueDate']
+  dueDate: Invoice['dueDate']
 
   @Column({ type: 'timestamp', nullable: true })
   canceledAt: Invoice['canceledAt']

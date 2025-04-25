@@ -20,7 +20,7 @@ export const BasePaymentCardSchema = z.object({
         params: { i18n: 'invalid_date' },
       },
     )
-    .openapi({ example: '10/10' }),
+    .meta({ example: '10/10' }),
 })
 export type BasePaymentCard = z.infer<typeof BasePaymentCardSchema>
 

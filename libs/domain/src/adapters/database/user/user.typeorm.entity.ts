@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm'
 
-import { User, UserStatusEnum } from '@/schemas'
+import { User, UserStatusEnum } from '@/core/user/user.schema'
 
 @Entity('users')
 export class UserEntity {

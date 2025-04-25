@@ -2,9 +2,8 @@ import { Inject, Injectable } from '@nestjs/common'
 import { uuid } from '@starter/common'
 import Stripe from 'stripe'
 
-import { IRecurrenceAdapter, RecurrenceCreateSubscriptionOutput } from '@/ports/recurrence'
-import { PlanIntervalEnum } from '@/core/plan/plan.schema'
-import { InvoicePaymentMethodEnum, InvoiceStatusEnum } from '@/core/invoice/invoice.schema'
+import { IRecurrenceAdapter, RecurrenceCreateSubscriptionOutput, RecurrenceIntervalEnum, RecurrencePaymentMethodEnum } from '@/ports/recurrence'
+import { InvoiceStatusEnum } from '@/core/invoice/invoice.schema'
 
 @Injectable()
 export class StripeRecurrenceAdapter implements IRecurrenceAdapter {
@@ -57,15 +56,7 @@ export class StripeRecurrenceAdapter implements IRecurrenceAdapter {
     return
   }
 
-  createSubscription: IRecurrenceAdapter['createSubscription'] = async ({
-    referenceId,
-    planId,
-    customerId,
-    paymentMethod,
-    payer,
-    creditCard,
-    debitCard,
-  }) => {
+  createSubscription: IRecurrenceAdapter['createSubscription'] = async ({ referenceId, planId, customerId, paymentMethod }) => {
     const paymentMethodd = await this.stripe.paymentMethods.create({
       type: 'card',
       card: {
@@ -91,8 +82,8 @@ export class StripeRecurrenceAdapter implements IRecurrenceAdapter {
     const invoice: RecurrenceCreateSubscriptionOutput['invoice'] = {
       externalId: `${latestInvoice.id}`,
       amount: latestInvoice.amount_due,
-      paymentMethod: paymentMethod as unknown as InvoicePaymentMethodEnum,
-      billingDueDate: new Date(),
+      paymentMethod: paymentMethod as unknown as RecurrencePaymentMethodEnum,
+      dueDate: new Date(),
       status: this.parseInvoiceStatus(latestInvoice.status),
     }
 
@@ -122,8 +113,8 @@ export class StripeRecurrenceAdapter implements IRecurrenceAdapter {
     return
   }
 
-  private parsePlanInterval(interval: PlanIntervalEnum): Stripe.PlanCreateParams.Interval {
-    const values: Record<PlanIntervalEnum, Stripe.PlanCreateParams.Interval> = {
+  private parsePlanInterval(interval: RecurrenceIntervalEnum): Stripe.PlanCreateParams.Interval {
+    const values: Record<RecurrenceIntervalEnum, Stripe.PlanCreateParams.Interval> = {
       DAY: 'day',
       WEEK: 'week',
       MONTH: 'month',

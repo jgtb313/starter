@@ -8,7 +8,7 @@ export interface IPlanService {
 
   getPlan(planId: string): Promise<PlanDomain>
 
-  createPlan(input: Omit<BasePlan, 'externalId'>): Promise<PlanDomain>
+  createPlan(input: BasePlan): Promise<PlanDomain>
 
   updatePlan(planId: string, input: Partial<Plan>): Promise<PlanDomain>
 

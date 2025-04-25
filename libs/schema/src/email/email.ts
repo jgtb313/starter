@@ -5,6 +5,6 @@ export const EmailSchema = z
   .min(1)
   .email()
   .transform((value) => value.toLowerCase())
-  .openapi({
+  .meta({
     example: 'example@email.com',
   })

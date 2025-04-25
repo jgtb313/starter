@@ -1,10 +1,7 @@
-import { z, EmailSchema, PhoneSchema, DocumentExplicitSchema, BaseAddressSchema, PaymentCardSchema } from '@starter/schema'
-import { ID, CreatedAt, UpdatedAt, BaseSchema } from '@/support/schema'
+import { z, EmailSchema, PhoneSchema, DocumentExplicitSchema, BaseAddressSchema, PaymentCardSchema, PixSchema, BoletoSchema } from '@starter/schema'
 
-export enum SubscriptionPaymentMethodEnum {
-  'CREDIT_CARD' = 'CREDIT_CARD',
-  'DEBIT_CARD' = 'DEBIT_CARD',
-}
+import { ID, CreatedAt, UpdatedAt, BaseSchema } from '@/support/schema'
+import { RecurrencePaymentMethodEnum } from '@/ports/recurrence'
 
 export enum SubscriptionStatusEnum {
   'TRIAL' = 'TRIAL',
@@ -48,7 +45,7 @@ export const SubscriptionCreditCardSchema = z.object({
   planId: PlanId,
   externalId: ExternalId,
   amount: Amount,
-  paymentMethod: z.literal(SubscriptionPaymentMethodEnum.CREDIT_CARD),
+  paymentMethod: z.literal(RecurrencePaymentMethodEnum.CREDIT_CARD),
   creditCard: PaymentCardSchema,
   deadline: Deadline,
   billingDueDate: BillingDueDate,
@@ -66,7 +63,7 @@ export const SubscriptionDebitCardSchema = z.object({
   planId: PlanId,
   externalId: ExternalId,
   amount: Amount,
-  paymentMethod: z.literal(SubscriptionPaymentMethodEnum.DEBIT_CARD),
+  paymentMethod: z.literal(RecurrencePaymentMethodEnum.DEBIT_CARD),
   debitCard: PaymentCardSchema,
   deadline: Deadline,
   billingDueDate: BillingDueDate,
@@ -77,6 +74,42 @@ export const SubscriptionDebitCardSchema = z.object({
   updatedAt: UpdatedAt,
 })
 export type SubscriptionDebitCard = z.infer<typeof SubscriptionDebitCardSchema>
+
+export const SubscriptionPixCardSchema = z.object({
+  subscriptionId: SubscriptionId,
+  workspaceId: WorkspaceId,
+  planId: PlanId,
+  externalId: ExternalId,
+  amount: Amount,
+  paymentMethod: z.literal(RecurrencePaymentMethodEnum.PIX),
+  pix: PixSchema,
+  deadline: Deadline,
+  billingDueDate: BillingDueDate,
+  canceledAt: CanceledAt,
+  payer: Payer,
+  status: Status,
+  createdAt: CreatedAt,
+  updatedAt: UpdatedAt,
+})
+export type SubscriptionPixCard = z.infer<typeof SubscriptionPixCardSchema>
+
+export const SubscriptionBoletoCardSchema = z.object({
+  subscriptionId: SubscriptionId,
+  workspaceId: WorkspaceId,
+  planId: PlanId,
+  externalId: ExternalId,
+  amount: Amount,
+  paymentMethod: z.literal(RecurrencePaymentMethodEnum.BOLETO),
+  boleto: BoletoSchema,
+  deadline: Deadline,
+  billingDueDate: BillingDueDate,
+  canceledAt: CanceledAt,
+  payer: Payer,
+  status: Status,
+  createdAt: CreatedAt,
+  updatedAt: UpdatedAt,
+})
+export type SubscriptionBoletoCard = z.infer<typeof SubscriptionBoletoCardSchema>
 
 export const SubscriptionSchema = z.discriminatedUnion('paymentMethod', [SubscriptionCreditCardSchema, SubscriptionDebitCardSchema])
 export type Subscription = z.infer<typeof SubscriptionSchema>

@@ -1,7 +1,9 @@
 import { Injectable, Inject, forwardRef } from '@nestjs/common'
 import { AclForbiddenException } from '@starter/nestjs-error-handling'
+import { uuid } from '@starter/common'
 
 import { ISubscriptionRepository } from '@/ports/database/subscription'
+import { RecurrencePaymentMethodEnum } from '@/ports/recurrence'
 import { RecurrenceService } from '@/adapters/recurrence'
 import { WorkspaceService } from '@/core/workspace/workspace.service'
 import { InvoiceService } from '@/core/invoice/invoice.service'
@@ -31,25 +33,35 @@ export class SubscriptionService implements ISubscriptionService {
     return subscription
   }
 
-  createSubscription: ISubscriptionService['createSubscription'] = async ({ workspaceId, planId, ...input }) => {
+  createSubscription: ISubscriptionService['createSubscription'] = async ({ workspaceId, planId, payer, ...input }) => {
     const workspace = await this.workspaceService.getWorkspace(workspaceId)
 
     const plan = await this.planService.getPlan(planId)
 
-    const { subscriptionId, invoice } = await this.recurrenceService.createSubscription({})
+    plan.checkIfIsSignable()
+
+    const subscriptionId = uuid()
+
+    const recurrenceSubscription = await this.recurrenceService.createSubscription({
+      referenceId: subscriptionId,
+      customerId: workspace.workspaceId,
+      planId: plan.state.planId,
+      ...input,
+    })
 
     const subscription = await this.subscriptionRepository.create({
       ...input,
+      subscriptionId,
       workspaceId: workspace.workspaceId,
       planId: plan.state.planId,
-      externalId: subscriptionId,
+      externalId: recurrenceSubscription.subscriptionId,
     })
 
     await this.invoiceService.createInvoice({
-      ...invoice,
+      ...recurrenceSubscription.invoice,
       workspaceId: workspace.workspaceId,
       subscriptionId: subscription.subscriptionId,
-      description: '',
+      description: 'Invoice',
       issuedAt: new Date(),
     })
 
