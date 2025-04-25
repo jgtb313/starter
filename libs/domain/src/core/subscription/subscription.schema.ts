@@ -28,9 +28,9 @@ const Payer = z.object({
   address: BaseAddressSchema,
 })
 
-const Deadline = z.coerce.date()
+const Deadline = z.iso.datetime().transform((value) => new Date(value))
 
-const BillingDueDate = z.coerce.date()
+const BillingDueDate = z.iso.datetime().transform((value) => new Date(value))
 
 const CanceledAt = z.coerce
   .date()

@@ -20,6 +20,7 @@ const makeInvoice = (overrides: Partial<Invoice>): Invoice => ({
   },
   dueDate: new Date('2025-05-01T00:00:00Z'),
   issuedAt: new Date('2025-04-01T00:00:00Z'),
+  paidAt: null,
   canceledAt: null,
   status: InvoiceStatusEnum.PENDING,
   createdAt: new Date('2025-04-01T00:00:00Z'),

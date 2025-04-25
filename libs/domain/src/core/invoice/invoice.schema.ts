@@ -22,92 +22,104 @@ const Description = z.string().min(1)
 
 const Amount = z.number().min(1)
 
-const IssuedAt = z.coerce.date()
+const DueDate = z.iso.datetime().transform((value) => new Date(value))
 
-const DueDate = z.coerce.date()
+const IssuedAt = z.iso.datetime().transform((value) => new Date(value))
 
-const PaidAt = z.coerce
-  .date()
+const PaidAt = z.iso
+  .datetime()
   .nullish()
-  .transform((value) => value ?? null)
+  .transform((value) => (value ? new Date(value) : null))
 
-const CanceledAt = z.coerce
-  .date()
+const CanceledAt = z.iso
+  .datetime()
   .nullish()
-  .transform((value) => value ?? null)
+  .transform((value) => (value ? new Date(value) : null))
 
-const Status = z.nativeEnum(InvoiceStatusEnum).default(InvoiceStatusEnum.PENDING)
+const Status = z.enum(InvoiceStatusEnum).default(InvoiceStatusEnum.PENDING)
 
-export const InvoiceCreditCardSchema = z.object({
-  invoiceId: InvoiceId,
-  workspaceId: WorkspaceId,
-  subscriptionId: SubscriptionId,
-  externalId: ExternalId,
-  description: Description,
-  amount: Amount,
-  paymentMethod: z.literal(RecurrencePaymentMethodEnum.CREDIT_CARD),
-  creditCard: BasePaymentCardSchema,
-  dueDate: DueDate,
-  issuedAt: IssuedAt,
-  canceledAt: CanceledAt,
-  status: Status,
-  createdAt: CreatedAt,
-  updatedAt: UpdatedAt,
-})
+export const InvoiceCreditCardSchema = z
+  .object({
+    invoiceId: InvoiceId,
+    workspaceId: WorkspaceId,
+    subscriptionId: SubscriptionId,
+    externalId: ExternalId,
+    description: Description,
+    amount: Amount,
+    paymentMethod: z.literal(RecurrencePaymentMethodEnum.CREDIT_CARD),
+    creditCard: BasePaymentCardSchema,
+    dueDate: DueDate,
+    issuedAt: IssuedAt,
+    paidAt: PaidAt,
+    canceledAt: CanceledAt,
+    status: Status,
+    createdAt: CreatedAt,
+    updatedAt: UpdatedAt,
+  })
+  .meta({ title: 'InvoiceCreditCard' })
 export type InvoiceCreditCard = z.infer<typeof InvoiceCreditCardSchema>
 
-export const InvoiceDebitCardSchema = z.object({
-  invoiceId: InvoiceId,
-  workspaceId: WorkspaceId,
-  subscriptionId: SubscriptionId,
-  externalId: ExternalId,
-  description: Description,
-  amount: Amount,
-  paymentMethod: z.literal(RecurrencePaymentMethodEnum.DEBIT_CARD),
-  debitCard: BasePaymentCardSchema,
-  dueDate: DueDate,
-  issuedAt: IssuedAt,
-  canceledAt: CanceledAt,
-  status: Status,
-  createdAt: CreatedAt,
-  updatedAt: UpdatedAt,
-})
+export const InvoiceDebitCardSchema = z
+  .object({
+    invoiceId: InvoiceId,
+    workspaceId: WorkspaceId,
+    subscriptionId: SubscriptionId,
+    externalId: ExternalId,
+    description: Description,
+    amount: Amount,
+    paymentMethod: z.literal(RecurrencePaymentMethodEnum.DEBIT_CARD),
+    debitCard: BasePaymentCardSchema,
+    dueDate: DueDate,
+    issuedAt: IssuedAt,
+    paidAt: PaidAt,
+    canceledAt: CanceledAt,
+    status: Status,
+    createdAt: CreatedAt,
+    updatedAt: UpdatedAt,
+  })
+  .meta({ title: 'InvoiceDebitCard' })
 export type InvoiceDebitCard = z.infer<typeof InvoiceDebitCardSchema>
 
-export const InvoicePixSchema = z.object({
-  invoiceId: InvoiceId,
-  workspaceId: WorkspaceId,
-  subscriptionId: SubscriptionId,
-  externalId: ExternalId,
-  description: Description,
-  amount: Amount,
-  paymentMethod: z.literal(RecurrencePaymentMethodEnum.PIX),
-  pix: BasePaymentCardSchema,
-  dueDate: DueDate,
-  issuedAt: IssuedAt,
-  canceledAt: CanceledAt,
-  status: Status,
-  createdAt: CreatedAt,
-  updatedAt: UpdatedAt,
-})
+export const InvoicePixSchema = z
+  .object({
+    invoiceId: InvoiceId,
+    workspaceId: WorkspaceId,
+    subscriptionId: SubscriptionId,
+    externalId: ExternalId,
+    description: Description,
+    amount: Amount,
+    paymentMethod: z.literal(RecurrencePaymentMethodEnum.PIX),
+    pix: BasePaymentCardSchema,
+    dueDate: DueDate,
+    issuedAt: IssuedAt,
+    paidAt: PaidAt,
+    canceledAt: CanceledAt,
+    status: Status,
+    createdAt: CreatedAt,
+    updatedAt: UpdatedAt,
+  })
+  .meta({ title: 'InvoicePix' })
 export type InvoicePix = z.infer<typeof InvoicePixSchema>
 
-export const InvoiceBoletoSchema = z.object({
-  invoiceId: InvoiceId,
-  workspaceId: WorkspaceId,
-  subscriptionId: SubscriptionId,
-  externalId: ExternalId,
-  description: Description,
-  amount: Amount,
-  paymentMethod: z.literal(RecurrencePaymentMethodEnum.BOLETO),
-  boleto: BasePaymentCardSchema,
-  dueDate: DueDate,
-  issuedAt: IssuedAt,
-  canceledAt: CanceledAt,
-  status: Status,
-  createdAt: CreatedAt,
-  updatedAt: UpdatedAt,
-})
+export const InvoiceBoletoSchema = z
+  .object({
+    invoiceId: InvoiceId,
+    workspaceId: WorkspaceId,
+    subscriptionId: SubscriptionId,
+    externalId: ExternalId,
+    description: Description,
+    amount: Amount,
+    paymentMethod: z.literal(RecurrencePaymentMethodEnum.BOLETO),
+    boleto: BasePaymentCardSchema,
+    dueDate: DueDate,
+    issuedAt: IssuedAt,
+    paidAt: PaidAt,
+    canceledAt: CanceledAt,
+    status: Status,
+    createdAt: CreatedAt,
+    updatedAt: UpdatedAt,
+  })
+  .meta({ title: 'InvoiceBoleto' })
 export type InvoiceBoleto = z.infer<typeof InvoiceBoletoSchema>
 
 export const InvoiceSchema = z.discriminatedUnion('paymentMethod', [

@@ -107,7 +107,7 @@ const execute = async () => {
 
   result = result
     .replace(/\boptional\b/g, 'nullish')
-    .replace(/z\.string\(\)\.datetime\(\{ offset: true \}\)/g, 'z.coerce.date()')
+    .replace(/z\.string\(\)\.datetime\(\{ offset: true \}\)/g, 'z.iso.datetime().transform((value) => new Date(value))')
     .replace(/z\.any\(\)/g, 'z.void()')
 
   writeFileSync('src/resources.generated.ts', result)

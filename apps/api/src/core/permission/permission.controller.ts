@@ -31,5 +31,18 @@ export class PermissionController {
   })
   async getPermissions() {
     return Object.values(PERMISSION_SUBJECT_ACTIONS).flatMap((permissionSubjectAction) => permissionSubjectAction)
+
+    // return z.toJSONSchema(
+    //   z.object({
+    //     name: z
+    //       .string()
+    //       .min(1)
+    //       .transform((value) => value),
+    //     dueDate: z.iso.datetime().transform((value) => new Date(value)),
+    //   }),
+    //   {
+    //     io: 'input',
+    //   },
+    // )
   }
 }
