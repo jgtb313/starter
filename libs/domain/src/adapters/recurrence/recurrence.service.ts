@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, Inject } from '@nestjs/common'
 import { uuid } from '@starter/common'
 
 import { IRecurrence } from '@/ports/recurrence'
@@ -7,7 +7,7 @@ import { Invoice } from '@/core/invoice/invoice.schema'
 
 @Injectable()
 export class RecurrenceService implements IRecurrence {
-  constructor(private readonly stripe: StripeRecurrenceAdapter) {}
+  constructor(@Inject('Stripe') private readonly stripe: StripeRecurrenceAdapter) {}
 
   createPlan: IRecurrence['createPlan'] = async (input) => {
     return this.stripe.createPlan(input)

@@ -1,10 +1,12 @@
 import { Module } from '@nestjs/common'
 
-import { StripeRecurrenceAdapter } from '@/adapters/recurrence/stripe.recurrence.adapter'
 import { RecurrenceService } from '@/adapters/recurrence/recurrence.service'
+import { StripeAdapterModule } from '@/adapters/recurrence/stripe.recurrence.adapter.module'
+import { StripeRecurrenceAdapter } from '@/adapters/recurrence/stripe.recurrence.adapter'
 
 @Module({
-  providers: [RecurrenceService, StripeRecurrenceAdapter],
+  imports: [StripeAdapterModule],
+  providers: [{ provide: 'Stripe', useClass: StripeRecurrenceAdapter }, RecurrenceService],
   exports: [RecurrenceService],
 })
 export class RecurrenceModule {}
