@@ -29,8 +29,6 @@ export const Controller = (options: ControllerOptions): ClassDecorator => {
       )
     }
 
-    Object.entries(options.schemas).forEach(([name, { schema, description }]) => {})
-
     decorators.push(NestController(options.basePath))
 
     applyDecorators(...decorators)(target)

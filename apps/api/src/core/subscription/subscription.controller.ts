@@ -6,8 +6,14 @@ import { AuthenticatedUser } from '@/support/decorators'
 import {
   GetSubscriptionSchema,
   CreateSubscriptionSchema,
+  ChangeSubscriptionPlanSchema,
+  ChangeSubscriptionPaymentMethodSchema,
+  CancelSubscriptionSchema,
   GetSubscriptionRequest,
   CreateSubscriptionRequest,
+  ChangeSubscriptionPlanRequest,
+  ChangeSubscriptionPaymentMethodRequest,
+  CancelSubscriptionRequest,
 } from '@/core/subscription/subscription.controller.schema'
 
 @Controller({
@@ -35,6 +41,7 @@ export class SubscriptionController {
     description: 'Retrieves a current subscription.',
 
     method: 'GET',
+    path: '/:subscriptionId',
 
     parameters: {
       params: GetSubscriptionSchema.params,
@@ -92,21 +99,22 @@ export class SubscriptionController {
     path: '/:subscriptionId/plan',
 
     parameters: {
-      params: GetSubscriptionSchema.params,
+      params: ChangeSubscriptionPlanSchema.params,
+      body: ChangeSubscriptionPlanSchema.body,
     },
 
     responses: {
       200: {
-        schema: GetSubscriptionSchema.output,
+        schema: ChangeSubscriptionPlanSchema.output,
       },
     },
   })
-  changeSubscriptionPlan(@AuthenticatedUser() user: User, @Request() { params }: GetSubscriptionRequest) {
+  changeSubscriptionPlan(@AuthenticatedUser() user: User, @Request() { params, body }: GetSubscriptionRequest) {
     // this.aclService.canPerformActionByPermission(user, 'subscription:read', {
     //   workspaceId: params.workspaceId,
     // })
 
-    return this.subscriptionService.getSubscription(params)
+    return this.subscriptionService.changeSubscriptionPlan()
   }
 
   @Route({
@@ -118,12 +126,13 @@ export class SubscriptionController {
     path: '/:subscriptionId/payment-method',
 
     parameters: {
-      params: GetSubscriptionSchema.params,
+      params: ChangeSubscriptionPaymentMethodSchema.params,
+      body: ChangeSubscriptionPaymentMethodSchema.body,
     },
 
     responses: {
       200: {
-        schema: GetSubscriptionSchema.output,
+        schema: ChangeSubscriptionPaymentMethodSchema.output,
       },
     },
   })
@@ -132,7 +141,7 @@ export class SubscriptionController {
     //   workspaceId: params.workspaceId,
     // })
 
-    return this.subscriptionService.getSubscription(params)
+    return this.subscriptionService.changeSubscriptionPaymentMethod()
   }
 
   @Route({
@@ -141,14 +150,15 @@ export class SubscriptionController {
     description: 'Cancels an existing subscription by its ID.',
 
     method: 'DELETE',
+    path: '/:subscriptionId',
 
     parameters: {
-      params: GetSubscriptionSchema.params,
+      params: CancelSubscriptionSchema.params,
     },
 
     responses: {
       200: {
-        schema: GetSubscriptionSchema.output,
+        schema: CancelSubscriptionSchema.output,
       },
     },
   })
@@ -157,6 +167,6 @@ export class SubscriptionController {
     //   workspaceId: params.workspaceId,
     // })
 
-    return this.subscriptionService.getSubscription(params)
+    return this.subscriptionService.cancelSubscription()
   }
 }

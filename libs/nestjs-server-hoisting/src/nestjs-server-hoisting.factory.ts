@@ -5,8 +5,10 @@ import { ConsoleLogger, INestApplication, Type, DynamicModule, ForwardReference 
 import { ExpressAdapter } from '@nestjs/platform-express'
 import { SwaggerModule, DocumentBuilder, OpenAPIObject } from '@nestjs/swagger'
 import { Request, Response } from 'express'
-import { apiReference } from '@scalar/nestjs-api-reference'
+import { config } from '@starter/config'
+import { set } from '@starter/common'
 
+import { zodSchemaToJSONSchema } from '@/decorators'
 import { ResponseInterceptor } from '@/interceptors'
 import { ErrorFilter } from '@/filters'
 import { StateManager } from '@/nestjs-server-hoisting.state'
@@ -75,9 +77,19 @@ const create = async (entryModule: IEntryNestModule, options: NestServerHoisting
 
   Object.values(state.controllers).forEach((controller) => builder.addTag(controller.name, controller.description))
 
-  const config = builder.build()
+  const builderConfig = builder.build()
 
-  const document = SwaggerModule.createDocument(app, config)
+  const document = SwaggerModule.createDocument(app, builderConfig)
+
+  const schemas = {}
+
+  Object.values(state.controllers).forEach((controller) => {
+    Object.entries(controller.schemas).forEach(([schemaName, { schema, description }]) => {
+      set(schemas, schemaName, zodSchemaToJSONSchema(schema.meta({ description })))
+    })
+  })
+
+  set(document.components ?? {}, 'schemas', schemas)
 
   Object.defineProperty(app, 'openapiSpec', {
     value: document,
@@ -100,35 +112,52 @@ const create = async (entryModule: IEntryNestModule, options: NestServerHoisting
     res.json(document)
   })
 
-  http.get(
-    '/reference',
-    apiReference({
-      theme: 'dark',
-      hideModels: false,
-      hideDownloadButton: true,
-      metaData: {
-        title: options.documentation.title,
-      },
-      favicon: options.documentation.favicon,
-      defaultOpenAllTags: true,
-      defaultHttpClient: {
-        targetKey: 'node',
-        clientKey: 'axios',
-      },
-      tagsSorter: 'alpha',
-      operationsSorter: 'method',
-      spec: { content: document },
-      customCss: [
-        '.open-api-client-button { display: none !important; }',
-        '.badges { display: none !important; }',
-        '.security-scheme-label { font-weight: var(--scalar-semibold); font-size: var(--scalar-mini); color: var(--scalar-color-3); text-transform: uppercase; display: block; }',
-        '.scalar-card-header-actions { display: none !important; }',
-        '.models-list-item .schema-properties { margin-bottom: 0px !important; }',
-        '.darklight-reference-promo { display: none !important; }',
-        '.text-sidebar-c-2 { display: none !important; }',
-      ].join(''),
-    }),
-  )
+  http.get('/reference', (_, res) => {
+    res.setHeader('Content-Type', 'text/html')
+    res.send(`
+      <!doctype html>
+      <html lang="en">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+          <title>${options.documentation.title}</title>
+          <script src="https://unpkg.com/@stoplight/elements/web-components.min.js"></script>
+          <link rel="stylesheet" href="https://unpkg.com/@stoplight/elements/styles.min.css">
+          <link rel="icon" href="${config.logo.darkSymbol}" type="image/png">
+          <style>
+            .sl-elements-api {
+              display: flex;
+              height: 100vh;
+              overflow: hidden;
+            }
+
+            .sl-elements-api > .sl-flex {
+              overflow: hidden;
+            }
+
+            .sl-elements-api > .sl-overflow-y-auto {
+              flex: 1;
+              overflow-y: auto;
+            }
+
+            a.sl-flex.sl-items-center.sl-px-4.sl-py-3.sl-border-t {
+              display: none;
+            }
+          </style>
+        </head>
+
+        <body>
+          <elements-api
+            logo="${config.logo.lightSymbol}"
+            apiDescriptionUrl="http://localhost:4000/openapi"
+            router="hash"
+            layout="responsive"
+            hideExport
+          />
+        </body>
+      </html>
+    `)
+  })
 
   http.get('/', (_: Request, res: Response) => {
     res.send(options.documentation.title)

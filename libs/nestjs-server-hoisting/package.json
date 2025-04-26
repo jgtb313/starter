@@ -19,7 +19,6 @@
     "@nestjs/platform-fastify": "^11.0.7",
     "@nestjs/swagger": "^11.0.7",
     "@rollup/plugin-typescript": "^12.1.2",
-    "@scalar/nestjs-api-reference": "^0.3.183",
     "@starter/common": "*",
     "@starter/config": "*",
     "@starter/schema": "*",
@@ -33,7 +32,8 @@
     "reflect-metadata": "^0.2.2",
     "typescript": "5.4.2",
     "vite": "6.0.5",
-    "vite-plugin-dts": "4.4.0"
+    "vite-plugin-dts": "4.4.0",
+    "zod-to-json-schema": "^3.24.5"
   },
   "main": "dist/nestjs-server-hoisting.cjs",
   "module": "dist/nestjs-server-hoisting.js",

@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common'
+import { Injectable, Inject } from '@nestjs/common'
 import { uuid } from '@starter/common'
 import Stripe from 'stripe'
 
@@ -56,16 +56,46 @@ export class StripeRecurrenceAdapter implements IRecurrenceAdapter {
     return
   }
 
-  createSubscription: IRecurrenceAdapter['createSubscription'] = async ({ referenceId, planId, customerId, paymentMethod }) => {
-    const paymentMethodd = await this.stripe.paymentMethods.create({
-      type: 'card',
-      card: {
-        number: '4242424242424242',
-        exp_month: 12,
-        exp_year: 2025,
-        cvc: '123',
-      },
-    })
+  createSubscription: IRecurrenceAdapter['createSubscription'] = async ({ referenceId, planId, customerId, ...input }) => {
+    let paymentMethod: Stripe.PaymentMethod
+
+    if (input.paymentMethod === RecurrencePaymentMethodEnum.CREDIT_CARD) {
+      const [expMonth, expYear] = input.creditCard.expirationDate.split('/').map(Number)
+
+      paymentMethod = await this.stripe.paymentMethods.create({
+        type: 'card',
+        card: {
+          number: input.creditCard.number,
+          exp_month: expMonth,
+          exp_year: expYear,
+          cvc: input.creditCard.cvv,
+        },
+      })
+    } else if (input.paymentMethod === RecurrencePaymentMethodEnum.DEBIT_CARD) {
+      const [expMonth, expYear] = input.debitCard.expirationDate.split('/').map(Number)
+
+      paymentMethod = await this.stripe.paymentMethods.create({
+        type: 'card',
+        card: {
+          number: input.debitCard.number,
+          exp_month: expMonth,
+          exp_year: expYear,
+          cvc: input.debitCard.cvv,
+        },
+      })
+    } else if (input.paymentMethod === RecurrencePaymentMethodEnum.PIX) {
+      paymentMethod = await this.stripe.paymentMethods.create({
+        type: 'pix',
+        pix: {},
+      })
+    } else if (input.paymentMethod === RecurrencePaymentMethodEnum.BOLETO) {
+      paymentMethod = await this.stripe.paymentMethods.create({
+        type: 'boleto',
+        boleto: {
+          tax_id: '',
+        },
+      })
+    }
 
     const subscription = await this.stripe.subscriptions.create({
       customer: customerId,
@@ -82,7 +112,7 @@ export class StripeRecurrenceAdapter implements IRecurrenceAdapter {
     const invoice: RecurrenceCreateSubscriptionOutput['invoice'] = {
       externalId: `${latestInvoice.id}`,
       amount: latestInvoice.amount_due,
-      paymentMethod: paymentMethod as unknown as RecurrencePaymentMethodEnum,
+      paymentMethod: input.paymentMethod,
       dueDate: new Date(),
       status: this.parseInvoiceStatus(latestInvoice.status),
     }
@@ -109,7 +139,9 @@ export class StripeRecurrenceAdapter implements IRecurrenceAdapter {
     }
   }
 
-  cancelSubscription: IRecurrenceAdapter['cancelSubscription'] = async () => {
+  cancelSubscription: IRecurrenceAdapter['cancelSubscription'] = async ({ subscriptionId }) => {
+    await this.stripe.subscriptions.cancel(subscriptionId)
+
     return
   }
 

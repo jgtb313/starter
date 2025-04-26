@@ -55,6 +55,7 @@ export class SubscriptionService implements ISubscriptionService {
       workspaceId: workspace.workspaceId,
       planId: plan.state.planId,
       externalId: recurrenceSubscription.subscriptionId,
+      payer,
     })
 
     await this.invoiceService.createInvoice({

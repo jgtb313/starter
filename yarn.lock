@@ -14483,6 +14483,11 @@ zod-i18n-map@^2.27.0:
   resolved "https://registry.yarnpkg.com/zod-i18n-map/-/zod-i18n-map-2.27.0.tgz#ad4e7f702de4d1f49e3edc79c1ac147a56f17152"
   integrity sha512-ORu9XpiVh3WDiEUs5Cr9siGgnpeODoBsTIgSD8sQCH9B//f9KowlzqHUEdPYb3vFonaSH8yPvPCOFM4niwp3Sg==
 
+zod-to-json-schema@^3.24.5:
+  version "3.24.5"
+  resolved "https://registry.yarnpkg.com/zod-to-json-schema/-/zod-to-json-schema-3.24.5.tgz#d1095440b147fb7c2093812a53c54df8d5df50a3"
+  integrity sha512-/AuWwMP+YqiPbsJx5D6TfgRTc4kTLjsh5SOcd4bLsfUg2RcEXrFMJl1DGgdHy2aCfsIA/cr/1JM0xcB2GZji8g==
+
 zod@^4.0.0-beta.20250424T163858:
   version "4.0.0-beta.20250424T163858"
   resolved "https://registry.yarnpkg.com/zod/-/zod-4.0.0-beta.20250424T163858.tgz#182eed707f41dc1aa3524ad79b171ce780cd926a"

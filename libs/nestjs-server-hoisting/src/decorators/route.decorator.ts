@@ -3,6 +3,7 @@ import { HttpCode, Get, Post, Put, Patch, Delete, Version, applyDecorators } fro
 import { GUARDS_METADATA } from '@nestjs/common/constants'
 import { ApiOperation, ApiBearerAuth, ApiHeader, ApiParam, ApiQuery, ApiBody, ApiResponse } from '@nestjs/swagger'
 import { UseZodGuard } from 'nestjs-zod'
+import { sample } from 'openapi-sampler'
 import { z } from '@starter/schema'
 import { get } from '@starter/common'
 
@@ -56,7 +57,7 @@ const ErrorSchema = {
   409: (message: string) =>
     z.object({
       statusCode: z.number().meta({ example: 409 }),
-      error: z.string().meta({ example: 'Confict Error' }),
+      error: z.string().meta({ example: 'Conflict Error' }),
       message: z.string().meta({ example: message }),
       metadata: z.record(z.string(), z.string()).optional(),
     }),
@@ -70,12 +71,17 @@ const ErrorSchema = {
     }),
 }
 
-const zodSchemaToJSONSchema = (zodType: z.ZodType) => {
+export const zodSchemaToJSONSchema = (zodType: z.ZodType): any => {
   return z.toJSONSchema(zodType, {
     io: 'input',
     override: (ctx) => {
       if (ctx.jsonSchema.minLength === 1 || ctx.jsonSchema.minimum === 1) {
         ctx.jsonSchema.minLength = undefined
+        ctx.jsonSchema.minimum = undefined
+      }
+
+      if (ctx.jsonSchema.enum || ctx.jsonSchema.const) {
+        ctx.jsonSchema.type = 'string'
       }
 
       ctx.jsonSchema.pattern = undefined
@@ -126,7 +132,6 @@ export const Route = (options: RouteOptions): MethodDecorator => {
             ApiQuery({
               ...(prop as {}),
               name,
-              // required: !!openApiSchema.required?.includes(name),
             }),
           )
         })
@@ -139,7 +144,6 @@ export const Route = (options: RouteOptions): MethodDecorator => {
           ApiParam({
             ...(prop as {}),
             name,
-            // required: !!openApiSchema.required?.includes(name),
           }),
         )
       })
@@ -151,16 +155,16 @@ export const Route = (options: RouteOptions): MethodDecorator => {
         ApiBody({
           schema: {
             ...openApiSchema,
-            // properties: Object.fromEntries(
-            //   Object.entries(openApiSchema.properties ?? {}).map(([name, prop]) => [
-            //     name,
-            //     {
-            //       ...(prop as {}),
-            //       name,
-            //       required: get(prop, 'required'),
-            //     },
-            //   ]),
-            // ),
+            properties: Object.fromEntries(
+              Object.entries(openApiSchema.properties ?? {}).map(([name, prop]) => [
+                name,
+                {
+                  ...(prop as {}),
+                  name,
+                  required: get(prop, 'required'),
+                },
+              ]),
+            ),
           },
           required: true,
         }),
@@ -190,14 +194,22 @@ export const Route = (options: RouteOptions): MethodDecorator => {
                   ? zodSchemaToJSONSchema(ErrorSchema[httpResponse](httpResponsesDescriptions[httpResponse]))
                   : undefined,
                 examples: Object.fromEntries(
-                  value.map((item) => [
-                    'description' in item ? item.description : httpResponsesDescriptions[httpResponse],
-                    'schema' in item
-                      ? zodSchemaToJSONSchema(item.schema)
-                      : isHttpResponseError(httpResponse)
-                        ? zodSchemaToJSONSchema(ErrorSchema[httpResponse](item.description))
-                        : {},
-                  ]),
+                  value.map((item) => {
+                    const description = 'description' in item ? item.description : httpResponsesDescriptions[httpResponse]
+
+                    return [
+                      description,
+                      {
+                        summary: description,
+                        value:
+                          'schema' in item
+                            ? sample(zodSchemaToJSONSchema(item.schema))
+                            : isHttpResponseError(httpResponse)
+                              ? sample(zodSchemaToJSONSchema(ErrorSchema[httpResponse](item.description)))
+                              : {},
+                      },
+                    ]
+                  }),
                 ),
               },
             },
