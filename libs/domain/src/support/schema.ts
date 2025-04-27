@@ -1,5 +1,5 @@
 import { z } from '@starter/schema'
-import { type PickNullable, type PickNotNullable } from '@starter/common'
+import type { PickNullable, PickNotNullable } from '@starter/common'
 
 export type BaseSchema<K extends keyof T, T, P extends keyof T = never> = {
   [Key in keyof PickNullable<Omit<T, 'createdAt' | 'updatedAt' | P | K>>]?: Exclude<T[Key], null> | null

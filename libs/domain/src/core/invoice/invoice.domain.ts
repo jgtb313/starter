@@ -25,7 +25,7 @@ export class InvoiceDomain extends BaseDomain<Invoice> {
   }
 
   isPayable() {
-    return !this.isPending()
+    return this.isPending()
   }
 
   markAsPaid() {

@@ -2,8 +2,8 @@ import { describe, it, expect } from 'vitest'
 import { ConflictException } from '@starter/nestjs-error-handling'
 
 import { RecurrencePaymentMethodEnum } from '@/ports/recurrence'
-import { InvoiceDomain } from '@/core/invoice/invoice.domain'
 import { Invoice, InvoiceStatusEnum } from '@/core/invoice/invoice.schema'
+import { InvoiceDomain } from '@/core/invoice/invoice.domain'
 
 const makeInvoice = (overrides: Partial<Invoice>): Invoice => ({
   invoiceId: 'inv_test_id',

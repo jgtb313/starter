@@ -118,9 +118,9 @@ export const Route = (options: RouteOptions): MethodDecorator => {
     if (options.method === 'PATCH') decorators.push(Patch(options.path))
     if (options.method === 'DELETE') decorators.push(Delete(options.path))
 
-    if (options.parameters.query) decorators.push(UseZodGuard('query', options.parameters.query))
-    if (options.parameters.params) decorators.push(UseZodGuard('params', options.parameters.params))
-    if (options.parameters.body) decorators.push(UseZodGuard('body', options.parameters.body))
+    // if (options.parameters.query) decorators.push(UseZodGuard('query', options.parameters.query))
+    // if (options.parameters.params) decorators.push(UseZodGuard('params', options.parameters.params))
+    // if (options.parameters.body) decorators.push(UseZodGuard('body', options.parameters.body))
 
     decorators.push(
       ApiQuery({
