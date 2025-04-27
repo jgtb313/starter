@@ -3615,7 +3615,7 @@
     argparse "~1.0.9"
     string-argv "~0.3.1"
 
-"@scalar/nestjs-api-reference@^0.3.180", "@scalar/nestjs-api-reference@^0.3.183":
+"@scalar/nestjs-api-reference@^0.3.180":
   version "0.3.184"
   resolved "https://registry.yarnpkg.com/@scalar/nestjs-api-reference/-/nestjs-api-reference-0.3.184.tgz#a82842ee7aa1000662233c454a217cfcbfdc5b1c"
   integrity sha512-VKNZN8QADdXxLS270QbVSAo76PgduSawjJHKtBRBpGzV/ITaueRGFkyi6MZ2nY2MrW4JTK/seazptAatKKhsqg==
@@ -10778,7 +10778,7 @@ neo-async@^2.6.2:
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.2.tgz#b4aafb93e3aeb2d8174ca53cf163ab7d7308305f"
   integrity sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==
 
-nestjs-zod@^4.2.0:
+nestjs-zod@^4.2.0, nestjs-zod@^4.3.1:
   version "4.3.1"
   resolved "https://registry.yarnpkg.com/nestjs-zod/-/nestjs-zod-4.3.1.tgz#4fa4fc502d3a08f965e407f617275cd127b72f29"
   integrity sha512-gl10NOf/AhWt4HLcnMI1J0WUlBCKyteJBftD6SwNyX71/vzAorr5MJQWiDJoPPkou9QL2CRHHBtyjr55o7++Xw==

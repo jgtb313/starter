@@ -31,6 +31,7 @@ export const registerSwagger = (app: INestApplication, options: NestServerHoisti
       type: 'http',
       name: 'Bearer',
       scheme: 'Bearer',
+      bearerFormat: 'JWT',
     },
     'Bearer',
   )

@@ -1,7 +1,7 @@
 import { Reflector } from '@nestjs/core'
 import { HttpCode, Get, Post, Put, Patch, Delete, Version, applyDecorators } from '@nestjs/common'
 import { GUARDS_METADATA } from '@nestjs/common/constants'
-import { ApiOperation, ApiBearerAuth, ApiHeader, ApiParam, ApiQuery, ApiBody, ApiResponse } from '@nestjs/swagger'
+import { ApiOperation, ApiBearerAuth, ApiParam, ApiQuery, ApiBody, ApiResponse } from '@nestjs/swagger'
 import { UseZodGuard } from 'nestjs-zod'
 import { sample } from 'openapi-sampler'
 import { z } from '@starter/schema'
@@ -271,15 +271,7 @@ export const Route = (options: RouteOptions): MethodDecorator => {
     decorators.push(Version(version.replace('v', '')))
 
     if (authenticated) {
-      decorators.push(ApiBearerAuth())
-      decorators.push(
-        ApiHeader({
-          name: 'authorization',
-          description: 'The authorization token for user authentication.',
-          example: 'Bearer <your_token_here>',
-          required: true,
-        }),
-      )
+      decorators.push(ApiBearerAuth('Bearer'))
     }
 
     applyDecorators(...decorators)(target, propertyKey, descriptor)

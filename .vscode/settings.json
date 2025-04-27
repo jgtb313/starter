@@ -28,7 +28,7 @@
   "typescript.tsdk": "node_modules/typescript/lib",
   "files.exclude": {
     "**/node_modules": true,
-    "dist": true
+    "**/dist": true
   },
   "search.exclude": {
     "node_modules": true,

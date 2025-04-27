@@ -2146,15 +2146,6 @@
         "operationId": "listOrganizations",
         "parameters": [
           {
-            "name": "authorization",
-            "in": "header",
-            "description": "The authorization token for user authentication.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
             "name": "fields",
             "required": false,
             "in": "query",
@@ -2417,7 +2408,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "Bearer": []
           }
         ],
         "summary": "List Organizations",
@@ -2429,15 +2420,6 @@
         "description": "Creates a new organization.",
         "operationId": "createOrganization",
         "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "description": "The authorization token for user authentication.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
           {
             "name": "fields",
             "required": false,
@@ -2636,7 +2618,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "Bearer": []
           }
         ],
         "summary": "Create Organization",
@@ -2650,15 +2632,6 @@
         "description": "Retrieves a single organization by their ID.",
         "operationId": "getOrganization",
         "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "description": "The authorization token for user authentication.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
           {
             "name": "fields",
             "required": false,
@@ -2839,7 +2812,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "Bearer": []
           }
         ],
         "summary": "Get Organization",
@@ -2851,15 +2824,6 @@
         "description": "Updates an existing organization by their ID.",
         "operationId": "updateOrganization",
         "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "description": "The authorization token for user authentication.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
           {
             "name": "fields",
             "required": false,
@@ -3066,7 +3030,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "Bearer": []
           }
         ],
         "summary": "Update Organization",
@@ -3078,15 +3042,6 @@
         "description": "Deletes a organization by their ID.",
         "operationId": "deleteOrganization",
         "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "description": "The authorization token for user authentication.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
           {
             "name": "fields",
             "required": false,
@@ -3210,7 +3165,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "Bearer": []
           }
         ],
         "summary": "Delete Organization",
@@ -4038,15 +3993,6 @@
               "example": "id,name,email",
               "type": "string"
             }
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "description": "The authorization token for user authentication.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
           }
         ],
         "requestBody": {
@@ -4251,7 +4197,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "Bearer": []
           }
         ],
         "summary": "Send Email Update OTP",
@@ -4272,15 +4218,6 @@
             "description": "Comma-separated list of fields to return in the response.",
             "schema": {
               "example": "id,name,email",
-              "type": "string"
-            }
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "description": "The authorization token for user authentication.",
-            "required": true,
-            "schema": {
               "type": "string"
             }
           }
@@ -4514,7 +4451,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "Bearer": []
           }
         ],
         "summary": "Send Update Phone OTP",
@@ -4943,15 +4880,6 @@
         "description": "Retrieves the profile information of the authenticated user.",
         "operationId": "getProfile",
         "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "description": "The authorization token for user authentication.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
           {
             "name": "fields",
             "required": false,
@@ -5474,7 +5402,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "Bearer": []
           }
         ],
         "summary": "Get Profile",
@@ -5486,15 +5414,6 @@
         "description": "Updates and returns the authenticated profile.",
         "operationId": "updateProfile",
         "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "description": "The authorization token for user authentication.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
           {
             "name": "fields",
             "required": false,
@@ -6045,7 +5964,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "Bearer": []
           }
         ],
         "summary": "Update Profile",
@@ -6057,15 +5976,6 @@
         "description": "Deactivates the authenticated account.",
         "operationId": "deactivateProfile",
         "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "description": "The authorization token for user authentication.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
           {
             "name": "fields",
             "required": false,
@@ -6205,7 +6115,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "Bearer": []
           }
         ],
         "summary": "Deactivate Profile",
@@ -6219,15 +6129,6 @@
         "description": "Validates the OTP sent to the user's email and allows the user to reset their email.",
         "operationId": "updateProfileEmail",
         "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "description": "The authorization token for user authentication.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
           {
             "name": "fields",
             "required": false,
@@ -6968,7 +6869,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "Bearer": []
           }
         ],
         "summary": "Update Profile Email",
@@ -6982,15 +6883,6 @@
         "description": "Validates the OTP sent to the user's phone and allows the user to reset their phone number.",
         "operationId": "updateProfilePhone",
         "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "description": "The authorization token for user authentication.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
           {
             "name": "fields",
             "required": false,
@@ -7749,7 +7641,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "Bearer": []
           }
         ],
         "summary": "Update Profile Phone",
@@ -7763,15 +7655,6 @@
         "description": "Updates the authenticated user password.",
         "operationId": "updateProfilePassword",
         "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "description": "The authorization token for user authentication.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
           {
             "name": "fields",
             "required": false,
@@ -7936,7 +7819,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "Bearer": []
           }
         ],
         "summary": "Update Profile Password",
@@ -7950,15 +7833,6 @@
         "description": "Retrieves a list of roles.",
         "operationId": "listRoles",
         "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "description": "The authorization token for user authentication.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
           {
             "name": "fields",
             "required": false,
@@ -8315,7 +8189,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "Bearer": []
           }
         ],
         "summary": "List Roles",
@@ -8327,15 +8201,6 @@
         "description": "Creates a new role.",
         "operationId": "createRole",
         "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "description": "The authorization token for user authentication.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
           {
             "name": "fields",
             "required": false,
@@ -8662,7 +8527,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "Bearer": []
           }
         ],
         "summary": "Create Role",
@@ -8676,15 +8541,6 @@
         "description": "Retrieves a single role by their ID.",
         "operationId": "getRole",
         "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "description": "The authorization token for user authentication.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
           {
             "name": "fields",
             "required": false,
@@ -8958,7 +8814,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "Bearer": []
           }
         ],
         "summary": "Get Role",
@@ -8970,15 +8826,6 @@
         "description": "Updates an existing role by their ID.",
         "operationId": "updateRole",
         "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "description": "The authorization token for user authentication.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
           {
             "name": "fields",
             "required": false,
@@ -9301,7 +9148,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "Bearer": []
           }
         ],
         "summary": "Update Role",
@@ -9313,15 +9160,6 @@
         "description": "Deletes a role by their ID.",
         "operationId": "deleteRole",
         "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "description": "The authorization token for user authentication.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
           {
             "name": "fields",
             "required": false,
@@ -9445,7 +9283,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "Bearer": []
           }
         ],
         "summary": "Delete Role",
@@ -15476,15 +15314,6 @@
         "operationId": "listUsers",
         "parameters": [
           {
-            "name": "authorization",
-            "in": "header",
-            "description": "The authorization token for user authentication.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
             "name": "fields",
             "required": false,
             "in": "query",
@@ -16078,7 +15907,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "Bearer": []
           }
         ],
         "summary": "List Users",
@@ -16090,15 +15919,6 @@
         "description": "Creates a new user.",
         "operationId": "createUser",
         "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "description": "The authorization token for user authentication.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
           {
             "name": "fields",
             "required": false,
@@ -16718,7 +16538,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "Bearer": []
           }
         ],
         "summary": "Create User",
@@ -16732,15 +16552,6 @@
         "description": "Retrieves a single user by their ID.",
         "operationId": "getUser",
         "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "description": "The authorization token for user authentication.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
           {
             "name": "fields",
             "required": false,
@@ -17230,7 +17041,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "Bearer": []
           }
         ],
         "summary": "Get User",
@@ -17242,15 +17053,6 @@
         "description": "Updates an existing user by their ID.",
         "operationId": "updateUser",
         "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "description": "The authorization token for user authentication.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
           {
             "name": "fields",
             "required": false,
@@ -17802,7 +17604,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "Bearer": []
           }
         ],
         "summary": "Update User",
@@ -17816,15 +17618,6 @@
         "description": "Retrieves a single workspace by their ID.",
         "operationId": "getWorkspace",
         "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "description": "The authorization token for user authentication.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
           {
             "name": "fields",
             "required": false,
@@ -17975,7 +17768,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "Bearer": []
           }
         ],
         "summary": "Get Workspace",
@@ -17987,15 +17780,6 @@
         "description": "Updates an existing workspace by their ID.",
         "operationId": "updateWorkspace",
         "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "description": "The authorization token for user authentication.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
           {
             "name": "fields",
             "required": false,
@@ -18172,7 +17956,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "Bearer": []
           }
         ],
         "summary": "Update Workspace",
@@ -18186,15 +17970,6 @@
         "description": "Creates a new workspace.",
         "operationId": "createWorkspace",
         "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "description": "The authorization token for user authentication.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
           {
             "name": "fields",
             "required": false,
@@ -18353,7 +18128,7 @@
         },
         "security": [
           {
-            "bearer": []
+            "Bearer": []
           }
         ],
         "summary": "Create Workspace",

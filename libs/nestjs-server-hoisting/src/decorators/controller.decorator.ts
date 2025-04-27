@@ -1,7 +1,7 @@
 import { Reflector } from '@nestjs/core'
 import { Controller as NestController, applyDecorators } from '@nestjs/common'
 import { GUARDS_METADATA } from '@nestjs/common/constants'
-import { ApiTags, ApiBearerAuth, ApiHeader } from '@nestjs/swagger'
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger'
 
 import { ControllerOptions } from '@/interfaces'
 import { StateManager } from '@/nestjs-server-hoisting.state'
@@ -18,15 +18,7 @@ export const Controller = (options: ControllerOptions): ClassDecorator => {
     const authenticated = !!guards.length
 
     if (authenticated) {
-      decorators.push(ApiBearerAuth())
-      decorators.push(
-        ApiHeader({
-          name: 'authorization',
-          description: 'The authorization token for user authentication.',
-          example: 'Bearer <your_token_here>',
-          required: true,
-        }),
-      )
+      decorators.push(ApiBearerAuth('Bearer'))
     }
 
     decorators.push(NestController(options.basePath))
