@@ -88,6 +88,10 @@ export const registerSwagger = (app: INestApplication, options: NestServerHoisti
               a.sl-flex.sl-items-center.sl-px-4.sl-py-3.sl-border-t {
                 display: none;
               }
+
+              button[aria-label="Export"] {
+                display: none !important;
+              }
             </style>
           </head>
   
@@ -95,9 +99,8 @@ export const registerSwagger = (app: INestApplication, options: NestServerHoisti
             <elements-api
               logo="${config.logo.lightSymbol}"
               apiDescriptionUrl="${options.server}/openapi"
-              router="history"
+              router="hash"
               layout="responsive"
-              hideExport
             />
           </body>
         </html>

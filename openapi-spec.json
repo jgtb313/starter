@@ -20679,5 +20679,15 @@
         ]
       }
     }
-  }
+  },
+  "x-pages": [
+    {
+      "title": "Introdução",
+      "content": "# Bem-vindo à nossa API!\nEsta API permite que você faça login, crie contas e acesse outros recursos."
+    },
+    {
+      "title": "Guia de Autenticação",
+      "content": "# Como autenticar na API\nPara autenticar, você precisa enviar uma solicitação POST para o endpoint `/login` com suas credenciais."
+    }
+  ]
 }
