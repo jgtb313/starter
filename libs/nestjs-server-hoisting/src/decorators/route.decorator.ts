@@ -122,6 +122,16 @@ export const Route = (options: RouteOptions): MethodDecorator => {
     if (options.parameters.params) decorators.push(UseZodGuard('params', options.parameters.params))
     if (options.parameters.body) decorators.push(UseZodGuard('body', options.parameters.body))
 
+    decorators.push(
+      ApiQuery({
+        name: 'fields',
+        type: 'string',
+        description: 'Comma-separated list of fields to return in the response.',
+        example: 'id,name,email',
+        required: false,
+      }),
+    )
+
     if (options.parameters.query) {
       const openApiSchema = zodSchemaToJSONSchema(options.parameters.query)
 
@@ -170,16 +180,6 @@ export const Route = (options: RouteOptions): MethodDecorator => {
         }),
       )
     }
-
-    decorators.push(
-      ApiQuery({
-        name: 'fields',
-        type: 'string',
-        description: 'Comma-separated list of fields to return in the response.',
-        example: 'id,name,email',
-        required: false,
-      }),
-    )
 
     Object.entries(options.responses).forEach(([response, value]) => {
       const httpResponse = Number(response) as HttpStatus

@@ -61,7 +61,7 @@ export const registerSwagger = (app: INestApplication, options: NestServerHoisti
     res.setHeader('Content-Type', 'text/html')
     res.send(`
         <!doctype html>
-        <html lang="en">
+        <html lang="en" data-theme="dark">
           <head>
             <meta charset="utf-8">
             <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -84,8 +84,16 @@ export const registerSwagger = (app: INestApplication, options: NestServerHoisti
                 flex: 1;
                 overflow-y: auto;
               }
+
+              .sl-prose p {
+                margin-bottom: 0px;
+              }
+
+              .sl-prose ul {
+                margin-top: 0px;
+              }
   
-              a.sl-flex.sl-items-center.sl-px-4.sl-py-3.sl-border-t {
+              a.sl-flex.sl-items-center.sl-px-4.sl-py-3.sl-border-t, .sl-stack.sl-stack--vertical.sl-stack--3.sl-flex.sl-flex-col.sl-items-stretch, .sl-flex.sl-flex-grow-0.sl-flex-shrink-0.sl-justify-self-end.sl-resize-x {
                 display: none;
               }
 

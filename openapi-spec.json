@@ -1313,6 +1313,16 @@
         "operationId": "listInvoices",
         "parameters": [
           {
+            "name": "fields",
+            "required": false,
+            "in": "query",
+            "description": "Comma-separated list of fields to return in the response.",
+            "schema": {
+              "example": "id,name,email",
+              "type": "string"
+            }
+          },
+          {
             "name": "offset",
             "required": true,
             "in": "query",
@@ -1332,16 +1342,6 @@
               "default": 10,
               "example": 20,
               "type": "number"
-            }
-          },
-          {
-            "name": "fields",
-            "required": false,
-            "in": "query",
-            "description": "Comma-separated list of fields to return in the response.",
-            "schema": {
-              "example": "id,name,email",
-              "type": "string"
             }
           }
         ],
@@ -2155,10 +2155,20 @@
             }
           },
           {
+            "name": "fields",
+            "required": false,
+            "in": "query",
+            "description": "Comma-separated list of fields to return in the response.",
+            "schema": {
+              "example": "id,name,email",
+              "type": "string"
+            }
+          },
+          {
             "name": "filter",
             "required": true,
             "in": "query",
-            "description": "Generic filter that can match against \n - name\n- status",
+            "description": "Generic filter that can match against \n* name\n* status",
             "schema": {
               "example": "Acme",
               "type": "string"
@@ -2214,16 +2224,6 @@
             "schema": {
               "format": "uuid",
               "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
-              "type": "string"
-            }
-          },
-          {
-            "name": "fields",
-            "required": false,
-            "in": "query",
-            "description": "Comma-separated list of fields to return in the response.",
-            "schema": {
-              "example": "id,name,email",
               "type": "string"
             }
           }
@@ -2439,6 +2439,16 @@
             }
           },
           {
+            "name": "fields",
+            "required": false,
+            "in": "query",
+            "description": "Comma-separated list of fields to return in the response.",
+            "schema": {
+              "example": "id,name,email",
+              "type": "string"
+            }
+          },
+          {
             "name": "workspaceId",
             "required": true,
             "in": "path",
@@ -2446,16 +2456,6 @@
             "schema": {
               "format": "uuid",
               "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
-              "type": "string"
-            }
-          },
-          {
-            "name": "fields",
-            "required": false,
-            "in": "query",
-            "description": "Comma-separated list of fields to return in the response.",
-            "schema": {
-              "example": "id,name,email",
               "type": "string"
             }
           }
@@ -2660,6 +2660,16 @@
             }
           },
           {
+            "name": "fields",
+            "required": false,
+            "in": "query",
+            "description": "Comma-separated list of fields to return in the response.",
+            "schema": {
+              "example": "id,name,email",
+              "type": "string"
+            }
+          },
+          {
             "name": "workspaceId",
             "required": true,
             "in": "path",
@@ -2678,16 +2688,6 @@
             "schema": {
               "format": "uuid",
               "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
-              "type": "string"
-            }
-          },
-          {
-            "name": "fields",
-            "required": false,
-            "in": "query",
-            "description": "Comma-separated list of fields to return in the response.",
-            "schema": {
-              "example": "id,name,email",
               "type": "string"
             }
           }
@@ -2861,6 +2861,16 @@
             }
           },
           {
+            "name": "fields",
+            "required": false,
+            "in": "query",
+            "description": "Comma-separated list of fields to return in the response.",
+            "schema": {
+              "example": "id,name,email",
+              "type": "string"
+            }
+          },
+          {
             "name": "workspaceId",
             "required": true,
             "in": "path",
@@ -2879,16 +2889,6 @@
             "schema": {
               "format": "uuid",
               "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
-              "type": "string"
-            }
-          },
-          {
-            "name": "fields",
-            "required": false,
-            "in": "query",
-            "description": "Comma-separated list of fields to return in the response.",
-            "schema": {
-              "example": "id,name,email",
               "type": "string"
             }
           }
@@ -3088,6 +3088,16 @@
             }
           },
           {
+            "name": "fields",
+            "required": false,
+            "in": "query",
+            "description": "Comma-separated list of fields to return in the response.",
+            "schema": {
+              "example": "id,name,email",
+              "type": "string"
+            }
+          },
+          {
             "name": "workspaceId",
             "required": true,
             "in": "path",
@@ -3106,16 +3116,6 @@
             "schema": {
               "format": "uuid",
               "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
-              "type": "string"
-            }
-          },
-          {
-            "name": "fields",
-            "required": false,
-            "in": "query",
-            "description": "Comma-separated list of fields to return in the response.",
-            "schema": {
-              "example": "id,name,email",
               "type": "string"
             }
           }
@@ -3225,6 +3225,16 @@
         "operationId": "validateOTP",
         "parameters": [
           {
+            "name": "fields",
+            "required": false,
+            "in": "query",
+            "description": "Comma-separated list of fields to return in the response.",
+            "schema": {
+              "example": "id,name,email",
+              "type": "string"
+            }
+          },
+          {
             "name": "otpId",
             "required": true,
             "in": "path",
@@ -3232,16 +3242,6 @@
             "schema": {
               "format": "uuid",
               "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
-              "type": "string"
-            }
-          },
-          {
-            "name": "fields",
-            "required": false,
-            "in": "query",
-            "description": "Comma-separated list of fields to return in the response.",
-            "schema": {
-              "example": "id,name,email",
               "type": "string"
             }
           }
@@ -4646,6 +4646,16 @@
         "operationId": "listPlans",
         "parameters": [
           {
+            "name": "fields",
+            "required": false,
+            "in": "query",
+            "description": "Comma-separated list of fields to return in the response.",
+            "schema": {
+              "example": "id,name,email",
+              "type": "string"
+            }
+          },
+          {
             "name": "offset",
             "required": true,
             "in": "query",
@@ -4665,16 +4675,6 @@
               "default": 10,
               "example": 20,
               "type": "number"
-            }
-          },
-          {
-            "name": "fields",
-            "required": false,
-            "in": "query",
-            "description": "Comma-separated list of fields to return in the response.",
-            "schema": {
-              "example": "id,name,email",
-              "type": "string"
             }
           }
         ],
@@ -7960,10 +7960,20 @@
             }
           },
           {
+            "name": "fields",
+            "required": false,
+            "in": "query",
+            "description": "Comma-separated list of fields to return in the response.",
+            "schema": {
+              "example": "id,name,email",
+              "type": "string"
+            }
+          },
+          {
             "name": "filter",
             "required": true,
             "in": "query",
-            "description": "Generic filter that can match against \n - name\n- status",
+            "description": "Generic filter that can match against \n* name\n* status",
             "schema": {
               "example": "Acme",
               "type": "string"
@@ -8019,16 +8029,6 @@
             "schema": {
               "format": "uuid",
               "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
-              "type": "string"
-            }
-          },
-          {
-            "name": "fields",
-            "required": false,
-            "in": "query",
-            "description": "Comma-separated list of fields to return in the response.",
-            "schema": {
-              "example": "id,name,email",
               "type": "string"
             }
           }
@@ -8324,7 +8324,7 @@
         ]
       },
       "post": {
-        "description": "Creates a new organization.",
+        "description": "Creates a new role.",
         "operationId": "createRole",
         "parameters": [
           {
@@ -8337,6 +8337,16 @@
             }
           },
           {
+            "name": "fields",
+            "required": false,
+            "in": "query",
+            "description": "Comma-separated list of fields to return in the response.",
+            "schema": {
+              "example": "id,name,email",
+              "type": "string"
+            }
+          },
+          {
             "name": "workspaceId",
             "required": true,
             "in": "path",
@@ -8344,16 +8354,6 @@
             "schema": {
               "format": "uuid",
               "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
-              "type": "string"
-            }
-          },
-          {
-            "name": "fields",
-            "required": false,
-            "in": "query",
-            "description": "Comma-separated list of fields to return in the response.",
-            "schema": {
-              "example": "id,name,email",
               "type": "string"
             }
           }
@@ -8673,7 +8673,7 @@
     },
     "/v1/workspaces/{workspaceId}/roles/{roleId}": {
       "get": {
-        "description": "Retrieves a single organization by their ID.",
+        "description": "Retrieves a single role by their ID.",
         "operationId": "getRole",
         "parameters": [
           {
@@ -8682,6 +8682,16 @@
             "description": "The authorization token for user authentication.",
             "required": true,
             "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fields",
+            "required": false,
+            "in": "query",
+            "description": "Comma-separated list of fields to return in the response.",
+            "schema": {
+              "example": "id,name,email",
               "type": "string"
             }
           },
@@ -8704,16 +8714,6 @@
             "schema": {
               "format": "uuid",
               "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
-              "type": "string"
-            }
-          },
-          {
-            "name": "fields",
-            "required": false,
-            "in": "query",
-            "description": "Comma-separated list of fields to return in the response.",
-            "schema": {
-              "example": "id,name,email",
               "type": "string"
             }
           }
@@ -8967,7 +8967,7 @@
         ]
       },
       "patch": {
-        "description": "Updates an existing organization by their ID.",
+        "description": "Updates an existing role by their ID.",
         "operationId": "updateRole",
         "parameters": [
           {
@@ -8976,6 +8976,16 @@
             "description": "The authorization token for user authentication.",
             "required": true,
             "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fields",
+            "required": false,
+            "in": "query",
+            "description": "Comma-separated list of fields to return in the response.",
+            "schema": {
+              "example": "id,name,email",
               "type": "string"
             }
           },
@@ -8998,16 +9008,6 @@
             "schema": {
               "format": "uuid",
               "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
-              "type": "string"
-            }
-          },
-          {
-            "name": "fields",
-            "required": false,
-            "in": "query",
-            "description": "Comma-separated list of fields to return in the response.",
-            "schema": {
-              "example": "id,name,email",
               "type": "string"
             }
           }
@@ -9310,7 +9310,7 @@
         ]
       },
       "delete": {
-        "description": "Deletes a organization by their ID.",
+        "description": "Deletes a role by their ID.",
         "operationId": "deleteRole",
         "parameters": [
           {
@@ -9319,6 +9319,16 @@
             "description": "The authorization token for user authentication.",
             "required": true,
             "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fields",
+            "required": false,
+            "in": "query",
+            "description": "Comma-separated list of fields to return in the response.",
+            "schema": {
+              "example": "id,name,email",
               "type": "string"
             }
           },
@@ -9341,16 +9351,6 @@
             "schema": {
               "format": "uuid",
               "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
-              "type": "string"
-            }
-          },
-          {
-            "name": "fields",
-            "required": false,
-            "in": "query",
-            "description": "Comma-separated list of fields to return in the response.",
-            "schema": {
-              "example": "id,name,email",
               "type": "string"
             }
           }
@@ -9460,6 +9460,16 @@
         "operationId": "getSubscription",
         "parameters": [
           {
+            "name": "fields",
+            "required": false,
+            "in": "query",
+            "description": "Comma-separated list of fields to return in the response.",
+            "schema": {
+              "example": "id,name,email",
+              "type": "string"
+            }
+          },
+          {
             "name": "workspaceId",
             "required": true,
             "in": "path",
@@ -9478,16 +9488,6 @@
             "schema": {
               "format": "uuid",
               "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
-              "type": "string"
-            }
-          },
-          {
-            "name": "fields",
-            "required": false,
-            "in": "query",
-            "description": "Comma-separated list of fields to return in the response.",
-            "schema": {
-              "example": "id,name,email",
               "type": "string"
             }
           }
@@ -10493,6 +10493,16 @@
         "operationId": "cancelSubscription",
         "parameters": [
           {
+            "name": "fields",
+            "required": false,
+            "in": "query",
+            "description": "Comma-separated list of fields to return in the response.",
+            "schema": {
+              "example": "id,name,email",
+              "type": "string"
+            }
+          },
+          {
             "name": "workspaceId",
             "required": true,
             "in": "path",
@@ -10511,16 +10521,6 @@
             "schema": {
               "format": "uuid",
               "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
-              "type": "string"
-            }
-          },
-          {
-            "name": "fields",
-            "required": false,
-            "in": "query",
-            "description": "Comma-separated list of fields to return in the response.",
-            "schema": {
-              "example": "id,name,email",
               "type": "string"
             }
           }
@@ -11528,6 +11528,16 @@
         "operationId": "createSubscription",
         "parameters": [
           {
+            "name": "fields",
+            "required": false,
+            "in": "query",
+            "description": "Comma-separated list of fields to return in the response.",
+            "schema": {
+              "example": "id,name,email",
+              "type": "string"
+            }
+          },
+          {
             "name": "workspaceId",
             "required": true,
             "in": "path",
@@ -11535,16 +11545,6 @@
             "schema": {
               "format": "uuid",
               "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
-              "type": "string"
-            }
-          },
-          {
-            "name": "fields",
-            "required": false,
-            "in": "query",
-            "description": "Comma-separated list of fields to return in the response.",
-            "schema": {
-              "example": "id,name,email",
               "type": "string"
             }
           }
@@ -13202,6 +13202,16 @@
         "operationId": "changeSubscriptionPlan",
         "parameters": [
           {
+            "name": "fields",
+            "required": false,
+            "in": "query",
+            "description": "Comma-separated list of fields to return in the response.",
+            "schema": {
+              "example": "id,name,email",
+              "type": "string"
+            }
+          },
+          {
             "name": "workspaceId",
             "required": true,
             "in": "path",
@@ -13220,16 +13230,6 @@
             "schema": {
               "format": "uuid",
               "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
-              "type": "string"
-            }
-          },
-          {
-            "name": "fields",
-            "required": false,
-            "in": "query",
-            "description": "Comma-separated list of fields to return in the response.",
-            "schema": {
-              "example": "id,name,email",
               "type": "string"
             }
           }
@@ -14259,6 +14259,16 @@
         "operationId": "changeSubscriptionPaymentMethod",
         "parameters": [
           {
+            "name": "fields",
+            "required": false,
+            "in": "query",
+            "description": "Comma-separated list of fields to return in the response.",
+            "schema": {
+              "example": "id,name,email",
+              "type": "string"
+            }
+          },
+          {
             "name": "workspaceId",
             "required": true,
             "in": "path",
@@ -14277,16 +14287,6 @@
             "schema": {
               "format": "uuid",
               "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
-              "type": "string"
-            }
-          },
-          {
-            "name": "fields",
-            "required": false,
-            "in": "query",
-            "description": "Comma-separated list of fields to return in the response.",
-            "schema": {
-              "example": "id,name,email",
               "type": "string"
             }
           }
@@ -15485,10 +15485,20 @@
             }
           },
           {
+            "name": "fields",
+            "required": false,
+            "in": "query",
+            "description": "Comma-separated list of fields to return in the response.",
+            "schema": {
+              "example": "id,name,email",
+              "type": "string"
+            }
+          },
+          {
             "name": "filter",
             "required": true,
             "in": "query",
-            "description": "Generic filter that can match against \n - name\n- email",
+            "description": "Generic filter that can match against \n* name\n* email",
             "schema": {
               "example": "John Doe",
               "type": "string"
@@ -15544,16 +15554,6 @@
             "schema": {
               "format": "uuid",
               "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
-              "type": "string"
-            }
-          },
-          {
-            "name": "fields",
-            "required": false,
-            "in": "query",
-            "description": "Comma-separated list of fields to return in the response.",
-            "schema": {
-              "example": "id,name,email",
               "type": "string"
             }
           }
@@ -16100,6 +16100,16 @@
             }
           },
           {
+            "name": "fields",
+            "required": false,
+            "in": "query",
+            "description": "Comma-separated list of fields to return in the response.",
+            "schema": {
+              "example": "id,name,email",
+              "type": "string"
+            }
+          },
+          {
             "name": "workspaceId",
             "required": true,
             "in": "path",
@@ -16107,16 +16117,6 @@
             "schema": {
               "format": "uuid",
               "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
-              "type": "string"
-            }
-          },
-          {
-            "name": "fields",
-            "required": false,
-            "in": "query",
-            "description": "Comma-separated list of fields to return in the response.",
-            "schema": {
-              "example": "id,name,email",
               "type": "string"
             }
           }
@@ -17826,6 +17826,16 @@
             }
           },
           {
+            "name": "fields",
+            "required": false,
+            "in": "query",
+            "description": "Comma-separated list of fields to return in the response.",
+            "schema": {
+              "example": "id,name,email",
+              "type": "string"
+            }
+          },
+          {
             "name": "workspaceId",
             "required": true,
             "in": "path",
@@ -17833,16 +17843,6 @@
             "schema": {
               "format": "uuid",
               "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
-              "type": "string"
-            }
-          },
-          {
-            "name": "fields",
-            "required": false,
-            "in": "query",
-            "description": "Comma-separated list of fields to return in the response.",
-            "schema": {
-              "example": "id,name,email",
               "type": "string"
             }
           }
@@ -17997,6 +17997,16 @@
             }
           },
           {
+            "name": "fields",
+            "required": false,
+            "in": "query",
+            "description": "Comma-separated list of fields to return in the response.",
+            "schema": {
+              "example": "id,name,email",
+              "type": "string"
+            }
+          },
+          {
             "name": "workspaceId",
             "required": true,
             "in": "path",
@@ -18004,16 +18014,6 @@
             "schema": {
               "format": "uuid",
               "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
-              "type": "string"
-            }
-          },
-          {
-            "name": "fields",
-            "required": false,
-            "in": "query",
-            "description": "Comma-separated list of fields to return in the response.",
-            "schema": {
-              "example": "id,name,email",
               "type": "string"
             }
           }
@@ -20679,15 +20679,5 @@
         ]
       }
     }
-  },
-  "x-pages": [
-    {
-      "title": "Introdução",
-      "content": "# Bem-vindo à nossa API!\nEsta API permite que você faça login, crie contas e acesse outros recursos."
-    },
-    {
-      "title": "Guia de Autenticação",
-      "content": "# Como autenticar na API\nPara autenticar, você precisa enviar uma solicitação POST para o endpoint `/login` com suas credenciais."
-    }
-  ]
+  }
 }
