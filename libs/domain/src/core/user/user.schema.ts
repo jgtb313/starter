@@ -12,7 +12,9 @@ export enum UserStatusEnum {
 
 const UserId = ID('user')
 
-const WorkspaceId = ID('workspaceId').nullish()
+const WorkspaceId = ID('workspaceId')
+  .nullish()
+  .transform((value) => value ?? null)
 
 const OrganizationIds = z.array(ID('organization'))
 

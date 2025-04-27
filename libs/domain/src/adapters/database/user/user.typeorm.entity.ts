@@ -40,9 +40,19 @@ export class UserEntity {
   @Column({ type: 'enum', enum: UserStatusEnum, default: UserStatusEnum.ACTIVE })
   status: User['status']
 
-  @CreateDateColumn()
+  @CreateDateColumn({
+    transformer: {
+      to: (value: Date) => value,
+      from: (value: Date) => value.toISOString(),
+    },
+  })
   createdAt: User['createdAt']
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({
+    transformer: {
+      to: (value: Date) => value,
+      from: (value: Date) => value.toISOString(),
+    },
+  })
   updatedAt: User['updatedAt']
 }

@@ -54,7 +54,6 @@ export class AuthController {
     },
   })
   signIn(@Request() { body }: SignInRequest) {
-    console.log({ body })
     return this.authService.signIn(body)
   }
 

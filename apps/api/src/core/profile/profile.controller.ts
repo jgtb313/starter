@@ -1,5 +1,5 @@
 import { UseGuards } from '@nestjs/common'
-import { Controller, Route, Request, RequestInput } from '@starter/nestjs-server-hoisting'
+import { Controller, Route, Request } from '@starter/nestjs-server-hoisting'
 import { UserService, OTPService, User, OTPContextEnum } from '@starter/domain'
 
 import { AuthGuard } from '@/support/guards'

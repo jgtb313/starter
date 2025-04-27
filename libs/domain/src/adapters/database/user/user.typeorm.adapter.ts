@@ -61,7 +61,7 @@ export class UserTypeorm implements IUserRepository {
 
     const values = await this.repository.find({ where })
 
-    return values.map((invoice) => UserSchema.parse(invoice))
+    return values.map((user) => UserSchema.parse(user))
   }
 
   findById: IUserRepository['findById'] = async (userId) => {

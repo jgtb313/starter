@@ -1455,26 +1455,12 @@
                                 "default": "PENDING"
                               },
                               "createdAt": {
-                                "anyOf": [
-                                  {
-                                    "type": "string",
-                                    "format": "date-time"
-                                  },
-                                  {
-                                    "type": "string"
-                                  }
-                                ]
+                                "type": "string",
+                                "format": "date-time"
                               },
                               "updatedAt": {
-                                "anyOf": [
-                                  {
-                                    "type": "string",
-                                    "format": "date-time"
-                                  },
-                                  {
-                                    "type": "string"
-                                  }
-                                ]
+                                "type": "string",
+                                "format": "date-time"
                               }
                             },
                             "required": [
@@ -1593,26 +1579,12 @@
                                 "default": "PENDING"
                               },
                               "createdAt": {
-                                "anyOf": [
-                                  {
-                                    "type": "string",
-                                    "format": "date-time"
-                                  },
-                                  {
-                                    "type": "string"
-                                  }
-                                ]
+                                "type": "string",
+                                "format": "date-time"
                               },
                               "updatedAt": {
-                                "anyOf": [
-                                  {
-                                    "type": "string",
-                                    "format": "date-time"
-                                  },
-                                  {
-                                    "type": "string"
-                                  }
-                                ]
+                                "type": "string",
+                                "format": "date-time"
                               }
                             },
                             "required": [
@@ -1731,26 +1703,12 @@
                                 "default": "PENDING"
                               },
                               "createdAt": {
-                                "anyOf": [
-                                  {
-                                    "type": "string",
-                                    "format": "date-time"
-                                  },
-                                  {
-                                    "type": "string"
-                                  }
-                                ]
+                                "type": "string",
+                                "format": "date-time"
                               },
                               "updatedAt": {
-                                "anyOf": [
-                                  {
-                                    "type": "string",
-                                    "format": "date-time"
-                                  },
-                                  {
-                                    "type": "string"
-                                  }
-                                ]
+                                "type": "string",
+                                "format": "date-time"
                               }
                             },
                             "required": [
@@ -1869,26 +1827,12 @@
                                 "default": "PENDING"
                               },
                               "createdAt": {
-                                "anyOf": [
-                                  {
-                                    "type": "string",
-                                    "format": "date-time"
-                                  },
-                                  {
-                                    "type": "string"
-                                  }
-                                ]
+                                "type": "string",
+                                "format": "date-time"
                               },
                               "updatedAt": {
-                                "anyOf": [
-                                  {
-                                    "type": "string",
-                                    "format": "date-time"
-                                  },
-                                  {
-                                    "type": "string"
-                                  }
-                                ]
+                                "type": "string",
+                                "format": "date-time"
                               }
                             },
                             "required": [
@@ -2314,15 +2258,8 @@
                           "deletedAt": {
                             "anyOf": [
                               {
-                                "anyOf": [
-                                  {
-                                    "type": "string",
-                                    "format": "date-time"
-                                  },
-                                  {
-                                    "type": "string"
-                                  }
-                                ]
+                                "type": "string",
+                                "format": "date-time"
                               },
                               {
                                 "type": "null"
@@ -2330,26 +2267,12 @@
                             ]
                           },
                           "createdAt": {
-                            "anyOf": [
-                              {
-                                "type": "string",
-                                "format": "date-time"
-                              },
-                              {
-                                "type": "string"
-                              }
-                            ]
+                            "type": "string",
+                            "format": "date-time"
                           },
                           "updatedAt": {
-                            "anyOf": [
-                              {
-                                "type": "string",
-                                "format": "date-time"
-                              },
-                              {
-                                "type": "string"
-                              }
-                            ]
+                            "type": "string",
+                            "format": "date-time"
                           }
                         },
                         "required": [
@@ -2582,15 +2505,8 @@
                     "deletedAt": {
                       "anyOf": [
                         {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            {
-                              "type": "string"
-                            }
-                          ]
+                          "type": "string",
+                          "format": "date-time"
                         },
                         {
                           "type": "null"
@@ -2598,26 +2514,12 @@
                       ]
                     },
                     "createdAt": {
-                      "anyOf": [
-                        {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        {
-                          "type": "string"
-                        }
-                      ]
+                      "type": "string",
+                      "format": "date-time"
                     },
                     "updatedAt": {
-                      "anyOf": [
-                        {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        {
-                          "type": "string"
-                        }
-                      ]
+                      "type": "string",
+                      "format": "date-time"
                     }
                   },
                   "required": [
@@ -2797,15 +2699,8 @@
                     "deletedAt": {
                       "anyOf": [
                         {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            {
-                              "type": "string"
-                            }
-                          ]
+                          "type": "string",
+                          "format": "date-time"
                         },
                         {
                           "type": "null"
@@ -2813,26 +2708,12 @@
                       ]
                     },
                     "createdAt": {
-                      "anyOf": [
-                        {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        {
-                          "type": "string"
-                        }
-                      ]
+                      "type": "string",
+                      "format": "date-time"
                     },
                     "updatedAt": {
-                      "anyOf": [
-                        {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        {
-                          "type": "string"
-                        }
-                      ]
+                      "type": "string",
+                      "format": "date-time"
                     }
                   },
                   "required": [
@@ -3036,15 +2917,8 @@
                     "deletedAt": {
                       "anyOf": [
                         {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            {
-                              "type": "string"
-                            }
-                          ]
+                          "type": "string",
+                          "format": "date-time"
                         },
                         {
                           "type": "null"
@@ -3052,26 +2926,12 @@
                       ]
                     },
                     "createdAt": {
-                      "anyOf": [
-                        {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        {
-                          "type": "string"
-                        }
-                      ]
+                      "type": "string",
+                      "format": "date-time"
                     },
                     "updatedAt": {
-                      "anyOf": [
-                        {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        {
-                          "type": "string"
-                        }
-                      ]
+                      "type": "string",
+                      "format": "date-time"
                     }
                   },
                   "required": [
@@ -4854,15 +4714,8 @@
                           "deletedAt": {
                             "anyOf": [
                               {
-                                "anyOf": [
-                                  {
-                                    "type": "string",
-                                    "format": "date-time"
-                                  },
-                                  {
-                                    "type": "string"
-                                  }
-                                ]
+                                "type": "string",
+                                "format": "date-time"
                               },
                               {
                                 "type": "null"
@@ -4870,26 +4723,12 @@
                             ]
                           },
                           "createdAt": {
-                            "anyOf": [
-                              {
-                                "type": "string",
-                                "format": "date-time"
-                              },
-                              {
-                                "type": "string"
-                              }
-                            ]
+                            "type": "string",
+                            "format": "date-time"
                           },
                           "updatedAt": {
-                            "anyOf": [
-                              {
-                                "type": "string",
-                                "format": "date-time"
-                              },
-                              {
-                                "type": "string"
-                              }
-                            ]
+                            "type": "string",
+                            "format": "date-time"
                           }
                         },
                         "required": [
@@ -5119,15 +4958,8 @@
                           "deletedAt": {
                             "anyOf": [
                               {
-                                "anyOf": [
-                                  {
-                                    "type": "string",
-                                    "format": "date-time"
-                                  },
-                                  {
-                                    "type": "string"
-                                  }
-                                ]
+                                "type": "string",
+                                "format": "date-time"
                               },
                               {
                                 "type": "null"
@@ -5135,26 +4967,12 @@
                             ]
                           },
                           "createdAt": {
-                            "anyOf": [
-                              {
-                                "type": "string",
-                                "format": "date-time"
-                              },
-                              {
-                                "type": "string"
-                              }
-                            ]
+                            "type": "string",
+                            "format": "date-time"
                           },
                           "updatedAt": {
-                            "anyOf": [
-                              {
-                                "type": "string",
-                                "format": "date-time"
-                              },
-                              {
-                                "type": "string"
-                              }
-                            ]
+                            "type": "string",
+                            "format": "date-time"
                           }
                         },
                         "required": [
@@ -5235,15 +5053,8 @@
                                 "deletedAt": {
                                   "anyOf": [
                                     {
-                                      "anyOf": [
-                                        {
-                                          "type": "string",
-                                          "format": "date-time"
-                                        },
-                                        {
-                                          "type": "string"
-                                        }
-                                      ]
+                                      "type": "string",
+                                      "format": "date-time"
                                     },
                                     {
                                       "type": "null"
@@ -5251,26 +5062,12 @@
                                   ]
                                 },
                                 "createdAt": {
-                                  "anyOf": [
-                                    {
-                                      "type": "string",
-                                      "format": "date-time"
-                                    },
-                                    {
-                                      "type": "string"
-                                    }
-                                  ]
+                                  "type": "string",
+                                  "format": "date-time"
                                 },
                                 "updatedAt": {
-                                  "anyOf": [
-                                    {
-                                      "type": "string",
-                                      "format": "date-time"
-                                    },
-                                    {
-                                      "type": "string"
-                                    }
-                                  ]
+                                  "type": "string",
+                                  "format": "date-time"
                                 }
                               },
                               "required": [
@@ -5319,15 +5116,8 @@
                           "deletedAt": {
                             "anyOf": [
                               {
-                                "anyOf": [
-                                  {
-                                    "type": "string",
-                                    "format": "date-time"
-                                  },
-                                  {
-                                    "type": "string"
-                                  }
-                                ]
+                                "type": "string",
+                                "format": "date-time"
                               },
                               {
                                 "type": "null"
@@ -5335,26 +5125,12 @@
                             ]
                           },
                           "createdAt": {
-                            "anyOf": [
-                              {
-                                "type": "string",
-                                "format": "date-time"
-                              },
-                              {
-                                "type": "string"
-                              }
-                            ]
+                            "type": "string",
+                            "format": "date-time"
                           },
                           "updatedAt": {
-                            "anyOf": [
-                              {
-                                "type": "string",
-                                "format": "date-time"
-                              },
-                              {
-                                "type": "string"
-                              }
-                            ]
+                            "type": "string",
+                            "format": "date-time"
                           }
                         },
                         "required": [
@@ -5477,26 +5253,12 @@
                       "default": "ACTIVE"
                     },
                     "createdAt": {
-                      "anyOf": [
-                        {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        {
-                          "type": "string"
-                        }
-                      ]
+                      "type": "string",
+                      "format": "date-time"
                     },
                     "updatedAt": {
-                      "anyOf": [
-                        {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        {
-                          "type": "string"
-                        }
-                      ]
+                      "type": "string",
+                      "format": "date-time"
                     }
                   },
                   "required": [
@@ -5758,15 +5520,8 @@
                           "deletedAt": {
                             "anyOf": [
                               {
-                                "anyOf": [
-                                  {
-                                    "type": "string",
-                                    "format": "date-time"
-                                  },
-                                  {
-                                    "type": "string"
-                                  }
-                                ]
+                                "type": "string",
+                                "format": "date-time"
                               },
                               {
                                 "type": "null"
@@ -5774,26 +5529,12 @@
                             ]
                           },
                           "createdAt": {
-                            "anyOf": [
-                              {
-                                "type": "string",
-                                "format": "date-time"
-                              },
-                              {
-                                "type": "string"
-                              }
-                            ]
+                            "type": "string",
+                            "format": "date-time"
                           },
                           "updatedAt": {
-                            "anyOf": [
-                              {
-                                "type": "string",
-                                "format": "date-time"
-                              },
-                              {
-                                "type": "string"
-                              }
-                            ]
+                            "type": "string",
+                            "format": "date-time"
                           }
                         },
                         "required": [
@@ -5874,15 +5615,8 @@
                                 "deletedAt": {
                                   "anyOf": [
                                     {
-                                      "anyOf": [
-                                        {
-                                          "type": "string",
-                                          "format": "date-time"
-                                        },
-                                        {
-                                          "type": "string"
-                                        }
-                                      ]
+                                      "type": "string",
+                                      "format": "date-time"
                                     },
                                     {
                                       "type": "null"
@@ -5890,26 +5624,12 @@
                                   ]
                                 },
                                 "createdAt": {
-                                  "anyOf": [
-                                    {
-                                      "type": "string",
-                                      "format": "date-time"
-                                    },
-                                    {
-                                      "type": "string"
-                                    }
-                                  ]
+                                  "type": "string",
+                                  "format": "date-time"
                                 },
                                 "updatedAt": {
-                                  "anyOf": [
-                                    {
-                                      "type": "string",
-                                      "format": "date-time"
-                                    },
-                                    {
-                                      "type": "string"
-                                    }
-                                  ]
+                                  "type": "string",
+                                  "format": "date-time"
                                 }
                               },
                               "required": [
@@ -5958,15 +5678,8 @@
                           "deletedAt": {
                             "anyOf": [
                               {
-                                "anyOf": [
-                                  {
-                                    "type": "string",
-                                    "format": "date-time"
-                                  },
-                                  {
-                                    "type": "string"
-                                  }
-                                ]
+                                "type": "string",
+                                "format": "date-time"
                               },
                               {
                                 "type": "null"
@@ -5974,26 +5687,12 @@
                             ]
                           },
                           "createdAt": {
-                            "anyOf": [
-                              {
-                                "type": "string",
-                                "format": "date-time"
-                              },
-                              {
-                                "type": "string"
-                              }
-                            ]
+                            "type": "string",
+                            "format": "date-time"
                           },
                           "updatedAt": {
-                            "anyOf": [
-                              {
-                                "type": "string",
-                                "format": "date-time"
-                              },
-                              {
-                                "type": "string"
-                              }
-                            ]
+                            "type": "string",
+                            "format": "date-time"
                           }
                         },
                         "required": [
@@ -6116,26 +5815,12 @@
                       "default": "ACTIVE"
                     },
                     "createdAt": {
-                      "anyOf": [
-                        {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        {
-                          "type": "string"
-                        }
-                      ]
+                      "type": "string",
+                      "format": "date-time"
                     },
                     "updatedAt": {
-                      "anyOf": [
-                        {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        {
-                          "type": "string"
-                        }
-                      ]
+                      "type": "string",
+                      "format": "date-time"
                     }
                   },
                   "required": [
@@ -6576,15 +6261,8 @@
                           "deletedAt": {
                             "anyOf": [
                               {
-                                "anyOf": [
-                                  {
-                                    "type": "string",
-                                    "format": "date-time"
-                                  },
-                                  {
-                                    "type": "string"
-                                  }
-                                ]
+                                "type": "string",
+                                "format": "date-time"
                               },
                               {
                                 "type": "null"
@@ -6592,26 +6270,12 @@
                             ]
                           },
                           "createdAt": {
-                            "anyOf": [
-                              {
-                                "type": "string",
-                                "format": "date-time"
-                              },
-                              {
-                                "type": "string"
-                              }
-                            ]
+                            "type": "string",
+                            "format": "date-time"
                           },
                           "updatedAt": {
-                            "anyOf": [
-                              {
-                                "type": "string",
-                                "format": "date-time"
-                              },
-                              {
-                                "type": "string"
-                              }
-                            ]
+                            "type": "string",
+                            "format": "date-time"
                           }
                         },
                         "required": [
@@ -6692,15 +6356,8 @@
                                 "deletedAt": {
                                   "anyOf": [
                                     {
-                                      "anyOf": [
-                                        {
-                                          "type": "string",
-                                          "format": "date-time"
-                                        },
-                                        {
-                                          "type": "string"
-                                        }
-                                      ]
+                                      "type": "string",
+                                      "format": "date-time"
                                     },
                                     {
                                       "type": "null"
@@ -6708,26 +6365,12 @@
                                   ]
                                 },
                                 "createdAt": {
-                                  "anyOf": [
-                                    {
-                                      "type": "string",
-                                      "format": "date-time"
-                                    },
-                                    {
-                                      "type": "string"
-                                    }
-                                  ]
+                                  "type": "string",
+                                  "format": "date-time"
                                 },
                                 "updatedAt": {
-                                  "anyOf": [
-                                    {
-                                      "type": "string",
-                                      "format": "date-time"
-                                    },
-                                    {
-                                      "type": "string"
-                                    }
-                                  ]
+                                  "type": "string",
+                                  "format": "date-time"
                                 }
                               },
                               "required": [
@@ -6776,15 +6419,8 @@
                           "deletedAt": {
                             "anyOf": [
                               {
-                                "anyOf": [
-                                  {
-                                    "type": "string",
-                                    "format": "date-time"
-                                  },
-                                  {
-                                    "type": "string"
-                                  }
-                                ]
+                                "type": "string",
+                                "format": "date-time"
                               },
                               {
                                 "type": "null"
@@ -6792,26 +6428,12 @@
                             ]
                           },
                           "createdAt": {
-                            "anyOf": [
-                              {
-                                "type": "string",
-                                "format": "date-time"
-                              },
-                              {
-                                "type": "string"
-                              }
-                            ]
+                            "type": "string",
+                            "format": "date-time"
                           },
                           "updatedAt": {
-                            "anyOf": [
-                              {
-                                "type": "string",
-                                "format": "date-time"
-                              },
-                              {
-                                "type": "string"
-                              }
-                            ]
+                            "type": "string",
+                            "format": "date-time"
                           }
                         },
                         "required": [
@@ -6934,26 +6556,12 @@
                       "default": "ACTIVE"
                     },
                     "createdAt": {
-                      "anyOf": [
-                        {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        {
-                          "type": "string"
-                        }
-                      ]
+                      "type": "string",
+                      "format": "date-time"
                     },
                     "updatedAt": {
-                      "anyOf": [
-                        {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        {
-                          "type": "string"
-                        }
-                      ]
+                      "type": "string",
+                      "format": "date-time"
                     }
                   },
                   "required": [
@@ -7425,15 +7033,8 @@
                           "deletedAt": {
                             "anyOf": [
                               {
-                                "anyOf": [
-                                  {
-                                    "type": "string",
-                                    "format": "date-time"
-                                  },
-                                  {
-                                    "type": "string"
-                                  }
-                                ]
+                                "type": "string",
+                                "format": "date-time"
                               },
                               {
                                 "type": "null"
@@ -7441,26 +7042,12 @@
                             ]
                           },
                           "createdAt": {
-                            "anyOf": [
-                              {
-                                "type": "string",
-                                "format": "date-time"
-                              },
-                              {
-                                "type": "string"
-                              }
-                            ]
+                            "type": "string",
+                            "format": "date-time"
                           },
                           "updatedAt": {
-                            "anyOf": [
-                              {
-                                "type": "string",
-                                "format": "date-time"
-                              },
-                              {
-                                "type": "string"
-                              }
-                            ]
+                            "type": "string",
+                            "format": "date-time"
                           }
                         },
                         "required": [
@@ -7541,15 +7128,8 @@
                                 "deletedAt": {
                                   "anyOf": [
                                     {
-                                      "anyOf": [
-                                        {
-                                          "type": "string",
-                                          "format": "date-time"
-                                        },
-                                        {
-                                          "type": "string"
-                                        }
-                                      ]
+                                      "type": "string",
+                                      "format": "date-time"
                                     },
                                     {
                                       "type": "null"
@@ -7557,26 +7137,12 @@
                                   ]
                                 },
                                 "createdAt": {
-                                  "anyOf": [
-                                    {
-                                      "type": "string",
-                                      "format": "date-time"
-                                    },
-                                    {
-                                      "type": "string"
-                                    }
-                                  ]
+                                  "type": "string",
+                                  "format": "date-time"
                                 },
                                 "updatedAt": {
-                                  "anyOf": [
-                                    {
-                                      "type": "string",
-                                      "format": "date-time"
-                                    },
-                                    {
-                                      "type": "string"
-                                    }
-                                  ]
+                                  "type": "string",
+                                  "format": "date-time"
                                 }
                               },
                               "required": [
@@ -7625,15 +7191,8 @@
                           "deletedAt": {
                             "anyOf": [
                               {
-                                "anyOf": [
-                                  {
-                                    "type": "string",
-                                    "format": "date-time"
-                                  },
-                                  {
-                                    "type": "string"
-                                  }
-                                ]
+                                "type": "string",
+                                "format": "date-time"
                               },
                               {
                                 "type": "null"
@@ -7641,26 +7200,12 @@
                             ]
                           },
                           "createdAt": {
-                            "anyOf": [
-                              {
-                                "type": "string",
-                                "format": "date-time"
-                              },
-                              {
-                                "type": "string"
-                              }
-                            ]
+                            "type": "string",
+                            "format": "date-time"
                           },
                           "updatedAt": {
-                            "anyOf": [
-                              {
-                                "type": "string",
-                                "format": "date-time"
-                              },
-                              {
-                                "type": "string"
-                              }
-                            ]
+                            "type": "string",
+                            "format": "date-time"
                           }
                         },
                         "required": [
@@ -7783,26 +7328,12 @@
                       "default": "ACTIVE"
                     },
                     "createdAt": {
-                      "anyOf": [
-                        {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        {
-                          "type": "string"
-                        }
-                      ]
+                      "type": "string",
+                      "format": "date-time"
                     },
                     "updatedAt": {
-                      "anyOf": [
-                        {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        {
-                          "type": "string"
-                        }
-                      ]
+                      "type": "string",
+                      "format": "date-time"
                     }
                   },
                   "required": [
@@ -8441,15 +7972,8 @@
                                 "deletedAt": {
                                   "anyOf": [
                                     {
-                                      "anyOf": [
-                                        {
-                                          "type": "string",
-                                          "format": "date-time"
-                                        },
-                                        {
-                                          "type": "string"
-                                        }
-                                      ]
+                                      "type": "string",
+                                      "format": "date-time"
                                     },
                                     {
                                       "type": "null"
@@ -8457,26 +7981,12 @@
                                   ]
                                 },
                                 "createdAt": {
-                                  "anyOf": [
-                                    {
-                                      "type": "string",
-                                      "format": "date-time"
-                                    },
-                                    {
-                                      "type": "string"
-                                    }
-                                  ]
+                                  "type": "string",
+                                  "format": "date-time"
                                 },
                                 "updatedAt": {
-                                  "anyOf": [
-                                    {
-                                      "type": "string",
-                                      "format": "date-time"
-                                    },
-                                    {
-                                      "type": "string"
-                                    }
-                                  ]
+                                  "type": "string",
+                                  "format": "date-time"
                                 }
                               },
                               "required": [
@@ -8525,15 +8035,8 @@
                           "deletedAt": {
                             "anyOf": [
                               {
-                                "anyOf": [
-                                  {
-                                    "type": "string",
-                                    "format": "date-time"
-                                  },
-                                  {
-                                    "type": "string"
-                                  }
-                                ]
+                                "type": "string",
+                                "format": "date-time"
                               },
                               {
                                 "type": "null"
@@ -8541,26 +8044,12 @@
                             ]
                           },
                           "createdAt": {
-                            "anyOf": [
-                              {
-                                "type": "string",
-                                "format": "date-time"
-                              },
-                              {
-                                "type": "string"
-                              }
-                            ]
+                            "type": "string",
+                            "format": "date-time"
                           },
                           "updatedAt": {
-                            "anyOf": [
-                              {
-                                "type": "string",
-                                "format": "date-time"
-                              },
-                              {
-                                "type": "string"
-                              }
-                            ]
+                            "type": "string",
+                            "format": "date-time"
                           }
                         },
                         "required": [
@@ -8858,15 +8347,8 @@
                           "deletedAt": {
                             "anyOf": [
                               {
-                                "anyOf": [
-                                  {
-                                    "type": "string",
-                                    "format": "date-time"
-                                  },
-                                  {
-                                    "type": "string"
-                                  }
-                                ]
+                                "type": "string",
+                                "format": "date-time"
                               },
                               {
                                 "type": "null"
@@ -8874,26 +8356,12 @@
                             ]
                           },
                           "createdAt": {
-                            "anyOf": [
-                              {
-                                "type": "string",
-                                "format": "date-time"
-                              },
-                              {
-                                "type": "string"
-                              }
-                            ]
+                            "type": "string",
+                            "format": "date-time"
                           },
                           "updatedAt": {
-                            "anyOf": [
-                              {
-                                "type": "string",
-                                "format": "date-time"
-                              },
-                              {
-                                "type": "string"
-                              }
-                            ]
+                            "type": "string",
+                            "format": "date-time"
                           }
                         },
                         "required": [
@@ -8942,15 +8410,8 @@
                     "deletedAt": {
                       "anyOf": [
                         {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            {
-                              "type": "string"
-                            }
-                          ]
+                          "type": "string",
+                          "format": "date-time"
                         },
                         {
                           "type": "null"
@@ -8958,26 +8419,12 @@
                       ]
                     },
                     "createdAt": {
-                      "anyOf": [
-                        {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        {
-                          "type": "string"
-                        }
-                      ]
+                      "type": "string",
+                      "format": "date-time"
                     },
                     "updatedAt": {
-                      "anyOf": [
-                        {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        {
-                          "type": "string"
-                        }
-                      ]
+                      "type": "string",
+                      "format": "date-time"
                     }
                   },
                   "required": [
@@ -9187,15 +8634,8 @@
                           "deletedAt": {
                             "anyOf": [
                               {
-                                "anyOf": [
-                                  {
-                                    "type": "string",
-                                    "format": "date-time"
-                                  },
-                                  {
-                                    "type": "string"
-                                  }
-                                ]
+                                "type": "string",
+                                "format": "date-time"
                               },
                               {
                                 "type": "null"
@@ -9203,26 +8643,12 @@
                             ]
                           },
                           "createdAt": {
-                            "anyOf": [
-                              {
-                                "type": "string",
-                                "format": "date-time"
-                              },
-                              {
-                                "type": "string"
-                              }
-                            ]
+                            "type": "string",
+                            "format": "date-time"
                           },
                           "updatedAt": {
-                            "anyOf": [
-                              {
-                                "type": "string",
-                                "format": "date-time"
-                              },
-                              {
-                                "type": "string"
-                              }
-                            ]
+                            "type": "string",
+                            "format": "date-time"
                           }
                         },
                         "required": [
@@ -9271,15 +8697,8 @@
                     "deletedAt": {
                       "anyOf": [
                         {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            {
-                              "type": "string"
-                            }
-                          ]
+                          "type": "string",
+                          "format": "date-time"
                         },
                         {
                           "type": "null"
@@ -9287,26 +8706,12 @@
                       ]
                     },
                     "createdAt": {
-                      "anyOf": [
-                        {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        {
-                          "type": "string"
-                        }
-                      ]
+                      "type": "string",
+                      "format": "date-time"
                     },
                     "updatedAt": {
-                      "anyOf": [
-                        {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        {
-                          "type": "string"
-                        }
-                      ]
+                      "type": "string",
+                      "format": "date-time"
                     }
                   },
                   "required": [
@@ -9563,15 +8968,8 @@
                           "deletedAt": {
                             "anyOf": [
                               {
-                                "anyOf": [
-                                  {
-                                    "type": "string",
-                                    "format": "date-time"
-                                  },
-                                  {
-                                    "type": "string"
-                                  }
-                                ]
+                                "type": "string",
+                                "format": "date-time"
                               },
                               {
                                 "type": "null"
@@ -9579,26 +8977,12 @@
                             ]
                           },
                           "createdAt": {
-                            "anyOf": [
-                              {
-                                "type": "string",
-                                "format": "date-time"
-                              },
-                              {
-                                "type": "string"
-                              }
-                            ]
+                            "type": "string",
+                            "format": "date-time"
                           },
                           "updatedAt": {
-                            "anyOf": [
-                              {
-                                "type": "string",
-                                "format": "date-time"
-                              },
-                              {
-                                "type": "string"
-                              }
-                            ]
+                            "type": "string",
+                            "format": "date-time"
                           }
                         },
                         "required": [
@@ -9647,15 +9031,8 @@
                     "deletedAt": {
                       "anyOf": [
                         {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            {
-                              "type": "string"
-                            }
-                          ]
+                          "type": "string",
+                          "format": "date-time"
                         },
                         {
                           "type": "null"
@@ -9663,26 +9040,12 @@
                       ]
                     },
                     "createdAt": {
-                      "anyOf": [
-                        {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        {
-                          "type": "string"
-                        }
-                      ]
+                      "type": "string",
+                      "format": "date-time"
                     },
                     "updatedAt": {
-                      "anyOf": [
-                        {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        {
-                          "type": "string"
-                        }
-                      ]
+                      "type": "string",
+                      "format": "date-time"
                     }
                   },
                   "required": [
@@ -10184,26 +9547,12 @@
                           "default": "ACTIVE"
                         },
                         "createdAt": {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            {
-                              "type": "string"
-                            }
-                          ]
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "updatedAt": {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            {
-                              "type": "string"
-                            }
-                          ]
+                          "type": "string",
+                          "format": "date-time"
                         }
                       },
                       "required": [
@@ -10433,26 +9782,12 @@
                           "default": "ACTIVE"
                         },
                         "createdAt": {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            {
-                              "type": "string"
-                            }
-                          ]
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "updatedAt": {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            {
-                              "type": "string"
-                            }
-                          ]
+                          "type": "string",
+                          "format": "date-time"
                         }
                       },
                       "required": [
@@ -10659,26 +9994,12 @@
                           "default": "ACTIVE"
                         },
                         "createdAt": {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            {
-                              "type": "string"
-                            }
-                          ]
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "updatedAt": {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            {
-                              "type": "string"
-                            }
-                          ]
+                          "type": "string",
+                          "format": "date-time"
                         }
                       },
                       "required": [
@@ -10889,26 +10210,12 @@
                           "default": "ACTIVE"
                         },
                         "createdAt": {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            {
-                              "type": "string"
-                            }
-                          ]
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "updatedAt": {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            {
-                              "type": "string"
-                            }
-                          ]
+                          "type": "string",
+                          "format": "date-time"
                         }
                       },
                       "required": [
@@ -11273,26 +10580,12 @@
                           "default": "ACTIVE"
                         },
                         "createdAt": {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            {
-                              "type": "string"
-                            }
-                          ]
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "updatedAt": {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            {
-                              "type": "string"
-                            }
-                          ]
+                          "type": "string",
+                          "format": "date-time"
                         }
                       },
                       "required": [
@@ -11522,26 +10815,12 @@
                           "default": "ACTIVE"
                         },
                         "createdAt": {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            {
-                              "type": "string"
-                            }
-                          ]
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "updatedAt": {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            {
-                              "type": "string"
-                            }
-                          ]
+                          "type": "string",
+                          "format": "date-time"
                         }
                       },
                       "required": [
@@ -11748,26 +11027,12 @@
                           "default": "ACTIVE"
                         },
                         "createdAt": {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            {
-                              "type": "string"
-                            }
-                          ]
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "updatedAt": {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            {
-                              "type": "string"
-                            }
-                          ]
+                          "type": "string",
+                          "format": "date-time"
                         }
                       },
                       "required": [
@@ -11978,26 +11243,12 @@
                           "default": "ACTIVE"
                         },
                         "createdAt": {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            {
-                              "type": "string"
-                            }
-                          ]
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "updatedAt": {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            {
-                              "type": "string"
-                            }
-                          ]
+                          "type": "string",
+                          "format": "date-time"
                         }
                       },
                       "required": [
@@ -13003,26 +12254,12 @@
                           "default": "ACTIVE"
                         },
                         "createdAt": {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            {
-                              "type": "string"
-                            }
-                          ]
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "updatedAt": {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            {
-                              "type": "string"
-                            }
-                          ]
+                          "type": "string",
+                          "format": "date-time"
                         }
                       },
                       "required": [
@@ -13252,26 +12489,12 @@
                           "default": "ACTIVE"
                         },
                         "createdAt": {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            {
-                              "type": "string"
-                            }
-                          ]
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "updatedAt": {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            {
-                              "type": "string"
-                            }
-                          ]
+                          "type": "string",
+                          "format": "date-time"
                         }
                       },
                       "required": [
@@ -13478,26 +12701,12 @@
                           "default": "ACTIVE"
                         },
                         "createdAt": {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            {
-                              "type": "string"
-                            }
-                          ]
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "updatedAt": {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            {
-                              "type": "string"
-                            }
-                          ]
+                          "type": "string",
+                          "format": "date-time"
                         }
                       },
                       "required": [
@@ -13708,26 +12917,12 @@
                           "default": "ACTIVE"
                         },
                         "createdAt": {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            {
-                              "type": "string"
-                            }
-                          ]
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "updatedAt": {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            {
-                              "type": "string"
-                            }
-                          ]
+                          "type": "string",
+                          "format": "date-time"
                         }
                       },
                       "required": [
@@ -14116,26 +13311,12 @@
                           "default": "ACTIVE"
                         },
                         "createdAt": {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            {
-                              "type": "string"
-                            }
-                          ]
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "updatedAt": {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            {
-                              "type": "string"
-                            }
-                          ]
+                          "type": "string",
+                          "format": "date-time"
                         }
                       },
                       "required": [
@@ -14365,26 +13546,12 @@
                           "default": "ACTIVE"
                         },
                         "createdAt": {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            {
-                              "type": "string"
-                            }
-                          ]
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "updatedAt": {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            {
-                              "type": "string"
-                            }
-                          ]
+                          "type": "string",
+                          "format": "date-time"
                         }
                       },
                       "required": [
@@ -14591,26 +13758,12 @@
                           "default": "ACTIVE"
                         },
                         "createdAt": {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            {
-                              "type": "string"
-                            }
-                          ]
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "updatedAt": {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            {
-                              "type": "string"
-                            }
-                          ]
+                          "type": "string",
+                          "format": "date-time"
                         }
                       },
                       "required": [
@@ -14821,26 +13974,12 @@
                           "default": "ACTIVE"
                         },
                         "createdAt": {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            {
-                              "type": "string"
-                            }
-                          ]
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "updatedAt": {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            {
-                              "type": "string"
-                            }
-                          ]
+                          "type": "string",
+                          "format": "date-time"
                         }
                       },
                       "required": [
@@ -15389,26 +14528,12 @@
                           "default": "ACTIVE"
                         },
                         "createdAt": {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            {
-                              "type": "string"
-                            }
-                          ]
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "updatedAt": {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            {
-                              "type": "string"
-                            }
-                          ]
+                          "type": "string",
+                          "format": "date-time"
                         }
                       },
                       "required": [
@@ -15638,26 +14763,12 @@
                           "default": "ACTIVE"
                         },
                         "createdAt": {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            {
-                              "type": "string"
-                            }
-                          ]
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "updatedAt": {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            {
-                              "type": "string"
-                            }
-                          ]
+                          "type": "string",
+                          "format": "date-time"
                         }
                       },
                       "required": [
@@ -15864,26 +14975,12 @@
                           "default": "ACTIVE"
                         },
                         "createdAt": {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            {
-                              "type": "string"
-                            }
-                          ]
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "updatedAt": {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            {
-                              "type": "string"
-                            }
-                          ]
+                          "type": "string",
+                          "format": "date-time"
                         }
                       },
                       "required": [
@@ -16094,26 +15191,12 @@
                           "default": "ACTIVE"
                         },
                         "createdAt": {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            {
-                              "type": "string"
-                            }
-                          ]
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "updatedAt": {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            {
-                              "type": "string"
-                            }
-                          ]
+                          "type": "string",
+                          "format": "date-time"
                         }
                       },
                       "required": [
@@ -16376,15 +15459,8 @@
                                 "deletedAt": {
                                   "anyOf": [
                                     {
-                                      "anyOf": [
-                                        {
-                                          "type": "string",
-                                          "format": "date-time"
-                                        },
-                                        {
-                                          "type": "string"
-                                        }
-                                      ]
+                                      "type": "string",
+                                      "format": "date-time"
                                     },
                                     {
                                       "type": "null"
@@ -16392,26 +15468,12 @@
                                   ]
                                 },
                                 "createdAt": {
-                                  "anyOf": [
-                                    {
-                                      "type": "string",
-                                      "format": "date-time"
-                                    },
-                                    {
-                                      "type": "string"
-                                    }
-                                  ]
+                                  "type": "string",
+                                  "format": "date-time"
                                 },
                                 "updatedAt": {
-                                  "anyOf": [
-                                    {
-                                      "type": "string",
-                                      "format": "date-time"
-                                    },
-                                    {
-                                      "type": "string"
-                                    }
-                                  ]
+                                  "type": "string",
+                                  "format": "date-time"
                                 }
                               },
                               "required": [
@@ -16492,15 +15554,8 @@
                                       "deletedAt": {
                                         "anyOf": [
                                           {
-                                            "anyOf": [
-                                              {
-                                                "type": "string",
-                                                "format": "date-time"
-                                              },
-                                              {
-                                                "type": "string"
-                                              }
-                                            ]
+                                            "type": "string",
+                                            "format": "date-time"
                                           },
                                           {
                                             "type": "null"
@@ -16508,26 +15563,12 @@
                                         ]
                                       },
                                       "createdAt": {
-                                        "anyOf": [
-                                          {
-                                            "type": "string",
-                                            "format": "date-time"
-                                          },
-                                          {
-                                            "type": "string"
-                                          }
-                                        ]
+                                        "type": "string",
+                                        "format": "date-time"
                                       },
                                       "updatedAt": {
-                                        "anyOf": [
-                                          {
-                                            "type": "string",
-                                            "format": "date-time"
-                                          },
-                                          {
-                                            "type": "string"
-                                          }
-                                        ]
+                                        "type": "string",
+                                        "format": "date-time"
                                       }
                                     },
                                     "required": [
@@ -16576,15 +15617,8 @@
                                 "deletedAt": {
                                   "anyOf": [
                                     {
-                                      "anyOf": [
-                                        {
-                                          "type": "string",
-                                          "format": "date-time"
-                                        },
-                                        {
-                                          "type": "string"
-                                        }
-                                      ]
+                                      "type": "string",
+                                      "format": "date-time"
                                     },
                                     {
                                       "type": "null"
@@ -16592,26 +15626,12 @@
                                   ]
                                 },
                                 "createdAt": {
-                                  "anyOf": [
-                                    {
-                                      "type": "string",
-                                      "format": "date-time"
-                                    },
-                                    {
-                                      "type": "string"
-                                    }
-                                  ]
+                                  "type": "string",
+                                  "format": "date-time"
                                 },
                                 "updatedAt": {
-                                  "anyOf": [
-                                    {
-                                      "type": "string",
-                                      "format": "date-time"
-                                    },
-                                    {
-                                      "type": "string"
-                                    }
-                                  ]
+                                  "type": "string",
+                                  "format": "date-time"
                                 }
                               },
                               "required": [
@@ -16738,26 +15758,12 @@
                             "default": "ACTIVE"
                           },
                           "createdAt": {
-                            "anyOf": [
-                              {
-                                "type": "string",
-                                "format": "date-time"
-                              },
-                              {
-                                "type": "string"
-                              }
-                            ]
+                            "type": "string",
+                            "format": "date-time"
                           },
                           "updatedAt": {
-                            "anyOf": [
-                              {
-                                "type": "string",
-                                "format": "date-time"
-                              },
-                              {
-                                "type": "string"
-                              }
-                            ]
+                            "type": "string",
+                            "format": "date-time"
                           }
                         },
                         "required": [
@@ -17121,15 +16127,8 @@
                           "deletedAt": {
                             "anyOf": [
                               {
-                                "anyOf": [
-                                  {
-                                    "type": "string",
-                                    "format": "date-time"
-                                  },
-                                  {
-                                    "type": "string"
-                                  }
-                                ]
+                                "type": "string",
+                                "format": "date-time"
                               },
                               {
                                 "type": "null"
@@ -17137,26 +16136,12 @@
                             ]
                           },
                           "createdAt": {
-                            "anyOf": [
-                              {
-                                "type": "string",
-                                "format": "date-time"
-                              },
-                              {
-                                "type": "string"
-                              }
-                            ]
+                            "type": "string",
+                            "format": "date-time"
                           },
                           "updatedAt": {
-                            "anyOf": [
-                              {
-                                "type": "string",
-                                "format": "date-time"
-                              },
-                              {
-                                "type": "string"
-                              }
-                            ]
+                            "type": "string",
+                            "format": "date-time"
                           }
                         },
                         "required": [
@@ -17237,15 +16222,8 @@
                                 "deletedAt": {
                                   "anyOf": [
                                     {
-                                      "anyOf": [
-                                        {
-                                          "type": "string",
-                                          "format": "date-time"
-                                        },
-                                        {
-                                          "type": "string"
-                                        }
-                                      ]
+                                      "type": "string",
+                                      "format": "date-time"
                                     },
                                     {
                                       "type": "null"
@@ -17253,26 +16231,12 @@
                                   ]
                                 },
                                 "createdAt": {
-                                  "anyOf": [
-                                    {
-                                      "type": "string",
-                                      "format": "date-time"
-                                    },
-                                    {
-                                      "type": "string"
-                                    }
-                                  ]
+                                  "type": "string",
+                                  "format": "date-time"
                                 },
                                 "updatedAt": {
-                                  "anyOf": [
-                                    {
-                                      "type": "string",
-                                      "format": "date-time"
-                                    },
-                                    {
-                                      "type": "string"
-                                    }
-                                  ]
+                                  "type": "string",
+                                  "format": "date-time"
                                 }
                               },
                               "required": [
@@ -17321,15 +16285,8 @@
                           "deletedAt": {
                             "anyOf": [
                               {
-                                "anyOf": [
-                                  {
-                                    "type": "string",
-                                    "format": "date-time"
-                                  },
-                                  {
-                                    "type": "string"
-                                  }
-                                ]
+                                "type": "string",
+                                "format": "date-time"
                               },
                               {
                                 "type": "null"
@@ -17337,26 +16294,12 @@
                             ]
                           },
                           "createdAt": {
-                            "anyOf": [
-                              {
-                                "type": "string",
-                                "format": "date-time"
-                              },
-                              {
-                                "type": "string"
-                              }
-                            ]
+                            "type": "string",
+                            "format": "date-time"
                           },
                           "updatedAt": {
-                            "anyOf": [
-                              {
-                                "type": "string",
-                                "format": "date-time"
-                              },
-                              {
-                                "type": "string"
-                              }
-                            ]
+                            "type": "string",
+                            "format": "date-time"
                           }
                         },
                         "required": [
@@ -17483,26 +16426,12 @@
                       "default": "ACTIVE"
                     },
                     "createdAt": {
-                      "anyOf": [
-                        {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        {
-                          "type": "string"
-                        }
-                      ]
+                      "type": "string",
+                      "format": "date-time"
                     },
                     "updatedAt": {
-                      "anyOf": [
-                        {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        {
-                          "type": "string"
-                        }
-                      ]
+                      "type": "string",
+                      "format": "date-time"
                     }
                   },
                   "required": [
@@ -17701,15 +16630,8 @@
                           "deletedAt": {
                             "anyOf": [
                               {
-                                "anyOf": [
-                                  {
-                                    "type": "string",
-                                    "format": "date-time"
-                                  },
-                                  {
-                                    "type": "string"
-                                  }
-                                ]
+                                "type": "string",
+                                "format": "date-time"
                               },
                               {
                                 "type": "null"
@@ -17717,26 +16639,12 @@
                             ]
                           },
                           "createdAt": {
-                            "anyOf": [
-                              {
-                                "type": "string",
-                                "format": "date-time"
-                              },
-                              {
-                                "type": "string"
-                              }
-                            ]
+                            "type": "string",
+                            "format": "date-time"
                           },
                           "updatedAt": {
-                            "anyOf": [
-                              {
-                                "type": "string",
-                                "format": "date-time"
-                              },
-                              {
-                                "type": "string"
-                              }
-                            ]
+                            "type": "string",
+                            "format": "date-time"
                           }
                         },
                         "required": [
@@ -17817,15 +16725,8 @@
                                 "deletedAt": {
                                   "anyOf": [
                                     {
-                                      "anyOf": [
-                                        {
-                                          "type": "string",
-                                          "format": "date-time"
-                                        },
-                                        {
-                                          "type": "string"
-                                        }
-                                      ]
+                                      "type": "string",
+                                      "format": "date-time"
                                     },
                                     {
                                       "type": "null"
@@ -17833,26 +16734,12 @@
                                   ]
                                 },
                                 "createdAt": {
-                                  "anyOf": [
-                                    {
-                                      "type": "string",
-                                      "format": "date-time"
-                                    },
-                                    {
-                                      "type": "string"
-                                    }
-                                  ]
+                                  "type": "string",
+                                  "format": "date-time"
                                 },
                                 "updatedAt": {
-                                  "anyOf": [
-                                    {
-                                      "type": "string",
-                                      "format": "date-time"
-                                    },
-                                    {
-                                      "type": "string"
-                                    }
-                                  ]
+                                  "type": "string",
+                                  "format": "date-time"
                                 }
                               },
                               "required": [
@@ -17901,15 +16788,8 @@
                           "deletedAt": {
                             "anyOf": [
                               {
-                                "anyOf": [
-                                  {
-                                    "type": "string",
-                                    "format": "date-time"
-                                  },
-                                  {
-                                    "type": "string"
-                                  }
-                                ]
+                                "type": "string",
+                                "format": "date-time"
                               },
                               {
                                 "type": "null"
@@ -17917,26 +16797,12 @@
                             ]
                           },
                           "createdAt": {
-                            "anyOf": [
-                              {
-                                "type": "string",
-                                "format": "date-time"
-                              },
-                              {
-                                "type": "string"
-                              }
-                            ]
+                            "type": "string",
+                            "format": "date-time"
                           },
                           "updatedAt": {
-                            "anyOf": [
-                              {
-                                "type": "string",
-                                "format": "date-time"
-                              },
-                              {
-                                "type": "string"
-                              }
-                            ]
+                            "type": "string",
+                            "format": "date-time"
                           }
                         },
                         "required": [
@@ -18063,26 +16929,12 @@
                       "default": "ACTIVE"
                     },
                     "createdAt": {
-                      "anyOf": [
-                        {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        {
-                          "type": "string"
-                        }
-                      ]
+                      "type": "string",
+                      "format": "date-time"
                     },
                     "updatedAt": {
-                      "anyOf": [
-                        {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        {
-                          "type": "string"
-                        }
-                      ]
+                      "type": "string",
+                      "format": "date-time"
                     }
                   },
                   "required": [
@@ -18341,15 +17193,8 @@
                           "deletedAt": {
                             "anyOf": [
                               {
-                                "anyOf": [
-                                  {
-                                    "type": "string",
-                                    "format": "date-time"
-                                  },
-                                  {
-                                    "type": "string"
-                                  }
-                                ]
+                                "type": "string",
+                                "format": "date-time"
                               },
                               {
                                 "type": "null"
@@ -18357,26 +17202,12 @@
                             ]
                           },
                           "createdAt": {
-                            "anyOf": [
-                              {
-                                "type": "string",
-                                "format": "date-time"
-                              },
-                              {
-                                "type": "string"
-                              }
-                            ]
+                            "type": "string",
+                            "format": "date-time"
                           },
                           "updatedAt": {
-                            "anyOf": [
-                              {
-                                "type": "string",
-                                "format": "date-time"
-                              },
-                              {
-                                "type": "string"
-                              }
-                            ]
+                            "type": "string",
+                            "format": "date-time"
                           }
                         },
                         "required": [
@@ -18457,15 +17288,8 @@
                                 "deletedAt": {
                                   "anyOf": [
                                     {
-                                      "anyOf": [
-                                        {
-                                          "type": "string",
-                                          "format": "date-time"
-                                        },
-                                        {
-                                          "type": "string"
-                                        }
-                                      ]
+                                      "type": "string",
+                                      "format": "date-time"
                                     },
                                     {
                                       "type": "null"
@@ -18473,26 +17297,12 @@
                                   ]
                                 },
                                 "createdAt": {
-                                  "anyOf": [
-                                    {
-                                      "type": "string",
-                                      "format": "date-time"
-                                    },
-                                    {
-                                      "type": "string"
-                                    }
-                                  ]
+                                  "type": "string",
+                                  "format": "date-time"
                                 },
                                 "updatedAt": {
-                                  "anyOf": [
-                                    {
-                                      "type": "string",
-                                      "format": "date-time"
-                                    },
-                                    {
-                                      "type": "string"
-                                    }
-                                  ]
+                                  "type": "string",
+                                  "format": "date-time"
                                 }
                               },
                               "required": [
@@ -18541,15 +17351,8 @@
                           "deletedAt": {
                             "anyOf": [
                               {
-                                "anyOf": [
-                                  {
-                                    "type": "string",
-                                    "format": "date-time"
-                                  },
-                                  {
-                                    "type": "string"
-                                  }
-                                ]
+                                "type": "string",
+                                "format": "date-time"
                               },
                               {
                                 "type": "null"
@@ -18557,26 +17360,12 @@
                             ]
                           },
                           "createdAt": {
-                            "anyOf": [
-                              {
-                                "type": "string",
-                                "format": "date-time"
-                              },
-                              {
-                                "type": "string"
-                              }
-                            ]
+                            "type": "string",
+                            "format": "date-time"
                           },
                           "updatedAt": {
-                            "anyOf": [
-                              {
-                                "type": "string",
-                                "format": "date-time"
-                              },
-                              {
-                                "type": "string"
-                              }
-                            ]
+                            "type": "string",
+                            "format": "date-time"
                           }
                         },
                         "required": [
@@ -18703,26 +17492,12 @@
                       "default": "ACTIVE"
                     },
                     "createdAt": {
-                      "anyOf": [
-                        {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        {
-                          "type": "string"
-                        }
-                      ]
+                      "type": "string",
+                      "format": "date-time"
                     },
                     "updatedAt": {
-                      "anyOf": [
-                        {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        {
-                          "type": "string"
-                        }
-                      ]
+                      "type": "string",
+                      "format": "date-time"
                     }
                   },
                   "required": [
@@ -18891,26 +17666,12 @@
                       "default": "ACTIVE"
                     },
                     "createdAt": {
-                      "anyOf": [
-                        {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        {
-                          "type": "string"
-                        }
-                      ]
+                      "type": "string",
+                      "format": "date-time"
                     },
                     "updatedAt": {
-                      "anyOf": [
-                        {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        {
-                          "type": "string"
-                        }
-                      ]
+                      "type": "string",
+                      "format": "date-time"
                     }
                   },
                   "required": [
@@ -19093,26 +17854,12 @@
                       "default": "ACTIVE"
                     },
                     "createdAt": {
-                      "anyOf": [
-                        {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        {
-                          "type": "string"
-                        }
-                      ]
+                      "type": "string",
+                      "format": "date-time"
                     },
                     "updatedAt": {
-                      "anyOf": [
-                        {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        {
-                          "type": "string"
-                        }
-                      ]
+                      "type": "string",
+                      "format": "date-time"
                     }
                   },
                   "required": [
@@ -19279,26 +18026,12 @@
                       "default": "ACTIVE"
                     },
                     "createdAt": {
-                      "anyOf": [
-                        {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        {
-                          "type": "string"
-                        }
-                      ]
+                      "type": "string",
+                      "format": "date-time"
                     },
                     "updatedAt": {
-                      "anyOf": [
-                        {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        {
-                          "type": "string"
-                        }
-                      ]
+                      "type": "string",
+                      "format": "date-time"
                     }
                   },
                   "required": [
@@ -19576,26 +18309,12 @@
                 "default": "PENDING"
               },
               "createdAt": {
-                "anyOf": [
-                  {
-                    "type": "string",
-                    "format": "date-time"
-                  },
-                  {
-                    "type": "string"
-                  }
-                ]
+                "type": "string",
+                "format": "date-time"
               },
               "updatedAt": {
-                "anyOf": [
-                  {
-                    "type": "string",
-                    "format": "date-time"
-                  },
-                  {
-                    "type": "string"
-                  }
-                ]
+                "type": "string",
+                "format": "date-time"
               }
             },
             "required": [
@@ -19714,26 +18433,12 @@
                 "default": "PENDING"
               },
               "createdAt": {
-                "anyOf": [
-                  {
-                    "type": "string",
-                    "format": "date-time"
-                  },
-                  {
-                    "type": "string"
-                  }
-                ]
+                "type": "string",
+                "format": "date-time"
               },
               "updatedAt": {
-                "anyOf": [
-                  {
-                    "type": "string",
-                    "format": "date-time"
-                  },
-                  {
-                    "type": "string"
-                  }
-                ]
+                "type": "string",
+                "format": "date-time"
               }
             },
             "required": [
@@ -19852,26 +18557,12 @@
                 "default": "PENDING"
               },
               "createdAt": {
-                "anyOf": [
-                  {
-                    "type": "string",
-                    "format": "date-time"
-                  },
-                  {
-                    "type": "string"
-                  }
-                ]
+                "type": "string",
+                "format": "date-time"
               },
               "updatedAt": {
-                "anyOf": [
-                  {
-                    "type": "string",
-                    "format": "date-time"
-                  },
-                  {
-                    "type": "string"
-                  }
-                ]
+                "type": "string",
+                "format": "date-time"
               }
             },
             "required": [
@@ -19990,26 +18681,12 @@
                 "default": "PENDING"
               },
               "createdAt": {
-                "anyOf": [
-                  {
-                    "type": "string",
-                    "format": "date-time"
-                  },
-                  {
-                    "type": "string"
-                  }
-                ]
+                "type": "string",
+                "format": "date-time"
               },
               "updatedAt": {
-                "anyOf": [
-                  {
-                    "type": "string",
-                    "format": "date-time"
-                  },
-                  {
-                    "type": "string"
-                  }
-                ]
+                "type": "string",
+                "format": "date-time"
               }
             },
             "required": [
@@ -20061,15 +18738,8 @@
           "deletedAt": {
             "anyOf": [
               {
-                "anyOf": [
-                  {
-                    "type": "string",
-                    "format": "date-time"
-                  },
-                  {
-                    "type": "string"
-                  }
-                ]
+                "type": "string",
+                "format": "date-time"
               },
               {
                 "type": "null"
@@ -20077,26 +18747,12 @@
             ]
           },
           "createdAt": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "date-time"
-              },
-              {
-                "type": "string"
-              }
-            ]
+            "type": "string",
+            "format": "date-time"
           },
           "updatedAt": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "date-time"
-              },
-              {
-                "type": "string"
-              }
-            ]
+            "type": "string",
+            "format": "date-time"
           }
         },
         "required": [
@@ -20175,26 +18831,12 @@
             "format": "date-time"
           },
           "createdAt": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "date-time"
-              },
-              {
-                "type": "string"
-              }
-            ]
+            "type": "string",
+            "format": "date-time"
           },
           "updatedAt": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "date-time"
-              },
-              {
-                "type": "string"
-              }
-            ]
+            "type": "string",
+            "format": "date-time"
           }
         },
         "required": [
@@ -20302,15 +18944,8 @@
           "deletedAt": {
             "anyOf": [
               {
-                "anyOf": [
-                  {
-                    "type": "string",
-                    "format": "date-time"
-                  },
-                  {
-                    "type": "string"
-                  }
-                ]
+                "type": "string",
+                "format": "date-time"
               },
               {
                 "type": "null"
@@ -20318,26 +18953,12 @@
             ]
           },
           "createdAt": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "date-time"
-              },
-              {
-                "type": "string"
-              }
-            ]
+            "type": "string",
+            "format": "date-time"
           },
           "updatedAt": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "date-time"
-              },
-              {
-                "type": "string"
-              }
-            ]
+            "type": "string",
+            "format": "date-time"
           }
         },
         "required": [
@@ -20412,15 +19033,8 @@
                 "deletedAt": {
                   "anyOf": [
                     {
-                      "anyOf": [
-                        {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        {
-                          "type": "string"
-                        }
-                      ]
+                      "type": "string",
+                      "format": "date-time"
                     },
                     {
                       "type": "null"
@@ -20428,26 +19042,12 @@
                   ]
                 },
                 "createdAt": {
-                  "anyOf": [
-                    {
-                      "type": "string",
-                      "format": "date-time"
-                    },
-                    {
-                      "type": "string"
-                    }
-                  ]
+                  "type": "string",
+                  "format": "date-time"
                 },
                 "updatedAt": {
-                  "anyOf": [
-                    {
-                      "type": "string",
-                      "format": "date-time"
-                    },
-                    {
-                      "type": "string"
-                    }
-                  ]
+                  "type": "string",
+                  "format": "date-time"
                 }
               },
               "required": [
@@ -20496,15 +19096,8 @@
           "deletedAt": {
             "anyOf": [
               {
-                "anyOf": [
-                  {
-                    "type": "string",
-                    "format": "date-time"
-                  },
-                  {
-                    "type": "string"
-                  }
-                ]
+                "type": "string",
+                "format": "date-time"
               },
               {
                 "type": "null"
@@ -20512,26 +19105,12 @@
             ]
           },
           "createdAt": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "date-time"
-              },
-              {
-                "type": "string"
-              }
-            ]
+            "type": "string",
+            "format": "date-time"
           },
           "updatedAt": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "date-time"
-              },
-              {
-                "type": "string"
-              }
-            ]
+            "type": "string",
+            "format": "date-time"
           }
         },
         "required": [
@@ -20760,26 +19339,12 @@
                 "default": "ACTIVE"
               },
               "createdAt": {
-                "anyOf": [
-                  {
-                    "type": "string",
-                    "format": "date-time"
-                  },
-                  {
-                    "type": "string"
-                  }
-                ]
+                "type": "string",
+                "format": "date-time"
               },
               "updatedAt": {
-                "anyOf": [
-                  {
-                    "type": "string",
-                    "format": "date-time"
-                  },
-                  {
-                    "type": "string"
-                  }
-                ]
+                "type": "string",
+                "format": "date-time"
               }
             },
             "required": [
@@ -21009,26 +19574,12 @@
                 "default": "ACTIVE"
               },
               "createdAt": {
-                "anyOf": [
-                  {
-                    "type": "string",
-                    "format": "date-time"
-                  },
-                  {
-                    "type": "string"
-                  }
-                ]
+                "type": "string",
+                "format": "date-time"
               },
               "updatedAt": {
-                "anyOf": [
-                  {
-                    "type": "string",
-                    "format": "date-time"
-                  },
-                  {
-                    "type": "string"
-                  }
-                ]
+                "type": "string",
+                "format": "date-time"
               }
             },
             "required": [
@@ -21235,26 +19786,12 @@
                 "default": "ACTIVE"
               },
               "createdAt": {
-                "anyOf": [
-                  {
-                    "type": "string",
-                    "format": "date-time"
-                  },
-                  {
-                    "type": "string"
-                  }
-                ]
+                "type": "string",
+                "format": "date-time"
               },
               "updatedAt": {
-                "anyOf": [
-                  {
-                    "type": "string",
-                    "format": "date-time"
-                  },
-                  {
-                    "type": "string"
-                  }
-                ]
+                "type": "string",
+                "format": "date-time"
               }
             },
             "required": [
@@ -21465,26 +20002,12 @@
                 "default": "ACTIVE"
               },
               "createdAt": {
-                "anyOf": [
-                  {
-                    "type": "string",
-                    "format": "date-time"
-                  },
-                  {
-                    "type": "string"
-                  }
-                ]
+                "type": "string",
+                "format": "date-time"
               },
               "updatedAt": {
-                "anyOf": [
-                  {
-                    "type": "string",
-                    "format": "date-time"
-                  },
-                  {
-                    "type": "string"
-                  }
-                ]
+                "type": "string",
+                "format": "date-time"
               }
             },
             "required": [
@@ -21568,15 +20091,8 @@
                 "deletedAt": {
                   "anyOf": [
                     {
-                      "anyOf": [
-                        {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        {
-                          "type": "string"
-                        }
-                      ]
+                      "type": "string",
+                      "format": "date-time"
                     },
                     {
                       "type": "null"
@@ -21584,26 +20100,12 @@
                   ]
                 },
                 "createdAt": {
-                  "anyOf": [
-                    {
-                      "type": "string",
-                      "format": "date-time"
-                    },
-                    {
-                      "type": "string"
-                    }
-                  ]
+                  "type": "string",
+                  "format": "date-time"
                 },
                 "updatedAt": {
-                  "anyOf": [
-                    {
-                      "type": "string",
-                      "format": "date-time"
-                    },
-                    {
-                      "type": "string"
-                    }
-                  ]
+                  "type": "string",
+                  "format": "date-time"
                 }
               },
               "required": [
@@ -21684,15 +20186,8 @@
                       "deletedAt": {
                         "anyOf": [
                           {
-                            "anyOf": [
-                              {
-                                "type": "string",
-                                "format": "date-time"
-                              },
-                              {
-                                "type": "string"
-                              }
-                            ]
+                            "type": "string",
+                            "format": "date-time"
                           },
                           {
                             "type": "null"
@@ -21700,26 +20195,12 @@
                         ]
                       },
                       "createdAt": {
-                        "anyOf": [
-                          {
-                            "type": "string",
-                            "format": "date-time"
-                          },
-                          {
-                            "type": "string"
-                          }
-                        ]
+                        "type": "string",
+                        "format": "date-time"
                       },
                       "updatedAt": {
-                        "anyOf": [
-                          {
-                            "type": "string",
-                            "format": "date-time"
-                          },
-                          {
-                            "type": "string"
-                          }
-                        ]
+                        "type": "string",
+                        "format": "date-time"
                       }
                     },
                     "required": [
@@ -21768,15 +20249,8 @@
                 "deletedAt": {
                   "anyOf": [
                     {
-                      "anyOf": [
-                        {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        {
-                          "type": "string"
-                        }
-                      ]
+                      "type": "string",
+                      "format": "date-time"
                     },
                     {
                       "type": "null"
@@ -21784,26 +20258,12 @@
                   ]
                 },
                 "createdAt": {
-                  "anyOf": [
-                    {
-                      "type": "string",
-                      "format": "date-time"
-                    },
-                    {
-                      "type": "string"
-                    }
-                  ]
+                  "type": "string",
+                  "format": "date-time"
                 },
                 "updatedAt": {
-                  "anyOf": [
-                    {
-                      "type": "string",
-                      "format": "date-time"
-                    },
-                    {
-                      "type": "string"
-                    }
-                  ]
+                  "type": "string",
+                  "format": "date-time"
                 }
               },
               "required": [
@@ -21930,26 +20390,12 @@
             "default": "ACTIVE"
           },
           "createdAt": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "date-time"
-              },
-              {
-                "type": "string"
-              }
-            ]
+            "type": "string",
+            "format": "date-time"
           },
           "updatedAt": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "date-time"
-              },
-              {
-                "type": "string"
-              }
-            ]
+            "type": "string",
+            "format": "date-time"
           }
         },
         "required": [
@@ -21991,26 +20437,12 @@
             "default": "ACTIVE"
           },
           "createdAt": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "date-time"
-              },
-              {
-                "type": "string"
-              }
-            ]
+            "type": "string",
+            "format": "date-time"
           },
           "updatedAt": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "date-time"
-              },
-              {
-                "type": "string"
-              }
-            ]
+            "type": "string",
+            "format": "date-time"
           }
         },
         "required": [
