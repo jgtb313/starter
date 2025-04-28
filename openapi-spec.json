@@ -5263,6 +5263,7 @@
                   },
                   "required": [
                     "userId",
+                    "workspaceId",
                     "organizationIds",
                     "organizations",
                     "roleIds",
@@ -5825,6 +5826,7 @@
                   },
                   "required": [
                     "userId",
+                    "workspaceId",
                     "organizationIds",
                     "organizations",
                     "roleIds",
@@ -6566,6 +6568,7 @@
                   },
                   "required": [
                     "userId",
+                    "workspaceId",
                     "organizationIds",
                     "organizations",
                     "roleIds",
@@ -7338,6 +7341,7 @@
                   },
                   "required": [
                     "userId",
+                    "workspaceId",
                     "organizationIds",
                     "organizations",
                     "roleIds",
@@ -15768,6 +15772,7 @@
                         },
                         "required": [
                           "userId",
+                          "workspaceId",
                           "organizationIds",
                           "organizations",
                           "roleIds",
@@ -16436,6 +16441,7 @@
                   },
                   "required": [
                     "userId",
+                    "workspaceId",
                     "organizationIds",
                     "organizations",
                     "roleIds",
@@ -16939,6 +16945,7 @@
                   },
                   "required": [
                     "userId",
+                    "workspaceId",
                     "organizationIds",
                     "organizations",
                     "roleIds",
@@ -17502,6 +17509,7 @@
                   },
                   "required": [
                     "userId",
+                    "workspaceId",
                     "organizationIds",
                     "organizations",
                     "roleIds",
@@ -20400,6 +20408,7 @@
         },
         "required": [
           "userId",
+          "workspaceId",
           "organizationIds",
           "organizations",
           "roleIds",
