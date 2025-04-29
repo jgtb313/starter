@@ -78,6 +78,46 @@ export class UserTypeorm implements IUserRepository {
     return UserSchema.parse(model)
   }
 
+  findByEmail: IUserRepository['findByEmail'] = async (email, options) => {
+    const where: FindOptionsWhere<UserEntity> = {}
+
+    if (email) {
+      where.email = email
+    }
+
+    if (options?.workspaceId) {
+      where.workspaceId = options.workspaceId
+    }
+
+    const model = await this.repository.findOne({ where })
+
+    if (!model) {
+      return null
+    }
+
+    return UserSchema.parse(model)
+  }
+
+  findByPhone: IUserRepository['findByPhone'] = async (phone, options) => {
+    const where: FindOptionsWhere<UserEntity> = {}
+
+    if (phone) {
+      where.phone = phone
+    }
+
+    if (options?.workspaceId) {
+      where.workspaceId = options.workspaceId
+    }
+
+    const model = await this.repository.findOne({ where })
+
+    if (!model) {
+      return null
+    }
+
+    return UserSchema.parse(model)
+  }
+
   findBySocial: IUserRepository['findBySocial'] = async (context, { socialId, email }) => {
     const socialKey = `${context.toLowerCase()}Id`
     const where: FindOptionsWhere<UserEntity> = {

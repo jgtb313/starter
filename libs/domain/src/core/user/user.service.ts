@@ -35,7 +35,7 @@ export class UserService implements IUserService {
   }
 
   getUserByEmail: IUserService['getUserByEmail'] = async (email, options) => {
-    const user = await this.userRepository.findOne({ email, ...options })
+    const user = await this.userRepository.findByEmail(email, options)
 
     if (!user) {
       return
@@ -45,7 +45,7 @@ export class UserService implements IUserService {
   }
 
   getUserByPhone: IUserService['getUserByPhone'] = async (phone, options) => {
-    const user = await this.userRepository.findOne({ phone, ...options })
+    const user = await this.userRepository.findByPhone(phone, options)
 
     if (!user) {
       return
@@ -71,9 +71,7 @@ export class UserService implements IUserService {
       workspace = await this.workspaceService.getWorkspace(workspaceId)
     }
 
-    const emailExists = await this.userRepository.findOne({
-      email: input.email,
-    })
+    const emailExists = await this.userRepository.findByEmail(input.email)
 
     if (emailExists) {
       throw new ConflictException(`Email ${input.email} has already been taken.`)
