@@ -1,7 +1,7 @@
 import { Controller, Route, Request } from '@starter/nestjs-server-hoisting'
 import { PlanService, PlanSchema, PlanStatusEnum } from '@starter/domain'
 
-import { ListPlansSchema, ListPlansRequest } from '@/core/plan/plan.controller.schema'
+import { ListPlansSchema, GetPlanSchema, ListPlansRequest, GetPlanRequest } from '@/core/plan/plan.controller.schema'
 
 @Controller({
   name: 'Plan',
@@ -46,5 +46,31 @@ export class PlanController {
         ...response,
         values: response.values.map((plan) => plan.toJSON()),
       }))
+  }
+
+  @Route({
+    summary: 'Get Plan',
+
+    description: 'Retrieves a single plan by their ID.',
+
+    method: 'GET',
+
+    path: '/:planId',
+
+    parameters: {
+      params: GetPlanSchema.params,
+    },
+
+    responses: {
+      200: {
+        schema: GetPlanSchema.output,
+      },
+      404: {
+        description: 'Plan ${planId} not found',
+      },
+    },
+  })
+  getPlan(@Request() { params }: GetPlanRequest) {
+    return this.planService.getPlan(params.planId)
   }
 }

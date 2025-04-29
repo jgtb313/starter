@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common'
-import { InvoiceServiceModule } from '@starter/domain'
+import { UserServiceModule, InvoiceServiceModule } from '@starter/domain'
 
 import { InvoiceController } from './invoice.controller'
 
 @Module({
-  imports: [InvoiceServiceModule],
+  imports: [UserServiceModule, InvoiceServiceModule],
   controllers: [InvoiceController],
 })
 export class InvoiceModule {}

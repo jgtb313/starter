@@ -8,7 +8,7 @@ export type PermissionSubjectAction = {
   description: string
 }
 
-export const PERMISSION_SUBJECT = ['user', 'workspace', 'organization', 'role', 'category', 'plan'] as const
+export const PERMISSION_SUBJECT = ['user', 'workspace', 'organization', 'role', 'category'] as const
 
 export const PERMISSION_ACTION = ['manage', 'create', 'read', 'update', 'delete'] as const
 
@@ -81,12 +81,6 @@ export const PERMISSION_SUBJECT_ACTIONS: Record<(typeof PERMISSION_SUBJECT)[numb
     { key: 'category:update', subject: 'category', action: 'update', title: 'Update Category', description: 'Allows modifying category information' },
     { key: 'category:delete', subject: 'category', action: 'delete', title: 'Delete Category', description: 'Allows removing categories' },
   ],
-  plan: [
-    { key: 'plan:create', subject: 'plan', action: 'create', title: 'Create Plan', description: 'Allows creating new plans' },
-    { key: 'plan:read', subject: 'plan', action: 'read', title: 'Read Plan', description: 'Allows viewing plan details' },
-    { key: 'plan:update', subject: 'plan', action: 'update', title: 'Update Plan', description: 'Allows modifying plan information' },
-    { key: 'plan:delete', subject: 'plan', action: 'delete', title: 'Delete Plan', description: 'Allows removing plans' },
-  ],
 }
 
 export type PermissionSubjects = keyof typeof PERMISSION_SUBJECT_ACTIONS
@@ -109,14 +103,6 @@ export const PermissionSubjectActionSchema = z.object({
   description: z.string(),
 })
 
-export const PermissionsSchema = z.array(z.string() as z.ZodType<Permission>).refine(
-  (value) => value.every((permission) => PERMISSIONS.has(permission)),
-  // (value) => ({
-  //   message: `Invalid enum value(s). Expected ${Array.from(PERMISSIONS)
-  //     .map((permission) => `'${permission}'`)
-  //     .join(' | ')}, received ${value
-  //     .filter((permission) => !PERMISSIONS.has(permission))
-  //     .map((permission) => `'${permission}'`)
-  //     .join(', ')}`,
-  // }),
-) as z.ZodType<Permission[]>
+export const PermissionsSchema = z
+  .array(z.string() as z.ZodType<Permission>)
+  .refine((value) => value.every((permission) => PERMISSIONS.has(permission))) as z.ZodType<Permission[]>

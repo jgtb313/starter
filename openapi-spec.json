@@ -1307,7 +1307,7 @@
         ]
       }
     },
-    "/v1/invoices": {
+    "/v1/workspaces/{workspaceId}/invoices": {
       "get": {
         "description": "Retrieves a list of invoices.",
         "operationId": "listInvoices",
@@ -1342,6 +1342,17 @@
               "default": 10,
               "example": 20,
               "type": "number"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "required": true,
+            "in": "path",
+            "description": "Unique identifier for workspace",
+            "schema": {
+              "format": "uuid",
+              "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
+              "type": "string"
             }
           }
         ],
@@ -1643,23 +1654,17 @@
                               "pix": {
                                 "type": "object",
                                 "properties": {
-                                  "number": {
+                                  "qrCode": {
                                     "type": "string"
                                   },
-                                  "holderName": {
-                                    "type": "string"
-                                  },
-                                  "expirationDate": {
-                                    "example": "10/10",
+                                  "dueDate": {
                                     "type": "string",
-                                    "minLength": 5,
-                                    "maxLength": 5
+                                    "format": "date-time"
                                   }
                                 },
                                 "required": [
-                                  "number",
-                                  "holderName",
-                                  "expirationDate"
+                                  "qrCode",
+                                  "dueDate"
                                 ]
                               },
                               "dueDate": {
@@ -1767,23 +1772,21 @@
                               "boleto": {
                                 "type": "object",
                                 "properties": {
-                                  "number": {
+                                  "url": {
                                     "type": "string"
                                   },
-                                  "holderName": {
+                                  "instructions": {
                                     "type": "string"
                                   },
-                                  "expirationDate": {
-                                    "example": "10/10",
+                                  "dueDate": {
                                     "type": "string",
-                                    "minLength": 5,
-                                    "maxLength": 5
+                                    "format": "date-time"
                                   }
                                 },
                                 "required": [
-                                  "number",
-                                  "holderName",
-                                  "expirationDate"
+                                  "url",
+                                  "instructions",
+                                  "dueDate"
                                 ]
                               },
                               "dueDate": {
@@ -1976,7 +1979,642 @@
             }
           }
         },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "summary": "List Invoices",
+        "tags": [
+          "Invoice"
+        ]
+      }
+    },
+    "/v1/workspaces/{workspaceId}/invoices/{invoiceId}": {
+      "get": {
+        "description": "Retrieves a single invoice by their ID.",
+        "operationId": "getInvoice",
+        "parameters": [
+          {
+            "name": "fields",
+            "required": false,
+            "in": "query",
+            "description": "Comma-separated list of fields to return in the response.",
+            "schema": {
+              "example": "id,name,email",
+              "type": "string"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "required": true,
+            "in": "path",
+            "description": "Unique identifier for workspace",
+            "schema": {
+              "format": "uuid",
+              "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
+              "type": "string"
+            }
+          },
+          {
+            "name": "invoiceId",
+            "required": true,
+            "in": "path",
+            "description": "Unique identifier for invoice",
+            "schema": {
+              "format": "uuid",
+              "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "title": "InvoiceCreditCard",
+                      "type": "object",
+                      "properties": {
+                        "invoiceId": {
+                          "description": "Unique identifier for invoice",
+                          "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
+                          "type": "string",
+                          "format": "uuid"
+                        },
+                        "workspaceId": {
+                          "description": "Unique identifier for workspace",
+                          "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
+                          "type": "string",
+                          "format": "uuid"
+                        },
+                        "subscriptionId": {
+                          "description": "Unique identifier for subscription",
+                          "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
+                          "type": "string",
+                          "format": "uuid"
+                        },
+                        "externalId": {
+                          "type": "string"
+                        },
+                        "description": {
+                          "type": "string"
+                        },
+                        "amount": {
+                          "type": "number"
+                        },
+                        "paymentMethod": {
+                          "const": "CREDIT_CARD",
+                          "type": "string"
+                        },
+                        "creditCard": {
+                          "type": "object",
+                          "properties": {
+                            "number": {
+                              "type": "string"
+                            },
+                            "holderName": {
+                              "type": "string"
+                            },
+                            "expirationDate": {
+                              "example": "10/10",
+                              "type": "string",
+                              "minLength": 5,
+                              "maxLength": 5
+                            }
+                          },
+                          "required": [
+                            "number",
+                            "holderName",
+                            "expirationDate"
+                          ]
+                        },
+                        "dueDate": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "issuedAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "paidAt": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "format": "date-time"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "canceledAt": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "format": "date-time"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "status": {
+                          "enum": [
+                            "PENDING",
+                            "PAID",
+                            "OVERDUE",
+                            "CANCELED"
+                          ],
+                          "type": "string",
+                          "default": "PENDING"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      },
+                      "required": [
+                        "invoiceId",
+                        "workspaceId",
+                        "subscriptionId",
+                        "externalId",
+                        "description",
+                        "amount",
+                        "paymentMethod",
+                        "creditCard",
+                        "dueDate",
+                        "issuedAt",
+                        "paidAt",
+                        "canceledAt",
+                        "status",
+                        "createdAt",
+                        "updatedAt"
+                      ]
+                    },
+                    {
+                      "title": "InvoiceDebitCard",
+                      "type": "object",
+                      "properties": {
+                        "invoiceId": {
+                          "description": "Unique identifier for invoice",
+                          "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
+                          "type": "string",
+                          "format": "uuid"
+                        },
+                        "workspaceId": {
+                          "description": "Unique identifier for workspace",
+                          "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
+                          "type": "string",
+                          "format": "uuid"
+                        },
+                        "subscriptionId": {
+                          "description": "Unique identifier for subscription",
+                          "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
+                          "type": "string",
+                          "format": "uuid"
+                        },
+                        "externalId": {
+                          "type": "string"
+                        },
+                        "description": {
+                          "type": "string"
+                        },
+                        "amount": {
+                          "type": "number"
+                        },
+                        "paymentMethod": {
+                          "const": "DEBIT_CARD",
+                          "type": "string"
+                        },
+                        "debitCard": {
+                          "type": "object",
+                          "properties": {
+                            "number": {
+                              "type": "string"
+                            },
+                            "holderName": {
+                              "type": "string"
+                            },
+                            "expirationDate": {
+                              "example": "10/10",
+                              "type": "string",
+                              "minLength": 5,
+                              "maxLength": 5
+                            }
+                          },
+                          "required": [
+                            "number",
+                            "holderName",
+                            "expirationDate"
+                          ]
+                        },
+                        "dueDate": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "issuedAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "paidAt": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "format": "date-time"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "canceledAt": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "format": "date-time"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "status": {
+                          "enum": [
+                            "PENDING",
+                            "PAID",
+                            "OVERDUE",
+                            "CANCELED"
+                          ],
+                          "type": "string",
+                          "default": "PENDING"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      },
+                      "required": [
+                        "invoiceId",
+                        "workspaceId",
+                        "subscriptionId",
+                        "externalId",
+                        "description",
+                        "amount",
+                        "paymentMethod",
+                        "debitCard",
+                        "dueDate",
+                        "issuedAt",
+                        "paidAt",
+                        "canceledAt",
+                        "status",
+                        "createdAt",
+                        "updatedAt"
+                      ]
+                    },
+                    {
+                      "title": "InvoicePix",
+                      "type": "object",
+                      "properties": {
+                        "invoiceId": {
+                          "description": "Unique identifier for invoice",
+                          "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
+                          "type": "string",
+                          "format": "uuid"
+                        },
+                        "workspaceId": {
+                          "description": "Unique identifier for workspace",
+                          "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
+                          "type": "string",
+                          "format": "uuid"
+                        },
+                        "subscriptionId": {
+                          "description": "Unique identifier for subscription",
+                          "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
+                          "type": "string",
+                          "format": "uuid"
+                        },
+                        "externalId": {
+                          "type": "string"
+                        },
+                        "description": {
+                          "type": "string"
+                        },
+                        "amount": {
+                          "type": "number"
+                        },
+                        "paymentMethod": {
+                          "const": "PIX",
+                          "type": "string"
+                        },
+                        "pix": {
+                          "type": "object",
+                          "properties": {
+                            "qrCode": {
+                              "type": "string"
+                            },
+                            "dueDate": {
+                              "type": "string",
+                              "format": "date-time"
+                            }
+                          },
+                          "required": [
+                            "qrCode",
+                            "dueDate"
+                          ]
+                        },
+                        "dueDate": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "issuedAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "paidAt": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "format": "date-time"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "canceledAt": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "format": "date-time"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "status": {
+                          "enum": [
+                            "PENDING",
+                            "PAID",
+                            "OVERDUE",
+                            "CANCELED"
+                          ],
+                          "type": "string",
+                          "default": "PENDING"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      },
+                      "required": [
+                        "invoiceId",
+                        "workspaceId",
+                        "subscriptionId",
+                        "externalId",
+                        "description",
+                        "amount",
+                        "paymentMethod",
+                        "pix",
+                        "dueDate",
+                        "issuedAt",
+                        "paidAt",
+                        "canceledAt",
+                        "status",
+                        "createdAt",
+                        "updatedAt"
+                      ]
+                    },
+                    {
+                      "title": "InvoiceBoleto",
+                      "type": "object",
+                      "properties": {
+                        "invoiceId": {
+                          "description": "Unique identifier for invoice",
+                          "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
+                          "type": "string",
+                          "format": "uuid"
+                        },
+                        "workspaceId": {
+                          "description": "Unique identifier for workspace",
+                          "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
+                          "type": "string",
+                          "format": "uuid"
+                        },
+                        "subscriptionId": {
+                          "description": "Unique identifier for subscription",
+                          "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
+                          "type": "string",
+                          "format": "uuid"
+                        },
+                        "externalId": {
+                          "type": "string"
+                        },
+                        "description": {
+                          "type": "string"
+                        },
+                        "amount": {
+                          "type": "number"
+                        },
+                        "paymentMethod": {
+                          "const": "BOLETO",
+                          "type": "string"
+                        },
+                        "boleto": {
+                          "type": "object",
+                          "properties": {
+                            "url": {
+                              "type": "string"
+                            },
+                            "instructions": {
+                              "type": "string"
+                            },
+                            "dueDate": {
+                              "type": "string",
+                              "format": "date-time"
+                            }
+                          },
+                          "required": [
+                            "url",
+                            "instructions",
+                            "dueDate"
+                          ]
+                        },
+                        "dueDate": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "issuedAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "paidAt": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "format": "date-time"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "canceledAt": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "format": "date-time"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "status": {
+                          "enum": [
+                            "PENDING",
+                            "PAID",
+                            "OVERDUE",
+                            "CANCELED"
+                          ],
+                          "type": "string",
+                          "default": "PENDING"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      },
+                      "required": [
+                        "invoiceId",
+                        "workspaceId",
+                        "subscriptionId",
+                        "externalId",
+                        "description",
+                        "amount",
+                        "paymentMethod",
+                        "boleto",
+                        "dueDate",
+                        "issuedAt",
+                        "paidAt",
+                        "canceledAt",
+                        "status",
+                        "createdAt",
+                        "updatedAt"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "example": 400,
+                      "type": "number"
+                    },
+                    "error": {
+                      "example": "Bad Request Error",
+                      "type": "string"
+                    },
+                    "issues": {
+                      "example": [
+                        {
+                          "propertyKey": "errorMessage"
+                        }
+                      ],
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "propertyNames": {
+                          "type": "string"
+                        },
+                        "additionalProperties": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "statusCode",
+                    "error",
+                    "issues"
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "example": 500,
+                      "type": "number"
+                    },
+                    "error": {
+                      "example": "Internal Server Error",
+                      "type": "string"
+                    },
+                    "message": {
+                      "example": "...",
+                      "type": "string"
+                    },
+                    "metadata": {
+                      "type": "object",
+                      "propertyNames": {
+                        "type": "string"
+                      },
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "statusCode",
+                    "error",
+                    "message"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "summary": "Get Invoice",
         "tags": [
           "Invoice"
         ]
@@ -4870,6 +5508,289 @@
           }
         },
         "summary": "List Plans",
+        "tags": [
+          "Plan"
+        ]
+      }
+    },
+    "/v1/plans/{planId}": {
+      "get": {
+        "description": "Retrieves a single plan by their ID.",
+        "operationId": "getPlan",
+        "parameters": [
+          {
+            "name": "fields",
+            "required": false,
+            "in": "query",
+            "description": "Comma-separated list of fields to return in the response.",
+            "schema": {
+              "example": "id,name,email",
+              "type": "string"
+            }
+          },
+          {
+            "name": "planId",
+            "required": true,
+            "in": "path",
+            "description": "Unique identifier for plan",
+            "schema": {
+              "format": "uuid",
+              "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "planId": {
+                      "description": "Unique identifier for plan",
+                      "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "externalId": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "amount": {
+                      "type": "number"
+                    },
+                    "interval": {
+                      "enum": [
+                        "DAY",
+                        "WEEK",
+                        "MONTH",
+                        "YEAR"
+                      ],
+                      "type": "string"
+                    },
+                    "intervalCount": {
+                      "type": "number",
+                      "default": 1
+                    },
+                    "trialDays": {
+                      "type": "number"
+                    },
+                    "features": {
+                      "type": "array",
+                      "items": {
+                        "anyOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "description": {
+                                "type": "string"
+                              },
+                              "code": {
+                                "const": "ORGANIZATION_COUNT",
+                                "type": "string"
+                              },
+                              "props": {
+                                "type": "object",
+                                "properties": {
+                                  "maxOrganizations": {
+                                    "type": "number",
+                                    "default": 1
+                                  }
+                                },
+                                "required": [
+                                  "maxOrganizations"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "description",
+                              "code",
+                              "props"
+                            ]
+                          }
+                        ]
+                      },
+                      "default": []
+                    },
+                    "highlight": {
+                      "type": "boolean",
+                      "default": false
+                    },
+                    "status": {
+                      "enum": [
+                        "ACTIVE",
+                        "INACTIVE"
+                      ],
+                      "type": "string",
+                      "default": "ACTIVE"
+                    },
+                    "deletedAt": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  },
+                  "required": [
+                    "planId",
+                    "externalId",
+                    "name",
+                    "description",
+                    "amount",
+                    "interval",
+                    "intervalCount",
+                    "trialDays",
+                    "features",
+                    "highlight",
+                    "status",
+                    "deletedAt",
+                    "createdAt",
+                    "updatedAt"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "example": 400,
+                      "type": "number"
+                    },
+                    "error": {
+                      "example": "Bad Request Error",
+                      "type": "string"
+                    },
+                    "issues": {
+                      "example": [
+                        {
+                          "propertyKey": "errorMessage"
+                        }
+                      ],
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "propertyNames": {
+                          "type": "string"
+                        },
+                        "additionalProperties": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "statusCode",
+                    "error",
+                    "issues"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "example": 404,
+                      "type": "number"
+                    },
+                    "error": {
+                      "example": "Not Found Error",
+                      "type": "string"
+                    },
+                    "message": {
+                      "example": "Plan ${planId} not found",
+                      "type": "string"
+                    },
+                    "metadata": {
+                      "type": "object",
+                      "propertyNames": {
+                        "type": "string"
+                      },
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "statusCode",
+                    "error",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "example": 500,
+                      "type": "number"
+                    },
+                    "error": {
+                      "example": "Internal Server Error",
+                      "type": "string"
+                    },
+                    "message": {
+                      "example": "...",
+                      "type": "string"
+                    },
+                    "metadata": {
+                      "type": "object",
+                      "propertyNames": {
+                        "type": "string"
+                      },
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "statusCode",
+                    "error",
+                    "message"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get Plan",
         "tags": [
           "Plan"
         ]
@@ -18505,23 +19426,17 @@
               "pix": {
                 "type": "object",
                 "properties": {
-                  "number": {
+                  "qrCode": {
                     "type": "string"
                   },
-                  "holderName": {
-                    "type": "string"
-                  },
-                  "expirationDate": {
-                    "example": "10/10",
+                  "dueDate": {
                     "type": "string",
-                    "minLength": 5,
-                    "maxLength": 5
+                    "format": "date-time"
                   }
                 },
                 "required": [
-                  "number",
-                  "holderName",
-                  "expirationDate"
+                  "qrCode",
+                  "dueDate"
                 ]
               },
               "dueDate": {
@@ -18629,23 +19544,21 @@
               "boleto": {
                 "type": "object",
                 "properties": {
-                  "number": {
+                  "url": {
                     "type": "string"
                   },
-                  "holderName": {
+                  "instructions": {
                     "type": "string"
                   },
-                  "expirationDate": {
-                    "example": "10/10",
+                  "dueDate": {
                     "type": "string",
-                    "minLength": 5,
-                    "maxLength": 5
+                    "format": "date-time"
                   }
                 },
                 "required": [
-                  "number",
-                  "holderName",
-                  "expirationDate"
+                  "url",
+                  "instructions",
+                  "dueDate"
                 ]
               },
               "dueDate": {

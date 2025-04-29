@@ -1,14 +1,17 @@
+import { UseGuards } from '@nestjs/common'
 import { Controller, Route, Request } from '@starter/nestjs-server-hoisting'
-import { InvoiceService, InvoiceSchema, InvoiceStatusEnum } from '@starter/domain'
+import { InvoiceService, InvoiceSchema, User } from '@starter/domain'
 
-import { ListInvoicesSchema, ListInvoicesRequest } from '@/core/invoice/invoice.controller.schema'
+import { AuthGuard } from '@/support/guards'
+import { AuthenticatedUser } from '@/support/decorators'
+import { ListInvoicesSchema, GetInvoiceSchema, ListInvoicesRequest, GetInvoiceRequest } from '@/core/invoice/invoice.controller.schema'
 
 @Controller({
   name: 'Invoice',
 
   description: 'Handles operations for managing and retrieving invoices.',
 
-  basePath: 'invoices',
+  basePath: '/workspaces/:workspaceId/invoices',
 
   schemas: {
     Invoice: {
@@ -16,6 +19,7 @@ import { ListInvoicesSchema, ListInvoicesRequest } from '@/core/invoice/invoice.
     },
   },
 })
+@UseGuards(AuthGuard)
 export class InvoiceController {
   constructor(private readonly invoiceService: InvoiceService) {}
 
@@ -27,6 +31,7 @@ export class InvoiceController {
     method: 'GET',
 
     parameters: {
+      params: ListInvoicesSchema.params,
       query: ListInvoicesSchema.query,
     },
 
@@ -36,9 +41,33 @@ export class InvoiceController {
       },
     },
   })
-  async listInvoices(@Request() { query }: ListInvoicesRequest) {
+  async listInvoices(@AuthenticatedUser() user: User, @Request() { params, query }: ListInvoicesRequest) {
     return this.invoiceService.getPaginatedInvoices({
       ...query,
+      workspaceId: params.workspaceId,
     })
+  }
+
+  @Route({
+    summary: 'Get Invoice',
+
+    description: 'Retrieves a single invoice by their ID.',
+
+    method: 'GET',
+
+    path: '/:invoiceId',
+
+    parameters: {
+      params: GetInvoiceSchema.params,
+    },
+
+    responses: {
+      200: {
+        schema: GetInvoiceSchema.output,
+      },
+    },
+  })
+  getInvoice(@AuthenticatedUser() user: User, @Request() { params }: GetInvoiceRequest) {
+    return this.invoiceService.getInvoice(params)
   }
 }

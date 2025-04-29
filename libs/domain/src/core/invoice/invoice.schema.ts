@@ -1,4 +1,4 @@
-import { z, BasePaymentCardSchema } from '@starter/schema'
+import { z, BasePaymentCardSchema, PixSchema, BoletoSchema } from '@starter/schema'
 
 import { ID, CreatedAt, UpdatedAt, BaseSchema } from '@/support/schema'
 import { RecurrencePaymentMethodEnum } from '@/ports/recurrence'
@@ -89,7 +89,7 @@ export const InvoicePixSchema = z
     description: Description,
     amount: Amount,
     paymentMethod: z.literal(RecurrencePaymentMethodEnum.PIX),
-    pix: BasePaymentCardSchema,
+    pix: PixSchema,
     dueDate: DueDate,
     issuedAt: IssuedAt,
     paidAt: PaidAt,
@@ -110,7 +110,7 @@ export const InvoiceBoletoSchema = z
     description: Description,
     amount: Amount,
     paymentMethod: z.literal(RecurrencePaymentMethodEnum.BOLETO),
-    boleto: BasePaymentCardSchema,
+    boleto: BoletoSchema,
     dueDate: DueDate,
     issuedAt: IssuedAt,
     paidAt: PaidAt,
