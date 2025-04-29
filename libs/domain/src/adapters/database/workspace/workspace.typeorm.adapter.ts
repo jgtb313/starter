@@ -70,18 +70,6 @@ export class WorkspaceTypeorm implements IWorkspaceRepository {
     return WorkspaceSchema.parse(model)
   }
 
-  findOne: IWorkspaceRepository['findOne'] = async (input) => {
-    const where = input as FindOptionsWhere<WorkspaceEntity>
-
-    const model = await this.repository.findOne({ where })
-
-    if (!model) {
-      return null
-    }
-
-    return WorkspaceSchema.parse(model)
-  }
-
   create: IWorkspaceRepository['create'] = async (input) => {
     const data = this.repository.create(input)
 

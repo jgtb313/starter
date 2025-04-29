@@ -4,7 +4,7 @@ import { DataSource, Repository, ILike, In, FindOptionsWhere } from 'typeorm'
 import { OrganizationSchema } from '@/core/organization/organization.schema'
 import { PaginationService } from '@/support/pagination'
 import { IOrganizationRepository } from '@/ports/database/organization'
-import { OrganizationEntity } from './organization.typeorm.entity'
+import { OrganizationEntity } from '@/adapters/database/organization/organization.typeorm.entity'
 
 @Injectable()
 export class OrganizationTypeorm implements IOrganizationRepository {
@@ -61,57 +61,35 @@ export class OrganizationTypeorm implements IOrganizationRepository {
   }
 
   findById: IOrganizationRepository['findById'] = async (organizationId) => {
-    const model = await this.repository.findOne({ where: { organizationId } })
+    const organization = await this.repository.findOne({ where: { organizationId } })
 
-    if (!model) {
+    if (!organization) {
       throw new NotFoundException(`Organization ${organizationId} not found`)
     }
 
-    return OrganizationSchema.parse(model)
-  }
-
-  findOne: IOrganizationRepository['findOne'] = async (input) => {
-    const { name, status } = input
-
-    const where: FindOptionsWhere<OrganizationEntity> = {}
-
-    if (name) {
-      where.name = ILike(`%${name}%`)
-    }
-
-    if (status) {
-      where.status = status
-    }
-
-    const model = await this.repository.findOne({ where })
-
-    if (!model) {
-      return null
-    }
-
-    return OrganizationSchema.parse(model)
+    return OrganizationSchema.parse(organization)
   }
 
   create: IOrganizationRepository['create'] = async (input) => {
     const data = this.repository.create(input)
 
-    const model = await this.repository.save(data)
+    const organization = await this.repository.save(data)
 
-    return OrganizationSchema.parse(model)
+    return OrganizationSchema.parse(organization)
   }
 
   updateById: IOrganizationRepository['updateById'] = async (organizationId, input) => {
-    const model = await this.findById(organizationId)
+    const organization = await this.findById(organizationId)
 
-    await this.repository.update(model.organizationId, input)
+    await this.repository.update(organization.organizationId, input)
 
-    return this.findById(model.organizationId)
+    return this.findById(organization.organizationId)
   }
 
   validateIds: IOrganizationRepository['validateIds'] = async (organizationIds) => {
-    const models = await this.repository.find({ where: { organizationId: In(organizationIds) } })
+    const organizations = await this.repository.find({ where: { organizationId: In(organizationIds) } })
 
-    const foundOrganizationIds = models.map((organization) => organization.organizationId)
+    const foundOrganizationIds = organizations.map((organization) => organization.organizationId)
     const missingOrganizationIds = organizationIds.filter((organizationId) => !foundOrganizationIds.includes(organizationId))
 
     if (missingOrganizationIds.length) {

@@ -29,30 +29,69 @@ export class InvoiceEntity {
   @Column({ type: 'json', nullable: true })
   debitCard?: InvoiceDebitCard['debitCard']
 
-  @Column({ type: 'varchar', nullable: true })
+  @Column({ type: 'json', nullable: true })
   pix?: InvoicePix['pix']
 
-  @Column({ type: 'varchar', nullable: true })
+  @Column({ type: 'json', nullable: true })
   boleto?: InvoiceBoleto['boleto']
 
   @Column({ type: 'int' })
   amount: Invoice['amount']
 
-  @Column({ type: 'timestamp' })
+  @Column({
+    type: 'timestamp',
+    transformer: {
+      to: (value: Date) => value,
+      from: (value: Date) => value.toISOString(),
+    },
+  })
   issuedAt: Invoice['issuedAt']
 
-  @Column({ type: 'timestamp' })
+  @Column({
+    type: 'timestamp',
+    transformer: {
+      to: (value: Date) => value,
+      from: (value: Date) => value.toISOString(),
+    },
+  })
   dueDate: Invoice['dueDate']
 
-  @Column({ type: 'timestamp', nullable: true })
+  @Column({
+    type: 'timestamp',
+    transformer: {
+      to: (value: Date | null) => value,
+      from: (value: Date | null) => (value ? value.toISOString() : null),
+    },
+    nullable: true,
+  })
+  paidAt: Invoice['paidAt']
+
+  @Column({
+    type: 'timestamp',
+    transformer: {
+      to: (value: Date | null) => value,
+      from: (value: Date | null) => (value ? value.toISOString() : null),
+    },
+    nullable: true,
+  })
   canceledAt: Invoice['canceledAt']
 
   @Column({ type: 'enum', enum: InvoiceStatusEnum, default: InvoiceStatusEnum.PENDING })
   status: Invoice['status']
 
-  @CreateDateColumn()
+  @CreateDateColumn({
+    transformer: {
+      to: (value: Date) => value,
+      from: (value: Date) => value.toISOString(),
+    },
+  })
   createdAt: Invoice['createdAt']
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({
+    transformer: {
+      to: (value: Date) => value,
+      from: (value: Date) => value.toISOString(),
+    },
+  })
   updatedAt: Invoice['updatedAt']
 }

@@ -62,18 +62,6 @@ export class SubscriptionTypeorm implements ISubscriptionRepository {
     return SubscriptionSchema.parse(model)
   }
 
-  findOne: ISubscriptionRepository['findOne'] = async (input) => {
-    const where = input as FindOptionsWhere<SubscriptionEntity>
-
-    const model = await this.repository.findOne({ where })
-
-    if (!model) {
-      return null
-    }
-
-    return SubscriptionSchema.parse(model)
-  }
-
   create: ISubscriptionRepository['create'] = async (input) => {
     const data = this.repository.create(input)
 

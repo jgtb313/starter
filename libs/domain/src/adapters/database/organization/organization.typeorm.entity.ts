@@ -16,9 +16,19 @@ export class OrganizationEntity {
   @Column({ type: 'enum', enum: OrganizationStatusEnum, default: OrganizationStatusEnum.ACTIVE })
   status: Organization['status']
 
-  @CreateDateColumn()
+  @CreateDateColumn({
+    transformer: {
+      to: (value: Date) => value,
+      from: (value: Date) => value.toISOString(),
+    },
+  })
   createdAt: Organization['createdAt']
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({
+    transformer: {
+      to: (value: Date) => value,
+      from: (value: Date) => value.toISOString(),
+    },
+  })
   updatedAt: Organization['updatedAt']
 }

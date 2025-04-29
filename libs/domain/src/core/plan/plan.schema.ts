@@ -62,4 +62,4 @@ export const PlanSchema = z.object({
   updatedAt: UpdatedAt,
 })
 export type Plan = z.infer<typeof PlanSchema>
-export type BasePlan = BaseSchema<'planId' | 'externalId' | 'status', Plan>
+export type BasePlan = BaseSchema<'planId', Plan>

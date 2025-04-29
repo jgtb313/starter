@@ -74,18 +74,6 @@ export class RoleTypeorm implements IRoleRepository {
     return RoleSchema.parse(model)
   }
 
-  findOne: IRoleRepository['findOne'] = async (input) => {
-    const where = input as FindOptionsWhere<RoleEntity>
-
-    const model = await this.repository.findOne({ where })
-
-    if (!model) {
-      return null
-    }
-
-    return RoleSchema.parse(model)
-  }
-
   create: IRoleRepository['create'] = async (input) => {
     const data = this.repository.create(input)
 

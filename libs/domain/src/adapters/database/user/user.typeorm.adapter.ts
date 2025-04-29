@@ -78,18 +78,6 @@ export class UserTypeorm implements IUserRepository {
     return UserSchema.parse(model)
   }
 
-  findOne: IUserRepository['findOne'] = async (input) => {
-    const where = input as FindOptionsWhere<UserEntity>
-
-    const model = await this.repository.findOne({ where })
-
-    if (!model) {
-      return null
-    }
-
-    return UserSchema.parse(model)
-  }
-
   findBySocial: IUserRepository['findBySocial'] = async (context, { socialId, email }) => {
     const socialKey = `${context.toLowerCase()}Id`
     const where: FindOptionsWhere<UserEntity> = {

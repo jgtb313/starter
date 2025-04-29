@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm'
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm'
 
 import { RecurrenceIntervalEnum } from '@/ports/recurrence'
 import { Plan, PlanStatusEnum } from '@/core/plan/plan.schema'
@@ -38,12 +38,27 @@ export class PlanEntity {
   @Column({ type: 'enum', enum: PlanStatusEnum, default: PlanStatusEnum.ACTIVE })
   status: Plan['status']
 
-  @Column({ type: 'timestamp', nullable: true })
+  @DeleteDateColumn({
+    transformer: {
+      to: (value: Date) => value,
+      from: (value: Date | null) => (value ? value.toISOString() : null),
+    },
+  })
   deletedAt: Plan['deletedAt']
 
-  @CreateDateColumn()
+  @CreateDateColumn({
+    transformer: {
+      to: (value: Date) => value,
+      from: (value: Date) => value.toISOString(),
+    },
+  })
   createdAt: Plan['createdAt']
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({
+    transformer: {
+      to: (value: Date) => value,
+      from: (value: Date) => value.toISOString(),
+    },
+  })
   updatedAt: Plan['updatedAt']
 }

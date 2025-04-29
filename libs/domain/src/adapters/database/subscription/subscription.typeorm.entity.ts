@@ -26,21 +26,50 @@ export class SubscriptionEntity {
   @Column({ type: 'json', nullable: true })
   debitCard?: SubscriptionDebitCard['debitCard']
 
-  @Column({ type: 'timestamp' })
+  @Column({
+    type: 'timestamp',
+    transformer: {
+      to: (value: Date) => value,
+      from: (value: Date) => value.toISOString(),
+    },
+  })
   deadline: Subscription['deadline']
 
-  @Column({ type: 'timestamp' })
+  @Column({
+    type: 'timestamp',
+    transformer: {
+      to: (value: Date) => value,
+      from: (value: Date) => value.toISOString(),
+    },
+  })
   billingDueDate: Subscription['billingDueDate']
 
-  @Column({ type: 'timestamp', nullable: true })
+  @Column({
+    type: 'timestamp',
+    transformer: {
+      to: (value: Date) => value,
+      from: (value: Date | null) => (value ? value.toISOString() : null),
+    },
+    nullable: true,
+  })
   canceledAt: Subscription['canceledAt']
 
   @Column({ type: 'enum', enum: SubscriptionStatusEnum, default: SubscriptionStatusEnum.TRIAL })
   status: Subscription['status']
 
-  @CreateDateColumn()
+  @CreateDateColumn({
+    transformer: {
+      to: (value: Date) => value,
+      from: (value: Date) => value.toISOString(),
+    },
+  })
   createdAt: Subscription['createdAt']
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({
+    transformer: {
+      to: (value: Date) => value,
+      from: (value: Date) => value.toISOString(),
+    },
+  })
   updatedAt: Subscription['updatedAt']
 }

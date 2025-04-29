@@ -71,18 +71,6 @@ export class InvoiceTypeorm implements IInvoiceRepository {
     return new InvoiceDomain(invoice as Invoice)
   }
 
-  findOne: IInvoiceRepository['findOne'] = async (input) => {
-    const where = input as FindOptionsWhere<InvoiceEntity>
-
-    const invoice = await this.repository.findOne({ where })
-
-    if (!invoice) {
-      return null
-    }
-
-    return new InvoiceDomain(invoice as Invoice)
-  }
-
   create: IInvoiceRepository['create'] = async (input) => {
     const data = this.repository.create(input)
 

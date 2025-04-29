@@ -13,9 +13,19 @@ export class WorkspaceEntity {
   @Column({ type: 'enum', enum: WorkspaceStatusEnum, default: WorkspaceStatusEnum.ACTIVE })
   status: Workspace['status']
 
-  @CreateDateColumn()
+  @CreateDateColumn({
+    transformer: {
+      to: (value: Date) => value,
+      from: (value: Date) => value.toISOString(),
+    },
+  })
   createdAt: Workspace['createdAt']
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({
+    transformer: {
+      to: (value: Date) => value,
+      from: (value: Date) => value.toISOString(),
+    },
+  })
   updatedAt: Workspace['updatedAt']
 }

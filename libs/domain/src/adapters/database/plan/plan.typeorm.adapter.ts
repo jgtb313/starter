@@ -70,18 +70,6 @@ export class PlanTypeorm implements IPlanRepository {
     return new PlanDomain(plan)
   }
 
-  findOne: IPlanRepository['findOne'] = async (input) => {
-    const where = input as FindOptionsWhere<PlanEntity>
-
-    const plan = await this.repository.findOne({ where })
-
-    if (!plan) {
-      return null
-    }
-
-    return new PlanDomain(plan)
-  }
-
   create: IPlanRepository['create'] = async (input) => {
     const data = this.repository.create(input)
 
