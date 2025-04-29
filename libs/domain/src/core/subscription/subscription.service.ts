@@ -3,11 +3,11 @@ import { AclForbiddenException } from '@starter/nestjs-error-handling'
 import { uuid } from '@starter/common'
 
 import { ISubscriptionRepository } from '@/ports/database/subscription'
-import { RecurrencePaymentMethodEnum } from '@/ports/recurrence'
 import { RecurrenceService } from '@/adapters/recurrence'
 import { WorkspaceService } from '@/core/workspace/workspace.service'
 import { InvoiceService } from '@/core/invoice/invoice.service'
 import { PlanService } from '@/core/plan/plan.service'
+import { SubscriptionStatusEnum } from '@/core/subscription/subscription.schema'
 import { getSubscriptionWorkspaceReference, ISubscriptionService } from '@/core/subscription/subscription.service.interface'
 
 @Injectable()
@@ -56,6 +56,10 @@ export class SubscriptionService implements ISubscriptionService {
       planId: plan.state.planId,
       externalId: recurrenceSubscription.subscriptionId,
       payer,
+      amount: plan.state.amount,
+      billingDueDate: recurrenceSubscription.invoice.dueDate,
+      deadline: recurrenceSubscription.invoice.dueDate,
+      status: SubscriptionStatusEnum.TRIAL,
     })
 
     await this.invoiceService.createInvoice({
