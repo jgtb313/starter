@@ -1,6 +1,6 @@
 import { Pagination } from '@starter/schema'
 
-import { Role, BaseRole } from '@/schemas'
+import { Role, BaseRole } from '@/core/role/role.schema'
 import { createWorkspaceReference, WithWorkspaceReference } from '@/support/workspace-reference'
 
 export type RoleWorkspaceReference = WithWorkspaceReference<'roleId'>

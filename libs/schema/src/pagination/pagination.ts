@@ -4,8 +4,8 @@ const maxLimit = (limit: number) => (limit > 100 ? 100 : limit)
 
 export const PaginationSchema = z
   .object({
-    offset: z.coerce.number().int().default(0).openapi({ description: 'Number of items to skip in the result set.', example: 10, default: 0 }),
-    limit: z.coerce.number().int().default(10).openapi({ description: 'Maximum number of items to return.', example: 20, default: 10 }),
+    offset: z.coerce.number().default(0).meta({ description: 'Number of items to skip in the result set.', example: 10, default: 0 }),
+    limit: z.coerce.number().default(10).meta({ description: 'Maximum number of items to return.', example: 20, default: 10 }),
   })
   .partial()
 
@@ -17,9 +17,9 @@ export const PaginationSchemaTransform = PaginationSchema.transform((pagination)
 })
 
 const PaginationMeta = z.object({
-  total: z.number().int().default(0).openapi({ example: 150 }),
-  offset: z.number().int().default(0).openapi({ example: 20 }),
-  limit: z.number().int().default(0).openapi({ example: 10 }),
+  total: z.number().default(0).meta({ example: 150 }),
+  offset: z.number().default(0).meta({ example: 20 }),
+  limit: z.number().default(0).meta({ example: 10 }),
 })
 
 export const BasePaginationSchemaOutput = z.object({

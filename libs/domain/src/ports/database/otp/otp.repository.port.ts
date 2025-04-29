@@ -1,4 +1,4 @@
-import { OTP, BaseOTP, OTPContextEnum } from '@/schemas'
+import { OTP, BaseOTP, OTPContextEnum } from '@/core/otp/otp.schema'
 
 export type IOTPRepository = {
   findById(otpId: string): Promise<OTP>

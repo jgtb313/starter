@@ -13,14 +13,24 @@ export interface IServerlessHoistingApplicationContext<K = unknown> {
 type IEntryNestModule = Type<any> | DynamicModule | ForwardReference | Promise<IEntryNestModule>
 
 class CustomLogger extends ConsoleLogger {
+  instanceLoaders: string[] = []
+
   log(message: string, context?: string) {
     if (context === 'InstanceLoader') {
       const [moduleName, ...parts] = message.split(' ')
 
       const cleanMessage = `${moduleName.replace(/\d+/g, '')} ${parts.join(' ')}`
 
-      super.log(cleanMessage, context)
+      if (!this.instanceLoaders.includes(cleanMessage)) {
+        super.log(cleanMessage, context)
+      }
+
+      this.instanceLoaders.push(cleanMessage)
+
+      return
     }
+
+    super.log(message, context)
   }
 }
 

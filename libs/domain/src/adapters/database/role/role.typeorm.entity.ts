@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm'
 
-import { Role, RoleStatusEnum } from '@/schemas'
+import { Role, RoleStatusEnum } from '@/core/role/role.schema'
 
 @Entity('roles')
 export class RoleEntity {
@@ -25,12 +25,27 @@ export class RoleEntity {
   @Column({ type: 'enum', enum: RoleStatusEnum })
   status: Role['status']
 
-  @DeleteDateColumn()
+  @DeleteDateColumn({
+    transformer: {
+      to: (value: Date) => value,
+      from: (value: Date | null) => (value ? value.toISOString() : null),
+    },
+  })
   deletedAt: Role['deletedAt']
 
-  @CreateDateColumn()
+  @CreateDateColumn({
+    transformer: {
+      to: (value: Date | null) => value,
+      from: (value: Date | null) => (value ? value.toISOString() : null),
+    },
+  })
   createdAt: Role['createdAt']
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({
+    transformer: {
+      to: (value: Date | null) => value,
+      from: (value: Date | null) => (value ? value.toISOString() : null),
+    },
+  })
   updatedAt: Role['updatedAt']
 }

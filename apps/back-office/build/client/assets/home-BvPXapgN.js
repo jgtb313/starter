@@ -1,1 +1,0 @@
-import{w as t}from"./with-props-C4ihh-xj.js";import{j as r}from"./jsx-runtime-BjG_zV1W.js";import"react";import"react-router";const i=({})=>[{title:"Starter - App"}],o=()=>r.jsx("div",{children:"App"}),n=t(o);export{n as default,i as meta};

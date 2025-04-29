@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { DataSource, Repository, ILike, In, FindOptionsWhere } from 'typeorm'
 
-import { RoleSchema } from '@/schemas'
+import { RoleSchema } from '@/core/role/role.schema'
 import { PaginationService } from '@/support/pagination'
 import { IRoleRepository } from '@/ports/database/role'
 import { RoleEntity } from './role.typeorm.entity'
@@ -69,18 +69,6 @@ export class RoleTypeorm implements IRoleRepository {
 
     if (!model) {
       throw new NotFoundException(`Role ${roleId} not found`)
-    }
-
-    return RoleSchema.parse(model)
-  }
-
-  findOne: IRoleRepository['findOne'] = async (input) => {
-    const where = input as FindOptionsWhere<RoleEntity>
-
-    const model = await this.repository.findOne({ where })
-
-    if (!model) {
-      return null
     }
 
     return RoleSchema.parse(model)

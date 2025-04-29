@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { DataSource, Repository, ILike, FindOptionsWhere } from 'typeorm'
 
-import { UserSchema } from '@/schemas'
+import { UserSchema } from '@/core/user/user.schema'
 import { PaginationService } from '@/support/pagination'
 import { IUserRepository } from '@/ports/database/user'
 import { UserEntity } from '@/adapters/database/user/user.typeorm.entity'
@@ -61,7 +61,7 @@ export class UserTypeorm implements IUserRepository {
 
     const values = await this.repository.find({ where })
 
-    return values.map((invoice) => UserSchema.parse(invoice))
+    return values.map((user) => UserSchema.parse(user))
   }
 
   findById: IUserRepository['findById'] = async (userId) => {
@@ -73,18 +73,6 @@ export class UserTypeorm implements IUserRepository {
 
     if (!model) {
       throw new NotFoundException(`User ${userId} not found`)
-    }
-
-    return UserSchema.parse(model)
-  }
-
-  findOne: IUserRepository['findOne'] = async (input) => {
-    const where = input as FindOptionsWhere<UserEntity>
-
-    const model = await this.repository.findOne({ where })
-
-    if (!model) {
-      return null
     }
 
     return UserSchema.parse(model)

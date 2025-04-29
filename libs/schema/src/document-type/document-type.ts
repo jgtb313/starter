@@ -13,14 +13,14 @@ export enum DocumentTypeCPFEnum {
   INDIVIDUAL = 'INDIVIDUAL',
 }
 
-export const DocumentTypeSchema = z.nativeEnum(DocumentTypeEnum).openapi({
+export const DocumentTypeSchema = z.nativeEnum(DocumentTypeEnum).meta({
   description: 'Represents document types for individuals or companies',
 })
 
-export const DocumentTypeCNPJSchema = z.nativeEnum(DocumentTypeCNPJEnum).openapi({
+export const DocumentTypeCNPJSchema = z.nativeEnum(DocumentTypeCNPJEnum).meta({
   description: 'Represents document types for individuals or companies',
 })
 
-export const DocumentTypeCPFSchema = z.nativeEnum(DocumentTypeCPFEnum).openapi({
+export const DocumentTypeCPFSchema = z.nativeEnum(DocumentTypeCPFEnum).meta({
   description: 'Represents document types for individuals or companies',
 })

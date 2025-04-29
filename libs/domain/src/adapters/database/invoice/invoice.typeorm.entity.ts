@@ -1,6 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm'
 
-import { Invoice, InvoiceCreditCard, InvoiceDebitCard, InvoicePix, InvoiceBoleto, InvoicePaymentMethodEnum, InvoiceStatusEnum } from '@/schemas'
+import { RecurrencePaymentMethodEnum } from '@/ports/recurrence'
+import { Invoice, InvoiceCreditCard, InvoiceDebitCard, InvoicePix, InvoiceBoleto, InvoiceStatusEnum } from '@/core/invoice/invoice.schema'
 
 @Entity('invoices')
 export class InvoiceEntity {
@@ -14,9 +15,12 @@ export class InvoiceEntity {
   subscriptionId: Invoice['subscriptionId']
 
   @Column({ type: 'varchar' })
+  externalId: Invoice['externalId']
+
+  @Column({ type: 'varchar' })
   description: Invoice['description']
 
-  @Column({ type: 'enum', enum: InvoicePaymentMethodEnum })
+  @Column({ type: 'enum', enum: RecurrencePaymentMethodEnum })
   paymentMethod: Invoice['paymentMethod']
 
   @Column({ type: 'json', nullable: true })
@@ -25,30 +29,69 @@ export class InvoiceEntity {
   @Column({ type: 'json', nullable: true })
   debitCard?: InvoiceDebitCard['debitCard']
 
-  @Column({ type: 'varchar', nullable: true })
+  @Column({ type: 'json', nullable: true })
   pix?: InvoicePix['pix']
 
-  @Column({ type: 'varchar', nullable: true })
+  @Column({ type: 'json', nullable: true })
   boleto?: InvoiceBoleto['boleto']
 
   @Column({ type: 'int' })
   amount: Invoice['amount']
 
-  @Column({ type: 'timestamp' })
+  @Column({
+    type: 'timestamp',
+    transformer: {
+      to: (value: Date) => value,
+      from: (value: Date) => value.toISOString(),
+    },
+  })
   issuedAt: Invoice['issuedAt']
 
-  @Column({ type: 'timestamp' })
-  billingDueDate: Invoice['billingDueDate']
+  @Column({
+    type: 'timestamp',
+    transformer: {
+      to: (value: Date) => value,
+      from: (value: Date) => value.toISOString(),
+    },
+  })
+  dueDate: Invoice['dueDate']
 
-  @Column({ type: 'timestamp', nullable: true })
+  @Column({
+    type: 'timestamp',
+    transformer: {
+      to: (value: Date | null) => value,
+      from: (value: Date | null) => (value ? value.toISOString() : null),
+    },
+    nullable: true,
+  })
+  paidAt: Invoice['paidAt']
+
+  @Column({
+    type: 'timestamp',
+    transformer: {
+      to: (value: Date | null) => value,
+      from: (value: Date | null) => (value ? value.toISOString() : null),
+    },
+    nullable: true,
+  })
   canceledAt: Invoice['canceledAt']
 
   @Column({ type: 'enum', enum: InvoiceStatusEnum, default: InvoiceStatusEnum.PENDING })
   status: Invoice['status']
 
-  @CreateDateColumn()
+  @CreateDateColumn({
+    transformer: {
+      to: (value: Date) => value,
+      from: (value: Date) => value.toISOString(),
+    },
+  })
   createdAt: Invoice['createdAt']
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({
+    transformer: {
+      to: (value: Date) => value,
+      from: (value: Date) => value.toISOString(),
+    },
+  })
   updatedAt: Invoice['updatedAt']
 }

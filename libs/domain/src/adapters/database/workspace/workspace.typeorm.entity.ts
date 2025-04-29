@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm'
 
-import { Workspace, WorkspaceStatusEnum } from '@/schemas/workspace.schema'
+import { Workspace, WorkspaceStatusEnum } from '@/core/workspace/workspace.schema'
 
 @Entity('workspaces')
 export class WorkspaceEntity {
@@ -13,9 +13,19 @@ export class WorkspaceEntity {
   @Column({ type: 'enum', enum: WorkspaceStatusEnum, default: WorkspaceStatusEnum.ACTIVE })
   status: Workspace['status']
 
-  @CreateDateColumn()
+  @CreateDateColumn({
+    transformer: {
+      to: (value: Date) => value,
+      from: (value: Date) => value.toISOString(),
+    },
+  })
   createdAt: Workspace['createdAt']
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({
+    transformer: {
+      to: (value: Date) => value,
+      from: (value: Date) => value.toISOString(),
+    },
+  })
   updatedAt: Workspace['updatedAt']
 }

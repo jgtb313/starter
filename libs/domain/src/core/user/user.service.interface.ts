@@ -1,7 +1,7 @@
 import { Phone, Pagination, PaginationOutput } from '@starter/schema'
 
 import { createWorkspaceReference, WithWorkspaceReference } from '@/support/workspace-reference'
-import { User, BaseUser } from '@/schemas'
+import { User, BaseUser } from '@/core/user/user.schema'
 
 export type UserWorkspaceReference = WithWorkspaceReference<'userId'>
 export type UserOrganizations = { organizations: { organizationId: string; roleIds: string[] }[] }

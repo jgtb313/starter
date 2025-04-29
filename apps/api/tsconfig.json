@@ -7,11 +7,12 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "sourceMap": true,
-    "incremental": true,
     "strictNullChecks": true,
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
+    "noEmit": false,
+    "incremental": false,
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]

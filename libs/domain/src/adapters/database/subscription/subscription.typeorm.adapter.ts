@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { DataSource, Repository, FindOptionsWhere } from 'typeorm'
 
-import { SubscriptionSchema } from '@/schemas'
+import { SubscriptionSchema } from '@/core/subscription/subscription.schema'
 import { PaginationService } from '@/support/pagination'
 import { ISubscriptionRepository } from '@/ports/database/subscription'
 import { SubscriptionEntity } from './subscription.typeorm.entity'
@@ -57,18 +57,6 @@ export class SubscriptionTypeorm implements ISubscriptionRepository {
 
     if (!model) {
       throw new NotFoundException(`Subscription ${subscriptionId} not found`)
-    }
-
-    return SubscriptionSchema.parse(model)
-  }
-
-  findOne: ISubscriptionRepository['findOne'] = async (input) => {
-    const where = input as FindOptionsWhere<SubscriptionEntity>
-
-    const model = await this.repository.findOne({ where })
-
-    if (!model) {
-      return null
     }
 
     return SubscriptionSchema.parse(model)

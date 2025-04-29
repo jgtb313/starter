@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm'
 
-import { User, UserStatusEnum } from '@/schemas'
+import { User, UserStatusEnum } from '@/core/user/user.schema'
 
 @Entity('users')
 export class UserEntity {
@@ -40,9 +40,19 @@ export class UserEntity {
   @Column({ type: 'enum', enum: UserStatusEnum, default: UserStatusEnum.ACTIVE })
   status: User['status']
 
-  @CreateDateColumn()
+  @CreateDateColumn({
+    transformer: {
+      to: (value: Date) => value,
+      from: (value: Date) => value.toISOString(),
+    },
+  })
   createdAt: User['createdAt']
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({
+    transformer: {
+      to: (value: Date) => value,
+      from: (value: Date) => value.toISOString(),
+    },
+  })
   updatedAt: User['updatedAt']
 }

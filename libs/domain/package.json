@@ -39,6 +39,7 @@
     "pino-elasticsearch": "^8.1.0",
     "redis": "^4.7.0",
     "reflect-metadata": "^0.2.2",
+    "stripe": "^18.0.0",
     "twilio": "^5.4.3",
     "typeorm": "^0.3.20"
   },

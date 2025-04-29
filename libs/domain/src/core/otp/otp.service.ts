@@ -2,7 +2,7 @@ import { Injectable, Inject, forwardRef, BadRequestException, NotFoundException,
 import { random, getDate, addSeconds, isFuture, isBefore } from '@starter/common'
 import crypto from 'crypto'
 
-import { OTPContexts, OTP, BaseOTP, OTPChannelEnum, OTPContextEnum, OTPPhoneChannelEnum } from '@/schemas'
+import { OTPContexts, OTP, BaseOTP, OTPChannelEnum, OTPContextEnum, OTPPhoneChannelEnum } from '@/core/otp/otp.schema'
 import { IOTPRepository } from '@/ports/database/otp'
 import { NotificationService } from '@/adapters/notification'
 import { IOTPService } from '@/core/otp/otp.service.interface'

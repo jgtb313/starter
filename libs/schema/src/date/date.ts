@@ -1,11 +1,15 @@
 import { z } from '@/zod'
 import { isValidDate, getDate } from '@starter/common'
 
-export const DateSchema = z.string().or(z.date()).refine(isValidDate).transform(getDate)
+export const DateSchema = z
+  .string()
+  .or(z.iso.datetime().transform((value) => new Date(value)))
+  .refine(isValidDate)
+  .transform(getDate)
 
 export const DateOptionalSchema = z
   .string()
-  .or(z.date())
+  .or(z.iso.datetime().transform((value) => new Date(value)))
   .nullish()
   .refine((value) => (value ? isValidDate(value) : true), { params: { i18n: 'invalid_date' } })
   .transform((value) => {

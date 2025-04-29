@@ -57,7 +57,7 @@ export class RoleController {
     },
   })
   listRoles(@AuthenticatedUser() user: User, @Request() { params, query }: ListRolesRequest) {
-    this.aclService.canPerformActionByPermission(user, 'organization:read', {
+    this.aclService.canPerformActionByPermission(user, 'role:read', {
       workspaceId: params.workspaceId,
     })
 
@@ -70,7 +70,7 @@ export class RoleController {
   @Route({
     summary: 'Get Role',
 
-    description: 'Retrieves a single organization by their ID.',
+    description: 'Retrieves a single role by their ID.',
 
     method: 'GET',
 
@@ -87,7 +87,7 @@ export class RoleController {
     },
   })
   getRole(@AuthenticatedUser() user: User, @Request() { params }: GetRoleRequest) {
-    this.aclService.canPerformActionByPermission(user, 'organization:read', {
+    this.aclService.canPerformActionByPermission(user, 'role:read', {
       workspaceId: params.workspaceId,
     })
 
@@ -97,7 +97,7 @@ export class RoleController {
   @Route({
     summary: 'Create Role',
 
-    description: 'Creates a new organization.',
+    description: 'Creates a new role.',
 
     method: 'POST',
 
@@ -113,7 +113,7 @@ export class RoleController {
     },
   })
   createRole(@AuthenticatedUser() user: User, @Request() { params, body }: CreateRoleRequest) {
-    this.aclService.canPerformActionByPermission(user, 'organization:create', {
+    this.aclService.canPerformActionByPermission(user, 'role:create', {
       workspaceId: params.workspaceId,
     })
 
@@ -126,7 +126,7 @@ export class RoleController {
   @Route({
     summary: 'Update Role',
 
-    description: 'Updates an existing organization by their ID.',
+    description: 'Updates an existing role by their ID.',
 
     method: 'PATCH',
 
@@ -144,7 +144,7 @@ export class RoleController {
     },
   })
   updateRole(@AuthenticatedUser() user: User, @Request() { params, body }: UpdateRoleRequest) {
-    this.aclService.canPerformActionByPermission(user, 'organization:update', {
+    this.aclService.canPerformActionByPermission(user, 'role:update', {
       workspaceId: params.workspaceId,
     })
 
@@ -156,7 +156,7 @@ export class RoleController {
   @Route({
     summary: 'Delete Role',
 
-    description: 'Deletes a organization by their ID.',
+    description: 'Deletes a role by their ID.',
 
     method: 'DELETE',
 
@@ -173,7 +173,7 @@ export class RoleController {
     },
   })
   deleteRole(@AuthenticatedUser() user: User, @Request() { params }: DeleteRoleRequest) {
-    this.aclService.canPerformActionByPermission(user, 'organization:delete', {
+    this.aclService.canPerformActionByPermission(user, 'role:delete', {
       workspaceId: params.workspaceId,
     })
 

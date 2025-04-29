@@ -1,11 +1,13 @@
 import { Injectable, Inject, forwardRef } from '@nestjs/common'
 import { AclForbiddenException } from '@starter/nestjs-error-handling'
+import { uuid } from '@starter/common'
 
 import { ISubscriptionRepository } from '@/ports/database/subscription'
 import { RecurrenceService } from '@/adapters/recurrence'
 import { WorkspaceService } from '@/core/workspace/workspace.service'
 import { InvoiceService } from '@/core/invoice/invoice.service'
 import { PlanService } from '@/core/plan/plan.service'
+import { SubscriptionStatusEnum } from '@/core/subscription/subscription.schema'
 import { getSubscriptionWorkspaceReference, ISubscriptionService } from '@/core/subscription/subscription.service.interface'
 
 @Injectable()
@@ -31,25 +33,40 @@ export class SubscriptionService implements ISubscriptionService {
     return subscription
   }
 
-  createSubscription: ISubscriptionService['createSubscription'] = async ({ workspaceId, planId, ...input }) => {
+  createSubscription: ISubscriptionService['createSubscription'] = async ({ workspaceId, planId, payer, ...input }) => {
     const workspace = await this.workspaceService.getWorkspace(workspaceId)
 
     const plan = await this.planService.getPlan(planId)
 
-    const { recurrenceId, invoice } = await this.recurrenceService.create({})
+    plan.checkIfIsSignable()
+
+    const subscriptionId = uuid()
+
+    const recurrenceSubscription = await this.recurrenceService.createSubscription({
+      referenceId: subscriptionId,
+      customerId: workspace.workspaceId,
+      planId: plan.state.planId,
+      ...input,
+    })
 
     const subscription = await this.subscriptionRepository.create({
       ...input,
+      subscriptionId,
       workspaceId: workspace.workspaceId,
-      planId: plan.planId,
-      externalId: recurrenceId,
+      planId: plan.state.planId,
+      externalId: recurrenceSubscription.subscriptionId,
+      payer,
+      amount: plan.state.amount,
+      billingDueDate: recurrenceSubscription.invoice.dueDate,
+      deadline: recurrenceSubscription.invoice.dueDate,
+      status: SubscriptionStatusEnum.TRIAL,
     })
 
     await this.invoiceService.createInvoice({
-      ...invoice,
+      ...recurrenceSubscription.invoice,
       workspaceId: workspace.workspaceId,
       subscriptionId: subscription.subscriptionId,
-      description: '',
+      description: 'Invoice',
       issuedAt: new Date(),
     })
 

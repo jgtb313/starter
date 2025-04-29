@@ -1,4 +1,6 @@
-export { z, ZodSchema, ZodType } from './zod'
+export type { ZodSchema, ZodType } from 'zod'
+
+export { z } from './zod'
 
 export * from './address'
 export * from './birthday'

@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { DataSource, Repository } from 'typeorm'
 
-import { OTPSchema } from '@/schemas'
+import { OTPSchema } from '@/core/otp/otp.schema'
 import { IOTPRepository } from '@/ports/database/otp'
-import { OTPEntity } from './otp.typeorm.entity'
+import { OTPEntity } from '@/adapters/database/otp/otp.typeorm.entity'
 
 @Injectable()
 export class OTPTypeorm implements IOTPRepository {
@@ -14,23 +14,23 @@ export class OTPTypeorm implements IOTPRepository {
   }
 
   findById: IOTPRepository['findById'] = async (otpId) => {
-    const model = await this.repository.findOne({ where: { otpId } })
+    const otp = await this.repository.findOne({ where: { otpId } })
 
-    if (!model) {
+    if (!otp) {
       throw new NotFoundException(`OTP ${otpId} not found`)
     }
 
-    return OTPSchema.parse(model)
+    return OTPSchema.parse(otp)
   }
 
   findMostRecent: IOTPRepository['findMostRecent'] = async (recipient, context) => {
-    const model = await this.repository.findOne({ where: { recipient, context }, order: { createdAt: 'DESC' } })
+    const otp = await this.repository.findOne({ where: { recipient, context }, order: { createdAt: 'DESC' } })
 
-    if (!model) {
+    if (!otp) {
       return null
     }
 
-    return OTPSchema.parse(model)
+    return OTPSchema.parse(otp)
   }
 
   countTodayAttempts: IOTPRepository['countTodayAttempts'] = async (recipient, context) => {
@@ -40,16 +40,16 @@ export class OTPTypeorm implements IOTPRepository {
   create: IOTPRepository['create'] = async (input) => {
     const data = this.repository.create(input)
 
-    const model = await this.repository.save(data)
+    const otp = await this.repository.save(data)
 
-    return OTPSchema.parse(model)
+    return OTPSchema.parse(otp)
   }
 
   updateById: IOTPRepository['updateById'] = async (otpId, input) => {
-    const model = await this.findById(otpId)
+    const otp = await this.findById(otpId)
 
-    await this.repository.update(model.otpId, input)
+    await this.repository.update(otp.otpId, input)
 
-    return this.findById(model.otpId)
+    return this.findById(otp.otpId)
   }
 }

@@ -1,6 +1,6 @@
 import { Phone } from '@starter/schema'
 
-import { OTP, OTPPhoneChannelEnum } from '@/schemas'
+import { OTP, OTPPhoneChannelEnum } from '@/core/otp/otp.schema'
 
 export interface IOTPService {
   send(input: Pick<OTP, 'userId' | 'channel' | 'context' | 'recipient'>): Promise<OTP>

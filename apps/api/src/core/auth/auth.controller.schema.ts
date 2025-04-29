@@ -9,7 +9,7 @@ const OTPVerificationSchema = z.object({
     otpId: true,
   }).and(
     z.object({
-      code: z.string().min(4).max(4).openapi({ example: '0000' }),
+      code: z.string().min(4).max(4).meta({ example: '0000' }),
     }),
   ),
 })

@@ -1,6 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm'
 
-import { Subscription, SubscriptionCreditCard, SubscriptionDebitCard, SubscriptionPaymentMethodEnum, SubscriptionStatusEnum } from '@/schemas'
+import { RecurrencePaymentMethodEnum } from '@/ports/recurrence'
+import { Subscription, SubscriptionCreditCard, SubscriptionDebitCard, SubscriptionStatusEnum } from '@/core/subscription/subscription.schema'
 
 @Entity('invoices')
 export class SubscriptionEntity {
@@ -13,7 +14,7 @@ export class SubscriptionEntity {
   @Column({ type: 'uuid' })
   planId: Subscription['planId']
 
-  @Column({ type: 'enum', enum: SubscriptionPaymentMethodEnum })
+  @Column({ type: 'enum', enum: RecurrencePaymentMethodEnum })
   paymentMethod: Subscription['paymentMethod']
 
   @Column({ type: 'json' })
@@ -25,21 +26,50 @@ export class SubscriptionEntity {
   @Column({ type: 'json', nullable: true })
   debitCard?: SubscriptionDebitCard['debitCard']
 
-  @Column({ type: 'timestamp' })
+  @Column({
+    type: 'timestamp',
+    transformer: {
+      to: (value: Date) => value,
+      from: (value: Date) => value.toISOString(),
+    },
+  })
   deadline: Subscription['deadline']
 
-  @Column({ type: 'timestamp' })
+  @Column({
+    type: 'timestamp',
+    transformer: {
+      to: (value: Date) => value,
+      from: (value: Date) => value.toISOString(),
+    },
+  })
   billingDueDate: Subscription['billingDueDate']
 
-  @Column({ type: 'timestamp', nullable: true })
+  @Column({
+    type: 'timestamp',
+    transformer: {
+      to: (value: Date) => value,
+      from: (value: Date | null) => (value ? value.toISOString() : null),
+    },
+    nullable: true,
+  })
   canceledAt: Subscription['canceledAt']
 
   @Column({ type: 'enum', enum: SubscriptionStatusEnum, default: SubscriptionStatusEnum.TRIAL })
   status: Subscription['status']
 
-  @CreateDateColumn()
+  @CreateDateColumn({
+    transformer: {
+      to: (value: Date) => value,
+      from: (value: Date) => value.toISOString(),
+    },
+  })
   createdAt: Subscription['createdAt']
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({
+    transformer: {
+      to: (value: Date) => value,
+      from: (value: Date) => value.toISOString(),
+    },
+  })
   updatedAt: Subscription['updatedAt']
 }

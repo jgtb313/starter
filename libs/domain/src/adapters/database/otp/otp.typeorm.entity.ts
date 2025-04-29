@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm'
 
-import { OTP, OTPChannelEnum, OTPContextEnum } from '@/schemas'
+import { OTP, OTPChannelEnum, OTPContextEnum } from '@/core/otp/otp.schema'
 
 @Entity('otps')
 export class OTPEntity {
@@ -34,12 +34,28 @@ export class OTPEntity {
   @Column({ type: 'int' })
   dailyLimitAttempts: OTP['dailyLimitAttempts']
 
-  @Column({ type: 'timestamp' })
+  @Column({
+    type: 'timestamp',
+    transformer: {
+      to: (value: Date) => value,
+      from: (value: Date) => value.toISOString(),
+    },
+  })
   expiresIn: OTP['expiresIn']
 
-  @CreateDateColumn()
+  @CreateDateColumn({
+    transformer: {
+      to: (value: Date) => value,
+      from: (value: Date) => value.toISOString(),
+    },
+  })
   createdAt: OTP['createdAt']
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({
+    transformer: {
+      to: (value: Date) => value,
+      from: (value: Date) => value.toISOString(),
+    },
+  })
   updatedAt: OTP['updatedAt']
 }

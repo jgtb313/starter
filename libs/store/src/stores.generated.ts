@@ -29,6 +29,7 @@ import { createRole } from '@starter/client'
 import { getRole } from '@starter/client'
 import { updateRole } from '@starter/client'
 import { deleteRole } from '@starter/client'
+import { example } from '@starter/client'
 import { listUsers } from '@starter/client'
 import { createUser } from '@starter/client'
 import { getUser } from '@starter/client'
@@ -417,6 +418,19 @@ export const useDeleteRole = (
 
   return useMutation(deleteRole, { ...options, events })
 }
+export const useExample = (
+  options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof example>>, Parameters<typeof example>[number]>, 'events'> &
+    Omit<UseQueryOptions, 'queryKey'>,
+) => {
+  const store = useStore()
+  const useExampleEvents = store.events['useExample'] ?? {}
+  const events = {
+    ...useExampleEvents,
+    onError: useExampleEvents['onError'] ?? store.onError,
+  }
+
+  return useQuery(example, { ...options, queryKey: 'useExample', events })
+}
 export const useListUsers = (
   options?: Omit<UseRequestOptions<Awaited<ReturnType<typeof listUsers>>, Parameters<typeof listUsers>[number]>, 'events'> &
     Omit<UseQueryOptions, 'queryKey'>,
@@ -528,6 +542,7 @@ export type UseReadStoreParams = {
   useGetProfile?: Parameters<typeof getProfile>[number]
   useListRoles?: Parameters<typeof listRoles>[number]
   useGetRole?: Parameters<typeof getRole>[number]
+  useExample?: Parameters<typeof example>[number]
   useListUsers?: Parameters<typeof listUsers>[number]
   useGetUser?: Parameters<typeof getUser>[number]
   useGetWorkspace?: Parameters<typeof getWorkspace>[number]
@@ -541,6 +556,7 @@ export type UseReadStore = {
   useGetProfile?: Awaited<ReturnType<typeof getProfile>>
   useListRoles?: Awaited<ReturnType<typeof listRoles>>
   useGetRole?: Awaited<ReturnType<typeof getRole>>
+  useExample?: Awaited<ReturnType<typeof example>>
   useListUsers?: Awaited<ReturnType<typeof listUsers>>
   useGetUser?: Awaited<ReturnType<typeof getUser>>
   useGetWorkspace?: Awaited<ReturnType<typeof getWorkspace>>
@@ -576,6 +592,7 @@ export type StoreParameters = {
   useGetRole?: Parameters<typeof getRole>[number]
   useUpdateRole?: Parameters<typeof updateRole>[number]
   useDeleteRole?: Parameters<typeof deleteRole>[number]
+  useExample?: Parameters<typeof example>[number]
   useListUsers?: Parameters<typeof listUsers>[number]
   useCreateUser?: Parameters<typeof createUser>[number]
   useGetUser?: Parameters<typeof getUser>[number]
@@ -593,6 +610,7 @@ export type StoreInvalidate = {
   useGetProfile?: Parameters<typeof getProfile>[number] | true
   useListRoles?: Parameters<typeof listRoles>[number] | true
   useGetRole?: Parameters<typeof getRole>[number] | true
+  useExample?: Parameters<typeof example>[number] | true
   useListUsers?: Parameters<typeof listUsers>[number] | true
   useGetUser?: Parameters<typeof getUser>[number] | true
   useGetWorkspace?: Parameters<typeof getWorkspace>[number] | true
@@ -628,6 +646,7 @@ export type StoreReturnType = {
   useGetRole?: Awaited<ReturnType<typeof getRole>>
   useUpdateRole?: Awaited<ReturnType<typeof updateRole>>
   useDeleteRole?: Awaited<ReturnType<typeof deleteRole>>
+  useExample?: Awaited<ReturnType<typeof example>>
   useListUsers?: Awaited<ReturnType<typeof listUsers>>
   useCreateUser?: Awaited<ReturnType<typeof createUser>>
   useGetUser?: Awaited<ReturnType<typeof getUser>>
@@ -667,6 +686,7 @@ export type StoreEvents = {
   useGetRole?: MakeRequestEvents<StoreReturnType['useGetRole'], StoreParameters['useGetRole']>
   useUpdateRole?: MakeRequestEvents<StoreReturnType['useUpdateRole'], StoreParameters['useUpdateRole']>
   useDeleteRole?: MakeRequestEvents<StoreReturnType['useDeleteRole'], StoreParameters['useDeleteRole']>
+  useExample?: MakeRequestEvents<StoreReturnType['useExample'], StoreParameters['useExample']>
   useListUsers?: MakeRequestEvents<StoreReturnType['useListUsers'], StoreParameters['useListUsers']>
   useCreateUser?: MakeRequestEvents<StoreReturnType['useCreateUser'], StoreParameters['useCreateUser']>
   useGetUser?: MakeRequestEvents<StoreReturnType['useGetUser'], StoreParameters['useGetUser']>

@@ -1,43 +1,52 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, Inject } from '@nestjs/common'
 import { uuid } from '@starter/common'
 
-import { Invoice } from '@/schemas'
 import { IRecurrence } from '@/ports/recurrence'
+import { StripeRecurrenceAdapter } from '@/adapters/recurrence/stripe.recurrence.adapter'
+import { Invoice } from '@/core/invoice/invoice.schema'
 
 @Injectable()
 export class RecurrenceService implements IRecurrence {
-  constructor() {}
+  constructor(@Inject('Stripe') private readonly stripe: StripeRecurrenceAdapter) {}
 
-  create: IRecurrence['create'] = async () => {
-    const recurrenceId = uuid()
+  createPlan: IRecurrence['createPlan'] = async (input) => {
+    return this.stripe.createPlan(input)
+  }
+
+  updatePlan: IRecurrence['updatePlan'] = async () => {
+    return
+  }
+
+  cancelPlan: IRecurrence['cancelPlan'] = async () => {
+    return
+  }
+
+  createSubscription: IRecurrence['createSubscription'] = async () => {
+    const subscriptionId = uuid()
 
     return {
-      recurrenceId,
+      subscriptionId,
       invoice: {} as Invoice,
     }
   }
 
-  changePaymentMethod: IRecurrence['changePaymentMethod'] = async () => {
-    const recurrenceId = uuid()
+  changeSubscriptionPaymentMethod: IRecurrence['changeSubscriptionPaymentMethod'] = async () => {
+    const subscriptionId = uuid()
 
     return {
-      recurrenceId,
+      subscriptionId,
     }
   }
 
-  changePlan: IRecurrence['changePlan'] = async () => {
-    const recurrenceId = uuid()
+  changeSubscriptionPlan: IRecurrence['changeSubscriptionPlan'] = async () => {
+    const subscriptionId = uuid()
 
     return {
-      recurrenceId,
+      subscriptionId,
     }
   }
 
-  cancel: IRecurrence['cancel'] = async () => {
-    const recurrenceId = uuid()
-
-    return {
-      recurrenceId,
-    }
+  cancelSubscription: IRecurrence['cancelSubscription'] = async () => {
+    return
   }
 }
