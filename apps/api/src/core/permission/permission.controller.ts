@@ -30,6 +30,6 @@ export class PermissionController {
     },
   })
   async getPermissions() {
-    return Object.values(PERMISSION_SUBJECT_ACTIONS).flatMap((permissionSubjectAction) => permissionSubjectAction)
+    return Object.values(PERMISSION_SUBJECT_ACTIONS).flat()
   }
 }

@@ -7,7 +7,7 @@ export enum FileContextEnum {
   ORGANIZATION_LOGO = 'ORGANIZATION_LOGO',
 }
 
-export const FileContextEnumSchema = z.nativeEnum(FileContextEnum)
+export const FileContextEnumSchema = z.enum(FileContextEnum)
 
 export const GetPresignedUrlSchema = createRequestSchema({
   body: z.object({

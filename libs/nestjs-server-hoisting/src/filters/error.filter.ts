@@ -24,12 +24,12 @@ export class ErrorFilter implements ExceptionFilter {
     const issues = get(result, 'issues')
 
     if (message === 'Validation failed') {
-      const errors = get(result, 'errors') as unknown as z.ZodError['issues']
+      const issues = get(result, 'issues') as unknown as z.ZodError['issues']
 
       return response.status(status).json({
         statusCode: 400,
         error: 'Bad Request Error',
-        issues: errors.map((issue) => ({ [isString(issue.path) ? issue.path : issue.path.join('.')]: issue.message })),
+        issues: issues.map((issue) => ({ [isString(issue.path) ? issue.path : issue.path.join('.')]: issue.message })),
       })
     }
 

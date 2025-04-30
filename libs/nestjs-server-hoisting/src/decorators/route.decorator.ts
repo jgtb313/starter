@@ -2,12 +2,12 @@ import { Reflector } from '@nestjs/core'
 import { HttpCode, Get, Post, Put, Patch, Delete, Version, applyDecorators } from '@nestjs/common'
 import { GUARDS_METADATA } from '@nestjs/common/constants'
 import { ApiOperation, ApiBearerAuth, ApiParam, ApiQuery, ApiBody, ApiResponse } from '@nestjs/swagger'
-import { UseZodGuard } from 'nestjs-zod'
 import { sample } from 'openapi-sampler'
 import { z } from '@starter/schema'
 import { get } from '@starter/common'
 
 import { RouteOptions, HttpStatus, HttpStatusErrorResponses } from '@/interfaces'
+import { UseZodGuard } from '@/guards'
 import { StateManager } from '@/nestjs-server-hoisting.state'
 
 const httpResponsesDescriptions: Record<HttpStatus, string> = {
@@ -118,9 +118,13 @@ export const Route = (options: RouteOptions): MethodDecorator => {
     if (options.method === 'PATCH') decorators.push(Patch(options.path))
     if (options.method === 'DELETE') decorators.push(Delete(options.path))
 
-    // if (options.parameters.query) decorators.push(UseZodGuard('query', options.parameters.query))
-    // if (options.parameters.params) decorators.push(UseZodGuard('params', options.parameters.params))
-    // if (options.parameters.body) decorators.push(UseZodGuard('body', options.parameters.body))
+    decorators.push(
+      UseZodGuard({
+        query: options.parameters.query,
+        params: options.parameters.params,
+        body: options.parameters.body,
+      }),
+    )
 
     decorators.push(
       ApiQuery({

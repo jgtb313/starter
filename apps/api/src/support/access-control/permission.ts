@@ -1,18 +1,6 @@
 import { z } from '@starter/schema'
 
-export type PermissionSubjectAction = {
-  key: string
-  subject: (typeof PERMISSION_SUBJECT)[number]
-  action: (typeof PERMISSION_ACTION)[number]
-  title: string
-  description: string
-}
-
-export const PERMISSION_SUBJECT = ['user', 'workspace', 'organization', 'role', 'category'] as const
-
-export const PERMISSION_ACTION = ['manage', 'create', 'read', 'update', 'delete'] as const
-
-export const PERMISSION_SUBJECT_ACTIONS: Record<(typeof PERMISSION_SUBJECT)[number], PermissionSubjectAction[]> = {
+export const PERMISSION_SUBJECT_ACTIONS = {
   user: [
     { key: 'user:create', subject: 'user', action: 'create', title: 'Create User', description: 'Allows creating new users in the system' },
     { key: 'user:read', subject: 'user', action: 'read', title: 'Read User', description: 'Allows viewing user details' },
@@ -81,27 +69,16 @@ export const PERMISSION_SUBJECT_ACTIONS: Record<(typeof PERMISSION_SUBJECT)[numb
     { key: 'category:update', subject: 'category', action: 'update', title: 'Update Category', description: 'Allows modifying category information' },
     { key: 'category:delete', subject: 'category', action: 'delete', title: 'Delete Category', description: 'Allows removing categories' },
   ],
-}
+} as const
 
-export type PermissionSubjects = keyof typeof PERMISSION_SUBJECT_ACTIONS
-export type PermissionActions<T extends PermissionSubjects> = (typeof PERMISSION_SUBJECT_ACTIONS)[T][number]['key']
-export type Permission = {
-  [S in PermissionSubjects]: `${S}:${PermissionActions<S>}`
-}[PermissionSubjects]
+export type PermissionSubject = keyof typeof PERMISSION_SUBJECT_ACTIONS
+export type Permission = (typeof PERMISSION_SUBJECT_ACTIONS)[PermissionSubject][number]['key']
 
 export const PERMISSIONS = new Set(
   Object.entries(PERMISSION_SUBJECT_ACTIONS).flatMap(([_, subjectActions]) =>
     subjectActions.map((subjectAction) => subjectAction.key),
   ) as Permission[],
 )
-
-export const PermissionSubjectActionSchema = z.object({
-  key: z.string(),
-  subject: z.enum(PERMISSION_SUBJECT),
-  action: z.enum(PERMISSION_ACTION),
-  title: z.string(),
-  description: z.string(),
-})
 
 export const PermissionsSchema = z
   .array(z.string() as z.ZodType<Permission>)

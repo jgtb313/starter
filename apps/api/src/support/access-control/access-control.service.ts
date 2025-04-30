@@ -4,7 +4,7 @@ import { User } from '@starter/domain'
 import { AbilityBuilder, subject as subjectFactory, Ability, MongoQuery } from '@casl/ability'
 import { AnyObject } from '@casl/ability/dist/types/types'
 
-import { PERMISSION_SUBJECT_ACTIONS, Permission, PermissionSubjects, PermissionActions } from '@/support/access-control/permission'
+import { PERMISSION_SUBJECT_ACTIONS, Permission, PermissionSubject } from '@/support/access-control/permission'
 
 @Injectable()
 export class ACLService {
@@ -22,13 +22,13 @@ export class ACLService {
     }
 
     permissions.forEach((permission) => {
-      const [subject, action] = permission.split(':') as [PermissionSubjects, PermissionActions<PermissionSubjects>]
+      const [subject, action] = permission.split(':') as [PermissionSubject, string]
 
       if (subject === 'workspace' && action === 'manage') {
         can('manage', 'all', { workspaceId: user.workspaceId })
       } else if (action === 'manage') {
         const subjectPermissions: Permission[] = PERMISSION_SUBJECT_ACTIONS[subject]
-          .filter((action) => action.key !== 'manage')
+          .filter((action) => !action.key.endsWith('manage'))
           .map((action) => `${subject}:${action.key}` as Permission)
 
         subjectPermissions.forEach((subjectPermission) => {
