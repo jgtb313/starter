@@ -146,6 +146,7 @@ export const Route = (options: RouteOptions): MethodDecorator => {
             ApiQuery({
               ...(prop as {}),
               name,
+              required: openApiSchema?.required?.includes(name),
             }),
           )
         })
@@ -158,6 +159,7 @@ export const Route = (options: RouteOptions): MethodDecorator => {
           ApiParam({
             ...(prop as {}),
             name,
+            required: openApiSchema?.required?.includes(name),
           }),
         )
       })

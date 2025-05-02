@@ -8,7 +8,7 @@ export const Request = <T extends RequestSchemaInput>() =>
   createParamDecorator((_, ctx: ExecutionContext): RequestInput<T> => {
     const request = ctx.switchToHttp().getRequest()
 
-    const { query, params, body } = request
+    const { requestZodData, pagination } = request
 
-    return { query, params, body }
+    return { ...requestZodData, pagination }
   })()

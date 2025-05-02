@@ -1,7 +1,7 @@
 import { Controller, Route } from '@starter/nestjs-server-hoisting'
 import { z } from '@starter/schema'
 
-import { PERMISSION_SUBJECT_ACTIONS } from '@/support/access-control/permission'
+import { PermissionSubjectSchema, PERMISSION_SUBJECT_ACTIONS } from '@/support/access-control/permission'
 
 @Controller({
   name: 'Permission',
@@ -25,7 +25,7 @@ export class PermissionController {
 
     responses: {
       200: {
-        schema: z.array(z.string()),
+        schema: z.array(PermissionSubjectSchema),
       },
     },
   })

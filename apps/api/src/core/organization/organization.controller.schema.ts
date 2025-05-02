@@ -13,15 +13,15 @@ export const ListOrganizationsSchema = createRequestSchema({
     status: true,
   })
     .partial()
-    .merge(
+    .extend(
       z
         .object({
           filter: FilterSchema(['name', 'status'], { example: 'Acme' }),
         })
         .partial(),
     )
-    .merge(PaginationSchema),
-  output: BasePaginationSchemaOutput.merge(z.object({ values: z.array(OrganizationSchema) })),
+    .and(PaginationSchema),
+  output: BasePaginationSchemaOutput.extend(z.object({ values: z.array(OrganizationSchema) })),
 })
 export type ListOrganizationsRequest = RequestInput<typeof ListOrganizationsSchema>
 

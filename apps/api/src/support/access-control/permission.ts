@@ -75,10 +75,23 @@ export type PermissionSubject = keyof typeof PERMISSION_SUBJECT_ACTIONS
 export type Permission = (typeof PERMISSION_SUBJECT_ACTIONS)[PermissionSubject][number]['key']
 
 export const PERMISSIONS = new Set(
-  Object.entries(PERMISSION_SUBJECT_ACTIONS).flatMap(([_, subjectActions]) =>
-    subjectActions.map((subjectAction) => subjectAction.key),
-  ) as Permission[],
+  Object.values(PERMISSION_SUBJECT_ACTIONS).flatMap((subjectActions) => subjectActions.map((subjectAction) => subjectAction.key)) as Permission[],
 )
+
+export const PermissionSubjectSchema = z.object({
+  key: z.enum([...PERMISSIONS]),
+  subject: z.enum(Object.keys(PERMISSION_SUBJECT_ACTIONS)),
+  action: z.string().meta({
+    description: 'Depends on the subject. Common values include: read, write, update, delete.',
+    examples: ['read'],
+  }),
+  title: z.string().meta({
+    description: 'Human-readable name of the permission.',
+  }),
+  description: z.string().meta({
+    description: 'Detailed explanation of what the permission allows within the system.',
+  }),
+})
 
 export const PermissionsSchema = z
   .array(z.string() as z.ZodType<Permission>)

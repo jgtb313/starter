@@ -2,12 +2,10 @@ import { z } from '@/zod'
 
 const maxLimit = (limit: number) => (limit > 100 ? 100 : limit)
 
-export const PaginationSchema = z
-  .object({
-    offset: z.coerce.number().default(0).meta({ description: 'Number of items to skip in the result set.', example: 10, default: 0 }),
-    limit: z.coerce.number().default(10).meta({ description: 'Maximum number of items to return.', example: 20, default: 10 }),
-  })
-  .partial()
+export const PaginationSchema = z.object({
+  offset: z.coerce.number().optional().meta({ description: 'Number of items to skip in the result set.' }),
+  limit: z.coerce.number().optional().meta({ description: 'Maximum number of items to return.' }),
+})
 
 export const PaginationSchemaTransform = PaginationSchema.transform((pagination) => {
   return {

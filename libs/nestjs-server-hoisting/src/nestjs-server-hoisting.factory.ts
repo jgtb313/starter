@@ -3,7 +3,7 @@ import { ConsoleLogger, INestApplication, Type, DynamicModule, ForwardReference 
 import { ExpressAdapter } from '@nestjs/platform-express'
 import { Request, Response } from 'express'
 
-import { ResponseInterceptor } from '@/interceptors'
+import { PaginationInterceptor, ResponseInterceptor } from '@/interceptors'
 import { ErrorFilter } from '@/filters'
 import { registerSwagger } from '@/nestjs-server-hoisting.swagger'
 
@@ -48,6 +48,7 @@ const create = async (entryModule: IEntryNestModule, options: NestServerHoisting
     logger: new CustomLogger(),
   })
 
+  app.useGlobalInterceptors(new PaginationInterceptor())
   app.useGlobalInterceptors(new ResponseInterceptor())
   app.useGlobalFilters(new ErrorFilter())
   app.enableVersioning()

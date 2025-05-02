@@ -17,6 +17,7 @@ export class ZodGuard implements CanActivate {
 
     const sources: (keyof ZodSchemaMap)[] = ['query', 'params', 'body']
     const issues: z.core.$ZodIssue[] = []
+    const requestZodData = {}
 
     for (const key of sources) {
       const schema = this.schema[key]
@@ -32,7 +33,7 @@ export class ZodGuard implements CanActivate {
       if (!result.success) {
         issues.push(...result.error.issues)
       } else {
-        set(request, key, result.data)
+        set(requestZodData, key, result.data)
       }
     }
 
@@ -42,6 +43,8 @@ export class ZodGuard implements CanActivate {
         issues,
       })
     }
+
+    set(request, 'requestZodData', requestZodData)
 
     return true
   }

@@ -13,15 +13,15 @@ export const ListUsersSchema = createRequestSchema({
     status: true,
   })
     .partial()
-    .merge(
+    .extend(
       z
         .object({
           filter: FilterSchema(['name', 'email'], { example: 'John Doe' }),
         })
         .partial(),
     )
-    .merge(PaginationSchema),
-  output: BasePaginationSchemaOutput.merge(z.object({ values: z.array(UserSchema) })),
+    .and(PaginationSchema),
+  output: BasePaginationSchemaOutput.extend(z.object({ values: z.array(UserSchema) })),
 })
 export type ListUsersRequest = RequestInput<typeof ListUsersSchema>
 

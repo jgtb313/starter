@@ -1324,23 +1324,19 @@
           },
           {
             "name": "offset",
-            "required": true,
+            "required": false,
             "in": "query",
             "description": "Number of items to skip in the result set.",
             "schema": {
-              "default": 0,
-              "example": 10,
               "type": "number"
             }
           },
           {
             "name": "limit",
-            "required": true,
+            "required": false,
             "in": "query",
             "description": "Maximum number of items to return.",
             "schema": {
-              "default": 10,
-              "example": 20,
               "type": "number"
             }
           },
@@ -1979,11 +1975,6 @@
             }
           }
         },
-        "security": [
-          {
-            "Bearer": []
-          }
-        ],
         "summary": "List Invoices",
         "tags": [
           "Invoice"
@@ -2609,11 +2600,6 @@
             }
           }
         },
-        "security": [
-          {
-            "Bearer": []
-          }
-        ],
         "summary": "Get Invoice",
         "tags": [
           "Invoice"
@@ -2791,58 +2777,6 @@
             "schema": {
               "example": "id,name,email",
               "type": "string"
-            }
-          },
-          {
-            "name": "filter",
-            "required": true,
-            "in": "query",
-            "description": "Generic filter that can match against \n* name\n* status",
-            "schema": {
-              "example": "Acme",
-              "type": "string"
-            }
-          },
-          {
-            "name": "name",
-            "required": true,
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "status",
-            "required": true,
-            "in": "query",
-            "schema": {
-              "enum": [
-                "ACTIVE",
-                "INACTIVE"
-              ],
-              "type": "string"
-            }
-          },
-          {
-            "name": "offset",
-            "required": true,
-            "in": "query",
-            "description": "Number of items to skip in the result set.",
-            "schema": {
-              "default": 0,
-              "example": 10,
-              "type": "number"
-            }
-          },
-          {
-            "name": "limit",
-            "required": true,
-            "in": "query",
-            "description": "Maximum number of items to return.",
-            "schema": {
-              "default": 10,
-              "example": 20,
-              "type": "number"
             }
           },
           {
@@ -5122,7 +5056,68 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "type": "string"
+                    "type": "object",
+                    "properties": {
+                      "key": {
+                        "enum": [
+                          "user:create",
+                          "user:read",
+                          "user:update",
+                          "user:delete",
+                          "workspace:manage",
+                          "workspace:create",
+                          "workspace:read",
+                          "workspace:update",
+                          "workspace:delete",
+                          "organization:manage",
+                          "organization:create",
+                          "organization:read",
+                          "organization:update",
+                          "organization:delete",
+                          "role:create",
+                          "role:read",
+                          "role:update",
+                          "role:delete",
+                          "category:create",
+                          "category:read",
+                          "category:update",
+                          "category:delete"
+                        ],
+                        "type": "string"
+                      },
+                      "subject": {
+                        "enum": [
+                          "user",
+                          "workspace",
+                          "organization",
+                          "role",
+                          "category"
+                        ],
+                        "type": "string"
+                      },
+                      "action": {
+                        "description": "Depends on the subject. Common values include: read, write, update, delete.",
+                        "examples": [
+                          "read"
+                        ],
+                        "type": "string"
+                      },
+                      "title": {
+                        "description": "Human-readable name of the permission.",
+                        "type": "string"
+                      },
+                      "description": {
+                        "description": "Detailed explanation of what the permission allows within the system.",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "key",
+                      "subject",
+                      "action",
+                      "title",
+                      "description"
+                    ]
                   }
                 }
               }
@@ -5228,28 +5223,6 @@
             "schema": {
               "example": "id,name,email",
               "type": "string"
-            }
-          },
-          {
-            "name": "offset",
-            "required": true,
-            "in": "query",
-            "description": "Number of items to skip in the result set.",
-            "schema": {
-              "default": 0,
-              "example": 10,
-              "type": "number"
-            }
-          },
-          {
-            "name": "limit",
-            "required": true,
-            "in": "query",
-            "description": "Maximum number of items to return.",
-            "schema": {
-              "default": 10,
-              "example": 20,
-              "type": "number"
             }
           }
         ],
@@ -8766,58 +8739,6 @@
             "schema": {
               "example": "id,name,email",
               "type": "string"
-            }
-          },
-          {
-            "name": "filter",
-            "required": true,
-            "in": "query",
-            "description": "Generic filter that can match against \n* name\n* status",
-            "schema": {
-              "example": "Acme",
-              "type": "string"
-            }
-          },
-          {
-            "name": "name",
-            "required": true,
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "status",
-            "required": true,
-            "in": "query",
-            "schema": {
-              "enum": [
-                "ACTIVE",
-                "INACTIVE"
-              ],
-              "type": "string"
-            }
-          },
-          {
-            "name": "offset",
-            "required": true,
-            "in": "query",
-            "description": "Number of items to skip in the result set.",
-            "schema": {
-              "default": 0,
-              "example": 10,
-              "type": "number"
-            }
-          },
-          {
-            "name": "limit",
-            "required": true,
-            "in": "query",
-            "description": "Maximum number of items to return.",
-            "schema": {
-              "default": 10,
-              "example": 20,
-              "type": "number"
             }
           },
           {
@@ -16246,58 +16167,6 @@
             "schema": {
               "example": "id,name,email",
               "type": "string"
-            }
-          },
-          {
-            "name": "filter",
-            "required": true,
-            "in": "query",
-            "description": "Generic filter that can match against \n* name\n* email",
-            "schema": {
-              "example": "John Doe",
-              "type": "string"
-            }
-          },
-          {
-            "name": "name",
-            "required": true,
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "status",
-            "required": true,
-            "in": "query",
-            "schema": {
-              "enum": [
-                "ACTIVE",
-                "INACTIVE"
-              ],
-              "type": "string"
-            }
-          },
-          {
-            "name": "offset",
-            "required": true,
-            "in": "query",
-            "description": "Number of items to skip in the result set.",
-            "schema": {
-              "default": 0,
-              "example": 10,
-              "type": "number"
-            }
-          },
-          {
-            "name": "limit",
-            "required": true,
-            "in": "query",
-            "description": "Maximum number of items to return.",
-            "schema": {
-              "default": 10,
-              "example": 20,
-              "type": "number"
             }
           },
           {

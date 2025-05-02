@@ -30,7 +30,7 @@ export const PasswordLessSchema = createRequestSchema({
     .object({
       email: EmailSchema,
     })
-    .merge(OTPVerificationSchema),
+    .extend(OTPVerificationSchema),
   output: z.object({
     accessToken: z.string(),
   }),
@@ -66,7 +66,7 @@ export const ForgotPasswordSchema = createRequestSchema({
       email: EmailSchema,
       password: PasswordSchema,
     })
-    .merge(OTPVerificationSchema),
+    .extend(OTPVerificationSchema),
   output: z.object({
     accessToken: z.string(),
   }),

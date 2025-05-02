@@ -24,7 +24,7 @@ export const createDataSourceConfig = (options: CreateDataSourceConfigOptions): 
     migrations,
     migrationsTableName: 'migrations',
     migrationsRun: false,
-    synchronize: false,
+    synchronize: process.env.STAGE == 'local',
     ...options,
   }
 }
