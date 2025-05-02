@@ -63,11 +63,52 @@ export const PERMISSION_SUBJECT_ACTIONS = {
     { key: 'role:update', subject: 'role', action: 'update', title: 'Update Role', description: 'Allows modifying role information' },
     { key: 'role:delete', subject: 'role', action: 'delete', title: 'Delete Role', description: 'Allows removing roles' },
   ],
-  category: [
-    { key: 'category:create', subject: 'category', action: 'create', title: 'Create Category', description: 'Allows creating new categories' },
-    { key: 'category:read', subject: 'category', action: 'read', title: 'Read Category', description: 'Allows viewing category details' },
-    { key: 'category:update', subject: 'category', action: 'update', title: 'Update Category', description: 'Allows modifying category information' },
-    { key: 'category:delete', subject: 'category', action: 'delete', title: 'Delete Category', description: 'Allows removing categories' },
+  invoice: [
+    {
+      key: 'invoice:read',
+      subject: 'invoice',
+      action: 'read',
+      title: 'Read Invoice',
+      description: 'Allows viewing invoice details and lists',
+    },
+  ],
+
+  subscription: [
+    {
+      key: 'subscription:create',
+      subject: 'subscription',
+      action: 'create',
+      title: 'Create Subscription',
+      description: 'Allows creating new subscriptions',
+    },
+    {
+      key: 'subscription:read',
+      subject: 'subscription',
+      action: 'read',
+      title: 'Read Subscription',
+      description: 'Allows viewing subscription details',
+    },
+    {
+      key: 'subscription:update:plan',
+      subject: 'subscription',
+      action: 'update:plan',
+      title: 'Change Subscription Plan',
+      description: 'Allows changing subscription plan',
+    },
+    {
+      key: 'subscription:update:payment-method',
+      subject: 'subscription',
+      action: 'update:payment-method',
+      title: 'Change Subscription Payment Method',
+      description: 'Allows changing subscription payment method',
+    },
+    {
+      key: 'subscription:delete',
+      subject: 'subscription',
+      action: 'delete',
+      title: 'Cancel Subscription',
+      description: 'Allows canceling subscriptions',
+    },
   ],
 } as const
 

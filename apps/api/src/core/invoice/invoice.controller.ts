@@ -19,7 +19,7 @@ import { ListInvoicesSchema, GetInvoiceSchema, ListInvoicesRequest, GetInvoiceRe
     },
   },
 })
-// @UseGuards(AuthGuard)
+@UseGuards(AuthGuard)
 export class InvoiceController {
   constructor(private readonly invoiceService: InvoiceService) {}
 
@@ -42,12 +42,11 @@ export class InvoiceController {
     },
   })
   async listInvoices(@AuthenticatedUser() user: User, @Request() { params, query, pagination }: ListInvoicesRequest) {
-    console.log({ params, query, pagination })
-    // return this.invoiceService.getPaginatedInvoices({
-    //   ...query,
-    //   ...pagination,
-    //   workspaceId: params.workspaceId,
-    // })
+    return this.invoiceService.getPaginatedInvoices({
+      ...query,
+      ...pagination,
+      workspaceId: params.workspaceId,
+    })
   }
 
   @Route({

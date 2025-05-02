@@ -1975,6 +1975,11 @@
             }
           }
         },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "summary": "List Invoices",
         "tags": [
           "Invoice"
@@ -2600,6 +2605,11 @@
             }
           }
         },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "summary": "Get Invoice",
         "tags": [
           "Invoice"
@@ -5078,10 +5088,12 @@
                           "role:read",
                           "role:update",
                           "role:delete",
-                          "category:create",
-                          "category:read",
-                          "category:update",
-                          "category:delete"
+                          "invoice:read",
+                          "subscription:create",
+                          "subscription:read",
+                          "subscription:update:plan",
+                          "subscription:update:payment-method",
+                          "subscription:delete"
                         ],
                         "type": "string"
                       },
@@ -5091,7 +5103,8 @@
                           "workspace",
                           "organization",
                           "role",
-                          "category"
+                          "invoice",
+                          "subscription"
                         ],
                         "type": "string"
                       },

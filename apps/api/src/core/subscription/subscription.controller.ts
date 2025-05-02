@@ -109,7 +109,7 @@ export class SubscriptionController {
       },
     },
   })
-  changeSubscriptionPlan(@AuthenticatedUser() user: User, @Request() { params, body }: GetSubscriptionRequest) {
+  changeSubscriptionPlan(@AuthenticatedUser() user: User, @Request() { params, body }: ChangeSubscriptionPlanRequest) {
     // this.aclService.canPerformActionByPermission(user, 'subscription:read', {
     //   workspaceId: params.workspaceId,
     // })
@@ -136,7 +136,7 @@ export class SubscriptionController {
       },
     },
   })
-  changeSubscriptionPaymentMethod(@AuthenticatedUser() user: User, @Request() { params }: GetSubscriptionRequest) {
+  changeSubscriptionPaymentMethod(@AuthenticatedUser() user: User, @Request() { params }: ChangeSubscriptionPaymentMethodRequest) {
     // this.aclService.canPerformActionByPermission(user, 'subscription:read', {
     //   workspaceId: params.workspaceId,
     // })
@@ -162,7 +162,7 @@ export class SubscriptionController {
       },
     },
   })
-  cancelSubscription(@AuthenticatedUser() user: User, @Request() { params }: GetSubscriptionRequest) {
+  cancelSubscription(@AuthenticatedUser() user: User, @Request() { params }: CancelSubscriptionRequest) {
     // this.aclService.canPerformActionByPermission(user, 'subscription:read', {
     //   workspaceId: params.workspaceId,
     // })
