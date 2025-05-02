@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common'
 import { UserServiceModule, InvoiceServiceModule } from '@starter/domain'
 
-import { InvoiceController } from './invoice.controller'
+import { InvoiceController } from '@/core/invoice/invoice.controller'
 
 @Module({
   imports: [UserServiceModule, InvoiceServiceModule],

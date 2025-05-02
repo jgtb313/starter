@@ -54,9 +54,9 @@ export class SubscriptionController {
     },
   })
   getSubscription(@AuthenticatedUser() user: User, @Request() { params }: GetSubscriptionRequest) {
-    // this.aclService.canPerformActionByPermission(user, 'subscription:read', {
-    //   workspaceId: params.workspaceId,
-    // })
+    this.aclService.canPerformActionByPermission(user, 'subscription:read', {
+      workspaceId: params.workspaceId,
+    })
 
     return this.subscriptionService.getSubscription(params)
   }
@@ -80,9 +80,9 @@ export class SubscriptionController {
     },
   })
   createSubscription(@AuthenticatedUser() user: User, @Request() { params, body }: CreateSubscriptionRequest) {
-    // this.aclService.canPerformActionByPermission(user, 'subscription:read', {
-    //   workspaceId: params.workspaceId,
-    // })
+    this.aclService.canPerformActionByPermission(user, 'subscription:create', {
+      workspaceId: params.workspaceId,
+    })
 
     return this.subscriptionService.createSubscription({
       ...params,
@@ -110,9 +110,9 @@ export class SubscriptionController {
     },
   })
   changeSubscriptionPlan(@AuthenticatedUser() user: User, @Request() { params, body }: ChangeSubscriptionPlanRequest) {
-    // this.aclService.canPerformActionByPermission(user, 'subscription:read', {
-    //   workspaceId: params.workspaceId,
-    // })
+    this.aclService.canPerformActionByPermission(user, 'subscription:update:plan', {
+      workspaceId: params.workspaceId,
+    })
 
     return this.subscriptionService.changeSubscriptionPlan()
   }
@@ -137,9 +137,9 @@ export class SubscriptionController {
     },
   })
   changeSubscriptionPaymentMethod(@AuthenticatedUser() user: User, @Request() { params }: ChangeSubscriptionPaymentMethodRequest) {
-    // this.aclService.canPerformActionByPermission(user, 'subscription:read', {
-    //   workspaceId: params.workspaceId,
-    // })
+    this.aclService.canPerformActionByPermission(user, 'subscription:update:payment-method', {
+      workspaceId: params.workspaceId,
+    })
 
     return this.subscriptionService.changeSubscriptionPaymentMethod()
   }
@@ -163,9 +163,9 @@ export class SubscriptionController {
     },
   })
   cancelSubscription(@AuthenticatedUser() user: User, @Request() { params }: CancelSubscriptionRequest) {
-    // this.aclService.canPerformActionByPermission(user, 'subscription:read', {
-    //   workspaceId: params.workspaceId,
-    // })
+    this.aclService.canPerformActionByPermission(user, 'subscription:delete', {
+      workspaceId: params.workspaceId,
+    })
 
     return this.subscriptionService.cancelSubscription()
   }

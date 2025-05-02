@@ -1,7 +1,7 @@
 import { Reflector } from '@nestjs/core'
 import { HttpCode, Get, Post, Put, Patch, Delete, Version, applyDecorators } from '@nestjs/common'
 import { GUARDS_METADATA } from '@nestjs/common/constants'
-import { ApiOperation, ApiBearerAuth, ApiParam, ApiQuery, ApiBody, ApiResponse } from '@nestjs/swagger'
+import { ApiOperation, ApiBearerAuth, ApiParam, ApiQuery, ApiBody, ApiResponse, ApiParamOptions } from '@nestjs/swagger'
 import { sample } from 'openapi-sampler'
 import { z } from '@starter/schema'
 import { get } from '@starter/common'
@@ -89,6 +89,30 @@ export const zodSchemaToJSONSchema = (zodType: z.ZodType): any => {
   })
 }
 
+const getMergedProperties = (jsonSchema: any): any => {
+  if (jsonSchema.properties) {
+    return Object.entries(jsonSchema.properties).map(([name, props]: any) => ({
+      ...props,
+      name,
+      required: jsonSchema?.required?.includes(name),
+    }))
+  }
+
+  if (jsonSchema.allOf) {
+    return jsonSchema.allOf
+      .map((schema: any) =>
+        Object.entries(schema.properties).map(([name, props]: any) => ({
+          ...props,
+          name,
+          required: schema?.required?.includes(name),
+        })),
+      )
+      .flat()
+  }
+
+  return []
+}
+
 const isHttpResponseError = (value: HttpStatus): value is HttpStatusErrorResponses =>
   ['400', '401', '403', '404', '409', '500'].includes(value.toString())
 
@@ -139,48 +163,31 @@ export const Route = (options: RouteOptions): MethodDecorator => {
     if (options.parameters.query) {
       const openApiSchema = zodSchemaToJSONSchema(options.parameters.query)
 
-      Object.entries(openApiSchema.properties ?? {})
-        .sort(([a], [b]) => (a === 'filter' ? -1 : b === 'filter' ? 1 : 0))
-        .forEach(([name, prop]) => {
-          decorators.push(
-            ApiQuery({
-              ...(prop as {}),
-              name,
-              required: openApiSchema?.required?.includes(name),
-            }),
-          )
-        })
+      const properties = getMergedProperties(openApiSchema)
+
+      properties.forEach((prop: any) => {
+        decorators.push(ApiQuery(prop))
+      })
     }
     if (options.parameters.params) {
       const openApiSchema = zodSchemaToJSONSchema(options.parameters.params)
 
-      Object.entries(openApiSchema.properties ?? {}).forEach(([name, prop]) => {
-        decorators.push(
-          ApiParam({
-            ...(prop as {}),
-            name,
-            required: openApiSchema?.required?.includes(name),
-          }),
-        )
+      const properties = getMergedProperties(openApiSchema)
+
+      properties.forEach((prop: any) => {
+        decorators.push(ApiParam(prop))
       })
     }
     if (options.parameters.body) {
       const openApiSchema = zodSchemaToJSONSchema(options.parameters.body)
 
+      const properties = getMergedProperties(openApiSchema)
+
       decorators.push(
         ApiBody({
           schema: {
             ...openApiSchema,
-            properties: Object.fromEntries(
-              Object.entries(openApiSchema.properties ?? {}).map(([name, prop]) => [
-                name,
-                {
-                  ...(prop as {}),
-                  name,
-                  required: get(prop, 'required'),
-                },
-              ]),
-            ),
+            properties,
           },
           required: true,
         }),
