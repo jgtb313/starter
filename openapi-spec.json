@@ -23,20 +23,18 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "properties": [
-                  {
+                "properties": {
+                  "email": {
                     "example": "example@email.com",
                     "type": "string",
                     "format": "email",
-                    "name": "email",
-                    "required": true
+                    "name": "email"
                   },
-                  {
+                  "password": {
                     "type": "string",
-                    "name": "password",
-                    "required": true
+                    "name": "password"
                   }
-                ],
+                },
                 "required": [
                   "email",
                   "password"
@@ -211,15 +209,14 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "properties": [
-                  {
+                "properties": {
+                  "email": {
                     "example": "example@email.com",
                     "type": "string",
                     "format": "email",
-                    "name": "email",
-                    "required": true
+                    "name": "email"
                   },
-                  {
+                  "otpVerification": {
                     "allOf": [
                       {
                         "type": "object",
@@ -250,10 +247,9 @@
                         ]
                       }
                     ],
-                    "name": "otpVerification",
-                    "required": true
+                    "name": "otpVerification"
                   }
-                ],
+                },
                 "required": [
                   "email",
                   "otpVerification"
@@ -580,22 +576,20 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "properties": [
-                  {
+                "properties": {
+                  "context": {
                     "enum": [
                       "GOOGLE",
                       "FACEBOOK"
                     ],
                     "type": "string",
-                    "name": "context",
-                    "required": true
+                    "name": "context"
                   },
-                  {
+                  "providerToken": {
                     "type": "string",
-                    "name": "providerToken",
-                    "required": true
+                    "name": "providerToken"
                   }
-                ],
+                },
                 "required": [
                   "context",
                   "providerToken"
@@ -770,26 +764,23 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "properties": [
-                  {
+                "properties": {
+                  "name": {
                     "type": "string",
-                    "name": "name",
-                    "required": true
+                    "name": "name"
                   },
-                  {
+                  "email": {
                     "example": "example@email.com",
                     "type": "string",
                     "format": "email",
-                    "name": "email",
-                    "required": true
+                    "name": "email"
                   },
-                  {
+                  "password": {
                     "type": "string",
                     "minLength": 8,
-                    "name": "password",
-                    "required": true
+                    "name": "password"
                   }
-                ],
+                },
                 "required": [
                   "name",
                   "email",
@@ -965,21 +956,19 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "properties": [
-                  {
+                "properties": {
+                  "email": {
                     "example": "example@email.com",
                     "type": "string",
                     "format": "email",
-                    "name": "email",
-                    "required": true
+                    "name": "email"
                   },
-                  {
+                  "password": {
                     "type": "string",
                     "minLength": 8,
-                    "name": "password",
-                    "required": true
+                    "name": "password"
                   },
-                  {
+                  "otpVerification": {
                     "allOf": [
                       {
                         "type": "object",
@@ -1010,10 +999,9 @@
                         ]
                       }
                     ],
-                    "name": "otpVerification",
-                    "required": true
+                    "name": "otpVerification"
                   }
-                ],
+                },
                 "required": [
                   "email",
                   "password",
@@ -1335,19 +1323,19 @@
             }
           },
           {
-            "name": "limit",
+            "name": "offset",
             "required": false,
             "in": "query",
-            "description": "Maximum number of items to return.",
+            "description": "Number of items to skip in the result set.",
             "schema": {
               "type": "number"
             }
           },
           {
-            "name": "offset",
+            "name": "limit",
             "required": false,
             "in": "query",
-            "description": "Number of items to skip in the result set.",
+            "description": "Maximum number of items to return.",
             "schema": {
               "type": "number"
             }
@@ -2650,24 +2638,22 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "properties": [
-                  {
+                "properties": {
+                  "fileName": {
                     "example": "avatar.png",
                     "type": "string",
-                    "name": "fileName",
-                    "required": true
+                    "name": "fileName"
                   },
-                  {
+                  "context": {
                     "enum": [
                       "USER_AVATAR",
                       "WORKSPACE_LOGO",
                       "ORGANIZATION_LOGO"
                     ],
                     "type": "string",
-                    "name": "context",
-                    "required": true
+                    "name": "context"
                   }
-                ],
+                },
                 "required": [
                   "fileName",
                   "context"
@@ -2804,16 +2790,6 @@
             }
           },
           {
-            "name": "filter",
-            "required": false,
-            "in": "query",
-            "description": "Generic filter that can match against \n* name\n* status",
-            "schema": {
-              "example": "Acme",
-              "type": "string"
-            }
-          },
-          {
             "name": "name",
             "required": false,
             "in": "query",
@@ -2834,12 +2810,13 @@
             }
           },
           {
-            "name": "limit",
+            "name": "filter",
             "required": false,
             "in": "query",
-            "description": "Maximum number of items to return.",
+            "description": "Generic filter that can match against \n* name\n* status",
             "schema": {
-              "type": "number"
+              "example": "Acme",
+              "type": "string"
             }
           },
           {
@@ -2847,6 +2824,15 @@
             "required": false,
             "in": "query",
             "description": "Number of items to skip in the result set.",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Maximum number of items to return.",
             "schema": {
               "type": "number"
             }
@@ -3092,23 +3078,21 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "properties": [
-                  {
+                "properties": {
+                  "name": {
                     "type": "string",
-                    "name": "name",
-                    "required": true
+                    "name": "name"
                   },
-                  {
+                  "status": {
                     "enum": [
                       "ACTIVE",
                       "INACTIVE"
                     ],
                     "type": "string",
                     "default": "ACTIVE",
-                    "name": "status",
-                    "required": true
+                    "name": "status"
                   }
-                ],
+                },
                 "required": [
                   "name",
                   "status"
@@ -3509,23 +3493,21 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "properties": [
-                  {
+                "properties": {
+                  "name": {
                     "type": "string",
-                    "name": "name",
-                    "required": false
+                    "name": "name"
                   },
-                  {
+                  "status": {
                     "enum": [
                       "ACTIVE",
                       "INACTIVE"
                     ],
                     "type": "string",
                     "default": "ACTIVE",
-                    "name": "status",
-                    "required": false
+                    "name": "status"
                   }
-                ],
+                },
                 "required": []
               }
             }
@@ -3855,8 +3837,8 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "properties": [
-                  {
+                "properties": {
+                  "context": {
                     "example": "UPDATE_EMAIL",
                     "enum": [
                       "PASSWORD_LESS",
@@ -3865,20 +3847,17 @@
                       "UPDATE_PHONE"
                     ],
                     "type": "string",
-                    "name": "context",
-                    "required": true
+                    "name": "context"
                   },
-                  {
+                  "recipient": {
                     "type": "string",
-                    "name": "recipient",
-                    "required": true
+                    "name": "recipient"
                   },
-                  {
+                  "code": {
                     "type": "string",
-                    "name": "code",
-                    "required": true
+                    "name": "code"
                   }
-                ],
+                },
                 "required": [
                   "context",
                   "recipient",
@@ -4156,15 +4135,14 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "properties": [
-                  {
+                "properties": {
+                  "email": {
                     "example": "example@email.com",
                     "type": "string",
                     "format": "email",
-                    "name": "email",
-                    "required": true
+                    "name": "email"
                   }
-                ],
+                },
                 "required": [
                   "email"
                 ]
@@ -4405,15 +4383,14 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "properties": [
-                  {
+                "properties": {
+                  "email": {
                     "example": "example@email.com",
                     "type": "string",
                     "format": "email",
-                    "name": "email",
-                    "required": true
+                    "name": "email"
                   }
-                ],
+                },
                 "required": [
                   "email"
                 ]
@@ -4654,15 +4631,14 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "properties": [
-                  {
+                "properties": {
+                  "email": {
                     "example": "example@email.com",
                     "type": "string",
                     "format": "email",
-                    "name": "email",
-                    "required": true
+                    "name": "email"
                   }
-                ],
+                },
                 "required": [
                   "email"
                 ]
@@ -4882,17 +4858,16 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "properties": [
-                  {
+                "properties": {
+                  "channel": {
                     "enum": [
                       "SMS",
                       "WHATSAPP"
                     ],
                     "type": "string",
-                    "name": "channel",
-                    "required": true
+                    "name": "channel"
                   },
-                  {
+                  "phone": {
                     "type": "object",
                     "properties": {
                       "iso": {
@@ -4909,10 +4884,14 @@
                         "type": "string"
                       }
                     },
-                    "required": true,
+                    "required": [
+                      "iso",
+                      "ddi",
+                      "number"
+                    ],
                     "name": "phone"
                   }
-                ],
+                },
                 "required": [
                   "channel",
                   "phone"
@@ -5308,19 +5287,19 @@
             }
           },
           {
-            "name": "limit",
+            "name": "offset",
             "required": false,
             "in": "query",
-            "description": "Maximum number of items to return.",
+            "description": "Number of items to skip in the result set.",
             "schema": {
               "type": "number"
             }
           },
           {
-            "name": "offset",
+            "name": "limit",
             "required": false,
             "in": "query",
-            "description": "Number of items to skip in the result set.",
+            "description": "Maximum number of items to return.",
             "schema": {
               "type": "number"
             }
@@ -6426,13 +6405,12 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "properties": [
-                  {
+                "properties": {
+                  "name": {
                     "type": "string",
-                    "name": "name",
-                    "required": false
+                    "name": "name"
                   },
-                  {
+                  "avatar": {
                     "anyOf": [
                       {
                         "type": "string"
@@ -6441,10 +6419,9 @@
                         "type": "null"
                       }
                     ],
-                    "name": "avatar",
-                    "required": false
+                    "name": "avatar"
                   }
-                ],
+                },
                 "required": []
               }
             }
@@ -7144,15 +7121,14 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "properties": [
-                  {
+                "properties": {
+                  "email": {
                     "example": "example@email.com",
                     "type": "string",
                     "format": "email",
-                    "name": "email",
-                    "required": true
+                    "name": "email"
                   },
-                  {
+                  "otpVerification": {
                     "allOf": [
                       {
                         "type": "object",
@@ -7182,10 +7158,9 @@
                         ]
                       }
                     ],
-                    "name": "otpVerification",
-                    "required": true
+                    "name": "otpVerification"
                   }
-                ],
+                },
                 "required": [
                   "email",
                   "otpVerification"
@@ -7901,8 +7876,8 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "properties": [
-                  {
+                "properties": {
+                  "phone": {
                     "type": "object",
                     "properties": {
                       "iso": {
@@ -7919,10 +7894,14 @@
                         "type": "string"
                       }
                     },
-                    "required": true,
+                    "required": [
+                      "iso",
+                      "ddi",
+                      "number"
+                    ],
                     "name": "phone"
                   },
-                  {
+                  "otpVerification": {
                     "allOf": [
                       {
                         "type": "object",
@@ -7952,10 +7931,9 @@
                         ]
                       }
                     ],
-                    "name": "otpVerification",
-                    "required": true
+                    "name": "otpVerification"
                   }
-                ],
+                },
                 "required": [
                   "phone",
                   "otpVerification"
@@ -8671,19 +8649,17 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "properties": [
-                  {
+                "properties": {
+                  "password": {
                     "type": "string",
                     "minLength": 8,
-                    "name": "password",
-                    "required": true
+                    "name": "password"
                   },
-                  {
+                  "currentPassword": {
                     "type": "string",
-                    "name": "currentPassword",
-                    "required": true
+                    "name": "currentPassword"
                   }
-                ],
+                },
                 "required": [
                   "password",
                   "currentPassword"
@@ -8845,16 +8821,6 @@
             }
           },
           {
-            "name": "filter",
-            "required": false,
-            "in": "query",
-            "description": "Generic filter that can match against \n* name\n* status",
-            "schema": {
-              "example": "Acme",
-              "type": "string"
-            }
-          },
-          {
             "name": "name",
             "required": false,
             "in": "query",
@@ -8875,12 +8841,13 @@
             }
           },
           {
-            "name": "limit",
+            "name": "filter",
             "required": false,
             "in": "query",
-            "description": "Maximum number of items to return.",
+            "description": "Generic filter that can match against \n* name\n* status",
             "schema": {
-              "type": "number"
+              "example": "Acme",
+              "type": "string"
             }
           },
           {
@@ -8888,6 +8855,15 @@
             "required": false,
             "in": "query",
             "description": "Number of items to skip in the result set.",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Maximum number of items to return.",
             "schema": {
               "type": "number"
             }
@@ -9226,8 +9202,8 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "properties": [
-                  {
+                "properties": {
+                  "organizationIds": {
                     "type": "array",
                     "items": {
                       "description": "Unique identifier for organization",
@@ -9235,15 +9211,13 @@
                       "type": "string",
                       "format": "uuid"
                     },
-                    "name": "organizationIds",
-                    "required": true
+                    "name": "organizationIds"
                   },
-                  {
+                  "name": {
                     "type": "string",
-                    "name": "name",
-                    "required": true
+                    "name": "name"
                   },
-                  {
+                  "tags": {
                     "anyOf": [
                       {
                         "type": "array",
@@ -9255,29 +9229,26 @@
                         "type": "null"
                       }
                     ],
-                    "name": "tags",
-                    "required": true
+                    "name": "tags"
                   },
-                  {
+                  "permissions": {
                     "type": "array",
                     "items": {
                       "type": "string"
                     },
                     "default": [],
-                    "name": "permissions",
-                    "required": true
+                    "name": "permissions"
                   },
-                  {
+                  "status": {
                     "enum": [
                       "ACTIVE",
                       "INACTIVE"
                     ],
                     "type": "string",
                     "default": "ACTIVE",
-                    "name": "status",
-                    "required": true
+                    "name": "status"
                   }
-                ],
+                },
                 "required": [
                   "organizationIds",
                   "name",
@@ -9867,8 +9838,8 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "properties": [
-                  {
+                "properties": {
+                  "organizationIds": {
                     "type": "array",
                     "items": {
                       "description": "Unique identifier for organization",
@@ -9876,15 +9847,13 @@
                       "type": "string",
                       "format": "uuid"
                     },
-                    "name": "organizationIds",
-                    "required": false
+                    "name": "organizationIds"
                   },
-                  {
+                  "name": {
                     "type": "string",
-                    "name": "name",
-                    "required": false
+                    "name": "name"
                   },
-                  {
+                  "tags": {
                     "anyOf": [
                       {
                         "type": "array",
@@ -9896,19 +9865,17 @@
                         "type": "null"
                       }
                     ],
-                    "name": "tags",
-                    "required": false
+                    "name": "tags"
                   },
-                  {
+                  "permissions": {
                     "type": "array",
                     "items": {
                       "type": "string"
                     },
                     "default": [],
-                    "name": "permissions",
-                    "required": false
+                    "name": "permissions"
                   }
-                ],
+                },
                 "required": []
               }
             }
@@ -13038,7 +13005,7 @@
                     ]
                   }
                 ],
-                "properties": []
+                "properties": {}
               }
             }
           }
@@ -14084,16 +14051,15 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "properties": [
-                  {
+                "properties": {
+                  "planId": {
                     "description": "Unique identifier for plan",
                     "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
                     "type": "string",
                     "format": "uuid",
-                    "name": "planId",
-                    "required": true
+                    "name": "planId"
                   }
-                ],
+                },
                 "required": [
                   "planId"
                 ]
@@ -15313,7 +15279,7 @@
                     ]
                   }
                 ],
-                "properties": []
+                "properties": {}
               }
             }
           }
@@ -16331,16 +16297,6 @@
             }
           },
           {
-            "name": "filter",
-            "required": false,
-            "in": "query",
-            "description": "Generic filter that can match against \n* name\n* email",
-            "schema": {
-              "example": "John Doe",
-              "type": "string"
-            }
-          },
-          {
             "name": "name",
             "required": false,
             "in": "query",
@@ -16361,12 +16317,13 @@
             }
           },
           {
-            "name": "limit",
+            "name": "filter",
             "required": false,
             "in": "query",
-            "description": "Maximum number of items to return.",
+            "description": "Generic filter that can match against \n* name\n* email",
             "schema": {
-              "type": "number"
+              "example": "John Doe",
+              "type": "string"
             }
           },
           {
@@ -16374,6 +16331,15 @@
             "required": false,
             "in": "query",
             "description": "Number of items to skip in the result set.",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Maximum number of items to return.",
             "schema": {
               "type": "number"
             }
@@ -17059,108 +17025,7 @@
                     ]
                   }
                 ],
-                "properties": [
-                  {
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    },
-                    "default": [],
-                    "name": "permissions",
-                    "required": true
-                  },
-                  {
-                    "type": "string",
-                    "name": "name",
-                    "required": true
-                  },
-                  {
-                    "example": "example@email.com",
-                    "type": "string",
-                    "format": "email",
-                    "name": "email",
-                    "required": true
-                  },
-                  {
-                    "anyOf": [
-                      {
-                        "type": "object",
-                        "properties": {
-                          "iso": {
-                            "description": "The ISO 3166-1 country code.",
-                            "example": "BR",
-                            "type": "string"
-                          },
-                          "ddi": {
-                            "description": "The international dialing code for the country, prefixed by the plus sign (+).",
-                            "example": "+55",
-                            "type": "string"
-                          },
-                          "number": {
-                            "type": "string"
-                          }
-                        },
-                        "required": [
-                          "iso",
-                          "ddi",
-                          "number"
-                        ]
-                      },
-                      {
-                        "type": "null"
-                      }
-                    ],
-                    "name": "phone",
-                    "required": true
-                  },
-                  {
-                    "anyOf": [
-                      {
-                        "type": "string"
-                      },
-                      {
-                        "type": "null"
-                      }
-                    ],
-                    "name": "avatar",
-                    "required": true
-                  },
-                  {
-                    "type": "string",
-                    "minLength": 8,
-                    "name": "password",
-                    "required": true
-                  },
-                  {
-                    "type": "array",
-                    "items": {
-                      "type": "object",
-                      "properties": {
-                        "organizationId": {
-                          "description": "Unique identifier for organization",
-                          "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
-                          "type": "string",
-                          "format": "uuid"
-                        },
-                        "roleIds": {
-                          "type": "array",
-                          "items": {
-                            "description": "Unique identifier for role",
-                            "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
-                            "type": "string",
-                            "format": "uuid"
-                          }
-                        }
-                      },
-                      "required": [
-                        "organizationId",
-                        "roleIds"
-                      ]
-                    },
-                    "name": "organizations",
-                    "required": true
-                  }
-                ]
+                "properties": {}
               }
             }
           }
@@ -18272,52 +18137,7 @@
                     "required": []
                   }
                 ],
-                "properties": [
-                  {
-                    "type": "string",
-                    "name": "name",
-                    "required": false
-                  },
-                  {
-                    "enum": [
-                      "ACTIVE",
-                      "INACTIVE"
-                    ],
-                    "type": "string",
-                    "default": "ACTIVE",
-                    "name": "status",
-                    "required": false
-                  },
-                  {
-                    "type": "array",
-                    "items": {
-                      "type": "object",
-                      "properties": {
-                        "organizationId": {
-                          "description": "Unique identifier for organization",
-                          "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
-                          "type": "string",
-                          "format": "uuid"
-                        },
-                        "roleIds": {
-                          "type": "array",
-                          "items": {
-                            "description": "Unique identifier for role",
-                            "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
-                            "type": "string",
-                            "format": "uuid"
-                          }
-                        }
-                      },
-                      "required": [
-                        "organizationId",
-                        "roleIds"
-                      ]
-                    },
-                    "name": "organizations",
-                    "required": false
-                  }
-                ]
+                "properties": {}
               }
             }
           }
@@ -19005,23 +18825,21 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "properties": [
-                  {
+                "properties": {
+                  "name": {
                     "type": "string",
-                    "name": "name",
-                    "required": false
+                    "name": "name"
                   },
-                  {
+                  "status": {
                     "enum": [
                       "ACTIVE",
                       "INACTIVE"
                     ],
                     "type": "string",
                     "default": "ACTIVE",
-                    "name": "status",
-                    "required": false
+                    "name": "status"
                   }
-                ],
+                },
                 "required": []
               }
             }
@@ -19186,13 +19004,12 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "properties": [
-                  {
+                "properties": {
+                  "name": {
                     "type": "string",
-                    "name": "name",
-                    "required": true
+                    "name": "name"
                   }
-                ],
+                },
                 "required": [
                   "name"
                 ]

@@ -181,15 +181,20 @@ export const Route = (options: RouteOptions): MethodDecorator => {
     if (options.parameters.body) {
       const openApiSchema = zodSchemaToJSONSchema(options.parameters.body)
 
-      const properties = getMergedProperties(openApiSchema)
-
       decorators.push(
         ApiBody({
           schema: {
             ...openApiSchema,
-            properties: Object.entries(properties).map(([name, props]) => ({
-              [name]: props,
-            })),
+            properties: Object.fromEntries(
+              Object.entries(openApiSchema.properties ?? {}).map(([name, prop]) => [
+                name,
+                {
+                  ...(prop as {}),
+                  name,
+                  required: get(prop, 'required'),
+                },
+              ]),
+            ),
           },
           required: true,
         }),
