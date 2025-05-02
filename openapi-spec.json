@@ -27,12 +27,10 @@
                   "email": {
                     "example": "example@email.com",
                     "type": "string",
-                    "format": "email",
-                    "name": "email"
+                    "format": "email"
                   },
                   "password": {
-                    "type": "string",
-                    "name": "password"
+                    "type": "string"
                   }
                 },
                 "required": [
@@ -213,8 +211,7 @@
                   "email": {
                     "example": "example@email.com",
                     "type": "string",
-                    "format": "email",
-                    "name": "email"
+                    "format": "email"
                   },
                   "otpVerification": {
                     "allOf": [
@@ -246,8 +243,7 @@
                           "code"
                         ]
                       }
-                    ],
-                    "name": "otpVerification"
+                    ]
                   }
                 },
                 "required": [
@@ -582,12 +578,10 @@
                       "GOOGLE",
                       "FACEBOOK"
                     ],
-                    "type": "string",
-                    "name": "context"
+                    "type": "string"
                   },
                   "providerToken": {
-                    "type": "string",
-                    "name": "providerToken"
+                    "type": "string"
                   }
                 },
                 "required": [
@@ -766,19 +760,16 @@
                 "type": "object",
                 "properties": {
                   "name": {
-                    "type": "string",
-                    "name": "name"
+                    "type": "string"
                   },
                   "email": {
                     "example": "example@email.com",
                     "type": "string",
-                    "format": "email",
-                    "name": "email"
+                    "format": "email"
                   },
                   "password": {
                     "type": "string",
-                    "minLength": 8,
-                    "name": "password"
+                    "minLength": 8
                   }
                 },
                 "required": [
@@ -960,13 +951,11 @@
                   "email": {
                     "example": "example@email.com",
                     "type": "string",
-                    "format": "email",
-                    "name": "email"
+                    "format": "email"
                   },
                   "password": {
                     "type": "string",
-                    "minLength": 8,
-                    "name": "password"
+                    "minLength": 8
                   },
                   "otpVerification": {
                     "allOf": [
@@ -998,8 +987,7 @@
                           "code"
                         ]
                       }
-                    ],
-                    "name": "otpVerification"
+                    ]
                   }
                 },
                 "required": [
@@ -2641,8 +2629,7 @@
                 "properties": {
                   "fileName": {
                     "example": "avatar.png",
-                    "type": "string",
-                    "name": "fileName"
+                    "type": "string"
                   },
                   "context": {
                     "enum": [
@@ -2650,8 +2637,7 @@
                       "WORKSPACE_LOGO",
                       "ORGANIZATION_LOGO"
                     ],
-                    "type": "string",
-                    "name": "context"
+                    "type": "string"
                   }
                 },
                 "required": [
@@ -3080,8 +3066,7 @@
                 "type": "object",
                 "properties": {
                   "name": {
-                    "type": "string",
-                    "name": "name"
+                    "type": "string"
                   },
                   "status": {
                     "enum": [
@@ -3089,8 +3074,7 @@
                       "INACTIVE"
                     ],
                     "type": "string",
-                    "default": "ACTIVE",
-                    "name": "status"
+                    "default": "ACTIVE"
                   }
                 },
                 "required": [
@@ -3495,8 +3479,7 @@
                 "type": "object",
                 "properties": {
                   "name": {
-                    "type": "string",
-                    "name": "name"
+                    "type": "string"
                   },
                   "status": {
                     "enum": [
@@ -3504,8 +3487,7 @@
                       "INACTIVE"
                     ],
                     "type": "string",
-                    "default": "ACTIVE",
-                    "name": "status"
+                    "default": "ACTIVE"
                   }
                 },
                 "required": []
@@ -3846,16 +3828,13 @@
                       "UPDATE_EMAIL",
                       "UPDATE_PHONE"
                     ],
-                    "type": "string",
-                    "name": "context"
+                    "type": "string"
                   },
                   "recipient": {
-                    "type": "string",
-                    "name": "recipient"
+                    "type": "string"
                   },
                   "code": {
-                    "type": "string",
-                    "name": "code"
+                    "type": "string"
                   }
                 },
                 "required": [
@@ -4139,8 +4118,7 @@
                   "email": {
                     "example": "example@email.com",
                     "type": "string",
-                    "format": "email",
-                    "name": "email"
+                    "format": "email"
                   }
                 },
                 "required": [
@@ -4387,8 +4365,7 @@
                   "email": {
                     "example": "example@email.com",
                     "type": "string",
-                    "format": "email",
-                    "name": "email"
+                    "format": "email"
                   }
                 },
                 "required": [
@@ -4635,8 +4612,7 @@
                   "email": {
                     "example": "example@email.com",
                     "type": "string",
-                    "format": "email",
-                    "name": "email"
+                    "format": "email"
                   }
                 },
                 "required": [
@@ -4864,8 +4840,7 @@
                       "SMS",
                       "WHATSAPP"
                     ],
-                    "type": "string",
-                    "name": "channel"
+                    "type": "string"
                   },
                   "phone": {
                     "type": "object",
@@ -4888,8 +4863,7 @@
                       "iso",
                       "ddi",
                       "number"
-                    ],
-                    "name": "phone"
+                    ]
                   }
                 },
                 "required": [
@@ -6407,8 +6381,7 @@
                 "type": "object",
                 "properties": {
                   "name": {
-                    "type": "string",
-                    "name": "name"
+                    "type": "string"
                   },
                   "avatar": {
                     "anyOf": [
@@ -6418,8 +6391,7 @@
                       {
                         "type": "null"
                       }
-                    ],
-                    "name": "avatar"
+                    ]
                   }
                 },
                 "required": []
@@ -7125,8 +7097,7 @@
                   "email": {
                     "example": "example@email.com",
                     "type": "string",
-                    "format": "email",
-                    "name": "email"
+                    "format": "email"
                   },
                   "otpVerification": {
                     "allOf": [
@@ -7157,8 +7128,7 @@
                           "code"
                         ]
                       }
-                    ],
-                    "name": "otpVerification"
+                    ]
                   }
                 },
                 "required": [
@@ -7898,8 +7868,7 @@
                       "iso",
                       "ddi",
                       "number"
-                    ],
-                    "name": "phone"
+                    ]
                   },
                   "otpVerification": {
                     "allOf": [
@@ -7930,8 +7899,7 @@
                           "code"
                         ]
                       }
-                    ],
-                    "name": "otpVerification"
+                    ]
                   }
                 },
                 "required": [
@@ -8652,12 +8620,10 @@
                 "properties": {
                   "password": {
                     "type": "string",
-                    "minLength": 8,
-                    "name": "password"
+                    "minLength": 8
                   },
                   "currentPassword": {
-                    "type": "string",
-                    "name": "currentPassword"
+                    "type": "string"
                   }
                 },
                 "required": [
@@ -9210,12 +9176,10 @@
                       "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
                       "type": "string",
                       "format": "uuid"
-                    },
-                    "name": "organizationIds"
+                    }
                   },
                   "name": {
-                    "type": "string",
-                    "name": "name"
+                    "type": "string"
                   },
                   "tags": {
                     "anyOf": [
@@ -9228,16 +9192,14 @@
                       {
                         "type": "null"
                       }
-                    ],
-                    "name": "tags"
+                    ]
                   },
                   "permissions": {
                     "type": "array",
                     "items": {
                       "type": "string"
                     },
-                    "default": [],
-                    "name": "permissions"
+                    "default": []
                   },
                   "status": {
                     "enum": [
@@ -9245,8 +9207,7 @@
                       "INACTIVE"
                     ],
                     "type": "string",
-                    "default": "ACTIVE",
-                    "name": "status"
+                    "default": "ACTIVE"
                   }
                 },
                 "required": [
@@ -9846,12 +9807,10 @@
                       "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
                       "type": "string",
                       "format": "uuid"
-                    },
-                    "name": "organizationIds"
+                    }
                   },
                   "name": {
-                    "type": "string",
-                    "name": "name"
+                    "type": "string"
                   },
                   "tags": {
                     "anyOf": [
@@ -9864,16 +9823,14 @@
                       {
                         "type": "null"
                       }
-                    ],
-                    "name": "tags"
+                    ]
                   },
                   "permissions": {
                     "type": "array",
                     "items": {
                       "type": "string"
                     },
-                    "default": [],
-                    "name": "permissions"
+                    "default": []
                   }
                 },
                 "required": []
@@ -13004,8 +12961,7 @@
                       "boleto"
                     ]
                   }
-                ],
-                "properties": {}
+                ]
               }
             }
           }
@@ -14056,8 +14012,7 @@
                     "description": "Unique identifier for plan",
                     "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
                     "type": "string",
-                    "format": "uuid",
-                    "name": "planId"
+                    "format": "uuid"
                   }
                 },
                 "required": [
@@ -15278,8 +15233,7 @@
                       "boleto"
                     ]
                   }
-                ],
-                "properties": {}
+                ]
               }
             }
           }
@@ -17024,8 +16978,7 @@
                       "organizations"
                     ]
                   }
-                ],
-                "properties": {}
+                ]
               }
             }
           }
@@ -18136,8 +18089,7 @@
                     },
                     "required": []
                   }
-                ],
-                "properties": {}
+                ]
               }
             }
           }
@@ -18827,8 +18779,7 @@
                 "type": "object",
                 "properties": {
                   "name": {
-                    "type": "string",
-                    "name": "name"
+                    "type": "string"
                   },
                   "status": {
                     "enum": [
@@ -18836,8 +18787,7 @@
                       "INACTIVE"
                     ],
                     "type": "string",
-                    "default": "ACTIVE",
-                    "name": "status"
+                    "default": "ACTIVE"
                   }
                 },
                 "required": []
@@ -19006,8 +18956,7 @@
                 "type": "object",
                 "properties": {
                   "name": {
-                    "type": "string",
-                    "name": "name"
+                    "type": "string"
                   }
                 },
                 "required": [

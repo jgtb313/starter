@@ -1,7 +1,7 @@
 import { Reflector } from '@nestjs/core'
 import { HttpCode, Get, Post, Put, Patch, Delete, Version, applyDecorators } from '@nestjs/common'
 import { GUARDS_METADATA } from '@nestjs/common/constants'
-import { ApiOperation, ApiBearerAuth, ApiParam, ApiQuery, ApiBody, ApiResponse, ApiParamOptions } from '@nestjs/swagger'
+import { ApiOperation, ApiBearerAuth, ApiParam, ApiQuery, ApiBody, ApiResponse, ApiQueryOptions, ApiParamOptions } from '@nestjs/swagger'
 import { sample } from 'openapi-sampler'
 import { z } from '@starter/schema'
 import { get } from '@starter/common'
@@ -89,9 +89,9 @@ export const zodSchemaToJSONSchema = (zodType: z.ZodType): any => {
   })
 }
 
-const getMergedProperties = (jsonSchema: any): any => {
+const getMergedProperties = (jsonSchema: z.core.JSONSchema.ObjectSchema) => {
   if (jsonSchema.properties) {
-    return Object.entries(jsonSchema.properties).map(([name, props]: any) => ({
+    return Object.entries(jsonSchema.properties).map(([name, props]) => ({
       ...props,
       name,
       required: jsonSchema?.required?.includes(name),
@@ -100,12 +100,16 @@ const getMergedProperties = (jsonSchema: any): any => {
 
   if (jsonSchema.allOf) {
     return jsonSchema.allOf
-      .map((schema: any) =>
-        Object.entries(schema.properties).map(([name, props]: any) => ({
-          ...props,
-          name,
-          required: schema?.required?.includes(name),
-        })),
+      .map((schema) =>
+        Object.entries(schema.properties ?? {}).map(([name, props]) => {
+          const required = (get(schema, 'required') ?? []) as string[]
+
+          return {
+            ...props,
+            name,
+            required: required.includes(name),
+          }
+        }),
       )
       .flat()
   }
@@ -165,7 +169,7 @@ export const Route = (options: RouteOptions): MethodDecorator => {
 
       const properties = getMergedProperties(openApiSchema)
 
-      properties.forEach((prop: any) => {
+      properties.forEach((prop: ApiQueryOptions) => {
         decorators.push(ApiQuery(prop))
       })
     }
@@ -174,7 +178,7 @@ export const Route = (options: RouteOptions): MethodDecorator => {
 
       const properties = getMergedProperties(openApiSchema)
 
-      properties.forEach((prop: any) => {
+      properties.forEach((prop: ApiParamOptions) => {
         decorators.push(ApiParam(prop))
       })
     }
@@ -183,19 +187,7 @@ export const Route = (options: RouteOptions): MethodDecorator => {
 
       decorators.push(
         ApiBody({
-          schema: {
-            ...openApiSchema,
-            properties: Object.fromEntries(
-              Object.entries(openApiSchema.properties ?? {}).map(([name, prop]) => [
-                name,
-                {
-                  ...(prop as {}),
-                  name,
-                  required: get(prop, 'required'),
-                },
-              ]),
-            ),
-          },
+          schema: openApiSchema,
           required: true,
         }),
       )
