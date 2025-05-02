@@ -187,7 +187,9 @@ export const Route = (options: RouteOptions): MethodDecorator => {
         ApiBody({
           schema: {
             ...openApiSchema,
-            properties,
+            properties: Object.entries(properties).map(([name, props]) => ({
+              [name]: props,
+            })),
           },
           required: true,
         }),
