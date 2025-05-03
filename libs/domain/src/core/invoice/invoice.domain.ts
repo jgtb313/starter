@@ -1,10 +1,13 @@
 import { ConflictException } from '@starter/nestjs-error-handling'
+import { z } from '@starter/schema'
 
 import { BaseDomain } from '@/support/base-domain'
 import { InvoiceSchema, Invoice, InvoiceStatusEnum } from '@/core/invoice/invoice.schema'
 
-export class InvoiceDomain extends BaseDomain<Invoice> {
-  constructor(invoice: Invoice) {
+type InvoiceInput = z.input<typeof InvoiceSchema>
+
+export class InvoiceDomain extends BaseDomain<Invoice, InvoiceInput> {
+  constructor(invoice: InvoiceInput) {
     super(InvoiceSchema, invoice)
   }
 

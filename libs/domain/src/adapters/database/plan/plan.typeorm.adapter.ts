@@ -61,6 +61,8 @@ export class PlanTypeorm implements IPlanRepository {
   }
 
   findById: IPlanRepository['findById'] = async (planId) => {
+    console.log({ planId })
+
     const plan = await this.repository.findOne({ where: { planId } })
 
     if (!plan) {

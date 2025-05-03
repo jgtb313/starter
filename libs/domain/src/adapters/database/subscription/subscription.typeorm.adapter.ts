@@ -33,7 +33,7 @@ export class SubscriptionTypeorm implements ISubscriptionRepository {
     })
 
     return {
-      values: values.map((subscription) => SubscriptionSchema.parse(subscription)),
+      values: values.map(this.toSubscriptionDomain),
       meta,
     }
   }
@@ -49,7 +49,7 @@ export class SubscriptionTypeorm implements ISubscriptionRepository {
 
     const values = await this.repository.find({ where })
 
-    return values.map((invoice) => SubscriptionSchema.parse(invoice))
+    return values.map(this.toSubscriptionDomain)
   }
 
   findById: ISubscriptionRepository['findById'] = async (subscriptionId) => {
@@ -59,7 +59,7 @@ export class SubscriptionTypeorm implements ISubscriptionRepository {
       throw new NotFoundException(`Subscription ${subscriptionId} not found`)
     }
 
-    return SubscriptionSchema.parse(model)
+    return this.toSubscriptionDomain(model)
   }
 
   create: ISubscriptionRepository['create'] = async (input) => {
@@ -67,7 +67,7 @@ export class SubscriptionTypeorm implements ISubscriptionRepository {
 
     const model = await this.repository.save(data)
 
-    return SubscriptionSchema.parse(model)
+    return this.toSubscriptionDomain(model)
   }
 
   updateById: ISubscriptionRepository['updateById'] = async (subscriptionId, input) => {
@@ -76,5 +76,16 @@ export class SubscriptionTypeorm implements ISubscriptionRepository {
     await this.repository.update(model.subscriptionId, input)
 
     return this.findById(model.subscriptionId)
+  }
+
+  private toSubscriptionDomain(model: SubscriptionEntity) {
+    return SubscriptionSchema.parse({
+      ...model,
+      billingDueDate: model.billingDueDate.toISOString(),
+      deadline: model.deadline.toISOString(),
+      canceledAt: model.canceledAt ? model.canceledAt.toISOString() : null,
+      createdAt: model.createdAt.toISOString(),
+      updatedAt: model.updatedAt.toISOString(),
+    })
   }
 }

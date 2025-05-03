@@ -40,38 +40,22 @@ export class InvoiceEntity {
 
   @Column({
     type: 'timestamp',
-    transformer: {
-      to: (value: Date) => value,
-      from: (value: Date) => value.toISOString(),
-    },
   })
   issuedAt: Invoice['issuedAt']
 
   @Column({
     type: 'timestamp',
-    transformer: {
-      to: (value: Date) => value,
-      from: (value: Date) => value.toISOString(),
-    },
   })
   dueDate: Invoice['dueDate']
 
   @Column({
     type: 'timestamp',
-    transformer: {
-      to: (value: Date | null) => value,
-      from: (value: Date | null) => (value ? value.toISOString() : null),
-    },
     nullable: true,
   })
   paidAt: Invoice['paidAt']
 
   @Column({
     type: 'timestamp',
-    transformer: {
-      to: (value: Date | null) => value,
-      from: (value: Date | null) => (value ? value.toISOString() : null),
-    },
     nullable: true,
   })
   canceledAt: Invoice['canceledAt']
@@ -79,19 +63,9 @@ export class InvoiceEntity {
   @Column({ type: 'enum', enum: InvoiceStatusEnum, default: InvoiceStatusEnum.PENDING })
   status: Invoice['status']
 
-  @CreateDateColumn({
-    transformer: {
-      to: (value: Date) => value,
-      from: (value: Date) => value.toISOString(),
-    },
-  })
+  @CreateDateColumn({})
   createdAt: Invoice['createdAt']
 
-  @UpdateDateColumn({
-    transformer: {
-      to: (value: Date) => value,
-      from: (value: Date) => value.toISOString(),
-    },
-  })
+  @UpdateDateColumn({})
   updatedAt: Invoice['updatedAt']
 }

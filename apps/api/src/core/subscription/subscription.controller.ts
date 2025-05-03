@@ -1,6 +1,8 @@
+import { UseGuards } from '@nestjs/common'
 import { Controller, Route, Request } from '@starter/nestjs-server-hoisting'
 import { SubscriptionService, SubscriptionSchema, User } from '@starter/domain'
 
+import { AuthGuard } from '@/support/guards'
 import { ACLService } from '@/support/access-control'
 import { AuthenticatedUser } from '@/support/decorators'
 import {
@@ -29,6 +31,7 @@ import {
     },
   },
 })
+@UseGuards(AuthGuard)
 export class SubscriptionController {
   constructor(
     private readonly aclService: ACLService,
@@ -87,6 +90,7 @@ export class SubscriptionController {
     return this.subscriptionService.createSubscription({
       ...params,
       ...body,
+      ...({} as any),
     })
   }
 

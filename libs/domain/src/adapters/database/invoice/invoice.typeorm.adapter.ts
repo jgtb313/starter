@@ -4,7 +4,6 @@ import { DataSource, Repository, ILike, FindOptionsWhere } from 'typeorm'
 import { PaginationService } from '@/support/pagination'
 import { IInvoiceRepository } from '@/ports/database/invoice'
 import { InvoiceEntity } from '@/adapters/database/invoice/invoice.typeorm.entity'
-import { Invoice } from '@/core/invoice/invoice.schema'
 import { InvoiceDomain } from '@/core/invoice/invoice.domain'
 
 @Injectable()
@@ -38,7 +37,7 @@ export class InvoiceTypeorm implements IInvoiceRepository {
     })
 
     return {
-      values: values.map((invoice) => new InvoiceDomain(invoice as Invoice)),
+      values: values.map(this.toInvoiceDomain),
       meta,
     }
   }
@@ -58,7 +57,7 @@ export class InvoiceTypeorm implements IInvoiceRepository {
 
     const values = await this.repository.find({ where })
 
-    return values.map((invoice) => new InvoiceDomain(invoice as Invoice))
+    return values.map(this.toInvoiceDomain)
   }
 
   findById: IInvoiceRepository['findById'] = async (invoiceId) => {
@@ -68,7 +67,7 @@ export class InvoiceTypeorm implements IInvoiceRepository {
       throw new NotFoundException(`Invoice ${invoiceId} not found`)
     }
 
-    return new InvoiceDomain(invoice as Invoice)
+    return this.toInvoiceDomain(invoice)
   }
 
   create: IInvoiceRepository['create'] = async (input) => {
@@ -76,7 +75,7 @@ export class InvoiceTypeorm implements IInvoiceRepository {
 
     const invoice = await this.repository.save(data)
 
-    return new InvoiceDomain(invoice as Invoice)
+    return this.toInvoiceDomain(invoice)
   }
 
   updateById: IInvoiceRepository['updateById'] = async (invoiceId, input) => {
@@ -85,5 +84,17 @@ export class InvoiceTypeorm implements IInvoiceRepository {
     await this.repository.update(invoice.state.invoiceId, input)
 
     return this.findById(invoice.state.invoiceId)
+  }
+
+  private toInvoiceDomain(model: InvoiceEntity) {
+    return new InvoiceDomain({
+      ...model,
+      issuedAt: model.issuedAt.toISOString(),
+      dueDate: model.dueDate.toISOString(),
+      paidAt: model.paidAt ? model.paidAt.toISOString() : null,
+      canceledAt: model.canceledAt ? model.canceledAt.toISOString() : null,
+      createdAt: model.createdAt.toISOString(),
+      updatedAt: model.updatedAt.toISOString(),
+    } as any)
   }
 }

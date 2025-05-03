@@ -10,6 +10,9 @@ import { PlanService } from '@/core/plan/plan.service'
 import { SubscriptionStatusEnum } from '@/core/subscription/subscription.schema'
 import { getSubscriptionWorkspaceReference, ISubscriptionService } from '@/core/subscription/subscription.service.interface'
 
+import { RecurrenceCreateSubscriptionOutput, RecurrencePaymentMethodEnum } from '@/ports/recurrence'
+import { InvoiceStatusEnum } from '../invoice'
+
 @Injectable()
 export class SubscriptionService implements ISubscriptionService {
   constructor(
@@ -26,7 +29,7 @@ export class SubscriptionService implements ISubscriptionService {
 
     const subscription = await this.subscriptionRepository.findById(subscriptionId)
 
-    if (subscription.workspaceId !== workspaceId) {
+    if (workspaceId && subscription.workspaceId !== workspaceId) {
       throw new AclForbiddenException()
     }
 
@@ -42,12 +45,23 @@ export class SubscriptionService implements ISubscriptionService {
 
     const subscriptionId = uuid()
 
-    const recurrenceSubscription = await this.recurrenceService.createSubscription({
-      referenceId: subscriptionId,
-      customerId: workspace.workspaceId,
-      planId: plan.state.planId,
-      ...input,
-    })
+    // const recurrenceSubscription = await this.recurrenceService.createSubscription({
+    //   referenceId: subscriptionId,
+    //   customerId: workspace.workspaceId,
+    //   planId: plan.state.planId,
+    //   ...input,
+    // })
+
+    const recurrenceSubscription: RecurrenceCreateSubscriptionOutput = {
+      subscriptionId: 'sub_1ylq82nZJybDbTZzEB6iBzbd5xF',
+      invoice: {
+        externalId: 'inv_8A91KJHG23HJG2',
+        amount: 4990,
+        paymentMethod: RecurrencePaymentMethodEnum.CREDIT_CARD,
+        dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        status: InvoiceStatusEnum.PENDING,
+      },
+    }
 
     const subscription = await this.subscriptionRepository.create({
       ...input,
@@ -63,10 +77,11 @@ export class SubscriptionService implements ISubscriptionService {
     })
 
     await this.invoiceService.createInvoice({
+      ...input,
       ...recurrenceSubscription.invoice,
       workspaceId: workspace.workspaceId,
       subscriptionId: subscription.subscriptionId,
-      description: 'Invoice',
+      description: `Payment for the ${plan.state.name} plan for the month of [Month] [Year].`,
       issuedAt: new Date(),
     })
 

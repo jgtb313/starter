@@ -1,9 +1,16 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm'
 
 import { RecurrencePaymentMethodEnum } from '@/ports/recurrence'
-import { Subscription, SubscriptionCreditCard, SubscriptionDebitCard, SubscriptionStatusEnum } from '@/core/subscription/subscription.schema'
+import {
+  Subscription,
+  SubscriptionCreditCard,
+  SubscriptionDebitCard,
+  SubscriptionPix,
+  SubscriptionBoleto,
+  SubscriptionStatusEnum,
+} from '@/core/subscription/subscription.schema'
 
-@Entity('invoices')
+@Entity('subscriptions')
 export class SubscriptionEntity {
   @PrimaryGeneratedColumn('uuid')
   subscriptionId: Subscription['subscriptionId']
@@ -13,6 +20,9 @@ export class SubscriptionEntity {
 
   @Column({ type: 'uuid' })
   planId: Subscription['planId']
+
+  @Column({ type: 'varchar' })
+  externalId: Subscription['externalId']
 
   @Column({ type: 'enum', enum: RecurrencePaymentMethodEnum })
   paymentMethod: Subscription['paymentMethod']
@@ -26,30 +36,27 @@ export class SubscriptionEntity {
   @Column({ type: 'json', nullable: true })
   debitCard?: SubscriptionDebitCard['debitCard']
 
+  @Column({ type: 'json', nullable: true })
+  pix?: SubscriptionPix['pix']
+
+  @Column({ type: 'json', nullable: true })
+  boleto?: SubscriptionBoleto['boleto']
+
+  @Column({ type: 'int' })
+  amount: SubscriptionCreditCard['amount']
+
   @Column({
     type: 'timestamp',
-    transformer: {
-      to: (value: Date) => value,
-      from: (value: Date) => value.toISOString(),
-    },
   })
   deadline: Subscription['deadline']
 
   @Column({
     type: 'timestamp',
-    transformer: {
-      to: (value: Date) => value,
-      from: (value: Date) => value.toISOString(),
-    },
   })
   billingDueDate: Subscription['billingDueDate']
 
   @Column({
     type: 'timestamp',
-    transformer: {
-      to: (value: Date) => value,
-      from: (value: Date | null) => (value ? value.toISOString() : null),
-    },
     nullable: true,
   })
   canceledAt: Subscription['canceledAt']
@@ -57,19 +64,9 @@ export class SubscriptionEntity {
   @Column({ type: 'enum', enum: SubscriptionStatusEnum, default: SubscriptionStatusEnum.TRIAL })
   status: Subscription['status']
 
-  @CreateDateColumn({
-    transformer: {
-      to: (value: Date) => value,
-      from: (value: Date) => value.toISOString(),
-    },
-  })
+  @CreateDateColumn({})
   createdAt: Subscription['createdAt']
 
-  @UpdateDateColumn({
-    transformer: {
-      to: (value: Date) => value,
-      from: (value: Date) => value.toISOString(),
-    },
-  })
+  @UpdateDateColumn({})
   updatedAt: Subscription['updatedAt']
 }

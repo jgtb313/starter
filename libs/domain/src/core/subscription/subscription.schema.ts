@@ -1,4 +1,13 @@
-import { z, EmailSchema, PhoneSchema, DocumentExplicitSchema, BaseAddressSchema, PaymentCardSchema, PixSchema, BoletoSchema } from '@starter/schema'
+import {
+  z,
+  EmailSchema,
+  PhoneSchema,
+  DocumentExplicitSchema,
+  BaseAddressSchema,
+  BasePaymentCardSchema,
+  PixSchema,
+  BoletoSchema,
+} from '@starter/schema'
 
 import { ID, CreatedAt, UpdatedAt, BaseSchema } from '@/support/schema'
 import { RecurrencePaymentMethodEnum } from '@/ports/recurrence'
@@ -47,7 +56,7 @@ export const SubscriptionCreditCardSchema = z
     externalId: ExternalId,
     amount: Amount,
     paymentMethod: z.literal(RecurrencePaymentMethodEnum.CREDIT_CARD),
-    creditCard: PaymentCardSchema,
+    creditCard: BasePaymentCardSchema,
     payer: SubscriptionPayerSchema,
     deadline: Deadline,
     billingDueDate: BillingDueDate,
@@ -67,7 +76,7 @@ export const SubscriptionDebitCardSchema = z
     externalId: ExternalId,
     amount: Amount,
     paymentMethod: z.literal(RecurrencePaymentMethodEnum.DEBIT_CARD),
-    debitCard: PaymentCardSchema,
+    debitCard: BasePaymentCardSchema,
     payer: SubscriptionPayerSchema,
     deadline: Deadline,
     billingDueDate: BillingDueDate,
@@ -97,7 +106,7 @@ export const SubscriptionPixSchema = z
     updatedAt: UpdatedAt,
   })
   .meta({ title: 'SubscriptionPix' })
-export type SubscriptionPixCard = z.infer<typeof SubscriptionPixSchema>
+export type SubscriptionPix = z.infer<typeof SubscriptionPixSchema>
 
 export const SubscriptionBoletoSchema = z
   .object({
@@ -117,7 +126,7 @@ export const SubscriptionBoletoSchema = z
     updatedAt: UpdatedAt,
   })
   .meta({ title: 'SubscriptionBoleto' })
-export type SubscriptionBoletoCard = z.infer<typeof SubscriptionBoletoSchema>
+export type SubscriptionBoleto = z.infer<typeof SubscriptionBoletoSchema>
 
 export const SubscriptionSchema = z.discriminatedUnion('paymentMethod', [
   SubscriptionCreditCardSchema,

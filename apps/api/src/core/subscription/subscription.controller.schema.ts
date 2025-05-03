@@ -7,7 +7,7 @@ import {
   SubscriptionPixSchema,
   SubscriptionBoletoSchema,
 } from '@starter/domain'
-import { z } from '@starter/schema'
+import { z, PaymentCardSchema } from '@starter/schema'
 
 export const GetSubscriptionSchema = createRequestSchema({
   params: z.object({
@@ -23,10 +23,14 @@ export const CreateSubscriptionSchema = createRequestSchema({
     workspaceId: ID('workspace'),
   }),
   body: z.discriminatedUnion('paymentMethod', [
-    SubscriptionCreditCardSchema.pick({ planId: true, payer: true, paymentMethod: true, creditCard: true }).meta({ title: 'SubscriptionCreditCard' }),
-    SubscriptionDebitCardSchema.pick({ planId: true, payer: true, paymentMethod: true, debitCard: true }).meta({ title: 'SubscriptionDebitCard' }),
-    SubscriptionPixSchema.pick({ planId: true, payer: true, paymentMethod: true, pix: true }).meta({ title: 'SubscriptionPix' }),
-    SubscriptionBoletoSchema.pick({ planId: true, payer: true, paymentMethod: true, boleto: true }).meta({ title: 'SubscriptionBoleto' }),
+    SubscriptionCreditCardSchema.pick({ planId: true, payer: true, paymentMethod: true })
+      .extend({ creditCard: PaymentCardSchema })
+      .meta({ title: 'SubscriptionCreditCard' }),
+    SubscriptionDebitCardSchema.pick({ planId: true, payer: true, paymentMethod: true })
+      .extend({ debitCard: PaymentCardSchema })
+      .meta({ title: 'SubscriptionDebitCard' }),
+    SubscriptionPixSchema.pick({ planId: true, payer: true, paymentMethod: true }).meta({ title: 'SubscriptionPix' }),
+    SubscriptionBoletoSchema.pick({ planId: true, payer: true, paymentMethod: true }).meta({ title: 'SubscriptionBoleto' }),
   ]),
   output: SubscriptionSchema,
 })

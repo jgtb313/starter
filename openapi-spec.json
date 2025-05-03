@@ -1391,16 +1391,25 @@
                                 "type": "object",
                                 "properties": {
                                   "number": {
+                                    "description": "Masked card number for secure display.",
+                                    "examples": [
+                                      "5555 ********* 55"
+                                    ],
                                     "type": "string"
                                   },
                                   "holderName": {
+                                    "description": "Name of the cardholder as printed on the card.",
+                                    "examples": [
+                                      "John Doe"
+                                    ],
                                     "type": "string"
                                   },
                                   "expirationDate": {
-                                    "example": "10/10",
-                                    "type": "string",
-                                    "minLength": 5,
-                                    "maxLength": 5
+                                    "description": "Card expiration date in MM/YY format.",
+                                    "examples": [
+                                      "12/27"
+                                    ],
+                                    "type": "string"
                                   }
                                 },
                                 "required": [
@@ -1515,16 +1524,25 @@
                                 "type": "object",
                                 "properties": {
                                   "number": {
+                                    "description": "Masked card number for secure display.",
+                                    "examples": [
+                                      "5555 ********* 55"
+                                    ],
                                     "type": "string"
                                   },
                                   "holderName": {
+                                    "description": "Name of the cardholder as printed on the card.",
+                                    "examples": [
+                                      "John Doe"
+                                    ],
                                     "type": "string"
                                   },
                                   "expirationDate": {
-                                    "example": "10/10",
-                                    "type": "string",
-                                    "minLength": 5,
-                                    "maxLength": 5
+                                    "description": "Card expiration date in MM/YY format.",
+                                    "examples": [
+                                      "12/27"
+                                    ],
+                                    "type": "string"
                                   }
                                 },
                                 "required": [
@@ -2058,16 +2076,25 @@
                           "type": "object",
                           "properties": {
                             "number": {
+                              "description": "Masked card number for secure display.",
+                              "examples": [
+                                "5555 ********* 55"
+                              ],
                               "type": "string"
                             },
                             "holderName": {
+                              "description": "Name of the cardholder as printed on the card.",
+                              "examples": [
+                                "John Doe"
+                              ],
                               "type": "string"
                             },
                             "expirationDate": {
-                              "example": "10/10",
-                              "type": "string",
-                              "minLength": 5,
-                              "maxLength": 5
+                              "description": "Card expiration date in MM/YY format.",
+                              "examples": [
+                                "12/27"
+                              ],
+                              "type": "string"
                             }
                           },
                           "required": [
@@ -2182,16 +2209,25 @@
                           "type": "object",
                           "properties": {
                             "number": {
+                              "description": "Masked card number for secure display.",
+                              "examples": [
+                                "5555 ********* 55"
+                              ],
                               "type": "string"
                             },
                             "holderName": {
+                              "description": "Name of the cardholder as printed on the card.",
+                              "examples": [
+                                "John Doe"
+                              ],
                               "type": "string"
                             },
                             "expirationDate": {
-                              "example": "10/10",
-                              "type": "string",
-                              "minLength": 5,
-                              "maxLength": 5
+                              "description": "Card expiration date in MM/YY format.",
+                              "examples": [
+                                "12/27"
+                              ],
+                              "type": "string"
                             }
                           },
                           "required": [
@@ -10300,42 +10336,34 @@
                           "type": "string"
                         },
                         "creditCard": {
-                          "allOf": [
-                            {
-                              "type": "object",
-                              "properties": {
-                                "number": {
-                                  "type": "string"
-                                },
-                                "holderName": {
-                                  "type": "string"
-                                },
-                                "expirationDate": {
-                                  "example": "10/10",
-                                  "type": "string",
-                                  "minLength": 5,
-                                  "maxLength": 5
-                                }
-                              },
-                              "required": [
-                                "number",
-                                "holderName",
-                                "expirationDate"
-                              ]
+                          "type": "object",
+                          "properties": {
+                            "number": {
+                              "description": "Masked card number for secure display.",
+                              "examples": [
+                                "5555 ********* 55"
+                              ],
+                              "type": "string"
                             },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "cvv": {
-                                  "type": "string",
-                                  "minLength": 3,
-                                  "maxLength": 4
-                                }
-                              },
-                              "required": [
-                                "cvv"
-                              ]
+                            "holderName": {
+                              "description": "Name of the cardholder as printed on the card.",
+                              "examples": [
+                                "John Doe"
+                              ],
+                              "type": "string"
+                            },
+                            "expirationDate": {
+                              "description": "Card expiration date in MM/YY format.",
+                              "examples": [
+                                "12/27"
+                              ],
+                              "type": "string"
                             }
+                          },
+                          "required": [
+                            "number",
+                            "holderName",
+                            "expirationDate"
                           ]
                         },
                         "payer": {
@@ -10395,28 +10423,53 @@
                             "address": {
                               "type": "object",
                               "properties": {
-                                "id": {
-                                  "type": "string"
-                                },
                                 "state": {
+                                  "description": "Two-letter state code following the ISO 3166-2 standard for country subdivisions.",
+                                  "examples": [
+                                    "CA"
+                                  ],
                                   "type": "string"
                                 },
                                 "city": {
+                                  "description": "City name.",
+                                  "examples": [
+                                    "Los Angeles"
+                                  ],
                                   "type": "string"
                                 },
                                 "zipCode": {
+                                  "description": "ZIP or postal code, containing digits only.",
+                                  "examples": [
+                                    "90210000"
+                                  ],
                                   "type": "string"
                                 },
                                 "neighborhood": {
+                                  "description": "Neighborhood or district name.",
+                                  "examples": [
+                                    "Downtown"
+                                  ],
                                   "type": "string"
                                 },
                                 "street": {
+                                  "description": "Street name.",
+                                  "examples": [
+                                    "Sunset Blvd"
+                                  ],
                                   "type": "string"
                                 },
                                 "number": {
+                                  "description": "Street number.",
+                                  "examples": [
+                                    "1234"
+                                  ],
                                   "type": "string"
                                 },
                                 "complement": {
+                                  "description": "Additional address details (optional).",
+                                  "examples": [
+                                    "Apt 202"
+                                  ],
                                   "anyOf": [
                                     {
                                       "type": "string"
@@ -10428,7 +10481,6 @@
                                 }
                               },
                               "required": [
-                                "id",
                                 "state",
                                 "city",
                                 "zipCode",
@@ -10535,42 +10587,34 @@
                           "type": "string"
                         },
                         "debitCard": {
-                          "allOf": [
-                            {
-                              "type": "object",
-                              "properties": {
-                                "number": {
-                                  "type": "string"
-                                },
-                                "holderName": {
-                                  "type": "string"
-                                },
-                                "expirationDate": {
-                                  "example": "10/10",
-                                  "type": "string",
-                                  "minLength": 5,
-                                  "maxLength": 5
-                                }
-                              },
-                              "required": [
-                                "number",
-                                "holderName",
-                                "expirationDate"
-                              ]
+                          "type": "object",
+                          "properties": {
+                            "number": {
+                              "description": "Masked card number for secure display.",
+                              "examples": [
+                                "5555 ********* 55"
+                              ],
+                              "type": "string"
                             },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "cvv": {
-                                  "type": "string",
-                                  "minLength": 3,
-                                  "maxLength": 4
-                                }
-                              },
-                              "required": [
-                                "cvv"
-                              ]
+                            "holderName": {
+                              "description": "Name of the cardholder as printed on the card.",
+                              "examples": [
+                                "John Doe"
+                              ],
+                              "type": "string"
+                            },
+                            "expirationDate": {
+                              "description": "Card expiration date in MM/YY format.",
+                              "examples": [
+                                "12/27"
+                              ],
+                              "type": "string"
                             }
+                          },
+                          "required": [
+                            "number",
+                            "holderName",
+                            "expirationDate"
                           ]
                         },
                         "payer": {
@@ -10630,28 +10674,53 @@
                             "address": {
                               "type": "object",
                               "properties": {
-                                "id": {
-                                  "type": "string"
-                                },
                                 "state": {
+                                  "description": "Two-letter state code following the ISO 3166-2 standard for country subdivisions.",
+                                  "examples": [
+                                    "CA"
+                                  ],
                                   "type": "string"
                                 },
                                 "city": {
+                                  "description": "City name.",
+                                  "examples": [
+                                    "Los Angeles"
+                                  ],
                                   "type": "string"
                                 },
                                 "zipCode": {
+                                  "description": "ZIP or postal code, containing digits only.",
+                                  "examples": [
+                                    "90210000"
+                                  ],
                                   "type": "string"
                                 },
                                 "neighborhood": {
+                                  "description": "Neighborhood or district name.",
+                                  "examples": [
+                                    "Downtown"
+                                  ],
                                   "type": "string"
                                 },
                                 "street": {
+                                  "description": "Street name.",
+                                  "examples": [
+                                    "Sunset Blvd"
+                                  ],
                                   "type": "string"
                                 },
                                 "number": {
+                                  "description": "Street number.",
+                                  "examples": [
+                                    "1234"
+                                  ],
                                   "type": "string"
                                 },
                                 "complement": {
+                                  "description": "Additional address details (optional).",
+                                  "examples": [
+                                    "Apt 202"
+                                  ],
                                   "anyOf": [
                                     {
                                       "type": "string"
@@ -10663,7 +10732,6 @@
                                 }
                               },
                               "required": [
-                                "id",
                                 "state",
                                 "city",
                                 "zipCode",
@@ -10842,28 +10910,53 @@
                             "address": {
                               "type": "object",
                               "properties": {
-                                "id": {
-                                  "type": "string"
-                                },
                                 "state": {
+                                  "description": "Two-letter state code following the ISO 3166-2 standard for country subdivisions.",
+                                  "examples": [
+                                    "CA"
+                                  ],
                                   "type": "string"
                                 },
                                 "city": {
+                                  "description": "City name.",
+                                  "examples": [
+                                    "Los Angeles"
+                                  ],
                                   "type": "string"
                                 },
                                 "zipCode": {
+                                  "description": "ZIP or postal code, containing digits only.",
+                                  "examples": [
+                                    "90210000"
+                                  ],
                                   "type": "string"
                                 },
                                 "neighborhood": {
+                                  "description": "Neighborhood or district name.",
+                                  "examples": [
+                                    "Downtown"
+                                  ],
                                   "type": "string"
                                 },
                                 "street": {
+                                  "description": "Street name.",
+                                  "examples": [
+                                    "Sunset Blvd"
+                                  ],
                                   "type": "string"
                                 },
                                 "number": {
+                                  "description": "Street number.",
+                                  "examples": [
+                                    "1234"
+                                  ],
                                   "type": "string"
                                 },
                                 "complement": {
+                                  "description": "Additional address details (optional).",
+                                  "examples": [
+                                    "Apt 202"
+                                  ],
                                   "anyOf": [
                                     {
                                       "type": "string"
@@ -10875,7 +10968,6 @@
                                 }
                               },
                               "required": [
-                                "id",
                                 "state",
                                 "city",
                                 "zipCode",
@@ -11058,28 +11150,53 @@
                             "address": {
                               "type": "object",
                               "properties": {
-                                "id": {
-                                  "type": "string"
-                                },
                                 "state": {
+                                  "description": "Two-letter state code following the ISO 3166-2 standard for country subdivisions.",
+                                  "examples": [
+                                    "CA"
+                                  ],
                                   "type": "string"
                                 },
                                 "city": {
+                                  "description": "City name.",
+                                  "examples": [
+                                    "Los Angeles"
+                                  ],
                                   "type": "string"
                                 },
                                 "zipCode": {
+                                  "description": "ZIP or postal code, containing digits only.",
+                                  "examples": [
+                                    "90210000"
+                                  ],
                                   "type": "string"
                                 },
                                 "neighborhood": {
+                                  "description": "Neighborhood or district name.",
+                                  "examples": [
+                                    "Downtown"
+                                  ],
                                   "type": "string"
                                 },
                                 "street": {
+                                  "description": "Street name.",
+                                  "examples": [
+                                    "Sunset Blvd"
+                                  ],
                                   "type": "string"
                                 },
                                 "number": {
+                                  "description": "Street number.",
+                                  "examples": [
+                                    "1234"
+                                  ],
                                   "type": "string"
                                 },
                                 "complement": {
+                                  "description": "Additional address details (optional).",
+                                  "examples": [
+                                    "Apt 202"
+                                  ],
                                   "anyOf": [
                                     {
                                       "type": "string"
@@ -11091,7 +11208,6 @@
                                 }
                               },
                               "required": [
-                                "id",
                                 "state",
                                 "city",
                                 "zipCode",
@@ -11251,6 +11367,11 @@
             }
           }
         },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "summary": "Get Subscription",
         "tags": [
           "Subscription"
@@ -11333,42 +11454,34 @@
                           "type": "string"
                         },
                         "creditCard": {
-                          "allOf": [
-                            {
-                              "type": "object",
-                              "properties": {
-                                "number": {
-                                  "type": "string"
-                                },
-                                "holderName": {
-                                  "type": "string"
-                                },
-                                "expirationDate": {
-                                  "example": "10/10",
-                                  "type": "string",
-                                  "minLength": 5,
-                                  "maxLength": 5
-                                }
-                              },
-                              "required": [
-                                "number",
-                                "holderName",
-                                "expirationDate"
-                              ]
+                          "type": "object",
+                          "properties": {
+                            "number": {
+                              "description": "Masked card number for secure display.",
+                              "examples": [
+                                "5555 ********* 55"
+                              ],
+                              "type": "string"
                             },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "cvv": {
-                                  "type": "string",
-                                  "minLength": 3,
-                                  "maxLength": 4
-                                }
-                              },
-                              "required": [
-                                "cvv"
-                              ]
+                            "holderName": {
+                              "description": "Name of the cardholder as printed on the card.",
+                              "examples": [
+                                "John Doe"
+                              ],
+                              "type": "string"
+                            },
+                            "expirationDate": {
+                              "description": "Card expiration date in MM/YY format.",
+                              "examples": [
+                                "12/27"
+                              ],
+                              "type": "string"
                             }
+                          },
+                          "required": [
+                            "number",
+                            "holderName",
+                            "expirationDate"
                           ]
                         },
                         "payer": {
@@ -11428,28 +11541,53 @@
                             "address": {
                               "type": "object",
                               "properties": {
-                                "id": {
-                                  "type": "string"
-                                },
                                 "state": {
+                                  "description": "Two-letter state code following the ISO 3166-2 standard for country subdivisions.",
+                                  "examples": [
+                                    "CA"
+                                  ],
                                   "type": "string"
                                 },
                                 "city": {
+                                  "description": "City name.",
+                                  "examples": [
+                                    "Los Angeles"
+                                  ],
                                   "type": "string"
                                 },
                                 "zipCode": {
+                                  "description": "ZIP or postal code, containing digits only.",
+                                  "examples": [
+                                    "90210000"
+                                  ],
                                   "type": "string"
                                 },
                                 "neighborhood": {
+                                  "description": "Neighborhood or district name.",
+                                  "examples": [
+                                    "Downtown"
+                                  ],
                                   "type": "string"
                                 },
                                 "street": {
+                                  "description": "Street name.",
+                                  "examples": [
+                                    "Sunset Blvd"
+                                  ],
                                   "type": "string"
                                 },
                                 "number": {
+                                  "description": "Street number.",
+                                  "examples": [
+                                    "1234"
+                                  ],
                                   "type": "string"
                                 },
                                 "complement": {
+                                  "description": "Additional address details (optional).",
+                                  "examples": [
+                                    "Apt 202"
+                                  ],
                                   "anyOf": [
                                     {
                                       "type": "string"
@@ -11461,7 +11599,6 @@
                                 }
                               },
                               "required": [
-                                "id",
                                 "state",
                                 "city",
                                 "zipCode",
@@ -11568,42 +11705,34 @@
                           "type": "string"
                         },
                         "debitCard": {
-                          "allOf": [
-                            {
-                              "type": "object",
-                              "properties": {
-                                "number": {
-                                  "type": "string"
-                                },
-                                "holderName": {
-                                  "type": "string"
-                                },
-                                "expirationDate": {
-                                  "example": "10/10",
-                                  "type": "string",
-                                  "minLength": 5,
-                                  "maxLength": 5
-                                }
-                              },
-                              "required": [
-                                "number",
-                                "holderName",
-                                "expirationDate"
-                              ]
+                          "type": "object",
+                          "properties": {
+                            "number": {
+                              "description": "Masked card number for secure display.",
+                              "examples": [
+                                "5555 ********* 55"
+                              ],
+                              "type": "string"
                             },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "cvv": {
-                                  "type": "string",
-                                  "minLength": 3,
-                                  "maxLength": 4
-                                }
-                              },
-                              "required": [
-                                "cvv"
-                              ]
+                            "holderName": {
+                              "description": "Name of the cardholder as printed on the card.",
+                              "examples": [
+                                "John Doe"
+                              ],
+                              "type": "string"
+                            },
+                            "expirationDate": {
+                              "description": "Card expiration date in MM/YY format.",
+                              "examples": [
+                                "12/27"
+                              ],
+                              "type": "string"
                             }
+                          },
+                          "required": [
+                            "number",
+                            "holderName",
+                            "expirationDate"
                           ]
                         },
                         "payer": {
@@ -11663,28 +11792,53 @@
                             "address": {
                               "type": "object",
                               "properties": {
-                                "id": {
-                                  "type": "string"
-                                },
                                 "state": {
+                                  "description": "Two-letter state code following the ISO 3166-2 standard for country subdivisions.",
+                                  "examples": [
+                                    "CA"
+                                  ],
                                   "type": "string"
                                 },
                                 "city": {
+                                  "description": "City name.",
+                                  "examples": [
+                                    "Los Angeles"
+                                  ],
                                   "type": "string"
                                 },
                                 "zipCode": {
+                                  "description": "ZIP or postal code, containing digits only.",
+                                  "examples": [
+                                    "90210000"
+                                  ],
                                   "type": "string"
                                 },
                                 "neighborhood": {
+                                  "description": "Neighborhood or district name.",
+                                  "examples": [
+                                    "Downtown"
+                                  ],
                                   "type": "string"
                                 },
                                 "street": {
+                                  "description": "Street name.",
+                                  "examples": [
+                                    "Sunset Blvd"
+                                  ],
                                   "type": "string"
                                 },
                                 "number": {
+                                  "description": "Street number.",
+                                  "examples": [
+                                    "1234"
+                                  ],
                                   "type": "string"
                                 },
                                 "complement": {
+                                  "description": "Additional address details (optional).",
+                                  "examples": [
+                                    "Apt 202"
+                                  ],
                                   "anyOf": [
                                     {
                                       "type": "string"
@@ -11696,7 +11850,6 @@
                                 }
                               },
                               "required": [
-                                "id",
                                 "state",
                                 "city",
                                 "zipCode",
@@ -11875,28 +12028,53 @@
                             "address": {
                               "type": "object",
                               "properties": {
-                                "id": {
-                                  "type": "string"
-                                },
                                 "state": {
+                                  "description": "Two-letter state code following the ISO 3166-2 standard for country subdivisions.",
+                                  "examples": [
+                                    "CA"
+                                  ],
                                   "type": "string"
                                 },
                                 "city": {
+                                  "description": "City name.",
+                                  "examples": [
+                                    "Los Angeles"
+                                  ],
                                   "type": "string"
                                 },
                                 "zipCode": {
+                                  "description": "ZIP or postal code, containing digits only.",
+                                  "examples": [
+                                    "90210000"
+                                  ],
                                   "type": "string"
                                 },
                                 "neighborhood": {
+                                  "description": "Neighborhood or district name.",
+                                  "examples": [
+                                    "Downtown"
+                                  ],
                                   "type": "string"
                                 },
                                 "street": {
+                                  "description": "Street name.",
+                                  "examples": [
+                                    "Sunset Blvd"
+                                  ],
                                   "type": "string"
                                 },
                                 "number": {
+                                  "description": "Street number.",
+                                  "examples": [
+                                    "1234"
+                                  ],
                                   "type": "string"
                                 },
                                 "complement": {
+                                  "description": "Additional address details (optional).",
+                                  "examples": [
+                                    "Apt 202"
+                                  ],
                                   "anyOf": [
                                     {
                                       "type": "string"
@@ -11908,7 +12086,6 @@
                                 }
                               },
                               "required": [
-                                "id",
                                 "state",
                                 "city",
                                 "zipCode",
@@ -12091,28 +12268,53 @@
                             "address": {
                               "type": "object",
                               "properties": {
-                                "id": {
-                                  "type": "string"
-                                },
                                 "state": {
+                                  "description": "Two-letter state code following the ISO 3166-2 standard for country subdivisions.",
+                                  "examples": [
+                                    "CA"
+                                  ],
                                   "type": "string"
                                 },
                                 "city": {
+                                  "description": "City name.",
+                                  "examples": [
+                                    "Los Angeles"
+                                  ],
                                   "type": "string"
                                 },
                                 "zipCode": {
+                                  "description": "ZIP or postal code, containing digits only.",
+                                  "examples": [
+                                    "90210000"
+                                  ],
                                   "type": "string"
                                 },
                                 "neighborhood": {
+                                  "description": "Neighborhood or district name.",
+                                  "examples": [
+                                    "Downtown"
+                                  ],
                                   "type": "string"
                                 },
                                 "street": {
+                                  "description": "Street name.",
+                                  "examples": [
+                                    "Sunset Blvd"
+                                  ],
                                   "type": "string"
                                 },
                                 "number": {
+                                  "description": "Street number.",
+                                  "examples": [
+                                    "1234"
+                                  ],
                                   "type": "string"
                                 },
                                 "complement": {
+                                  "description": "Additional address details (optional).",
+                                  "examples": [
+                                    "Apt 202"
+                                  ],
                                   "anyOf": [
                                     {
                                       "type": "string"
@@ -12124,7 +12326,6 @@
                                 }
                               },
                               "required": [
-                                "id",
                                 "state",
                                 "city",
                                 "zipCode",
@@ -12284,6 +12485,11 @@
             }
           }
         },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "summary": "Cancel Subscription",
         "tags": [
           "Subscription"
@@ -12390,28 +12596,53 @@
                           "address": {
                             "type": "object",
                             "properties": {
-                              "id": {
-                                "type": "string"
-                              },
                               "state": {
+                                "description": "Two-letter state code following the ISO 3166-2 standard for country subdivisions.",
+                                "examples": [
+                                  "CA"
+                                ],
                                 "type": "string"
                               },
                               "city": {
+                                "description": "City name.",
+                                "examples": [
+                                  "Los Angeles"
+                                ],
                                 "type": "string"
                               },
                               "zipCode": {
+                                "description": "ZIP or postal code, containing digits only.",
+                                "examples": [
+                                  "90210000"
+                                ],
                                 "type": "string"
                               },
                               "neighborhood": {
+                                "description": "Neighborhood or district name.",
+                                "examples": [
+                                  "Downtown"
+                                ],
                                 "type": "string"
                               },
                               "street": {
+                                "description": "Street name.",
+                                "examples": [
+                                  "Sunset Blvd"
+                                ],
                                 "type": "string"
                               },
                               "number": {
+                                "description": "Street number.",
+                                "examples": [
+                                  "1234"
+                                ],
                                 "type": "string"
                               },
                               "complement": {
+                                "description": "Additional address details (optional).",
+                                "examples": [
+                                  "Apt 202"
+                                ],
                                 "anyOf": [
                                   {
                                     "type": "string"
@@ -12423,7 +12654,6 @@
                               }
                             },
                             "required": [
-                              "id",
                               "state",
                               "city",
                               "zipCode",
@@ -12447,42 +12677,42 @@
                         "type": "string"
                       },
                       "creditCard": {
-                        "allOf": [
-                          {
-                            "type": "object",
-                            "properties": {
-                              "number": {
-                                "type": "string"
-                              },
-                              "holderName": {
-                                "type": "string"
-                              },
-                              "expirationDate": {
-                                "example": "10/10",
-                                "type": "string",
-                                "minLength": 5,
-                                "maxLength": 5
-                              }
-                            },
-                            "required": [
-                              "number",
-                              "holderName",
-                              "expirationDate"
-                            ]
+                        "type": "object",
+                        "properties": {
+                          "number": {
+                            "description": "Full credit card number.",
+                            "examples": [
+                              "5555555555554444"
+                            ],
+                            "type": "string"
                           },
-                          {
-                            "type": "object",
-                            "properties": {
-                              "cvv": {
-                                "type": "string",
-                                "minLength": 3,
-                                "maxLength": 4
-                              }
-                            },
-                            "required": [
-                              "cvv"
-                            ]
+                          "holderName": {
+                            "description": "Name of the cardholder as printed on the card.",
+                            "examples": [
+                              "John Doe"
+                            ],
+                            "type": "string"
+                          },
+                          "expirationDate": {
+                            "description": "Card expiration date in MM/YY format.",
+                            "examples": [
+                              "12/27"
+                            ],
+                            "type": "string"
+                          },
+                          "cvv": {
+                            "description": "Card Verification Value (CVV), usually 3 or 4 digits.",
+                            "examples": [
+                              "123"
+                            ],
+                            "type": "string"
                           }
+                        },
+                        "required": [
+                          "number",
+                          "holderName",
+                          "expirationDate",
+                          "cvv"
                         ]
                       }
                     },
@@ -12560,28 +12790,53 @@
                           "address": {
                             "type": "object",
                             "properties": {
-                              "id": {
-                                "type": "string"
-                              },
                               "state": {
+                                "description": "Two-letter state code following the ISO 3166-2 standard for country subdivisions.",
+                                "examples": [
+                                  "CA"
+                                ],
                                 "type": "string"
                               },
                               "city": {
+                                "description": "City name.",
+                                "examples": [
+                                  "Los Angeles"
+                                ],
                                 "type": "string"
                               },
                               "zipCode": {
+                                "description": "ZIP or postal code, containing digits only.",
+                                "examples": [
+                                  "90210000"
+                                ],
                                 "type": "string"
                               },
                               "neighborhood": {
+                                "description": "Neighborhood or district name.",
+                                "examples": [
+                                  "Downtown"
+                                ],
                                 "type": "string"
                               },
                               "street": {
+                                "description": "Street name.",
+                                "examples": [
+                                  "Sunset Blvd"
+                                ],
                                 "type": "string"
                               },
                               "number": {
+                                "description": "Street number.",
+                                "examples": [
+                                  "1234"
+                                ],
                                 "type": "string"
                               },
                               "complement": {
+                                "description": "Additional address details (optional).",
+                                "examples": [
+                                  "Apt 202"
+                                ],
                                 "anyOf": [
                                   {
                                     "type": "string"
@@ -12593,7 +12848,6 @@
                               }
                             },
                             "required": [
-                              "id",
                               "state",
                               "city",
                               "zipCode",
@@ -12617,42 +12871,42 @@
                         "type": "string"
                       },
                       "debitCard": {
-                        "allOf": [
-                          {
-                            "type": "object",
-                            "properties": {
-                              "number": {
-                                "type": "string"
-                              },
-                              "holderName": {
-                                "type": "string"
-                              },
-                              "expirationDate": {
-                                "example": "10/10",
-                                "type": "string",
-                                "minLength": 5,
-                                "maxLength": 5
-                              }
-                            },
-                            "required": [
-                              "number",
-                              "holderName",
-                              "expirationDate"
-                            ]
+                        "type": "object",
+                        "properties": {
+                          "number": {
+                            "description": "Full credit card number.",
+                            "examples": [
+                              "5555555555554444"
+                            ],
+                            "type": "string"
                           },
-                          {
-                            "type": "object",
-                            "properties": {
-                              "cvv": {
-                                "type": "string",
-                                "minLength": 3,
-                                "maxLength": 4
-                              }
-                            },
-                            "required": [
-                              "cvv"
-                            ]
+                          "holderName": {
+                            "description": "Name of the cardholder as printed on the card.",
+                            "examples": [
+                              "John Doe"
+                            ],
+                            "type": "string"
+                          },
+                          "expirationDate": {
+                            "description": "Card expiration date in MM/YY format.",
+                            "examples": [
+                              "12/27"
+                            ],
+                            "type": "string"
+                          },
+                          "cvv": {
+                            "description": "Card Verification Value (CVV), usually 3 or 4 digits.",
+                            "examples": [
+                              "123"
+                            ],
+                            "type": "string"
                           }
+                        },
+                        "required": [
+                          "number",
+                          "holderName",
+                          "expirationDate",
+                          "cvv"
                         ]
                       }
                     },
@@ -12730,28 +12984,53 @@
                           "address": {
                             "type": "object",
                             "properties": {
-                              "id": {
-                                "type": "string"
-                              },
                               "state": {
+                                "description": "Two-letter state code following the ISO 3166-2 standard for country subdivisions.",
+                                "examples": [
+                                  "CA"
+                                ],
                                 "type": "string"
                               },
                               "city": {
+                                "description": "City name.",
+                                "examples": [
+                                  "Los Angeles"
+                                ],
                                 "type": "string"
                               },
                               "zipCode": {
+                                "description": "ZIP or postal code, containing digits only.",
+                                "examples": [
+                                  "90210000"
+                                ],
                                 "type": "string"
                               },
                               "neighborhood": {
+                                "description": "Neighborhood or district name.",
+                                "examples": [
+                                  "Downtown"
+                                ],
                                 "type": "string"
                               },
                               "street": {
+                                "description": "Street name.",
+                                "examples": [
+                                  "Sunset Blvd"
+                                ],
                                 "type": "string"
                               },
                               "number": {
+                                "description": "Street number.",
+                                "examples": [
+                                  "1234"
+                                ],
                                 "type": "string"
                               },
                               "complement": {
+                                "description": "Additional address details (optional).",
+                                "examples": [
+                                  "Apt 202"
+                                ],
                                 "anyOf": [
                                   {
                                     "type": "string"
@@ -12763,7 +13042,6 @@
                               }
                             },
                             "required": [
-                              "id",
                               "state",
                               "city",
                               "zipCode",
@@ -12785,29 +13063,12 @@
                       "paymentMethod": {
                         "const": "PIX",
                         "type": "string"
-                      },
-                      "pix": {
-                        "type": "object",
-                        "properties": {
-                          "qrCode": {
-                            "type": "string"
-                          },
-                          "dueDate": {
-                            "type": "string",
-                            "format": "date-time"
-                          }
-                        },
-                        "required": [
-                          "qrCode",
-                          "dueDate"
-                        ]
                       }
                     },
                     "required": [
                       "planId",
                       "payer",
-                      "paymentMethod",
-                      "pix"
+                      "paymentMethod"
                     ]
                   },
                   {
@@ -12877,28 +13138,53 @@
                           "address": {
                             "type": "object",
                             "properties": {
-                              "id": {
-                                "type": "string"
-                              },
                               "state": {
+                                "description": "Two-letter state code following the ISO 3166-2 standard for country subdivisions.",
+                                "examples": [
+                                  "CA"
+                                ],
                                 "type": "string"
                               },
                               "city": {
+                                "description": "City name.",
+                                "examples": [
+                                  "Los Angeles"
+                                ],
                                 "type": "string"
                               },
                               "zipCode": {
+                                "description": "ZIP or postal code, containing digits only.",
+                                "examples": [
+                                  "90210000"
+                                ],
                                 "type": "string"
                               },
                               "neighborhood": {
+                                "description": "Neighborhood or district name.",
+                                "examples": [
+                                  "Downtown"
+                                ],
                                 "type": "string"
                               },
                               "street": {
+                                "description": "Street name.",
+                                "examples": [
+                                  "Sunset Blvd"
+                                ],
                                 "type": "string"
                               },
                               "number": {
+                                "description": "Street number.",
+                                "examples": [
+                                  "1234"
+                                ],
                                 "type": "string"
                               },
                               "complement": {
+                                "description": "Additional address details (optional).",
+                                "examples": [
+                                  "Apt 202"
+                                ],
                                 "anyOf": [
                                   {
                                     "type": "string"
@@ -12910,7 +13196,6 @@
                               }
                             },
                             "required": [
-                              "id",
                               "state",
                               "city",
                               "zipCode",
@@ -12932,33 +13217,12 @@
                       "paymentMethod": {
                         "const": "BOLETO",
                         "type": "string"
-                      },
-                      "boleto": {
-                        "type": "object",
-                        "properties": {
-                          "url": {
-                            "type": "string"
-                          },
-                          "instructions": {
-                            "type": "string"
-                          },
-                          "dueDate": {
-                            "type": "string",
-                            "format": "date-time"
-                          }
-                        },
-                        "required": [
-                          "url",
-                          "instructions",
-                          "dueDate"
-                        ]
                       }
                     },
                     "required": [
                       "planId",
                       "payer",
-                      "paymentMethod",
-                      "boleto"
+                      "paymentMethod"
                     ]
                   }
                 ]
@@ -13006,42 +13270,34 @@
                           "type": "string"
                         },
                         "creditCard": {
-                          "allOf": [
-                            {
-                              "type": "object",
-                              "properties": {
-                                "number": {
-                                  "type": "string"
-                                },
-                                "holderName": {
-                                  "type": "string"
-                                },
-                                "expirationDate": {
-                                  "example": "10/10",
-                                  "type": "string",
-                                  "minLength": 5,
-                                  "maxLength": 5
-                                }
-                              },
-                              "required": [
-                                "number",
-                                "holderName",
-                                "expirationDate"
-                              ]
+                          "type": "object",
+                          "properties": {
+                            "number": {
+                              "description": "Masked card number for secure display.",
+                              "examples": [
+                                "5555 ********* 55"
+                              ],
+                              "type": "string"
                             },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "cvv": {
-                                  "type": "string",
-                                  "minLength": 3,
-                                  "maxLength": 4
-                                }
-                              },
-                              "required": [
-                                "cvv"
-                              ]
+                            "holderName": {
+                              "description": "Name of the cardholder as printed on the card.",
+                              "examples": [
+                                "John Doe"
+                              ],
+                              "type": "string"
+                            },
+                            "expirationDate": {
+                              "description": "Card expiration date in MM/YY format.",
+                              "examples": [
+                                "12/27"
+                              ],
+                              "type": "string"
                             }
+                          },
+                          "required": [
+                            "number",
+                            "holderName",
+                            "expirationDate"
                           ]
                         },
                         "payer": {
@@ -13101,28 +13357,53 @@
                             "address": {
                               "type": "object",
                               "properties": {
-                                "id": {
-                                  "type": "string"
-                                },
                                 "state": {
+                                  "description": "Two-letter state code following the ISO 3166-2 standard for country subdivisions.",
+                                  "examples": [
+                                    "CA"
+                                  ],
                                   "type": "string"
                                 },
                                 "city": {
+                                  "description": "City name.",
+                                  "examples": [
+                                    "Los Angeles"
+                                  ],
                                   "type": "string"
                                 },
                                 "zipCode": {
+                                  "description": "ZIP or postal code, containing digits only.",
+                                  "examples": [
+                                    "90210000"
+                                  ],
                                   "type": "string"
                                 },
                                 "neighborhood": {
+                                  "description": "Neighborhood or district name.",
+                                  "examples": [
+                                    "Downtown"
+                                  ],
                                   "type": "string"
                                 },
                                 "street": {
+                                  "description": "Street name.",
+                                  "examples": [
+                                    "Sunset Blvd"
+                                  ],
                                   "type": "string"
                                 },
                                 "number": {
+                                  "description": "Street number.",
+                                  "examples": [
+                                    "1234"
+                                  ],
                                   "type": "string"
                                 },
                                 "complement": {
+                                  "description": "Additional address details (optional).",
+                                  "examples": [
+                                    "Apt 202"
+                                  ],
                                   "anyOf": [
                                     {
                                       "type": "string"
@@ -13134,7 +13415,6 @@
                                 }
                               },
                               "required": [
-                                "id",
                                 "state",
                                 "city",
                                 "zipCode",
@@ -13241,42 +13521,34 @@
                           "type": "string"
                         },
                         "debitCard": {
-                          "allOf": [
-                            {
-                              "type": "object",
-                              "properties": {
-                                "number": {
-                                  "type": "string"
-                                },
-                                "holderName": {
-                                  "type": "string"
-                                },
-                                "expirationDate": {
-                                  "example": "10/10",
-                                  "type": "string",
-                                  "minLength": 5,
-                                  "maxLength": 5
-                                }
-                              },
-                              "required": [
-                                "number",
-                                "holderName",
-                                "expirationDate"
-                              ]
+                          "type": "object",
+                          "properties": {
+                            "number": {
+                              "description": "Masked card number for secure display.",
+                              "examples": [
+                                "5555 ********* 55"
+                              ],
+                              "type": "string"
                             },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "cvv": {
-                                  "type": "string",
-                                  "minLength": 3,
-                                  "maxLength": 4
-                                }
-                              },
-                              "required": [
-                                "cvv"
-                              ]
+                            "holderName": {
+                              "description": "Name of the cardholder as printed on the card.",
+                              "examples": [
+                                "John Doe"
+                              ],
+                              "type": "string"
+                            },
+                            "expirationDate": {
+                              "description": "Card expiration date in MM/YY format.",
+                              "examples": [
+                                "12/27"
+                              ],
+                              "type": "string"
                             }
+                          },
+                          "required": [
+                            "number",
+                            "holderName",
+                            "expirationDate"
                           ]
                         },
                         "payer": {
@@ -13336,28 +13608,53 @@
                             "address": {
                               "type": "object",
                               "properties": {
-                                "id": {
-                                  "type": "string"
-                                },
                                 "state": {
+                                  "description": "Two-letter state code following the ISO 3166-2 standard for country subdivisions.",
+                                  "examples": [
+                                    "CA"
+                                  ],
                                   "type": "string"
                                 },
                                 "city": {
+                                  "description": "City name.",
+                                  "examples": [
+                                    "Los Angeles"
+                                  ],
                                   "type": "string"
                                 },
                                 "zipCode": {
+                                  "description": "ZIP or postal code, containing digits only.",
+                                  "examples": [
+                                    "90210000"
+                                  ],
                                   "type": "string"
                                 },
                                 "neighborhood": {
+                                  "description": "Neighborhood or district name.",
+                                  "examples": [
+                                    "Downtown"
+                                  ],
                                   "type": "string"
                                 },
                                 "street": {
+                                  "description": "Street name.",
+                                  "examples": [
+                                    "Sunset Blvd"
+                                  ],
                                   "type": "string"
                                 },
                                 "number": {
+                                  "description": "Street number.",
+                                  "examples": [
+                                    "1234"
+                                  ],
                                   "type": "string"
                                 },
                                 "complement": {
+                                  "description": "Additional address details (optional).",
+                                  "examples": [
+                                    "Apt 202"
+                                  ],
                                   "anyOf": [
                                     {
                                       "type": "string"
@@ -13369,7 +13666,6 @@
                                 }
                               },
                               "required": [
-                                "id",
                                 "state",
                                 "city",
                                 "zipCode",
@@ -13548,28 +13844,53 @@
                             "address": {
                               "type": "object",
                               "properties": {
-                                "id": {
-                                  "type": "string"
-                                },
                                 "state": {
+                                  "description": "Two-letter state code following the ISO 3166-2 standard for country subdivisions.",
+                                  "examples": [
+                                    "CA"
+                                  ],
                                   "type": "string"
                                 },
                                 "city": {
+                                  "description": "City name.",
+                                  "examples": [
+                                    "Los Angeles"
+                                  ],
                                   "type": "string"
                                 },
                                 "zipCode": {
+                                  "description": "ZIP or postal code, containing digits only.",
+                                  "examples": [
+                                    "90210000"
+                                  ],
                                   "type": "string"
                                 },
                                 "neighborhood": {
+                                  "description": "Neighborhood or district name.",
+                                  "examples": [
+                                    "Downtown"
+                                  ],
                                   "type": "string"
                                 },
                                 "street": {
+                                  "description": "Street name.",
+                                  "examples": [
+                                    "Sunset Blvd"
+                                  ],
                                   "type": "string"
                                 },
                                 "number": {
+                                  "description": "Street number.",
+                                  "examples": [
+                                    "1234"
+                                  ],
                                   "type": "string"
                                 },
                                 "complement": {
+                                  "description": "Additional address details (optional).",
+                                  "examples": [
+                                    "Apt 202"
+                                  ],
                                   "anyOf": [
                                     {
                                       "type": "string"
@@ -13581,7 +13902,6 @@
                                 }
                               },
                               "required": [
-                                "id",
                                 "state",
                                 "city",
                                 "zipCode",
@@ -13764,28 +14084,53 @@
                             "address": {
                               "type": "object",
                               "properties": {
-                                "id": {
-                                  "type": "string"
-                                },
                                 "state": {
+                                  "description": "Two-letter state code following the ISO 3166-2 standard for country subdivisions.",
+                                  "examples": [
+                                    "CA"
+                                  ],
                                   "type": "string"
                                 },
                                 "city": {
+                                  "description": "City name.",
+                                  "examples": [
+                                    "Los Angeles"
+                                  ],
                                   "type": "string"
                                 },
                                 "zipCode": {
+                                  "description": "ZIP or postal code, containing digits only.",
+                                  "examples": [
+                                    "90210000"
+                                  ],
                                   "type": "string"
                                 },
                                 "neighborhood": {
+                                  "description": "Neighborhood or district name.",
+                                  "examples": [
+                                    "Downtown"
+                                  ],
                                   "type": "string"
                                 },
                                 "street": {
+                                  "description": "Street name.",
+                                  "examples": [
+                                    "Sunset Blvd"
+                                  ],
                                   "type": "string"
                                 },
                                 "number": {
+                                  "description": "Street number.",
+                                  "examples": [
+                                    "1234"
+                                  ],
                                   "type": "string"
                                 },
                                 "complement": {
+                                  "description": "Additional address details (optional).",
+                                  "examples": [
+                                    "Apt 202"
+                                  ],
                                   "anyOf": [
                                     {
                                       "type": "string"
@@ -13797,7 +14142,6 @@
                                 }
                               },
                               "required": [
-                                "id",
                                 "state",
                                 "city",
                                 "zipCode",
@@ -13957,6 +14301,11 @@
             }
           }
         },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "summary": "Create Subscription",
         "tags": [
           "Subscription"
@@ -14062,42 +14411,34 @@
                           "type": "string"
                         },
                         "creditCard": {
-                          "allOf": [
-                            {
-                              "type": "object",
-                              "properties": {
-                                "number": {
-                                  "type": "string"
-                                },
-                                "holderName": {
-                                  "type": "string"
-                                },
-                                "expirationDate": {
-                                  "example": "10/10",
-                                  "type": "string",
-                                  "minLength": 5,
-                                  "maxLength": 5
-                                }
-                              },
-                              "required": [
-                                "number",
-                                "holderName",
-                                "expirationDate"
-                              ]
+                          "type": "object",
+                          "properties": {
+                            "number": {
+                              "description": "Masked card number for secure display.",
+                              "examples": [
+                                "5555 ********* 55"
+                              ],
+                              "type": "string"
                             },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "cvv": {
-                                  "type": "string",
-                                  "minLength": 3,
-                                  "maxLength": 4
-                                }
-                              },
-                              "required": [
-                                "cvv"
-                              ]
+                            "holderName": {
+                              "description": "Name of the cardholder as printed on the card.",
+                              "examples": [
+                                "John Doe"
+                              ],
+                              "type": "string"
+                            },
+                            "expirationDate": {
+                              "description": "Card expiration date in MM/YY format.",
+                              "examples": [
+                                "12/27"
+                              ],
+                              "type": "string"
                             }
+                          },
+                          "required": [
+                            "number",
+                            "holderName",
+                            "expirationDate"
                           ]
                         },
                         "payer": {
@@ -14157,28 +14498,53 @@
                             "address": {
                               "type": "object",
                               "properties": {
-                                "id": {
-                                  "type": "string"
-                                },
                                 "state": {
+                                  "description": "Two-letter state code following the ISO 3166-2 standard for country subdivisions.",
+                                  "examples": [
+                                    "CA"
+                                  ],
                                   "type": "string"
                                 },
                                 "city": {
+                                  "description": "City name.",
+                                  "examples": [
+                                    "Los Angeles"
+                                  ],
                                   "type": "string"
                                 },
                                 "zipCode": {
+                                  "description": "ZIP or postal code, containing digits only.",
+                                  "examples": [
+                                    "90210000"
+                                  ],
                                   "type": "string"
                                 },
                                 "neighborhood": {
+                                  "description": "Neighborhood or district name.",
+                                  "examples": [
+                                    "Downtown"
+                                  ],
                                   "type": "string"
                                 },
                                 "street": {
+                                  "description": "Street name.",
+                                  "examples": [
+                                    "Sunset Blvd"
+                                  ],
                                   "type": "string"
                                 },
                                 "number": {
+                                  "description": "Street number.",
+                                  "examples": [
+                                    "1234"
+                                  ],
                                   "type": "string"
                                 },
                                 "complement": {
+                                  "description": "Additional address details (optional).",
+                                  "examples": [
+                                    "Apt 202"
+                                  ],
                                   "anyOf": [
                                     {
                                       "type": "string"
@@ -14190,7 +14556,6 @@
                                 }
                               },
                               "required": [
-                                "id",
                                 "state",
                                 "city",
                                 "zipCode",
@@ -14297,42 +14662,34 @@
                           "type": "string"
                         },
                         "debitCard": {
-                          "allOf": [
-                            {
-                              "type": "object",
-                              "properties": {
-                                "number": {
-                                  "type": "string"
-                                },
-                                "holderName": {
-                                  "type": "string"
-                                },
-                                "expirationDate": {
-                                  "example": "10/10",
-                                  "type": "string",
-                                  "minLength": 5,
-                                  "maxLength": 5
-                                }
-                              },
-                              "required": [
-                                "number",
-                                "holderName",
-                                "expirationDate"
-                              ]
+                          "type": "object",
+                          "properties": {
+                            "number": {
+                              "description": "Masked card number for secure display.",
+                              "examples": [
+                                "5555 ********* 55"
+                              ],
+                              "type": "string"
                             },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "cvv": {
-                                  "type": "string",
-                                  "minLength": 3,
-                                  "maxLength": 4
-                                }
-                              },
-                              "required": [
-                                "cvv"
-                              ]
+                            "holderName": {
+                              "description": "Name of the cardholder as printed on the card.",
+                              "examples": [
+                                "John Doe"
+                              ],
+                              "type": "string"
+                            },
+                            "expirationDate": {
+                              "description": "Card expiration date in MM/YY format.",
+                              "examples": [
+                                "12/27"
+                              ],
+                              "type": "string"
                             }
+                          },
+                          "required": [
+                            "number",
+                            "holderName",
+                            "expirationDate"
                           ]
                         },
                         "payer": {
@@ -14392,28 +14749,53 @@
                             "address": {
                               "type": "object",
                               "properties": {
-                                "id": {
-                                  "type": "string"
-                                },
                                 "state": {
+                                  "description": "Two-letter state code following the ISO 3166-2 standard for country subdivisions.",
+                                  "examples": [
+                                    "CA"
+                                  ],
                                   "type": "string"
                                 },
                                 "city": {
+                                  "description": "City name.",
+                                  "examples": [
+                                    "Los Angeles"
+                                  ],
                                   "type": "string"
                                 },
                                 "zipCode": {
+                                  "description": "ZIP or postal code, containing digits only.",
+                                  "examples": [
+                                    "90210000"
+                                  ],
                                   "type": "string"
                                 },
                                 "neighborhood": {
+                                  "description": "Neighborhood or district name.",
+                                  "examples": [
+                                    "Downtown"
+                                  ],
                                   "type": "string"
                                 },
                                 "street": {
+                                  "description": "Street name.",
+                                  "examples": [
+                                    "Sunset Blvd"
+                                  ],
                                   "type": "string"
                                 },
                                 "number": {
+                                  "description": "Street number.",
+                                  "examples": [
+                                    "1234"
+                                  ],
                                   "type": "string"
                                 },
                                 "complement": {
+                                  "description": "Additional address details (optional).",
+                                  "examples": [
+                                    "Apt 202"
+                                  ],
                                   "anyOf": [
                                     {
                                       "type": "string"
@@ -14425,7 +14807,6 @@
                                 }
                               },
                               "required": [
-                                "id",
                                 "state",
                                 "city",
                                 "zipCode",
@@ -14604,28 +14985,53 @@
                             "address": {
                               "type": "object",
                               "properties": {
-                                "id": {
-                                  "type": "string"
-                                },
                                 "state": {
+                                  "description": "Two-letter state code following the ISO 3166-2 standard for country subdivisions.",
+                                  "examples": [
+                                    "CA"
+                                  ],
                                   "type": "string"
                                 },
                                 "city": {
+                                  "description": "City name.",
+                                  "examples": [
+                                    "Los Angeles"
+                                  ],
                                   "type": "string"
                                 },
                                 "zipCode": {
+                                  "description": "ZIP or postal code, containing digits only.",
+                                  "examples": [
+                                    "90210000"
+                                  ],
                                   "type": "string"
                                 },
                                 "neighborhood": {
+                                  "description": "Neighborhood or district name.",
+                                  "examples": [
+                                    "Downtown"
+                                  ],
                                   "type": "string"
                                 },
                                 "street": {
+                                  "description": "Street name.",
+                                  "examples": [
+                                    "Sunset Blvd"
+                                  ],
                                   "type": "string"
                                 },
                                 "number": {
+                                  "description": "Street number.",
+                                  "examples": [
+                                    "1234"
+                                  ],
                                   "type": "string"
                                 },
                                 "complement": {
+                                  "description": "Additional address details (optional).",
+                                  "examples": [
+                                    "Apt 202"
+                                  ],
                                   "anyOf": [
                                     {
                                       "type": "string"
@@ -14637,7 +15043,6 @@
                                 }
                               },
                               "required": [
-                                "id",
                                 "state",
                                 "city",
                                 "zipCode",
@@ -14820,28 +15225,53 @@
                             "address": {
                               "type": "object",
                               "properties": {
-                                "id": {
-                                  "type": "string"
-                                },
                                 "state": {
+                                  "description": "Two-letter state code following the ISO 3166-2 standard for country subdivisions.",
+                                  "examples": [
+                                    "CA"
+                                  ],
                                   "type": "string"
                                 },
                                 "city": {
+                                  "description": "City name.",
+                                  "examples": [
+                                    "Los Angeles"
+                                  ],
                                   "type": "string"
                                 },
                                 "zipCode": {
+                                  "description": "ZIP or postal code, containing digits only.",
+                                  "examples": [
+                                    "90210000"
+                                  ],
                                   "type": "string"
                                 },
                                 "neighborhood": {
+                                  "description": "Neighborhood or district name.",
+                                  "examples": [
+                                    "Downtown"
+                                  ],
                                   "type": "string"
                                 },
                                 "street": {
+                                  "description": "Street name.",
+                                  "examples": [
+                                    "Sunset Blvd"
+                                  ],
                                   "type": "string"
                                 },
                                 "number": {
+                                  "description": "Street number.",
+                                  "examples": [
+                                    "1234"
+                                  ],
                                   "type": "string"
                                 },
                                 "complement": {
+                                  "description": "Additional address details (optional).",
+                                  "examples": [
+                                    "Apt 202"
+                                  ],
                                   "anyOf": [
                                     {
                                       "type": "string"
@@ -14853,7 +15283,6 @@
                                 }
                               },
                               "required": [
-                                "id",
                                 "state",
                                 "city",
                                 "zipCode",
@@ -15013,6 +15442,11 @@
             }
           }
         },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "summary": "Change Subscription Plan",
         "tags": [
           "Subscription"
@@ -15072,42 +15506,34 @@
                         "type": "string"
                       },
                       "creditCard": {
-                        "allOf": [
-                          {
-                            "type": "object",
-                            "properties": {
-                              "number": {
-                                "type": "string"
-                              },
-                              "holderName": {
-                                "type": "string"
-                              },
-                              "expirationDate": {
-                                "example": "10/10",
-                                "type": "string",
-                                "minLength": 5,
-                                "maxLength": 5
-                              }
-                            },
-                            "required": [
-                              "number",
-                              "holderName",
-                              "expirationDate"
-                            ]
+                        "type": "object",
+                        "properties": {
+                          "number": {
+                            "description": "Masked card number for secure display.",
+                            "examples": [
+                              "5555 ********* 55"
+                            ],
+                            "type": "string"
                           },
-                          {
-                            "type": "object",
-                            "properties": {
-                              "cvv": {
-                                "type": "string",
-                                "minLength": 3,
-                                "maxLength": 4
-                              }
-                            },
-                            "required": [
-                              "cvv"
-                            ]
+                          "holderName": {
+                            "description": "Name of the cardholder as printed on the card.",
+                            "examples": [
+                              "John Doe"
+                            ],
+                            "type": "string"
+                          },
+                          "expirationDate": {
+                            "description": "Card expiration date in MM/YY format.",
+                            "examples": [
+                              "12/27"
+                            ],
+                            "type": "string"
                           }
+                        },
+                        "required": [
+                          "number",
+                          "holderName",
+                          "expirationDate"
                         ]
                       }
                     },
@@ -15125,42 +15551,34 @@
                         "type": "string"
                       },
                       "debitCard": {
-                        "allOf": [
-                          {
-                            "type": "object",
-                            "properties": {
-                              "number": {
-                                "type": "string"
-                              },
-                              "holderName": {
-                                "type": "string"
-                              },
-                              "expirationDate": {
-                                "example": "10/10",
-                                "type": "string",
-                                "minLength": 5,
-                                "maxLength": 5
-                              }
-                            },
-                            "required": [
-                              "number",
-                              "holderName",
-                              "expirationDate"
-                            ]
+                        "type": "object",
+                        "properties": {
+                          "number": {
+                            "description": "Masked card number for secure display.",
+                            "examples": [
+                              "5555 ********* 55"
+                            ],
+                            "type": "string"
                           },
-                          {
-                            "type": "object",
-                            "properties": {
-                              "cvv": {
-                                "type": "string",
-                                "minLength": 3,
-                                "maxLength": 4
-                              }
-                            },
-                            "required": [
-                              "cvv"
-                            ]
+                          "holderName": {
+                            "description": "Name of the cardholder as printed on the card.",
+                            "examples": [
+                              "John Doe"
+                            ],
+                            "type": "string"
+                          },
+                          "expirationDate": {
+                            "description": "Card expiration date in MM/YY format.",
+                            "examples": [
+                              "12/27"
+                            ],
+                            "type": "string"
                           }
+                        },
+                        "required": [
+                          "number",
+                          "holderName",
+                          "expirationDate"
                         ]
                       }
                     },
@@ -15278,42 +15696,34 @@
                           "type": "string"
                         },
                         "creditCard": {
-                          "allOf": [
-                            {
-                              "type": "object",
-                              "properties": {
-                                "number": {
-                                  "type": "string"
-                                },
-                                "holderName": {
-                                  "type": "string"
-                                },
-                                "expirationDate": {
-                                  "example": "10/10",
-                                  "type": "string",
-                                  "minLength": 5,
-                                  "maxLength": 5
-                                }
-                              },
-                              "required": [
-                                "number",
-                                "holderName",
-                                "expirationDate"
-                              ]
+                          "type": "object",
+                          "properties": {
+                            "number": {
+                              "description": "Masked card number for secure display.",
+                              "examples": [
+                                "5555 ********* 55"
+                              ],
+                              "type": "string"
                             },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "cvv": {
-                                  "type": "string",
-                                  "minLength": 3,
-                                  "maxLength": 4
-                                }
-                              },
-                              "required": [
-                                "cvv"
-                              ]
+                            "holderName": {
+                              "description": "Name of the cardholder as printed on the card.",
+                              "examples": [
+                                "John Doe"
+                              ],
+                              "type": "string"
+                            },
+                            "expirationDate": {
+                              "description": "Card expiration date in MM/YY format.",
+                              "examples": [
+                                "12/27"
+                              ],
+                              "type": "string"
                             }
+                          },
+                          "required": [
+                            "number",
+                            "holderName",
+                            "expirationDate"
                           ]
                         },
                         "payer": {
@@ -15373,28 +15783,53 @@
                             "address": {
                               "type": "object",
                               "properties": {
-                                "id": {
-                                  "type": "string"
-                                },
                                 "state": {
+                                  "description": "Two-letter state code following the ISO 3166-2 standard for country subdivisions.",
+                                  "examples": [
+                                    "CA"
+                                  ],
                                   "type": "string"
                                 },
                                 "city": {
+                                  "description": "City name.",
+                                  "examples": [
+                                    "Los Angeles"
+                                  ],
                                   "type": "string"
                                 },
                                 "zipCode": {
+                                  "description": "ZIP or postal code, containing digits only.",
+                                  "examples": [
+                                    "90210000"
+                                  ],
                                   "type": "string"
                                 },
                                 "neighborhood": {
+                                  "description": "Neighborhood or district name.",
+                                  "examples": [
+                                    "Downtown"
+                                  ],
                                   "type": "string"
                                 },
                                 "street": {
+                                  "description": "Street name.",
+                                  "examples": [
+                                    "Sunset Blvd"
+                                  ],
                                   "type": "string"
                                 },
                                 "number": {
+                                  "description": "Street number.",
+                                  "examples": [
+                                    "1234"
+                                  ],
                                   "type": "string"
                                 },
                                 "complement": {
+                                  "description": "Additional address details (optional).",
+                                  "examples": [
+                                    "Apt 202"
+                                  ],
                                   "anyOf": [
                                     {
                                       "type": "string"
@@ -15406,7 +15841,6 @@
                                 }
                               },
                               "required": [
-                                "id",
                                 "state",
                                 "city",
                                 "zipCode",
@@ -15513,42 +15947,34 @@
                           "type": "string"
                         },
                         "debitCard": {
-                          "allOf": [
-                            {
-                              "type": "object",
-                              "properties": {
-                                "number": {
-                                  "type": "string"
-                                },
-                                "holderName": {
-                                  "type": "string"
-                                },
-                                "expirationDate": {
-                                  "example": "10/10",
-                                  "type": "string",
-                                  "minLength": 5,
-                                  "maxLength": 5
-                                }
-                              },
-                              "required": [
-                                "number",
-                                "holderName",
-                                "expirationDate"
-                              ]
+                          "type": "object",
+                          "properties": {
+                            "number": {
+                              "description": "Masked card number for secure display.",
+                              "examples": [
+                                "5555 ********* 55"
+                              ],
+                              "type": "string"
                             },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "cvv": {
-                                  "type": "string",
-                                  "minLength": 3,
-                                  "maxLength": 4
-                                }
-                              },
-                              "required": [
-                                "cvv"
-                              ]
+                            "holderName": {
+                              "description": "Name of the cardholder as printed on the card.",
+                              "examples": [
+                                "John Doe"
+                              ],
+                              "type": "string"
+                            },
+                            "expirationDate": {
+                              "description": "Card expiration date in MM/YY format.",
+                              "examples": [
+                                "12/27"
+                              ],
+                              "type": "string"
                             }
+                          },
+                          "required": [
+                            "number",
+                            "holderName",
+                            "expirationDate"
                           ]
                         },
                         "payer": {
@@ -15608,28 +16034,53 @@
                             "address": {
                               "type": "object",
                               "properties": {
-                                "id": {
-                                  "type": "string"
-                                },
                                 "state": {
+                                  "description": "Two-letter state code following the ISO 3166-2 standard for country subdivisions.",
+                                  "examples": [
+                                    "CA"
+                                  ],
                                   "type": "string"
                                 },
                                 "city": {
+                                  "description": "City name.",
+                                  "examples": [
+                                    "Los Angeles"
+                                  ],
                                   "type": "string"
                                 },
                                 "zipCode": {
+                                  "description": "ZIP or postal code, containing digits only.",
+                                  "examples": [
+                                    "90210000"
+                                  ],
                                   "type": "string"
                                 },
                                 "neighborhood": {
+                                  "description": "Neighborhood or district name.",
+                                  "examples": [
+                                    "Downtown"
+                                  ],
                                   "type": "string"
                                 },
                                 "street": {
+                                  "description": "Street name.",
+                                  "examples": [
+                                    "Sunset Blvd"
+                                  ],
                                   "type": "string"
                                 },
                                 "number": {
+                                  "description": "Street number.",
+                                  "examples": [
+                                    "1234"
+                                  ],
                                   "type": "string"
                                 },
                                 "complement": {
+                                  "description": "Additional address details (optional).",
+                                  "examples": [
+                                    "Apt 202"
+                                  ],
                                   "anyOf": [
                                     {
                                       "type": "string"
@@ -15641,7 +16092,6 @@
                                 }
                               },
                               "required": [
-                                "id",
                                 "state",
                                 "city",
                                 "zipCode",
@@ -15820,28 +16270,53 @@
                             "address": {
                               "type": "object",
                               "properties": {
-                                "id": {
-                                  "type": "string"
-                                },
                                 "state": {
+                                  "description": "Two-letter state code following the ISO 3166-2 standard for country subdivisions.",
+                                  "examples": [
+                                    "CA"
+                                  ],
                                   "type": "string"
                                 },
                                 "city": {
+                                  "description": "City name.",
+                                  "examples": [
+                                    "Los Angeles"
+                                  ],
                                   "type": "string"
                                 },
                                 "zipCode": {
+                                  "description": "ZIP or postal code, containing digits only.",
+                                  "examples": [
+                                    "90210000"
+                                  ],
                                   "type": "string"
                                 },
                                 "neighborhood": {
+                                  "description": "Neighborhood or district name.",
+                                  "examples": [
+                                    "Downtown"
+                                  ],
                                   "type": "string"
                                 },
                                 "street": {
+                                  "description": "Street name.",
+                                  "examples": [
+                                    "Sunset Blvd"
+                                  ],
                                   "type": "string"
                                 },
                                 "number": {
+                                  "description": "Street number.",
+                                  "examples": [
+                                    "1234"
+                                  ],
                                   "type": "string"
                                 },
                                 "complement": {
+                                  "description": "Additional address details (optional).",
+                                  "examples": [
+                                    "Apt 202"
+                                  ],
                                   "anyOf": [
                                     {
                                       "type": "string"
@@ -15853,7 +16328,6 @@
                                 }
                               },
                               "required": [
-                                "id",
                                 "state",
                                 "city",
                                 "zipCode",
@@ -16036,28 +16510,53 @@
                             "address": {
                               "type": "object",
                               "properties": {
-                                "id": {
-                                  "type": "string"
-                                },
                                 "state": {
+                                  "description": "Two-letter state code following the ISO 3166-2 standard for country subdivisions.",
+                                  "examples": [
+                                    "CA"
+                                  ],
                                   "type": "string"
                                 },
                                 "city": {
+                                  "description": "City name.",
+                                  "examples": [
+                                    "Los Angeles"
+                                  ],
                                   "type": "string"
                                 },
                                 "zipCode": {
+                                  "description": "ZIP or postal code, containing digits only.",
+                                  "examples": [
+                                    "90210000"
+                                  ],
                                   "type": "string"
                                 },
                                 "neighborhood": {
+                                  "description": "Neighborhood or district name.",
+                                  "examples": [
+                                    "Downtown"
+                                  ],
                                   "type": "string"
                                 },
                                 "street": {
+                                  "description": "Street name.",
+                                  "examples": [
+                                    "Sunset Blvd"
+                                  ],
                                   "type": "string"
                                 },
                                 "number": {
+                                  "description": "Street number.",
+                                  "examples": [
+                                    "1234"
+                                  ],
                                   "type": "string"
                                 },
                                 "complement": {
+                                  "description": "Additional address details (optional).",
+                                  "examples": [
+                                    "Apt 202"
+                                  ],
                                   "anyOf": [
                                     {
                                       "type": "string"
@@ -16069,7 +16568,6 @@
                                 }
                               },
                               "required": [
-                                "id",
                                 "state",
                                 "city",
                                 "zipCode",
@@ -16229,6 +16727,11 @@
             }
           }
         },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "summary": "Change Subscription Payment Method",
         "tags": [
           "Subscription"
@@ -19216,16 +19719,25 @@
                 "type": "object",
                 "properties": {
                   "number": {
+                    "description": "Masked card number for secure display.",
+                    "examples": [
+                      "5555 ********* 55"
+                    ],
                     "type": "string"
                   },
                   "holderName": {
+                    "description": "Name of the cardholder as printed on the card.",
+                    "examples": [
+                      "John Doe"
+                    ],
                     "type": "string"
                   },
                   "expirationDate": {
-                    "example": "10/10",
-                    "type": "string",
-                    "minLength": 5,
-                    "maxLength": 5
+                    "description": "Card expiration date in MM/YY format.",
+                    "examples": [
+                      "12/27"
+                    ],
+                    "type": "string"
                   }
                 },
                 "required": [
@@ -19340,16 +19852,25 @@
                 "type": "object",
                 "properties": {
                   "number": {
+                    "description": "Masked card number for secure display.",
+                    "examples": [
+                      "5555 ********* 55"
+                    ],
                     "type": "string"
                   },
                   "holderName": {
+                    "description": "Name of the cardholder as printed on the card.",
+                    "examples": [
+                      "John Doe"
+                    ],
                     "type": "string"
                   },
                   "expirationDate": {
-                    "example": "10/10",
-                    "type": "string",
-                    "minLength": 5,
-                    "maxLength": 5
+                    "description": "Card expiration date in MM/YY format.",
+                    "examples": [
+                      "12/27"
+                    ],
+                    "type": "string"
                   }
                 },
                 "required": [
@@ -20120,42 +20641,34 @@
                 "type": "string"
               },
               "creditCard": {
-                "allOf": [
-                  {
-                    "type": "object",
-                    "properties": {
-                      "number": {
-                        "type": "string"
-                      },
-                      "holderName": {
-                        "type": "string"
-                      },
-                      "expirationDate": {
-                        "example": "10/10",
-                        "type": "string",
-                        "minLength": 5,
-                        "maxLength": 5
-                      }
-                    },
-                    "required": [
-                      "number",
-                      "holderName",
-                      "expirationDate"
-                    ]
+                "type": "object",
+                "properties": {
+                  "number": {
+                    "description": "Masked card number for secure display.",
+                    "examples": [
+                      "5555 ********* 55"
+                    ],
+                    "type": "string"
                   },
-                  {
-                    "type": "object",
-                    "properties": {
-                      "cvv": {
-                        "type": "string",
-                        "minLength": 3,
-                        "maxLength": 4
-                      }
-                    },
-                    "required": [
-                      "cvv"
-                    ]
+                  "holderName": {
+                    "description": "Name of the cardholder as printed on the card.",
+                    "examples": [
+                      "John Doe"
+                    ],
+                    "type": "string"
+                  },
+                  "expirationDate": {
+                    "description": "Card expiration date in MM/YY format.",
+                    "examples": [
+                      "12/27"
+                    ],
+                    "type": "string"
                   }
+                },
+                "required": [
+                  "number",
+                  "holderName",
+                  "expirationDate"
                 ]
               },
               "payer": {
@@ -20215,28 +20728,53 @@
                   "address": {
                     "type": "object",
                     "properties": {
-                      "id": {
-                        "type": "string"
-                      },
                       "state": {
+                        "description": "Two-letter state code following the ISO 3166-2 standard for country subdivisions.",
+                        "examples": [
+                          "CA"
+                        ],
                         "type": "string"
                       },
                       "city": {
+                        "description": "City name.",
+                        "examples": [
+                          "Los Angeles"
+                        ],
                         "type": "string"
                       },
                       "zipCode": {
+                        "description": "ZIP or postal code, containing digits only.",
+                        "examples": [
+                          "90210000"
+                        ],
                         "type": "string"
                       },
                       "neighborhood": {
+                        "description": "Neighborhood or district name.",
+                        "examples": [
+                          "Downtown"
+                        ],
                         "type": "string"
                       },
                       "street": {
+                        "description": "Street name.",
+                        "examples": [
+                          "Sunset Blvd"
+                        ],
                         "type": "string"
                       },
                       "number": {
+                        "description": "Street number.",
+                        "examples": [
+                          "1234"
+                        ],
                         "type": "string"
                       },
                       "complement": {
+                        "description": "Additional address details (optional).",
+                        "examples": [
+                          "Apt 202"
+                        ],
                         "anyOf": [
                           {
                             "type": "string"
@@ -20248,7 +20786,6 @@
                       }
                     },
                     "required": [
-                      "id",
                       "state",
                       "city",
                       "zipCode",
@@ -20355,42 +20892,34 @@
                 "type": "string"
               },
               "debitCard": {
-                "allOf": [
-                  {
-                    "type": "object",
-                    "properties": {
-                      "number": {
-                        "type": "string"
-                      },
-                      "holderName": {
-                        "type": "string"
-                      },
-                      "expirationDate": {
-                        "example": "10/10",
-                        "type": "string",
-                        "minLength": 5,
-                        "maxLength": 5
-                      }
-                    },
-                    "required": [
-                      "number",
-                      "holderName",
-                      "expirationDate"
-                    ]
+                "type": "object",
+                "properties": {
+                  "number": {
+                    "description": "Masked card number for secure display.",
+                    "examples": [
+                      "5555 ********* 55"
+                    ],
+                    "type": "string"
                   },
-                  {
-                    "type": "object",
-                    "properties": {
-                      "cvv": {
-                        "type": "string",
-                        "minLength": 3,
-                        "maxLength": 4
-                      }
-                    },
-                    "required": [
-                      "cvv"
-                    ]
+                  "holderName": {
+                    "description": "Name of the cardholder as printed on the card.",
+                    "examples": [
+                      "John Doe"
+                    ],
+                    "type": "string"
+                  },
+                  "expirationDate": {
+                    "description": "Card expiration date in MM/YY format.",
+                    "examples": [
+                      "12/27"
+                    ],
+                    "type": "string"
                   }
+                },
+                "required": [
+                  "number",
+                  "holderName",
+                  "expirationDate"
                 ]
               },
               "payer": {
@@ -20450,28 +20979,53 @@
                   "address": {
                     "type": "object",
                     "properties": {
-                      "id": {
-                        "type": "string"
-                      },
                       "state": {
+                        "description": "Two-letter state code following the ISO 3166-2 standard for country subdivisions.",
+                        "examples": [
+                          "CA"
+                        ],
                         "type": "string"
                       },
                       "city": {
+                        "description": "City name.",
+                        "examples": [
+                          "Los Angeles"
+                        ],
                         "type": "string"
                       },
                       "zipCode": {
+                        "description": "ZIP or postal code, containing digits only.",
+                        "examples": [
+                          "90210000"
+                        ],
                         "type": "string"
                       },
                       "neighborhood": {
+                        "description": "Neighborhood or district name.",
+                        "examples": [
+                          "Downtown"
+                        ],
                         "type": "string"
                       },
                       "street": {
+                        "description": "Street name.",
+                        "examples": [
+                          "Sunset Blvd"
+                        ],
                         "type": "string"
                       },
                       "number": {
+                        "description": "Street number.",
+                        "examples": [
+                          "1234"
+                        ],
                         "type": "string"
                       },
                       "complement": {
+                        "description": "Additional address details (optional).",
+                        "examples": [
+                          "Apt 202"
+                        ],
                         "anyOf": [
                           {
                             "type": "string"
@@ -20483,7 +21037,6 @@
                       }
                     },
                     "required": [
-                      "id",
                       "state",
                       "city",
                       "zipCode",
@@ -20662,28 +21215,53 @@
                   "address": {
                     "type": "object",
                     "properties": {
-                      "id": {
-                        "type": "string"
-                      },
                       "state": {
+                        "description": "Two-letter state code following the ISO 3166-2 standard for country subdivisions.",
+                        "examples": [
+                          "CA"
+                        ],
                         "type": "string"
                       },
                       "city": {
+                        "description": "City name.",
+                        "examples": [
+                          "Los Angeles"
+                        ],
                         "type": "string"
                       },
                       "zipCode": {
+                        "description": "ZIP or postal code, containing digits only.",
+                        "examples": [
+                          "90210000"
+                        ],
                         "type": "string"
                       },
                       "neighborhood": {
+                        "description": "Neighborhood or district name.",
+                        "examples": [
+                          "Downtown"
+                        ],
                         "type": "string"
                       },
                       "street": {
+                        "description": "Street name.",
+                        "examples": [
+                          "Sunset Blvd"
+                        ],
                         "type": "string"
                       },
                       "number": {
+                        "description": "Street number.",
+                        "examples": [
+                          "1234"
+                        ],
                         "type": "string"
                       },
                       "complement": {
+                        "description": "Additional address details (optional).",
+                        "examples": [
+                          "Apt 202"
+                        ],
                         "anyOf": [
                           {
                             "type": "string"
@@ -20695,7 +21273,6 @@
                       }
                     },
                     "required": [
-                      "id",
                       "state",
                       "city",
                       "zipCode",
@@ -20878,28 +21455,53 @@
                   "address": {
                     "type": "object",
                     "properties": {
-                      "id": {
-                        "type": "string"
-                      },
                       "state": {
+                        "description": "Two-letter state code following the ISO 3166-2 standard for country subdivisions.",
+                        "examples": [
+                          "CA"
+                        ],
                         "type": "string"
                       },
                       "city": {
+                        "description": "City name.",
+                        "examples": [
+                          "Los Angeles"
+                        ],
                         "type": "string"
                       },
                       "zipCode": {
+                        "description": "ZIP or postal code, containing digits only.",
+                        "examples": [
+                          "90210000"
+                        ],
                         "type": "string"
                       },
                       "neighborhood": {
+                        "description": "Neighborhood or district name.",
+                        "examples": [
+                          "Downtown"
+                        ],
                         "type": "string"
                       },
                       "street": {
+                        "description": "Street name.",
+                        "examples": [
+                          "Sunset Blvd"
+                        ],
                         "type": "string"
                       },
                       "number": {
+                        "description": "Street number.",
+                        "examples": [
+                          "1234"
+                        ],
                         "type": "string"
                       },
                       "complement": {
+                        "description": "Additional address details (optional).",
+                        "examples": [
+                          "Apt 202"
+                        ],
                         "anyOf": [
                           {
                             "type": "string"
@@ -20911,7 +21513,6 @@
                       }
                     },
                     "required": [
-                      "id",
                       "state",
                       "city",
                       "zipCode",

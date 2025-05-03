@@ -1,12 +1,15 @@
 import { ConflictException } from '@starter/nestjs-error-handling'
+import { z } from '@starter/schema'
 import { addDays, addWeeks, addMonths, addYears } from '@starter/common'
 
 import { BaseDomain } from '@/support/base-domain'
 import { RecurrenceIntervalEnum } from '@/ports/recurrence'
 import { PlanSchema, Plan, PlanStatusEnum } from '@/core/plan/plan.schema'
 
-export class PlanDomain extends BaseDomain<Plan> {
-  constructor(plan: Plan) {
+type PlanInput = z.input<typeof PlanSchema>
+
+export class PlanDomain extends BaseDomain<Plan, PlanInput> {
+  constructor(plan: PlanInput) {
     super(PlanSchema, plan)
   }
 
