@@ -1,34 +1,14 @@
 import { ConflictException, Injectable, UnauthorizedException } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
-import { LoggerService, EncryptService, UserService, User, UserStatusEnum } from '@starter/domain'
+import { LoggerService, EncryptService, UserService, UserStatusEnum } from '@starter/domain'
 
 import { SocialAuthEnum } from '@/ports/social-auth'
 import { SocialAuthService } from '@/adapters/social-auth'
 import { JWTService } from '@/adapters/jwt'
-
-export type SignInInput = {
-  email: string
-  password: string
-}
-
-export type SocialSignOnInput = {
-  context: SocialAuthEnum
-  providerToken: string
-}
-
-export type SignUpInput = {
-  name: string
-  email: string
-  password: string
-}
-
-export type ForgotPasswordInput = {
-  email: string
-  password: string
-}
+import { IAuthService } from '@/core/auth/auth.service.interface'
 
 @Injectable()
-export class AuthService {
+export class AuthService implements IAuthService {
   constructor(
     private readonly configService: ConfigService,
     private readonly loggerService: LoggerService,
@@ -38,7 +18,7 @@ export class AuthService {
     private readonly jwtService: JWTService,
   ) {}
 
-  async signIn({ email, password }: SignInInput) {
+  signIn: IAuthService['signIn'] = async ({ email, password }) => {
     this.loggerService.info(`Attempting to sign in user with email: ${email}`, {})
 
     const user = await this.userService.getUserByEmail(email)
@@ -58,7 +38,7 @@ export class AuthService {
     return this.grantAccessToken(user)
   }
 
-  async socialSignOn(input: SocialSignOnInput) {
+  socialSignOn: IAuthService['socialSignOn'] = async (input) => {
     const { providerId, name, email, avatar } = await this.socialAuthService.getInfo(input.context, input.providerToken)
 
     const user = await this.userService.getUserBySocial(input.context, { socialId: providerId, email })
@@ -85,7 +65,7 @@ export class AuthService {
     return this.grantAccessToken(user)
   }
 
-  async signUp({ name, email, password }: SignUpInput) {
+  signUp: IAuthService['signUp'] = async ({ name, email, password }) => {
     const emailExists = await this.userService.getUserByEmail(email)
 
     if (emailExists) {
@@ -110,7 +90,7 @@ export class AuthService {
     return this.grantAccessToken(user)
   }
 
-  async forgotPassword({ email, password }: ForgotPasswordInput) {
+  forgotPassword: IAuthService['forgotPassword'] = async ({ email, password }) => {
     const user = await this.userService.getUserByEmail(email)
 
     if (!user) {
@@ -127,7 +107,7 @@ export class AuthService {
     return this.grantAccessToken(user)
   }
 
-  async grantAccessToken(user: User) {
+  grantAccessToken: IAuthService['grantAccessToken'] = async (user) => {
     const tokenPayload = {
       userId: user.userId,
     }

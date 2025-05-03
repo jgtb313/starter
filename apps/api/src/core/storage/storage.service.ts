@@ -2,12 +2,13 @@ import { Injectable } from '@nestjs/common'
 
 import { PresignedUrlService } from '@/adapters/presigned-url'
 import { FileContextEnum } from '@/core/storage/storage.controller.schema'
+import { IStorageService } from '@/core/storage/storage.service.interface'
 
 @Injectable()
-export class StorageService {
+export class StorageService implements IStorageService {
   constructor(private readonly presignedUrlService: PresignedUrlService) {}
 
-  getPresignedUrl(fileContext: FileContextEnum, fileName: string) {
+  getPresignedUrl: IStorageService['getPresignedUrl'] = async (fileContext, fileName) => {
     const fileContexts: Record<FileContextEnum, string> = {
       [FileContextEnum.USER_AVATAR]: 'users/avatar',
       [FileContextEnum.WORKSPACE_LOGO]: 'workspaces/logo',

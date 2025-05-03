@@ -10,14 +10,14 @@ export class PresignedUrlService {
     private readonly configService: ConfigService,
   ) {}
 
-  generateUrl: IPresignedUrl['getPresignedUrl'] = async (filename, options) => {
+  generateUrl: IPresignedUrl['getPresignedUrl'] = async (fileName, options) => {
     const STATIC_ASSETS_URL = this.configService.get<string>('STATIC_ASSETS_URL')!
 
-    const filenameSigned = await this.presignedUrl.getPresignedUrl(filename, options)
+    const fileNameSigned = await this.presignedUrl.getPresignedUrl(fileName, options)
 
     return {
-      filename: `https://${STATIC_ASSETS_URL}/${filename}`,
-      filenameSigned,
+      fileName: `https://${STATIC_ASSETS_URL}/${fileName}`,
+      fileNameSigned,
     }
   }
 }
