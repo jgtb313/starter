@@ -40,11 +40,17 @@ export class SubscriptionService implements ISubscriptionService {
 
     plan.checkIfIsSignable()
 
+    const { customerId: recurrenceCustomerId } = await this.recurrenceService.createCustmer({ workspaceId })
+
+    console.log({
+      recurrenceCustomerId,
+    })
+
     const subscriptionId = uuid()
 
     const recurrenceSubscription = await this.recurrenceService.createSubscription({
       referenceId: subscriptionId,
-      customerId: workspace.workspaceId,
+      customerId: recurrenceCustomerId,
       planId: plan.state.externalId,
       payer,
       ...input,
@@ -71,7 +77,11 @@ export class SubscriptionService implements ISubscriptionService {
       issuedAt: new Date(),
     })
 
-    await this.workspaceService.updateWorkspace(subscription.workspaceId, {})
+    await this.workspaceService.updateWorkspace(subscription.workspaceId, {
+      integrations: {
+        recurrenceCustomerId,
+      },
+    })
 
     return subscription
   }

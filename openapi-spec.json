@@ -17294,6 +17294,24 @@
                     "name": {
                       "type": "string"
                     },
+                    "integrations": {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "recurrenceCustomerId": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "recurrenceCustomerId"
+                          ]
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
                     "status": {
                       "enum": [
                         "ACTIVE",
@@ -17314,6 +17332,7 @@
                   "required": [
                     "workspaceId",
                     "name",
+                    "integrations",
                     "status",
                     "createdAt",
                     "updatedAt"
@@ -17480,6 +17499,24 @@
                     "name": {
                       "type": "string"
                     },
+                    "integrations": {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "recurrenceCustomerId": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "recurrenceCustomerId"
+                          ]
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
                     "status": {
                       "enum": [
                         "ACTIVE",
@@ -17500,6 +17537,7 @@
                   "required": [
                     "workspaceId",
                     "name",
+                    "integrations",
                     "status",
                     "createdAt",
                     "updatedAt"
@@ -17651,6 +17689,24 @@
                     "name": {
                       "type": "string"
                     },
+                    "integrations": {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "recurrenceCustomerId": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "recurrenceCustomerId"
+                          ]
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
                     "status": {
                       "enum": [
                         "ACTIVE",
@@ -17671,6 +17727,7 @@
                   "required": [
                     "workspaceId",
                     "name",
+                    "integrations",
                     "status",
                     "createdAt",
                     "updatedAt"
@@ -19770,6 +19827,24 @@
           "name": {
             "type": "string"
           },
+          "integrations": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "recurrenceCustomerId": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "recurrenceCustomerId"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "status": {
             "enum": [
               "ACTIVE",
@@ -19790,6 +19865,7 @@
         "required": [
           "workspaceId",
           "name",
+          "integrations",
           "status",
           "createdAt",
           "updatedAt"

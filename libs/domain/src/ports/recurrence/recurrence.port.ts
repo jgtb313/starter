@@ -16,7 +16,7 @@ export enum RecurrencePaymentMethodEnum {
 }
 
 export type RecurrenceCreatePlanInput = {
-  referenceId: string
+  workspaceId: string
   name: string
   description?: string
   amount: number
@@ -40,6 +40,13 @@ export type RecurrenceCancelPlanInput = {
   planId: string
 }
 export type RecurrenceCancelPlanOutput = void
+
+export type RecurrenceCreateCustomerInput = {
+  workspaceId: string
+}
+export type RecurrenceCreateCustomerOutput = {
+  customerId: string
+}
 
 type CardPayment = {
   paymentMethod: RecurrencePaymentMethodEnum.CARD
@@ -111,6 +118,8 @@ export type IRecurrence = {
   createPlan: (input: RecurrenceCreatePlanInput) => Promise<RecurrenceCreatePlanOutput>
   updatePlan: (input: RecurrenceUpdatePlanInput) => Promise<RecurrenceUpdatePlanOutput>
   cancelPlan: (input: RecurrenceCancelPlanInput) => Promise<RecurrenceCancelPlanOutput>
+
+  createCustmer: (input: RecurrenceCreateCustomerInput) => Promise<RecurrenceCreateCustomerOutput>
 
   createSubscription: (input: RecurrenceCreateSubscriptionInput) => Promise<RecurrenceCreateSubscriptionOutput>
   changeSubscriptionPaymentMethod: (input: RecurrenceChangeSubscriptionPaymentMethodInput) => Promise<RecurrenceChangeSubscriptionPaymentMethodOutput>

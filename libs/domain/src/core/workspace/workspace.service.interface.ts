@@ -8,7 +8,7 @@ export interface IWorkspaceService {
 
   getWorkspace(workspaceId: string): Promise<Workspace>
 
-  createWorkspace(user: User, input: BaseWorkspace): Promise<Workspace>
+  createWorkspace(user: User, input: Omit<BaseWorkspace, 'integrations'>): Promise<Workspace>
 
   updateWorkspace(workspaceId: string, input: Partial<Workspace>): Promise<Workspace>
 }

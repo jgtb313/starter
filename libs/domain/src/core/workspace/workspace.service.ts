@@ -24,7 +24,6 @@ export class WorkspaceService implements IWorkspaceService {
     if (user.workspaceId) {
       throw new ConflictException('Workspace already exists.')
     }
-
     const workspace = await this.workspaceRepository.create(input)
 
     await this.userService.updateUser(user.userId, {

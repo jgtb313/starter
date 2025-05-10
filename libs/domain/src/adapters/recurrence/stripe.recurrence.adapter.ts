@@ -9,7 +9,7 @@ import { InvoiceStatusEnum } from '@/core/invoice/invoice.schema'
 export class StripeRecurrenceAdapter implements IRecurrenceAdapter {
   constructor(@Inject('STRIPE_CLIENT') private readonly stripe: Stripe) {}
 
-  createPlan: IRecurrenceAdapter['createPlan'] = async ({ referenceId, name, description, amount, interval, intervalCount, trialDays }) => {
+  createPlan: IRecurrenceAdapter['createPlan'] = async ({ workspaceId, name, description, amount, interval, intervalCount, trialDays }) => {
     const plan = await this.stripe.plans.create({
       currency: 'brl',
       nickname: name,
@@ -22,7 +22,7 @@ export class StripeRecurrenceAdapter implements IRecurrenceAdapter {
         statement_descriptor: description,
       },
       metadata: {
-        referenceId,
+        workspaceId,
       },
     })
 
@@ -56,6 +56,18 @@ export class StripeRecurrenceAdapter implements IRecurrenceAdapter {
     return
   }
 
+  createCustmer: IRecurrenceAdapter['createCustmer'] = async ({ workspaceId }) => {
+    const stripeCustomer = await this.stripe.customers.create({
+      metadata: {
+        workspaceId,
+      },
+    })
+
+    return {
+      customerId: stripeCustomer.id,
+    }
+  }
+
   createSubscription: IRecurrenceAdapter['createSubscription'] = async ({ referenceId, planId, customerId, payer, ...input }) => {
     if (input.paymentMethod === RecurrencePaymentMethodEnum.CARD) {
       await Promise.all([
@@ -71,10 +83,13 @@ export class StripeRecurrenceAdapter implements IRecurrenceAdapter {
     const stripeSubscription = await this.stripe.subscriptions.create({
       customer: customerId,
       items: [{ price: planId }],
-      default_payment_method: input.paymentMethod,
+      collection_method: RecurrencePaymentMethodEnum.CARD ? 'charge_automatically' : 'send_invoice',
       payment_settings: {
         payment_method_types: [this.parsePaymentMethod(input.paymentMethod)],
         save_default_payment_method: input.paymentMethod === RecurrencePaymentMethodEnum.CARD ? 'on_subscription' : undefined,
+      },
+      metadata: {
+        subscriptionId: referenceId,
       },
     })
 
@@ -106,6 +121,7 @@ export class StripeRecurrenceAdapter implements IRecurrenceAdapter {
         ...response,
         paymentMethod: input.paymentMethod,
         card: {
+          token: input.cardToken,
           number: `**** **** **** ${card.last4}`,
           holderName: `${paymentMethodDetails.billing_details.name}`,
           expirationDate: `${card.exp_month}/${card.exp_year}`,
