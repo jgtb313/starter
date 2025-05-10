@@ -12,7 +12,7 @@ const makeInvoice = (overrides: Partial<Invoice>): Invoice => ({
   externalId: 'ext_test_id',
   description: 'Test invoice description',
   amount: 10000,
-  paymentMethod: RecurrencePaymentMethodEnum.CREDIT_CARD,
+  paymentMethod: RecurrencePaymentMethodEnum.CARD,
   creditCard: {
     holderName: '',
     number: '',

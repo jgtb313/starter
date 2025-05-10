@@ -38,7 +38,7 @@ const CanceledAt = z.iso
 
 const Status = z.enum(InvoiceStatusEnum).default(InvoiceStatusEnum.PENDING)
 
-export const InvoiceCreditCardSchema = z
+export const InvoiceCardSchema = z
   .object({
     invoiceId: InvoiceId,
     workspaceId: WorkspaceId,
@@ -46,7 +46,7 @@ export const InvoiceCreditCardSchema = z
     externalId: ExternalId,
     description: Description,
     amount: Amount,
-    paymentMethod: z.literal(RecurrencePaymentMethodEnum.CREDIT_CARD),
+    paymentMethod: z.literal(RecurrencePaymentMethodEnum.CARD),
     creditCard: BasePaymentCardSchema,
     dueDate: DueDate,
     issuedAt: IssuedAt,
@@ -56,29 +56,8 @@ export const InvoiceCreditCardSchema = z
     createdAt: CreatedAt,
     updatedAt: UpdatedAt,
   })
-  .meta({ title: 'InvoiceCreditCard' })
-export type InvoiceCreditCard = z.infer<typeof InvoiceCreditCardSchema>
-
-export const InvoiceDebitCardSchema = z
-  .object({
-    invoiceId: InvoiceId,
-    workspaceId: WorkspaceId,
-    subscriptionId: SubscriptionId,
-    externalId: ExternalId,
-    description: Description,
-    amount: Amount,
-    paymentMethod: z.literal(RecurrencePaymentMethodEnum.DEBIT_CARD),
-    debitCard: BasePaymentCardSchema,
-    dueDate: DueDate,
-    issuedAt: IssuedAt,
-    paidAt: PaidAt,
-    canceledAt: CanceledAt,
-    status: Status,
-    createdAt: CreatedAt,
-    updatedAt: UpdatedAt,
-  })
-  .meta({ title: 'InvoiceDebitCard' })
-export type InvoiceDebitCard = z.infer<typeof InvoiceDebitCardSchema>
+  .meta({ title: 'InvoiceCard' })
+export type InvoiceCard = z.infer<typeof InvoiceCardSchema>
 
 export const InvoicePixSchema = z
   .object({
@@ -122,12 +101,7 @@ export const InvoiceBoletoSchema = z
   .meta({ title: 'InvoiceBoleto' })
 export type InvoiceBoleto = z.infer<typeof InvoiceBoletoSchema>
 
-export const InvoiceSchema = z.discriminatedUnion('paymentMethod', [
-  InvoiceCreditCardSchema,
-  InvoiceDebitCardSchema,
-  InvoicePixSchema,
-  InvoiceBoletoSchema,
-])
+export const InvoiceSchema = z.discriminatedUnion('paymentMethod', [InvoiceCardSchema, InvoicePixSchema, InvoiceBoletoSchema])
 
 export type Invoice = z.infer<typeof InvoiceSchema>
 export type BaseInvoice = BaseSchema<'invoiceId', Invoice>
