@@ -87,10 +87,11 @@ export class SubscriptionController {
       workspaceId: params.workspaceId,
     })
 
+    console.log({ params, body })
+
     return this.subscriptionService.createSubscription({
       ...params,
       ...body,
-      ...({} as any),
     })
   }
 

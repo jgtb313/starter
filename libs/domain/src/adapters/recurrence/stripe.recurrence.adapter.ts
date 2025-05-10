@@ -33,19 +33,19 @@ export class StripeRecurrenceAdapter implements IRecurrenceAdapter {
 
   updatePlan: IRecurrenceAdapter['updatePlan'] = async ({ planId, name, description, trialDays }) => {
     const plan = await this.stripe.plans.retrieve(planId)
-
-    await this.stripe.plans.update(planId, {
-      nickname: name,
-      trial_period_days: trialDays,
-    })
-
     const productId = typeof plan.product === 'string' ? plan.product : (plan.product as Stripe.Product).id
 
-    await this.stripe.products.update(productId, {
-      name,
-      description,
-      statement_descriptor: description,
-    })
+    await Promise.all([
+      this.stripe.plans.update(plan.id, {
+        nickname: name,
+        trial_period_days: trialDays,
+      }),
+      this.stripe.products.update(productId, {
+        name,
+        description,
+        statement_descriptor: description,
+      }),
+    ])
 
     return
   }
@@ -56,76 +56,90 @@ export class StripeRecurrenceAdapter implements IRecurrenceAdapter {
     return
   }
 
-  createSubscription: IRecurrenceAdapter['createSubscription'] = async ({ referenceId, planId, customerId, ...input }) => {
-    let paymentMethod: Stripe.PaymentMethod
-
-    if (input.paymentMethod === RecurrencePaymentMethodEnum.CREDIT_CARD) {
-      const [expMonth, expYear] = input.creditCard.expirationDate.split('/').map(Number)
-
-      paymentMethod = await this.stripe.paymentMethods.create({
-        type: 'card',
-        card: {
-          number: input.creditCard.number,
-          exp_month: expMonth,
-          exp_year: expYear,
-          cvc: input.creditCard.cvv,
-        },
-      })
-    } else if (input.paymentMethod === RecurrencePaymentMethodEnum.DEBIT_CARD) {
-      const [expMonth, expYear] = input.debitCard.expirationDate.split('/').map(Number)
-
-      paymentMethod = await this.stripe.paymentMethods.create({
-        type: 'card',
-        card: {
-          number: input.debitCard.number,
-          exp_month: expMonth,
-          exp_year: expYear,
-          cvc: input.debitCard.cvv,
-        },
-      })
-    } else if (input.paymentMethod === RecurrencePaymentMethodEnum.PIX) {
-      paymentMethod = await this.stripe.paymentMethods.create({
-        type: 'pix',
-        pix: {},
-      })
-    } else if (input.paymentMethod === RecurrencePaymentMethodEnum.BOLETO) {
-      paymentMethod = await this.stripe.paymentMethods.create({
-        type: 'boleto',
-        boleto: {
-          tax_id: '',
-        },
-      })
+  createSubscription: IRecurrenceAdapter['createSubscription'] = async ({ referenceId, planId, customerId, payer, ...input }) => {
+    if (input.paymentMethod === RecurrencePaymentMethodEnum.CARD) {
+      await Promise.all([
+        this.stripe.paymentMethods.attach(input.cardToken, { customer: customerId }),
+        this.stripe.customers.update(customerId, {
+          invoice_settings: {
+            default_payment_method: input.cardToken,
+          },
+        }),
+      ])
     }
 
-    const subscription = await this.stripe.subscriptions.create({
+    const stripeSubscription = await this.stripe.subscriptions.create({
       customer: customerId,
-      items: [{ plan: planId }],
-      collection_method: 'charge_automatically',
-      payment_behavior: 'default_incomplete',
-      metadata: { referenceId },
-      expand: ['latest_invoice.payment_intent'],
-      trial_from_plan: true,
+      items: [{ price: planId }],
+      default_payment_method: input.paymentMethod,
+      payment_settings: {
+        payment_method_types: [this.parsePaymentMethod(input.paymentMethod)],
+        save_default_payment_method: input.paymentMethod === RecurrencePaymentMethodEnum.CARD ? 'on_subscription' : undefined,
+      },
     })
 
-    const latestInvoice = subscription.latest_invoice as Stripe.Invoice
-
-    const invoice: RecurrenceCreateSubscriptionOutput['invoice'] = {
-      externalId: `${latestInvoice.id}`,
-      amount: latestInvoice.amount_due,
-      paymentMethod: input.paymentMethod,
-      dueDate: new Date(),
-      status: this.parseInvoiceStatus(latestInvoice.status),
+    const stripeInvoice = (await this.stripe.invoices.retrieve(`${stripeSubscription.latest_invoice}`, {
+      expand: ['payment_intent'],
+    })) as unknown as Stripe.Invoice & {
+      payment_intent: Stripe.PaymentIntent
     }
 
+    const response: Pick<RecurrenceCreateSubscriptionOutput, 'subscriptionId' | 'invoice'> = {
+      subscriptionId: stripeSubscription.id,
+      invoice: {
+        externalId: `${stripeInvoice.id}`,
+        paymentMethod: input.paymentMethod,
+        amount: stripeInvoice.amount_due,
+        dueDate: new Date(),
+        status: this.parseInvoiceStatus(stripeInvoice.status),
+      },
+    }
+
+    const paymentIntent = stripeInvoice.payment_intent
+
+    if (input.paymentMethod === RecurrencePaymentMethodEnum.CARD) {
+      const paymentMethodDetails = await this.stripe.paymentMethods.retrieve(input.cardToken)
+
+      const card = paymentMethodDetails.card as Stripe.PaymentMethod.Card
+
+      return {
+        ...response,
+        paymentMethod: input.paymentMethod,
+        card: {
+          number: `**** **** **** ${card.last4}`,
+          holderName: `${paymentMethodDetails.billing_details.name}`,
+          expirationDate: `${card.exp_month}/${card.exp_year}`,
+        },
+      }
+    }
+
+    if (input.paymentMethod === RecurrencePaymentMethodEnum.PIX) {
+      const pixData = paymentIntent?.next_action?.pix_display_qr_code as Stripe.PaymentIntent.NextAction.PixDisplayQrCode
+
+      return {
+        ...response,
+        paymentMethod: input.paymentMethod,
+        pix: {
+          qrCode: `${pixData.data}`,
+          dueDate: new Date(pixData.expires_at as number),
+        },
+      }
+    }
+
+    const boletoData = paymentIntent?.next_action?.boleto_display_details as Stripe.PaymentIntent.NextAction.BoletoDisplayDetails
+
     return {
-      subscriptionId: subscription.id,
-      invoice,
+      ...response,
+      paymentMethod: input.paymentMethod,
+      boleto: {
+        url: `${boletoData.hosted_voucher_url}`,
+        dueDate: new Date(boletoData.expires_at as number),
+        instructions: `${boletoData.pdf}`,
+      },
     }
   }
 
-  changeSubscriptionPaymentMethod: IRecurrenceAdapter['changeSubscriptionPaymentMethod'] = async () => {
-    const subscriptionId = uuid()
-
+  changeSubscriptionPaymentMethod: IRecurrenceAdapter['changeSubscriptionPaymentMethod'] = async ({ subscriptionId, ...input }) => {
     return {
       subscriptionId,
     }
@@ -143,6 +157,16 @@ export class StripeRecurrenceAdapter implements IRecurrenceAdapter {
     await this.stripe.subscriptions.cancel(subscriptionId)
 
     return
+  }
+
+  private parsePaymentMethod(paymentMethod: RecurrencePaymentMethodEnum) {
+    const values: Record<RecurrencePaymentMethodEnum, Stripe.SubscriptionCreateParams.PaymentSettings.PaymentMethodType> = {
+      CARD: 'card',
+      BOLETO: 'boleto',
+      PIX: 'paypal',
+    }
+
+    return values[paymentMethod]
   }
 
   private parsePlanInterval(interval: RecurrenceIntervalEnum): Stripe.PlanCreateParams.Interval {

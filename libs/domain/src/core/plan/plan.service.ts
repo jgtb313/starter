@@ -3,6 +3,7 @@ import { uuid } from '@starter/common'
 
 import { IPlanRepository } from '@/ports/database/plan'
 import { RecurrenceService } from '@/adapters/recurrence'
+import { PlanStatusEnum } from '@/core/plan/plan.schema'
 import { IPlanService } from '@/core/plan/plan.service.interface'
 
 @Injectable()
@@ -32,6 +33,7 @@ export class PlanService implements IPlanService {
       ...input,
       planId,
       externalId: recurrencePlan.planId,
+      status: PlanStatusEnum.ACTIVE,
     })
   }
 

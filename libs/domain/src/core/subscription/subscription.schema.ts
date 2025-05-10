@@ -1,13 +1,4 @@
-import {
-  z,
-  EmailSchema,
-  PhoneSchema,
-  DocumentExplicitSchema,
-  BaseAddressSchema,
-  BasePaymentCardSchema,
-  PixSchema,
-  BoletoSchema,
-} from '@starter/schema'
+import { z, EmailSchema, PhoneSchema, DocumentExplicitSchema, BaseAddressSchema, BasePaymentCardSchema } from '@starter/schema'
 
 import { ID, CreatedAt, UpdatedAt, BaseSchema } from '@/support/schema'
 import { RecurrencePaymentMethodEnum } from '@/ports/recurrence'
@@ -39,8 +30,6 @@ export const SubscriptionPayerSchema = z.object({
 
 const Deadline = z.iso.datetime().transform((value) => new Date(value))
 
-const BillingDueDate = z.iso.datetime().transform((value) => new Date(value))
-
 const CanceledAt = z.iso
   .datetime()
   .nullish()
@@ -48,91 +37,25 @@ const CanceledAt = z.iso
 
 const Status = z.enum(SubscriptionStatusEnum).default(SubscriptionStatusEnum.ACTIVE)
 
-export const SubscriptionCreditCardSchema = z
+export const SubscriptionCardSchema = z
   .object({
     subscriptionId: SubscriptionId,
     workspaceId: WorkspaceId,
     planId: PlanId,
     externalId: ExternalId,
     amount: Amount,
-    paymentMethod: z.literal(RecurrencePaymentMethodEnum.CREDIT_CARD),
-    creditCard: BasePaymentCardSchema,
+    paymentMethod: z.literal(RecurrencePaymentMethodEnum.CARD),
+    card: BasePaymentCardSchema,
     payer: SubscriptionPayerSchema,
     deadline: Deadline,
-    billingDueDate: BillingDueDate,
     canceledAt: CanceledAt,
     status: Status,
     createdAt: CreatedAt,
     updatedAt: UpdatedAt,
   })
-  .meta({ title: 'SubscriptionCreditCard' })
-export type SubscriptionCreditCard = z.infer<typeof SubscriptionCreditCardSchema>
+  .meta({ title: 'SubscriptionCard' })
+export type SubscriptionCard = z.infer<typeof SubscriptionCardSchema>
 
-export const SubscriptionDebitCardSchema = z
-  .object({
-    subscriptionId: SubscriptionId,
-    workspaceId: WorkspaceId,
-    planId: PlanId,
-    externalId: ExternalId,
-    amount: Amount,
-    paymentMethod: z.literal(RecurrencePaymentMethodEnum.DEBIT_CARD),
-    debitCard: BasePaymentCardSchema,
-    payer: SubscriptionPayerSchema,
-    deadline: Deadline,
-    billingDueDate: BillingDueDate,
-    canceledAt: CanceledAt,
-    status: Status,
-    createdAt: CreatedAt,
-    updatedAt: UpdatedAt,
-  })
-  .meta({ title: 'SubscriptionDebitCard' })
-export type SubscriptionDebitCard = z.infer<typeof SubscriptionDebitCardSchema>
-
-export const SubscriptionPixSchema = z
-  .object({
-    subscriptionId: SubscriptionId,
-    workspaceId: WorkspaceId,
-    planId: PlanId,
-    externalId: ExternalId,
-    amount: Amount,
-    paymentMethod: z.literal(RecurrencePaymentMethodEnum.PIX),
-    pix: PixSchema,
-    payer: SubscriptionPayerSchema,
-    deadline: Deadline,
-    billingDueDate: BillingDueDate,
-    canceledAt: CanceledAt,
-    status: Status,
-    createdAt: CreatedAt,
-    updatedAt: UpdatedAt,
-  })
-  .meta({ title: 'SubscriptionPix' })
-export type SubscriptionPix = z.infer<typeof SubscriptionPixSchema>
-
-export const SubscriptionBoletoSchema = z
-  .object({
-    subscriptionId: SubscriptionId,
-    workspaceId: WorkspaceId,
-    planId: PlanId,
-    externalId: ExternalId,
-    amount: Amount,
-    paymentMethod: z.literal(RecurrencePaymentMethodEnum.BOLETO),
-    boleto: BoletoSchema,
-    payer: SubscriptionPayerSchema,
-    deadline: Deadline,
-    billingDueDate: BillingDueDate,
-    canceledAt: CanceledAt,
-    status: Status,
-    createdAt: CreatedAt,
-    updatedAt: UpdatedAt,
-  })
-  .meta({ title: 'SubscriptionBoleto' })
-export type SubscriptionBoleto = z.infer<typeof SubscriptionBoletoSchema>
-
-export const SubscriptionSchema = z.discriminatedUnion('paymentMethod', [
-  SubscriptionCreditCardSchema,
-  SubscriptionDebitCardSchema,
-  SubscriptionPixSchema,
-  SubscriptionBoletoSchema,
-])
+export const SubscriptionSchema = z.discriminatedUnion('paymentMethod', [SubscriptionCardSchema])
 export type Subscription = z.infer<typeof SubscriptionSchema>
 export type BaseSubscription = BaseSchema<'subscriptionId' | 'externalId', Subscription>

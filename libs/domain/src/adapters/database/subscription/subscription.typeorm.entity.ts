@@ -1,14 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm'
 
 import { RecurrencePaymentMethodEnum } from '@/ports/recurrence'
-import {
-  Subscription,
-  SubscriptionCreditCard,
-  SubscriptionDebitCard,
-  SubscriptionPix,
-  SubscriptionBoleto,
-  SubscriptionStatusEnum,
-} from '@/core/subscription/subscription.schema'
+import { Subscription, SubscriptionCard, SubscriptionStatusEnum } from '@/core/subscription/subscription.schema'
 
 @Entity('subscriptions')
 export class SubscriptionEntity {
@@ -24,36 +17,22 @@ export class SubscriptionEntity {
   @Column({ type: 'varchar' })
   externalId: Subscription['externalId']
 
+  @Column({ type: 'int' })
+  amount: Subscription['amount']
+
   @Column({ type: 'enum', enum: RecurrencePaymentMethodEnum })
   paymentMethod: Subscription['paymentMethod']
 
   @Column({ type: 'json' })
-  payer?: SubscriptionCreditCard['payer']
+  card: SubscriptionCard['card']
 
-  @Column({ type: 'json', nullable: true })
-  creditCard?: SubscriptionCreditCard['creditCard']
-
-  @Column({ type: 'json', nullable: true })
-  debitCard?: SubscriptionDebitCard['debitCard']
-
-  @Column({ type: 'json', nullable: true })
-  pix?: SubscriptionPix['pix']
-
-  @Column({ type: 'json', nullable: true })
-  boleto?: SubscriptionBoleto['boleto']
-
-  @Column({ type: 'int' })
-  amount: SubscriptionCreditCard['amount']
+  @Column({ type: 'json' })
+  payer: Subscription['payer']
 
   @Column({
     type: 'timestamp',
   })
   deadline: Subscription['deadline']
-
-  @Column({
-    type: 'timestamp',
-  })
-  billingDueDate: Subscription['billingDueDate']
 
   @Column({
     type: 'timestamp',

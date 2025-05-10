@@ -1,4 +1,4 @@
-import { PaymentCard, Pix, Boleto } from '@starter/schema'
+import { BaseAddress, PaymentCard, BasePaymentCard, DocumentExplicit, Phone, Pix, Boleto } from '@starter/schema'
 
 import { Invoice } from '@/core/invoice/invoice.schema'
 
@@ -10,33 +10,10 @@ export enum RecurrenceIntervalEnum {
 }
 
 export enum RecurrencePaymentMethodEnum {
-  'CREDIT_CARD' = 'CREDIT_CARD',
-  'DEBIT_CARD' = 'DEBIT_CARD',
+  'CARD' = 'CARD',
   'PIX' = 'PIX',
   'BOLETO' = 'BOLETO',
 }
-
-type CreditCardPayment = {
-  paymentMethod: RecurrencePaymentMethodEnum.CREDIT_CARD
-  creditCard: PaymentCard
-}
-
-type DebitCardPayment = {
-  paymentMethod: RecurrencePaymentMethodEnum.DEBIT_CARD
-  debitCard: PaymentCard
-}
-
-type PixPayment = {
-  paymentMethod: RecurrencePaymentMethodEnum.PIX
-  pix: Pix
-}
-
-type BoletoPayment = {
-  paymentMethod: RecurrencePaymentMethodEnum.BOLETO
-  boleto: Boleto
-}
-
-type RecurrencePaymentMethodInput = CreditCardPayment | DebitCardPayment | PixPayment | BoletoPayment
 
 export type RecurrenceCreatePlanInput = {
   referenceId: string
@@ -64,19 +41,53 @@ export type RecurrenceCancelPlanInput = {
 }
 export type RecurrenceCancelPlanOutput = void
 
+type CardPayment = {
+  paymentMethod: RecurrencePaymentMethodEnum.CARD
+  cardToken: string
+}
+type PixPayment = {
+  paymentMethod: RecurrencePaymentMethodEnum.PIX
+}
+type BoletoPayment = {
+  paymentMethod: RecurrencePaymentMethodEnum.BOLETO
+}
+type RecurrencePaymentMethodInput = CardPayment | PixPayment | BoletoPayment
+
+type CardPaymentOutput = {
+  paymentMethod: RecurrencePaymentMethodEnum.CARD
+  card: BasePaymentCard
+}
+type PixPaymentOutput = {
+  paymentMethod: RecurrencePaymentMethodEnum.PIX
+  pix: Pix
+}
+type BoletoPaymentOutput = {
+  paymentMethod: RecurrencePaymentMethodEnum.BOLETO
+  boleto: Boleto
+}
+type RecurrencePaymentMethodOutput = CardPaymentOutput | PixPaymentOutput | BoletoPaymentOutput
+
 export type RecurrenceCreateSubscriptionInput = {
   referenceId: string
   customerId: string
   planId: string
+  payer: {
+    name: string
+    email: string
+    phone: Phone
+    document: DocumentExplicit
+    address: BaseAddress
+  }
 } & RecurrencePaymentMethodInput
 export type RecurrenceCreateSubscriptionOutput = {
   subscriptionId: string
   invoice: Pick<Invoice, 'externalId' | 'amount' | 'paymentMethod' | 'dueDate' | 'status'>
-}
+} & RecurrencePaymentMethodOutput
 
 export type RecurrenceChangeSubscriptionPaymentMethodInput = {
   subscriptionId: string
-} & RecurrencePaymentMethodInput
+  paymentMethod: RecurrencePaymentMethodEnum
+}
 export type RecurrenceChangeSubscriptionPaymentMethodOutput = {
   subscriptionId: string
   invoice?: Pick<Invoice, 'externalId' | 'amount' | 'paymentMethod' | 'dueDate' | 'status'>

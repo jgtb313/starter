@@ -21,13 +21,8 @@ export class RecurrenceService implements IRecurrence {
     return
   }
 
-  createSubscription: IRecurrence['createSubscription'] = async () => {
-    const subscriptionId = uuid()
-
-    return {
-      subscriptionId,
-      invoice: {} as Invoice,
-    }
+  createSubscription: IRecurrence['createSubscription'] = async (input) => {
+    return this.stripe.createSubscription(input)
   }
 
   changeSubscriptionPaymentMethod: IRecurrence['changeSubscriptionPaymentMethod'] = async () => {
