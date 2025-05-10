@@ -1353,7 +1353,7 @@
                       "items": {
                         "anyOf": [
                           {
-                            "title": "InvoiceCreditCard",
+                            "title": "InvoiceCard",
                             "type": "object",
                             "properties": {
                               "invoiceId": {
@@ -1384,12 +1384,19 @@
                                 "type": "number"
                               },
                               "paymentMethod": {
-                                "const": "CREDIT_CARD",
+                                "const": "CARD",
                                 "type": "string"
                               },
                               "creditCard": {
                                 "type": "object",
                                 "properties": {
+                                  "token": {
+                                    "description": "Token representing a securely stored payment card, typically returned by a payment provider.",
+                                    "examples": [
+                                      "tok_1N6zXeF6L3aBcD9X3gT2V9pQ"
+                                    ],
+                                    "type": "string"
+                                  },
                                   "number": {
                                     "description": "Masked card number for secure display.",
                                     "examples": [
@@ -1413,6 +1420,7 @@
                                   }
                                 },
                                 "required": [
+                                  "token",
                                   "number",
                                   "holderName",
                                   "expirationDate"
@@ -1476,139 +1484,6 @@
                               "amount",
                               "paymentMethod",
                               "creditCard",
-                              "dueDate",
-                              "issuedAt",
-                              "paidAt",
-                              "canceledAt",
-                              "status",
-                              "createdAt",
-                              "updatedAt"
-                            ]
-                          },
-                          {
-                            "title": "InvoiceDebitCard",
-                            "type": "object",
-                            "properties": {
-                              "invoiceId": {
-                                "description": "Unique identifier for invoice",
-                                "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
-                                "type": "string",
-                                "format": "uuid"
-                              },
-                              "workspaceId": {
-                                "description": "Unique identifier for workspace",
-                                "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
-                                "type": "string",
-                                "format": "uuid"
-                              },
-                              "subscriptionId": {
-                                "description": "Unique identifier for subscription",
-                                "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
-                                "type": "string",
-                                "format": "uuid"
-                              },
-                              "externalId": {
-                                "type": "string"
-                              },
-                              "description": {
-                                "type": "string"
-                              },
-                              "amount": {
-                                "type": "number"
-                              },
-                              "paymentMethod": {
-                                "const": "DEBIT_CARD",
-                                "type": "string"
-                              },
-                              "debitCard": {
-                                "type": "object",
-                                "properties": {
-                                  "number": {
-                                    "description": "Masked card number for secure display.",
-                                    "examples": [
-                                      "5555 ********* 55"
-                                    ],
-                                    "type": "string"
-                                  },
-                                  "holderName": {
-                                    "description": "Name of the cardholder as printed on the card.",
-                                    "examples": [
-                                      "John Doe"
-                                    ],
-                                    "type": "string"
-                                  },
-                                  "expirationDate": {
-                                    "description": "Card expiration date in MM/YY format.",
-                                    "examples": [
-                                      "12/27"
-                                    ],
-                                    "type": "string"
-                                  }
-                                },
-                                "required": [
-                                  "number",
-                                  "holderName",
-                                  "expirationDate"
-                                ]
-                              },
-                              "dueDate": {
-                                "type": "string",
-                                "format": "date-time"
-                              },
-                              "issuedAt": {
-                                "type": "string",
-                                "format": "date-time"
-                              },
-                              "paidAt": {
-                                "anyOf": [
-                                  {
-                                    "type": "string",
-                                    "format": "date-time"
-                                  },
-                                  {
-                                    "type": "null"
-                                  }
-                                ]
-                              },
-                              "canceledAt": {
-                                "anyOf": [
-                                  {
-                                    "type": "string",
-                                    "format": "date-time"
-                                  },
-                                  {
-                                    "type": "null"
-                                  }
-                                ]
-                              },
-                              "status": {
-                                "enum": [
-                                  "PENDING",
-                                  "PAID",
-                                  "OVERDUE",
-                                  "CANCELED"
-                                ],
-                                "type": "string",
-                                "default": "PENDING"
-                              },
-                              "createdAt": {
-                                "type": "string",
-                                "format": "date-time"
-                              },
-                              "updatedAt": {
-                                "type": "string",
-                                "format": "date-time"
-                              }
-                            },
-                            "required": [
-                              "invoiceId",
-                              "workspaceId",
-                              "subscriptionId",
-                              "externalId",
-                              "description",
-                              "amount",
-                              "paymentMethod",
-                              "debitCard",
                               "dueDate",
                               "issuedAt",
                               "paidAt",
@@ -2038,7 +1913,7 @@
                 "schema": {
                   "anyOf": [
                     {
-                      "title": "InvoiceCreditCard",
+                      "title": "InvoiceCard",
                       "type": "object",
                       "properties": {
                         "invoiceId": {
@@ -2069,12 +1944,19 @@
                           "type": "number"
                         },
                         "paymentMethod": {
-                          "const": "CREDIT_CARD",
+                          "const": "CARD",
                           "type": "string"
                         },
                         "creditCard": {
                           "type": "object",
                           "properties": {
+                            "token": {
+                              "description": "Token representing a securely stored payment card, typically returned by a payment provider.",
+                              "examples": [
+                                "tok_1N6zXeF6L3aBcD9X3gT2V9pQ"
+                              ],
+                              "type": "string"
+                            },
                             "number": {
                               "description": "Masked card number for secure display.",
                               "examples": [
@@ -2098,6 +1980,7 @@
                             }
                           },
                           "required": [
+                            "token",
                             "number",
                             "holderName",
                             "expirationDate"
@@ -2161,139 +2044,6 @@
                         "amount",
                         "paymentMethod",
                         "creditCard",
-                        "dueDate",
-                        "issuedAt",
-                        "paidAt",
-                        "canceledAt",
-                        "status",
-                        "createdAt",
-                        "updatedAt"
-                      ]
-                    },
-                    {
-                      "title": "InvoiceDebitCard",
-                      "type": "object",
-                      "properties": {
-                        "invoiceId": {
-                          "description": "Unique identifier for invoice",
-                          "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
-                          "type": "string",
-                          "format": "uuid"
-                        },
-                        "workspaceId": {
-                          "description": "Unique identifier for workspace",
-                          "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
-                          "type": "string",
-                          "format": "uuid"
-                        },
-                        "subscriptionId": {
-                          "description": "Unique identifier for subscription",
-                          "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
-                          "type": "string",
-                          "format": "uuid"
-                        },
-                        "externalId": {
-                          "type": "string"
-                        },
-                        "description": {
-                          "type": "string"
-                        },
-                        "amount": {
-                          "type": "number"
-                        },
-                        "paymentMethod": {
-                          "const": "DEBIT_CARD",
-                          "type": "string"
-                        },
-                        "debitCard": {
-                          "type": "object",
-                          "properties": {
-                            "number": {
-                              "description": "Masked card number for secure display.",
-                              "examples": [
-                                "5555 ********* 55"
-                              ],
-                              "type": "string"
-                            },
-                            "holderName": {
-                              "description": "Name of the cardholder as printed on the card.",
-                              "examples": [
-                                "John Doe"
-                              ],
-                              "type": "string"
-                            },
-                            "expirationDate": {
-                              "description": "Card expiration date in MM/YY format.",
-                              "examples": [
-                                "12/27"
-                              ],
-                              "type": "string"
-                            }
-                          },
-                          "required": [
-                            "number",
-                            "holderName",
-                            "expirationDate"
-                          ]
-                        },
-                        "dueDate": {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        "issuedAt": {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        "paidAt": {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            {
-                              "type": "null"
-                            }
-                          ]
-                        },
-                        "canceledAt": {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            {
-                              "type": "null"
-                            }
-                          ]
-                        },
-                        "status": {
-                          "enum": [
-                            "PENDING",
-                            "PAID",
-                            "OVERDUE",
-                            "CANCELED"
-                          ],
-                          "type": "string",
-                          "default": "PENDING"
-                        },
-                        "createdAt": {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        "updatedAt": {
-                          "type": "string",
-                          "format": "date-time"
-                        }
-                      },
-                      "required": [
-                        "invoiceId",
-                        "workspaceId",
-                        "subscriptionId",
-                        "externalId",
-                        "description",
-                        "amount",
-                        "paymentMethod",
-                        "debitCard",
                         "dueDate",
                         "issuedAt",
                         "paidAt",
@@ -10304,7 +10054,7 @@
                 "schema": {
                   "anyOf": [
                     {
-                      "title": "SubscriptionCreditCard",
+                      "title": "SubscriptionCard",
                       "type": "object",
                       "properties": {
                         "subscriptionId": {
@@ -10332,12 +10082,19 @@
                           "type": "number"
                         },
                         "paymentMethod": {
-                          "const": "CREDIT_CARD",
+                          "const": "CARD",
                           "type": "string"
                         },
-                        "creditCard": {
+                        "card": {
                           "type": "object",
                           "properties": {
+                            "token": {
+                              "description": "Token representing a securely stored payment card, typically returned by a payment provider.",
+                              "examples": [
+                                "tok_1N6zXeF6L3aBcD9X3gT2V9pQ"
+                              ],
+                              "type": "string"
+                            },
                             "number": {
                               "description": "Masked card number for secure display.",
                               "examples": [
@@ -10361,6 +10118,7 @@
                             }
                           },
                           "required": [
+                            "token",
                             "number",
                             "holderName",
                             "expirationDate"
@@ -10503,10 +10261,6 @@
                           "type": "string",
                           "format": "date-time"
                         },
-                        "billingDueDate": {
-                          "type": "string",
-                          "format": "date-time"
-                        },
                         "canceledAt": {
                           "anyOf": [
                             {
@@ -10544,261 +10298,9 @@
                         "externalId",
                         "amount",
                         "paymentMethod",
-                        "creditCard",
+                        "card",
                         "payer",
                         "deadline",
-                        "billingDueDate",
-                        "canceledAt",
-                        "status",
-                        "createdAt",
-                        "updatedAt"
-                      ]
-                    },
-                    {
-                      "title": "SubscriptionDebitCard",
-                      "type": "object",
-                      "properties": {
-                        "subscriptionId": {
-                          "description": "Unique identifier for subscription",
-                          "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
-                          "type": "string",
-                          "format": "uuid"
-                        },
-                        "workspaceId": {
-                          "description": "Unique identifier for workspace",
-                          "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
-                          "type": "string",
-                          "format": "uuid"
-                        },
-                        "planId": {
-                          "description": "Unique identifier for plan",
-                          "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
-                          "type": "string",
-                          "format": "uuid"
-                        },
-                        "externalId": {
-                          "type": "string"
-                        },
-                        "amount": {
-                          "type": "number"
-                        },
-                        "paymentMethod": {
-                          "const": "DEBIT_CARD",
-                          "type": "string"
-                        },
-                        "debitCard": {
-                          "type": "object",
-                          "properties": {
-                            "number": {
-                              "description": "Masked card number for secure display.",
-                              "examples": [
-                                "5555 ********* 55"
-                              ],
-                              "type": "string"
-                            },
-                            "holderName": {
-                              "description": "Name of the cardholder as printed on the card.",
-                              "examples": [
-                                "John Doe"
-                              ],
-                              "type": "string"
-                            },
-                            "expirationDate": {
-                              "description": "Card expiration date in MM/YY format.",
-                              "examples": [
-                                "12/27"
-                              ],
-                              "type": "string"
-                            }
-                          },
-                          "required": [
-                            "number",
-                            "holderName",
-                            "expirationDate"
-                          ]
-                        },
-                        "payer": {
-                          "type": "object",
-                          "properties": {
-                            "name": {
-                              "type": "string"
-                            },
-                            "email": {
-                              "example": "example@email.com",
-                              "type": "string",
-                              "format": "email"
-                            },
-                            "phone": {
-                              "type": "object",
-                              "properties": {
-                                "iso": {
-                                  "description": "The ISO 3166-1 country code.",
-                                  "example": "BR",
-                                  "type": "string"
-                                },
-                                "ddi": {
-                                  "description": "The international dialing code for the country, prefixed by the plus sign (+).",
-                                  "example": "+55",
-                                  "type": "string"
-                                },
-                                "number": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "iso",
-                                "ddi",
-                                "number"
-                              ]
-                            },
-                            "document": {
-                              "type": "object",
-                              "properties": {
-                                "number": {
-                                  "type": "string"
-                                },
-                                "type": {
-                                  "description": "Represents document types for individuals or companies",
-                                  "enum": [
-                                    "INDIVIDUAL",
-                                    "COMPANY"
-                                  ],
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "number",
-                                "type"
-                              ]
-                            },
-                            "address": {
-                              "type": "object",
-                              "properties": {
-                                "state": {
-                                  "description": "Two-letter state code following the ISO 3166-2 standard for country subdivisions.",
-                                  "examples": [
-                                    "CA"
-                                  ],
-                                  "type": "string"
-                                },
-                                "city": {
-                                  "description": "City name.",
-                                  "examples": [
-                                    "Los Angeles"
-                                  ],
-                                  "type": "string"
-                                },
-                                "zipCode": {
-                                  "description": "ZIP or postal code, containing digits only.",
-                                  "examples": [
-                                    "90210000"
-                                  ],
-                                  "type": "string"
-                                },
-                                "neighborhood": {
-                                  "description": "Neighborhood or district name.",
-                                  "examples": [
-                                    "Downtown"
-                                  ],
-                                  "type": "string"
-                                },
-                                "street": {
-                                  "description": "Street name.",
-                                  "examples": [
-                                    "Sunset Blvd"
-                                  ],
-                                  "type": "string"
-                                },
-                                "number": {
-                                  "description": "Street number.",
-                                  "examples": [
-                                    "1234"
-                                  ],
-                                  "type": "string"
-                                },
-                                "complement": {
-                                  "description": "Additional address details (optional).",
-                                  "examples": [
-                                    "Apt 202"
-                                  ],
-                                  "anyOf": [
-                                    {
-                                      "type": "string"
-                                    },
-                                    {
-                                      "type": "null"
-                                    }
-                                  ]
-                                }
-                              },
-                              "required": [
-                                "state",
-                                "city",
-                                "zipCode",
-                                "neighborhood",
-                                "street",
-                                "number",
-                                "complement"
-                              ]
-                            }
-                          },
-                          "required": [
-                            "name",
-                            "email",
-                            "phone",
-                            "document",
-                            "address"
-                          ]
-                        },
-                        "deadline": {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        "billingDueDate": {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        "canceledAt": {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            {
-                              "type": "null"
-                            }
-                          ]
-                        },
-                        "status": {
-                          "enum": [
-                            "TRIAL",
-                            "ACTIVE",
-                            "OVERDUE",
-                            "CANCELED"
-                          ],
-                          "type": "string",
-                          "default": "ACTIVE"
-                        },
-                        "createdAt": {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        "updatedAt": {
-                          "type": "string",
-                          "format": "date-time"
-                        }
-                      },
-                      "required": [
-                        "subscriptionId",
-                        "workspaceId",
-                        "planId",
-                        "externalId",
-                        "amount",
-                        "paymentMethod",
-                        "debitCard",
-                        "payer",
-                        "deadline",
-                        "billingDueDate",
                         "canceledAt",
                         "status",
                         "createdAt",
@@ -10990,10 +10492,6 @@
                           "type": "string",
                           "format": "date-time"
                         },
-                        "billingDueDate": {
-                          "type": "string",
-                          "format": "date-time"
-                        },
                         "canceledAt": {
                           "anyOf": [
                             {
@@ -11034,7 +10532,6 @@
                         "pix",
                         "payer",
                         "deadline",
-                        "billingDueDate",
                         "canceledAt",
                         "status",
                         "createdAt",
@@ -11230,10 +10727,6 @@
                           "type": "string",
                           "format": "date-time"
                         },
-                        "billingDueDate": {
-                          "type": "string",
-                          "format": "date-time"
-                        },
                         "canceledAt": {
                           "anyOf": [
                             {
@@ -11274,7 +10767,6 @@
                         "boleto",
                         "payer",
                         "deadline",
-                        "billingDueDate",
                         "canceledAt",
                         "status",
                         "createdAt",
@@ -11422,7 +10914,7 @@
                 "schema": {
                   "anyOf": [
                     {
-                      "title": "SubscriptionCreditCard",
+                      "title": "SubscriptionCard",
                       "type": "object",
                       "properties": {
                         "subscriptionId": {
@@ -11450,12 +10942,19 @@
                           "type": "number"
                         },
                         "paymentMethod": {
-                          "const": "CREDIT_CARD",
+                          "const": "CARD",
                           "type": "string"
                         },
-                        "creditCard": {
+                        "card": {
                           "type": "object",
                           "properties": {
+                            "token": {
+                              "description": "Token representing a securely stored payment card, typically returned by a payment provider.",
+                              "examples": [
+                                "tok_1N6zXeF6L3aBcD9X3gT2V9pQ"
+                              ],
+                              "type": "string"
+                            },
                             "number": {
                               "description": "Masked card number for secure display.",
                               "examples": [
@@ -11479,6 +10978,7 @@
                             }
                           },
                           "required": [
+                            "token",
                             "number",
                             "holderName",
                             "expirationDate"
@@ -11621,10 +11121,6 @@
                           "type": "string",
                           "format": "date-time"
                         },
-                        "billingDueDate": {
-                          "type": "string",
-                          "format": "date-time"
-                        },
                         "canceledAt": {
                           "anyOf": [
                             {
@@ -11662,261 +11158,9 @@
                         "externalId",
                         "amount",
                         "paymentMethod",
-                        "creditCard",
+                        "card",
                         "payer",
                         "deadline",
-                        "billingDueDate",
-                        "canceledAt",
-                        "status",
-                        "createdAt",
-                        "updatedAt"
-                      ]
-                    },
-                    {
-                      "title": "SubscriptionDebitCard",
-                      "type": "object",
-                      "properties": {
-                        "subscriptionId": {
-                          "description": "Unique identifier for subscription",
-                          "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
-                          "type": "string",
-                          "format": "uuid"
-                        },
-                        "workspaceId": {
-                          "description": "Unique identifier for workspace",
-                          "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
-                          "type": "string",
-                          "format": "uuid"
-                        },
-                        "planId": {
-                          "description": "Unique identifier for plan",
-                          "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
-                          "type": "string",
-                          "format": "uuid"
-                        },
-                        "externalId": {
-                          "type": "string"
-                        },
-                        "amount": {
-                          "type": "number"
-                        },
-                        "paymentMethod": {
-                          "const": "DEBIT_CARD",
-                          "type": "string"
-                        },
-                        "debitCard": {
-                          "type": "object",
-                          "properties": {
-                            "number": {
-                              "description": "Masked card number for secure display.",
-                              "examples": [
-                                "5555 ********* 55"
-                              ],
-                              "type": "string"
-                            },
-                            "holderName": {
-                              "description": "Name of the cardholder as printed on the card.",
-                              "examples": [
-                                "John Doe"
-                              ],
-                              "type": "string"
-                            },
-                            "expirationDate": {
-                              "description": "Card expiration date in MM/YY format.",
-                              "examples": [
-                                "12/27"
-                              ],
-                              "type": "string"
-                            }
-                          },
-                          "required": [
-                            "number",
-                            "holderName",
-                            "expirationDate"
-                          ]
-                        },
-                        "payer": {
-                          "type": "object",
-                          "properties": {
-                            "name": {
-                              "type": "string"
-                            },
-                            "email": {
-                              "example": "example@email.com",
-                              "type": "string",
-                              "format": "email"
-                            },
-                            "phone": {
-                              "type": "object",
-                              "properties": {
-                                "iso": {
-                                  "description": "The ISO 3166-1 country code.",
-                                  "example": "BR",
-                                  "type": "string"
-                                },
-                                "ddi": {
-                                  "description": "The international dialing code for the country, prefixed by the plus sign (+).",
-                                  "example": "+55",
-                                  "type": "string"
-                                },
-                                "number": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "iso",
-                                "ddi",
-                                "number"
-                              ]
-                            },
-                            "document": {
-                              "type": "object",
-                              "properties": {
-                                "number": {
-                                  "type": "string"
-                                },
-                                "type": {
-                                  "description": "Represents document types for individuals or companies",
-                                  "enum": [
-                                    "INDIVIDUAL",
-                                    "COMPANY"
-                                  ],
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "number",
-                                "type"
-                              ]
-                            },
-                            "address": {
-                              "type": "object",
-                              "properties": {
-                                "state": {
-                                  "description": "Two-letter state code following the ISO 3166-2 standard for country subdivisions.",
-                                  "examples": [
-                                    "CA"
-                                  ],
-                                  "type": "string"
-                                },
-                                "city": {
-                                  "description": "City name.",
-                                  "examples": [
-                                    "Los Angeles"
-                                  ],
-                                  "type": "string"
-                                },
-                                "zipCode": {
-                                  "description": "ZIP or postal code, containing digits only.",
-                                  "examples": [
-                                    "90210000"
-                                  ],
-                                  "type": "string"
-                                },
-                                "neighborhood": {
-                                  "description": "Neighborhood or district name.",
-                                  "examples": [
-                                    "Downtown"
-                                  ],
-                                  "type": "string"
-                                },
-                                "street": {
-                                  "description": "Street name.",
-                                  "examples": [
-                                    "Sunset Blvd"
-                                  ],
-                                  "type": "string"
-                                },
-                                "number": {
-                                  "description": "Street number.",
-                                  "examples": [
-                                    "1234"
-                                  ],
-                                  "type": "string"
-                                },
-                                "complement": {
-                                  "description": "Additional address details (optional).",
-                                  "examples": [
-                                    "Apt 202"
-                                  ],
-                                  "anyOf": [
-                                    {
-                                      "type": "string"
-                                    },
-                                    {
-                                      "type": "null"
-                                    }
-                                  ]
-                                }
-                              },
-                              "required": [
-                                "state",
-                                "city",
-                                "zipCode",
-                                "neighborhood",
-                                "street",
-                                "number",
-                                "complement"
-                              ]
-                            }
-                          },
-                          "required": [
-                            "name",
-                            "email",
-                            "phone",
-                            "document",
-                            "address"
-                          ]
-                        },
-                        "deadline": {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        "billingDueDate": {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        "canceledAt": {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            {
-                              "type": "null"
-                            }
-                          ]
-                        },
-                        "status": {
-                          "enum": [
-                            "TRIAL",
-                            "ACTIVE",
-                            "OVERDUE",
-                            "CANCELED"
-                          ],
-                          "type": "string",
-                          "default": "ACTIVE"
-                        },
-                        "createdAt": {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        "updatedAt": {
-                          "type": "string",
-                          "format": "date-time"
-                        }
-                      },
-                      "required": [
-                        "subscriptionId",
-                        "workspaceId",
-                        "planId",
-                        "externalId",
-                        "amount",
-                        "paymentMethod",
-                        "debitCard",
-                        "payer",
-                        "deadline",
-                        "billingDueDate",
                         "canceledAt",
                         "status",
                         "createdAt",
@@ -12108,10 +11352,6 @@
                           "type": "string",
                           "format": "date-time"
                         },
-                        "billingDueDate": {
-                          "type": "string",
-                          "format": "date-time"
-                        },
                         "canceledAt": {
                           "anyOf": [
                             {
@@ -12152,7 +11392,6 @@
                         "pix",
                         "payer",
                         "deadline",
-                        "billingDueDate",
                         "canceledAt",
                         "status",
                         "createdAt",
@@ -12348,10 +11587,6 @@
                           "type": "string",
                           "format": "date-time"
                         },
-                        "billingDueDate": {
-                          "type": "string",
-                          "format": "date-time"
-                        },
                         "canceledAt": {
                           "anyOf": [
                             {
@@ -12392,7 +11627,6 @@
                         "boleto",
                         "payer",
                         "deadline",
-                        "billingDueDate",
                         "canceledAt",
                         "status",
                         "createdAt",
@@ -12530,7 +11764,7 @@
               "schema": {
                 "anyOf": [
                   {
-                    "title": "SubscriptionCreditCard",
+                    "title": "SubscriptionCard",
                     "type": "object",
                     "properties": {
                       "planId": {
@@ -12673,248 +11907,22 @@
                         ]
                       },
                       "paymentMethod": {
-                        "const": "CREDIT_CARD",
+                        "const": "CARD",
                         "type": "string"
                       },
-                      "creditCard": {
-                        "type": "object",
-                        "properties": {
-                          "number": {
-                            "description": "Full credit card number.",
-                            "examples": [
-                              "5555555555554444"
-                            ],
-                            "type": "string"
-                          },
-                          "holderName": {
-                            "description": "Name of the cardholder as printed on the card.",
-                            "examples": [
-                              "John Doe"
-                            ],
-                            "type": "string"
-                          },
-                          "expirationDate": {
-                            "description": "Card expiration date in MM/YY format.",
-                            "examples": [
-                              "12/27"
-                            ],
-                            "type": "string"
-                          },
-                          "cvv": {
-                            "description": "Card Verification Value (CVV), usually 3 or 4 digits.",
-                            "examples": [
-                              "123"
-                            ],
-                            "type": "string"
-                          }
-                        },
-                        "required": [
-                          "number",
-                          "holderName",
-                          "expirationDate",
-                          "cvv"
-                        ]
+                      "cardToken": {
+                        "description": "Token representing a securely stored payment card, typically returned by a payment provider.",
+                        "examples": [
+                          "tok_1N6zXeF6L3aBcD9X3gT2V9pQ"
+                        ],
+                        "type": "string"
                       }
                     },
                     "required": [
                       "planId",
                       "payer",
                       "paymentMethod",
-                      "creditCard"
-                    ]
-                  },
-                  {
-                    "title": "SubscriptionDebitCard",
-                    "type": "object",
-                    "properties": {
-                      "planId": {
-                        "description": "Unique identifier for plan",
-                        "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
-                        "type": "string",
-                        "format": "uuid"
-                      },
-                      "payer": {
-                        "type": "object",
-                        "properties": {
-                          "name": {
-                            "type": "string"
-                          },
-                          "email": {
-                            "example": "example@email.com",
-                            "type": "string",
-                            "format": "email"
-                          },
-                          "phone": {
-                            "type": "object",
-                            "properties": {
-                              "iso": {
-                                "description": "The ISO 3166-1 country code.",
-                                "example": "BR",
-                                "type": "string"
-                              },
-                              "ddi": {
-                                "description": "The international dialing code for the country, prefixed by the plus sign (+).",
-                                "example": "+55",
-                                "type": "string"
-                              },
-                              "number": {
-                                "type": "string"
-                              }
-                            },
-                            "required": [
-                              "iso",
-                              "ddi",
-                              "number"
-                            ]
-                          },
-                          "document": {
-                            "type": "object",
-                            "properties": {
-                              "number": {
-                                "type": "string"
-                              },
-                              "type": {
-                                "description": "Represents document types for individuals or companies",
-                                "enum": [
-                                  "INDIVIDUAL",
-                                  "COMPANY"
-                                ],
-                                "type": "string"
-                              }
-                            },
-                            "required": [
-                              "number",
-                              "type"
-                            ]
-                          },
-                          "address": {
-                            "type": "object",
-                            "properties": {
-                              "state": {
-                                "description": "Two-letter state code following the ISO 3166-2 standard for country subdivisions.",
-                                "examples": [
-                                  "CA"
-                                ],
-                                "type": "string"
-                              },
-                              "city": {
-                                "description": "City name.",
-                                "examples": [
-                                  "Los Angeles"
-                                ],
-                                "type": "string"
-                              },
-                              "zipCode": {
-                                "description": "ZIP or postal code, containing digits only.",
-                                "examples": [
-                                  "90210000"
-                                ],
-                                "type": "string"
-                              },
-                              "neighborhood": {
-                                "description": "Neighborhood or district name.",
-                                "examples": [
-                                  "Downtown"
-                                ],
-                                "type": "string"
-                              },
-                              "street": {
-                                "description": "Street name.",
-                                "examples": [
-                                  "Sunset Blvd"
-                                ],
-                                "type": "string"
-                              },
-                              "number": {
-                                "description": "Street number.",
-                                "examples": [
-                                  "1234"
-                                ],
-                                "type": "string"
-                              },
-                              "complement": {
-                                "description": "Additional address details (optional).",
-                                "examples": [
-                                  "Apt 202"
-                                ],
-                                "anyOf": [
-                                  {
-                                    "type": "string"
-                                  },
-                                  {
-                                    "type": "null"
-                                  }
-                                ]
-                              }
-                            },
-                            "required": [
-                              "state",
-                              "city",
-                              "zipCode",
-                              "neighborhood",
-                              "street",
-                              "number",
-                              "complement"
-                            ]
-                          }
-                        },
-                        "required": [
-                          "name",
-                          "email",
-                          "phone",
-                          "document",
-                          "address"
-                        ]
-                      },
-                      "paymentMethod": {
-                        "const": "DEBIT_CARD",
-                        "type": "string"
-                      },
-                      "debitCard": {
-                        "type": "object",
-                        "properties": {
-                          "number": {
-                            "description": "Full credit card number.",
-                            "examples": [
-                              "5555555555554444"
-                            ],
-                            "type": "string"
-                          },
-                          "holderName": {
-                            "description": "Name of the cardholder as printed on the card.",
-                            "examples": [
-                              "John Doe"
-                            ],
-                            "type": "string"
-                          },
-                          "expirationDate": {
-                            "description": "Card expiration date in MM/YY format.",
-                            "examples": [
-                              "12/27"
-                            ],
-                            "type": "string"
-                          },
-                          "cvv": {
-                            "description": "Card Verification Value (CVV), usually 3 or 4 digits.",
-                            "examples": [
-                              "123"
-                            ],
-                            "type": "string"
-                          }
-                        },
-                        "required": [
-                          "number",
-                          "holderName",
-                          "expirationDate",
-                          "cvv"
-                        ]
-                      }
-                    },
-                    "required": [
-                      "planId",
-                      "payer",
-                      "paymentMethod",
-                      "debitCard"
+                      "cardToken"
                     ]
                   },
                   {
@@ -13238,7 +12246,7 @@
                 "schema": {
                   "anyOf": [
                     {
-                      "title": "SubscriptionCreditCard",
+                      "title": "SubscriptionCard",
                       "type": "object",
                       "properties": {
                         "subscriptionId": {
@@ -13266,12 +12274,19 @@
                           "type": "number"
                         },
                         "paymentMethod": {
-                          "const": "CREDIT_CARD",
+                          "const": "CARD",
                           "type": "string"
                         },
-                        "creditCard": {
+                        "card": {
                           "type": "object",
                           "properties": {
+                            "token": {
+                              "description": "Token representing a securely stored payment card, typically returned by a payment provider.",
+                              "examples": [
+                                "tok_1N6zXeF6L3aBcD9X3gT2V9pQ"
+                              ],
+                              "type": "string"
+                            },
                             "number": {
                               "description": "Masked card number for secure display.",
                               "examples": [
@@ -13295,6 +12310,7 @@
                             }
                           },
                           "required": [
+                            "token",
                             "number",
                             "holderName",
                             "expirationDate"
@@ -13437,10 +12453,6 @@
                           "type": "string",
                           "format": "date-time"
                         },
-                        "billingDueDate": {
-                          "type": "string",
-                          "format": "date-time"
-                        },
                         "canceledAt": {
                           "anyOf": [
                             {
@@ -13478,261 +12490,9 @@
                         "externalId",
                         "amount",
                         "paymentMethod",
-                        "creditCard",
+                        "card",
                         "payer",
                         "deadline",
-                        "billingDueDate",
-                        "canceledAt",
-                        "status",
-                        "createdAt",
-                        "updatedAt"
-                      ]
-                    },
-                    {
-                      "title": "SubscriptionDebitCard",
-                      "type": "object",
-                      "properties": {
-                        "subscriptionId": {
-                          "description": "Unique identifier for subscription",
-                          "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
-                          "type": "string",
-                          "format": "uuid"
-                        },
-                        "workspaceId": {
-                          "description": "Unique identifier for workspace",
-                          "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
-                          "type": "string",
-                          "format": "uuid"
-                        },
-                        "planId": {
-                          "description": "Unique identifier for plan",
-                          "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
-                          "type": "string",
-                          "format": "uuid"
-                        },
-                        "externalId": {
-                          "type": "string"
-                        },
-                        "amount": {
-                          "type": "number"
-                        },
-                        "paymentMethod": {
-                          "const": "DEBIT_CARD",
-                          "type": "string"
-                        },
-                        "debitCard": {
-                          "type": "object",
-                          "properties": {
-                            "number": {
-                              "description": "Masked card number for secure display.",
-                              "examples": [
-                                "5555 ********* 55"
-                              ],
-                              "type": "string"
-                            },
-                            "holderName": {
-                              "description": "Name of the cardholder as printed on the card.",
-                              "examples": [
-                                "John Doe"
-                              ],
-                              "type": "string"
-                            },
-                            "expirationDate": {
-                              "description": "Card expiration date in MM/YY format.",
-                              "examples": [
-                                "12/27"
-                              ],
-                              "type": "string"
-                            }
-                          },
-                          "required": [
-                            "number",
-                            "holderName",
-                            "expirationDate"
-                          ]
-                        },
-                        "payer": {
-                          "type": "object",
-                          "properties": {
-                            "name": {
-                              "type": "string"
-                            },
-                            "email": {
-                              "example": "example@email.com",
-                              "type": "string",
-                              "format": "email"
-                            },
-                            "phone": {
-                              "type": "object",
-                              "properties": {
-                                "iso": {
-                                  "description": "The ISO 3166-1 country code.",
-                                  "example": "BR",
-                                  "type": "string"
-                                },
-                                "ddi": {
-                                  "description": "The international dialing code for the country, prefixed by the plus sign (+).",
-                                  "example": "+55",
-                                  "type": "string"
-                                },
-                                "number": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "iso",
-                                "ddi",
-                                "number"
-                              ]
-                            },
-                            "document": {
-                              "type": "object",
-                              "properties": {
-                                "number": {
-                                  "type": "string"
-                                },
-                                "type": {
-                                  "description": "Represents document types for individuals or companies",
-                                  "enum": [
-                                    "INDIVIDUAL",
-                                    "COMPANY"
-                                  ],
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "number",
-                                "type"
-                              ]
-                            },
-                            "address": {
-                              "type": "object",
-                              "properties": {
-                                "state": {
-                                  "description": "Two-letter state code following the ISO 3166-2 standard for country subdivisions.",
-                                  "examples": [
-                                    "CA"
-                                  ],
-                                  "type": "string"
-                                },
-                                "city": {
-                                  "description": "City name.",
-                                  "examples": [
-                                    "Los Angeles"
-                                  ],
-                                  "type": "string"
-                                },
-                                "zipCode": {
-                                  "description": "ZIP or postal code, containing digits only.",
-                                  "examples": [
-                                    "90210000"
-                                  ],
-                                  "type": "string"
-                                },
-                                "neighborhood": {
-                                  "description": "Neighborhood or district name.",
-                                  "examples": [
-                                    "Downtown"
-                                  ],
-                                  "type": "string"
-                                },
-                                "street": {
-                                  "description": "Street name.",
-                                  "examples": [
-                                    "Sunset Blvd"
-                                  ],
-                                  "type": "string"
-                                },
-                                "number": {
-                                  "description": "Street number.",
-                                  "examples": [
-                                    "1234"
-                                  ],
-                                  "type": "string"
-                                },
-                                "complement": {
-                                  "description": "Additional address details (optional).",
-                                  "examples": [
-                                    "Apt 202"
-                                  ],
-                                  "anyOf": [
-                                    {
-                                      "type": "string"
-                                    },
-                                    {
-                                      "type": "null"
-                                    }
-                                  ]
-                                }
-                              },
-                              "required": [
-                                "state",
-                                "city",
-                                "zipCode",
-                                "neighborhood",
-                                "street",
-                                "number",
-                                "complement"
-                              ]
-                            }
-                          },
-                          "required": [
-                            "name",
-                            "email",
-                            "phone",
-                            "document",
-                            "address"
-                          ]
-                        },
-                        "deadline": {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        "billingDueDate": {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        "canceledAt": {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            {
-                              "type": "null"
-                            }
-                          ]
-                        },
-                        "status": {
-                          "enum": [
-                            "TRIAL",
-                            "ACTIVE",
-                            "OVERDUE",
-                            "CANCELED"
-                          ],
-                          "type": "string",
-                          "default": "ACTIVE"
-                        },
-                        "createdAt": {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        "updatedAt": {
-                          "type": "string",
-                          "format": "date-time"
-                        }
-                      },
-                      "required": [
-                        "subscriptionId",
-                        "workspaceId",
-                        "planId",
-                        "externalId",
-                        "amount",
-                        "paymentMethod",
-                        "debitCard",
-                        "payer",
-                        "deadline",
-                        "billingDueDate",
                         "canceledAt",
                         "status",
                         "createdAt",
@@ -13924,10 +12684,6 @@
                           "type": "string",
                           "format": "date-time"
                         },
-                        "billingDueDate": {
-                          "type": "string",
-                          "format": "date-time"
-                        },
                         "canceledAt": {
                           "anyOf": [
                             {
@@ -13968,7 +12724,6 @@
                         "pix",
                         "payer",
                         "deadline",
-                        "billingDueDate",
                         "canceledAt",
                         "status",
                         "createdAt",
@@ -14164,10 +12919,6 @@
                           "type": "string",
                           "format": "date-time"
                         },
-                        "billingDueDate": {
-                          "type": "string",
-                          "format": "date-time"
-                        },
                         "canceledAt": {
                           "anyOf": [
                             {
@@ -14208,7 +12959,6 @@
                         "boleto",
                         "payer",
                         "deadline",
-                        "billingDueDate",
                         "canceledAt",
                         "status",
                         "createdAt",
@@ -14379,7 +13129,7 @@
                 "schema": {
                   "anyOf": [
                     {
-                      "title": "SubscriptionCreditCard",
+                      "title": "SubscriptionCard",
                       "type": "object",
                       "properties": {
                         "subscriptionId": {
@@ -14407,12 +13157,19 @@
                           "type": "number"
                         },
                         "paymentMethod": {
-                          "const": "CREDIT_CARD",
+                          "const": "CARD",
                           "type": "string"
                         },
-                        "creditCard": {
+                        "card": {
                           "type": "object",
                           "properties": {
+                            "token": {
+                              "description": "Token representing a securely stored payment card, typically returned by a payment provider.",
+                              "examples": [
+                                "tok_1N6zXeF6L3aBcD9X3gT2V9pQ"
+                              ],
+                              "type": "string"
+                            },
                             "number": {
                               "description": "Masked card number for secure display.",
                               "examples": [
@@ -14436,6 +13193,7 @@
                             }
                           },
                           "required": [
+                            "token",
                             "number",
                             "holderName",
                             "expirationDate"
@@ -14578,10 +13336,6 @@
                           "type": "string",
                           "format": "date-time"
                         },
-                        "billingDueDate": {
-                          "type": "string",
-                          "format": "date-time"
-                        },
                         "canceledAt": {
                           "anyOf": [
                             {
@@ -14619,261 +13373,9 @@
                         "externalId",
                         "amount",
                         "paymentMethod",
-                        "creditCard",
+                        "card",
                         "payer",
                         "deadline",
-                        "billingDueDate",
-                        "canceledAt",
-                        "status",
-                        "createdAt",
-                        "updatedAt"
-                      ]
-                    },
-                    {
-                      "title": "SubscriptionDebitCard",
-                      "type": "object",
-                      "properties": {
-                        "subscriptionId": {
-                          "description": "Unique identifier for subscription",
-                          "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
-                          "type": "string",
-                          "format": "uuid"
-                        },
-                        "workspaceId": {
-                          "description": "Unique identifier for workspace",
-                          "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
-                          "type": "string",
-                          "format": "uuid"
-                        },
-                        "planId": {
-                          "description": "Unique identifier for plan",
-                          "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
-                          "type": "string",
-                          "format": "uuid"
-                        },
-                        "externalId": {
-                          "type": "string"
-                        },
-                        "amount": {
-                          "type": "number"
-                        },
-                        "paymentMethod": {
-                          "const": "DEBIT_CARD",
-                          "type": "string"
-                        },
-                        "debitCard": {
-                          "type": "object",
-                          "properties": {
-                            "number": {
-                              "description": "Masked card number for secure display.",
-                              "examples": [
-                                "5555 ********* 55"
-                              ],
-                              "type": "string"
-                            },
-                            "holderName": {
-                              "description": "Name of the cardholder as printed on the card.",
-                              "examples": [
-                                "John Doe"
-                              ],
-                              "type": "string"
-                            },
-                            "expirationDate": {
-                              "description": "Card expiration date in MM/YY format.",
-                              "examples": [
-                                "12/27"
-                              ],
-                              "type": "string"
-                            }
-                          },
-                          "required": [
-                            "number",
-                            "holderName",
-                            "expirationDate"
-                          ]
-                        },
-                        "payer": {
-                          "type": "object",
-                          "properties": {
-                            "name": {
-                              "type": "string"
-                            },
-                            "email": {
-                              "example": "example@email.com",
-                              "type": "string",
-                              "format": "email"
-                            },
-                            "phone": {
-                              "type": "object",
-                              "properties": {
-                                "iso": {
-                                  "description": "The ISO 3166-1 country code.",
-                                  "example": "BR",
-                                  "type": "string"
-                                },
-                                "ddi": {
-                                  "description": "The international dialing code for the country, prefixed by the plus sign (+).",
-                                  "example": "+55",
-                                  "type": "string"
-                                },
-                                "number": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "iso",
-                                "ddi",
-                                "number"
-                              ]
-                            },
-                            "document": {
-                              "type": "object",
-                              "properties": {
-                                "number": {
-                                  "type": "string"
-                                },
-                                "type": {
-                                  "description": "Represents document types for individuals or companies",
-                                  "enum": [
-                                    "INDIVIDUAL",
-                                    "COMPANY"
-                                  ],
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "number",
-                                "type"
-                              ]
-                            },
-                            "address": {
-                              "type": "object",
-                              "properties": {
-                                "state": {
-                                  "description": "Two-letter state code following the ISO 3166-2 standard for country subdivisions.",
-                                  "examples": [
-                                    "CA"
-                                  ],
-                                  "type": "string"
-                                },
-                                "city": {
-                                  "description": "City name.",
-                                  "examples": [
-                                    "Los Angeles"
-                                  ],
-                                  "type": "string"
-                                },
-                                "zipCode": {
-                                  "description": "ZIP or postal code, containing digits only.",
-                                  "examples": [
-                                    "90210000"
-                                  ],
-                                  "type": "string"
-                                },
-                                "neighborhood": {
-                                  "description": "Neighborhood or district name.",
-                                  "examples": [
-                                    "Downtown"
-                                  ],
-                                  "type": "string"
-                                },
-                                "street": {
-                                  "description": "Street name.",
-                                  "examples": [
-                                    "Sunset Blvd"
-                                  ],
-                                  "type": "string"
-                                },
-                                "number": {
-                                  "description": "Street number.",
-                                  "examples": [
-                                    "1234"
-                                  ],
-                                  "type": "string"
-                                },
-                                "complement": {
-                                  "description": "Additional address details (optional).",
-                                  "examples": [
-                                    "Apt 202"
-                                  ],
-                                  "anyOf": [
-                                    {
-                                      "type": "string"
-                                    },
-                                    {
-                                      "type": "null"
-                                    }
-                                  ]
-                                }
-                              },
-                              "required": [
-                                "state",
-                                "city",
-                                "zipCode",
-                                "neighborhood",
-                                "street",
-                                "number",
-                                "complement"
-                              ]
-                            }
-                          },
-                          "required": [
-                            "name",
-                            "email",
-                            "phone",
-                            "document",
-                            "address"
-                          ]
-                        },
-                        "deadline": {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        "billingDueDate": {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        "canceledAt": {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            {
-                              "type": "null"
-                            }
-                          ]
-                        },
-                        "status": {
-                          "enum": [
-                            "TRIAL",
-                            "ACTIVE",
-                            "OVERDUE",
-                            "CANCELED"
-                          ],
-                          "type": "string",
-                          "default": "ACTIVE"
-                        },
-                        "createdAt": {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        "updatedAt": {
-                          "type": "string",
-                          "format": "date-time"
-                        }
-                      },
-                      "required": [
-                        "subscriptionId",
-                        "workspaceId",
-                        "planId",
-                        "externalId",
-                        "amount",
-                        "paymentMethod",
-                        "debitCard",
-                        "payer",
-                        "deadline",
-                        "billingDueDate",
                         "canceledAt",
                         "status",
                         "createdAt",
@@ -15065,10 +13567,6 @@
                           "type": "string",
                           "format": "date-time"
                         },
-                        "billingDueDate": {
-                          "type": "string",
-                          "format": "date-time"
-                        },
                         "canceledAt": {
                           "anyOf": [
                             {
@@ -15109,7 +13607,6 @@
                         "pix",
                         "payer",
                         "deadline",
-                        "billingDueDate",
                         "canceledAt",
                         "status",
                         "createdAt",
@@ -15305,10 +13802,6 @@
                           "type": "string",
                           "format": "date-time"
                         },
-                        "billingDueDate": {
-                          "type": "string",
-                          "format": "date-time"
-                        },
                         "canceledAt": {
                           "anyOf": [
                             {
@@ -15349,7 +13842,6 @@
                         "boleto",
                         "payer",
                         "deadline",
-                        "billingDueDate",
                         "canceledAt",
                         "status",
                         "createdAt",
@@ -15498,93 +13990,24 @@
               "schema": {
                 "anyOf": [
                   {
-                    "title": "SubscriptionCreditCard",
+                    "title": "SubscriptionCard",
                     "type": "object",
                     "properties": {
                       "paymentMethod": {
-                        "const": "CREDIT_CARD",
+                        "const": "CARD",
                         "type": "string"
                       },
-                      "creditCard": {
-                        "type": "object",
-                        "properties": {
-                          "number": {
-                            "description": "Masked card number for secure display.",
-                            "examples": [
-                              "5555 ********* 55"
-                            ],
-                            "type": "string"
-                          },
-                          "holderName": {
-                            "description": "Name of the cardholder as printed on the card.",
-                            "examples": [
-                              "John Doe"
-                            ],
-                            "type": "string"
-                          },
-                          "expirationDate": {
-                            "description": "Card expiration date in MM/YY format.",
-                            "examples": [
-                              "12/27"
-                            ],
-                            "type": "string"
-                          }
-                        },
-                        "required": [
-                          "number",
-                          "holderName",
-                          "expirationDate"
-                        ]
+                      "cardToken": {
+                        "description": "Token representing a securely stored payment card, typically returned by a payment provider.",
+                        "examples": [
+                          "tok_1N6zXeF6L3aBcD9X3gT2V9pQ"
+                        ],
+                        "type": "string"
                       }
                     },
                     "required": [
                       "paymentMethod",
-                      "creditCard"
-                    ]
-                  },
-                  {
-                    "title": "SubscriptionDebitCard",
-                    "type": "object",
-                    "properties": {
-                      "paymentMethod": {
-                        "const": "DEBIT_CARD",
-                        "type": "string"
-                      },
-                      "debitCard": {
-                        "type": "object",
-                        "properties": {
-                          "number": {
-                            "description": "Masked card number for secure display.",
-                            "examples": [
-                              "5555 ********* 55"
-                            ],
-                            "type": "string"
-                          },
-                          "holderName": {
-                            "description": "Name of the cardholder as printed on the card.",
-                            "examples": [
-                              "John Doe"
-                            ],
-                            "type": "string"
-                          },
-                          "expirationDate": {
-                            "description": "Card expiration date in MM/YY format.",
-                            "examples": [
-                              "12/27"
-                            ],
-                            "type": "string"
-                          }
-                        },
-                        "required": [
-                          "number",
-                          "holderName",
-                          "expirationDate"
-                        ]
-                      }
-                    },
-                    "required": [
-                      "paymentMethod",
-                      "debitCard"
+                      "cardToken"
                     ]
                   },
                   {
@@ -15664,7 +14087,7 @@
                 "schema": {
                   "anyOf": [
                     {
-                      "title": "SubscriptionCreditCard",
+                      "title": "SubscriptionCard",
                       "type": "object",
                       "properties": {
                         "subscriptionId": {
@@ -15692,12 +14115,19 @@
                           "type": "number"
                         },
                         "paymentMethod": {
-                          "const": "CREDIT_CARD",
+                          "const": "CARD",
                           "type": "string"
                         },
-                        "creditCard": {
+                        "card": {
                           "type": "object",
                           "properties": {
+                            "token": {
+                              "description": "Token representing a securely stored payment card, typically returned by a payment provider.",
+                              "examples": [
+                                "tok_1N6zXeF6L3aBcD9X3gT2V9pQ"
+                              ],
+                              "type": "string"
+                            },
                             "number": {
                               "description": "Masked card number for secure display.",
                               "examples": [
@@ -15721,6 +14151,7 @@
                             }
                           },
                           "required": [
+                            "token",
                             "number",
                             "holderName",
                             "expirationDate"
@@ -15863,10 +14294,6 @@
                           "type": "string",
                           "format": "date-time"
                         },
-                        "billingDueDate": {
-                          "type": "string",
-                          "format": "date-time"
-                        },
                         "canceledAt": {
                           "anyOf": [
                             {
@@ -15904,261 +14331,9 @@
                         "externalId",
                         "amount",
                         "paymentMethod",
-                        "creditCard",
+                        "card",
                         "payer",
                         "deadline",
-                        "billingDueDate",
-                        "canceledAt",
-                        "status",
-                        "createdAt",
-                        "updatedAt"
-                      ]
-                    },
-                    {
-                      "title": "SubscriptionDebitCard",
-                      "type": "object",
-                      "properties": {
-                        "subscriptionId": {
-                          "description": "Unique identifier for subscription",
-                          "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
-                          "type": "string",
-                          "format": "uuid"
-                        },
-                        "workspaceId": {
-                          "description": "Unique identifier for workspace",
-                          "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
-                          "type": "string",
-                          "format": "uuid"
-                        },
-                        "planId": {
-                          "description": "Unique identifier for plan",
-                          "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
-                          "type": "string",
-                          "format": "uuid"
-                        },
-                        "externalId": {
-                          "type": "string"
-                        },
-                        "amount": {
-                          "type": "number"
-                        },
-                        "paymentMethod": {
-                          "const": "DEBIT_CARD",
-                          "type": "string"
-                        },
-                        "debitCard": {
-                          "type": "object",
-                          "properties": {
-                            "number": {
-                              "description": "Masked card number for secure display.",
-                              "examples": [
-                                "5555 ********* 55"
-                              ],
-                              "type": "string"
-                            },
-                            "holderName": {
-                              "description": "Name of the cardholder as printed on the card.",
-                              "examples": [
-                                "John Doe"
-                              ],
-                              "type": "string"
-                            },
-                            "expirationDate": {
-                              "description": "Card expiration date in MM/YY format.",
-                              "examples": [
-                                "12/27"
-                              ],
-                              "type": "string"
-                            }
-                          },
-                          "required": [
-                            "number",
-                            "holderName",
-                            "expirationDate"
-                          ]
-                        },
-                        "payer": {
-                          "type": "object",
-                          "properties": {
-                            "name": {
-                              "type": "string"
-                            },
-                            "email": {
-                              "example": "example@email.com",
-                              "type": "string",
-                              "format": "email"
-                            },
-                            "phone": {
-                              "type": "object",
-                              "properties": {
-                                "iso": {
-                                  "description": "The ISO 3166-1 country code.",
-                                  "example": "BR",
-                                  "type": "string"
-                                },
-                                "ddi": {
-                                  "description": "The international dialing code for the country, prefixed by the plus sign (+).",
-                                  "example": "+55",
-                                  "type": "string"
-                                },
-                                "number": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "iso",
-                                "ddi",
-                                "number"
-                              ]
-                            },
-                            "document": {
-                              "type": "object",
-                              "properties": {
-                                "number": {
-                                  "type": "string"
-                                },
-                                "type": {
-                                  "description": "Represents document types for individuals or companies",
-                                  "enum": [
-                                    "INDIVIDUAL",
-                                    "COMPANY"
-                                  ],
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "number",
-                                "type"
-                              ]
-                            },
-                            "address": {
-                              "type": "object",
-                              "properties": {
-                                "state": {
-                                  "description": "Two-letter state code following the ISO 3166-2 standard for country subdivisions.",
-                                  "examples": [
-                                    "CA"
-                                  ],
-                                  "type": "string"
-                                },
-                                "city": {
-                                  "description": "City name.",
-                                  "examples": [
-                                    "Los Angeles"
-                                  ],
-                                  "type": "string"
-                                },
-                                "zipCode": {
-                                  "description": "ZIP or postal code, containing digits only.",
-                                  "examples": [
-                                    "90210000"
-                                  ],
-                                  "type": "string"
-                                },
-                                "neighborhood": {
-                                  "description": "Neighborhood or district name.",
-                                  "examples": [
-                                    "Downtown"
-                                  ],
-                                  "type": "string"
-                                },
-                                "street": {
-                                  "description": "Street name.",
-                                  "examples": [
-                                    "Sunset Blvd"
-                                  ],
-                                  "type": "string"
-                                },
-                                "number": {
-                                  "description": "Street number.",
-                                  "examples": [
-                                    "1234"
-                                  ],
-                                  "type": "string"
-                                },
-                                "complement": {
-                                  "description": "Additional address details (optional).",
-                                  "examples": [
-                                    "Apt 202"
-                                  ],
-                                  "anyOf": [
-                                    {
-                                      "type": "string"
-                                    },
-                                    {
-                                      "type": "null"
-                                    }
-                                  ]
-                                }
-                              },
-                              "required": [
-                                "state",
-                                "city",
-                                "zipCode",
-                                "neighborhood",
-                                "street",
-                                "number",
-                                "complement"
-                              ]
-                            }
-                          },
-                          "required": [
-                            "name",
-                            "email",
-                            "phone",
-                            "document",
-                            "address"
-                          ]
-                        },
-                        "deadline": {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        "billingDueDate": {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        "canceledAt": {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            {
-                              "type": "null"
-                            }
-                          ]
-                        },
-                        "status": {
-                          "enum": [
-                            "TRIAL",
-                            "ACTIVE",
-                            "OVERDUE",
-                            "CANCELED"
-                          ],
-                          "type": "string",
-                          "default": "ACTIVE"
-                        },
-                        "createdAt": {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        "updatedAt": {
-                          "type": "string",
-                          "format": "date-time"
-                        }
-                      },
-                      "required": [
-                        "subscriptionId",
-                        "workspaceId",
-                        "planId",
-                        "externalId",
-                        "amount",
-                        "paymentMethod",
-                        "debitCard",
-                        "payer",
-                        "deadline",
-                        "billingDueDate",
                         "canceledAt",
                         "status",
                         "createdAt",
@@ -16350,10 +14525,6 @@
                           "type": "string",
                           "format": "date-time"
                         },
-                        "billingDueDate": {
-                          "type": "string",
-                          "format": "date-time"
-                        },
                         "canceledAt": {
                           "anyOf": [
                             {
@@ -16394,7 +14565,6 @@
                         "pix",
                         "payer",
                         "deadline",
-                        "billingDueDate",
                         "canceledAt",
                         "status",
                         "createdAt",
@@ -16590,10 +14760,6 @@
                           "type": "string",
                           "format": "date-time"
                         },
-                        "billingDueDate": {
-                          "type": "string",
-                          "format": "date-time"
-                        },
                         "canceledAt": {
                           "anyOf": [
                             {
@@ -16634,7 +14800,6 @@
                         "boleto",
                         "payer",
                         "deadline",
-                        "billingDueDate",
                         "canceledAt",
                         "status",
                         "createdAt",
@@ -19681,7 +17846,7 @@
       "Invoice": {
         "anyOf": [
           {
-            "title": "InvoiceCreditCard",
+            "title": "InvoiceCard",
             "type": "object",
             "properties": {
               "invoiceId": {
@@ -19712,12 +17877,19 @@
                 "type": "number"
               },
               "paymentMethod": {
-                "const": "CREDIT_CARD",
+                "const": "CARD",
                 "type": "string"
               },
               "creditCard": {
                 "type": "object",
                 "properties": {
+                  "token": {
+                    "description": "Token representing a securely stored payment card, typically returned by a payment provider.",
+                    "examples": [
+                      "tok_1N6zXeF6L3aBcD9X3gT2V9pQ"
+                    ],
+                    "type": "string"
+                  },
                   "number": {
                     "description": "Masked card number for secure display.",
                     "examples": [
@@ -19741,6 +17913,7 @@
                   }
                 },
                 "required": [
+                  "token",
                   "number",
                   "holderName",
                   "expirationDate"
@@ -19804,139 +17977,6 @@
               "amount",
               "paymentMethod",
               "creditCard",
-              "dueDate",
-              "issuedAt",
-              "paidAt",
-              "canceledAt",
-              "status",
-              "createdAt",
-              "updatedAt"
-            ]
-          },
-          {
-            "title": "InvoiceDebitCard",
-            "type": "object",
-            "properties": {
-              "invoiceId": {
-                "description": "Unique identifier for invoice",
-                "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
-                "type": "string",
-                "format": "uuid"
-              },
-              "workspaceId": {
-                "description": "Unique identifier for workspace",
-                "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
-                "type": "string",
-                "format": "uuid"
-              },
-              "subscriptionId": {
-                "description": "Unique identifier for subscription",
-                "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
-                "type": "string",
-                "format": "uuid"
-              },
-              "externalId": {
-                "type": "string"
-              },
-              "description": {
-                "type": "string"
-              },
-              "amount": {
-                "type": "number"
-              },
-              "paymentMethod": {
-                "const": "DEBIT_CARD",
-                "type": "string"
-              },
-              "debitCard": {
-                "type": "object",
-                "properties": {
-                  "number": {
-                    "description": "Masked card number for secure display.",
-                    "examples": [
-                      "5555 ********* 55"
-                    ],
-                    "type": "string"
-                  },
-                  "holderName": {
-                    "description": "Name of the cardholder as printed on the card.",
-                    "examples": [
-                      "John Doe"
-                    ],
-                    "type": "string"
-                  },
-                  "expirationDate": {
-                    "description": "Card expiration date in MM/YY format.",
-                    "examples": [
-                      "12/27"
-                    ],
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "number",
-                  "holderName",
-                  "expirationDate"
-                ]
-              },
-              "dueDate": {
-                "type": "string",
-                "format": "date-time"
-              },
-              "issuedAt": {
-                "type": "string",
-                "format": "date-time"
-              },
-              "paidAt": {
-                "anyOf": [
-                  {
-                    "type": "string",
-                    "format": "date-time"
-                  },
-                  {
-                    "type": "null"
-                  }
-                ]
-              },
-              "canceledAt": {
-                "anyOf": [
-                  {
-                    "type": "string",
-                    "format": "date-time"
-                  },
-                  {
-                    "type": "null"
-                  }
-                ]
-              },
-              "status": {
-                "enum": [
-                  "PENDING",
-                  "PAID",
-                  "OVERDUE",
-                  "CANCELED"
-                ],
-                "type": "string",
-                "default": "PENDING"
-              },
-              "createdAt": {
-                "type": "string",
-                "format": "date-time"
-              },
-              "updatedAt": {
-                "type": "string",
-                "format": "date-time"
-              }
-            },
-            "required": [
-              "invoiceId",
-              "workspaceId",
-              "subscriptionId",
-              "externalId",
-              "description",
-              "amount",
-              "paymentMethod",
-              "debitCard",
               "dueDate",
               "issuedAt",
               "paidAt",
@@ -20609,7 +18649,7 @@
       "Subscription": {
         "anyOf": [
           {
-            "title": "SubscriptionCreditCard",
+            "title": "SubscriptionCard",
             "type": "object",
             "properties": {
               "subscriptionId": {
@@ -20637,12 +18677,19 @@
                 "type": "number"
               },
               "paymentMethod": {
-                "const": "CREDIT_CARD",
+                "const": "CARD",
                 "type": "string"
               },
-              "creditCard": {
+              "card": {
                 "type": "object",
                 "properties": {
+                  "token": {
+                    "description": "Token representing a securely stored payment card, typically returned by a payment provider.",
+                    "examples": [
+                      "tok_1N6zXeF6L3aBcD9X3gT2V9pQ"
+                    ],
+                    "type": "string"
+                  },
                   "number": {
                     "description": "Masked card number for secure display.",
                     "examples": [
@@ -20666,6 +18713,7 @@
                   }
                 },
                 "required": [
+                  "token",
                   "number",
                   "holderName",
                   "expirationDate"
@@ -20808,10 +18856,6 @@
                 "type": "string",
                 "format": "date-time"
               },
-              "billingDueDate": {
-                "type": "string",
-                "format": "date-time"
-              },
               "canceledAt": {
                 "anyOf": [
                   {
@@ -20849,261 +18893,9 @@
               "externalId",
               "amount",
               "paymentMethod",
-              "creditCard",
+              "card",
               "payer",
               "deadline",
-              "billingDueDate",
-              "canceledAt",
-              "status",
-              "createdAt",
-              "updatedAt"
-            ]
-          },
-          {
-            "title": "SubscriptionDebitCard",
-            "type": "object",
-            "properties": {
-              "subscriptionId": {
-                "description": "Unique identifier for subscription",
-                "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
-                "type": "string",
-                "format": "uuid"
-              },
-              "workspaceId": {
-                "description": "Unique identifier for workspace",
-                "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
-                "type": "string",
-                "format": "uuid"
-              },
-              "planId": {
-                "description": "Unique identifier for plan",
-                "example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
-                "type": "string",
-                "format": "uuid"
-              },
-              "externalId": {
-                "type": "string"
-              },
-              "amount": {
-                "type": "number"
-              },
-              "paymentMethod": {
-                "const": "DEBIT_CARD",
-                "type": "string"
-              },
-              "debitCard": {
-                "type": "object",
-                "properties": {
-                  "number": {
-                    "description": "Masked card number for secure display.",
-                    "examples": [
-                      "5555 ********* 55"
-                    ],
-                    "type": "string"
-                  },
-                  "holderName": {
-                    "description": "Name of the cardholder as printed on the card.",
-                    "examples": [
-                      "John Doe"
-                    ],
-                    "type": "string"
-                  },
-                  "expirationDate": {
-                    "description": "Card expiration date in MM/YY format.",
-                    "examples": [
-                      "12/27"
-                    ],
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "number",
-                  "holderName",
-                  "expirationDate"
-                ]
-              },
-              "payer": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  },
-                  "email": {
-                    "example": "example@email.com",
-                    "type": "string",
-                    "format": "email"
-                  },
-                  "phone": {
-                    "type": "object",
-                    "properties": {
-                      "iso": {
-                        "description": "The ISO 3166-1 country code.",
-                        "example": "BR",
-                        "type": "string"
-                      },
-                      "ddi": {
-                        "description": "The international dialing code for the country, prefixed by the plus sign (+).",
-                        "example": "+55",
-                        "type": "string"
-                      },
-                      "number": {
-                        "type": "string"
-                      }
-                    },
-                    "required": [
-                      "iso",
-                      "ddi",
-                      "number"
-                    ]
-                  },
-                  "document": {
-                    "type": "object",
-                    "properties": {
-                      "number": {
-                        "type": "string"
-                      },
-                      "type": {
-                        "description": "Represents document types for individuals or companies",
-                        "enum": [
-                          "INDIVIDUAL",
-                          "COMPANY"
-                        ],
-                        "type": "string"
-                      }
-                    },
-                    "required": [
-                      "number",
-                      "type"
-                    ]
-                  },
-                  "address": {
-                    "type": "object",
-                    "properties": {
-                      "state": {
-                        "description": "Two-letter state code following the ISO 3166-2 standard for country subdivisions.",
-                        "examples": [
-                          "CA"
-                        ],
-                        "type": "string"
-                      },
-                      "city": {
-                        "description": "City name.",
-                        "examples": [
-                          "Los Angeles"
-                        ],
-                        "type": "string"
-                      },
-                      "zipCode": {
-                        "description": "ZIP or postal code, containing digits only.",
-                        "examples": [
-                          "90210000"
-                        ],
-                        "type": "string"
-                      },
-                      "neighborhood": {
-                        "description": "Neighborhood or district name.",
-                        "examples": [
-                          "Downtown"
-                        ],
-                        "type": "string"
-                      },
-                      "street": {
-                        "description": "Street name.",
-                        "examples": [
-                          "Sunset Blvd"
-                        ],
-                        "type": "string"
-                      },
-                      "number": {
-                        "description": "Street number.",
-                        "examples": [
-                          "1234"
-                        ],
-                        "type": "string"
-                      },
-                      "complement": {
-                        "description": "Additional address details (optional).",
-                        "examples": [
-                          "Apt 202"
-                        ],
-                        "anyOf": [
-                          {
-                            "type": "string"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ]
-                      }
-                    },
-                    "required": [
-                      "state",
-                      "city",
-                      "zipCode",
-                      "neighborhood",
-                      "street",
-                      "number",
-                      "complement"
-                    ]
-                  }
-                },
-                "required": [
-                  "name",
-                  "email",
-                  "phone",
-                  "document",
-                  "address"
-                ]
-              },
-              "deadline": {
-                "type": "string",
-                "format": "date-time"
-              },
-              "billingDueDate": {
-                "type": "string",
-                "format": "date-time"
-              },
-              "canceledAt": {
-                "anyOf": [
-                  {
-                    "type": "string",
-                    "format": "date-time"
-                  },
-                  {
-                    "type": "null"
-                  }
-                ]
-              },
-              "status": {
-                "enum": [
-                  "TRIAL",
-                  "ACTIVE",
-                  "OVERDUE",
-                  "CANCELED"
-                ],
-                "type": "string",
-                "default": "ACTIVE"
-              },
-              "createdAt": {
-                "type": "string",
-                "format": "date-time"
-              },
-              "updatedAt": {
-                "type": "string",
-                "format": "date-time"
-              }
-            },
-            "required": [
-              "subscriptionId",
-              "workspaceId",
-              "planId",
-              "externalId",
-              "amount",
-              "paymentMethod",
-              "debitCard",
-              "payer",
-              "deadline",
-              "billingDueDate",
               "canceledAt",
               "status",
               "createdAt",
@@ -21295,10 +19087,6 @@
                 "type": "string",
                 "format": "date-time"
               },
-              "billingDueDate": {
-                "type": "string",
-                "format": "date-time"
-              },
               "canceledAt": {
                 "anyOf": [
                   {
@@ -21339,7 +19127,6 @@
               "pix",
               "payer",
               "deadline",
-              "billingDueDate",
               "canceledAt",
               "status",
               "createdAt",
@@ -21535,10 +19322,6 @@
                 "type": "string",
                 "format": "date-time"
               },
-              "billingDueDate": {
-                "type": "string",
-                "format": "date-time"
-              },
               "canceledAt": {
                 "anyOf": [
                   {
@@ -21579,7 +19362,6 @@
               "boleto",
               "payer",
               "deadline",
-              "billingDueDate",
               "canceledAt",
               "status",
               "createdAt",

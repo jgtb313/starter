@@ -1,4 +1,13 @@
-import { z, EmailSchema, PhoneSchema, DocumentExplicitSchema, BaseAddressSchema, BasePaymentCardSchema } from '@starter/schema'
+import {
+  z,
+  EmailSchema,
+  PhoneSchema,
+  DocumentExplicitSchema,
+  BaseAddressSchema,
+  BasePaymentCardSchema,
+  PixSchema,
+  BoletoSchema,
+} from '@starter/schema'
 
 import { ID, CreatedAt, UpdatedAt, BaseSchema } from '@/support/schema'
 import { RecurrencePaymentMethodEnum } from '@/ports/recurrence'
@@ -56,6 +65,44 @@ export const SubscriptionCardSchema = z
   .meta({ title: 'SubscriptionCard' })
 export type SubscriptionCard = z.infer<typeof SubscriptionCardSchema>
 
-export const SubscriptionSchema = z.discriminatedUnion('paymentMethod', [SubscriptionCardSchema])
+export const SubscriptionPixSchema = z
+  .object({
+    subscriptionId: SubscriptionId,
+    workspaceId: WorkspaceId,
+    planId: PlanId,
+    externalId: ExternalId,
+    amount: Amount,
+    paymentMethod: z.literal(RecurrencePaymentMethodEnum.PIX),
+    pix: PixSchema,
+    payer: SubscriptionPayerSchema,
+    deadline: Deadline,
+    canceledAt: CanceledAt,
+    status: Status,
+    createdAt: CreatedAt,
+    updatedAt: UpdatedAt,
+  })
+  .meta({ title: 'SubscriptionPix' })
+export type SubscriptionPix = z.infer<typeof SubscriptionPixSchema>
+
+export const SubscriptionBoletoSchema = z
+  .object({
+    subscriptionId: SubscriptionId,
+    workspaceId: WorkspaceId,
+    planId: PlanId,
+    externalId: ExternalId,
+    amount: Amount,
+    paymentMethod: z.literal(RecurrencePaymentMethodEnum.BOLETO),
+    boleto: BoletoSchema,
+    payer: SubscriptionPayerSchema,
+    deadline: Deadline,
+    canceledAt: CanceledAt,
+    status: Status,
+    createdAt: CreatedAt,
+    updatedAt: UpdatedAt,
+  })
+  .meta({ title: 'SubscriptionBoleto' })
+export type SubscriptionBoleto = z.infer<typeof SubscriptionBoletoSchema>
+
+export const SubscriptionSchema = z.discriminatedUnion('paymentMethod', [SubscriptionCardSchema, SubscriptionPixSchema, SubscriptionBoletoSchema])
 export type Subscription = z.infer<typeof SubscriptionSchema>
 export type BaseSubscription = BaseSchema<'subscriptionId' | 'externalId', Subscription>

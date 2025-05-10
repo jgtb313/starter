@@ -1,13 +1,6 @@
 import { createRequestSchema, RequestInput } from '@starter/nestjs-server-hoisting'
-import {
-  ID,
-  SubscriptionSchema,
-  SubscriptionCreditCardSchema,
-  SubscriptionDebitCardSchema,
-  SubscriptionPixSchema,
-  SubscriptionBoletoSchema,
-} from '@starter/domain'
-import { z, PaymentCardSchema } from '@starter/schema'
+import { ID, SubscriptionSchema, SubscriptionCardSchema, SubscriptionPixSchema, SubscriptionBoletoSchema } from '@starter/domain'
+import { z, PaymentCardTokenSchema } from '@starter/schema'
 
 export const GetSubscriptionSchema = createRequestSchema({
   params: z.object({
@@ -23,12 +16,9 @@ export const CreateSubscriptionSchema = createRequestSchema({
     workspaceId: ID('workspace'),
   }),
   body: z.discriminatedUnion('paymentMethod', [
-    SubscriptionCreditCardSchema.pick({ planId: true, payer: true, paymentMethod: true })
-      .extend({ creditCard: PaymentCardSchema })
-      .meta({ title: 'SubscriptionCreditCard' }),
-    SubscriptionDebitCardSchema.pick({ planId: true, payer: true, paymentMethod: true })
-      .extend({ debitCard: PaymentCardSchema })
-      .meta({ title: 'SubscriptionDebitCard' }),
+    SubscriptionCardSchema.pick({ planId: true, payer: true, paymentMethod: true })
+      .extend({ cardToken: PaymentCardTokenSchema })
+      .meta({ title: 'SubscriptionCard' }),
     SubscriptionPixSchema.pick({ planId: true, payer: true, paymentMethod: true }).meta({ title: 'SubscriptionPix' }),
     SubscriptionBoletoSchema.pick({ planId: true, payer: true, paymentMethod: true }).meta({ title: 'SubscriptionBoleto' }),
   ]),
@@ -54,8 +44,7 @@ export const ChangeSubscriptionPaymentMethodSchema = createRequestSchema({
     subscriptionId: ID('subscription'),
   }),
   body: z.discriminatedUnion('paymentMethod', [
-    SubscriptionCreditCardSchema.pick({ paymentMethod: true, creditCard: true }).meta({ title: 'SubscriptionCreditCard' }),
-    SubscriptionDebitCardSchema.pick({ paymentMethod: true, debitCard: true }).meta({ title: 'SubscriptionDebitCard' }),
+    SubscriptionCardSchema.pick({ paymentMethod: true }).extend({ cardToken: PaymentCardTokenSchema }).meta({ title: 'SubscriptionCard' }),
     SubscriptionPixSchema.pick({ paymentMethod: true, pix: true }).meta({ title: 'SubscriptionPix' }),
     SubscriptionBoletoSchema.pick({ paymentMethod: true, boleto: true }).meta({ title: 'SubscriptionBoleto' }),
   ]),

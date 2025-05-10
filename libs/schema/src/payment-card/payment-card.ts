@@ -20,7 +20,17 @@ const ExpirationDate = z.string().refine(
 
 const CVV = z.string().min(1)
 
+export const PaymentCardTokenSchema = z
+  .string()
+  .min(1)
+  .meta({
+    description: 'Token representing a securely stored payment card, typically returned by a payment provider.',
+    examples: ['tok_1N6zXeF6L3aBcD9X3gT2V9pQ'],
+  })
+export type PaymentCardToken = z.infer<typeof PaymentCardTokenSchema>
+
 export const BasePaymentCardSchema = z.object({
+  token: PaymentCardTokenSchema,
   number: Number.meta({
     description: 'Masked card number for secure display.',
     examples: ['5555 ********* 55'],
@@ -38,6 +48,7 @@ export type BasePaymentCard = z.infer<typeof BasePaymentCardSchema>
 
 export const PaymentCardSchema = z
   .object({
+    token: PaymentCardTokenSchema,
     number: Number.meta({
       description: 'Full credit card number.',
       examples: ['5555555555554444'],
