@@ -40,11 +40,7 @@ export class SubscriptionService implements ISubscriptionService {
 
     plan.checkIfIsSignable()
 
-    const { customerId: recurrenceCustomerId } = await this.recurrenceService.createCustmer({ workspaceId })
-
-    console.log({
-      recurrenceCustomerId,
-    })
+    const { customerId: recurrenceCustomerId } = await this.recurrenceService.createCustmer({ workspaceId, name: payer.name, email: payer.email })
 
     const subscriptionId = uuid()
 
@@ -68,11 +64,14 @@ export class SubscriptionService implements ISubscriptionService {
       status: SubscriptionStatusEnum.TRIAL,
     })
 
+    const { invoiceId, ...recurrenceInvoice } = recurrenceSubscription.invoice
+
     await this.invoiceService.createInvoice({
       ...input,
-      ...recurrenceSubscription.invoice,
+      ...recurrenceInvoice,
       workspaceId: workspace.workspaceId,
       subscriptionId: subscription.subscriptionId,
+      externalId: invoiceId,
       description: `Payment for the ${plan.state.name} plan for the month of [Month] [Year].`,
       issuedAt: new Date(),
     })

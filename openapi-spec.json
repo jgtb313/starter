@@ -1387,7 +1387,7 @@
                                 "const": "CARD",
                                 "type": "string"
                               },
-                              "creditCard": {
+                              "card": {
                                 "type": "object",
                                 "properties": {
                                   "token": {
@@ -1483,7 +1483,7 @@
                               "description",
                               "amount",
                               "paymentMethod",
-                              "creditCard",
+                              "card",
                               "dueDate",
                               "issuedAt",
                               "paidAt",
@@ -1947,7 +1947,7 @@
                           "const": "CARD",
                           "type": "string"
                         },
-                        "creditCard": {
+                        "card": {
                           "type": "object",
                           "properties": {
                             "token": {
@@ -2043,7 +2043,7 @@
                         "description",
                         "amount",
                         "paymentMethod",
-                        "creditCard",
+                        "card",
                         "dueDate",
                         "issuedAt",
                         "paidAt",
@@ -17937,7 +17937,7 @@
                 "const": "CARD",
                 "type": "string"
               },
-              "creditCard": {
+              "card": {
                 "type": "object",
                 "properties": {
                   "token": {
@@ -18033,7 +18033,7 @@
               "description",
               "amount",
               "paymentMethod",
-              "creditCard",
+              "card",
               "dueDate",
               "issuedAt",
               "paidAt",

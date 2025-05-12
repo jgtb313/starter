@@ -37,7 +37,7 @@ export class PlanTypeorm implements IPlanRepository {
     })
 
     return {
-      values: values.map((plan) => new PlanDomain(plan)),
+      values: values.map((plan) => this.toPlanDomain(plan)),
       meta,
     }
   }
@@ -57,19 +57,17 @@ export class PlanTypeorm implements IPlanRepository {
 
     const values = await this.repository.find({ where })
 
-    return values.map((plan) => new PlanDomain(plan))
+    return values.map((plan) => this.toPlanDomain(plan))
   }
 
   findById: IPlanRepository['findById'] = async (planId) => {
-    console.log({ planId })
-
     const plan = await this.repository.findOne({ where: { planId } })
 
     if (!plan) {
       throw new NotFoundException(`Plan ${planId} not found`)
     }
 
-    return new PlanDomain(plan)
+    return this.toPlanDomain(plan)
   }
 
   create: IPlanRepository['create'] = async (input) => {
@@ -77,7 +75,7 @@ export class PlanTypeorm implements IPlanRepository {
 
     const plan = await this.repository.save(data)
 
-    return new PlanDomain(plan)
+    return this.toPlanDomain(plan)
   }
 
   updateById: IPlanRepository['updateById'] = async (planId, input) => {
@@ -86,5 +84,14 @@ export class PlanTypeorm implements IPlanRepository {
     await this.repository.update(plan.state.planId, input)
 
     return this.findById(plan.state.planId)
+  }
+
+  private toPlanDomain(model: PlanEntity) {
+    return new PlanDomain({
+      ...model,
+      deletedAt: model.deletedAt ? model.deletedAt.toISOString() : null,
+      createdAt: model.createdAt.toISOString(),
+      updatedAt: model.updatedAt.toISOString(),
+    })
   }
 }

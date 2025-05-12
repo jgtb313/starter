@@ -81,7 +81,6 @@ export class SubscriptionTypeorm implements ISubscriptionRepository {
   private toSubscriptionDomain(model: SubscriptionEntity) {
     return SubscriptionSchema.parse({
       ...model,
-      billingDueDate: model.billingDueDate.toISOString(),
       deadline: model.deadline.toISOString(),
       canceledAt: model.canceledAt ? model.canceledAt.toISOString() : null,
       createdAt: model.createdAt.toISOString(),

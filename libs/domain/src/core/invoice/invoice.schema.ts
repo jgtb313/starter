@@ -47,7 +47,7 @@ export const InvoiceCardSchema = z
     description: Description,
     amount: Amount,
     paymentMethod: z.literal(RecurrencePaymentMethodEnum.CARD),
-    creditCard: BasePaymentCardSchema,
+    card: BasePaymentCardSchema,
     dueDate: DueDate,
     issuedAt: IssuedAt,
     paidAt: PaidAt,

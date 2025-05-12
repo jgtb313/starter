@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm'
 
 import { RecurrencePaymentMethodEnum } from '@/ports/recurrence'
-import { Invoice, InvoiceCreditCard, InvoiceDebitCard, InvoicePix, InvoiceBoleto, InvoiceStatusEnum } from '@/core/invoice/invoice.schema'
+import { Invoice, InvoiceCard, InvoicePix, InvoiceBoleto, InvoiceStatusEnum } from '@/core/invoice/invoice.schema'
 
 @Entity('invoices')
 export class InvoiceEntity {
@@ -24,10 +24,7 @@ export class InvoiceEntity {
   paymentMethod: Invoice['paymentMethod']
 
   @Column({ type: 'json', nullable: true })
-  creditCard?: InvoiceCreditCard['creditCard']
-
-  @Column({ type: 'json', nullable: true })
-  debitCard?: InvoiceDebitCard['debitCard']
+  card?: InvoiceCard['card']
 
   @Column({ type: 'json', nullable: true })
   pix?: InvoicePix['pix']

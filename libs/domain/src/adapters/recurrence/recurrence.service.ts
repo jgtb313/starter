@@ -1,41 +1,40 @@
 import { Injectable, Inject } from '@nestjs/common'
 
-import { IRecurrence } from '@/ports/recurrence'
-import { StripeRecurrenceAdapter } from '@/adapters/recurrence/stripe.recurrence.adapter'
+import { IRecurrence, IRecurrenceAdapter } from '@/ports/recurrence'
 
 @Injectable()
 export class RecurrenceService implements IRecurrence {
-  constructor(@Inject('Stripe') private readonly stripe: StripeRecurrenceAdapter) {}
+  constructor(@Inject('Adapter') private readonly adapter: IRecurrenceAdapter) {}
 
   createPlan: IRecurrence['createPlan'] = async (input) => {
-    return this.stripe.createPlan(input)
+    return this.adapter.createPlan(input)
   }
 
   updatePlan: IRecurrence['updatePlan'] = async (input) => {
-    return this.stripe.updatePlan(input)
+    return this.adapter.updatePlan(input)
   }
 
   cancelPlan: IRecurrence['cancelPlan'] = async (input) => {
-    return this.stripe.cancelPlan(input)
+    return this.adapter.cancelPlan(input)
   }
 
   createCustmer: IRecurrence['createCustmer'] = async (input) => {
-    return this.stripe.createCustmer(input)
+    return this.adapter.createCustmer(input)
   }
 
   createSubscription: IRecurrence['createSubscription'] = async (input) => {
-    return this.stripe.createSubscription(input)
+    return this.adapter.createSubscription(input)
   }
 
   changeSubscriptionPaymentMethod: IRecurrence['changeSubscriptionPaymentMethod'] = async (input) => {
-    return this.stripe.changeSubscriptionPaymentMethod(input)
+    return this.adapter.changeSubscriptionPaymentMethod(input)
   }
 
   changeSubscriptionPlan: IRecurrence['changeSubscriptionPlan'] = async (input) => {
-    return this.stripe.changeSubscriptionPlan(input)
+    return this.adapter.changeSubscriptionPlan(input)
   }
 
   cancelSubscription: IRecurrence['cancelSubscription'] = async (input) => {
-    return this.stripe.cancelSubscription(input)
+    return this.adapter.cancelSubscription(input)
   }
 }

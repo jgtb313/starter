@@ -16,7 +16,7 @@ export enum RecurrencePaymentMethodEnum {
 }
 
 export type RecurrenceCreatePlanInput = {
-  workspaceId: string
+  referenceId: string
   name: string
   description?: string
   amount: number
@@ -43,6 +43,8 @@ export type RecurrenceCancelPlanOutput = void
 
 export type RecurrenceCreateCustomerInput = {
   workspaceId: string
+  name: string
+  email: string
 }
 export type RecurrenceCreateCustomerOutput = {
   customerId: string
@@ -88,17 +90,16 @@ export type RecurrenceCreateSubscriptionInput = {
 } & RecurrencePaymentMethodInput
 export type RecurrenceCreateSubscriptionOutput = {
   subscriptionId: string
-  invoice: Pick<Invoice, 'externalId' | 'amount' | 'paymentMethod' | 'dueDate' | 'status'>
+  invoice: Pick<Invoice, 'invoiceId' | 'amount' | 'paymentMethod' | 'dueDate' | 'status'>
 } & RecurrencePaymentMethodOutput
 
 export type RecurrenceChangeSubscriptionPaymentMethodInput = {
   subscriptionId: string
-  paymentMethod: RecurrencePaymentMethodEnum
-}
+} & RecurrencePaymentMethodInput
 export type RecurrenceChangeSubscriptionPaymentMethodOutput = {
   subscriptionId: string
-  invoice?: Pick<Invoice, 'externalId' | 'amount' | 'paymentMethod' | 'dueDate' | 'status'>
-}
+  invoice?: Pick<Invoice, 'invoiceId' | 'amount' | 'paymentMethod' | 'dueDate' | 'status'>
+} & RecurrencePaymentMethodOutput
 
 export type RecurrenceChangeSubscriptionPlanInput = {
   subscriptionId: string
