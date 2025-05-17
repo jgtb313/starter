@@ -74,6 +74,22 @@ export const createCacheStore = (storage: Storage) => {
   return store
 }
 
+export const runCacheGarbageCollector = () => {
+  const cache = cacheStore?.getState()
+
+  if (!cache) {
+    return
+  }
+
+  const now = Date.now()
+
+  Object.entries(cache.data).forEach(([key, { ttl }]) => {
+    if (ttl && ttl < now) {
+      cache.remove(key)
+    }
+  })
+}
+
 export const setCacheStorage = (storage: Storage) => {
   if (!cacheStore) {
     cacheStore = createCacheStore(storage)

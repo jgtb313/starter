@@ -31,21 +31,38 @@ export const makeRequest = async <T extends (input: Parameters<T>[number]) => Re
     events?: MakeRequestEvents<Awaited<ReturnType<T>>, Parameters<T>[number]>
   },
 ) => {
+  const mergedEvents: MakeRequestEvents<Awaited<ReturnType<T>>, Parameters<T>[number]> = {
+    ...events,
+    onPreFetch: async () => {
+      events?.onPreFetch?.()
+      onPreFetch?.()
+    },
+    onSuccess: async (data, params) => {
+      events?.onSuccess?.(data, params)
+      onSuccess?.(data, params)
+    },
+    onError: async (error) => {
+      events?.onError?.(error)
+      onError?.(error)
+    },
+    onFinally: async () => {
+      events?.onFinally?.()
+      onFinally?.()
+    },
+  }
+
   try {
-    await events?.onPreFetch?.()
-    await onPreFetch?.()
+    await mergedEvents?.onPreFetch?.()
 
     const value = (await handler(params)) as Awaited<ReturnType<T>>
 
-    await events?.onSuccess?.(value, params)
-    await onSuccess?.(value, params)
+    mergedEvents?.onSuccess?.(value, params)
 
     return value
   } catch (err) {
     const error = err as ApiError
 
-    await events?.onError?.(error)
-    await onError?.(error)
+    mergedEvents?.onError?.(error)
 
     throw error
   } finally {
