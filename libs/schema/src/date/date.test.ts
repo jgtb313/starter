@@ -6,69 +6,89 @@ import { DateSchema, DateOptionalSchema } from './date'
 describe('Date', () => {
   describe('DateSchema', () => {
     it('should validate a valid date string', () => {
-      const validDate = '2024-12-23T10:00:00Z'
-      const result = DateSchema.safeParse(validDate)
+      const input = '2024-12-23T10:00:00Z'
+
+      const result = DateSchema.safeParse(input)
+
       expect(result.success).toBe(true)
-      expect(result.data).toEqual(getDate(validDate))
+      expect(result.data).toEqual(getDate(input))
     })
 
-    it('should validate a valid Date object', () => {
-      const validDate = new Date('2024-12-23T10:00:00Z')
-      const result = DateSchema.safeParse(validDate)
+    it('should validate a valid date string (from Date object)', () => {
+      const input = new Date('2024-12-23T10:00:00Z').toISOString()
+
+      const result = DateSchema.safeParse(input)
+
       expect(result.success).toBe(true)
-      expect(result.data).toEqual(getDate(validDate))
+      expect(result.data).toEqual(getDate(input))
     })
 
     it('should fail validation for an invalid date string', () => {
-      const invalidDate = 'invalid-date-string'
-      const result = DateSchema.safeParse(invalidDate)
+      const input = 'invalid-date-string'
+
+      const result = DateSchema.safeParse(input)
+
       expect(result.success).toBe(false)
     })
 
     it('should transform valid date string to date object', () => {
-      const validDate = '2024-12-23T10:00:00Z'
-      const result = DateSchema.safeParse(validDate)
-      expect(result.data).toEqual(getDate(validDate))
+      const input = '2024-12-23T10:00:00Z'
+
+      const result = DateSchema.safeParse(input)
+
+      expect(result.data).toEqual(getDate(input))
     })
   })
 
   describe('DateOptionalSchema', () => {
     it('should allow null value for optional date', () => {
-      const nullDate = null
-      const result = DateOptionalSchema.safeParse(nullDate)
+      const input = null
+
+      const result = DateOptionalSchema.safeParse(input)
+
       expect(result.success).toBe(true)
       expect(result.data).toBeNull()
     })
 
     it('should validate a valid date string', () => {
-      const validDate = '2024-12-23T10:00:00Z'
-      const result = DateOptionalSchema.safeParse(validDate)
+      const input = '2024-12-23T10:00:00Z'
+
+      const result = DateOptionalSchema.safeParse(input)
+
       expect(result.success).toBe(true)
-      expect(result.data).toEqual(getDate(validDate))
+      expect(result.data).toEqual(getDate(input))
     })
 
-    it('should validate a valid Date object', () => {
-      const validDate = new Date('2024-12-23T10:00:00Z')
-      const result = DateOptionalSchema.safeParse(validDate)
+    it('should validate a valid date string (from Date object)', () => {
+      const input = new Date('2024-12-23T10:00:00Z').toISOString()
+
+      const result = DateOptionalSchema.safeParse(input)
+
       expect(result.success).toBe(true)
-      expect(result.data).toEqual(getDate(validDate))
+      expect(result.data).toEqual(getDate(input))
     })
 
     it('should fail validation for an invalid date string', () => {
-      const invalidDate = 'invalid-date-string'
-      const result = DateOptionalSchema.safeParse(invalidDate)
+      const input = 'invalid-date-string'
+
+      const result = DateOptionalSchema.safeParse(input)
+
       expect(result.success).toBe(false)
     })
 
     it('should transform valid date string to date object', () => {
-      const validDate = '2024-12-23T10:00:00Z'
-      const result = DateOptionalSchema.safeParse(validDate)
-      expect(result.data).toEqual(getDate(validDate))
+      const input = '2024-12-23T10:00:00Z'
+
+      const result = DateOptionalSchema.safeParse(input)
+
+      expect(result.data).toEqual(getDate(input))
     })
 
     it('should return null for missing date', () => {
       const undefinedDate = undefined
+
       const result = DateOptionalSchema.safeParse(undefinedDate)
+
       expect(result.success).toBe(true)
       expect(result.data).toBeNull()
     })

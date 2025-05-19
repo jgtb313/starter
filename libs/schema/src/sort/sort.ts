@@ -7,7 +7,7 @@ export enum SortEnum {
 
 export const SortSchema = z.object({
   sort: z
-    .record(z.string().trim().min(1), z.nativeEnum(SortEnum))
+    .record(z.string().trim().min(1), z.enum(SortEnum))
     .nullish()
     .refine((value) => (value ? !!Object.keys(value).length : true), { params: { i18n: 'invalid_type_received_undefined' } })
     .transform((value) => (value ? (Object.keys(value).length ? value : undefined) : undefined)),
