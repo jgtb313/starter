@@ -4,7 +4,7 @@ const { execSync } = require('child_process')
 const args = process.argv.slice(2)
 
 if (args.length < 2) {
-  console.error('Usage: yarn <workspace> <command> [...args]')
+  console.error('Usage: yarn c <workspace> <command> [...args]')
   process.exit(1)
 }
 
