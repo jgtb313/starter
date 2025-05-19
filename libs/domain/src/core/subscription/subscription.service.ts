@@ -53,13 +53,14 @@ export class SubscriptionService implements ISubscriptionService {
     })
 
     const subscription = await this.subscriptionRepository.create({
-      ...input,
+      ...recurrenceSubscription,
       subscriptionId,
       workspaceId: workspace.workspaceId,
       planId: plan.state.planId,
       externalId: recurrenceSubscription.subscriptionId,
       payer,
       amount: plan.state.amount,
+      paymentMethod: input.paymentMethod,
       deadline: plan.nextBillingDate(new Date()),
       status: SubscriptionStatusEnum.TRIAL,
     })
@@ -67,11 +68,12 @@ export class SubscriptionService implements ISubscriptionService {
     const { invoiceId, ...recurrenceInvoice } = recurrenceSubscription.invoice
 
     await this.invoiceService.createInvoice({
-      ...input,
+      ...recurrenceSubscription,
       ...recurrenceInvoice,
       workspaceId: workspace.workspaceId,
       subscriptionId: subscription.subscriptionId,
       externalId: invoiceId,
+      paymentMethod: input.paymentMethod,
       description: `Payment for the ${plan.state.name} plan for the month of [Month] [Year].`,
       issuedAt: new Date(),
     })

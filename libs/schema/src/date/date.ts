@@ -11,7 +11,7 @@ export const DateOptionalSchema = z
   .string()
   .or(z.iso.datetime().transform((value) => new Date(value)))
   .nullish()
-  .refine((value) => (value ? isValidDate(value) : true), { params: { i18n: 'invalid_date' } })
+  .refine((value) => (value ? isValidDate(value) : true))
   .transform((value) => {
     if (!value) {
       return null

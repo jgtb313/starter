@@ -10339,22 +10339,6 @@
                           "const": "PIX",
                           "type": "string"
                         },
-                        "pix": {
-                          "type": "object",
-                          "properties": {
-                            "qrCode": {
-                              "type": "string"
-                            },
-                            "dueDate": {
-                              "type": "string",
-                              "format": "date-time"
-                            }
-                          },
-                          "required": [
-                            "qrCode",
-                            "dueDate"
-                          ]
-                        },
                         "payer": {
                           "type": "object",
                           "properties": {
@@ -10529,7 +10513,6 @@
                         "externalId",
                         "amount",
                         "paymentMethod",
-                        "pix",
                         "payer",
                         "deadline",
                         "canceledAt",
@@ -10570,26 +10553,6 @@
                           "const": "BOLETO",
                           "type": "string"
                         },
-                        "boleto": {
-                          "type": "object",
-                          "properties": {
-                            "url": {
-                              "type": "string"
-                            },
-                            "instructions": {
-                              "type": "string"
-                            },
-                            "dueDate": {
-                              "type": "string",
-                              "format": "date-time"
-                            }
-                          },
-                          "required": [
-                            "url",
-                            "instructions",
-                            "dueDate"
-                          ]
-                        },
                         "payer": {
                           "type": "object",
                           "properties": {
@@ -10764,7 +10727,6 @@
                         "externalId",
                         "amount",
                         "paymentMethod",
-                        "boleto",
                         "payer",
                         "deadline",
                         "canceledAt",
@@ -11199,22 +11161,6 @@
                           "const": "PIX",
                           "type": "string"
                         },
-                        "pix": {
-                          "type": "object",
-                          "properties": {
-                            "qrCode": {
-                              "type": "string"
-                            },
-                            "dueDate": {
-                              "type": "string",
-                              "format": "date-time"
-                            }
-                          },
-                          "required": [
-                            "qrCode",
-                            "dueDate"
-                          ]
-                        },
                         "payer": {
                           "type": "object",
                           "properties": {
@@ -11389,7 +11335,6 @@
                         "externalId",
                         "amount",
                         "paymentMethod",
-                        "pix",
                         "payer",
                         "deadline",
                         "canceledAt",
@@ -11430,26 +11375,6 @@
                           "const": "BOLETO",
                           "type": "string"
                         },
-                        "boleto": {
-                          "type": "object",
-                          "properties": {
-                            "url": {
-                              "type": "string"
-                            },
-                            "instructions": {
-                              "type": "string"
-                            },
-                            "dueDate": {
-                              "type": "string",
-                              "format": "date-time"
-                            }
-                          },
-                          "required": [
-                            "url",
-                            "instructions",
-                            "dueDate"
-                          ]
-                        },
                         "payer": {
                           "type": "object",
                           "properties": {
@@ -11624,7 +11549,6 @@
                         "externalId",
                         "amount",
                         "paymentMethod",
-                        "boleto",
                         "payer",
                         "deadline",
                         "canceledAt",
@@ -12531,22 +12455,6 @@
                           "const": "PIX",
                           "type": "string"
                         },
-                        "pix": {
-                          "type": "object",
-                          "properties": {
-                            "qrCode": {
-                              "type": "string"
-                            },
-                            "dueDate": {
-                              "type": "string",
-                              "format": "date-time"
-                            }
-                          },
-                          "required": [
-                            "qrCode",
-                            "dueDate"
-                          ]
-                        },
                         "payer": {
                           "type": "object",
                           "properties": {
@@ -12721,7 +12629,6 @@
                         "externalId",
                         "amount",
                         "paymentMethod",
-                        "pix",
                         "payer",
                         "deadline",
                         "canceledAt",
@@ -12762,26 +12669,6 @@
                           "const": "BOLETO",
                           "type": "string"
                         },
-                        "boleto": {
-                          "type": "object",
-                          "properties": {
-                            "url": {
-                              "type": "string"
-                            },
-                            "instructions": {
-                              "type": "string"
-                            },
-                            "dueDate": {
-                              "type": "string",
-                              "format": "date-time"
-                            }
-                          },
-                          "required": [
-                            "url",
-                            "instructions",
-                            "dueDate"
-                          ]
-                        },
                         "payer": {
                           "type": "object",
                           "properties": {
@@ -12956,7 +12843,6 @@
                         "externalId",
                         "amount",
                         "paymentMethod",
-                        "boleto",
                         "payer",
                         "deadline",
                         "canceledAt",
@@ -13414,22 +13300,6 @@
                           "const": "PIX",
                           "type": "string"
                         },
-                        "pix": {
-                          "type": "object",
-                          "properties": {
-                            "qrCode": {
-                              "type": "string"
-                            },
-                            "dueDate": {
-                              "type": "string",
-                              "format": "date-time"
-                            }
-                          },
-                          "required": [
-                            "qrCode",
-                            "dueDate"
-                          ]
-                        },
                         "payer": {
                           "type": "object",
                           "properties": {
@@ -13604,7 +13474,6 @@
                         "externalId",
                         "amount",
                         "paymentMethod",
-                        "pix",
                         "payer",
                         "deadline",
                         "canceledAt",
@@ -13645,26 +13514,6 @@
                           "const": "BOLETO",
                           "type": "string"
                         },
-                        "boleto": {
-                          "type": "object",
-                          "properties": {
-                            "url": {
-                              "type": "string"
-                            },
-                            "instructions": {
-                              "type": "string"
-                            },
-                            "dueDate": {
-                              "type": "string",
-                              "format": "date-time"
-                            }
-                          },
-                          "required": [
-                            "url",
-                            "instructions",
-                            "dueDate"
-                          ]
-                        },
                         "payer": {
                           "type": "object",
                           "properties": {
@@ -13839,7 +13688,6 @@
                         "externalId",
                         "amount",
                         "paymentMethod",
-                        "boleto",
                         "payer",
                         "deadline",
                         "canceledAt",
@@ -14017,27 +13865,10 @@
                       "paymentMethod": {
                         "const": "PIX",
                         "type": "string"
-                      },
-                      "pix": {
-                        "type": "object",
-                        "properties": {
-                          "qrCode": {
-                            "type": "string"
-                          },
-                          "dueDate": {
-                            "type": "string",
-                            "format": "date-time"
-                          }
-                        },
-                        "required": [
-                          "qrCode",
-                          "dueDate"
-                        ]
                       }
                     },
                     "required": [
-                      "paymentMethod",
-                      "pix"
+                      "paymentMethod"
                     ]
                   },
                   {
@@ -14047,31 +13878,10 @@
                       "paymentMethod": {
                         "const": "BOLETO",
                         "type": "string"
-                      },
-                      "boleto": {
-                        "type": "object",
-                        "properties": {
-                          "url": {
-                            "type": "string"
-                          },
-                          "instructions": {
-                            "type": "string"
-                          },
-                          "dueDate": {
-                            "type": "string",
-                            "format": "date-time"
-                          }
-                        },
-                        "required": [
-                          "url",
-                          "instructions",
-                          "dueDate"
-                        ]
                       }
                     },
                     "required": [
-                      "paymentMethod",
-                      "boleto"
+                      "paymentMethod"
                     ]
                   }
                 ]
@@ -14372,22 +14182,6 @@
                           "const": "PIX",
                           "type": "string"
                         },
-                        "pix": {
-                          "type": "object",
-                          "properties": {
-                            "qrCode": {
-                              "type": "string"
-                            },
-                            "dueDate": {
-                              "type": "string",
-                              "format": "date-time"
-                            }
-                          },
-                          "required": [
-                            "qrCode",
-                            "dueDate"
-                          ]
-                        },
                         "payer": {
                           "type": "object",
                           "properties": {
@@ -14562,7 +14356,6 @@
                         "externalId",
                         "amount",
                         "paymentMethod",
-                        "pix",
                         "payer",
                         "deadline",
                         "canceledAt",
@@ -14603,26 +14396,6 @@
                           "const": "BOLETO",
                           "type": "string"
                         },
-                        "boleto": {
-                          "type": "object",
-                          "properties": {
-                            "url": {
-                              "type": "string"
-                            },
-                            "instructions": {
-                              "type": "string"
-                            },
-                            "dueDate": {
-                              "type": "string",
-                              "format": "date-time"
-                            }
-                          },
-                          "required": [
-                            "url",
-                            "instructions",
-                            "dueDate"
-                          ]
-                        },
                         "payer": {
                           "type": "object",
                           "properties": {
@@ -14797,7 +14570,6 @@
                         "externalId",
                         "amount",
                         "paymentMethod",
-                        "boleto",
                         "payer",
                         "deadline",
                         "canceledAt",
@@ -18991,22 +18763,6 @@
                 "const": "PIX",
                 "type": "string"
               },
-              "pix": {
-                "type": "object",
-                "properties": {
-                  "qrCode": {
-                    "type": "string"
-                  },
-                  "dueDate": {
-                    "type": "string",
-                    "format": "date-time"
-                  }
-                },
-                "required": [
-                  "qrCode",
-                  "dueDate"
-                ]
-              },
               "payer": {
                 "type": "object",
                 "properties": {
@@ -19181,7 +18937,6 @@
               "externalId",
               "amount",
               "paymentMethod",
-              "pix",
               "payer",
               "deadline",
               "canceledAt",
@@ -19222,26 +18977,6 @@
                 "const": "BOLETO",
                 "type": "string"
               },
-              "boleto": {
-                "type": "object",
-                "properties": {
-                  "url": {
-                    "type": "string"
-                  },
-                  "instructions": {
-                    "type": "string"
-                  },
-                  "dueDate": {
-                    "type": "string",
-                    "format": "date-time"
-                  }
-                },
-                "required": [
-                  "url",
-                  "instructions",
-                  "dueDate"
-                ]
-              },
               "payer": {
                 "type": "object",
                 "properties": {
@@ -19416,7 +19151,6 @@
               "externalId",
               "amount",
               "paymentMethod",
-              "boleto",
               "payer",
               "deadline",
               "canceledAt",

@@ -45,8 +45,8 @@ export const ChangeSubscriptionPaymentMethodSchema = createRequestSchema({
   }),
   body: z.discriminatedUnion('paymentMethod', [
     SubscriptionCardSchema.pick({ paymentMethod: true }).extend({ cardToken: PaymentCardTokenSchema }).meta({ title: 'SubscriptionCard' }),
-    SubscriptionPixSchema.pick({ paymentMethod: true, pix: true }).meta({ title: 'SubscriptionPix' }),
-    SubscriptionBoletoSchema.pick({ paymentMethod: true, boleto: true }).meta({ title: 'SubscriptionBoleto' }),
+    SubscriptionPixSchema.pick({ paymentMethod: true }).meta({ title: 'SubscriptionPix' }),
+    SubscriptionBoletoSchema.pick({ paymentMethod: true }).meta({ title: 'SubscriptionBoleto' }),
   ]),
   output: SubscriptionSchema,
 })

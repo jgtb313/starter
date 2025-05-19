@@ -1,6 +1,7 @@
 import { clearSpecialChars } from '@starter/common'
 
 import { z } from '@/zod'
+import { LocationSchema } from '../location'
 
 const Title = z
   .string()
@@ -66,16 +67,6 @@ const Number = z
     examples: ['1234'],
   })
 
-const Lat = z.number().meta({
-  description: 'Latitude coordinate.',
-  examples: [34.052235],
-})
-
-const Lng = z.number().meta({
-  description: 'Longitude coordinate.',
-  examples: [-118.243683],
-})
-
 const Complement = z
   .string()
   .nullish()
@@ -120,8 +111,7 @@ export const BusinessAddressSchema = z.object({
   neighborhood: Neighborhood,
   street: Street,
   number: Number,
-  lat: Lat,
-  lng: Lng,
+  location: LocationSchema,
   complement: Complement,
   landmark: Landmark,
 })
@@ -135,8 +125,7 @@ export const CustomerAddressSchema = z.object({
   neighborhood: Neighborhood,
   street: Street,
   number: Number,
-  lat: Lat,
-  lng: Lng,
+  location: LocationSchema,
   complement: Complement,
   landmark: Landmark,
   main: Main,

@@ -1,13 +1,4 @@
-import {
-  z,
-  EmailSchema,
-  PhoneSchema,
-  DocumentExplicitSchema,
-  BaseAddressSchema,
-  BasePaymentCardSchema,
-  PixSchema,
-  BoletoSchema,
-} from '@starter/schema'
+import { z, EmailSchema, PhoneSchema, DocumentExplicitSchema, BaseAddressSchema, BasePaymentCardSchema } from '@starter/schema'
 
 import { ID, CreatedAt, UpdatedAt, BaseSchema } from '@/support/schema'
 import { RecurrencePaymentMethodEnum } from '@/ports/recurrence'
@@ -73,7 +64,6 @@ export const SubscriptionPixSchema = z
     externalId: ExternalId,
     amount: Amount,
     paymentMethod: z.literal(RecurrencePaymentMethodEnum.PIX),
-    pix: PixSchema,
     payer: SubscriptionPayerSchema,
     deadline: Deadline,
     canceledAt: CanceledAt,
@@ -92,7 +82,6 @@ export const SubscriptionBoletoSchema = z
     externalId: ExternalId,
     amount: Amount,
     paymentMethod: z.literal(RecurrencePaymentMethodEnum.BOLETO),
-    boleto: BoletoSchema,
     payer: SubscriptionPayerSchema,
     deadline: Deadline,
     canceledAt: CanceledAt,

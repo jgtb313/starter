@@ -23,7 +23,7 @@ export class SubscriptionEntity {
   @Column({ type: 'enum', enum: RecurrencePaymentMethodEnum })
   paymentMethod: Subscription['paymentMethod']
 
-  @Column({ type: 'json' })
+  @Column({ type: 'json', nullable: true })
   card: SubscriptionCard['card']
 
   @Column({ type: 'json' })

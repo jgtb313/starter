@@ -38,27 +38,12 @@ export class PlanEntity {
   @Column({ type: 'enum', enum: PlanStatusEnum, default: PlanStatusEnum.ACTIVE })
   status: Plan['status']
 
-  @DeleteDateColumn({
-    transformer: {
-      to: (value: Date) => value,
-      from: (value: Date | null) => (value ? value.toISOString() : null),
-    },
-  })
+  @DeleteDateColumn({})
   deletedAt: Plan['deletedAt']
 
-  @CreateDateColumn({
-    transformer: {
-      to: (value: Date) => value,
-      from: (value: Date) => value.toISOString(),
-    },
-  })
+  @CreateDateColumn({})
   createdAt: Plan['createdAt']
 
-  @UpdateDateColumn({
-    transformer: {
-      to: (value: Date) => value,
-      from: (value: Date) => value.toISOString(),
-    },
-  })
+  @UpdateDateColumn({})
   updatedAt: Plan['updatedAt']
 }

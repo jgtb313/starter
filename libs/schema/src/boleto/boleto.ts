@@ -1,8 +1,16 @@
-import { z } from 'zod'
+import { z } from '@/zod'
+
+const Url = z.url()
+const ExpiresAt = z.iso.datetime()
+
+export const BaseBoletoSchema = z.object({
+  url: Url,
+  expiresAt: ExpiresAt,
+})
+export type BaseBoleto = z.infer<typeof BoletoSchema>
 
 export const BoletoSchema = z.object({
-  url: z.string().min(1),
-  instructions: z.string().min(1),
-  dueDate: z.iso.datetime().transform((value) => new Date(value)),
+  url: Url,
+  expiresAt: ExpiresAt.transform((value) => new Date(value)),
 })
 export type Boleto = z.infer<typeof BoletoSchema>
