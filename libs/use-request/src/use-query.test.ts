@@ -66,10 +66,8 @@ describe('useQuery', () => {
     expect(result.current[1].data).toBe('cached data')
   })
 
-  it('should fetch and cache new data if not cached', async () => {
+  it.each([{ id: '123' }, undefined])('should fetch and cache new data if not cached', async (params) => {
     mockHandler.mockResolvedValueOnce('fetched data')
-    const testParams = { id: '123' }
-
     const { result } = renderHook(() =>
       useQuery(mockHandler, {
         queryKey: 'test',
@@ -80,7 +78,7 @@ describe('useQuery', () => {
 
     let resultData
     await act(async () => {
-      resultData = await fetch({ params: testParams })
+      resultData = await fetch({ params })
     })
 
     expect(result.current[1].data).toBe('fetched data')

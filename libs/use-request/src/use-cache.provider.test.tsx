@@ -3,21 +3,25 @@ import { render, screen } from '@testing-library/react'
 import { useInterval } from '@starter/use-hooks'
 
 import { CacheProvider } from './use-cache.provider'
-import { cacheStore, CacheStore } from './use-cache.store'
+import * as cacheStoreModule from './use-cache.store'
 
 vi.mock('@starter/use-hooks', () => ({
   useInterval: vi.fn(),
 }))
 
-vi.mock('./use-cache.store', () => ({
-  cacheStore: {
-    getState: vi.fn(() => ({
-      data: {},
-      remove: vi.fn(),
-    })),
-  },
-}))
+vi.mock('./use-cache.store', () => {
+  let _cacheStore: any = null
 
+  return {
+    get cacheStore() {
+      return _cacheStore
+    },
+    setCacheStorage: vi.fn((storage) => {
+      _cacheStore = storage
+    }),
+    runCacheGarbageCollector: vi.fn(),
+  }
+})
 describe('CacheProvider', () => {
   let mockStorage: Storage
 
@@ -25,7 +29,6 @@ describe('CacheProvider', () => {
 
   beforeEach(() => {
     vi.resetAllMocks()
-
     mockStorage = {
       getItem: vi.fn(),
       setItem: vi.fn(),
@@ -36,53 +39,43 @@ describe('CacheProvider', () => {
     }
   })
 
-  afterEach(() => {
-    vi.clearAllMocks()
-  })
-
-  it('renders children correctly', () => {
+  it('should call setCacheStorage if cacheStore is not set', () => {
     render(
       <CacheProvider storage={mockStorage}>
         <TestChild />
       </CacheProvider>,
     )
 
-    expect(screen.getByText('Storage')).toBeInTheDocument()
+    expect(cacheStoreModule.setCacheStorage).toHaveBeenCalledWith(mockStorage)
   })
 
-  it('sets up interval for garbage collection', () => {
+  it('should call useInterval with runCacheGarbageCollector and default interval', () => {
     render(
       <CacheProvider storage={mockStorage}>
         <TestChild />
       </CacheProvider>,
     )
 
-    expect(useInterval).toHaveBeenCalledWith(expect.any(Function), 5000)
+    expect(useInterval).toHaveBeenCalledWith(cacheStoreModule.runCacheGarbageCollector, 5000)
   })
 
-  it('removes expired items through garbage collection', () => {
-    const mockRemove = vi.fn()
-    const mockCache = {
-      data: {
-        key1: { ttl: Date.now() - 1000, data: 'value1' },
-        key2: { ttl: Date.now() + 1000, data: 'value2' },
-      },
-      get: vi.fn(),
-      set: vi.fn(),
-      remove: mockRemove,
-    }
-    vi.mocked((cacheStore as CacheStore).getState).mockReturnValueOnce(mockCache)
+  it('should call useInterval with runCacheGarbageCollector and custom interval', () => {
+    render(
+      <CacheProvider storage={mockStorage} gcInterval={10000}>
+        <TestChild />
+      </CacheProvider>,
+    )
 
+    expect(useInterval).toHaveBeenCalledWith(cacheStoreModule.runCacheGarbageCollector, 10000)
+  })
+
+  it('should render children and provide context with storage', () => {
     render(
       <CacheProvider storage={mockStorage}>
         <TestChild />
       </CacheProvider>,
     )
 
-    const intervalCallback = vi.mocked(useInterval).mock.calls[0][0]
-    intervalCallback()
-
-    expect(mockRemove).toHaveBeenCalledTimes(1)
-    expect(mockRemove).toHaveBeenCalledWith('key1')
+    expect(screen.getByText('Storage')).toBeDefined()
   })
 })

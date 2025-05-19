@@ -62,23 +62,26 @@ describe('useMutation', () => {
     expect(result.current[1].data).toBe('mutated data')
   })
 
-  it('should invalidate parameterized cache key on success', async () => {
-    mockHandler.mockResolvedValueOnce('mutated data')
+  it.each([{ userDetails: { id: '123' } }, { userDetails: true }])(
+    'should invalidate parameterized cache key on success',
+    async (invalidateQueries) => {
+      mockHandler.mockResolvedValueOnce('mutated data')
 
-    const { result } = renderHook(() =>
-      useMutation(mockHandler, {
-        invalidateQueries: { userDetails: { id: '123' } },
-      }),
-    )
-    const [mutate] = result.current
+      const { result } = renderHook(() =>
+        useMutation(mockHandler, {
+          invalidateQueries,
+        }),
+      )
+      const [mutate] = result.current
 
-    await act(async () => {
-      await mutate({ params: { id: '123' } })
-    })
+      await act(async () => {
+        await mutate({ params: { id: '123' } })
+      })
 
-    expect(mockCache.remove).toHaveBeenCalledTimes(1)
-    expect(result.current[1].data).toBe('mutated data')
-  })
+      expect(mockCache.remove).toHaveBeenCalledTimes(1)
+      expect(result.current[1].data).toBe('mutated data')
+    },
+  )
 
   it('should call input onSuccess after invalidation', async () => {
     mockHandler.mockResolvedValueOnce('mutated data')

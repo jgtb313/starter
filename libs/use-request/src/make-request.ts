@@ -33,19 +33,19 @@ export const makeRequest = async <T extends (input: Parameters<T>[number]) => Re
 ) => {
   const mergedEvents: MakeRequestEvents<Awaited<ReturnType<T>>, Parameters<T>[number]> = {
     ...events,
-    onPreFetch: async () => {
+    onPreFetch: () => {
       events?.onPreFetch?.()
       onPreFetch?.()
     },
-    onSuccess: async (data, params) => {
+    onSuccess: (data, params) => {
       events?.onSuccess?.(data, params)
       onSuccess?.(data, params)
     },
-    onError: async (error) => {
+    onError: (error) => {
       events?.onError?.(error)
       onError?.(error)
     },
-    onFinally: async () => {
+    onFinally: () => {
       events?.onFinally?.()
       onFinally?.()
     },
@@ -66,7 +66,6 @@ export const makeRequest = async <T extends (input: Parameters<T>[number]) => Re
 
     throw error
   } finally {
-    events?.onFinally?.()
-    onFinally?.()
+    mergedEvents?.onFinally?.()
   }
 }

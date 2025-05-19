@@ -16,7 +16,7 @@ export const useMutation = <F extends (input: Parameters<F>[number]) => ReturnTy
       onSuccess: (data, params) => {
         if (options.invalidateQueries) {
           Object.entries(options.invalidateQueries).forEach(([queryKey, queryValue]) => {
-            const cacheKey = isBoolean(queryValue) ? queryKey : createCacheKey(queryKey, queryValue ?? {})
+            const cacheKey = isBoolean(queryValue) ? queryKey : createCacheKey(queryKey, queryValue)
             cache.remove(cacheKey)
           })
         }

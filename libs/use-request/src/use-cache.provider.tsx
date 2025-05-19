@@ -1,7 +1,7 @@
 import { PropsWithChildren } from 'react'
 import { useInterval } from '@starter/use-hooks'
 
-import { cacheStore, setCacheStorage, runCacheGarbageCollector, UseCacheStoreState } from './use-cache.store'
+import { cacheStore, setCacheStorage, runCacheGarbageCollector } from './use-cache.store'
 import { CacheContext } from './use-cache.context'
 
 export type CacheProviderProps = {

@@ -1,22 +1,29 @@
-import { PropsWithChildren } from 'react'
-import { describe, expect, it } from 'vitest'
+import { describe, it, expect } from 'vitest'
 import { renderHook } from '@testing-library/react'
 
-import { CacheContext, useCacheContext, CacheContextProps } from './use-cache.context'
+import { CacheContext, useCacheContext } from './use-cache.context'
 
 describe('useCacheContext', () => {
-  it('should return the context when inside a CacheProvider', () => {
-    const mockStorage = {} as Storage
-    const mockContext: CacheContextProps = { storage: mockStorage }
+  const mockStorage = {
+    getItem: () => null,
+    setItem: () => {},
+    removeItem: () => {},
+    clear: () => {},
+    key: () => null,
+    length: 0,
+  } as Storage
 
-    const wrapper = ({ children }: PropsWithChildren) => <CacheContext.Provider value={mockContext}>{children}</CacheContext.Provider>
+  it('should return context value when used inside CacheProvider', () => {
+    const wrapper = ({ children }: React.PropsWithChildren) => (
+      <CacheContext.Provider value={{ storage: mockStorage }}>{children}</CacheContext.Provider>
+    )
 
     const { result } = renderHook(() => useCacheContext(), { wrapper })
 
-    expect(result.current).toBe(mockContext)
+    expect(result.current.storage).toBe(mockStorage)
   })
 
-  it('should throw an error when used outside a CacheProvider', () => {
+  it('should throw error if used outside CacheProvider', () => {
     expect(() => renderHook(() => useCacheContext())).toThrowError('useCacheContext must be used within a CacheProvider')
   })
 })
