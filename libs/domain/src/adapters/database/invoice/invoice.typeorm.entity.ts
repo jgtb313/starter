@@ -1,7 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm'
 
-import { RecurrencePaymentMethodEnum } from '@/ports/recurrence'
-import { Invoice, InvoiceCard, InvoicePix, InvoiceBoleto, InvoiceStatusEnum } from '@/core/invoice/invoice.schema'
+import { Invoice, InvoiceCard, InvoicePix, InvoiceBoleto } from '@/core/invoice/invoice.schema'
 
 @Entity('invoices')
 export class InvoiceEntity {
@@ -20,7 +19,7 @@ export class InvoiceEntity {
   @Column({ type: 'varchar' })
   description: Invoice['description']
 
-  @Column({ type: 'enum', enum: RecurrencePaymentMethodEnum })
+  @Column({ type: 'varchar' })
   paymentMethod: Invoice['paymentMethod']
 
   @Column({ type: 'json', nullable: true })
@@ -36,28 +35,28 @@ export class InvoiceEntity {
   amount: Invoice['amount']
 
   @Column({
-    type: 'timestamp',
+    type: 'datetime',
   })
   issuedAt: Invoice['issuedAt']
 
   @Column({
-    type: 'timestamp',
+    type: 'datetime',
   })
   dueDate: Invoice['dueDate']
 
   @Column({
-    type: 'timestamp',
+    type: 'datetime',
     nullable: true,
   })
   paidAt: Invoice['paidAt']
 
   @Column({
-    type: 'timestamp',
+    type: 'datetime',
     nullable: true,
   })
   canceledAt: Invoice['canceledAt']
 
-  @Column({ type: 'enum', enum: InvoiceStatusEnum, default: InvoiceStatusEnum.PENDING })
+  @Column({ type: 'varchar' })
   status: Invoice['status']
 
   @CreateDateColumn({})

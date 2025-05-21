@@ -1,21 +1,20 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
-import { DataSource, Repository, ILike, FindOptionsWhere } from 'typeorm'
+import { InjectRepository } from '@nestjs/typeorm'
+import { Repository, ILike, FindOptionsWhere } from 'typeorm'
 
 import { PaginationService } from '@/support/pagination'
 import { IInvoiceRepository } from '@/ports/database/invoice'
-import { InvoiceEntity } from '@/adapters/database/invoice/invoice.typeorm.entity'
 import { InvoiceDomain } from '@/core/invoice/invoice.domain'
+import { InvoiceInput } from '@/core/invoice/invoice.schema'
+import { InvoiceEntity } from '@/adapters/database/invoice/invoice.typeorm.entity'
 
 @Injectable()
 export class InvoiceTypeorm implements IInvoiceRepository {
-  private readonly repository: Repository<InvoiceEntity>
-
   constructor(
-    private readonly dataSource: DataSource,
+    @InjectRepository(InvoiceEntity)
+    private readonly repository: Repository<InvoiceEntity>,
     private readonly paginationService: PaginationService,
-  ) {
-    this.repository = this.dataSource.getRepository(InvoiceEntity)
-  }
+  ) {}
 
   findAllPaginated: IInvoiceRepository['findAllPaginated'] = async ({ offset, limit, ...input }) => {
     const { description, status } = input
@@ -95,6 +94,6 @@ export class InvoiceTypeorm implements IInvoiceRepository {
       canceledAt: model.canceledAt ? model.canceledAt.toISOString() : null,
       createdAt: model.createdAt.toISOString(),
       updatedAt: model.updatedAt.toISOString(),
-    } as any)
+    } as InvoiceInput)
   }
 }

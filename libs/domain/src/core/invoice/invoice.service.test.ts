@@ -2,22 +2,37 @@ import { Test, TestingModule } from '@nestjs/testing'
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 
 import { IInvoiceRepository } from '@/ports/database/invoice'
+import { InMemoryDatabaseModule } from '@/adapters/database'
+import { InvoiceRepositoryModule } from '@/adapters/database/invoice/invoice.repository.module'
+import { WorkspaceService } from '@/core/workspace/workspace.service'
+import { SubscriptionService } from '@/core/subscription/subscription.service'
 import { InvoiceService } from '@/core/invoice/invoice.service'
 import { invoiceMocks } from '@/core/invoice/invoice.mock'
-
-class InvoiceInMemoryRepository {}
 
 describe('InvoiceDomain', () => {
   let service: InvoiceService
   let invoiceRepository: IInvoiceRepository
 
+  const workspaceServiceMock = {
+    getWorkspace: vi.fn(),
+  }
+
+  const subscriptionServiceMock = {
+    getSubscription: vi.fn(),
+  }
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
+      imports: [InMemoryDatabaseModule.register(), InvoiceRepositoryModule],
       providers: [
         InvoiceService,
         {
-          provide: 'INVOICE_REPOSITORY',
-          useClass: InvoiceInMemoryRepository,
+          provide: WorkspaceService,
+          useValue: workspaceServiceMock,
+        },
+        {
+          provide: SubscriptionService,
+          useValue: subscriptionServiceMock,
         },
       ],
     }).compile()
