@@ -10,6 +10,9 @@ export class WorkspaceEntity {
   @Column({ type: 'varchar' })
   name: Workspace['name']
 
+  @Column({ type: 'json', nullable: true })
+  integrations?: Workspace['integrations']
+
   @Column({ type: 'enum', enum: WorkspaceStatusEnum, default: WorkspaceStatusEnum.ACTIVE })
   status: Workspace['status']
 

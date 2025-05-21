@@ -1,4 +1,4 @@
-import { BaseAddress, PaymentCard, BasePaymentCard, DocumentExplicit, Phone, Pix, Boleto } from '@starter/schema'
+import { BaseAddress, BasePaymentCard, DocumentExplicit, Phone, BasePix, BaseBoleto } from '@starter/schema'
 
 import { Invoice } from '@/core/invoice/invoice.schema'
 
@@ -68,11 +68,11 @@ type CardPaymentOutput = {
 }
 type PixPaymentOutput = {
   paymentMethod: RecurrencePaymentMethodEnum.PIX
-  pix: Pix
+  pix: BasePix
 }
 type BoletoPaymentOutput = {
   paymentMethod: RecurrencePaymentMethodEnum.BOLETO
-  boleto: Boleto
+  boleto: BaseBoleto
 }
 type RecurrencePaymentMethodOutput = CardPaymentOutput | PixPaymentOutput | BoletoPaymentOutput
 

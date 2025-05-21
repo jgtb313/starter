@@ -1,12 +1,11 @@
 import { ConflictException } from '@starter/nestjs-error-handling'
-import { z } from '@starter/schema'
 
 import { BaseDomain } from '@/support/base-domain'
-import { InvoiceSchema, Invoice, InvoiceStatusEnum } from '@/core/invoice/invoice.schema'
-
-type InvoiceInput = z.input<typeof InvoiceSchema>
+import { InvoiceSchema, Invoice, InvoiceInput, InvoiceStatusEnum } from '@/core/invoice/invoice.schema'
 
 export class InvoiceDomain extends BaseDomain<Invoice, InvoiceInput> {
+  private PAYABLE_STATUSES: InvoiceStatusEnum[] = [InvoiceStatusEnum.PENDING]
+
   constructor(invoice: InvoiceInput) {
     super(InvoiceSchema, invoice)
   }
@@ -28,7 +27,7 @@ export class InvoiceDomain extends BaseDomain<Invoice, InvoiceInput> {
   }
 
   isPayable() {
-    return this.isPending()
+    return this.PAYABLE_STATUSES.includes(this.state.status)
   }
 
   markAsPaid() {

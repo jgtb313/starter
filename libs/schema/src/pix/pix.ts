@@ -1,8 +1,8 @@
 import { z } from '@/zod'
 
 const QrCodeUrl = z.url().meta({
-  description: 'Direct URL to the Pix QR Code, returned by the payment provider.',
-  examples: ['https://pix.qr-code.com/abc123'],
+  description: 'URL containing the Pix QR Code payload, used to initiate a payment.',
+  examples: ['https://pix.example.com/v2/9c1b2841-d993-48a7-bb75-61b460bdbb69'],
 })
 
 const ExpiresAt = z.iso.datetime().meta({

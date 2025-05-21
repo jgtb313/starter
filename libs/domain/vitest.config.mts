@@ -11,7 +11,7 @@ export default defineConfig({
   test: {
     include: ['**/*.test.{js,ts,jsx,tsx}'],
     coverage: {
-      include: ['src/**/*.service.{js,ts}', 'src/**/*.strategy.{js,ts}'],
+      include: ['src/**/*.service.{js,ts}', 'src/**/*.domain.{js,ts}'],
       exclude: ['node_modules', '**/*.test.{js,ts,jsx,tsx}', '**/*.spec.{js,ts,jsx,tsx}', '**/index.{js,ts,jsx,tsx}', '**/*.d.ts', '**/types.ts'],
     },
   },

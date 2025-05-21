@@ -60,8 +60,8 @@ export class InMemoryRecurrenceAdapter implements IRecurrenceAdapter {
           status: InvoiceStatusEnum.PENDING,
         },
         pix: {
-          qrCode: 'mocked-qr-code',
-          dueDate: new Date(Date.now() + 3600_000),
+          qrCodeUrl: 'https://pix.example.com/v2/9c1b2841-d993-48a7-bb75-61b460bdbb69',
+          expiresAt: new Date(Date.now() + 3600_000).toISOString(),
         },
       }
     }
@@ -78,8 +78,7 @@ export class InMemoryRecurrenceAdapter implements IRecurrenceAdapter {
       },
       boleto: {
         url: 'https://example.com/boleto.pdf',
-        instructions: '',
-        dueDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+        expiresAt: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(),
       },
     }
   }
@@ -110,8 +109,8 @@ export class InMemoryRecurrenceAdapter implements IRecurrenceAdapter {
           status: InvoiceStatusEnum.PENDING,
         },
         pix: {
-          qrCode: 'mocked-qr-code',
-          dueDate: new Date(Date.now() + 3600_000),
+          qrCodeUrl: 'https://pix.example.com/v2/9c1b2841-d993-48a7-bb75-61b460bdbb69',
+          expiresAt: new Date(Date.now() + 3600_000).toISOString(),
         },
       }
     }
@@ -128,8 +127,7 @@ export class InMemoryRecurrenceAdapter implements IRecurrenceAdapter {
       },
       boleto: {
         url: 'https://example.com/boleto.pdf',
-        instructions: '',
-        dueDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+        expiresAt: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(),
       },
     }
   }

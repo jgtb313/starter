@@ -1,83 +1,171 @@
-// import { describe, it, expect } from 'vitest'
-// import { ConflictException } from '@starter/nestjs-error-handling'
+import { describe, it, expect } from 'vitest'
+import { ConflictException } from '@starter/nestjs-error-handling'
 
-// import { RecurrencePaymentMethodEnum } from '@/ports/recurrence'
-// import { Invoice, InvoiceStatusEnum } from '@/core/invoice/invoice.schema'
-// import { InvoiceDomain } from '@/core/invoice/invoice.domain'
+import { RecurrencePaymentMethodEnum } from '@/ports/recurrence'
+import { InvoiceStatusEnum } from '@/core/invoice/invoice.schema'
+import { makeInvoice } from '@/core/invoice/invoice.mock'
 
-// const makeInvoice = (overrides: Partial<Invoice>): Invoice => ({
-//   invoiceId: 'inv_test_id',
-//   workspaceId: 'ws_test_id',
-//   subscriptionId: 'sub_test_id',
-//   externalId: 'ext_test_id',
-//   description: 'Test invoice description',
-//   amount: 10000,
-//   paymentMethod: RecurrencePaymentMethodEnum.CARD,
-//   card: {
-//     token: '',
-//     holderName: '',
-//     number: '',
-//     expirationDate: '',
-//   },
-//   dueDate: new Date('2025-05-01T00:00:00Z'),
-//   issuedAt: new Date('2025-04-01T00:00:00Z'),
-//   paidAt: null,
-//   canceledAt: null,
-//   status: InvoiceStatusEnum.PENDING,
-//   createdAt: new Date('2025-04-01T00:00:00Z'),
-//   updatedAt: new Date('2025-04-01T00:00:00Z'),
-// })
+describe('InvoiceDomain', () => {
+  it('should identify status correctly', () => {
+    const invoice = makeInvoice({
+      workspaceId: '0e6c34bb-5a5c-4b31-bfec-33ec3651d57f',
+      subscriptionId: '126b6b16-0238-41bc-9c27-54f260b08aaa',
+      paymentMethod: RecurrencePaymentMethodEnum.CARD,
+      card: {
+        token: 'tok_001',
+        number: '4111 ********** 11',
+        holderName: 'Alice Smith',
+        expirationDate: '12/27',
+      },
+      status: InvoiceStatusEnum.PAID,
+    })
 
-// describe('InvoiceDomain', () => {
-//   it('should identify status correctly', () => {
-//     const invoice = new InvoiceDomain(makeInvoice({ status: InvoiceStatusEnum.PAID }))
-//     expect(invoice.isPaid()).toBe(true)
-//     expect(invoice.isPending()).toBe(false)
-//     expect(invoice.isOverdue()).toBe(false)
-//     expect(invoice.isCanceled()).toBe(false)
-//   })
+    expect(invoice.isPaid()).toBe(true)
+    expect(invoice.isPending()).toBe(false)
+    expect(invoice.isOverdue()).toBe(false)
+    expect(invoice.isCanceled()).toBe(false)
+  })
 
-//   it('should mark as paid when status is pending', () => {
-//     const invoice = new InvoiceDomain(makeInvoice({}))
-//     invoice.markAsPaid()
-//     expect(invoice.state.status).toBe(InvoiceStatusEnum.PAID)
-//   })
+  it('should allow marking invoice as paid if pending', () => {
+    const invoice = makeInvoice({
+      workspaceId: '0e6c34bb-5a5c-4b31-bfec-33ec3651d57f',
+      subscriptionId: '126b6b16-0238-41bc-9c27-54f260b08aaa',
+      paymentMethod: RecurrencePaymentMethodEnum.PIX,
+      pix: {
+        qrCodeUrl: 'https://pix.example.com/qrcode',
+        expiresAt: new Date().toISOString(),
+      },
+      status: InvoiceStatusEnum.PENDING,
+    })
 
-//   it('should throw when marking as paid if not pending', () => {
-//     const invoice = new InvoiceDomain(makeInvoice({ status: InvoiceStatusEnum.CANCELED }))
-//     expect(() => invoice.markAsPaid()).toThrowError(ConflictException)
-//   })
+    invoice.markAsPaid()
 
-//   it('should mark as overdue when status is pending', () => {
-//     const invoice = new InvoiceDomain(makeInvoice({}))
-//     invoice.markAsOverdue()
-//     expect(invoice.state.status).toBe(InvoiceStatusEnum.OVERDUE)
-//   })
+    expect(invoice.isPaid()).toBe(true)
+  })
 
-//   it('should throw when marking as overdue if not pending', () => {
-//     const invoice = new InvoiceDomain(makeInvoice({ status: InvoiceStatusEnum.PAID }))
-//     expect(() => invoice.markAsOverdue()).toThrowError(ConflictException)
-//   })
+  it('should throw when marking as paid if not pending', () => {
+    const status = InvoiceStatusEnum.CANCELED
 
-//   it('should mark as canceled if not already canceled', () => {
-//     const invoice = new InvoiceDomain(makeInvoice({}))
-//     invoice.markAsCanceled()
-//     expect(invoice.state.status).toBe(InvoiceStatusEnum.CANCELED)
-//     expect(invoice.state.canceledAt).toBeInstanceOf(Date)
-//   })
+    const invoice = makeInvoice({
+      workspaceId: '0e6c34bb-5a5c-4b31-bfec-33ec3651d57f',
+      subscriptionId: '126b6b16-0238-41bc-9c27-54f260b08aaa',
+      paymentMethod: RecurrencePaymentMethodEnum.BOLETO,
+      boleto: {
+        url: 'https://boleto.example.com/123',
+        expiresAt: new Date().toISOString(),
+      },
+      status,
+    })
 
-//   it('should throw when marking as canceled if already canceled', () => {
-//     const invoice = new InvoiceDomain(makeInvoice({ status: InvoiceStatusEnum.CANCELED }))
-//     expect(() => invoice.markAsCanceled()).toThrowError(ConflictException)
-//   })
+    expect(() => invoice.markAsPaid()).toThrowError(
+      new ConflictException(`Unable to mark invoice ${invoice.state.invoiceId} as paid: status must be 'PENDING', but is '${status}'.`),
+    )
+  })
 
-//   it('should allow checkIfIsPayable if invoice is payable', () => {
-//     const invoice = new InvoiceDomain(makeInvoice({ status: InvoiceStatusEnum.PAID }))
-//     expect(() => invoice.checkIfIsPayable()).not.toThrow()
-//   })
+  it('should allow marking invoice as overdue if pending', () => {
+    const invoice = makeInvoice({
+      workspaceId: '0e6c34bb-5a5c-4b31-bfec-33ec3651d57f',
+      subscriptionId: '126b6b16-0238-41bc-9c27-54f260b08aaa',
+      paymentMethod: RecurrencePaymentMethodEnum.CARD,
+      card: {
+        token: 'tok_002',
+        number: '4111 ********** 11',
+        holderName: 'Bob Brown',
+        expirationDate: '10/28',
+      },
+      status: InvoiceStatusEnum.PENDING,
+    })
 
-//   it('should throw on checkIfIsPayable if status is pending', () => {
-//     const invoice = new InvoiceDomain(makeInvoice({ status: InvoiceStatusEnum.PENDING }))
-//     expect(() => invoice.checkIfIsPayable()).toThrowError(ConflictException)
-//   })
-// })
+    invoice.markAsOverdue()
+
+    expect(invoice.isOverdue()).toBe(true)
+  })
+
+  it('should throw when marking as overdue if not pending', () => {
+    const status = InvoiceStatusEnum.PAID
+
+    const invoice = makeInvoice({
+      workspaceId: '0e6c34bb-5a5c-4b31-bfec-33ec3651d57f',
+      subscriptionId: '126b6b16-0238-41bc-9c27-54f260b08aaa',
+      paymentMethod: RecurrencePaymentMethodEnum.CARD,
+      card: {
+        token: 'tok_003',
+        number: '4111 ********** 11',
+        holderName: 'Clara White',
+        expirationDate: '08/30',
+      },
+      status,
+    })
+
+    expect(() => invoice.markAsOverdue()).toThrowError(
+      new ConflictException(`Unable to mark invoice ${invoice.state.invoiceId} as overdue: status must be 'PENDING', but is '${status}'.`),
+    )
+  })
+
+  it('should allow marking as canceled when not already canceled', () => {
+    const invoice = makeInvoice({
+      workspaceId: '0e6c34bb-5a5c-4b31-bfec-33ec3651d57f',
+      subscriptionId: '126b6b16-0238-41bc-9c27-54f260b08aaa',
+      paymentMethod: RecurrencePaymentMethodEnum.PIX,
+      pix: {
+        qrCodeUrl: 'https://pix.example.com/qrcode',
+        expiresAt: new Date().toISOString(),
+      },
+      status: InvoiceStatusEnum.PENDING,
+    })
+
+    invoice.markAsCanceled()
+
+    expect(invoice.isCanceled()).toBe(true)
+    expect(invoice.state.canceledAt).toBeInstanceOf(Date)
+  })
+
+  it('should throw when marking as canceled if already canceled', () => {
+    const invoice = makeInvoice({
+      workspaceId: '0e6c34bb-5a5c-4b31-bfec-33ec3651d57f',
+      subscriptionId: '126b6b16-0238-41bc-9c27-54f260b08aaa',
+      paymentMethod: RecurrencePaymentMethodEnum.PIX,
+      pix: {
+        qrCodeUrl: 'https://pix.example.com/qrcode',
+        expiresAt: new Date().toISOString(),
+      },
+      status: InvoiceStatusEnum.CANCELED,
+    })
+
+    expect(() => invoice.markAsCanceled()).toThrowError(new ConflictException(`Invoice ${invoice.state.invoiceId} is already canceled.`))
+  })
+
+  it('should allow payable invoices only if status is PENDING', () => {
+    const invoice = makeInvoice({
+      workspaceId: '0e6c34bb-5a5c-4b31-bfec-33ec3651d57f',
+      subscriptionId: '126b6b16-0238-41bc-9c27-54f260b08aaa',
+      paymentMethod: RecurrencePaymentMethodEnum.BOLETO,
+      boleto: {
+        url: 'https://boleto.example.com/123',
+        expiresAt: new Date().toISOString(),
+      },
+      status: InvoiceStatusEnum.PENDING,
+    })
+
+    expect(() => invoice.checkIfIsPayable()).not.toThrow()
+  })
+
+  it('should throw if invoice is not payable', () => {
+    const status = InvoiceStatusEnum.OVERDUE
+
+    const invoice = makeInvoice({
+      workspaceId: '0e6c34bb-5a5c-4b31-bfec-33ec3651d57f',
+      subscriptionId: '126b6b16-0238-41bc-9c27-54f260b08aaa',
+      paymentMethod: RecurrencePaymentMethodEnum.BOLETO,
+      boleto: {
+        url: 'https://boleto.example.com/123',
+        expiresAt: new Date().toISOString(),
+      },
+      status,
+    })
+
+    expect(() => invoice.checkIfIsPayable()).toThrowError(
+      new ConflictException(`Invoice ${invoice.state.invoiceId} cannot be paid: status '${status}' is not valid for payment.`),
+    )
+  })
+})

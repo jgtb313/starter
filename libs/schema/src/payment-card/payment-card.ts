@@ -1,10 +1,7 @@
 import { z } from '@/zod'
 import { isPaymentCardNumberValid, isPaymentCardExpirationDateValid, isPaymentCardCVVValid } from '@starter/common'
 
-const Number = z
-  .string()
-  .min(1)
-  .refine((number) => isPaymentCardNumberValid(number), { params: { i18n: 'invalid_payment_card_number' } })
+const Number = z.string().min(1)
 
 const HolderName = z.string().min(1)
 
@@ -49,7 +46,7 @@ export type BasePaymentCard = z.infer<typeof BasePaymentCardSchema>
 export const PaymentCardSchema = z
   .object({
     token: PaymentCardTokenSchema,
-    number: Number.meta({
+    number: Number.refine((number) => isPaymentCardNumberValid(number), { params: { i18n: 'invalid_payment_card_number' } }).meta({
       description: 'Full credit card number.',
       examples: ['5555555555554444'],
     }),

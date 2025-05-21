@@ -104,4 +104,5 @@ export type InvoiceBoleto = z.infer<typeof InvoiceBoletoSchema>
 export const InvoiceSchema = z.discriminatedUnion('paymentMethod', [InvoiceCardSchema, InvoicePixSchema, InvoiceBoletoSchema])
 
 export type Invoice = z.infer<typeof InvoiceSchema>
+export type InvoiceInput = z.input<typeof InvoiceSchema>
 export type BaseInvoice = BaseSchema<'invoiceId', Invoice>

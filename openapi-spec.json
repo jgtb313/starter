@@ -1531,17 +1531,26 @@
                               "pix": {
                                 "type": "object",
                                 "properties": {
-                                  "qrCode": {
-                                    "type": "string"
+                                  "qrCodeUrl": {
+                                    "description": "Direct URL to the Pix QR Code, returned by the payment provider.",
+                                    "examples": [
+                                      "https://pix.qr-code.com/abc123"
+                                    ],
+                                    "type": "string",
+                                    "format": "uri"
                                   },
-                                  "dueDate": {
+                                  "expiresAt": {
+                                    "description": "Expiration date and time for the Pix payment in ISO format.",
+                                    "examples": [
+                                      "2025-12-31T23:59:59.000Z"
+                                    ],
                                     "type": "string",
                                     "format": "date-time"
                                   }
                                 },
                                 "required": [
-                                  "qrCode",
-                                  "dueDate"
+                                  "qrCodeUrl",
+                                  "expiresAt"
                                 ]
                               },
                               "dueDate": {
@@ -1650,20 +1659,21 @@
                                 "type": "object",
                                 "properties": {
                                   "url": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "format": "uri"
                                   },
-                                  "instructions": {
-                                    "type": "string"
-                                  },
-                                  "dueDate": {
+                                  "expiresAt": {
+                                    "description": "Expiration date and time for the Boleto payment in ISO format.",
+                                    "examples": [
+                                      "2025-12-31T23:59:59.000Z"
+                                    ],
                                     "type": "string",
                                     "format": "date-time"
                                   }
                                 },
                                 "required": [
                                   "url",
-                                  "instructions",
-                                  "dueDate"
+                                  "expiresAt"
                                 ]
                               },
                               "dueDate": {
@@ -2091,17 +2101,26 @@
                         "pix": {
                           "type": "object",
                           "properties": {
-                            "qrCode": {
-                              "type": "string"
+                            "qrCodeUrl": {
+                              "description": "Direct URL to the Pix QR Code, returned by the payment provider.",
+                              "examples": [
+                                "https://pix.qr-code.com/abc123"
+                              ],
+                              "type": "string",
+                              "format": "uri"
                             },
-                            "dueDate": {
+                            "expiresAt": {
+                              "description": "Expiration date and time for the Pix payment in ISO format.",
+                              "examples": [
+                                "2025-12-31T23:59:59.000Z"
+                              ],
                               "type": "string",
                               "format": "date-time"
                             }
                           },
                           "required": [
-                            "qrCode",
-                            "dueDate"
+                            "qrCodeUrl",
+                            "expiresAt"
                           ]
                         },
                         "dueDate": {
@@ -2210,20 +2229,21 @@
                           "type": "object",
                           "properties": {
                             "url": {
-                              "type": "string"
+                              "type": "string",
+                              "format": "uri"
                             },
-                            "instructions": {
-                              "type": "string"
-                            },
-                            "dueDate": {
+                            "expiresAt": {
+                              "description": "Expiration date and time for the Boleto payment in ISO format.",
+                              "examples": [
+                                "2025-12-31T23:59:59.000Z"
+                              ],
                               "type": "string",
                               "format": "date-time"
                             }
                           },
                           "required": [
                             "url",
-                            "instructions",
-                            "dueDate"
+                            "expiresAt"
                           ]
                         },
                         "dueDate": {
@@ -17853,17 +17873,26 @@
               "pix": {
                 "type": "object",
                 "properties": {
-                  "qrCode": {
-                    "type": "string"
+                  "qrCodeUrl": {
+                    "description": "Direct URL to the Pix QR Code, returned by the payment provider.",
+                    "examples": [
+                      "https://pix.qr-code.com/abc123"
+                    ],
+                    "type": "string",
+                    "format": "uri"
                   },
-                  "dueDate": {
+                  "expiresAt": {
+                    "description": "Expiration date and time for the Pix payment in ISO format.",
+                    "examples": [
+                      "2025-12-31T23:59:59.000Z"
+                    ],
                     "type": "string",
                     "format": "date-time"
                   }
                 },
                 "required": [
-                  "qrCode",
-                  "dueDate"
+                  "qrCodeUrl",
+                  "expiresAt"
                 ]
               },
               "dueDate": {
@@ -17972,20 +18001,21 @@
                 "type": "object",
                 "properties": {
                   "url": {
-                    "type": "string"
+                    "type": "string",
+                    "format": "uri"
                   },
-                  "instructions": {
-                    "type": "string"
-                  },
-                  "dueDate": {
+                  "expiresAt": {
+                    "description": "Expiration date and time for the Boleto payment in ISO format.",
+                    "examples": [
+                      "2025-12-31T23:59:59.000Z"
+                    ],
                     "type": "string",
                     "format": "date-time"
                   }
                 },
                 "required": [
                   "url",
-                  "instructions",
-                  "dueDate"
+                  "expiresAt"
                 ]
               },
               "dueDate": {
