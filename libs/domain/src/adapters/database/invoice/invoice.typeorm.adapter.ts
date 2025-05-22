@@ -1,11 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository, ILike, FindOptionsWhere } from 'typeorm'
+import { PaginationSchemaTransform } from '@starter/schema'
 
-import { PaginationService } from '@/support/pagination'
 import { IInvoiceRepository } from '@/ports/database/invoice'
 import { InvoiceDomain } from '@/core/invoice/invoice.domain'
-import { InvoiceInput } from '@/core/invoice/invoice.schema'
 import { InvoiceEntity } from '@/adapters/database/invoice/invoice.typeorm.entity'
 
 @Injectable()
@@ -13,7 +12,6 @@ export class InvoiceTypeorm implements IInvoiceRepository {
   constructor(
     @InjectRepository(InvoiceEntity)
     private readonly repository: Repository<InvoiceEntity>,
-    private readonly paginationService: PaginationService,
   ) {}
 
   findAllPaginated: IInvoiceRepository['findAllPaginated'] = async ({ offset, limit, ...input }) => {
@@ -29,15 +27,23 @@ export class InvoiceTypeorm implements IInvoiceRepository {
       where.status = status
     }
 
-    const { values, meta } = await this.paginationService.paginate(this.repository, {
+    const paginate = PaginationSchemaTransform.parse({ offset, limit })
+
+    const skip = paginate.offset
+    const take = paginate.limit
+
+    const [values, total] = await this.repository.findAndCount({
       where,
-      offset,
-      limit,
+      take,
+      skip,
     })
 
     return {
       values: values.map(this.toInvoiceDomain),
-      meta,
+      meta: {
+        ...paginate,
+        total,
+      },
     }
   }
 
@@ -86,14 +92,22 @@ export class InvoiceTypeorm implements IInvoiceRepository {
   }
 
   private toInvoiceDomain(model: InvoiceEntity) {
-    return new InvoiceDomain({
-      ...model,
-      issuedAt: model.issuedAt.toISOString(),
-      dueDate: model.dueDate.toISOString(),
-      paidAt: model.paidAt ? model.paidAt.toISOString() : null,
-      canceledAt: model.canceledAt ? model.canceledAt.toISOString() : null,
-      createdAt: model.createdAt.toISOString(),
-      updatedAt: model.updatedAt.toISOString(),
-    } as InvoiceInput)
+    return new InvoiceDomain(deepMapDatesToISOString(model))
   }
+}
+
+export const deepMapDatesToISOString = <T>(obj: unknown): T => {
+  if (obj instanceof Date) {
+    return obj.toISOString() as T
+  }
+
+  if (Array.isArray(obj)) {
+    return obj.map(deepMapDatesToISOString) as T
+  }
+
+  if (obj !== null && typeof obj === 'object') {
+    return Object.fromEntries(Object.entries(obj).map(([key, value]) => [key, deepMapDatesToISOString(value)])) as T
+  }
+
+  return obj as T
 }
