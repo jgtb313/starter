@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Repository, ILike, FindOptionsWhere } from 'typeorm'
 import { PaginationSchemaTransform } from '@starter/schema'
 
+import { deepMapDatesToISOString } from '@/support/utilities'
 import { IInvoiceRepository } from '@/ports/database/invoice'
 import { InvoiceDomain } from '@/core/invoice/invoice.domain'
 import { InvoiceEntity } from '@/adapters/database/invoice/invoice.typeorm.entity'
@@ -94,20 +95,4 @@ export class InvoiceTypeorm implements IInvoiceRepository {
   private toInvoiceDomain(model: InvoiceEntity) {
     return new InvoiceDomain(deepMapDatesToISOString(model))
   }
-}
-
-export const deepMapDatesToISOString = <T>(obj: unknown): T => {
-  if (obj instanceof Date) {
-    return obj.toISOString() as T
-  }
-
-  if (Array.isArray(obj)) {
-    return obj.map(deepMapDatesToISOString) as T
-  }
-
-  if (obj !== null && typeof obj === 'object') {
-    return Object.fromEntries(Object.entries(obj).map(([key, value]) => [key, deepMapDatesToISOString(value)])) as T
-  }
-
-  return obj as T
 }

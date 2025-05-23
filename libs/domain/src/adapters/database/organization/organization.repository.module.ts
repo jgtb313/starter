@@ -1,12 +1,11 @@
 import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
 
-import { PaginationModule } from '@/support/pagination'
 import { OrganizationTypeorm } from './organization.typeorm.adapter'
 import { OrganizationEntity } from './organization.typeorm.entity'
 
 @Module({
-  imports: [TypeOrmModule.forFeature([OrganizationEntity]), PaginationModule],
+  imports: [TypeOrmModule.forFeature([OrganizationEntity])],
   providers: [
     {
       provide: 'ORGANIZATION_REPOSITORY',

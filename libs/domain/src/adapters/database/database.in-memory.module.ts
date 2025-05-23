@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { DataSource } from 'typeorm'
 
 import { InvoiceEntity } from '@/adapters/database/invoice/invoice.typeorm.entity'
+import { OrganizationEntity } from '@/adapters/database/organization/organization.typeorm.entity'
 
 @Module({})
 export class InMemoryDatabaseModule {
@@ -15,7 +16,7 @@ export class InMemoryDatabaseModule {
             const dataSource = new DataSource({
               type: 'sqlite',
               database: ':memory:',
-              entities: [InvoiceEntity],
+              entities: [InvoiceEntity, OrganizationEntity],
               dropSchema: true,
               synchronize: true,
             })

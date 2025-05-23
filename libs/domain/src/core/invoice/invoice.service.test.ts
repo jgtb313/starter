@@ -12,7 +12,7 @@ import { InvoiceService } from '@/core/invoice/invoice.service'
 import { InvoiceStatusEnum } from '@/core/invoice/invoice.schema'
 import { invoiceMocks, makeInvoice } from '@/core/invoice/invoice.mock'
 
-describe('InvoiceDomain', () => {
+describe('InvoiceService', () => {
   let service: InvoiceService
   let invoiceRepository: IInvoiceRepository
 
@@ -50,7 +50,7 @@ describe('InvoiceDomain', () => {
     vi.clearAllMocks()
   })
 
-  it('should service be defined', () => {
+  it('should be defined', () => {
     expect(service).toBeDefined()
   })
 

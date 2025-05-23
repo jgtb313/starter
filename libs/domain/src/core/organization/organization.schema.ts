@@ -25,4 +25,5 @@ export const OrganizationSchema = z.object({
   updatedAt: UpdatedAt,
 })
 export type Organization = z.infer<typeof OrganizationSchema>
+export type OrganizationInput = z.input<typeof OrganizationSchema>
 export type BaseOrganization = BaseSchema<'organizationId', Organization>

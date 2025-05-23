@@ -1,21 +1,19 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
-import { DataSource, Repository, ILike, In, FindOptionsWhere } from 'typeorm'
+import { InjectRepository } from '@nestjs/typeorm'
+import { Repository, ILike, In, FindOptionsWhere } from 'typeorm'
+import { PaginationSchemaTransform } from '@starter/schema'
 
-import { OrganizationSchema } from '@/core/organization/organization.schema'
-import { PaginationService } from '@/support/pagination'
+import { deepMapDatesToISOString } from '@/support/utilities'
 import { IOrganizationRepository } from '@/ports/database/organization'
 import { OrganizationEntity } from '@/adapters/database/organization/organization.typeorm.entity'
+import { OrganizationDomain } from '@/core/organization/organization.domain'
 
 @Injectable()
 export class OrganizationTypeorm implements IOrganizationRepository {
-  private readonly repository: Repository<OrganizationEntity>
-
   constructor(
-    private readonly dataSource: DataSource,
-    private readonly paginationService: PaginationService,
-  ) {
-    this.repository = this.dataSource.getRepository(OrganizationEntity)
-  }
+    @InjectRepository(OrganizationEntity)
+    private readonly repository: Repository<OrganizationEntity>,
+  ) {}
 
   findAllPaginated: IOrganizationRepository['findAllPaginated'] = async ({ offset, limit, ...input }) => {
     const { name, status } = input
@@ -30,15 +28,23 @@ export class OrganizationTypeorm implements IOrganizationRepository {
       where.status = status
     }
 
-    const { values, meta } = await this.paginationService.paginate(this.repository, {
+    const paginate = PaginationSchemaTransform.parse({ offset, limit })
+
+    const skip = paginate.offset
+    const take = paginate.limit
+
+    const [values, total] = await this.repository.findAndCount({
       where,
-      offset,
-      limit,
+      take,
+      skip,
     })
 
     return {
-      values: values.map((organization) => OrganizationSchema.parse(organization)),
-      meta,
+      values: values.map(this.toOrganizationDomain),
+      meta: {
+        ...paginate,
+        total,
+      },
     }
   }
 
@@ -57,7 +63,7 @@ export class OrganizationTypeorm implements IOrganizationRepository {
 
     const values = await this.repository.find({ where })
 
-    return values.map((invoice) => OrganizationSchema.parse(invoice))
+    return values.map((organization) => this.toOrganizationDomain(organization))
   }
 
   findById: IOrganizationRepository['findById'] = async (organizationId) => {
@@ -67,7 +73,7 @@ export class OrganizationTypeorm implements IOrganizationRepository {
       throw new NotFoundException(`Organization ${organizationId} not found`)
     }
 
-    return OrganizationSchema.parse(organization)
+    return this.toOrganizationDomain(organization)
   }
 
   create: IOrganizationRepository['create'] = async (input) => {
@@ -75,15 +81,21 @@ export class OrganizationTypeorm implements IOrganizationRepository {
 
     const organization = await this.repository.save(data)
 
-    return OrganizationSchema.parse(organization)
+    return this.toOrganizationDomain(organization)
   }
 
   updateById: IOrganizationRepository['updateById'] = async (organizationId, input) => {
     const organization = await this.findById(organizationId)
 
-    await this.repository.update(organization.organizationId, input)
+    await this.repository.update(organization.state.organizationId, input)
 
-    return this.findById(organization.organizationId)
+    return this.findById(organization.state.organizationId)
+  }
+
+  deleteById: IOrganizationRepository['deleteById'] = async (organizationId) => {
+    const organization = await this.findById(organizationId)
+
+    await this.repository.softDelete({ organizationId: organization.state.organizationId })
   }
 
   validateIds: IOrganizationRepository['validateIds'] = async (organizationIds) => {
@@ -95,5 +107,9 @@ export class OrganizationTypeorm implements IOrganizationRepository {
     if (missingOrganizationIds.length) {
       throw new NotFoundException(`The following organizationIds were not found: ${missingOrganizationIds.join(', ')}`)
     }
+  }
+
+  private toOrganizationDomain(model: OrganizationEntity) {
+    return new OrganizationDomain(deepMapDatesToISOString(model))
   }
 }

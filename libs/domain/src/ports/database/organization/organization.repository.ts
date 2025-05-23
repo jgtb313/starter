@@ -1,12 +1,14 @@
 import { Pagination, PaginationOutput } from '@starter/schema'
 
 import { Organization, BaseOrganization } from '@/core/organization/organization.schema'
+import { OrganizationDomain } from '@/core/organization/organization.domain'
 
 export type IOrganizationRepository = {
-  findAllPaginated(input: Pagination<Organization>): Promise<PaginationOutput<Organization>>
-  findAll(input: Partial<Organization>): Promise<Organization[]>
-  findById(organizationId: string): Promise<Organization>
-  create(input: BaseOrganization): Promise<Organization>
-  updateById(organizationId: string, input: Partial<Organization>): Promise<Organization>
+  findAllPaginated(input: Pagination<Organization>): Promise<PaginationOutput<OrganizationDomain>>
+  findAll(input: Partial<Organization>): Promise<OrganizationDomain[]>
+  findById(organizationId: string): Promise<OrganizationDomain>
+  create(input: BaseOrganization): Promise<OrganizationDomain>
+  updateById(organizationId: string, input: Partial<Organization>): Promise<OrganizationDomain>
+  deleteById(invoiceId: string): Promise<void>
   validateIds(organizationId: string[]): Promise<void>
 }
