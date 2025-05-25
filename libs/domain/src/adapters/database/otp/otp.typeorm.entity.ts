@@ -29,33 +29,19 @@ export class OTPEntity {
   maxAttempts: OTP['maxAttempts']
 
   @Column({ type: 'int' })
-  resendTime: OTP['resendTime']
+  resendIntervalSeconds: OTP['resendIntervalSeconds']
 
   @Column({ type: 'int' })
   dailyLimitAttempts: OTP['dailyLimitAttempts']
 
   @Column({
-    type: 'timestamp',
-    transformer: {
-      to: (value: Date) => value,
-      from: (value: Date) => value.toISOString(),
-    },
+    type: 'datetime',
   })
-  expiresIn: OTP['expiresIn']
+  expiresAt: OTP['expiresAt']
 
-  @CreateDateColumn({
-    transformer: {
-      to: (value: Date) => value,
-      from: (value: Date) => value.toISOString(),
-    },
-  })
+  @CreateDateColumn({})
   createdAt: OTP['createdAt']
 
-  @UpdateDateColumn({
-    transformer: {
-      to: (value: Date) => value,
-      from: (value: Date) => value.toISOString(),
-    },
-  })
+  @UpdateDateColumn({})
   updatedAt: OTP['updatedAt']
 }

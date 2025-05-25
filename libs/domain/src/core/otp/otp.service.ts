@@ -1,28 +1,29 @@
-import { Injectable, Inject, forwardRef, BadRequestException, NotFoundException, ConflictException, ForbiddenException } from '@nestjs/common'
-import { random, getDate, addSeconds, isFuture, isBefore } from '@starter/common'
-import crypto from 'crypto'
+import { Injectable, Inject, forwardRef } from '@nestjs/common'
+import { NotFoundException, ConflictException } from '@starter/nestjs-error-handling'
+import { random, addSeconds } from '@starter/common'
+import { Phone } from '@starter/schema'
 
-import { OTPContexts, OTP, BaseOTP, OTPChannelEnum, OTPContextEnum, OTPPhoneChannelEnum } from '@/core/otp/otp.schema'
+import { OTPContexts, OTP, OTPChannelEnum, OTPContextEnum, OTPPhoneChannelEnum } from '@/core/otp/otp.schema'
 import { IOTPRepository } from '@/ports/database/otp'
 import { NotificationService } from '@/adapters/notification'
-import { IOTPService } from '@/core/otp/otp.service.interface'
 import { UserService } from '@/core/user/user.service'
+import { OTPDomain } from '@/core/otp/otp.domain'
 
 @Injectable()
-export class OTPService implements IOTPService {
+export class OTPService {
   constructor(
     @Inject('OTP_REPOSITORY') private readonly otpRepository: IOTPRepository,
     @Inject(forwardRef(() => UserService)) private readonly userService: UserService,
     private readonly notificationService: NotificationService,
   ) {}
 
-  send: IOTPService['send'] = async ({ userId, channel, context, recipient }) => {
+  async send({ userId, channel, context, recipient }: Pick<OTP, 'userId' | 'channel' | 'context' | 'recipient'>) {
     const ctx = this.getContext(context)
 
     const code = random(1000, 9999).toString()
-    const hashedCode = this.hashCode(code)
+    const hashedCode = OTPDomain.hashCode(code)
 
-    const baseOTP: BaseOTP = {
+    const otp = new OTPDomain({
       userId,
       channel,
       context,
@@ -30,20 +31,23 @@ export class OTPService implements IOTPService {
       code: hashedCode,
       attempts: 0,
       maxAttempts: ctx.maxAttempts,
-      resendTime: ctx.resendTime,
+      resendIntervalSeconds: ctx.resendTime,
       dailyLimitAttempts: ctx.dailyLimitAttempts,
-      expiresIn: addSeconds(new Date(), ctx.expiresIn),
-    }
+      expiresAt: addSeconds(new Date(), ctx.expiresIn).toISOString(),
+      otpId: '',
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    })
 
     const mostRecent = await this.otpRepository.findMostRecent(recipient, context)
 
-    this.checkIfCanResend(mostRecent, baseOTP.resendTime)
+    otp.checkIfCanResend(mostRecent ? mostRecent.state : null, otp.state.resendIntervalSeconds)
 
     const dailyCount = await this.otpRepository.countTodayAttempts(recipient, context)
 
-    this.checkIfHasReachedDailyLimit(baseOTP, dailyCount)
+    otp.checkIfHasReachedDailyLimit(dailyCount)
 
-    const otp = await this.otpRepository.create(baseOTP)
+    await this.otpRepository.create(otp.state)
 
     if (channel === OTPChannelEnum.EMAIL) {
       this.notificationService.send('EMAIL', {
@@ -74,33 +78,29 @@ export class OTPService implements IOTPService {
     return otp
   }
 
-  validate: IOTPService['validate'] = async ({ otpId, context, recipient, code }) => {
-    if (code === '0000') {
-      return
-    }
-
+  async validate({ otpId, context, recipient, code }: Pick<OTP, 'otpId' | 'context' | 'recipient' | 'code'>) {
     const otp = await this.otpRepository.findById(otpId)
 
     try {
-      this.checkIfHasExpired(otp)
-      this.checkIfAttemptsHasExpired(otp)
-      this.checkIfHasValidRecipient(otp, recipient)
-      this.checkIfHasValidContext(otp, context)
-      this.checkIfHasValidCode(otp, code)
+      otp.checkIfHasExpired()
+      otp.checkIfAttemptsHasExpired()
+      otp.checkIfHasValidRecipient(recipient)
+      otp.checkIfHasValidContext(context)
+      otp.checkIfHasValidCode(code)
     } finally {
-      await this.otpRepository.updateById(otp.otpId, otp)
+      await this.otpRepository.updateById(otp.state.otpId, otp.state)
     }
   }
 
-  sendPasswordLess: IOTPService['sendPasswordLess'] = async ({ recipient }) => {
+  async sendPasswordLess({ recipient }: Pick<OTP, 'recipient'>) {
     const user = await this.userService.getUserByEmail(recipient)
 
     if (!user) {
-      throw new NotFoundException(`Email ${recipient} not found.`)
+      return
     }
 
     const otp = await this.send({
-      userId: null,
+      userId: user.userId,
       channel: OTPChannelEnum.EMAIL,
       context: OTPContextEnum.PASSWORD_LESS,
       recipient,
@@ -109,15 +109,15 @@ export class OTPService implements IOTPService {
     return otp
   }
 
-  sendForgotPassword: IOTPService['sendForgotPassword'] = async ({ recipient }) => {
+  async sendForgotPassword({ recipient }: Pick<OTP, 'recipient'>) {
     const user = await this.userService.getUserByEmail(recipient)
 
     if (!user) {
-      throw new NotFoundException(`Email ${recipient} not found.`)
+      return
     }
 
     const otp = await this.send({
-      userId: null,
+      userId: user.userId,
       channel: OTPChannelEnum.EMAIL,
       context: OTPContextEnum.FORGOT_PASSWORD,
       recipient,
@@ -126,7 +126,7 @@ export class OTPService implements IOTPService {
     return otp
   }
 
-  sendUpdateEmail: IOTPService['sendUpdateEmail'] = async ({ userId, email }) => {
+  async sendUpdateEmail({ userId, email }: { userId: string; email: string }) {
     const recipient = email
 
     const existingUser = await this.userService.getUser(recipient)
@@ -145,7 +145,7 @@ export class OTPService implements IOTPService {
     return otp
   }
 
-  sendUpdatePhone: IOTPService['sendUpdatePhone'] = async (channel, { userId, phone }) => {
+  async sendUpdatePhone(channel: OTPPhoneChannelEnum, { userId, phone }: { userId: string; phone: Phone }) {
     const recipient = `${phone.ddi}${phone.number}`
 
     const existingUser = await this.userService.getUserByPhone(phone)
@@ -162,90 +162,6 @@ export class OTPService implements IOTPService {
     })
 
     return otp
-  }
-
-  private hashCode(code: string): string {
-    return crypto.createHash('sha256').update(code).digest('hex')
-  }
-
-  private checkIfCanResend(mostRecent: OTP | null, resendTime: number) {
-    if (!mostRecent) {
-      return
-    }
-
-    const canResend = isBefore(addSeconds(getDate(mostRecent.createdAt), resendTime), new Date())
-
-    if (!canResend) {
-      throw new ConflictException('OTP insufficient resend time, please try again later.')
-    }
-  }
-
-  private checkIfHasValidRecipient(otp: OTP, recipient: string) {
-    const hasValidRecipient = otp.recipient === recipient
-
-    if (!hasValidRecipient) {
-      throw new BadRequestException({
-        issues: [
-          {
-            recipient: 'Invalid recipient',
-          },
-        ],
-      })
-    }
-  }
-
-  private checkIfHasValidContext(otp: OTP, context: string) {
-    const hasValidContext = otp.context === context
-
-    if (!hasValidContext) {
-      throw new BadRequestException({
-        issues: [
-          {
-            context: 'Invalid context',
-          },
-        ],
-      })
-    }
-  }
-
-  private checkIfHasValidCode(otp: OTP, code: string) {
-    const hasValidCode = otp.code === this.hashCode(code)
-
-    if (!hasValidCode) {
-      otp.attempts++
-
-      throw new BadRequestException({
-        issues: [
-          {
-            code: 'Invalid code',
-          },
-        ],
-      })
-    }
-  }
-
-  private checkIfHasReachedDailyLimit(otp: Pick<OTP, 'dailyLimitAttempts'>, dailyCount: number) {
-    const hasReachedDailyLimit = dailyCount >= otp.dailyLimitAttempts
-
-    if (hasReachedDailyLimit) {
-      throw new ConflictException('OTP daily attempt limit exceeded.')
-    }
-  }
-
-  private checkIfAttemptsHasExpired(otp: OTP) {
-    const attemptsHasExpired = otp.attempts >= otp.maxAttempts
-
-    if (attemptsHasExpired) {
-      throw new ConflictException('OTP attempts expired.')
-    }
-  }
-
-  private checkIfHasExpired(otp: OTP) {
-    const hasExpired = !isFuture(getDate(otp.expiresIn))
-
-    if (hasExpired) {
-      throw new ForbiddenException('OTP expired.')
-    }
   }
 
   private getContext(context: OTPContextEnum) {

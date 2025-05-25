@@ -1,9 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { DataSource, Repository } from 'typeorm'
 
-import { OTPSchema } from '@/core/otp/otp.schema'
+import { deepMapDatesToISOString } from '@/support/utilities'
 import { IOTPRepository } from '@/ports/database/otp'
 import { OTPEntity } from '@/adapters/database/otp/otp.typeorm.entity'
+import { OTPDomain } from '@/core/otp/otp.domain'
 
 @Injectable()
 export class OTPTypeorm implements IOTPRepository {
@@ -20,7 +21,7 @@ export class OTPTypeorm implements IOTPRepository {
       throw new NotFoundException(`OTP ${otpId} not found`)
     }
 
-    return OTPSchema.parse(otp)
+    return this.toOTPDomain(otp)
   }
 
   findMostRecent: IOTPRepository['findMostRecent'] = async (recipient, context) => {
@@ -30,7 +31,7 @@ export class OTPTypeorm implements IOTPRepository {
       return null
     }
 
-    return OTPSchema.parse(otp)
+    return this.toOTPDomain(otp)
   }
 
   countTodayAttempts: IOTPRepository['countTodayAttempts'] = async (recipient, context) => {
@@ -42,14 +43,18 @@ export class OTPTypeorm implements IOTPRepository {
 
     const otp = await this.repository.save(data)
 
-    return OTPSchema.parse(otp)
+    return this.toOTPDomain(otp)
   }
 
   updateById: IOTPRepository['updateById'] = async (otpId, input) => {
     const otp = await this.findById(otpId)
 
-    await this.repository.update(otp.otpId, input)
+    await this.repository.update(otp.state.otpId, input)
 
-    return this.findById(otp.otpId)
+    return this.findById(otp.state.otpId)
+  }
+
+  private toOTPDomain(model: OTPEntity) {
+    return new OTPDomain(deepMapDatesToISOString(model))
   }
 }
