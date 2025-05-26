@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm'
 
-import { OTP, OTPChannelEnum, OTPContextEnum } from '@/core/otp/otp.schema'
+import { OTP } from '@/core/otp/otp.schema'
 
 @Entity('otps')
 export class OTPEntity {
@@ -10,10 +10,10 @@ export class OTPEntity {
   @Column({ type: 'uuid', nullable: true })
   userId: OTP['userId']
 
-  @Column({ type: 'enum', enum: OTPChannelEnum })
+  @Column({ type: 'varchar' })
   channel: OTP['channel']
 
-  @Column({ type: 'enum', enum: OTPContextEnum })
+  @Column({ type: 'varchar' })
   context: OTP['context']
 
   @Column({ type: 'varchar' })
@@ -23,25 +23,23 @@ export class OTPEntity {
   code: OTP['code']
 
   @Column({ type: 'int' })
-  attempts: OTP['attempts']
+  validationAttempts: OTP['validationAttempts']
 
   @Column({ type: 'int' })
-  maxAttempts: OTP['maxAttempts']
+  maxValidationAttempts: OTP['maxValidationAttempts']
 
   @Column({ type: 'int' })
-  resendIntervalSeconds: OTP['resendIntervalSeconds']
+  resendCooldownSeconds: OTP['resendCooldownSeconds']
 
   @Column({ type: 'int' })
-  dailyLimitAttempts: OTP['dailyLimitAttempts']
+  maxRequestsPerDay: OTP['maxRequestsPerDay']
 
-  @Column({
-    type: 'datetime',
-  })
+  @Column({ type: 'datetime' })
   expiresAt: OTP['expiresAt']
 
-  @CreateDateColumn({})
+  @CreateDateColumn()
   createdAt: OTP['createdAt']
 
-  @UpdateDateColumn({})
+  @UpdateDateColumn()
   updatedAt: OTP['updatedAt']
 }

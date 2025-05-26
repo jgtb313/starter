@@ -1,12 +1,12 @@
-import { ConflictException, BadRequestException, ForbiddenException, NotFoundException } from '@starter/nestjs-error-handling'
+import { ConflictException, BadRequestException, ForbiddenException } from '@starter/nestjs-error-handling'
 import { getDate, addSeconds, isFuture, isBefore } from '@starter/common'
 import crypto from 'crypto'
 
 import { BaseDomain } from '@/support/base-domain'
-import { OTPSchema, OTP, OTPInput } from '@/core/otp/otp.schema'
+import { OTPSchema, OTP, BaseOTP } from '@/core/otp/otp.schema'
 
-export class OTPDomain extends BaseDomain<OTP, OTPInput> {
-  constructor(input: OTPInput) {
+export class OTPDomain extends BaseDomain<OTP, BaseOTP> {
+  constructor(input: BaseOTP) {
     super(OTPSchema, input)
   }
 
@@ -14,10 +14,10 @@ export class OTPDomain extends BaseDomain<OTP, OTPInput> {
     return crypto.createHash('sha256').update(code).digest('hex')
   }
 
-  checkIfCanResend(mostRecent: OTP | null, resendTime: number) {
+  checkIfCanResend(mostRecent: OTP | null, cooldownSeconds: number) {
     if (!mostRecent) return
 
-    const canResend = isBefore(addSeconds(getDate(mostRecent.createdAt), resendTime), new Date())
+    const canResend = isBefore(addSeconds(getDate(mostRecent.createdAt), cooldownSeconds), new Date())
 
     if (!canResend) {
       throw new ConflictException('OTP insufficient resend time, please try again later.')
@@ -32,11 +32,11 @@ export class OTPDomain extends BaseDomain<OTP, OTPInput> {
     }
   }
 
-  checkIfAttemptsHasExpired() {
-    const attemptsHasExpired = this.state.attempts >= this.state.maxAttempts
+  checkIfAttemptsExceeded() {
+    const exceeded = this.state.validationAttempts >= this.state.maxValidationAttempts
 
-    if (attemptsHasExpired) {
-      throw new ConflictException('OTP attempts expired.')
+    if (exceeded) {
+      throw new ConflictException('OTP validation attempts exceeded.')
     }
   }
 
@@ -60,7 +60,7 @@ export class OTPDomain extends BaseDomain<OTP, OTPInput> {
     const hashed = OTPDomain.hashCode(code)
 
     if (this.state.code !== hashed) {
-      this.state.attempts++
+      this.state.validationAttempts++
       throw new BadRequestException({
         issues: [{ code: 'Invalid code' }],
       })
@@ -68,10 +68,10 @@ export class OTPDomain extends BaseDomain<OTP, OTPInput> {
   }
 
   checkIfHasReachedDailyLimit(dailyCount: number) {
-    const hasReachedDailyLimit = dailyCount >= this.state.dailyLimitAttempts
+    const exceeded = dailyCount >= this.state.maxRequestsPerDay
 
-    if (hasReachedDailyLimit) {
-      throw new ConflictException('OTP daily attempt limit exceeded.')
+    if (exceeded) {
+      throw new ConflictException('OTP daily request limit exceeded.')
     }
   }
 }
