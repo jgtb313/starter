@@ -67,6 +67,11 @@ const ResendCooldownSeconds = z.number().meta({
   example: [60],
 })
 
+const MaxRequestsPerDay = z.number().meta({
+  description: 'Maximum number of OTP requests allowed per recipient and context per day',
+  example: [60],
+})
+
 const ExpiresAt = z.iso
   .datetime()
   .transform((value) => new Date(value))
@@ -85,6 +90,7 @@ export const OTPSchema = z.object({
   validationAttempts: ValidationAttempts,
   maxValidationAttempts: MaxValidationAttempts,
   resendCooldownSeconds: ResendCooldownSeconds,
+  maxRequestsPerDay: MaxRequestsPerDay,
   expiresAt: ExpiresAt,
   createdAt: CreatedAt,
   updatedAt: UpdatedAt,
