@@ -1,6 +1,7 @@
 import { z } from '@starter/schema'
 
 import { ID, CreatedAt, UpdatedAt, BaseSchema } from '@/support/schema'
+import { OTPContextEnum } from '@/core/otp/otp-context.domain'
 
 export enum OTPChannelEnum {
   EMAIL = 'EMAIL',
@@ -13,56 +14,6 @@ export enum OTPPhoneChannelEnum {
   WHATSAPP = 'WHATSAPP',
 }
 
-export enum OTPContextEnum {
-  PASSWORD_LESS = 'PASSWORD_LESS',
-  FORGOT_PASSWORD = 'FORGOT_PASSWORD',
-  UPDATE_EMAIL = 'UPDATE_EMAIL',
-  UPDATE_PHONE = 'UPDATE_PHONE',
-}
-
-export const OTPContexts = [
-  {
-    otpId: '2nIKjVyfJJvj2kEorugXTQqeret',
-    context: OTPContextEnum.PASSWORD_LESS,
-    dailyLimitAttempts: 60,
-    resendTime: 60,
-    maxAttempts: 4,
-    expiresIn: 12000,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-  {
-    otpId: '2nIKjVyfJJvj2kEorugXTQbkkqq',
-    context: OTPContextEnum.FORGOT_PASSWORD,
-    dailyLimitAttempts: 60,
-    resendTime: 60,
-    maxAttempts: 4,
-    expiresIn: 12000,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-  {
-    otpId: '2nIKjVyfJJvj2kEorugXTQbkkgB',
-    context: OTPContextEnum.UPDATE_EMAIL,
-    dailyLimitAttempts: 60,
-    resendTime: 60,
-    maxAttempts: 4,
-    expiresIn: 12000,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-  {
-    otpId: '2nIKkOP5vlPKbaGHv5E1n0bJiYW',
-    context: OTPContextEnum.UPDATE_PHONE,
-    dailyLimitAttempts: 60,
-    resendTime: 60,
-    maxAttempts: 4,
-    expiresIn: 12000,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-]
-
 const OTPId = ID('otp')
 
 const UserId = ID('user')
@@ -70,12 +21,12 @@ const UserId = ID('user')
   .transform((value) => value ?? null)
 
 const OTPChannelSchema = z.enum(OTPChannelEnum).meta({
-  description: 'Channel through which the OTP is sent',
+  description: 'Channel through which the OTP is delivered',
   example: [OTPChannelEnum.EMAIL],
 })
 
 const OTPContextSchema = z.enum(OTPContextEnum).meta({
-  description: 'Business context for which the OTP is used',
+  description: 'Business scenario for which the OTP is generated',
   example: [OTPContextEnum.UPDATE_EMAIL],
 })
 
@@ -83,7 +34,7 @@ const Recipient = z
   .string()
   .min(1)
   .meta({
-    description: 'Recipient identifier (email or phone number)',
+    description: 'Target recipient of the OTP (email or phone number)',
     example: ['user@example.com', '+15555555555'],
   })
 
@@ -91,33 +42,28 @@ const Code = z
   .string()
   .min(1)
   .meta({
-    description: 'One-time password code sent to the user',
+    description: 'One-time password code sent to the recipient',
     example: ['438210'],
   })
 
-const Attempts = z
+const ValidationAttempts = z
   .number()
   .default(0)
   .meta({
-    description: 'Number of failed validation attempts',
+    description: 'Number of unsuccessful OTP validation attempts',
     example: [0, 1],
   })
 
-const MaxAttempts = z
+const MaxValidationAttempts = z
   .number()
   .default(0)
   .meta({
-    description: 'Maximum allowed validation attempts',
+    description: 'Maximum allowed failed validation attempts before OTP becomes invalid',
     example: [4],
   })
 
-const ResendIntervalSeconds = z.number().meta({
-  description: 'Cooldown time in seconds before OTP can be resent',
-  example: [60],
-})
-
-const DailyLimitAttempts = z.number().meta({
-  description: 'Maximum number of OTPs that can be requested per day for a given context and recipient',
+const ResendCooldownSeconds = z.number().meta({
+  description: 'Time (in seconds) the user must wait before requesting the OTP again',
   example: [60],
 })
 
@@ -125,7 +71,7 @@ const ExpiresAt = z.iso
   .datetime()
   .transform((value) => new Date(value))
   .meta({
-    description: 'Exact expiration date and time of the OTP',
+    description: 'Date and time when the OTP expires (ISO format)',
     example: [new Date(Date.now() + 1200000).toISOString()],
   })
 
@@ -136,10 +82,9 @@ export const OTPSchema = z.object({
   context: OTPContextSchema,
   recipient: Recipient,
   code: Code,
-  attempts: Attempts,
-  maxAttempts: MaxAttempts,
-  resendIntervalSeconds: ResendIntervalSeconds,
-  dailyLimitAttempts: DailyLimitAttempts,
+  validationAttempts: ValidationAttempts,
+  maxValidationAttempts: MaxValidationAttempts,
+  resendCooldownSeconds: ResendCooldownSeconds,
   expiresAt: ExpiresAt,
   createdAt: CreatedAt,
   updatedAt: UpdatedAt,
