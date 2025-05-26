@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
-import { DataSource, Repository } from 'typeorm'
+import { InjectRepository } from '@nestjs/typeorm'
+import { Repository } from 'typeorm'
 
 import { deepMapDatesToISOString } from '@/support/utilities'
 import { IOTPRepository } from '@/ports/database/otp'
@@ -8,11 +9,10 @@ import { OTPDomain } from '@/core/otp/otp.domain'
 
 @Injectable()
 export class OTPTypeorm implements IOTPRepository {
-  private readonly repository: Repository<OTPEntity>
-
-  constructor(private readonly dataSource: DataSource) {
-    this.repository = this.dataSource.getRepository(OTPEntity)
-  }
+  constructor(
+    @InjectRepository(OTPEntity)
+    private readonly repository: Repository<OTPEntity>,
+  ) {}
 
   findById: IOTPRepository['findById'] = async (otpId) => {
     const otp = await this.repository.findOne({ where: { otpId } })

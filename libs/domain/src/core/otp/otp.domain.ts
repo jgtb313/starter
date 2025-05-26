@@ -3,10 +3,10 @@ import { getDate, addSeconds, isFuture, isBefore } from '@starter/common'
 import crypto from 'crypto'
 
 import { BaseDomain } from '@/support/base-domain'
-import { OTPSchema, OTP, BaseOTP } from '@/core/otp/otp.schema'
+import { OTPSchema, OTP, OTPInput } from '@/core/otp/otp.schema'
 
-export class OTPDomain extends BaseDomain<OTP, BaseOTP> {
-  constructor(input: BaseOTP) {
+export class OTPDomain extends BaseDomain<OTP, OTPInput> {
+  constructor(input: OTPInput) {
     super(OTPSchema, input)
   }
 

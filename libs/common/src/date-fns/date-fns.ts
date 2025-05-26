@@ -13,6 +13,7 @@ export {
   addMonths,
   addYears,
   subDays,
+  subSeconds,
   setHours,
   setMinutes,
   startOfWeek,

@@ -1,6 +1,6 @@
 import { Injectable, Inject, forwardRef } from '@nestjs/common'
 import { ConflictException } from '@starter/nestjs-error-handling'
-import { random, addSeconds } from '@starter/common'
+import { random, addSeconds, uuid } from '@starter/common'
 import { Phone } from '@starter/schema'
 
 import { IOTPRepository } from '@/ports/database/otp'
@@ -15,16 +15,17 @@ export class OTPService {
   constructor(
     @Inject('OTP_REPOSITORY') private readonly otpRepository: IOTPRepository,
     @Inject(forwardRef(() => UserService)) private readonly userService: UserService,
-    private readonly notificationService: NotificationService,
+    @Inject(forwardRef(() => NotificationService)) private readonly notificationService: NotificationService,
   ) {}
 
-  async send({ userId, channel, context, recipient }: Pick<OTP, 'userId' | 'channel' | 'context' | 'recipient'>) {
+  async sendOTP({ userId, channel, context, recipient }: Pick<OTP, 'userId' | 'channel' | 'context' | 'recipient'>) {
     const ctx = new OTPContextDomain().getContext(context)
 
     const code = random(1000, 9999).toString()
     const hashedCode = OTPDomain.hashCode(code)
 
     const otp = new OTPDomain({
+      otpId: uuid(),
       userId,
       channel,
       context,
@@ -34,7 +35,9 @@ export class OTPService {
       maxValidationAttempts: ctx.maxValidationAttempts,
       resendCooldownSeconds: ctx.resendCooldownSeconds,
       maxRequestsPerDay: ctx.maxRequestsPerDay,
-      expiresAt: addSeconds(new Date(), ctx.resendCooldownSeconds),
+      expiresAt: addSeconds(new Date(), ctx.resendCooldownSeconds).toISOString(),
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
     })
 
     const mostRecent = await this.otpRepository.findMostRecent(recipient, context)
@@ -47,24 +50,22 @@ export class OTPService {
 
     await this.otpRepository.create(otp.state)
 
-    const props = { code }
-
     switch (channel) {
       case OTPChannelEnum.EMAIL:
-        this.notificationService.send('EMAIL', { template: 'SEND_OTP', recipient, props })
+        this.notificationService.send('EMAIL', { template: 'SEND_OTP', recipient, props: { code } })
         break
       case OTPChannelEnum.SMS:
-        this.notificationService.send('SMS', { template: 'SEND_OTP', recipient, props })
+        this.notificationService.send('SMS', { template: 'SEND_OTP', recipient, props: { code } })
         break
       case OTPChannelEnum.WHATSAPP:
-        this.notificationService.send('WHATSAPP', { template: 'SEND_OTP', recipient, props })
+        this.notificationService.send('WHATSAPP', { template: 'SEND_OTP', recipient, props: { code } })
         break
     }
 
     return otp
   }
 
-  async validate({ otpId, context, recipient, code }: Pick<OTP, 'otpId' | 'context' | 'recipient' | 'code'>) {
+  async validateOTP({ otpId, context, recipient, code }: Pick<OTP, 'otpId' | 'context' | 'recipient' | 'code'>) {
     const otp = await this.otpRepository.findById(otpId)
 
     try {
@@ -74,15 +75,19 @@ export class OTPService {
       otp.checkIfHasValidContext(context)
       otp.checkIfHasValidCode(code)
     } finally {
+      console.log('Calling updateById')
       await this.otpRepository.updateById(otp.state.otpId, otp.state)
     }
   }
 
   async sendPasswordLess({ recipient }: Pick<OTP, 'recipient'>) {
     const user = await this.userService.getUserByEmail(recipient)
-    if (!user) return
 
-    return this.send({
+    if (!user) {
+      return
+    }
+
+    return this.sendOTP({
       userId: user.userId,
       channel: OTPChannelEnum.EMAIL,
       context: OTPContextEnum.PASSWORD_LESS,
@@ -92,9 +97,12 @@ export class OTPService {
 
   async sendForgotPassword({ recipient }: Pick<OTP, 'recipient'>) {
     const user = await this.userService.getUserByEmail(recipient)
-    if (!user) return
 
-    return this.send({
+    if (!user) {
+      return
+    }
+
+    return this.sendOTP({
       userId: user.userId,
       channel: OTPChannelEnum.EMAIL,
       context: OTPContextEnum.FORGOT_PASSWORD,
@@ -105,12 +113,13 @@ export class OTPService {
   async sendUpdateEmail({ userId, email }: { userId: string; email: string }) {
     const recipient = email
 
-    const existingUser = await this.userService.getUser(recipient)
+    const existingUser = await this.userService.getUserByEmail(recipient)
+
     if (existingUser && existingUser.userId !== userId) {
       throw new ConflictException(`Email ${recipient} has already been taken.`)
     }
 
-    return this.send({
+    return this.sendOTP({
       userId,
       channel: OTPChannelEnum.EMAIL,
       context: OTPContextEnum.UPDATE_EMAIL,
@@ -122,11 +131,12 @@ export class OTPService {
     const recipient = `${phone.ddi}${phone.number}`
 
     const existingUser = await this.userService.getUserByPhone(phone)
+
     if (existingUser && existingUser.userId !== userId) {
       throw new ConflictException(`Phone ${recipient} has already been taken.`)
     }
 
-    return this.send({
+    return this.sendOTP({
       userId,
       context: OTPContextEnum.UPDATE_PHONE,
       channel: channel === OTPPhoneChannelEnum.SMS ? OTPChannelEnum.SMS : OTPChannelEnum.WHATSAPP,

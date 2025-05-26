@@ -4,6 +4,7 @@ import { DataSource } from 'typeorm'
 
 import { InvoiceEntity } from '@/adapters/database/invoice/invoice.typeorm.entity'
 import { OrganizationEntity } from '@/adapters/database/organization/organization.typeorm.entity'
+import { OTPEntity } from '@/adapters/database/otp/otp.typeorm.entity'
 
 @Module({})
 export class InMemoryDatabaseModule {
@@ -16,7 +17,7 @@ export class InMemoryDatabaseModule {
             const dataSource = new DataSource({
               type: 'sqlite',
               database: ':memory:',
-              entities: [InvoiceEntity, OrganizationEntity],
+              entities: [InvoiceEntity, OrganizationEntity, OTPEntity],
               dropSchema: true,
               synchronize: true,
             })
