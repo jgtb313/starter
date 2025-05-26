@@ -75,7 +75,6 @@ export class OTPService {
       otp.checkIfHasValidContext(context)
       otp.checkIfHasValidCode(code)
     } finally {
-      console.log('Calling updateById')
       await this.otpRepository.updateById(otp.state.otpId, otp.state)
     }
   }
