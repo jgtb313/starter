@@ -1,5 +1,6 @@
 import { OTPDomain } from '@/core/otp/otp.domain'
-import { OTP, BaseOTP, OTPContextEnum } from '@/core/otp/otp.schema'
+import { OTPContextEnum } from '@/core/otp/otp-context.domain'
+import { OTP, BaseOTP } from '@/core/otp/otp.schema'
 
 export type IOTPRepository = {
   findById(otpId: string): Promise<OTPDomain>

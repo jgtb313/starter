@@ -4,18 +4,18 @@
   "author": "João <jgtb313@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "yarn build && serverless invoke local --function service --path event.json",
     "build": "tsc -p tsconfig.build.json",
     "deploy": "serverless deploy",
+    "dev": "yarn build && serverless invoke local --function service --path event.json",
     "test": "vitest run",
-    "test:ui": "vitest --watch --coverage --ui",
     "test:coverage": "vitest --watch --coverage",
+    "test:ui": "vitest --watch --coverage --ui",
     "test:watch": "vitest --watch --coverage",
     "type-check": "tsc --project tsconfig.json --pretty --noEmit"
   },
   "engines": {
-    "npm": ">=10.0.0",
-    "node": ">=20.0.0"
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
@@ -24,19 +24,19 @@
     "@starter/common": "*",
     "@starter/config": "*",
     "@starter/domain": "*",
-    "@starter/schema": "*",
     "@starter/nestjs-error-handling": "*",
     "@starter/nestjs-serverless-hoisting": "*",
+    "@starter/schema": "*",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1"
   },
   "devDependencies": {
-    "@types/aws-lambda": "^8.10.119",
+    "@types/aws-lambda": "8.10.149",
     "@types/node": "^22.14.0",
-    "serverless": "^3.38.0",
-    "serverless-dotenv-plugin": "^6.0.0",
     "@vitest/coverage-c8": "^0.33.0",
     "@vitest/ui": "^2.1.8",
+    "serverless": "^3.38.0",
+    "serverless-dotenv-plugin": "^6.0.0",
     "typescript": "5.4.2",
     "vite": "6.0.5",
     "vitest": "^2.1.8"

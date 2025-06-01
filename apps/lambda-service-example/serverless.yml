@@ -1,7 +1,5 @@
 service: lambda-service-example
 
-frameworkVersion: '3'
-
 provider:
   name: aws
   runtime: nodejs18.x
