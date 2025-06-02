@@ -1,20 +1,31 @@
-export type EventType = 'SNS_EXAMPLE' | 'SQS_EXAMPLE'
+export type EventTransport = 'SNS' | 'SQS' | 'KAFKA'
 
-export type SNSExampleEventInput = {
-  sns: string
+export type EventsMap = {
+  USER_CREATED: {
+    input: { userId: string }
+    transport: 'SNS'
+  }
+  WORKSPACE_CREATED: {
+    input: { workspaceId: string }
+    transport: 'SQS'
+  }
 }
 
-export type SQSExampleEventInput = {
-  sqs: string
-}
+export type EventType = keyof EventsMap
 
 export type EventInput = {
-  SNS_EXAMPLE: SNSExampleEventInput
-  SQS_EXAMPLE: SQSExampleEventInput
+  [K in keyof EventsMap]: EventsMap[K]['input']
 }
 
+export const Events: {
+  [K in keyof EventsMap]: EventsMap[K]['transport']
+} = {
+  USER_CREATED: 'SNS',
+  WORKSPACE_CREATED: 'SQS',
+} as const
+
 export type IPublisherAdapter = {
-  publish<T extends {}>(target: string, eventInput: T): Promise<void>
+  publish<T extends object>(target: string, eventInput: T): Promise<void>
 }
 
 export type IPublisherService = {
