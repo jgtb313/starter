@@ -1,11 +1,6 @@
 import { NotFoundException } from '@starter/nestjs-error-handling'
 
-export enum OTPContextEnum {
-  PASSWORD_LESS = 'PASSWORD_LESS',
-  FORGOT_PASSWORD = 'FORGOT_PASSWORD',
-  UPDATE_EMAIL = 'UPDATE_EMAIL',
-  UPDATE_PHONE = 'UPDATE_PHONE',
-}
+import { OTPContextEnum } from '@/core/otp/otp-context.schema'
 
 export type OTPContext = {
   context: OTPContextEnum

@@ -3,7 +3,7 @@ import { ConflictException, BadRequestException, ForbiddenException } from '@sta
 import { addSeconds, subSeconds } from '@starter/common'
 
 import { OTPDomain } from '@/core/otp/otp.domain'
-import { OTPContextEnum } from '@/core/otp/otp-context.domain'
+import { OTPContextEnum } from '@/core/otp/otp-context.schema'
 import { makeOTP } from '@/core/otp/otp.mock'
 
 describe('OTPDomain', () => {

@@ -1,8 +1,8 @@
 import { uuid, addSeconds } from '@starter/common'
 
 import { OTPDomain } from '@/core/otp/otp.domain'
-import { OTPContextEnum } from '@/core/otp/otp-context.domain'
 import { OTPInput, OTPChannelEnum } from '@/core/otp/otp.schema'
+import { OTPContextEnum } from '@/core/otp/otp-context.schema'
 
 type OTPOverrides = Partial<OTPInput>
 

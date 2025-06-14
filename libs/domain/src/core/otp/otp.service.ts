@@ -7,8 +7,9 @@ import { IOTPRepository } from '@/ports/database/otp'
 import { NotificationService } from '@/adapters/notification'
 import { UserService } from '@/core/user/user.service'
 import { OTPDomain } from '@/core/otp/otp.domain'
-import { OTPContextDomain, OTPContextEnum } from '@/core/otp/otp-context.domain'
+import { OTPContextDomain } from '@/core/otp/otp-context.domain'
 import { OTP, OTPChannelEnum, OTPPhoneChannelEnum } from '@/core/otp/otp.schema'
+import { OTPContextEnum } from '@/core/otp/otp-context.schema'
 
 @Injectable()
 export class OTPService {

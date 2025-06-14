@@ -116,7 +116,7 @@ export class ProfileController {
   async updateProfileEmail(@AuthenticatedUser() user: User, @Request() { body }: UpdateProfileEmailRequest) {
     const recipient = body.email
 
-    await this.otpService.validate({ ...body.otpVerification, context: OTPContextEnum.UPDATE_EMAIL, recipient })
+    await this.otpService.validateOTP({ ...body.otpVerification, context: OTPContextEnum.UPDATE_EMAIL, recipient })
 
     return this.userService.updateUser(user.userId, { email: body.email })
   }
@@ -163,7 +163,7 @@ export class ProfileController {
   async updateProfilePhone(@AuthenticatedUser() user: User, @Request() { body }: UpdateProfilePhoneRequest) {
     const recipient = `${body.phone.ddi}${body.phone.number}`
 
-    await this.otpService.validate({ ...body.otpVerification, context: OTPContextEnum.UPDATE_PHONE, recipient })
+    await this.otpService.validateOTP({ ...body.otpVerification, context: OTPContextEnum.UPDATE_PHONE, recipient })
 
     return this.userService.updateUser(user.userId, { phone: body.phone })
   }

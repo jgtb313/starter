@@ -9,8 +9,8 @@ import { OTPRepositoryModule } from '@/adapters/database/otp/otp.repository.modu
 import { InMemoryDatabaseModule } from '@/adapters/database'
 import { NotificationService } from '@/adapters/notification'
 import { UserService } from '@/core/user/user.service'
-import { OTPContextEnum } from '@/core/otp/otp-context.domain'
 import { OTP, OTPChannelEnum, OTPPhoneChannelEnum } from '@/core/otp/otp.schema'
+import { OTPContextEnum } from '@/core/otp/otp-context.schema'
 import { makeOTP, otpMocks } from '@/core/otp/otp.mock'
 
 describe('OTPService', () => {

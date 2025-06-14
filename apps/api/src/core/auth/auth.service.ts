@@ -5,10 +5,9 @@ import { LoggerService, EncryptService, UserService, UserStatusEnum } from '@sta
 import { SocialAuthEnum } from '@/ports/social-auth'
 import { SocialAuthService } from '@/adapters/social-auth'
 import { JWTService } from '@/adapters/jwt'
-import { IAuthService } from '@/core/auth/auth.service.interface'
 
 @Injectable()
-export class AuthService implements IAuthService {
+export class AuthService {
   constructor(
     private readonly configService: ConfigService,
     private readonly loggerService: LoggerService,
@@ -18,7 +17,7 @@ export class AuthService implements IAuthService {
     private readonly jwtService: JWTService,
   ) {}
 
-  signIn: IAuthService['signIn'] = async ({ email, password }) => {
+  async signIn({ email, password }) {
     this.loggerService.info(`Attempting to sign in user with email: ${email}`, {})
 
     const user = await this.userService.getUserByEmail(email)
@@ -38,7 +37,7 @@ export class AuthService implements IAuthService {
     return this.grantAccessToken(user)
   }
 
-  socialSignOn: IAuthService['socialSignOn'] = async (input) => {
+  async socialSignOn(input) {
     const { providerId, name, email, avatar } = await this.socialAuthService.getInfo(input.context, input.providerToken)
 
     const user = await this.userService.getUserBySocial(input.context, { socialId: providerId, email })
@@ -65,7 +64,7 @@ export class AuthService implements IAuthService {
     return this.grantAccessToken(user)
   }
 
-  signUp: IAuthService['signUp'] = async ({ name, email, password }) => {
+  async signUp({ name, email, password }) {
     const emailExists = await this.userService.getUserByEmail(email)
 
     if (emailExists) {
@@ -90,7 +89,7 @@ export class AuthService implements IAuthService {
     return this.grantAccessToken(user)
   }
 
-  forgotPassword: IAuthService['forgotPassword'] = async ({ email, password }) => {
+  async forgotPassword({ email, password }) {
     const user = await this.userService.getUserByEmail(email)
 
     if (!user) {
@@ -107,7 +106,7 @@ export class AuthService implements IAuthService {
     return this.grantAccessToken(user)
   }
 
-  grantAccessToken: IAuthService['grantAccessToken'] = async (user) => {
+  async grantAccessToken(user) {
     const tokenPayload = {
       userId: user.userId,
     }

@@ -10,7 +10,7 @@ import { AWSSNSAdapter } from '@/adapters/publisher/aws-sns.adapter'
     {
       provide: 'SNS_CLIENT',
       useFactory: (configService: ConfigService) => {
-        const region = configService.get<string>('AWS_REGION') || 'us-east-1'
+        const region = configService.get<string>('AWS_SNS_REGION')!
 
         return new SNS({ region })
       },

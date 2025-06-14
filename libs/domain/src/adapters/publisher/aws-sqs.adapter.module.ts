@@ -10,7 +10,7 @@ import { AWSSQSAdapter } from '@/adapters/publisher/aws-sqs.adapter'
     {
       provide: 'SQS_CLIENT',
       useFactory: (configService: ConfigService) => {
-        const region = configService.get<string>('AWS_REGION') || 'us-east-1'
+        const region = configService.get<string>('AWS_SQS_REGION')!
 
         return new SQS({ region })
       },

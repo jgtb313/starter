@@ -87,7 +87,13 @@ export class UserService implements IUserService {
 
     const roleIds = organizations.flatMap((organization) => organization.roleIds)
 
-    const user = await this.userRepository.create({ ...input, organizationIds, roleIds, password: hashedPassword })
+    const user = await this.userRepository.create({
+      ...input,
+      workspaceId,
+      organizationIds,
+      roleIds,
+      password: hashedPassword,
+    })
 
     return user
   }

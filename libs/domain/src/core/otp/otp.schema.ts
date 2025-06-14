@@ -1,7 +1,7 @@
 import { z } from '@starter/schema'
 
 import { ID, CreatedAt, UpdatedAt, BaseSchema } from '@/support/schema'
-import { OTPContextEnum } from '@/core/otp/otp-context.domain'
+import { OTPContextEnum } from '@/core/otp/otp-context.schema'
 
 export enum OTPChannelEnum {
   EMAIL = 'EMAIL',

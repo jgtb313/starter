@@ -106,6 +106,7 @@ const execute = async () => {
   let result = template({ resources, schemas })
 
   result = result
+    .replace(/^z\.record\(z\.void\(\)\)\.and\(/, '')
     .replace(/\boptional\b/g, 'nullish')
     .replace(/z\.string\(\)\.datetime\(\{ offset: true \}\)/g, 'z.iso.datetime().transform((value) => new Date(value))')
     .replace(/z\.any\(\)/g, 'z.void()')

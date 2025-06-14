@@ -1,6 +1,7 @@
 import { UseGuards } from '@nestjs/common'
 import { Controller, Route, Request } from '@starter/nestjs-server-hoisting'
 import { OTPSchema, OTPService, User } from '@starter/domain'
+import { uuid } from '@starter/common'
 
 import { AuthGuard } from '@/support/guards'
 import { AuthenticatedUser } from '@/support/decorators'
@@ -69,7 +70,7 @@ export class OTPController {
     },
   })
   validateOTP(@Request() { params, body }: ValidateOTPRequest) {
-    return this.otpService.validate({ ...params, ...body })
+    return this.otpService.validateOTP({ ...params, ...body })
   }
 
   @Route({
@@ -105,8 +106,14 @@ export class OTPController {
 
     const otp = await this.otpService.sendPasswordLess({ recipient })
 
+    if (!otp) {
+      return {
+        otpId: uuid(),
+      }
+    }
+
     return {
-      otpId: otp.otpId,
+      otpId: otp.state.otpId,
     }
   }
 
@@ -142,8 +149,14 @@ export class OTPController {
 
     const otp = await this.otpService.sendForgotPassword({ recipient })
 
+    if (!otp) {
+      return {
+        otpId: uuid(),
+      }
+    }
+
     return {
-      otpId: otp.otpId,
+      otpId: otp.state.otpId,
     }
   }
 
@@ -185,7 +198,7 @@ export class OTPController {
     })
 
     return {
-      otpId: otp.otpId,
+      otpId: otp.state.otpId,
     }
   }
 
@@ -227,7 +240,7 @@ export class OTPController {
     })
 
     return {
-      otpId: otp.otpId,
+      otpId: otp.state.otpId,
     }
   }
 }

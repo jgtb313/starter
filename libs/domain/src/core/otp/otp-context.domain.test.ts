@@ -1,7 +1,8 @@
 import { describe, it, expect } from 'vitest'
 import { NotFoundException } from '@starter/nestjs-error-handling'
 
-import { OTPContextDomain, OTPContexts, OTPContextEnum } from '@/core/otp/otp-context.domain'
+import { OTPContextDomain, OTPContexts } from '@/core/otp/otp-context.domain'
+import { OTPContextEnum } from '@/core/otp/otp-context.schema'
 
 describe('OTPContextDomain', () => {
   const domain = new OTPContextDomain()

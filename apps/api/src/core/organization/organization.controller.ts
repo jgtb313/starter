@@ -118,7 +118,7 @@ export class OrganizationController {
       workspaceId: params.workspaceId,
     })
 
-    return this.organizationService.create({
+    return this.organizationService.createOrganization({
       ...body,
       workspaceId: params.workspaceId,
     })

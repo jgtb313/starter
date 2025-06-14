@@ -102,7 +102,7 @@ export class AuthController {
       throw new UnauthorizedException('Invalid access data.')
     }
 
-    await this.otpService.validate({ ...body.otpVerification, context: OTPContextEnum.PASSWORD_LESS, recipient: body.email })
+    await this.otpService.validateOTP({ ...body.otpVerification, context: OTPContextEnum.PASSWORD_LESS, recipient: body.email })
 
     return this.authService.grantAccessToken(user)
   }
@@ -197,7 +197,7 @@ export class AuthController {
     },
   })
   async forgotPassword(@Request() { body }: ForgotPasswordRequest) {
-    await this.otpService.validate({ ...body.otpVerification, context: OTPContextEnum.FORGOT_PASSWORD, recipient: body.email })
+    await this.otpService.validateOTP({ ...body.otpVerification, context: OTPContextEnum.FORGOT_PASSWORD, recipient: body.email })
 
     return this.authService.forgotPassword({
       email: body.email,
