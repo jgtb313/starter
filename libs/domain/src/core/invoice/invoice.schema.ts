@@ -31,6 +31,11 @@ const PaidAt = z.iso
   .nullish()
   .transform((value) => (value ? new Date(value) : null))
 
+const OverdueAt = z.iso
+  .datetime()
+  .nullish()
+  .transform((value) => (value ? new Date(value) : null))
+
 const CanceledAt = z.iso
   .datetime()
   .nullish()
@@ -51,6 +56,7 @@ export const InvoiceCardSchema = z
     dueDate: DueDate,
     issuedAt: IssuedAt,
     paidAt: PaidAt,
+    overdueAt: OverdueAt,
     canceledAt: CanceledAt,
     status: Status,
     createdAt: CreatedAt,
@@ -72,6 +78,7 @@ export const InvoicePixSchema = z
     dueDate: DueDate,
     issuedAt: IssuedAt,
     paidAt: PaidAt,
+    overdueAt: OverdueAt,
     canceledAt: CanceledAt,
     status: Status,
     createdAt: CreatedAt,
@@ -93,6 +100,7 @@ export const InvoiceBoletoSchema = z
     dueDate: DueDate,
     issuedAt: IssuedAt,
     paidAt: PaidAt,
+    overdueAt: OverdueAt,
     canceledAt: CanceledAt,
     status: Status,
     createdAt: CreatedAt,

@@ -41,6 +41,7 @@ describe('InvoiceDomain', () => {
     invoice.markAsPaid()
 
     expect(invoice.isPaid()).toBe(true)
+    expect(invoice.state.paidAt).toBeInstanceOf(Date)
   })
 
   it('should throw when marking as paid if not pending', () => {
@@ -57,9 +58,7 @@ describe('InvoiceDomain', () => {
       status,
     })
 
-    expect(() => invoice.markAsPaid()).toThrowError(
-      new ConflictException(`Unable to mark invoice ${invoice.state.invoiceId} as paid: status must be 'PENDING', but is '${status}'.`),
-    )
+    expect(() => invoice.markAsPaid()).toThrowError(new ConflictException(`This invoice can’t be paid in its current status.`))
   })
 
   it('should allow marking invoice as overdue if pending', () => {
@@ -79,6 +78,7 @@ describe('InvoiceDomain', () => {
     invoice.markAsOverdue()
 
     expect(invoice.isOverdue()).toBe(true)
+    expect(invoice.state.overdueAt).toBeInstanceOf(Date)
   })
 
   it('should throw when marking as overdue if not pending', () => {
@@ -97,12 +97,10 @@ describe('InvoiceDomain', () => {
       status,
     })
 
-    expect(() => invoice.markAsOverdue()).toThrowError(
-      new ConflictException(`Unable to mark invoice ${invoice.state.invoiceId} as overdue: status must be 'PENDING', but is '${status}'.`),
-    )
+    expect(() => invoice.markAsOverdue()).toThrowError(new ConflictException(`Only pending invoices can be marked as overdue.`))
   })
 
-  it('should allow marking as canceled when not already canceled', () => {
+  it('should allow marking as canceled when not already canceled or paid', () => {
     const invoice = makeInvoice({
       workspaceId: '0e6c34bb-5a5c-4b31-bfec-33ec3651d57f',
       subscriptionId: '126b6b16-0238-41bc-9c27-54f260b08aaa',
@@ -132,10 +130,25 @@ describe('InvoiceDomain', () => {
       status: InvoiceStatusEnum.CANCELED,
     })
 
-    expect(() => invoice.markAsCanceled()).toThrowError(new ConflictException(`Invoice ${invoice.state.invoiceId} is already canceled.`))
+    expect(() => invoice.markAsCanceled()).toThrowError(new ConflictException(`This invoice is already canceled.`))
   })
 
-  it('should allow payable invoices only if status is PENDING', () => {
+  it('should throw when marking as canceled if already paid', () => {
+    const invoice = makeInvoice({
+      workspaceId: '0e6c34bb-5a5c-4b31-bfec-33ec3651d57f',
+      subscriptionId: '126b6b16-0238-41bc-9c27-54f260b08aaa',
+      paymentMethod: RecurrencePaymentMethodEnum.PIX,
+      pix: {
+        qrCodeUrl: 'https://pix.example.com/qrcode',
+        expiresAt: new Date().toISOString(),
+      },
+      status: InvoiceStatusEnum.PAID,
+    })
+
+    expect(() => invoice.markAsCanceled()).toThrowError(new ConflictException(`Paid invoices cannot be canceled.`))
+  })
+
+  it('should throw if trying to mark a non-pending invoice as paid', () => {
     const invoice = makeInvoice({
       workspaceId: '0e6c34bb-5a5c-4b31-bfec-33ec3651d57f',
       subscriptionId: '126b6b16-0238-41bc-9c27-54f260b08aaa',
@@ -144,28 +157,9 @@ describe('InvoiceDomain', () => {
         url: 'https://boleto.example.com/123',
         expiresAt: new Date().toISOString(),
       },
-      status: InvoiceStatusEnum.PENDING,
+      status: InvoiceStatusEnum.OVERDUE,
     })
 
-    expect(() => invoice.checkIfIsPayable()).not.toThrow()
-  })
-
-  it('should throw if invoice is not payable', () => {
-    const status = InvoiceStatusEnum.OVERDUE
-
-    const invoice = makeInvoice({
-      workspaceId: '0e6c34bb-5a5c-4b31-bfec-33ec3651d57f',
-      subscriptionId: '126b6b16-0238-41bc-9c27-54f260b08aaa',
-      paymentMethod: RecurrencePaymentMethodEnum.BOLETO,
-      boleto: {
-        url: 'https://boleto.example.com/123',
-        expiresAt: new Date().toISOString(),
-      },
-      status,
-    })
-
-    expect(() => invoice.checkIfIsPayable()).toThrowError(
-      new ConflictException(`Invoice ${invoice.state.invoiceId} cannot be paid: status '${status}' is not valid for payment.`),
-    )
+    expect(() => invoice.markAsPaid()).toThrowError(new ConflictException(`This invoice can’t be paid in its current status.`))
   })
 })

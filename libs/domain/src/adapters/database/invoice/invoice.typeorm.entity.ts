@@ -54,6 +54,12 @@ export class InvoiceEntity {
     type: 'datetime',
     nullable: true,
   })
+  overdueAt: Invoice['overdueAt']
+
+  @Column({
+    type: 'datetime',
+    nullable: true,
+  })
   canceledAt: Invoice['canceledAt']
 
   @Column({ type: 'varchar' })

@@ -25,6 +25,7 @@ export const makeInvoice = (overrides: InvoiceOverrides): InvoiceDomain => {
     dueDate: new Date('2025-05-01T00:00:00Z').toISOString(),
     issuedAt: new Date('2025-04-01T00:00:00Z').toISOString(),
     paidAt: null,
+    overdueAt: null,
     canceledAt: null,
     status: InvoiceStatusEnum.PENDING,
     createdAt: new Date('2025-04-01T00:00:00Z').toISOString(),

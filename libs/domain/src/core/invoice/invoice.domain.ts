@@ -4,8 +4,6 @@ import { BaseDomain } from '@/support/base-domain'
 import { InvoiceSchema, Invoice, InvoiceInput, InvoiceStatusEnum } from '@/core/invoice/invoice.schema'
 
 export class InvoiceDomain extends BaseDomain<Invoice, InvoiceInput> {
-  private PAYABLE_STATUSES: InvoiceStatusEnum[] = [InvoiceStatusEnum.PENDING]
-
   constructor(invoice: InvoiceInput) {
     super(InvoiceSchema, invoice)
   }
@@ -26,40 +24,46 @@ export class InvoiceDomain extends BaseDomain<Invoice, InvoiceInput> {
     return this.state.status === InvoiceStatusEnum.CANCELED
   }
 
-  isPayable() {
-    return this.PAYABLE_STATUSES.includes(this.state.status)
-  }
-
   markAsPaid() {
-    if (!this.isPending()) {
-      throw new ConflictException(`Unable to mark invoice ${this.state.invoiceId} as paid: status must be 'PENDING', but is '${this.state.status}'.`)
-    }
+    this.checkIfCanBePaid()
 
+    this.state.paidAt = new Date()
     this.state.status = InvoiceStatusEnum.PAID
   }
 
   markAsOverdue() {
-    if (!this.isPending()) {
-      throw new ConflictException(
-        `Unable to mark invoice ${this.state.invoiceId} as overdue: status must be 'PENDING', but is '${this.state.status}'.`,
-      )
-    }
+    this.checkIfCanBeOverdue()
 
+    this.state.overdueAt = new Date()
     this.state.status = InvoiceStatusEnum.OVERDUE
   }
 
   markAsCanceled() {
-    if (this.isCanceled()) {
-      throw new ConflictException(`Invoice ${this.state.invoiceId} is already canceled.`)
-    }
+    this.checkIfCanBeCanceled()
 
-    this.state.status = InvoiceStatusEnum.CANCELED
     this.state.canceledAt = new Date()
+    this.state.status = InvoiceStatusEnum.CANCELED
   }
 
-  checkIfIsPayable() {
-    if (!this.isPayable()) {
-      throw new ConflictException(`Invoice ${this.state.invoiceId} cannot be paid: status '${this.state.status}' is not valid for payment.`)
+  private checkIfCanBePaid() {
+    if (!this.isPending()) {
+      throw new ConflictException(`This invoice can’t be paid in its current status.`)
+    }
+  }
+
+  private checkIfCanBeCanceled() {
+    if (this.isCanceled()) {
+      throw new ConflictException(`This invoice is already canceled.`)
+    }
+
+    if (this.isPaid()) {
+      throw new ConflictException(`Paid invoices cannot be canceled.`)
+    }
+  }
+
+  private checkIfCanBeOverdue() {
+    if (!this.isPending()) {
+      throw new ConflictException(`Only pending invoices can be marked as overdue.`)
     }
   }
 }
