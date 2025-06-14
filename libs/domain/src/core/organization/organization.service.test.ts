@@ -8,6 +8,7 @@ import { InMemoryDatabaseModule } from '@/adapters/database'
 import { WorkspaceService } from '@/core/workspace/workspace.service'
 import { IOrganizationRepository } from '@/ports/database/organization'
 import { makeOrganization, organizationMocks } from '@/core/organization/organization.mock'
+import { makeWorkspace } from '@/core/workspace/workspace.mock'
 import { OrganizationStatusEnum } from '@/core/organization/organization.schema'
 
 describe('OrganizationService', () => {
@@ -88,28 +89,32 @@ describe('OrganizationService', () => {
 
   describe('createOrganization', () => {
     it('should create and return a new organization', async () => {
-      const workspaceId = '126b6b16-0238-41bc-9c27-54f260b08aaa'
+      const workspace = makeWorkspace({
+        workspaceId: '126b6b16-0238-41bc-9c27-54f260b08aaa',
+      })
 
-      workspaceServiceMock.getWorkspace.mockResolvedValue({ workspaceId })
+      workspaceServiceMock.getWorkspace.mockResolvedValue(workspace)
 
-      const input = makeOrganization({ workspaceId }).state
+      const input = makeOrganization({ workspaceId: workspace.state.workspaceId }).state
 
       const result = await service.createOrganization(input)
 
       expect(result.state.organizationId).toBeDefined()
-      expect(result.state.workspaceId).toBe(workspaceId)
+      expect(result.state.workspaceId).toBe(workspace.state.workspaceId)
     })
 
     it('should call getWorkspace with correct workspaceId', async () => {
-      const workspaceId = '126b6b16-0238-41bc-9c27-54f260b08aaa'
+      const workspace = makeWorkspace({
+        workspaceId: '126b6b16-0238-41bc-9c27-54f260b08aaa',
+      })
 
-      workspaceServiceMock.getWorkspace.mockResolvedValue({ workspaceId })
+      workspaceServiceMock.getWorkspace.mockResolvedValue(workspace)
 
-      const input = makeOrganization({ workspaceId }).state
+      const input = makeOrganization({ workspaceId: workspace.state.workspaceId }).state
 
       await service.createOrganization(input)
 
-      expect(workspaceServiceMock.getWorkspace).toHaveBeenCalledWith(workspaceId)
+      expect(workspaceServiceMock.getWorkspace).toHaveBeenCalledWith(workspace.state.workspaceId)
     })
   })
 

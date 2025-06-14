@@ -13,22 +13,12 @@ export class WorkspaceEntity {
   @Column({ type: 'json', nullable: true })
   integrations?: Workspace['integrations']
 
-  @Column({ type: 'enum', enum: WorkspaceStatusEnum, default: WorkspaceStatusEnum.ACTIVE })
+  @Column({ type: 'varchar' })
   status: Workspace['status']
 
-  @CreateDateColumn({
-    transformer: {
-      to: (value: Date) => value,
-      from: (value: Date) => value.toISOString(),
-    },
-  })
+  @CreateDateColumn({})
   createdAt: Workspace['createdAt']
 
-  @UpdateDateColumn({
-    transformer: {
-      to: (value: Date) => value,
-      from: (value: Date) => value.toISOString(),
-    },
-  })
+  @UpdateDateColumn({})
   updatedAt: Workspace['updatedAt']
 }

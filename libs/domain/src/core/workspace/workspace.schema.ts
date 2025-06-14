@@ -29,4 +29,5 @@ export const WorkspaceSchema = z.object({
   updatedAt: UpdatedAt,
 })
 export type Workspace = z.infer<typeof WorkspaceSchema>
+export type WorkspaceInput = z.input<typeof WorkspaceSchema>
 export type BaseWorkspace = BaseSchema<'workspaceId', Workspace>

@@ -40,7 +40,7 @@ export class OrganizationService {
 
     return await this.organizationRepository.create({
       ...input,
-      workspaceId: workspace.workspaceId,
+      workspaceId: workspace.state.workspaceId,
     })
   }
 

@@ -22,14 +22,14 @@ export const makeInvoice = (overrides: InvoiceOverrides): InvoiceDomain => {
     externalId: uuid(),
     description: 'Invoice Subscription – January / 2025',
     amount: 10000,
-    dueDate: new Date('2025-05-01T00:00:00Z').toISOString(),
-    issuedAt: new Date('2025-04-01T00:00:00Z').toISOString(),
+    dueDate: new Date().toISOString(),
+    issuedAt: new Date().toISOString(),
     paidAt: null,
     overdueAt: null,
     canceledAt: null,
     status: InvoiceStatusEnum.PENDING,
-    createdAt: new Date('2025-04-01T00:00:00Z').toISOString(),
-    updatedAt: new Date('2025-04-01T00:00:00Z').toISOString(),
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
   }
 
   return new InvoiceDomain({

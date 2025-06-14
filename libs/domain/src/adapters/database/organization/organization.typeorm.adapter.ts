@@ -40,7 +40,7 @@ export class OrganizationTypeorm implements IOrganizationRepository {
     })
 
     return {
-      values: values.map(this.toOrganizationDomain),
+      values: values.map((organization) => this.toOrganizationDomain(organization)),
       meta: {
         ...paginate,
         total,

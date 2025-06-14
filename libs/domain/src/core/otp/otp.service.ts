@@ -113,9 +113,9 @@ export class OTPService {
   async sendUpdateEmail({ userId, email }: { userId: string; email: string }) {
     const recipient = email
 
-    const existingUser = await this.userService.getUserByEmail(recipient)
+    const user = await this.userService.getUserByEmail(recipient)
 
-    if (existingUser && existingUser.userId !== userId) {
+    if (user && user.userId !== userId) {
       throw new ConflictException(`Email ${recipient} has already been taken.`)
     }
 
@@ -130,9 +130,9 @@ export class OTPService {
   async sendUpdatePhone(channel: OTPPhoneChannelEnum, { userId, phone }: { userId: string; phone: Phone }) {
     const recipient = `${phone.ddi}${phone.number}`
 
-    const existingUser = await this.userService.getUserByPhone(phone)
+    const user = await this.userService.getUserByPhone(phone)
 
-    if (existingUser && existingUser.userId !== userId) {
+    if (user && user.userId !== userId) {
       throw new ConflictException(`Phone ${recipient} has already been taken.`)
     }
 

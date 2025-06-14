@@ -1,41 +1,60 @@
 import { Injectable, Inject, forwardRef } from '@nestjs/common'
 import { ConflictException } from '@starter/nestjs-error-handling'
+import { Pagination } from '@starter/schema'
 
 import { IWorkspaceRepository } from '@/ports/database/workspace'
-import { IWorkspaceService } from '@/core/workspace/workspace.service.interface'
 import { UserService } from '@/core/user/user.service'
+import { User } from '@/core/user/user.schema'
+import { Workspace, BaseWorkspace } from '@/core/workspace/workspace.schema'
 
 @Injectable()
-export class WorkspaceService implements IWorkspaceService {
+export class WorkspaceService {
   constructor(
     @Inject('WORKSPACE_REPOSITORY') private readonly workspaceRepository: IWorkspaceRepository,
     @Inject(forwardRef(() => UserService)) private readonly userService: UserService,
   ) {}
 
-  getPaginatedWorkspaces: IWorkspaceService['getPaginatedWorkspaces'] = async (input) => {
+  async getPaginatedWorkspaces(input: Pagination<Workspace>) {
     return this.workspaceRepository.findAllPaginated(input)
   }
 
-  getWorkspace: IWorkspaceService['getWorkspace'] = async (workspaceId) => {
+  async getWorkspace(workspaceId: string) {
     return this.workspaceRepository.findById(workspaceId)
   }
 
-  createWorkspace: IWorkspaceService['createWorkspace'] = async (user, input) => {
+  async createWorkspace(user: User, input: Omit<BaseWorkspace, 'integrations'>) {
     if (user.workspaceId) {
       throw new ConflictException('Workspace already exists.')
     }
+
     const workspace = await this.workspaceRepository.create(input)
 
     await this.userService.updateUser(user.userId, {
-      workspaceId: workspace.workspaceId,
+      workspaceId: workspace.state.workspaceId,
     })
 
     return workspace
   }
 
-  updateWorkspace: IWorkspaceService['updateWorkspace'] = async (workspaceId, input) => {
+  async updateWorkspace(workspaceId: string, input: Partial<Workspace>) {
     const workspace = await this.workspaceRepository.findById(workspaceId)
 
-    return this.workspaceRepository.updateById(workspace.workspaceId, input)
+    return this.workspaceRepository.updateById(workspace.state.workspaceId, input)
+  }
+
+  async activeWorkspace(workspaceId: string) {
+    const workspace = await this.getWorkspace(workspaceId)
+
+    workspace.markAsActive()
+
+    return this.workspaceRepository.updateById(workspace.state.workspaceId, workspace.state)
+  }
+
+  async inactiveWorkspace(workspaceId: string) {
+    const workspace = await this.getWorkspace(workspaceId)
+
+    workspace.markAsInactive()
+
+    return this.workspaceRepository.updateById(workspace.state.workspaceId, workspace.state)
   }
 }

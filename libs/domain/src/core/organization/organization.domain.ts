@@ -17,18 +17,24 @@ export class OrganizationDomain extends BaseDomain<Organization, OrganizationInp
   }
 
   markAsActive() {
-    if (this.isActive()) {
-      throw new ConflictException(`Organization ${this.state.organizationId} is already 'ACTIVE'.`)
-    }
-
+    this.checkIfCanBeActive()
     this.state.status = OrganizationStatusEnum.ACTIVE
   }
 
   markAsInactive() {
-    if (this.isInactive()) {
-      throw new ConflictException(`Organization ${this.state.organizationId} is already 'INACTIVE'.`)
-    }
-
+    this.checkIfCanBeInactive()
     this.state.status = OrganizationStatusEnum.INACTIVE
+  }
+
+  private checkIfCanBeActive() {
+    if (this.isActive()) {
+      throw new ConflictException(`This organization is already active.`)
+    }
+  }
+
+  private checkIfCanBeInactive() {
+    if (this.isInactive()) {
+      throw new ConflictException(`This organization is already inactive.`)
+    }
   }
 }

@@ -1,21 +1,19 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
-import { DataSource, Repository, ILike, FindOptionsWhere } from 'typeorm'
+import { InjectRepository } from '@nestjs/typeorm'
+import { Repository, ILike, FindOptionsWhere } from 'typeorm'
+import { PaginationSchemaTransform } from '@starter/schema'
 
-import { WorkspaceSchema } from '@/core/workspace/workspace.schema'
-import { PaginationService } from '@/support/pagination'
+import { deepMapDatesToISOString } from '@/support/utilities'
 import { IWorkspaceRepository } from '@/ports/database/workspace'
-import { WorkspaceEntity } from './workspace.typeorm.entity'
+import { WorkspaceEntity } from '@/adapters/database/workspace/workspace.typeorm.entity'
+import { WorkspaceDomain } from '@/core/workspace/workspace.domain'
 
 @Injectable()
 export class WorkspaceTypeorm implements IWorkspaceRepository {
-  private readonly repository: Repository<WorkspaceEntity>
-
   constructor(
-    private readonly dataSource: DataSource,
-    private readonly paginationService: PaginationService,
-  ) {
-    this.repository = this.dataSource.getRepository(WorkspaceEntity)
-  }
+    @InjectRepository(WorkspaceEntity)
+    private readonly repository: Repository<WorkspaceEntity>,
+  ) {}
 
   findAllPaginated: IWorkspaceRepository['findAllPaginated'] = async ({ offset, limit, ...query }) => {
     const { name, status } = query
@@ -30,15 +28,23 @@ export class WorkspaceTypeorm implements IWorkspaceRepository {
       where.status = status
     }
 
-    const { values, meta } = await this.paginationService.paginate(this.repository, {
+    const paginate = PaginationSchemaTransform.parse({ offset, limit })
+
+    const skip = paginate.offset
+    const take = paginate.limit
+
+    const [values, total] = await this.repository.findAndCount({
       where,
-      offset,
-      limit,
+      take,
+      skip,
     })
 
     return {
-      values: values.map((workspace) => WorkspaceSchema.parse(workspace)),
-      meta,
+      values: values.map((workspace) => this.toWorkspaceDomain(workspace)),
+      meta: {
+        ...paginate,
+        total,
+      },
     }
   }
 
@@ -57,32 +63,36 @@ export class WorkspaceTypeorm implements IWorkspaceRepository {
 
     const values = await this.repository.find({ where })
 
-    return values.map((invoice) => WorkspaceSchema.parse(invoice))
+    return values.map((workspace) => this.toWorkspaceDomain(workspace))
   }
 
   findById: IWorkspaceRepository['findById'] = async (workspaceId) => {
-    const model = await this.repository.findOne({ where: { workspaceId } })
+    const workspace = await this.repository.findOne({ where: { workspaceId } })
 
-    if (!model) {
+    if (!workspace) {
       throw new NotFoundException(`Workspace ${workspaceId} not found`)
     }
 
-    return WorkspaceSchema.parse(model)
+    return this.toWorkspaceDomain(workspace)
   }
 
   create: IWorkspaceRepository['create'] = async (input) => {
     const data = this.repository.create(input)
 
-    const model = await this.repository.save(data)
+    const workspace = await this.repository.save(data)
 
-    return WorkspaceSchema.parse(model)
+    return this.toWorkspaceDomain(workspace)
   }
 
   updateById: IWorkspaceRepository['updateById'] = async (workspaceId, input) => {
-    const model = await this.findById(workspaceId)
+    const workspace = await this.findById(workspaceId)
 
-    await this.repository.update(model.workspaceId, input)
+    await this.repository.update(workspace.state.workspaceId, input)
 
-    return this.findById(model.workspaceId)
+    return this.findById(workspace.state.workspaceId)
+  }
+
+  private toWorkspaceDomain(model: WorkspaceEntity) {
+    return new WorkspaceDomain(deepMapDatesToISOString(model))
   }
 }

@@ -9,7 +9,7 @@ export const makeOrganization = (overrides: OrganizationOverrides): Organization
   const base: OrganizationInput = {
     organizationId: uuid(),
     workspaceId: uuid(),
-    name: `Organization ${uuid()}`,
+    name: 'Delta Inc',
     deletedAt: null,
     status: OrganizationStatusEnum.ACTIVE,
     createdAt: new Date().toISOString(),
