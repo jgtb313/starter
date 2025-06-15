@@ -9,6 +9,6 @@ export type IOrganizationRepository = {
   findById(organizationId: string): Promise<OrganizationDomain>
   create(input: BaseOrganization): Promise<OrganizationDomain>
   updateById(organizationId: string, input: Partial<Organization>): Promise<OrganizationDomain>
-  deleteById(invoiceId: string): Promise<void>
+  deleteById(organizationId: string): Promise<void>
   validateIds(organizationId: string[]): Promise<void>
 }

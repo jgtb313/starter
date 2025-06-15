@@ -45,4 +45,5 @@ export const RoleSchema = z.object({
   updatedAt: UpdatedAt,
 })
 export type Role = z.infer<typeof RoleSchema>
+export type RoleInput = z.input<typeof RoleSchema>
 export type BaseRole = BaseSchema<'roleId' | 'organizations', Role>

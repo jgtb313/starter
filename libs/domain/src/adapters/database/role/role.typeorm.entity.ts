@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm'
 
-import { Role, RoleStatusEnum } from '@/core/role/role.schema'
+import { Role } from '@/core/role/role.schema'
 
 @Entity('roles')
 export class RoleEntity {
@@ -10,42 +10,27 @@ export class RoleEntity {
   @Column({ type: 'uuid' })
   workspaceId: Role['workspaceId']
 
-  @Column({ type: 'uuid', array: true, default: [] })
+  @Column({ type: 'simple-array' })
   organizationIds: Role['organizationIds']
 
   @Column({ type: 'varchar' })
   name: Role['name']
 
-  @Column({ type: 'jsonb', nullable: true })
+  @Column({ type: 'json', nullable: true })
   tags: Role['tags']
 
-  @Column({ type: 'jsonb' })
+  @Column({ type: 'json' })
   permissions: Role['permissions']
 
-  @Column({ type: 'enum', enum: RoleStatusEnum })
+  @Column({ type: 'varchar' })
   status: Role['status']
 
-  @DeleteDateColumn({
-    transformer: {
-      to: (value: Date) => value,
-      from: (value: Date | null) => (value ? value.toISOString() : null),
-    },
-  })
+  @DeleteDateColumn({})
   deletedAt: Role['deletedAt']
 
-  @CreateDateColumn({
-    transformer: {
-      to: (value: Date | null) => value,
-      from: (value: Date | null) => (value ? value.toISOString() : null),
-    },
-  })
+  @CreateDateColumn({})
   createdAt: Role['createdAt']
 
-  @UpdateDateColumn({
-    transformer: {
-      to: (value: Date | null) => value,
-      from: (value: Date | null) => (value ? value.toISOString() : null),
-    },
-  })
+  @UpdateDateColumn({})
   updatedAt: Role['updatedAt']
 }
