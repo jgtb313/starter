@@ -10,13 +10,10 @@ export class UserEntity {
   @Column({ type: 'uuid', nullable: true })
   workspaceId: User['workspaceId']
 
-  @Column({ type: 'uuid', array: true, default: [] })
-  organizationIds: User['organizationIds']
+  @Column({ type: 'simple-array' })
+  scopes: User['scopes']
 
-  @Column({ type: 'uuid', array: true, default: [] })
-  roleIds: User['roleIds']
-
-  @Column({ type: 'jsonb', default: [] })
+  @Column({ type: 'json' })
   permissions: User['permissions']
 
   @Column({ type: 'varchar' })
@@ -25,34 +22,24 @@ export class UserEntity {
   @Column({ type: 'varchar' })
   email: User['email']
 
-  @Column({ type: 'jsonb', nullable: true })
+  @Column({ type: 'json', nullable: true })
   phone: User['phone']
 
   @Column({ type: 'varchar', nullable: true })
   avatar: User['avatar']
 
-  @Column({ type: 'jsonb', nullable: true })
+  @Column({ type: 'json', nullable: true })
   social: User['social']
 
   @Column({ type: 'varchar' })
   password: User['password']
 
-  @Column({ type: 'enum', enum: UserStatusEnum, default: UserStatusEnum.ACTIVE })
+  @Column({ type: 'varchar' })
   status: User['status']
 
-  @CreateDateColumn({
-    transformer: {
-      to: (value: Date) => value,
-      from: (value: Date) => value.toISOString(),
-    },
-  })
+  @CreateDateColumn({})
   createdAt: User['createdAt']
 
-  @UpdateDateColumn({
-    transformer: {
-      to: (value: Date) => value,
-      from: (value: Date) => value.toISOString(),
-    },
-  })
+  @UpdateDateColumn({})
   updatedAt: User['updatedAt']
 }

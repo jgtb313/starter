@@ -2,8 +2,6 @@ import { z, EmailSchema, PhoneSchema, PasswordSchema } from '@starter/schema'
 import { formatToCapitalized } from '@starter/common'
 
 import { ID, CreatedAt, UpdatedAt, BaseSchema } from '@/support/schema'
-import { OrganizationSchema } from '@/core/organization/organization.schema'
-import { RoleSchema } from '@/core/role/role.schema'
 
 export enum UserStatusEnum {
   'ACTIVE' = 'ACTIVE',
@@ -16,13 +14,12 @@ const WorkspaceId = ID('workspaceId')
   .nullish()
   .transform((value) => value ?? null)
 
-const OrganizationIds = z.array(ID('organization'))
-
-const Organizations = z.array(OrganizationSchema).default([])
-
-const RoleIds = z.array(ID('role'))
-
-const Roles = z.array(RoleSchema).default([])
+const Scopes = z.array(
+  z.object({
+    organizationId: ID('organization'),
+    roleIds: z.array(ID('role')),
+  }),
+)
 
 const Permissions = z.array(z.string()).default([])
 
@@ -65,10 +62,7 @@ const Status = z.enum(UserStatusEnum).default(UserStatusEnum.ACTIVE)
 export const UserSchema = z.object({
   userId: UserId,
   workspaceId: WorkspaceId,
-  organizationIds: OrganizationIds,
-  organizations: Organizations,
-  roleIds: RoleIds,
-  roles: Roles,
+  scopes: Scopes,
   permissions: Permissions,
   name: Name,
   email: Email,
@@ -81,4 +75,5 @@ export const UserSchema = z.object({
   updatedAt: UpdatedAt,
 })
 export type User = z.infer<typeof UserSchema>
-export type BaseUser = BaseSchema<'userId' | 'organizations' | 'roles', User>
+export type UserInput = z.input<typeof UserSchema>
+export type BaseUser = BaseSchema<'userId', User>

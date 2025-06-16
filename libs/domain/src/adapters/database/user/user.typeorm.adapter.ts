@@ -1,21 +1,19 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
-import { DataSource, Repository, ILike, FindOptionsWhere } from 'typeorm'
+import { InjectRepository } from '@nestjs/typeorm'
+import { Repository, ILike, FindOptionsWhere } from 'typeorm'
+import { PaginationSchemaTransform } from '@starter/schema'
 
-import { UserSchema } from '@/core/user/user.schema'
-import { PaginationService } from '@/support/pagination'
+import { deepMapDatesToISOString } from '@/support/utilities'
 import { IUserRepository } from '@/ports/database/user'
 import { UserEntity } from '@/adapters/database/user/user.typeorm.entity'
+import { UserDomain } from '@/core/user/user.domain'
 
 @Injectable()
 export class UserTypeorm implements IUserRepository {
-  private readonly repository: Repository<UserEntity>
-
   constructor(
-    private readonly dataSource: DataSource,
-    private readonly paginationService: PaginationService,
-  ) {
-    this.repository = this.dataSource.getRepository(UserEntity)
-  }
+    @InjectRepository(UserEntity)
+    private readonly repository: Repository<UserEntity>,
+  ) {}
 
   findAllPaginated: IUserRepository['findAllPaginated'] = async ({ offset, limit, ...query }) => {
     const { name, workspaceId, status } = query
@@ -34,15 +32,23 @@ export class UserTypeorm implements IUserRepository {
       where.status = status
     }
 
-    const { values, meta } = await this.paginationService.paginate(this.repository, {
+    const paginate = PaginationSchemaTransform.parse({ offset, limit })
+
+    const skip = paginate.offset
+    const take = paginate.limit
+
+    const [values, total] = await this.repository.findAndCount({
       where,
-      offset,
-      limit,
+      take,
+      skip,
     })
 
     return {
-      values: values.map((user) => UserSchema.parse(user)),
-      meta,
+      values: values.map((user) => this.toUserDomain(user)),
+      meta: {
+        ...paginate,
+        total,
+      },
     }
   }
 
@@ -61,21 +67,17 @@ export class UserTypeorm implements IUserRepository {
 
     const values = await this.repository.find({ where })
 
-    return values.map((user) => UserSchema.parse(user))
+    return values.map((user) => this.toUserDomain(user))
   }
 
   findById: IUserRepository['findById'] = async (userId) => {
-    const model = await this.repository
-      .createQueryBuilder('user')
-      .where('user.userId = :userId', { userId })
-      .leftJoinAndMapMany('user.roles', 'roles', 'role', 'role.roleId = ANY(user.roleIds)')
-      .getOne()
+    const user = await this.repository.findOne({ where: { userId } })
 
-    if (!model) {
+    if (!user) {
       throw new NotFoundException(`User ${userId} not found`)
     }
 
-    return UserSchema.parse(model)
+    return this.toUserDomain(user)
   }
 
   findByEmail: IUserRepository['findByEmail'] = async (email, options) => {
@@ -89,13 +91,13 @@ export class UserTypeorm implements IUserRepository {
       where.workspaceId = options.workspaceId
     }
 
-    const model = await this.repository.findOne({ where })
+    const user = await this.repository.findOne({ where })
 
-    if (!model) {
+    if (!user) {
       return null
     }
 
-    return UserSchema.parse(model)
+    return this.toUserDomain(user)
   }
 
   findByPhone: IUserRepository['findByPhone'] = async (phone, options) => {
@@ -109,20 +111,20 @@ export class UserTypeorm implements IUserRepository {
       where.workspaceId = options.workspaceId
     }
 
-    const model = await this.repository.findOne({ where })
+    const user = await this.repository.findOne({ where })
 
-    if (!model) {
+    if (!user) {
       return null
     }
 
-    return UserSchema.parse(model)
+    return this.toUserDomain(user)
   }
 
-  findBySocial: IUserRepository['findBySocial'] = async (context, { socialId, email }) => {
-    const socialKey = `${context.toLowerCase()}Id`
+  findBySocial: IUserRepository['findBySocial'] = async (provider, providerToken, email) => {
+    const socialKey = `${provider.toLowerCase()}Id`
     const where: FindOptionsWhere<UserEntity> = {
       social: {
-        [socialKey]: socialId,
+        [socialKey]: providerToken,
       },
     }
 
@@ -130,28 +132,32 @@ export class UserTypeorm implements IUserRepository {
       where.email = email
     }
 
-    const model = await this.repository.findOne({ where })
+    const user = await this.repository.findOne({ where })
 
-    if (!model) {
+    if (!user) {
       return null
     }
 
-    return UserSchema.parse(model)
+    return this.toUserDomain(user)
   }
 
   create: IUserRepository['create'] = async (input) => {
     const data = this.repository.create(input)
 
-    const model = await this.repository.save(data)
+    const user = await this.repository.save(data)
 
-    return UserSchema.parse(model)
+    return this.toUserDomain(user)
   }
 
   updateById: IUserRepository['updateById'] = async (userId, input) => {
-    const model = await this.findById(userId)
+    const user = await this.findById(userId)
 
-    await this.repository.update(model.userId, input)
+    await this.repository.update(user.state.userId, input)
 
-    return this.findById(model.userId)
+    return this.findById(user.state.userId)
+  }
+
+  private toUserDomain(user: UserEntity) {
+    return new UserDomain(deepMapDatesToISOString(user))
   }
 }
