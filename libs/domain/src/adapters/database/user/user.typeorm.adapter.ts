@@ -1,12 +1,14 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository, ILike, FindOptionsWhere } from 'typeorm'
+import { Repository, ILike, FindOptionsWhere, DeepPartial } from 'typeorm'
 import { PaginationSchemaTransform } from '@starter/schema'
 
 import { deepMapDatesToISOString } from '@/support/utilities'
 import { IUserRepository } from '@/ports/database/user'
 import { UserEntity } from '@/adapters/database/user/user.typeorm.entity'
 import { UserDomain } from '@/core/user/user.domain'
+import { User, BaseUser } from '@/core/user/user.schema'
+import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity'
 
 @Injectable()
 export class UserTypeorm implements IUserRepository {
@@ -104,7 +106,9 @@ export class UserTypeorm implements IUserRepository {
     const where: FindOptionsWhere<UserEntity> = {}
 
     if (phone) {
-      where.phone = phone
+      where.phoneISO = phone.iso
+      where.phoneDDI = phone.ddi
+      where.phoneNumber = phone.number
     }
 
     if (options?.workspaceId) {
@@ -142,7 +146,9 @@ export class UserTypeorm implements IUserRepository {
   }
 
   create: IUserRepository['create'] = async (input) => {
-    const data = this.repository.create(input)
+    const payload = this.toUserEntity(input)
+
+    const data = this.repository.create(payload)
 
     const user = await this.repository.save(data)
 
@@ -152,12 +158,47 @@ export class UserTypeorm implements IUserRepository {
   updateById: IUserRepository['updateById'] = async (userId, input) => {
     const user = await this.findById(userId)
 
-    await this.repository.update(user.state.userId, input)
+    await this.repository.update(user.state.userId, this.toPartialRoleEntity(input))
 
     return this.findById(user.state.userId)
   }
 
-  private toUserDomain(user: UserEntity) {
-    return new UserDomain(deepMapDatesToISOString(user))
+  deleteById: IUserRepository['deleteById'] = async (userId) => {
+    const organization = await this.findById(userId)
+
+    await this.repository.softDelete({ userId: organization.state.userId })
+  }
+
+  private toUserEntity(user: BaseUser): DeepPartial<UserEntity> {
+    return {
+      ...user,
+      phoneISO: user.phone?.iso,
+      phoneDDI: user.phone?.ddi,
+      phoneNumber: user.phone?.number,
+    }
+  }
+
+  private toPartialRoleEntity({ phone, ...user }: Partial<User>): QueryDeepPartialEntity<UserEntity> {
+    return {
+      ...user,
+      phoneISO: phone?.iso,
+      phoneDDI: phone?.ddi,
+      phoneNumber: phone?.number,
+    }
+  }
+
+  private toUserDomain(user: UserEntity): UserDomain {
+    return new UserDomain(
+      deepMapDatesToISOString({
+        ...user,
+        phone: user.phoneISO
+          ? {
+              iso: user.phoneISO,
+              ddi: user.phoneDDI,
+              number: user.phoneNumber,
+            }
+          : null,
+      }),
+    )
   }
 }

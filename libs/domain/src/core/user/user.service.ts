@@ -125,6 +125,12 @@ export class UserService {
     })
   }
 
+  async deleteUser(reference: UserWorkspaceReference) {
+    const user = await this.getUser(reference)
+
+    await this.userRepository.deleteById(user.state.userId)
+  }
+
   async verifyUserPassword(userId: string, password: string) {
     const user = await this.getUser(userId)
 

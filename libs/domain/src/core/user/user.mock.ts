@@ -8,7 +8,7 @@ type UserOverrides = Partial<UserInput>
 export const makeUser = (overrides: UserOverrides): UserDomain => {
   const base: UserInput = {
     userId: uuid(),
-    workspaceId: null,
+    workspaceId: uuid(),
     scopes: [],
     permissions: [],
     name: 'John Doe',
@@ -18,6 +18,7 @@ export const makeUser = (overrides: UserOverrides): UserDomain => {
     social: null,
     password: 'hashedPassword',
     status: UserStatusEnum.ACTIVE,
+    deletedAt: null,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   }
@@ -29,7 +30,16 @@ export const makeUser = (overrides: UserOverrides): UserDomain => {
 }
 
 export const userMocks: UserDomain[] = [
-  makeUser({ name: 'Alice Johnson', email: 'alice.johnson@example.com', status: UserStatusEnum.ACTIVE }),
+  makeUser({
+    name: 'Alice Johnson',
+    email: 'alice.johnson@example.com',
+    phone: {
+      iso: 'BR',
+      ddi: '+55',
+      number: '11999999999',
+    },
+    status: UserStatusEnum.ACTIVE,
+  }),
   makeUser({ name: 'Bob Smith', email: 'bob.smith@example.com', status: UserStatusEnum.INACTIVE }),
   makeUser({ name: 'Carol White', email: 'carol.white@example.com', status: UserStatusEnum.ACTIVE }),
   makeUser({ name: 'David Lee', email: 'david.lee@example.com', status: UserStatusEnum.INACTIVE }),

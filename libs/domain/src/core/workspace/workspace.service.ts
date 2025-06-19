@@ -22,16 +22,14 @@ export class WorkspaceService {
     return this.workspaceRepository.findById(workspaceId)
   }
 
-  async createWorkspace(user: User, input: Omit<BaseWorkspace, 'integrations'>) {
-    if (user.workspaceId) {
-      throw new ConflictException('Workspace already exists.')
-    }
+  async createWorkspace(userId: string, input: Omit<BaseWorkspace, 'integrations'>) {
+    const user = await this.userService.getUser(userId)
 
     const workspace = await this.workspaceRepository.create(input)
 
-    await this.userService.updateUser(user.userId, {
-      workspaceId: workspace.state.workspaceId,
-    })
+    user.assignToWorkspace(workspace.state.workspaceId)
+
+    await this.userService.updateUser(user.state.userId, user.state)
 
     return workspace
   }

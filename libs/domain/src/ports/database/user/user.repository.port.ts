@@ -12,4 +12,5 @@ export type IUserRepository = {
   findBySocial(provider: 'FACEBOOK' | 'GOOGLE', providerToken: string, email: string): Promise<UserDomain | null>
   create(input: BaseUser): Promise<UserDomain>
   updateById(userId: string, input: Partial<User>): Promise<UserDomain>
+  deleteById(userId: string): Promise<void>
 }

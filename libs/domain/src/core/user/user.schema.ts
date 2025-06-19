@@ -1,7 +1,7 @@
 import { z, EmailSchema, PhoneSchema, PasswordSchema } from '@starter/schema'
 import { formatToCapitalized } from '@starter/common'
 
-import { ID, CreatedAt, UpdatedAt, BaseSchema } from '@/support/schema'
+import { ID, DeletedAt, CreatedAt, UpdatedAt, BaseSchema } from '@/support/schema'
 
 export enum UserStatusEnum {
   'ACTIVE' = 'ACTIVE',
@@ -71,6 +71,7 @@ export const UserSchema = z.object({
   social: Social,
   password: Password,
   status: Status,
+  deletedAt: DeletedAt,
   createdAt: CreatedAt,
   updatedAt: UpdatedAt,
 })

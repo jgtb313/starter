@@ -1,6 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm'
+import { Entity, Column, PrimaryGeneratedColumn, DeleteDateColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm'
 
-import { User, UserStatusEnum } from '@/core/user/user.schema'
+import { User } from '@/core/user/user.schema'
 
 @Entity('users')
 export class UserEntity {
@@ -22,8 +22,14 @@ export class UserEntity {
   @Column({ type: 'varchar' })
   email: User['email']
 
-  @Column({ type: 'json', nullable: true })
-  phone: User['phone']
+  @Column({ type: 'varchar', nullable: true })
+  phoneISO?: string
+
+  @Column({ type: 'varchar', nullable: true })
+  phoneDDI?: string
+
+  @Column({ type: 'varchar', nullable: true })
+  phoneNumber?: string
 
   @Column({ type: 'varchar', nullable: true })
   avatar: User['avatar']
@@ -36,6 +42,9 @@ export class UserEntity {
 
   @Column({ type: 'varchar' })
   status: User['status']
+
+  @DeleteDateColumn({})
+  deletedAt: User['deletedAt']
 
   @CreateDateColumn({})
   createdAt: User['createdAt']
