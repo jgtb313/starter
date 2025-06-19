@@ -1,21 +1,21 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
-import { DataSource, Repository, FindOptionsWhere } from 'typeorm'
+import { InjectRepository } from '@nestjs/typeorm'
+import { Repository, FindOptionsWhere, DeepPartial } from 'typeorm'
+import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity'
+import { PaginationSchemaTransform } from '@starter/schema'
 
-import { SubscriptionSchema } from '@/core/subscription/subscription.schema'
-import { PaginationService } from '@/support/pagination'
+import { deepMapDatesToISOString } from '@/support/utilities'
 import { ISubscriptionRepository } from '@/ports/database/subscription'
-import { SubscriptionEntity } from './subscription.typeorm.entity'
+import { SubscriptionEntity } from '@/adapters/database/subscription/subscription.typeorm.entity'
+import { SubscriptionDomain } from '@/core/subscription/subscription.domain'
+import { Subscription, BaseSubscription } from '@/core/subscription/subscription.schema'
 
 @Injectable()
 export class SubscriptionTypeorm implements ISubscriptionRepository {
-  private readonly repository: Repository<SubscriptionEntity>
-
   constructor(
-    private readonly dataSource: DataSource,
-    private readonly paginationService: PaginationService,
-  ) {
-    this.repository = this.dataSource.getRepository(SubscriptionEntity)
-  }
+    @InjectRepository(SubscriptionEntity)
+    private readonly repository: Repository<SubscriptionEntity>,
+  ) {}
 
   findAllPaginated: ISubscriptionRepository['findAllPaginated'] = async ({ offset, limit, ...query }) => {
     const { status } = query
@@ -26,15 +26,23 @@ export class SubscriptionTypeorm implements ISubscriptionRepository {
       where.status = status
     }
 
-    const { values, meta } = await this.paginationService.paginate(this.repository, {
+    const paginate = PaginationSchemaTransform.parse({ offset, limit })
+
+    const skip = paginate.offset
+    const take = paginate.limit
+
+    const [values, total] = await this.repository.findAndCount({
       where,
-      offset,
-      limit,
+      take,
+      skip,
     })
 
     return {
       values: values.map(this.toSubscriptionDomain),
-      meta,
+      meta: {
+        ...paginate,
+        total,
+      },
     }
   }
 
@@ -53,38 +61,44 @@ export class SubscriptionTypeorm implements ISubscriptionRepository {
   }
 
   findById: ISubscriptionRepository['findById'] = async (subscriptionId) => {
-    const model = await this.repository.findOne({ where: { subscriptionId } })
+    const subscription = await this.repository.findOne({ where: { subscriptionId } })
 
-    if (!model) {
+    if (!subscription) {
       throw new NotFoundException(`Subscription ${subscriptionId} not found`)
     }
 
-    return this.toSubscriptionDomain(model)
+    return this.toSubscriptionDomain(subscription)
   }
 
   create: ISubscriptionRepository['create'] = async (input) => {
-    const data = this.repository.create(input)
+    const data = this.repository.create(this.toSubscriptionEntity(input))
 
-    const model = await this.repository.save(data)
+    const subscription = await this.repository.save(data)
 
-    return this.toSubscriptionDomain(model)
+    return this.toSubscriptionDomain(subscription)
   }
 
   updateById: ISubscriptionRepository['updateById'] = async (subscriptionId, input) => {
-    const model = await this.findById(subscriptionId)
+    const subscription = await this.findById(subscriptionId)
 
-    await this.repository.update(model.subscriptionId, input)
+    await this.repository.update(subscription.state.subscriptionId, this.toPartialSubscriptionEntity(input))
 
-    return this.findById(model.subscriptionId)
+    return this.findById(subscription.state.subscriptionId)
   }
 
-  private toSubscriptionDomain(model: SubscriptionEntity) {
-    return SubscriptionSchema.parse({
-      ...model,
-      deadline: model.deadline.toISOString(),
-      canceledAt: model.canceledAt ? model.canceledAt.toISOString() : null,
-      createdAt: model.createdAt.toISOString(),
-      updatedAt: model.updatedAt.toISOString(),
-    })
+  private toSubscriptionEntity(subscription: BaseSubscription): DeepPartial<SubscriptionEntity> {
+    return {
+      ...subscription,
+    }
+  }
+
+  private toPartialSubscriptionEntity(subscription: Partial<Subscription>): QueryDeepPartialEntity<SubscriptionEntity> {
+    return {
+      ...subscription,
+    }
+  }
+
+  private toSubscriptionDomain(subscription: SubscriptionEntity) {
+    return new SubscriptionDomain(deepMapDatesToISOString(subscription))
   }
 }

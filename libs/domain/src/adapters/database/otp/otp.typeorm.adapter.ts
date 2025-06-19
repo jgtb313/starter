@@ -1,11 +1,13 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
+import { Repository, DeepPartial } from 'typeorm'
+import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity'
 
 import { deepMapDatesToISOString } from '@/support/utilities'
 import { IOTPRepository } from '@/ports/database/otp'
 import { OTPEntity } from '@/adapters/database/otp/otp.typeorm.entity'
 import { OTPDomain } from '@/core/otp/otp.domain'
+import { OTP, BaseOTP } from '@/core/otp/otp.schema'
 
 @Injectable()
 export class OTPTypeorm implements IOTPRepository {
@@ -39,7 +41,7 @@ export class OTPTypeorm implements IOTPRepository {
   }
 
   create: IOTPRepository['create'] = async (input) => {
-    const data = this.repository.create(input)
+    const data = this.repository.create(this.toOTPEntity(input))
 
     const otp = await this.repository.save(data)
 
@@ -49,9 +51,21 @@ export class OTPTypeorm implements IOTPRepository {
   updateById: IOTPRepository['updateById'] = async (otpId, input) => {
     const otp = await this.findById(otpId)
 
-    await this.repository.update(otp.state.otpId, input)
+    await this.repository.update(otp.state.otpId, this.toPartialOTPEntity(input))
 
     return this.findById(otp.state.otpId)
+  }
+
+  private toOTPEntity(otp: BaseOTP): DeepPartial<OTPEntity> {
+    return {
+      ...otp,
+    }
+  }
+
+  private toPartialOTPEntity(otp: Partial<OTP>): QueryDeepPartialEntity<OTPEntity> {
+    return {
+      ...otp,
+    }
   }
 
   private toOTPDomain(model: OTPEntity) {

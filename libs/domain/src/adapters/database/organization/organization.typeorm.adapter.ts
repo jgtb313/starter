@@ -1,12 +1,14 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository, ILike, In, FindOptionsWhere } from 'typeorm'
+import { Repository, ILike, In, FindOptionsWhere, DeepPartial } from 'typeorm'
+import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity'
 import { PaginationSchemaTransform } from '@starter/schema'
 
 import { deepMapDatesToISOString } from '@/support/utilities'
 import { IOrganizationRepository } from '@/ports/database/organization'
 import { OrganizationEntity } from '@/adapters/database/organization/organization.typeorm.entity'
 import { OrganizationDomain } from '@/core/organization/organization.domain'
+import { Organization, BaseOrganization } from '@/core/organization/organization.schema'
 
 @Injectable()
 export class OrganizationTypeorm implements IOrganizationRepository {
@@ -77,7 +79,7 @@ export class OrganizationTypeorm implements IOrganizationRepository {
   }
 
   create: IOrganizationRepository['create'] = async (input) => {
-    const data = this.repository.create(input)
+    const data = this.repository.create(this.toOrganizationEntity(input))
 
     const organization = await this.repository.save(data)
 
@@ -87,7 +89,7 @@ export class OrganizationTypeorm implements IOrganizationRepository {
   updateById: IOrganizationRepository['updateById'] = async (organizationId, input) => {
     const organization = await this.findById(organizationId)
 
-    await this.repository.update(organization.state.organizationId, input)
+    await this.repository.update(organization.state.organizationId, this.toPartialOrganizationEntity(input))
 
     return this.findById(organization.state.organizationId)
   }
@@ -106,6 +108,18 @@ export class OrganizationTypeorm implements IOrganizationRepository {
 
     if (missingOrganizationIds.length) {
       throw new NotFoundException(`The following organizationIds were not found: ${missingOrganizationIds.join(', ')}`)
+    }
+  }
+
+  private toOrganizationEntity(organization: BaseOrganization): DeepPartial<OrganizationEntity> {
+    return {
+      ...organization,
+    }
+  }
+
+  private toPartialOrganizationEntity(organization: Partial<Organization>): QueryDeepPartialEntity<OrganizationEntity> {
+    return {
+      ...organization,
     }
   }
 

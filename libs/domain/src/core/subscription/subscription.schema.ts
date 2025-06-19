@@ -94,4 +94,5 @@ export type SubscriptionBoleto = z.infer<typeof SubscriptionBoletoSchema>
 
 export const SubscriptionSchema = z.discriminatedUnion('paymentMethod', [SubscriptionCardSchema, SubscriptionPixSchema, SubscriptionBoletoSchema])
 export type Subscription = z.infer<typeof SubscriptionSchema>
+export type SubscriptionInput = z.input<typeof SubscriptionSchema>
 export type BaseSubscription = BaseSchema<'subscriptionId' | 'externalId', Subscription>

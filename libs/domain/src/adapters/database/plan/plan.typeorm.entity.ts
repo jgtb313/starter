@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm'
 
-import { Plan, PlanStatusEnum } from '@/core/plan/plan.schema'
+import { Plan } from '@/core/plan/plan.schema'
 
 @Entity('plans')
 export class PlanEntity {
@@ -34,7 +34,7 @@ export class PlanEntity {
   @Column({ type: 'boolean', default: false })
   highlight: Plan['highlight']
 
-  @Column({ type: 'enum', enum: PlanStatusEnum, default: PlanStatusEnum.ACTIVE })
+  @Column({ type: 'varchar' })
   status: Plan['status']
 
   @DeleteDateColumn({})

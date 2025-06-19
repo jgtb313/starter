@@ -1,21 +1,21 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
-import { DataSource, Repository, ILike, FindOptionsWhere } from 'typeorm'
+import { InjectRepository } from '@nestjs/typeorm'
+import { Repository, ILike, FindOptionsWhere, DeepPartial } from 'typeorm'
+import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity'
+import { PaginationSchemaTransform } from '@starter/schema'
 
-import { PaginationService } from '@/support/pagination'
+import { deepMapDatesToISOString } from '@/support/utilities'
 import { IPlanRepository } from '@/ports/database/plan'
-import { PlanDomain } from '@/core/plan/plan.domain'
 import { PlanEntity } from '@/adapters/database/plan/plan.typeorm.entity'
+import { PlanDomain } from '@/core/plan/plan.domain'
+import { Plan, BasePlan } from '@/core/plan/plan.schema'
 
 @Injectable()
 export class PlanTypeorm implements IPlanRepository {
-  private readonly repository: Repository<PlanEntity>
-
   constructor(
-    private readonly dataSource: DataSource,
-    private readonly paginationService: PaginationService,
-  ) {
-    this.repository = this.dataSource.getRepository(PlanEntity)
-  }
+    @InjectRepository(PlanEntity)
+    private readonly repository: Repository<PlanEntity>,
+  ) {}
 
   findAllPaginated: IPlanRepository['findAllPaginated'] = async ({ offset, limit, ...query }) => {
     const { name, status } = query
@@ -30,15 +30,23 @@ export class PlanTypeorm implements IPlanRepository {
       where.status = status
     }
 
-    const { values, meta } = await this.paginationService.paginate(this.repository, {
+    const paginate = PaginationSchemaTransform.parse({ offset, limit })
+
+    const skip = paginate.offset
+    const take = paginate.limit
+
+    const [values, total] = await this.repository.findAndCount({
       where,
-      offset,
-      limit,
+      take,
+      skip,
     })
 
     return {
-      values: values.map((plan) => this.toPlanDomain(plan)),
-      meta,
+      values: values.map(this.toPlanDomain),
+      meta: {
+        ...paginate,
+        total,
+      },
     }
   }
 
@@ -71,7 +79,7 @@ export class PlanTypeorm implements IPlanRepository {
   }
 
   create: IPlanRepository['create'] = async (input) => {
-    const data = this.repository.create(input)
+    const data = this.repository.create(this.toPlanEntity(input))
 
     const plan = await this.repository.save(data)
 
@@ -81,17 +89,24 @@ export class PlanTypeorm implements IPlanRepository {
   updateById: IPlanRepository['updateById'] = async (planId, input) => {
     const plan = await this.findById(planId)
 
-    await this.repository.update(plan.state.planId, input)
+    await this.repository.update(plan.state.planId, this.toPartialPlanEntity(input))
 
     return this.findById(plan.state.planId)
   }
 
+  private toPlanEntity(plan: BasePlan): DeepPartial<PlanEntity> {
+    return {
+      ...plan,
+    }
+  }
+
+  private toPartialPlanEntity(plan: Partial<Plan>): QueryDeepPartialEntity<PlanEntity> {
+    return {
+      ...plan,
+    }
+  }
+
   private toPlanDomain(model: PlanEntity) {
-    return new PlanDomain({
-      ...model,
-      deletedAt: model.deletedAt ? model.deletedAt.toISOString() : null,
-      createdAt: model.createdAt.toISOString(),
-      updatedAt: model.updatedAt.toISOString(),
-    })
+    return new PlanDomain(deepMapDatesToISOString(model))
   }
 }

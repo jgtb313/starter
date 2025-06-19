@@ -115,7 +115,7 @@ export class RoleTypeorm implements IRoleRepository {
     }
   }
 
-  private toRoleEntity({ ...role }: BaseRole): DeepPartial<RoleEntity> {
+  private toRoleEntity(role: BaseRole): DeepPartial<RoleEntity> {
     return {
       ...role,
     }

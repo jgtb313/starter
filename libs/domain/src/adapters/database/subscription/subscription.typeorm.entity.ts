@@ -1,7 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm'
 
-import { RecurrencePaymentMethodEnum } from '@/ports/recurrence'
-import { Subscription, SubscriptionCard, SubscriptionStatusEnum } from '@/core/subscription/subscription.schema'
+import { Subscription, SubscriptionCard } from '@/core/subscription/subscription.schema'
 
 @Entity('subscriptions')
 export class SubscriptionEntity {
@@ -20,11 +19,11 @@ export class SubscriptionEntity {
   @Column({ type: 'int' })
   amount: Subscription['amount']
 
-  @Column({ type: 'enum', enum: RecurrencePaymentMethodEnum })
+  @Column({ type: 'varchar' })
   paymentMethod: Subscription['paymentMethod']
 
   @Column({ type: 'json', nullable: true })
-  card: SubscriptionCard['card']
+  card?: SubscriptionCard['card']
 
   @Column({ type: 'json' })
   payer: Subscription['payer']
@@ -40,7 +39,7 @@ export class SubscriptionEntity {
   })
   canceledAt: Subscription['canceledAt']
 
-  @Column({ type: 'enum', enum: SubscriptionStatusEnum, default: SubscriptionStatusEnum.TRIAL })
+  @Column({ type: 'varchar' })
   status: Subscription['status']
 
   @CreateDateColumn({})
