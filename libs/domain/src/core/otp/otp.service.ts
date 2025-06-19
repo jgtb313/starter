@@ -88,7 +88,7 @@ export class OTPService {
     }
 
     return this.sendOTP({
-      userId: user.userId,
+      userId: user.state.userId,
       channel: OTPChannelEnum.EMAIL,
       context: OTPContextEnum.PASSWORD_LESS,
       recipient,
@@ -103,7 +103,7 @@ export class OTPService {
     }
 
     return this.sendOTP({
-      userId: user.userId,
+      userId: user.state.userId,
       channel: OTPChannelEnum.EMAIL,
       context: OTPContextEnum.FORGOT_PASSWORD,
       recipient,
@@ -115,7 +115,7 @@ export class OTPService {
 
     const user = await this.userService.getUserByEmail(recipient)
 
-    if (user && user.userId !== userId) {
+    if (user && user.state.userId !== userId) {
       throw new ConflictException(`Email ${recipient} has already been taken.`)
     }
 
@@ -132,7 +132,7 @@ export class OTPService {
 
     const user = await this.userService.getUserByPhone(phone)
 
-    if (user && user.userId !== userId) {
+    if (user && user.state.userId !== userId) {
       throw new ConflictException(`Phone ${recipient} has already been taken.`)
     }
 

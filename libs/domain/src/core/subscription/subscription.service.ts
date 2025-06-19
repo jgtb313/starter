@@ -2,16 +2,24 @@ import { Injectable, Inject, forwardRef } from '@nestjs/common'
 import { AclForbiddenException } from '@starter/nestjs-error-handling'
 import { uuid } from '@starter/common'
 
+import { createWorkspaceReference, WithWorkspaceReference } from '@/support/workspace-reference'
 import { ISubscriptionRepository } from '@/ports/database/subscription'
 import { RecurrenceService } from '@/adapters/recurrence'
 import { WorkspaceService } from '@/core/workspace/workspace.service'
 import { InvoiceService } from '@/core/invoice/invoice.service'
 import { PlanService } from '@/core/plan/plan.service'
-import { SubscriptionStatusEnum } from '@/core/subscription/subscription.schema'
-import { getSubscriptionWorkspaceReference, ISubscriptionService } from '@/core/subscription/subscription.service.interface'
+import { SubscriptionCard, SubscriptionPix, SubscriptionBoleto, SubscriptionStatusEnum } from '@/core/subscription/subscription.schema'
+
+export type SubscriptionWorkspaceReference = WithWorkspaceReference<'subscriptionId'>
+export const getSubscriptionWorkspaceReference = createWorkspaceReference('subscriptionId')
+
+type CreateSubscriptionInput =
+  | (Pick<SubscriptionCard, 'workspaceId' | 'planId' | 'paymentMethod' | 'payer'> & { cardToken: string })
+  | Pick<SubscriptionPix, 'workspaceId' | 'planId' | 'paymentMethod' | 'payer'>
+  | Pick<SubscriptionBoleto, 'workspaceId' | 'planId' | 'paymentMethod' | 'payer'>
 
 @Injectable()
-export class SubscriptionService implements ISubscriptionService {
+export class SubscriptionService {
   constructor(
     @Inject('SUBSCRIPTION_REPOSITORY') private readonly subscriptionRepository: ISubscriptionRepository,
     @Inject(forwardRef(() => WorkspaceService)) private readonly workspaceService: WorkspaceService,
@@ -21,19 +29,19 @@ export class SubscriptionService implements ISubscriptionService {
     private readonly recurrenceService: RecurrenceService,
   ) {}
 
-  getSubscription: ISubscriptionService['getSubscription'] = async (reference) => {
+  async getSubscription(reference: SubscriptionWorkspaceReference) {
     const { subscriptionId, workspaceId } = getSubscriptionWorkspaceReference(reference)
 
     const subscription = await this.subscriptionRepository.findById(subscriptionId)
 
-    if (workspaceId && subscription.workspaceId !== workspaceId) {
+    if (workspaceId && subscription.state.workspaceId !== workspaceId) {
       throw new AclForbiddenException()
     }
 
     return subscription
   }
 
-  createSubscription: ISubscriptionService['createSubscription'] = async ({ workspaceId, planId, payer, ...input }) => {
+  async createSubscription({ workspaceId, planId, payer, ...input }: CreateSubscriptionInput) {
     const workspace = await this.workspaceService.getWorkspace(workspaceId)
 
     const plan = await this.planService.getPlan(planId)
@@ -55,7 +63,7 @@ export class SubscriptionService implements ISubscriptionService {
     const subscription = await this.subscriptionRepository.create({
       ...recurrenceSubscription,
       subscriptionId,
-      workspaceId: workspace.workspaceId,
+      workspaceId: workspace.state.workspaceId,
       planId: plan.state.planId,
       externalId: recurrenceSubscription.subscriptionId,
       payer,
@@ -70,15 +78,15 @@ export class SubscriptionService implements ISubscriptionService {
     await this.invoiceService.createInvoice({
       ...recurrenceSubscription,
       ...recurrenceInvoice,
-      workspaceId: workspace.workspaceId,
-      subscriptionId: subscription.subscriptionId,
+      workspaceId: workspace.state.workspaceId,
+      subscriptionId: subscription.state.subscriptionId,
       externalId: invoiceId,
       paymentMethod: input.paymentMethod,
       description: `Payment for the ${plan.state.name} plan for the month of [Month] [Year].`,
       issuedAt: new Date(),
     })
 
-    await this.workspaceService.updateWorkspace(subscription.workspaceId, {
+    await this.workspaceService.updateWorkspace(subscription.state.workspaceId, {
       integrations: {
         recurrenceCustomerId,
       },
@@ -87,15 +95,15 @@ export class SubscriptionService implements ISubscriptionService {
     return subscription
   }
 
-  changeSubscriptionPaymentMethod: ISubscriptionService['changeSubscriptionPaymentMethod'] = async () => {
+  changeSubscriptionPaymentMethod() {
     return
   }
 
-  changeSubscriptionPlan: ISubscriptionService['changeSubscriptionPlan'] = async () => {
+  changeSubscriptionPlan() {
     return
   }
 
-  cancelSubscription: ISubscriptionService['cancelSubscription'] = async () => {
+  cancelSubscription() {
     return
   }
 }

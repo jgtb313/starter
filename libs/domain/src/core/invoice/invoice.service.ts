@@ -44,8 +44,8 @@ export class InvoiceService {
 
     return this.invoiceRepository.create({
       ...input,
-      workspaceId: workspace.workspaceId,
-      subscriptionId: subscription.subscriptionId,
+      workspaceId: workspace.state.workspaceId,
+      subscriptionId: subscription.state.subscriptionId,
     })
   }
 

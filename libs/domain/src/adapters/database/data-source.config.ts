@@ -2,6 +2,8 @@ import { join } from 'node:path'
 import { config } from 'dotenv'
 import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions'
 
+import { NamingStrategy } from '@/adapters/database/database.naming-strategy'
+
 const root = join(process.cwd(), '../../', '.env')
 
 config({ path: root })
@@ -25,6 +27,7 @@ export const createDataSourceConfig = (options: CreateDataSourceConfigOptions): 
     migrationsTableName: 'migrations',
     migrationsRun: false,
     synchronize: process.env.STAGE == 'local',
+    namingStrategy: new NamingStrategy(),
     ...options,
   }
 }

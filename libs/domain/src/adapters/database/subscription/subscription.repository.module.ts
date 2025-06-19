@@ -1,12 +1,11 @@
 import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
 
-import { PaginationModule } from '@/support/pagination'
-import { SubscriptionTypeorm } from './subscription.typeorm.adapter'
-import { SubscriptionEntity } from './subscription.typeorm.entity'
+import { SubscriptionTypeorm } from '@/adapters/database/subscription/subscription.typeorm.adapter'
+import { SubscriptionEntity } from '@/adapters/database/subscription/subscription.typeorm.entity'
 
 @Module({
-  imports: [TypeOrmModule.forFeature([SubscriptionEntity]), PaginationModule],
+  imports: [TypeOrmModule.forFeature([SubscriptionEntity])],
   providers: [
     {
       provide: 'SUBSCRIPTION_REPOSITORY',

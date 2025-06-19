@@ -5,6 +5,8 @@ export type BaseSchema<K extends keyof T, T> = {
   [Key in keyof PickNullable<Omit<T, 'createdAt' | 'updatedAt' | K>>]?: Exclude<T[Key], null> | null
 } & {
   [Key in keyof PickNotNullable<Omit<T, 'createdAt' | 'updatedAt' | K>>]: T[Key]
+} & {
+  [Key in K]?: T[Key]
 }
 
 export const ID = (resourceName: string) => {

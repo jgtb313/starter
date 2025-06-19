@@ -1,4 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, DeleteDateColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm'
+import { Required } from '@starter/common'
 
 import { User } from '@/core/user/user.schema'
 
@@ -13,7 +14,7 @@ export class UserEntity {
   @Column({ type: 'simple-array' })
   scopes: User['scopes']
 
-  @Column({ type: 'json' })
+  @Column({ type: 'simple-array' })
   permissions: User['permissions']
 
   @Column({ type: 'varchar' })
@@ -34,8 +35,11 @@ export class UserEntity {
   @Column({ type: 'varchar', nullable: true })
   avatar: User['avatar']
 
-  @Column({ type: 'json', nullable: true })
-  social: User['social']
+  @Column({ type: 'varchar', nullable: true })
+  socialGoogleId: Required<User['social']>['googleId']
+
+  @Column({ type: 'varchar', nullable: true })
+  socialFacebookId: Required<User['social']>['facebookId']
 
   @Column({ type: 'varchar' })
   password: User['password']

@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository, ILike, FindOptionsWhere, DeepPartial } from 'typeorm'
 import { PaginationSchemaTransform } from '@starter/schema'
+import { capitalize } from '@starter/common'
 
 import { deepMapDatesToISOString } from '@/support/utilities'
 import { IUserRepository } from '@/ports/database/user'
@@ -125,11 +126,9 @@ export class UserTypeorm implements IUserRepository {
   }
 
   findBySocial: IUserRepository['findBySocial'] = async (provider, providerToken, email) => {
-    const socialKey = `${provider.toLowerCase()}Id`
+    const socialKey = `social${capitalize(provider)}Id`
     const where: FindOptionsWhere<UserEntity> = {
-      social: {
-        [socialKey]: providerToken,
-      },
+      [socialKey]: providerToken,
     }
 
     if (email) {
@@ -146,9 +145,7 @@ export class UserTypeorm implements IUserRepository {
   }
 
   create: IUserRepository['create'] = async (input) => {
-    const payload = this.toUserEntity(input)
-
-    const data = this.repository.create(payload)
+    const data = this.repository.create(this.toUserEntity(input))
 
     const user = await this.repository.save(data)
 
@@ -164,9 +161,9 @@ export class UserTypeorm implements IUserRepository {
   }
 
   deleteById: IUserRepository['deleteById'] = async (userId) => {
-    const organization = await this.findById(userId)
+    const user = await this.findById(userId)
 
-    await this.repository.softDelete({ userId: organization.state.userId })
+    await this.repository.softDelete({ userId: user.state.userId })
   }
 
   private toUserEntity(user: BaseUser): DeepPartial<UserEntity> {
@@ -175,6 +172,8 @@ export class UserTypeorm implements IUserRepository {
       phoneISO: user.phone?.iso,
       phoneDDI: user.phone?.ddi,
       phoneNumber: user.phone?.number,
+      socialGoogleId: user.social?.googleId,
+      socialFacebookId: user.social?.facebookId,
     }
   }
 
@@ -184,21 +183,28 @@ export class UserTypeorm implements IUserRepository {
       phoneISO: phone?.iso,
       phoneDDI: phone?.ddi,
       phoneNumber: phone?.number,
+      socialGoogleId: user.social?.googleId,
+      socialFacebookId: user.social?.facebookId,
     }
   }
 
   private toUserDomain(user: UserEntity): UserDomain {
-    return new UserDomain(
-      deepMapDatesToISOString({
-        ...user,
-        phone: user.phoneISO
+    const state: UserDomain['state'] = {
+      ...user,
+      phone:
+        user.phoneISO && user.phoneDDI && user.phoneNumber
           ? {
               iso: user.phoneISO,
               ddi: user.phoneDDI,
               number: user.phoneNumber,
             }
           : null,
-      }),
-    )
+      social: {
+        googleId: user.socialGoogleId,
+        facebookId: user.socialFacebookId,
+      },
+    }
+
+    return new UserDomain(deepMapDatesToISOString(state))
   }
 }

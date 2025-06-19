@@ -1,12 +1,11 @@
 import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
 
-import { PaginationModule } from '@/support/pagination'
-import { WorkspaceTypeorm } from './workspace.typeorm.adapter'
-import { WorkspaceEntity } from './workspace.typeorm.entity'
+import { WorkspaceTypeorm } from '@/adapters/database/workspace/workspace.typeorm.adapter'
+import { WorkspaceEntity } from '@/adapters/database/workspace/workspace.typeorm.entity'
 
 @Module({
-  imports: [TypeOrmModule.forFeature([WorkspaceEntity]), PaginationModule],
+  imports: [TypeOrmModule.forFeature([WorkspaceEntity])],
   providers: [
     {
       provide: 'WORKSPACE_REPOSITORY',

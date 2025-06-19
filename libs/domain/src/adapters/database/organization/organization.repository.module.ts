@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
 
-import { OrganizationTypeorm } from './organization.typeorm.adapter'
-import { OrganizationEntity } from './organization.typeorm.entity'
+import { OrganizationTypeorm } from '@/adapters/database/organization/organization.typeorm.adapter'
+import { OrganizationEntity } from '@/adapters/database/organization/organization.typeorm.entity'
 
 @Module({
   imports: [TypeOrmModule.forFeature([OrganizationEntity])],

@@ -1,12 +1,11 @@
 import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
 
-import { PaginationModule } from '@/support/pagination'
-import { PlanTypeorm } from './plan.typeorm.adapter'
-import { PlanEntity } from './plan.typeorm.entity'
+import { PlanTypeorm } from '@/adapters/database/plan/plan.typeorm.adapter'
+import { PlanEntity } from '@/adapters/database/plan/plan.typeorm.entity'
 
 @Module({
-  imports: [TypeOrmModule.forFeature([PlanEntity]), PaginationModule],
+  imports: [TypeOrmModule.forFeature([PlanEntity])],
   providers: [
     {
       provide: 'PLAN_REPOSITORY',

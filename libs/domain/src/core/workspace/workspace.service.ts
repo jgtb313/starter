@@ -1,10 +1,8 @@
 import { Injectable, Inject, forwardRef } from '@nestjs/common'
-import { ConflictException } from '@starter/nestjs-error-handling'
 import { Pagination } from '@starter/schema'
 
 import { IWorkspaceRepository } from '@/ports/database/workspace'
 import { UserService } from '@/core/user/user.service'
-import { User } from '@/core/user/user.schema'
 import { Workspace, BaseWorkspace } from '@/core/workspace/workspace.schema'
 
 @Injectable()
