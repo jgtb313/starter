@@ -1,6 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm'
 
-import { RecurrenceIntervalEnum } from '@/ports/recurrence'
 import { Plan, PlanStatusEnum } from '@/core/plan/plan.schema'
 
 @Entity('plans')
@@ -20,7 +19,7 @@ export class PlanEntity {
   @Column({ type: 'int' })
   amount: Plan['amount']
 
-  @Column({ type: 'enum', enum: RecurrenceIntervalEnum })
+  @Column({ type: 'varchar' })
   interval: Plan['interval']
 
   @Column({ type: 'int', default: 1 })
@@ -29,7 +28,7 @@ export class PlanEntity {
   @Column({ type: 'int' })
   trialDays: Plan['trialDays']
 
-  @Column({ type: 'jsonb', nullable: true })
+  @Column({ type: 'json', nullable: true })
   features: Plan['features']
 
   @Column({ type: 'boolean', default: false })

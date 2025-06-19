@@ -16,10 +16,10 @@ export class RoleEntity {
   @Column({ type: 'varchar' })
   name: Role['name']
 
-  @Column({ type: 'json', nullable: true })
+  @Column({ type: 'simple-array', nullable: true })
   tags: Role['tags']
 
-  @Column({ type: 'json' })
+  @Column({ type: 'simple-array' })
   permissions: Role['permissions']
 
   @Column({ type: 'varchar' })
