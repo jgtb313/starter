@@ -20,3 +20,5 @@ export type PickNotNullable<T> = {
 }
 
 export type Nullable<T> = T & null
+
+export type Merge<T extends object[]> = T extends [infer First extends object, ...infer Rest extends object[]] ? First & Merge<Rest> : {}
