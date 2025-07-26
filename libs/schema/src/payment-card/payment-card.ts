@@ -5,15 +5,10 @@ const Number = z.string().min(1)
 
 const HolderName = z.string().min(1)
 
-const ExpirationDate = z.string().refine(
-  (expirationDate) => {
-    const [month, year] = expirationDate.split('/')
-    return isPaymentCardExpirationDateValid(month, year)
-  },
-  {
-    params: { i18n: 'invalid_payment_expiration_date' },
-  },
-)
+const ExpirationDate = z.string().refine((expirationDate) => {
+  const [month, year] = expirationDate.split('/')
+  return isPaymentCardExpirationDateValid(month, year)
+})
 
 const CVV = z.string().min(1)
 
@@ -46,7 +41,7 @@ export type BasePaymentCard = z.infer<typeof BasePaymentCardSchema>
 export const PaymentCardSchema = z
   .object({
     token: PaymentCardTokenSchema,
-    number: Number.refine((number) => isPaymentCardNumberValid(number), { params: { i18n: 'invalid_payment_card_number' } }).meta({
+    number: Number.refine((number) => isPaymentCardNumberValid(number)).meta({
       description: 'Full credit card number.',
       examples: ['5555555555554444'],
     }),
@@ -65,6 +60,5 @@ export const PaymentCardSchema = z
   })
   .refine(({ number, cvv }) => isPaymentCardCVVValid(number, cvv), {
     path: ['cvv'],
-    params: { i18n: 'invalid_payment_card_cvv' },
   })
 export type PaymentCard = z.infer<typeof PaymentCardSchema>

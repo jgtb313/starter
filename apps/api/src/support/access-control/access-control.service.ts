@@ -11,14 +11,15 @@ export class ACLService {
   private defineAbilities(user: User, options: { withOrganizationId: boolean }) {
     const { can, build } = new AbilityBuilder(Ability)
 
-    const permissions = [...new Set([...user.roles.flatMap((role) => role.permissions), ...user.permissions])]
+    // const permissions = [...new Set([...user.roles.flatMap((role) => role.permissions), ...user.permissions])]
+    const permissions = ['']
 
     const condition: MongoQuery<AnyObject> = {
       workspaceId: user.workspaceId,
     }
 
     if (options.withOrganizationId) {
-      condition['organizationId'] = { $in: user.organizationIds }
+      // condition['organizationId'] = { $in: user.organizationIds }
     }
 
     permissions.forEach((permission) => {

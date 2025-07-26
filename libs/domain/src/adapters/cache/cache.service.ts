@@ -1,10 +1,10 @@
 import { Injectable, Inject } from '@nestjs/common'
 
-import { ICache } from '@/ports/cache'
+import { ICache, ICacheAdapter } from '@/ports/cache'
 
 @Injectable()
 export class CacheService implements ICache {
-  constructor(@Inject('Cache') private readonly cache: ICache) {}
+  constructor(@Inject('Cache') private readonly cache: ICacheAdapter) {}
 
   get: ICache['get'] = (key) => {
     return this.cache.get(key)

@@ -85,6 +85,7 @@ export const zodSchemaToJSONSchema = (zodType: z.ZodType): any => {
       }
 
       ctx.jsonSchema.pattern = undefined
+      delete ctx.jsonSchema.name
     },
   })
 }

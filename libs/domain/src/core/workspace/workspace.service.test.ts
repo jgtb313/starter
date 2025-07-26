@@ -2,11 +2,11 @@ import { Test, TestingModule } from '@nestjs/testing'
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { ConflictException, NotFoundException } from '@starter/nestjs-error-handling'
 
-import { WorkspaceService } from '@/core/workspace/workspace.service'
-import { WorkspaceRepositoryModule } from '@/adapters/database/workspace/workspace.repository.module'
-import { InMemoryDatabaseModule } from '@/adapters/database'
-import { UserService } from '@/core/user/user.service'
 import { IWorkspaceRepository } from '@/ports/database/workspace'
+import { InMemoryDatabaseModule } from '@/adapters/database'
+import { WorkspaceRepositoryModule } from '@/adapters/database/workspace/workspace.repository.module'
+import { WorkspaceService } from '@/core/workspace/workspace.service'
+import { UserService } from '@/core/user/user.service'
 import { makeWorkspace, workspaceMocks } from '@/core/workspace/workspace.mock'
 import { User } from '@/core/user/user.schema'
 import { WorkspaceStatusEnum } from '@/core/workspace/workspace.schema'
@@ -73,14 +73,12 @@ describe('WorkspaceService', () => {
 
   describe('createWorkspace', () => {
     it('should create and return a new workspace', async () => {
-      const user = { userId: 'user-123', workspaceId: null } as User
-
       const input = makeWorkspace({}).state
 
-      const result = await service.createWorkspace(user, input)
+      const result = await service.createWorkspace('0e6c34bb-5a5c-4b31-bfec-33ec3651d581', input)
 
       expect(result.state.workspaceId).toBeDefined()
-      expect(userServiceMock.updateUser).toHaveBeenCalledWith(user.userId, {
+      expect(userServiceMock.updateUser).toHaveBeenCalledWith('0e6c34bb-5a5c-4b31-bfec-33ec3651d581', {
         workspaceId: result.state.workspaceId,
       })
     })
@@ -88,7 +86,9 @@ describe('WorkspaceService', () => {
     it('should throw ConflictException if user already has workspace', async () => {
       const user = { userId: 'user-123', workspaceId: 'workspace-abc' } as User
 
-      await expect(service.createWorkspace(user, makeWorkspace({}).state)).rejects.toThrow(new ConflictException('Workspace already exists.'))
+      await expect(service.createWorkspace('0e6c34bb-5a5c-4b31-bfec-33ec3651d581', makeWorkspace({}).state)).rejects.toThrow(
+        new ConflictException('Workspace already exists.'),
+      )
     })
   })
 

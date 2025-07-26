@@ -3,11 +3,7 @@ import { clearSpecialChars, isCNPJ, isCPF, isCPFOrCNPJ } from '@starter/common'
 
 import { DocumentTypeSchema, DocumentTypeCNPJSchema, DocumentTypeCPFSchema, DocumentTypeEnum } from '../document-type'
 
-export const DocumentSchema = z
-  .string()
-  .min(1)
-  .refine(isCPFOrCNPJ, { params: { i18n: 'invalid_document' } })
-  .transform(clearSpecialChars)
+export const DocumentSchema = z.string().min(1).refine(isCPFOrCNPJ).transform(clearSpecialChars)
 
 export const DocumentExplicitSchema = z
   .object({
@@ -22,7 +18,7 @@ export const DocumentExplicitSchema = z
         return isCNPJ(number)
       }
     },
-    { path: ['number'], params: { i18n: 'invalid_document' } },
+    { path: ['number'] },
   )
 export type DocumentExplicit = z.infer<typeof DocumentExplicitSchema>
 
@@ -35,7 +31,7 @@ export const DocumentCNPJSchema = z
     ({ number }) => {
       return isCNPJ(number)
     },
-    { path: ['number'], params: { i18n: 'invalid_cnpj' } },
+    { path: ['number'] },
   )
 export type DocumentCNPJ = z.infer<typeof DocumentCNPJSchema>
 
@@ -48,6 +44,6 @@ export const DocumentCPFSchema = z
     ({ number }) => {
       return isCPF(number)
     },
-    { path: ['number'], params: { i18n: 'invalid_cpf' } },
+    { path: ['number'] },
   )
 export type DocumentCPF = z.infer<typeof DocumentCPFSchema>

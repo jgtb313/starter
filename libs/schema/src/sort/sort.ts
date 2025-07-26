@@ -1,52 +1,27 @@
-import { z } from '@/zod'
+import { z } from 'zod'
 
-export enum SortEnum {
-  ascend = 1,
-  descend = -1,
-}
+export const SortEnum = {
+  asc: 1,
+  desc: -1,
+} as const
 
-export const SortSchema = z.object({
-  sort: z
-    .record(z.string().trim().min(1), z.enum(SortEnum))
-    .nullish()
-    .refine((value) => (value ? !!Object.keys(value).length : true), { params: { i18n: 'invalid_type_received_undefined' } })
-    .transform((value) => (value ? (Object.keys(value).length ? value : undefined) : undefined)),
-})
-export type Sort = z.infer<typeof SortSchema>
-
-export const SortHttpSchema = z
-  .object({
-    sort: z
-      .string()
-      .optional()
-      .refine((sort) => {
-        if (!sort) {
-          return true
-        }
-
-        return [!sort.startsWith(':'), sort.includes(':')].every(Boolean)
-      })
-      .refine((sort) => {
-        if (!sort) {
-          return true
-        }
-
-        return String(sort)
-          .split(',')
-          .every((s) => {
-            const [order] = s.split(':').reverse()
-            return ['ascend', 'descend'].includes(order)
-          })
-      }),
-  })
-  .transform(({ sort }) => {
-    return Object.fromEntries(
-      String(sort || 'createdAt:descend')
-        .split(',')
-        .map((s) => {
-          const [field, order] = s.split(':')
-          return [field, SortEnum[order as keyof typeof SortEnum]]
-        }),
-    ) as Record<string, SortEnum>
-  })
-export type SortHttp = z.infer<typeof SortHttpSchema>
+export const SortSchema = (allowedFields: string[]) =>
+  z
+    .union([z.string().trim(), z.null(), z.undefined()])
+    .transform((value) => (value === '' || value == null ? undefined : value))
+    .refine((value) => value === undefined || value.includes(':'))
+    .refine((value) => {
+      if (value === undefined) return true
+      const [field] = value.split(':')
+      return allowedFields.includes(field)
+    })
+    .refine((value) => {
+      if (value === undefined) return true
+      const [_, order] = value.split(':')
+      return ['asc', 'desc'].includes(order)
+    })
+    .transform((value) => {
+      if (value === undefined) return undefined
+      const [field, order] = value.split(':')
+      return { [field]: SortEnum[order as keyof typeof SortEnum] }
+    })

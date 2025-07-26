@@ -1,12 +1,12 @@
 import { Injectable, Inject, ConsoleLogger } from '@nestjs/common'
 
-import { ILogger } from '@/ports/logger'
+import { ILogger, ILoggerAdapter } from '@/ports/logger'
 
 @Injectable()
 export class LoggerService implements ILogger {
   private readonly consoleLogger: ConsoleLogger
 
-  constructor(@Inject('Logger') private readonly logger: ILogger) {
+  constructor(@Inject('Logger') private readonly logger: ILoggerAdapter) {
     this.consoleLogger = new ConsoleLogger()
   }
 

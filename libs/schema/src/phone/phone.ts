@@ -10,5 +10,5 @@ export const PhoneSchema = z
       .min(1)
       .transform((value) => clearSpecialChars(value).replace(/\s+/g, '').trim()),
   })
-  .refine((value) => isPhone(value), { path: ['number'], params: { i18n: 'invalid_phone' } })
+  .refine((value) => isPhone(value), { path: ['number'] })
 export type Phone = z.infer<typeof PhoneSchema>

@@ -4,37 +4,37 @@ import { IRecurrence, IRecurrenceAdapter } from '@/ports/recurrence'
 
 @Injectable()
 export class RecurrenceService implements IRecurrence {
-  constructor(@Inject('Adapter') private readonly adapter: IRecurrenceAdapter) {}
+  constructor(@Inject('Recurrence') private readonly recurrence: IRecurrenceAdapter) {}
 
   createPlan: IRecurrence['createPlan'] = async (input) => {
-    return this.adapter.createPlan(input)
+    return this.recurrence.createPlan(input)
   }
 
   updatePlan: IRecurrence['updatePlan'] = async (input) => {
-    return this.adapter.updatePlan(input)
+    return this.recurrence.updatePlan(input)
   }
 
   cancelPlan: IRecurrence['cancelPlan'] = async (input) => {
-    return this.adapter.cancelPlan(input)
+    return this.recurrence.cancelPlan(input)
   }
 
   createCustmer: IRecurrence['createCustmer'] = async (input) => {
-    return this.adapter.createCustmer(input)
+    return this.recurrence.createCustmer(input)
   }
 
   createSubscription: IRecurrence['createSubscription'] = async (input) => {
-    return this.adapter.createSubscription(input)
+    return this.recurrence.createSubscription(input)
   }
 
   changeSubscriptionPaymentMethod: IRecurrence['changeSubscriptionPaymentMethod'] = async (input) => {
-    return this.adapter.changeSubscriptionPaymentMethod(input)
+    return this.recurrence.changeSubscriptionPaymentMethod(input)
   }
 
   changeSubscriptionPlan: IRecurrence['changeSubscriptionPlan'] = async (input) => {
-    return this.adapter.changeSubscriptionPlan(input)
+    return this.recurrence.changeSubscriptionPlan(input)
   }
 
   cancelSubscription: IRecurrence['cancelSubscription'] = async (input) => {
-    return this.adapter.cancelSubscription(input)
+    return this.recurrence.cancelSubscription(input)
   }
 }

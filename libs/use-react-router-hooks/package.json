@@ -21,9 +21,8 @@
     "react-router": "7.1.5"
   },
   "dependencies": {
-    "@starter/client": "*",
-    "@starter/common": "*",
-    "@starter/schema": "*",
+    "@starter/common": "workspace:*",
+    "@starter/schema": "workspace:*",
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "react-router": "7.1.5",
@@ -51,7 +50,6 @@
     "@testing-library/react": "^16.0.0",
     "@testing-library/react-hooks": "^8.0.1",
     "@testing-library/user-event": "^14.5.2",
-    "@types/": "testing-library/user-event",
     "@types/node": "^22.13.1",
     "@types/react": "19.0.0",
     "@types/react-dom": "19.0.0",
