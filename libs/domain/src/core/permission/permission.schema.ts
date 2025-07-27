@@ -7,13 +7,23 @@ export enum PermissionGroupEnum {
   'WORKSPACE' = 'WORKSPACE',
   'ORGANIZATION' = 'ORGANIZATION',
   'PLAN' = 'PLAN',
-  'INVOICE' = 'INVOICE',
   'SUBSCRIPTION' = 'SUBSCRIPTION',
+  'INVOICE' = 'INVOICE',
+}
+
+export enum PermissionActionEnum {
+  'MANAGE' = 'MANAGE',
+  'READ' = 'READ',
+  'CREATE' = 'CREATE',
+  'UPDATE' = 'UPDATE',
+  'DELETE' = 'DELETE',
 }
 
 const PermissionId = ID('permission')
 
 const Group = z.enum(PermissionGroupEnum)
+
+const Action = z.enum(PermissionActionEnum)
 
 const Name = z.string().min(1)
 
@@ -22,6 +32,7 @@ const Description = z.string().min(1)
 export const PermissionSchema = z.object({
   permissionId: PermissionId,
   group: Group,
+  action: Action,
   name: Name,
   description: Description,
   createdAt: CreatedAt,

@@ -2,6 +2,8 @@ import { uuid } from '@starter/common'
 
 import { RoleDomain } from '@/core/role/role.domain'
 import { RoleInput, RoleStatusEnum } from '@/core/role/role.schema'
+import { OrganizationStatusEnum } from '@/core/organization/organization.schema'
+import { PermissionGroupEnum } from '@/core/permission/permission.schema'
 
 type RoleOverrides = Partial<RoleInput>
 
@@ -9,6 +11,26 @@ export const makeRole = (overrides: RoleOverrides): RoleDomain => {
   const base: RoleInput = {
     roleId: uuid(),
     workspaceId: uuid(),
+    organizations: [
+      {
+        organizationId: uuid(),
+        workspaceId: uuid(),
+        name: 'Organization 1',
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        status: OrganizationStatusEnum.ACTIVE,
+      },
+    ],
+    permissions: [
+      {
+        permissionId: uuid(),
+        name: 'Create workspace',
+        description: 'Create workspace',
+        group: PermissionGroupEnum.WORKSPACE,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      },
+    ],
     name: 'Manager',
     tags: [],
     deletedAt: null,
