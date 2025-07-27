@@ -13,7 +13,7 @@ export const ListOrganizationsSchema = createRequestSchema({
     status: true,
   })
     .partial()
-    .extend(
+    .merge(
       z
         .object({
           filter: FilterSchema(['name', 'status'], { example: 'Acme' }),
@@ -21,7 +21,7 @@ export const ListOrganizationsSchema = createRequestSchema({
         .partial(),
     )
     .and(PaginationSchema),
-  output: BasePaginationSchemaOutput.extend(z.object({ values: z.array(OrganizationSchema) })),
+  output: BasePaginationSchemaOutput.merge(z.object({ values: z.array(OrganizationSchema) })),
 })
 export type ListOrganizationsRequest = RequestInput<typeof ListOrganizationsSchema>
 

@@ -27,7 +27,7 @@ export class AuthService {
       throw new UnauthorizedException('Invalid access data.')
     }
 
-    const isValidPassword = await this.encryptService.compare(password, user.password)
+    const isValidPassword = await this.encryptService.compare(password, user.state.password)
 
     if (!isValidPassword) {
       this.loggerService.warn(`Failed login attempt - invalid password for user with email: ${email}`, {})
@@ -40,11 +40,15 @@ export class AuthService {
   async socialSignOn(input) {
     const { providerId, name, email, avatar } = await this.socialAuthService.getInfo(input.context, input.providerToken)
 
-    const user = await this.userService.getUserBySocial(input.context, { socialId: providerId, email })
+    if (!email) {
+      throw new UnauthorizedException('Invalid access data.')
+    }
+
+    const user = await this.userService.getUserBySocial(input.context, providerId, email)
 
     if (!user) {
       const user = await this.userService.createUser({
-        organizations: [],
+        scopes: [],
         permissions: ['workspace:manage'],
         name,
         email: email ?? `${providerId}@${input.context.toLowerCase()}.com`,
@@ -72,7 +76,7 @@ export class AuthService {
     }
 
     const user = await this.userService.createUser({
-      organizations: [],
+      scopes: [],
       permissions: ['workspace:manage'],
       name,
       email,
@@ -96,11 +100,11 @@ export class AuthService {
       throw new UnauthorizedException('Invalid access data.')
     }
 
-    user.password = await this.encryptService.hash(password)
+    user.state.password = await this.encryptService.hash(password)
 
-    await this.userService.updateUser(user.userId, {
+    await this.userService.updateUser(user.state.userId, {
       ...user,
-      organizations: [],
+      scopes: [],
     })
 
     return this.grantAccessToken(user)

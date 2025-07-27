@@ -24,6 +24,6 @@ export class S3PresignedUrlAdapter implements IPresignedUrlAdapter {
       Key: filename,
     })
 
-    return getSignedUrl(this.s3, command, { expiresIn: options?.expiresInSeconds })
+    return getSignedUrl(this.s3 as any, command as any, { expiresIn: options?.expiresInSeconds })
   }
 }

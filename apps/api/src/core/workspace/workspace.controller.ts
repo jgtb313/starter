@@ -81,7 +81,7 @@ export class WorkspaceController {
   createWorkspace(@AuthenticatedUser() user: User, @Request() { body }: CreateWorkspaceRequest) {
     this.aclService.canPerformActionByPermission(user, 'workspace:create')
 
-    return this.workspaceService.createWorkspace(user, {
+    return this.workspaceService.createWorkspace(user.userId, {
       ...body,
       status: WorkspaceStatusEnum.ACTIVE,
     })

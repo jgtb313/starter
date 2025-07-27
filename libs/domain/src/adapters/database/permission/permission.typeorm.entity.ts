@@ -1,0 +1,24 @@
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm'
+
+import { Permission } from '@/core/permission/permission.schema'
+
+@Entity('permissions')
+export class PermissionEntity {
+  @PrimaryGeneratedColumn('uuid')
+  permissionId: Permission['permissionId']
+
+  @Column({ type: 'varchar' })
+  group: Permission['group']
+
+  @Column({ type: 'varchar' })
+  name: Permission['name']
+
+  @Column({ type: 'varchar' })
+  description: Permission['description']
+
+  @CreateDateColumn({})
+  createdAt: Permission['createdAt']
+
+  @UpdateDateColumn({})
+  updatedAt: Permission['updatedAt']
+}

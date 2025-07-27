@@ -10,17 +10,11 @@ export class RoleEntity {
   @Column({ type: 'uuid' })
   workspaceId: Role['workspaceId']
 
-  @Column({ type: 'simple-array' })
-  organizationIds: Role['organizationIds']
-
   @Column({ type: 'varchar' })
   name: Role['name']
 
   @Column({ type: 'simple-array', nullable: true })
   tags: Role['tags']
-
-  @Column({ type: 'simple-array' })
-  permissions: Role['permissions']
 
   @Column({ type: 'varchar' })
   status: Role['status']

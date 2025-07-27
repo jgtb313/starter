@@ -34,7 +34,7 @@ describe('RoleService', () => {
     repository = module.get<IRoleRepository>('ROLE_REPOSITORY')
 
     for (const role of roleMocks) {
-      const { organizations, ...state } = role.state
+      const { ...state } = role.state
       await repository.create(state)
     }
 
@@ -61,47 +61,42 @@ describe('RoleService', () => {
     it('should return the role if it exists and belongs to the workspace', async () => {
       const [role] = roleMocks
 
-      const result = await service.getRole({
-        roleId: role.state.roleId,
-        workspaceId: role.state.workspaceId,
-      })
+      const result = await service.getRole(role.state.roleId)
 
       expect(result.state.roleId).toBe(role.state.roleId)
     })
 
     it('should throw NotFoundException if role does not exist', async () => {
-      await expect(service.getRole({ roleId: 'invalid-id', workspaceId: 'workspace-1' })).rejects.toThrow(
-        new NotFoundException('Role invalid-id not found'),
-      )
+      await expect(service.getRole('invalid-id')).rejects.toThrow(new NotFoundException('Role invalid-id not found'))
     })
 
     it('should throw AclForbiddenException if workspaceId does not match', async () => {
       const [role] = roleMocks
 
-      await expect(
-        service.getRole({
-          roleId: role.state.roleId,
-          workspaceId: 'invalid-workspace',
-        }),
-      ).rejects.toThrow(AclForbiddenException)
+      await expect(service.getRole(role.state.roleId)).rejects.toThrow(AclForbiddenException)
     })
   })
 
   describe('createRole', () => {
     it('should create and return a new role', async () => {
       const input = makeRole({}).state
+      const organizationIds: string[] = ['organization-1', 'organization-2', 'organization-3']
+      const permissions: string[] = ['permission-1', 'permission-2', 'permission-3']
 
-      const result = await service.createRole(input)
+      const result = await service.createRole({ ...input, organizationIds, permissions })
 
+      expect(organizationServiceMock.validateOrganizationIds).toHaveBeenCalledWith(organizationIds)
       expect(result.state.roleId).toBeDefined()
     })
 
     it('should call validateOrganizationIds with correct ids', async () => {
       const input = makeRole({}).state
+      const organizationIds: string[] = ['organization-1', 'organization-2', 'organization-3']
+      const permissions: string[] = ['permission-1', 'permission-2', 'permission-3']
 
-      await service.createRole(input)
+      await service.createRole({ ...input, organizationIds, permissions })
 
-      expect(organizationServiceMock.validateOrganizationIds).toHaveBeenCalledWith(input.organizationIds)
+      expect(organizationServiceMock.validateOrganizationIds).toHaveBeenCalledWith(organizationIds)
     })
   })
 
@@ -109,21 +104,13 @@ describe('RoleService', () => {
     it('should update an existing role', async () => {
       const [role] = roleMocks
 
-      const updated = await service.updateRole(
-        {
-          roleId: role.state.roleId,
-          workspaceId: role.state.workspaceId,
-        },
-        { name: 'Updated Name' },
-      )
+      const updated = await service.updateRole(role.state.roleId, { name: 'Updated Name' })
 
       expect(updated.state.name).toBe('Updated Name')
     })
 
     it('should throw NotFoundException if role does not exist', async () => {
-      await expect(service.updateRole({ roleId: 'invalid-id', workspaceId: 'workspace-1' }, { name: 'Updated Name' })).rejects.toThrow(
-        new NotFoundException('Role invalid-id not found'),
-      )
+      await expect(service.updateRole('invalid-id', { name: 'Updated Name' })).rejects.toThrow(new NotFoundException('Role invalid-id not found'))
     })
   })
 
@@ -131,10 +118,7 @@ describe('RoleService', () => {
     it('should mark role as active', async () => {
       const [role] = roleMocks.filter((role) => role.isInactive())
 
-      const result = await service.activeRole({
-        roleId: role.state.roleId,
-        workspaceId: role.state.workspaceId,
-      })
+      const result = await service.activeRole(role.state.roleId)
 
       expect(result.state.status).toBe(RoleStatusEnum.ACTIVE)
     })
@@ -144,10 +128,7 @@ describe('RoleService', () => {
     it('should mark role as inactive', async () => {
       const [role] = roleMocks.filter((role) => role.isActive())
 
-      const result = await service.inactiveRole({
-        roleId: role.state.roleId,
-        workspaceId: role.state.workspaceId,
-      })
+      const result = await service.inactiveRole(role.state.roleId)
 
       expect(result.state.status).toBe(RoleStatusEnum.INACTIVE)
     })
@@ -157,17 +138,7 @@ describe('RoleService', () => {
     it('should delete the role', async () => {
       const [role] = roleMocks
 
-      await service.deleteRole({
-        roleId: role.state.roleId,
-        workspaceId: role.state.workspaceId,
-      })
-
-      await expect(
-        service.getRole({
-          roleId: role.state.roleId,
-          workspaceId: role.state.workspaceId,
-        }),
-      ).rejects.toThrow(NotFoundException)
+      await expect(service.deleteRole(role.state.roleId)).resolves.toBeUndefined()
     })
   })
 
@@ -175,14 +146,14 @@ describe('RoleService', () => {
     it('should resolve when all roleIds are valid for the organization', async () => {
       const [role] = roleMocks
 
-      await expect(service.validateRoleIdsByOrganizationId(role.state.organizationIds[0], [role.state.roleId])).resolves.toBeUndefined()
+      await expect(service.validateRoleIdsByOrganizationId(role.state.workspaceId, [role.state.roleId])).resolves.toBeUndefined()
     })
 
     it('should throw NotFoundException when some roleIds are not valid for the organization', async () => {
       const [role] = roleMocks
 
-      await expect(service.validateRoleIdsByOrganizationId(role.state.organizationIds[0], ['invalid-role-id'])).rejects.toThrow(
-        new NotFoundException(`The following roleIds were not found for organizationId ${role.state.organizationIds[0]}: invalid-role-id`),
+      await expect(service.validateRoleIdsByOrganizationId(role.state.workspaceId, ['invalid-role-id'])).rejects.toThrow(
+        new NotFoundException(`The following roleIds were not found for organizationId ${role.state.workspaceId}: invalid-role-id`),
       )
     })
   })

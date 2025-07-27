@@ -120,6 +120,7 @@ export class UserController {
     return this.userService.createUser({
       ...params,
       ...body,
+      scopes: [],
       status: UserStatusEnum.ACTIVE,
     })
   }

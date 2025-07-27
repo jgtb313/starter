@@ -34,7 +34,7 @@ export class OTPEntity {
   @Column({ type: 'int' })
   maxRequestsPerDay: OTP['maxRequestsPerDay']
 
-  @Column({ type: 'datetime' })
+  @Column({ type: 'timestamp' })
   expiresAt: OTP['expiresAt']
 
   @CreateDateColumn()

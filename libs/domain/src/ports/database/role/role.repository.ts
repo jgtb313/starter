@@ -7,8 +7,8 @@ export type IRoleRepository = {
   findAllPaginated(input: Pagination<Role>): Promise<PaginationOutput<RoleDomain>>
   findAll(input: Partial<Role>): Promise<RoleDomain[]>
   findById(roleId: string): Promise<RoleDomain>
-  create(input: BaseRole): Promise<RoleDomain>
-  updateById(roleId: string, input: Partial<Role>): Promise<RoleDomain>
+  create(input: BaseRole & { organizationIds: string[]; permissions: string[] }): Promise<RoleDomain>
+  updateById(roleId: string, input: Partial<Role & { organizationIds: string[]; permissions: string[] }>): Promise<RoleDomain>
   deleteById(roleId: string): Promise<void>
   validateIdsByOrganizationId(organizationId: string, roleId: string[]): Promise<void>
 }

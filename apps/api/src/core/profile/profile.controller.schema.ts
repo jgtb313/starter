@@ -32,7 +32,7 @@ export type UpdateProfileRequest = RequestInput<typeof UpdateProfileSchema>
 export const UpdateProfileEmailSchema = createRequestSchema({
   body: ProfileSchema.pick({
     email: true,
-  }).extend(OTPVerificationSchema),
+  }).and(OTPVerificationSchema),
   output: ProfileSchema,
 })
 export type UpdateProfileEmailRequest = RequestInput<typeof UpdateProfileEmailSchema>
@@ -42,7 +42,7 @@ export const UpdateProfilePhoneSchema = createRequestSchema({
     .object({
       phone: PhoneSchema,
     })
-    .extend(OTPVerificationSchema),
+    .and(OTPVerificationSchema),
   output: ProfileSchema,
 })
 export type UpdateProfilePhoneRequest = RequestInput<typeof UpdateProfilePhoneSchema>
@@ -50,7 +50,7 @@ export type UpdateProfilePhoneRequest = RequestInput<typeof UpdateProfilePhoneSc
 export const UpdateProfilePasswordSchema = createRequestSchema({
   body: UserSchema.pick({
     password: true,
-  }).extend(
+  }).and(
     z.object({
       currentPassword: z.string().min(1),
     }),
