@@ -47,7 +47,7 @@ describe.only('RoleService', () => {
       await repository.create({
         ...state,
         organizationIds: organizations.map((organization) => organization.organizationId),
-        permissions: permissions.map((permission) => permission.permissionId),
+        permissionIds: permissions.map((permission) => permission.permissionId),
       })
     }
 
@@ -94,9 +94,9 @@ describe.only('RoleService', () => {
     it('should create and return a new role', async () => {
       const input = makeRole({}).state
       const organizationIds: string[] = ['organization-1', 'organization-2', 'organization-3']
-      const permissions: string[] = ['permission-1', 'permission-2', 'permission-3']
+      const permissionIds: string[] = ['permission-1', 'permission-2', 'permission-3']
 
-      const result = await service.createRole({ ...input, organizationIds, permissions })
+      const result = await service.createRole({ ...input, organizationIds, permissionIds })
 
       expect(organizationServiceMock.validateOrganizationIds).toHaveBeenCalledWith(organizationIds)
       expect(result.state.roleId).toBeDefined()
@@ -105,9 +105,9 @@ describe.only('RoleService', () => {
     it('should call validateOrganizationIds with correct ids', async () => {
       const input = makeRole({}).state
       const organizationIds: string[] = ['organization-1', 'organization-2', 'organization-3']
-      const permissions: string[] = ['permission-1', 'permission-2', 'permission-3']
+      const permissionIds: string[] = ['permission-1', 'permission-2', 'permission-3']
 
-      await service.createRole({ ...input, organizationIds, permissions })
+      await service.createRole({ ...input, organizationIds, permissionIds })
 
       expect(organizationServiceMock.validateOrganizationIds).toHaveBeenCalledWith(organizationIds)
     })

@@ -27,7 +27,7 @@ export class RoleTypeorm implements IRoleRepository {
   ) {}
 
   findAllPaginated: IRoleRepository['findAllPaginated'] = async ({ offset, limit, ...query }) => {
-    const { name, workspaceId, organizationIds, permissions, status } = query
+    const { name, workspaceId, organizationIds, permissionIds, status } = query
 
     const where: FindOptionsWhere<RoleEntity> = {}
 
@@ -162,7 +162,7 @@ export class RoleTypeorm implements IRoleRepository {
   //   return response
   // }
 
-  create: IRoleRepository['create'] = async ({ organizationIds, permissions, ...input }) => {
+  create: IRoleRepository['create'] = async ({ organizationIds, permissionIds, ...input }) => {
     const data = this.repository.create(this.toRoleEntity(input))
     const role = await this.repository.save(data)
 
@@ -173,7 +173,7 @@ export class RoleTypeorm implements IRoleRepository {
       }),
     )
 
-    const rolePermissions = permissions.map((permissionId) =>
+    const rolePermissions = permissionIds.map((permissionId) =>
       this.rolePermissionRepository.create({
         roleId: role.roleId,
         permissionId,
@@ -191,7 +191,7 @@ export class RoleTypeorm implements IRoleRepository {
     return this.toRoleDomain(role)
   }
 
-  updateById: IRoleRepository['updateById'] = async (roleId, { organizationIds, permissions, ...input }) => {
+  updateById: IRoleRepository['updateById'] = async (roleId, { organizationIds, permissionIds, ...input }) => {
     await this.repository.update(roleId, this.toPartialRoleEntity(input))
 
     await this.roleOrganizationRepository.delete({ roleId })
@@ -204,7 +204,7 @@ export class RoleTypeorm implements IRoleRepository {
       }),
     )
 
-    const rolePermissions = permissions?.map((permissionId) =>
+    const rolePermissions = permissionIds?.map((permissionId) =>
       this.rolePermissionRepository.create({
         roleId,
         permissionId,
