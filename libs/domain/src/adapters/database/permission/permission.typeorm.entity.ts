@@ -8,7 +8,7 @@ export class PermissionEntity {
   permissionId: Permission['permissionId']
 
   @Column({ type: 'varchar' })
-  group: Permission['group']
+  action: Permission['action']
 
   @Column({ type: 'varchar' })
   name: Permission['name']
