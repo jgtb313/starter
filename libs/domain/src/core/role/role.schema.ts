@@ -44,4 +44,4 @@ export const RoleSchema = z.object({
 })
 export type Role = z.infer<typeof RoleSchema>
 export type RoleInput = z.input<typeof RoleSchema>
-export type BaseRole = BaseSchema<'roleId' | 'workspaceId', Role>
+export type BaseRole = BaseSchema<'roleId' | 'workspaceId' | 'organizations' | 'permissions', Role>

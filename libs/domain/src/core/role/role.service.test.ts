@@ -4,18 +4,23 @@ import { NotFoundException, AclForbiddenException } from '@starter/nestjs-error-
 
 import { RoleService } from '@/core/role/role.service'
 import { OrganizationService } from '@/core/organization/organization.service'
+import { PermissionService } from '@/core/permission/permission.service'
 import { RoleRepositoryModule } from '@/adapters/database/role/role.repository.module'
 import { InMemoryDatabaseModule } from '@/adapters/database'
 import { IRoleRepository } from '@/ports/database/role'
 import { makeRole, roleMocks } from '@/core/role/role.mock'
 import { RoleStatusEnum } from '@/core/role/role.schema'
 
-describe('RoleService', () => {
+describe.only('RoleService', () => {
   let service: RoleService
   let repository: IRoleRepository
 
   const organizationServiceMock = {
     validateOrganizationIds: vi.fn(),
+  }
+
+  const permissionServiceMock = {
+    validatePermissionIds: vi.fn(),
   }
 
   beforeEach(async () => {
@@ -27,6 +32,10 @@ describe('RoleService', () => {
           provide: OrganizationService,
           useValue: organizationServiceMock,
         },
+        {
+          provide: PermissionService,
+          useValue: permissionServiceMock,
+        },
       ],
     }).compile()
 
@@ -34,8 +43,12 @@ describe('RoleService', () => {
     repository = module.get<IRoleRepository>('ROLE_REPOSITORY')
 
     for (const role of roleMocks) {
-      const { ...state } = role.state
-      await repository.create(state)
+      const { organizations, permissions, ...state } = role.state
+      await repository.create({
+        ...state,
+        organizationIds: organizations.map((organization) => organization.organizationId),
+        permissions: permissions.map((permission) => permission.permissionId),
+      })
     }
 
     vi.clearAllMocks()

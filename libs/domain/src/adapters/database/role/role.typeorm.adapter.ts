@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository, InjectEntityManager } from '@nestjs/typeorm'
 
-import { Repository, ILike, FindOptionsWhere, DeepPartial, EntityManager } from 'typeorm'
+import { Repository, ILike, FindOptionsWhere, DeepPartial, EntityManager, In } from 'typeorm'
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity'
 import { PaginationSchemaTransform } from '@starter/schema'
 
@@ -11,7 +11,7 @@ import { RoleEntity } from '@/adapters/database/role/role.typeorm.entity'
 import { RoleOrganizationEntity } from '@/adapters/database/role/role-organization.typeorm.entity'
 import { RolePermissionEntity } from '@/adapters/database/role/role-permission.typeorm.entity'
 import { RoleDomain } from '@/core/role/role.domain'
-import { Role, BaseRole } from '@/core/role/role.schema'
+import { BaseRole } from '@/core/role/role.schema'
 
 @Injectable()
 export class RoleTypeorm implements IRoleRepository {
@@ -27,7 +27,7 @@ export class RoleTypeorm implements IRoleRepository {
   ) {}
 
   findAllPaginated: IRoleRepository['findAllPaginated'] = async ({ offset, limit, ...query }) => {
-    const { name, workspaceId, status } = query
+    const { name, workspaceId, organizationIds, permissions, status } = query
 
     const where: FindOptionsWhere<RoleEntity> = {}
 
@@ -91,38 +91,137 @@ export class RoleTypeorm implements IRoleRepository {
     return this.toRoleDomain(role)
   }
 
-  create: IRoleRepository['create'] = async ({ permissions, ...input }) => {
-    return this.entityManager.transaction(async (manager) => {
-      const data = this.repository.create(this.toRoleEntity(input))
-      const role = await manager.save(data)
+  // create: IRoleRepository['create'] = async ({ organizationIds, permissions, ...input }) => {
+  //   return this.entityManager.transaction(async (manager) => {
+  //     const roleRepo = manager.getRepository(RoleEntity)
+  //     const roleOrgRepo = manager.getRepository(RoleOrganizationEntity)
+  //     const rolePermRepo = manager.getRepository(RolePermissionEntity)
 
-      const roleOrganizations = input.organizationIds.map((organizationId) =>
-        this.roleOrganizationRepository.create({
-          roleId: role.roleId,
-          organizationId,
-        }),
-      )
+  //     const data = roleRepo.create(this.toRoleEntity(input))
+  //     const role = await roleRepo.save(data)
 
-      const rolePermissions = permissions.map((permissionId) =>
-        this.rolePermissionRepository.create({
-          roleId: role.roleId,
-          permissionId,
-        }),
-      )
+  //     const roleOrganizations = organizationIds.map((organizationId) =>
+  //       roleOrgRepo.create({
+  //         roleId: role.roleId,
+  //         organizationId,
+  //       }),
+  //     )
 
-      await manager.insert(RoleOrganizationEntity, roleOrganizations)
-      await manager.insert(RolePermissionEntity, rolePermissions)
+  //     const rolePermissions = permissions.map((permissionId) =>
+  //       rolePermRepo.create({
+  //         roleId: role.roleId,
+  //         permissionId,
+  //       }),
+  //     )
 
-      return this.toRoleDomain(role)
-    })
+  //     await manager.insert(RoleOrganizationEntity, roleOrganizations)
+  //     await manager.insert(RolePermissionEntity, rolePermissions)
+
+  //     return this.toRoleDomain(role)
+  //   })
+  // }
+
+  // updateById: IRoleRepository['updateById'] = async (roleId, { organizationIds, permissions, ...input }) => {
+  //   const response = await this.entityManager.transaction(async (manager) => {
+  //     const roleRepo = manager.getRepository(RoleEntity)
+  //     const roleOrgRepo = manager.getRepository(RoleOrganizationEntity)
+  //     const rolePermRepo = manager.getRepository(RolePermissionEntity)
+
+  //     await roleRepo.update(roleId, this.toPartialRoleEntity(input))
+
+  //     await roleOrgRepo.delete({ roleId })
+  //     await rolePermRepo.delete({ roleId })
+
+  //     const roleOrganizations = organizationIds?.map((organizationId) =>
+  //       roleOrgRepo.create({
+  //         roleId,
+  //         organizationId,
+  //       }),
+  //     )
+
+  //     const rolePermissions = permissions?.map((permissionId) =>
+  //       rolePermRepo.create({
+  //         roleId,
+  //         permissionId,
+  //       }),
+  //     )
+
+  //     if (roleOrganizations?.length) {
+  //       await manager.insert(RoleOrganizationEntity, roleOrganizations)
+  //     }
+
+  //     if (rolePermissions?.length) {
+  //       await manager.insert(RolePermissionEntity, rolePermissions)
+  //     }
+
+  //     const role = await roleRepo.findOne({ where: { roleId } })
+
+  //     return this.toRoleDomain(role!)
+  //   })
+
+  //   return response
+  // }
+
+  create: IRoleRepository['create'] = async ({ organizationIds, permissions, ...input }) => {
+    const data = this.repository.create(this.toRoleEntity(input))
+    const role = await this.repository.save(data)
+
+    const roleOrganizations = organizationIds.map((organizationId) =>
+      this.roleOrganizationRepository.create({
+        roleId: role.roleId,
+        organizationId,
+      }),
+    )
+
+    const rolePermissions = permissions.map((permissionId) =>
+      this.rolePermissionRepository.create({
+        roleId: role.roleId,
+        permissionId,
+      }),
+    )
+
+    if (roleOrganizations.length) {
+      await this.roleOrganizationRepository.insert(roleOrganizations)
+    }
+
+    if (rolePermissions.length) {
+      await this.rolePermissionRepository.insert(rolePermissions)
+    }
+
+    return this.toRoleDomain(role)
   }
 
-  updateById: IRoleRepository['updateById'] = async (roleId, input) => {
-    const role = await this.findById(roleId)
+  updateById: IRoleRepository['updateById'] = async (roleId, { organizationIds, permissions, ...input }) => {
+    await this.repository.update(roleId, this.toPartialRoleEntity(input))
 
-    await this.repository.update(role.state.roleId, this.toPartialRoleEntity(input))
+    await this.roleOrganizationRepository.delete({ roleId })
+    await this.rolePermissionRepository.delete({ roleId })
 
-    return this.findById(role.state.roleId)
+    const roleOrganizations = organizationIds?.map((organizationId) =>
+      this.roleOrganizationRepository.create({
+        roleId,
+        organizationId,
+      }),
+    )
+
+    const rolePermissions = permissions?.map((permissionId) =>
+      this.rolePermissionRepository.create({
+        roleId,
+        permissionId,
+      }),
+    )
+
+    if (roleOrganizations?.length) {
+      await this.roleOrganizationRepository.insert(roleOrganizations)
+    }
+
+    if (rolePermissions?.length) {
+      await this.rolePermissionRepository.insert(rolePermissions)
+    }
+
+    const role = await this.repository.findOne({ where: { roleId } })
+
+    return this.toRoleDomain(role!)
   }
 
   deleteById: IRoleRepository['deleteById'] = async (roleId) => {
@@ -132,12 +231,14 @@ export class RoleTypeorm implements IRoleRepository {
   }
 
   validateIdsByOrganizationId: IRoleRepository['validateIdsByOrganizationId'] = async (organizationId, roleIds) => {
-    // const roles = await this.repository.find({ where: { organizationIds: In([organizationId]), roleId: In(roleIds) } })
-    // const foundRoleIds = roles.map((role) => role.roleId)
-    // const missingRoleIds = roleIds.filter((roleId) => !foundRoleIds.includes(roleId))
-    // if (missingRoleIds.length) {
-    //   throw new NotFoundException(`The following roleIds were not found for organizationId ${organizationId}: ${missingRoleIds.join(', ')}`)
-    // }
+    const roles = await this.roleOrganizationRepository.find({ where: { organizationId, roleId: In(roleIds) } })
+
+    const foundRoleIds = roles.map((role) => role.roleId)
+
+    const missingRoleIds = roleIds.filter((roleId) => !foundRoleIds.includes(roleId))
+    if (missingRoleIds.length) {
+      throw new NotFoundException(`The following roleIds were not found for organizationId ${organizationId}: ${missingRoleIds.join(', ')}`)
+    }
   }
 
   private toRoleEntity(role: BaseRole): DeepPartial<RoleEntity> {
@@ -146,7 +247,7 @@ export class RoleTypeorm implements IRoleRepository {
     }
   }
 
-  private toPartialRoleEntity({ ...role }: Partial<Role>): QueryDeepPartialEntity<RoleEntity> {
+  private toPartialRoleEntity({ ...role }: Partial<BaseRole>): QueryDeepPartialEntity<RoleEntity> {
     return {
       ...role,
     }

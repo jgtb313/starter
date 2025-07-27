@@ -20,17 +20,17 @@ export class PermissionTypeorm implements IPermissionRepository {
     return values.map(this.toPermissionDomain)
   }
 
-  validatePermissions: IPermissionRepository['validatePermissions'] = async (permissions) => {
+  validatePermissionIds: IPermissionRepository['validatePermissionIds'] = async (permissionIds) => {
     const values = await this.repository.find({
       where: {
-        permissionId: In(permissions),
+        permissionId: In(permissionIds),
       },
     })
 
-    if (values.length !== permissions.length) {
+    if (values.length !== permissionIds.length) {
       throw new NotFoundException(
         'The following permissions were not found: ' +
-          permissions.filter((permission) => !values.some((value) => value.permissionId === permission)).join(', '),
+          permissionIds.filter((permissionId) => !values.some((value) => value.permissionId === permissionId)).join(', '),
       )
     }
   }

@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@nestjs/common'
 
 import { IPermissionRepository } from '@/ports/database/permission'
-import { IPermissionService } from '@/core/permission/permission.interface'
+import { IPermissionService } from '@/core/permission/permission.service.interface'
 
 @Injectable()
 export class PermissionService implements IPermissionService {
@@ -11,7 +11,7 @@ export class PermissionService implements IPermissionService {
     return this.permissionRepository.findAll()
   }
 
-  validatePermissions: IPermissionService['validatePermissions'] = async (permissions) => {
-    return this.permissionRepository.validatePermissions(permissions)
+  validatePermissionIds: IPermissionService['validatePermissionIds'] = async (permissionIds) => {
+    return this.permissionRepository.validatePermissionIds(permissionIds)
   }
 }

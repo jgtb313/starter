@@ -37,36 +37,36 @@ export class RoleService implements IRoleService {
     return role
   }
 
-  createRole: IRoleService['createRole'] = async ({ organizationIds, permissions, ...input }) => {
+  createRole: IRoleService['createRole'] = async ({ organizationIds, permissionIds, ...input }) => {
     await this.organizationService.validateOrganizationIds(organizationIds)
 
-    await this.permissionService.validatePermissions(permissions)
+    await this.permissionService.validatePermissionIds(permissionIds)
 
     const role = await this.roleRepository.create({
       ...input,
       organizationIds,
-      permissions,
+      permissionIds,
       status: RoleStatusEnum.ACTIVE,
     })
 
     return role
   }
 
-  updateRole: IRoleService['updateRole'] = async (reference, { organizationIds, permissions, ...input }) => {
+  updateRole: IRoleService['updateRole'] = async (reference, { organizationIds, permissionIds, ...input }) => {
     const role = await this.getRole(reference)
 
     if (organizationIds) {
       await this.organizationService.validateOrganizationIds(organizationIds)
     }
 
-    if (permissions) {
-      await this.permissionService.validatePermissions(permissions)
+    if (permissionIds) {
+      await this.permissionService.validatePermissionIds(permissionIds)
     }
 
     return this.roleRepository.updateById(role.state.roleId, {
       ...input,
       organizationIds,
-      permissions,
+      permissionIds,
     })
   }
 
@@ -75,7 +75,9 @@ export class RoleService implements IRoleService {
 
     role.markAsActive()
 
-    return this.roleRepository.updateById(role.state.roleId, role.state)
+    return this.roleRepository.updateById(role.state.roleId, {
+      status: role.state.status,
+    })
   }
 
   inactiveRole: IRoleService['inactiveRole'] = async (reference) => {
@@ -83,7 +85,9 @@ export class RoleService implements IRoleService {
 
     role.markAsInactive()
 
-    return this.roleRepository.updateById(role.state.roleId, role.state)
+    return this.roleRepository.updateById(role.state.roleId, {
+      status: role.state.status,
+    })
   }
 
   deleteRole: IRoleService['deleteRole'] = async (reference) => {

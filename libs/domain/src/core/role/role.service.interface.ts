@@ -1,14 +1,16 @@
 import { Pagination, PaginationOutput } from '@starter/schema'
 
-import { Role, BaseRole } from '@/core/role/role.schema'
+import { BaseRole } from '@/core/role/role.schema'
 import { RoleDomain } from '@/core/role/role.domain'
 
-type CreateRoleInput = Pick<BaseRole, 'workspaceId' | 'name' | 'tags'> & { organizationIds: string[]; permissions: string[] }
+type FindRoleInput = Partial<Pick<BaseRole, 'workspaceId' | 'name' | 'tags' | 'status'>> & { organizationIds: string[]; permissionIds: string[] }
 
-type UpdateRoleInput = Pick<BaseRole, 'name' | 'tags'> & { organizationIds: string[]; permissions: string[] }
+type CreateRoleInput = Pick<BaseRole, 'workspaceId' | 'name' | 'tags'> & { organizationIds: string[]; permissionIds: string[] }
+
+type UpdateRoleInput = Partial<Pick<BaseRole, 'name' | 'tags' | 'status'>> & { organizationIds?: string[]; permissionIds?: string[] }
 
 export interface IRoleService {
-  getPaginatedRoles(input: Pagination<Role>): Promise<PaginationOutput<RoleDomain>>
+  getPaginatedRoles(input: Pagination<FindRoleInput>): Promise<PaginationOutput<RoleDomain>>
 
   getRole(roleId: string): Promise<RoleDomain>
 
