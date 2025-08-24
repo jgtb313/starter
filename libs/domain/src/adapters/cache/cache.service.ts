@@ -4,17 +4,17 @@ import type { ICache, ICacheAdapter } from '@/ports/cache'
 
 @Injectable()
 export class CacheService implements ICache {
-  constructor(@Inject('Cache') private readonly cache: ICacheAdapter) {}
+	constructor(@Inject('Cache') private readonly cache: ICacheAdapter) {}
 
-  get: ICache['get'] = (key) => {
-    return this.cache.get(key)
-  }
+	get: ICache['get'] = (key) => {
+		return this.cache.get(key)
+	}
 
-  set: ICache['set'] = (key, value, options) => {
-    return this.cache.set(key, value, options)
-  }
+	set: ICache['set'] = (key, value, options) => {
+		return this.cache.set(key, value, options)
+	}
 
-  del: ICache['del'] = (key) => {
-    return this.cache.del(key)
-  }
+	delete: ICache['delete'] = (key) => {
+		return this.cache.del(key)
+	}
 }

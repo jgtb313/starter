@@ -11,5 +11,5 @@ export type ICacheAdapter = {
 export type ICache = {
 	get<T>(key: string): Promise<T | undefined>
 	set<T>(key: string, value: T, options?: ICacheSetOptions): Promise<void>
-	del(key: string): Promise<void>
+	delete(key: string): Promise<void>
 }
