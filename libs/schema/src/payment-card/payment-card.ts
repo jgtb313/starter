@@ -6,7 +6,7 @@ import {
 
 import { z } from '@/zod'
 
-const Number = z.string().min(1)
+const CardNumber = z.string().min(1)
 
 const HolderName = z.string().min(1)
 
@@ -31,7 +31,7 @@ export type PaymentCardToken = z.infer<typeof PaymentCardTokenSchema>
 
 export const BasePaymentCardSchema = z.object({
 	token: PaymentCardTokenSchema,
-	number: Number.meta({
+	number: CardNumber.meta({
 		description: 'Masked card number for secure display.',
 		examples: [
 			'5555 ********* 55',
@@ -55,7 +55,9 @@ export type BasePaymentCard = z.infer<typeof BasePaymentCardSchema>
 export const PaymentCardSchema = z
 	.object({
 		token: PaymentCardTokenSchema,
-		number: Number.refine((number) => isPaymentCardNumberValid(number)).meta({
+		number: CardNumber.refine((number) =>
+			isPaymentCardNumberValid(number),
+		).meta({
 			description: 'Full credit card number.',
 			examples: [
 				'5555555555554444',
