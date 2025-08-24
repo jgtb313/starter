@@ -71,7 +71,7 @@ const Street = z
 		],
 	})
 
-const Number = z
+const StreetNumber = z
 	.string()
 	.trim()
 	.min(1)
@@ -120,7 +120,7 @@ export const BaseAddressSchema = z.object({
 	zipCode: ZipCode,
 	neighborhood: Neighborhood,
 	street: Street,
-	number: Number,
+	number: StreetNumber,
 	complement: Complement,
 })
 export type BaseAddress = z.infer<typeof BaseAddressSchema>
@@ -131,7 +131,7 @@ export const BusinessAddressSchema = z.object({
 	zipCode: ZipCode,
 	neighborhood: Neighborhood,
 	street: Street,
-	number: Number,
+	number: StreetNumber,
 	location: LocationSchema,
 	complement: Complement,
 	landmark: Landmark,
@@ -145,7 +145,7 @@ export const CustomerAddressSchema = z.object({
 	zipCode: ZipCode,
 	neighborhood: Neighborhood,
 	street: Street,
-	number: Number,
+	number: StreetNumber,
 	location: LocationSchema,
 	complement: Complement,
 	landmark: Landmark,

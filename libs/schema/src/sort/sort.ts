@@ -15,12 +15,18 @@ export const SortSchema = (allowedFields: string[]) =>
 		.transform((value) => (value === '' || value == null ? undefined : value))
 		.refine((value) => value === undefined || value.includes(':'))
 		.refine((value) => {
-			if (value === undefined) return true
+			if (value === undefined) {
+				return true
+			}
+
 			const [field] = value.split(':')
 			return allowedFields.includes(field)
 		})
 		.refine((value) => {
-			if (value === undefined) return true
+			if (value === undefined) {
+				return true
+			}
+
 			const [, order] = value.split(':')
 			return [
 				'asc',
@@ -28,7 +34,10 @@ export const SortSchema = (allowedFields: string[]) =>
 			].includes(order)
 		})
 		.transform((value) => {
-			if (value === undefined) return {}
+			if (value === undefined) {
+				return {}
+			}
+
 			const [field, order] = value.split(':')
 			return {
 				[field]: SortEnum[order as keyof typeof SortEnum],
