@@ -1,21 +1,22 @@
 import { UseGuards } from '@nestjs/common'
-import { Controller, Route, Request } from '@starter/nestjs-server-hoisting'
-import { RoleService, RoleSchema, User } from '@starter/domain'
+import { RoleSchema, type RoleService, type User } from '@starter/domain'
+import { Controller, Request, Route } from '@starter/nestjs-server-hoisting'
 
-import { AuthGuard } from '@/support/guards'
-import { ACLService } from '@/support/access-control'
+import type { ACLService } from '@/support/access-control'
 import { AuthenticatedUser } from '@/support/decorators'
+import { AuthGuard } from '@/support/guards'
+
 import {
-  ListRolesSchema,
-  GetRoleSchema,
+  type CreateRoleRequest,
   CreateRoleSchema,
-  UpdateRoleSchema,
+  type DeleteRoleRequest,
   DeleteRoleSchema,
-  ListRolesRequest,
-  GetRoleRequest,
-  CreateRoleRequest,
-  UpdateRoleRequest,
-  DeleteRoleRequest,
+  type GetRoleRequest,
+  GetRoleSchema,
+  type ListRolesRequest,
+  ListRolesSchema,
+  type UpdateRoleRequest,
+  UpdateRoleSchema,
 } from './role.controller.schema'
 
 @Controller({

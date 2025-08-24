@@ -1,16 +1,16 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-
-import { Repository, ILike, FindOptionsWhere, DeepPartial, EntityManager, In, FindOptionsOrder } from 'typeorm'
-import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity'
+import { type DeepPartial, EntityManager, type FindOptionsOrder, type FindOptionsWhere, ILike, In, type Repository } from 'typeorm'
+import type { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity'
 
 import { deepMapDatesToISOString } from '@/support/utilities'
-import { IRoleRepository } from '@/ports/database/role'
+
 import { RoleEntity } from '@/adapters/database/role/role.typeorm.entity'
 import { RoleOrganizationEntity } from '@/adapters/database/role/role-organization.typeorm.entity'
 import { RolePermissionEntity } from '@/adapters/database/role/role-permission.typeorm.entity'
 import { RoleDomain } from '@/core/role/role.domain'
-import { BaseRole } from '@/core/role/role.schema'
+import type { BaseRole } from '@/core/role/role.schema'
+import type { IRoleRepository } from '@/ports/database/role'
 
 @Injectable()
 export class RoleTypeorm implements IRoleRepository {

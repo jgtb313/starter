@@ -1,19 +1,20 @@
 import { UseGuards } from '@nestjs/common'
-import { Controller, Route, Request } from '@starter/nestjs-server-hoisting'
-import { UserService, OTPService, User, OTPContextEnum } from '@starter/domain'
+import { OTPContextEnum, type OTPService, type User, type UserService } from '@starter/domain'
+import { Controller, Request, Route } from '@starter/nestjs-server-hoisting'
 
-import { AuthGuard } from '@/support/guards'
 import { AuthenticatedUser } from '@/support/decorators'
+import { AuthGuard } from '@/support/guards'
+
 import {
   GetProfileSchema,
-  UpdateProfileSchema,
+  type UpdateProfileEmailRequest,
   UpdateProfileEmailSchema,
-  UpdateProfilePhoneSchema,
+  type UpdateProfilePasswordRequest,
   UpdateProfilePasswordSchema,
-  UpdateProfileRequest,
-  UpdateProfileEmailRequest,
-  UpdateProfilePhoneRequest,
-  UpdateProfilePasswordRequest,
+  type UpdateProfilePhoneRequest,
+  UpdateProfilePhoneSchema,
+  type UpdateProfileRequest,
+  UpdateProfileSchema,
 } from './profile.controller.schema'
 
 @Controller({

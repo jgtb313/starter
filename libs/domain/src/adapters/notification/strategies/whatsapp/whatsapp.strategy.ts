@@ -1,7 +1,8 @@
-import { Injectable, Inject } from '@nestjs/common'
+import { Inject, Injectable } from '@nestjs/common'
 
-import { INotificationStrategy, IWhatsappAdapter } from '@/ports/notification'
 import { templates } from './whatsapp.templates'
+
+import type { INotificationStrategy, IWhatsappAdapter } from '@/ports/notification'
 
 @Injectable()
 export class WhatsappStrategy implements INotificationStrategy<'WHATSAPP'> {

@@ -1,6 +1,6 @@
-import { Injectable, Inject } from '@nestjs/common'
+import { Inject, Injectable } from '@nestjs/common'
 
-import { IEncrypt, IEncryptAdapter } from '@/ports/encrypt'
+import type { IEncrypt, IEncryptAdapter } from '@/ports/encrypt'
 
 @Injectable()
 export class EncryptService implements IEncrypt {

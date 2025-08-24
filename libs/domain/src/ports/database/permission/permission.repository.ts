@@ -1,7 +1,7 @@
-import { PermissionDomain } from '@/core/permission/permission.domain'
+import type { PermissionDomain } from '@/core/permission/permission.domain'
 
 export type IPermissionRepository = {
-  findAll(): Promise<PermissionDomain[]>
+	findAll(): Promise<PermissionDomain[]>
 
-  validatePermissionIds(permissionIds: string[]): Promise<void>
+	validatePermissionIds(permissionIds: string[]): Promise<void>
 }

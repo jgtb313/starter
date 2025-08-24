@@ -1,40 +1,43 @@
-import { ControllerOptions, RouteOptions } from '@/interfaces'
+import type { ControllerOptions, RouteOptions } from '@/interfaces'
 
 type CustomControllerOptions = ControllerOptions & {
-  authenticated: boolean
+	authenticated: boolean
 }
 
 type CustomRouteOptions = RouteOptions & {
-  operationId: string
+	operationId: string
 }
 
 export class StateManager {
-  private static controllers: Record<string, CustomControllerOptions> = {}
-  private static routes: Record<string, CustomRouteOptions[]> = {}
+	private static controllers: Record<string, CustomControllerOptions> = {}
+	private static routes: Record<string, CustomRouteOptions[]> = {}
 
-  static addController(name: string, options: CustomControllerOptions) {
-    const controllerName = `${name}Controller`
+	static addController(name: string, options: CustomControllerOptions) {
+		const controllerName = `${name}Controller`
 
-    this.controllers[controllerName] = options
-  }
+		StateManager.controllers[controllerName] = options
+	}
 
-  static addRoute(name: string, options: CustomRouteOptions) {
-    this.routes[name] = [...(this.routes[name] ?? []), options]
-  }
+	static addRoute(name: string, options: CustomRouteOptions) {
+		StateManager.routes[name] = [
+			...(StateManager.routes[name] ?? []),
+			options,
+		]
+	}
 
-  static getState(): State {
-    return {
-      controllers: this.controllers,
-      routes: this.routes,
-    }
-  }
+	static getState(): State {
+		return {
+			controllers: StateManager.controllers,
+			routes: StateManager.routes,
+		}
+	}
 
-  static getController(target: Function): CustomControllerOptions | undefined {
-    return this.controllers[target.name]
-  }
+	static getController(target: Function): CustomControllerOptions | undefined {
+		return StateManager.controllers[target.name]
+	}
 }
 
 export type State = {
-  controllers: Record<string, CustomControllerOptions>
-  routes: Record<string, CustomRouteOptions[]>
+	controllers: Record<string, CustomControllerOptions>
+	routes: Record<string, CustomRouteOptions[]>
 }

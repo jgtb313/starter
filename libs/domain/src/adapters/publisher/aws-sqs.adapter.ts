@@ -1,16 +1,16 @@
+import type { SQS } from '@aws-sdk/client-sqs'
 import { Injectable } from '@nestjs/common'
-import { SQS } from '@aws-sdk/client-sqs'
 
-import { IPublisherAdapter } from '@/ports/publisher'
+import type { IPublisherAdapter } from '@/ports/publisher'
 
 @Injectable()
 export class AWSSQSAdapter implements IPublisherAdapter {
-  constructor(private readonly client: SQS) {}
+	constructor(private readonly client: SQS) {}
 
-  publish: IPublisherAdapter['publish'] = async (target, input) => {
-    await this.client.sendMessage({
-      QueueUrl: target,
-      MessageBody: JSON.stringify(input),
-    })
-  }
+	publish: IPublisherAdapter['publish'] = async (target, input) => {
+		await this.client.sendMessage({
+			QueueUrl: target,
+			MessageBody: JSON.stringify(input),
+		})
+	}
 }

@@ -1,53 +1,53 @@
 {
-  "name": "@starter/nestjs-serverless-hoisting",
-  "version": "1.0.0",
-  "author": "João <jgtb313@gmail.com>",
-  "license": "MIT",
-  "type": "module",
-  "scripts": {
-    "dev": "vite build --watch",
-    "build": "vite build",
-    "build:watch": "vite build --watch",
-    "type-check": "tsc --project tsconfig.json --pretty --noEmit"
-  },
-  "dependencies": {
-    "@nestjs/common": "^11.0.1",
-    "@nestjs/config": "^4.0.0",
-    "@nestjs/core": "^11.0.1",
-    "@nestjs/platform-express": "^11.0.7",
-    "@nestjs/platform-fastify": "^11.0.7",
-    "@rollup/plugin-typescript": "^12.1.2",
-    "@scalar/nestjs-api-reference": "^0.3.180",
-    "@starter/common": "workspace:*",
-    "@starter/config": "workspace:*",
-    "@starter/schema": "workspace:*",
-    "@swc/core": "^1.2.165",
-    "express": "^4.21.2",
-    "fastify": "^5.2.1",
-    "nestjs-zod": "^4.2.0",
-    "openapi-sampler": "^1.6.1",
-    "openapi-types": "^12.1.3",
-    "reflect-metadata": "^0.2.2",
-    "typescript": "5.4.2",
-    "vite": "6.0.5",
-    "vite-plugin-dts": "4.4.0"
-  },
-  "main": "dist/nestjs-serverless-hoisting.cjs",
-  "module": "dist/nestjs-serverless-hoisting.js",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "require": "./dist/nestjs-serverless-hoisting.cjs",
-      "import": "./dist/nestjs-serverless-hoisting.js"
-    }
-  },
-  "typings": "dist/types/src/index.d.ts",
-  "files": [
-    "dist"
-  ],
-  "devDependencies": {
-    "@types/aws-lambda": "^8.10.147",
-    "@types/express": "^5.0.0",
-    "@types/openapi-sampler": "^1.0.3"
-  }
+	"name": "@starter/nestjs-serverless-hoisting",
+	"version": "1.0.0",
+	"author": "João <jgtb313@gmail.com>",
+	"license": "MIT",
+	"type": "module",
+	"scripts": {
+		"dev": "vite build --watch",
+		"build": "vite build",
+		"build:watch": "vite build --watch",
+		"type-check": "tsc --project tsconfig.json --pretty --noEmit"
+	},
+	"dependencies": {
+		"@nestjs/common": "^11.0.1",
+		"@nestjs/config": "^4.0.0",
+		"@nestjs/core": "^11.0.1",
+		"@nestjs/platform-express": "^11.0.7",
+		"@nestjs/platform-fastify": "^11.0.7",
+		"@rollup/plugin-typescript": "^12.1.2",
+		"@scalar/nestjs-api-reference": "^0.3.180",
+		"@starter/common": "workspace:*",
+		"@starter/config": "workspace:*",
+		"@starter/schema": "workspace:*",
+		"@swc/core": "^1.2.165",
+		"express": "^4.21.2",
+		"fastify": "^5.2.1",
+		"nestjs-zod": "^4.2.0",
+		"openapi-sampler": "^1.6.1",
+		"openapi-types": "^12.1.3",
+		"reflect-metadata": "^0.2.2",
+		"typescript": "5.4.2",
+		"vite": "6.0.5",
+		"vite-plugin-dts": "4.4.0"
+	},
+	"main": "dist/nestjs-serverless-hoisting.cjs",
+	"module": "dist/nestjs-serverless-hoisting.js",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"require": "./dist/nestjs-serverless-hoisting.cjs",
+			"import": "./dist/nestjs-serverless-hoisting.js"
+		}
+	},
+	"typings": "dist/types/src/index.d.ts",
+	"files": [
+		"dist"
+	],
+	"devDependencies": {
+		"@types/aws-lambda": "^8.10.147",
+		"@types/express": "^5.0.0",
+		"@types/openapi-sampler": "^1.0.3"
+	}
 }

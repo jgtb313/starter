@@ -1,7 +1,7 @@
-import { Injectable, Inject } from '@nestjs/common'
+import { Inject, Injectable } from '@nestjs/common'
 import { renderEmail } from '@starter/emails'
 
-import { INotificationStrategy, IEmailAdapter } from '@/ports/notification'
+import type { IEmailAdapter, INotificationStrategy } from '@/ports/notification'
 
 @Injectable()
 export class EmailStrategy implements INotificationStrategy<'EMAIL'> {

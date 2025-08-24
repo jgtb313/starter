@@ -1,15 +1,16 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository, ILike, FindOptionsWhere, DeepPartial } from 'typeorm'
-import { PaginationSchemaTransform } from '@starter/schema'
 import { capitalize } from '@starter/common'
+import { PaginationSchemaTransform } from '@starter/schema'
+import { type DeepPartial, type FindOptionsWhere, ILike, type Repository } from 'typeorm'
+import type { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity'
 
 import { deepMapDatesToISOString } from '@/support/utilities'
-import { IUserRepository } from '@/ports/database/user'
+
 import { UserEntity } from '@/adapters/database/user/user.typeorm.entity'
 import { UserDomain } from '@/core/user/user.domain'
-import { User, BaseUser } from '@/core/user/user.schema'
-import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity'
+import type { BaseUser, User } from '@/core/user/user.schema'
+import type { IUserRepository } from '@/ports/database/user'
 
 @Injectable()
 export class UserTypeorm implements IUserRepository {

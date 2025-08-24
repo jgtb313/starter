@@ -1,6 +1,6 @@
-import { Injectable, Inject } from '@nestjs/common'
+import { Inject, Injectable } from '@nestjs/common'
 
-import { IJWT } from '@/ports/jwt'
+import type { IJWT } from '@/ports/jwt'
 
 @Injectable()
 export class JWTService {

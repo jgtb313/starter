@@ -1,34 +1,91 @@
 {
 	"$schema": "https://biomejs.dev/schemas/2.2.2/schema.json",
-	"vcs": {
-		"enabled": false,
-		"clientKind": "git",
-		"useIgnoreFile": false
-	},
-	"files": {
-		"ignoreUnknown": false
-	},
-	"formatter": {
-		"enabled": true,
-		"indentStyle": "tab"
+	"files": {},
+	"assist": {
+		"actions": {
+			"source": {
+				"organizeImports": {
+					"level": "on",
+					"options": {
+						"groups": [
+							":NODE:",
+							":BLANK_LINE:",
+							["@monorepo/client"],
+							["@monorepo/ui-web"],
+							["@monorepo/ui-mobile"],
+							":BLANK_LINE:",
+							":PACKAGE:",
+							":BLANK_LINE:",
+							["@/app"],
+							["@/support/**"],
+							["@/routes/**"],
+							["@/providers/**"],
+							["@/components/**"],
+							":BLANK_LINE:",
+							["./**"],
+							":BLANK_LINE:"
+						]
+					}
+				}
+			}
+		}
 	},
 	"linter": {
 		"enabled": true,
 		"rules": {
-			"recommended": true
+			"nursery": {
+				"useSortedClasses": {
+					"level": "error",
+					"fix": "safe",
+					"options": {
+						"attributes": ["className"],
+						"functions": ["tv"]
+					}
+				}
+			},
+			"suspicious": {
+				"noEmptyInterface": "off",
+				"noArrayIndexKey": "warn"
+			},
+			"recommended": true,
+			"correctness": {
+				"noUnusedVariables": "warn",
+				"noUnusedImports": "off",
+				"useExhaustiveDependencies": "off"
+			},
+			"style": {
+				"useBlockStatements": "error",
+				"noNonNullAssertion": "off"
+			},
+			"performance": {
+				"noDelete": "off"
+			},
+			"complexity": {
+				"noBannedTypes": "off"
+			}
 		}
+	},
+	"formatter": {
+		"enabled": true,
+		"formatWithErrors": false,
+		"attributePosition": "auto",
+		"indentStyle": "tab",
+		"indentWidth": 2,
+		"lineWidth": 80,
+		"lineEnding": "lf"
 	},
 	"javascript": {
+		"jsxRuntime": "transparent",
 		"formatter": {
-			"quoteStyle": "double"
-		}
-	},
-	"assist": {
-		"enabled": true,
-		"actions": {
-			"source": {
-				"organizeImports": "on"
-			}
+			"quoteStyle": "single",
+			"jsxQuoteStyle": "single",
+			"trailingCommas": "all",
+			"semicolons": "asNeeded",
+			"arrowParentheses": "always",
+			"bracketSpacing": true,
+			"bracketSameLine": false,
+			"attributePosition": "multiline",
+			"expand": "always"
 		}
 	}
 }

@@ -1,12 +1,13 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository, ILike, FindOptionsWhere } from 'typeorm'
 import { PaginationSchemaTransform } from '@starter/schema'
+import { type FindOptionsWhere, ILike, type Repository } from 'typeorm'
 
 import { deepMapDatesToISOString } from '@/support/utilities'
-import { IWorkspaceRepository } from '@/ports/database/workspace'
+
 import { WorkspaceEntity } from '@/adapters/database/workspace/workspace.typeorm.entity'
 import { WorkspaceDomain } from '@/core/workspace/workspace.domain'
+import type { IWorkspaceRepository } from '@/ports/database/workspace'
 
 @Injectable()
 export class WorkspaceTypeorm implements IWorkspaceRepository {

@@ -1,15 +1,21 @@
 import { Injectable } from '@nestjs/common'
-import { IServerlessService } from '@starter/nestjs-serverless-hoisting'
-import { NotificationService } from '@starter/domain'
+import type { NotificationService } from '@starter/domain'
+import type { IServerlessService } from '@starter/nestjs-serverless-hoisting'
 
 export type Service = IServerlessService<{}, number>
 
 @Injectable()
 export class LambdaExampleService implements Service {
-  constructor(private readonly notificationService: NotificationService) {}
+	constructor(private readonly notificationService: NotificationService) {}
 
-  async execute() {
-    await this.notificationService.send('EMAIL', { template: 'WELCOME', recipient: 'jgtb313@gmail.com', props: { message: 'Welcome...' } })
-    return 10
-  }
+	async execute() {
+		await this.notificationService.send('EMAIL', {
+			template: 'WELCOME',
+			recipient: 'jgtb313@gmail.com',
+			props: {
+				message: 'Welcome...',
+			},
+		})
+		return 10
+	}
 }

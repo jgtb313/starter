@@ -1,17 +1,18 @@
 import { UseGuards } from '@nestjs/common'
-import { Controller, Route, Request, RequestInput } from '@starter/nestjs-server-hoisting'
-import { WorkspaceService, WorkspaceSchema, User, WorkspaceStatusEnum } from '@starter/domain'
+import { type User, WorkspaceSchema, type WorkspaceService, WorkspaceStatusEnum } from '@starter/domain'
+import { Controller, Request, RequestInput, Route } from '@starter/nestjs-server-hoisting'
 
-import { AuthGuard } from '@/support/guards'
-import { ACLService } from '@/support/access-control'
+import type { ACLService } from '@/support/access-control'
 import { AuthenticatedUser } from '@/support/decorators'
+import { AuthGuard } from '@/support/guards'
+
 import {
-  GetWorkspaceSchema,
+  type CreateWorkspaceRequest,
   CreateWorkspaceSchema,
+  type GetWorkspaceRequest,
+  GetWorkspaceSchema,
+  type UpdateWorkspaceRequest,
   UpdateWorkspaceSchema,
-  GetWorkspaceRequest,
-  CreateWorkspaceRequest,
-  UpdateWorkspaceRequest,
 } from './workspace.controller.schema'
 
 @Controller({

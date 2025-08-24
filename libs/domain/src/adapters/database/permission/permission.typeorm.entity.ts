@@ -1,24 +1,37 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm'
+import {
+	Column,
+	CreateDateColumn,
+	DeleteDateColumn,
+	Entity,
+	PrimaryGeneratedColumn,
+	UpdateDateColumn,
+} from 'typeorm'
 
-import { Permission } from '@/core/permission/permission.schema'
+import type { Permission } from '@/core/permission/permission.schema'
 
 @Entity('permissions')
 export class PermissionEntity {
-  @PrimaryGeneratedColumn('uuid')
-  permissionId: Permission['permissionId']
+	@PrimaryGeneratedColumn('uuid')
+	permissionId: Permission['permissionId']
 
-  @Column({ type: 'varchar' })
-  action: Permission['action']
+	@Column({
+		type: 'varchar',
+	})
+	action: Permission['action']
 
-  @Column({ type: 'varchar' })
-  name: Permission['name']
+	@Column({
+		type: 'varchar',
+	})
+	name: Permission['name']
 
-  @Column({ type: 'varchar' })
-  description: Permission['description']
+	@Column({
+		type: 'varchar',
+	})
+	description: Permission['description']
 
-  @CreateDateColumn({})
-  createdAt: Permission['createdAt']
+	@CreateDateColumn({})
+	createdAt: Permission['createdAt']
 
-  @UpdateDateColumn({})
-  updatedAt: Permission['updatedAt']
+	@UpdateDateColumn({})
+	updatedAt: Permission['updatedAt']
 }

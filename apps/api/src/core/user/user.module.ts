@@ -4,7 +4,11 @@ import { UserServiceModule } from '@starter/domain'
 import { UserController } from './user.controller'
 
 @Module({
-  imports: [UserServiceModule],
-  controllers: [UserController],
+	imports: [
+		UserServiceModule,
+	],
+	controllers: [
+		UserController,
+	],
 })
 export class UserModule {}

@@ -1,14 +1,15 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository, ILike, In, FindOptionsWhere, DeepPartial } from 'typeorm'
-import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity'
 import { PaginationSchemaTransform } from '@starter/schema'
+import { type DeepPartial, type FindOptionsWhere, ILike, In, type Repository } from 'typeorm'
+import type { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity'
 
 import { deepMapDatesToISOString } from '@/support/utilities'
-import { IOrganizationRepository } from '@/ports/database/organization'
+
 import { OrganizationEntity } from '@/adapters/database/organization/organization.typeorm.entity'
 import { OrganizationDomain } from '@/core/organization/organization.domain'
-import { Organization, BaseOrganization } from '@/core/organization/organization.schema'
+import type { BaseOrganization, Organization } from '@/core/organization/organization.schema'
+import type { IOrganizationRepository } from '@/ports/database/organization'
 
 @Injectable()
 export class OrganizationTypeorm implements IOrganizationRepository {

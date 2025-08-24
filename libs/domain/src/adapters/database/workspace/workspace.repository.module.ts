@@ -5,13 +5,19 @@ import { WorkspaceTypeorm } from '@/adapters/database/workspace/workspace.typeor
 import { WorkspaceEntity } from '@/adapters/database/workspace/workspace.typeorm.entity'
 
 @Module({
-  imports: [TypeOrmModule.forFeature([WorkspaceEntity])],
-  providers: [
-    {
-      provide: 'WORKSPACE_REPOSITORY',
-      useClass: WorkspaceTypeorm,
-    },
-  ],
-  exports: ['WORKSPACE_REPOSITORY'],
+	imports: [
+		TypeOrmModule.forFeature([
+			WorkspaceEntity,
+		]),
+	],
+	providers: [
+		{
+			provide: 'WORKSPACE_REPOSITORY',
+			useClass: WorkspaceTypeorm,
+		},
+	],
+	exports: [
+		'WORKSPACE_REPOSITORY',
+	],
 })
 export class WorkspaceRepositoryModule {}

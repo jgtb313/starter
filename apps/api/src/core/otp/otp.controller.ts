@@ -1,20 +1,21 @@
 import { UseGuards } from '@nestjs/common'
-import { Controller, Route, Request } from '@starter/nestjs-server-hoisting'
-import { OTPSchema, OTPService, User } from '@starter/domain'
 import { uuid } from '@starter/common'
+import { OTPSchema, type OTPService, type User } from '@starter/domain'
+import { Controller, Request, Route } from '@starter/nestjs-server-hoisting'
 
-import { AuthGuard } from '@/support/guards'
 import { AuthenticatedUser } from '@/support/decorators'
+import { AuthGuard } from '@/support/guards'
+
 import {
-  ValidateOTPSchema,
-  SendPasswordLessSchema,
+  type SendForgotPasswordOTPRequest,
   SendForgotPasswordOTPSchema,
+  SendPasswordLessSchema,
+  type SendUpdateEmailOTPRequest,
   SendUpdateEmailOTPSchema,
+  type SendUpdatePhoneOTPRequest,
   SendUpdatePhoneOTPSchema,
-  ValidateOTPRequest,
-  SendForgotPasswordOTPRequest,
-  SendUpdateEmailOTPRequest,
-  SendUpdatePhoneOTPRequest,
+  type ValidateOTPRequest,
+  ValidateOTPSchema,
 } from '@/core/otp/otp.controller.schema'
 
 @Controller({

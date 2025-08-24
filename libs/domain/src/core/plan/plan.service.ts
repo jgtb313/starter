@@ -1,10 +1,10 @@
-import { Injectable, Inject } from '@nestjs/common'
+import { Inject, Injectable } from '@nestjs/common'
 import { uuid } from '@starter/common'
 
-import { IPlanRepository } from '@/ports/database/plan'
-import { RecurrenceService } from '@/adapters/recurrence'
+import type { RecurrenceService } from '@/adapters/recurrence'
 import { PlanStatusEnum } from '@/core/plan/plan.schema'
-import { IPlanService } from '@/core/plan/plan.service.interface'
+import type { IPlanService } from '@/core/plan/plan.service.interface'
+import type { IPlanRepository } from '@/ports/database/plan'
 
 @Injectable()
 export class PlanService implements IPlanService {

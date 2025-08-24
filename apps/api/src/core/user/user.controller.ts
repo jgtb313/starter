@@ -1,21 +1,22 @@
 import { UseGuards } from '@nestjs/common'
-import { Controller, Route, Request } from '@starter/nestjs-server-hoisting'
-import { UserService, UserSchema, User, UserStatusEnum } from '@starter/domain'
+import { type User, UserSchema, type UserService, UserStatusEnum } from '@starter/domain'
+import { Controller, Request, Route } from '@starter/nestjs-server-hoisting'
 
-import { AuthGuard } from '@/support/guards'
-import { ACLService } from '@/support/access-control'
+import type { ACLService } from '@/support/access-control'
 import { AuthenticatedUser } from '@/support/decorators'
+import { AuthGuard } from '@/support/guards'
+
 import {
-  ListUsersSchema,
-  GetUserSchema,
+  type CreateUserRequest,
   CreateUserSchema,
-  UpdateUserSchema,
-  DeleteUserSchema,
-  ListUsersRequest,
-  GetUserRequest,
-  CreateUserRequest,
-  UpdateUserRequest,
   DeleteUserRequest,
+  DeleteUserSchema,
+  type GetUserRequest,
+  GetUserSchema,
+  type ListUsersRequest,
+  ListUsersSchema,
+  type UpdateUserRequest,
+  UpdateUserSchema,
 } from './user.controller.schema'
 
 @Controller({

@@ -1,11 +1,17 @@
-import { OTPDomain } from '@/core/otp/otp.domain'
-import { OTP, BaseOTP } from '@/core/otp/otp.schema'
-import { OTPContextEnum } from '@/core/otp/otp-context.schema'
+import type { OTPDomain } from '@/core/otp/otp.domain'
+import type { BaseOTP, OTP } from '@/core/otp/otp.schema'
+import type { OTPContextEnum } from '@/core/otp/otp-context.schema'
 
 export type IOTPRepository = {
-  findById(otpId: string): Promise<OTPDomain>
-  findMostRecent(recipient: string, context: OTPContextEnum): Promise<OTPDomain | null>
-  countTodayAttempts(recipient: string, context: OTPContextEnum): Promise<number>
-  create(input: BaseOTP): Promise<OTPDomain>
-  updateById(otpId: string, input: Partial<OTP>): Promise<OTPDomain>
+	findById(otpId: string): Promise<OTPDomain>
+	findMostRecent(
+		recipient: string,
+		context: OTPContextEnum,
+	): Promise<OTPDomain | null>
+	countTodayAttempts(
+		recipient: string,
+		context: OTPContextEnum,
+	): Promise<number>
+	create(input: BaseOTP): Promise<OTPDomain>
+	updateById(otpId: string, input: Partial<OTP>): Promise<OTPDomain>
 }

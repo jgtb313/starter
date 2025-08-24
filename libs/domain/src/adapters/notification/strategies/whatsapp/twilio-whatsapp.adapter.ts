@@ -1,8 +1,8 @@
 import { Inject } from '@nestjs/common'
-import { ConfigService } from '@nestjs/config'
-import { Twilio } from 'twilio'
+import type { ConfigService } from '@nestjs/config'
+import type { Twilio } from 'twilio'
 
-import { IWhatsappAdapter } from '@/ports/notification'
+import type { IWhatsappAdapter } from '@/ports/notification'
 
 export class TwillioWhatsappAdapter implements IWhatsappAdapter {
   private readonly TWILIO_WHATSAPP_FROM: string

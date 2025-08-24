@@ -1,6 +1,6 @@
-import { Injectable, Inject } from '@nestjs/common'
+import { Inject, Injectable } from '@nestjs/common'
 
-import { IRecurrence, IRecurrenceAdapter } from '@/ports/recurrence'
+import type { IRecurrence, IRecurrenceAdapter } from '@/ports/recurrence'
 
 @Injectable()
 export class RecurrenceService implements IRecurrence {

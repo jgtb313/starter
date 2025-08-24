@@ -1,11 +1,12 @@
 import { UseGuards } from '@nestjs/common'
-import { Controller, Route, Request } from '@starter/nestjs-server-hoisting'
-import { InvoiceService, InvoiceSchema, User } from '@starter/domain'
+import { InvoiceSchema, type InvoiceService, type User } from '@starter/domain'
+import { Controller, Request, Route } from '@starter/nestjs-server-hoisting'
 
-import { AuthGuard } from '@/support/guards'
-import { ACLService } from '@/support/access-control'
+import type { ACLService } from '@/support/access-control'
 import { AuthenticatedUser } from '@/support/decorators'
-import { ListInvoicesSchema, GetInvoiceSchema, ListInvoicesRequest, GetInvoiceRequest } from '@/core/invoice/invoice.controller.schema'
+import { AuthGuard } from '@/support/guards'
+
+import { type GetInvoiceRequest, GetInvoiceSchema, type ListInvoicesRequest, ListInvoicesSchema } from '@/core/invoice/invoice.controller.schema'
 
 @Controller({
   name: 'Invoice',

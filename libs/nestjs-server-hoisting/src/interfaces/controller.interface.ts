@@ -1,10 +1,16 @@
-import { ZodSchema } from '@starter/schema'
+import type { ZodSchema } from '@starter/schema'
 
 export interface ControllerOptions {
-  name: string
-  description: string
+	name: string
+	description: string
 
-  basePath: string
+	basePath: string
 
-  schemas: Record<string, { schema: ZodSchema; description?: string }>
+	schemas: Record<
+		string,
+		{
+			schema: ZodSchema
+			description?: string
+		}
+	>
 }

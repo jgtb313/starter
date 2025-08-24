@@ -1,9 +1,9 @@
 import { bootstrap } from '../src/main'
 
 const execute = async () => {
-  const app = await bootstrap()
+	const app = await bootstrap()
 
-  app.close()
+	app.close()
 }
 
 execute()

@@ -5,13 +5,19 @@ import { InvoiceTypeorm } from '@/adapters/database/invoice/invoice.typeorm.adap
 import { InvoiceEntity } from '@/adapters/database/invoice/invoice.typeorm.entity'
 
 @Module({
-  imports: [TypeOrmModule.forFeature([InvoiceEntity])],
-  providers: [
-    {
-      provide: 'INVOICE_REPOSITORY',
-      useClass: InvoiceTypeorm,
-    },
-  ],
-  exports: ['INVOICE_REPOSITORY'],
+	imports: [
+		TypeOrmModule.forFeature([
+			InvoiceEntity,
+		]),
+	],
+	providers: [
+		{
+			provide: 'INVOICE_REPOSITORY',
+			useClass: InvoiceTypeorm,
+		},
+	],
+	exports: [
+		'INVOICE_REPOSITORY',
+	],
 })
 export class InvoiceRepositoryModule {}

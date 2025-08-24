@@ -1,10 +1,16 @@
 import { z } from '@starter/schema'
 
-import { ID, DeletedAt, CreatedAt, UpdatedAt, BaseSchema } from '@/support/schema'
+import {
+	type BaseSchema,
+	CreatedAt,
+	DeletedAt,
+	ID,
+	UpdatedAt,
+} from '@/support/schema'
 
 export enum OrganizationStatusEnum {
-  'ACTIVE' = 'ACTIVE',
-  'INACTIVE' = 'INACTIVE',
+	ACTIVE = 'ACTIVE',
+	INACTIVE = 'INACTIVE',
 }
 
 const OrganizationId = ID('organization')
@@ -13,16 +19,18 @@ const WorkspaceId = ID('workspace')
 
 const Name = z.string().min(1)
 
-const Status = z.enum(OrganizationStatusEnum).default(OrganizationStatusEnum.ACTIVE)
+const Status = z
+	.enum(OrganizationStatusEnum)
+	.default(OrganizationStatusEnum.ACTIVE)
 
 export const OrganizationSchema = z.object({
-  organizationId: OrganizationId,
-  workspaceId: WorkspaceId,
-  name: Name,
-  status: Status,
-  deletedAt: DeletedAt,
-  createdAt: CreatedAt,
-  updatedAt: UpdatedAt,
+	organizationId: OrganizationId,
+	workspaceId: WorkspaceId,
+	name: Name,
+	status: Status,
+	deletedAt: DeletedAt,
+	createdAt: CreatedAt,
+	updatedAt: UpdatedAt,
 })
 export type Organization = z.infer<typeof OrganizationSchema>
 export type OrganizationInput = z.input<typeof OrganizationSchema>

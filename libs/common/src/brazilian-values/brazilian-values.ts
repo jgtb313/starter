@@ -1,1 +1,8 @@
-export { isCPFOrCNPJ, isCPF, isCNPJ, formatToPhone, formatToCPFOrCNPJ, formatToCapitalized } from 'brazilian-values'
+export {
+	formatToCapitalized,
+	formatToCPFOrCNPJ,
+	formatToPhone,
+	isCNPJ,
+	isCPF,
+	isCPFOrCNPJ,
+} from 'brazilian-values'

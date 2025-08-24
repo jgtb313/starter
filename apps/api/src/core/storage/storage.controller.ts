@@ -1,7 +1,7 @@
-import { Controller, Route, Request } from '@starter/nestjs-server-hoisting'
+import { Controller, Request, Route } from '@starter/nestjs-server-hoisting'
 
-import { StorageService } from '@/core/storage/storage.service'
-import { GetPresignedUrlSchema, GetPresignedUrlRequest } from '@/core/storage/storage.controller.schema'
+import { type GetPresignedUrlRequest, GetPresignedUrlSchema } from '@/core/storage/storage.controller.schema'
+import type { StorageService } from '@/core/storage/storage.service'
 
 @Controller({
   name: 'Storage',

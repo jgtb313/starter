@@ -1,35 +1,39 @@
 import { Controller, Route } from '@starter/nestjs-server-hoisting'
 import { z } from '@starter/schema'
 
-import { PermissionSubjectSchema, PERMISSION_SUBJECT_ACTIONS } from '@/support/access-control/permission'
+import {
+	PERMISSION_SUBJECT_ACTIONS,
+	PermissionSubjectSchema,
+} from '@/support/access-control/permission'
 
 @Controller({
-  name: 'Permission',
+	name: 'Permission',
 
-  description: 'Handles operations for retrieving permissions.',
+	description: 'Handles operations for retrieving permissions.',
 
-  basePath: 'permissions',
+	basePath: 'permissions',
 
-  schemas: {},
+	schemas: {},
 })
 export class PermissionController {
-  constructor() {}
+	constructor() {}
 
-  @Route({
-    summary: 'List Permissions',
-    description: 'Retrieves a list of all available permission used for access control within the API.',
+	@Route({
+		summary: 'List Permissions',
+		description:
+			'Retrieves a list of all available permission used for access control within the API.',
 
-    method: 'GET',
+		method: 'GET',
 
-    parameters: {},
+		parameters: {},
 
-    responses: {
-      200: {
-        schema: z.array(PermissionSubjectSchema),
-      },
-    },
-  })
-  async getPermissions() {
-    return Object.values(PERMISSION_SUBJECT_ACTIONS).flat()
-  }
+		responses: {
+			200: {
+				schema: z.array(PermissionSubjectSchema),
+			},
+		},
+	})
+	async getPermissions() {
+		return Object.values(PERMISSION_SUBJECT_ACTIONS).flat()
+	}
 }

@@ -1,17 +1,20 @@
 export type GetPresignedUrlOptions = {
-  expiresInSeconds?: number
+	expiresInSeconds?: number
 }
 
 export type IPresignedUrlAdapter = {
-  getPresignedUrl(fileName: string, options?: GetPresignedUrlOptions): Promise<string>
+	getPresignedUrl(
+		fileName: string,
+		options?: GetPresignedUrlOptions,
+	): Promise<string>
 }
 
 export type IPresignedUrl = {
-  getPresignedUrl(
-    fileName: string,
-    options?: GetPresignedUrlOptions,
-  ): Promise<{
-    fileName: string
-    fileNameSigned: string
-  }>
+	getPresignedUrl(
+		fileName: string,
+		options?: GetPresignedUrlOptions,
+	): Promise<{
+		fileName: string
+		fileNameSigned: string
+	}>
 }

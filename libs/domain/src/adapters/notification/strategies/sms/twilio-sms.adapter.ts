@@ -1,8 +1,8 @@
 import { Inject } from '@nestjs/common'
-import { ConfigService } from '@nestjs/config'
-import { Twilio } from 'twilio'
+import type { ConfigService } from '@nestjs/config'
+import type { Twilio } from 'twilio'
 
-import { ISMSAdapter } from '@/ports/notification'
+import type { ISMSAdapter } from '@/ports/notification'
 
 export class TwilioSMSAdapter implements ISMSAdapter {
   private readonly TWILIO_SMS_FROM: string

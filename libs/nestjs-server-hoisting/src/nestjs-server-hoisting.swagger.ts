@@ -1,66 +1,82 @@
-import { join } from 'node:path'
 import { writeFileSync } from 'node:fs'
-import { INestApplication } from '@nestjs/common'
+import { join } from 'node:path'
+
+import type { INestApplication } from '@nestjs/common'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
-import { Request, Response } from 'express'
-import { config } from '@starter/config'
 import { set } from '@starter/common'
+import { config } from '@starter/config'
+import type { Request, Response } from 'express'
 
 import { zodSchemaToJSONSchema } from '@/decorators'
 import { StateManager } from '@/nestjs-server-hoisting.state'
 
 export type NestServerHoistingSwaggerOptions = {
-  title: string
-  description: string
-  favicon: string
-  server: string
+	title: string
+	description: string
+	favicon: string
+	server: string
 }
 
-export const registerSwagger = (app: INestApplication, options: NestServerHoistingSwaggerOptions) => {
-  const state = StateManager.getState()
+export const registerSwagger = (
+	app: INestApplication,
+	options: NestServerHoistingSwaggerOptions,
+) => {
+	const state = StateManager.getState()
 
-  const builder = new DocumentBuilder()
+	const builder = new DocumentBuilder()
 
-  builder.setTitle(options.title)
-  builder.setDescription(options.description)
+	builder.setTitle(options.title)
+	builder.setDescription(options.description)
 
-  builder.addServer(options.server)
+	builder.addServer(options.server)
 
-  builder.addBearerAuth(
-    {
-      type: 'http',
-      name: 'Bearer',
-      scheme: 'Bearer',
-      bearerFormat: 'JWT',
-    },
-    'Bearer',
-  )
+	builder.addBearerAuth(
+		{
+			type: 'http',
+			name: 'Bearer',
+			scheme: 'Bearer',
+			bearerFormat: 'JWT',
+		},
+		'Bearer',
+	)
 
-  Object.values(state.controllers).forEach((controller) => builder.addTag(controller.name, controller.description))
+	Object.values(state.controllers).forEach((controller) =>
+		builder.addTag(controller.name, controller.description),
+	)
 
-  const builderConfig = builder.build()
+	const builderConfig = builder.build()
 
-  const document = SwaggerModule.createDocument(app, builderConfig)
+	const document = SwaggerModule.createDocument(app, builderConfig)
 
-  const schemas = {}
+	const schemas = {}
 
-  Object.values(state.controllers).forEach((controller) => {
-    Object.entries(controller.schemas).forEach(([schemaName, { schema, description }]) => {
-      set(schemas, schemaName, zodSchemaToJSONSchema(schema.meta({ description })))
-    })
-  })
+	Object.values(state.controllers).forEach((controller) => {
+		Object.entries(controller.schemas).forEach(
+			([schemaName, { schema, description }]) => {
+				set(
+					schemas,
+					schemaName,
+					zodSchemaToJSONSchema(
+						schema.meta({
+							description,
+						}),
+					),
+				)
+			},
+		)
+	})
 
-  set(document.components ?? {}, 'schemas', schemas)
+	set(document.components ?? {}, 'schemas', schemas)
 
-  const http = app.getHttpAdapter()
+	const http = app.getHttpAdapter()
 
-  http.get('/openapi', (_: Request, res: Response) => {
-    res.json(document)
-  })
+	http.get('/openapi', (_: Request, res: Response) => {
+		res.json(document)
+	})
 
-  http.get('/reference', (_, res) => {
-    res.setHeader('Content-Type', 'text/html')
-    res.send(`
+	http.get('/reference', (_, res) => {
+		res.setHeader('Content-Type', 'text/html')
+		res.send(`
         <!doctype html>
         <html lang="en" data-theme="dark">
           <head>
@@ -114,9 +130,9 @@ export const registerSwagger = (app: INestApplication, options: NestServerHoisti
           </body>
         </html>
       `)
-  })
+	})
 
-  const outputPath = join(__dirname, '../../..', 'openapi-spec.json')
+	const outputPath = join(__dirname, '../../..', 'openapi-spec.json')
 
-  writeFileSync(outputPath, JSON.stringify(document, null, 2))
+	writeFileSync(outputPath, JSON.stringify(document, null, 2))
 }

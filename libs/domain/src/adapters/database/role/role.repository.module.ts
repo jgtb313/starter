@@ -7,13 +7,21 @@ import { RoleOrganizationEntity } from '@/adapters/database/role/role-organizati
 import { RolePermissionEntity } from '@/adapters/database/role/role-permission.typeorm.entity'
 
 @Module({
-  imports: [TypeOrmModule.forFeature([RoleEntity, RoleOrganizationEntity, RolePermissionEntity])],
-  providers: [
-    {
-      provide: 'ROLE_REPOSITORY',
-      useClass: RoleTypeorm,
-    },
-  ],
-  exports: ['ROLE_REPOSITORY'],
+	imports: [
+		TypeOrmModule.forFeature([
+			RoleEntity,
+			RoleOrganizationEntity,
+			RolePermissionEntity,
+		]),
+	],
+	providers: [
+		{
+			provide: 'ROLE_REPOSITORY',
+			useClass: RoleTypeorm,
+		},
+	],
+	exports: [
+		'ROLE_REPOSITORY',
+	],
 })
 export class RoleRepositoryModule {}

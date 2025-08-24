@@ -1,2 +1,2 @@
-export * from './role.typeorm.entity'
 export * from './role.repository.module'
+export * from './role.typeorm.entity'

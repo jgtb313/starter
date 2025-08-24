@@ -1,11 +1,12 @@
-import { Injectable, Inject, forwardRef } from '@nestjs/common'
+import { forwardRef, Inject, Injectable } from '@nestjs/common'
 import { AclForbiddenException } from '@starter/nestjs-error-handling'
-import { Pagination } from '@starter/schema'
+import type { Pagination } from '@starter/schema'
 
-import { createWorkspaceReference, WithWorkspaceReference } from '@/support/workspace-reference'
-import { IOrganizationRepository } from '@/ports/database/organization'
-import { Organization, BaseOrganization } from '@/core/organization/organization.schema'
+import { createWorkspaceReference, type WithWorkspaceReference } from '@/support/workspace-reference'
+
+import type { BaseOrganization, Organization } from '@/core/organization/organization.schema'
 import { WorkspaceService } from '@/core/workspace/workspace.service'
+import type { IOrganizationRepository } from '@/ports/database/organization'
 
 export type OrganizationWorkspaceReference = WithWorkspaceReference<'organizationId'>
 export const getOrganizationWorkspaceReference = createWorkspaceReference('organizationId')

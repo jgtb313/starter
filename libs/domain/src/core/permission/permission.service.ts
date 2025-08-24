@@ -1,7 +1,7 @@
-import { Injectable, Inject } from '@nestjs/common'
+import { Inject, Injectable } from '@nestjs/common'
 
-import { IPermissionRepository } from '@/ports/database/permission'
-import { IPermissionService } from '@/core/permission/permission.service.interface'
+import type { IPermissionService } from '@/core/permission/permission.service.interface'
+import type { IPermissionRepository } from '@/ports/database/permission'
 
 @Injectable()
 export class PermissionService implements IPermissionService {

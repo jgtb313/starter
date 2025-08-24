@@ -1,6 +1,6 @@
 import { z } from '@starter/schema'
 
-import { ID, CreatedAt, UpdatedAt, BaseSchema } from '@/support/schema'
+import { type BaseSchema, CreatedAt, ID, UpdatedAt } from '@/support/schema'
 
 const PermissionId = ID('permission')
 
@@ -11,12 +11,12 @@ const Name = z.string().min(1)
 const Description = z.string().min(1)
 
 export const PermissionSchema = z.object({
-  permissionId: PermissionId,
-  action: Action,
-  name: Name,
-  description: Description,
-  createdAt: CreatedAt,
-  updatedAt: UpdatedAt,
+	permissionId: PermissionId,
+	action: Action,
+	name: Name,
+	description: Description,
+	createdAt: CreatedAt,
+	updatedAt: UpdatedAt,
 })
 export type Permission = z.infer<typeof PermissionSchema>
 export type PermissionInput = z.input<typeof PermissionSchema>

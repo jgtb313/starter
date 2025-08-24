@@ -1,7 +1,5 @@
 export type { ZodSchema, ZodType } from 'zod'
 
-export { z } from './zod'
-
 export * from './address'
 export * from './birthday'
 export * from './boleto'
@@ -15,3 +13,4 @@ export * from './payment-card'
 export * from './phone'
 export * from './pix'
 export * from './sort'
+export { z } from './zod'

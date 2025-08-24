@@ -1,14 +1,15 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository, ILike, FindOptionsWhere, DeepPartial } from 'typeorm'
-import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity'
 import { PaginationSchemaTransform } from '@starter/schema'
+import { type DeepPartial, type FindOptionsWhere, ILike, type Repository } from 'typeorm'
+import type { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity'
 
 import { deepMapDatesToISOString } from '@/support/utilities'
-import { IPlanRepository } from '@/ports/database/plan'
+
 import { PlanEntity } from '@/adapters/database/plan/plan.typeorm.entity'
 import { PlanDomain } from '@/core/plan/plan.domain'
-import { Plan, BasePlan } from '@/core/plan/plan.schema'
+import type { BasePlan, Plan } from '@/core/plan/plan.schema'
+import type { IPlanRepository } from '@/ports/database/plan'
 
 @Injectable()
 export class PlanTypeorm implements IPlanRepository {

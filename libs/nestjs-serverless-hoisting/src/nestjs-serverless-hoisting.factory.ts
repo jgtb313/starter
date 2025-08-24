@@ -1,74 +1,86 @@
+import {
+	ConsoleLogger,
+	type DynamicModule,
+	type ForwardReference,
+	type INestApplicationContext,
+	type Type,
+} from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
-import { ConsoleLogger, INestApplicationContext, Type, DynamicModule, ForwardReference } from '@nestjs/common'
 
-import { IServerlessService } from '@/interfaces'
-import { parseLambdaEvent, LambdaEvent } from './parse-lambda-event'
+import { type LambdaEvent, parseLambdaEvent } from './parse-lambda-event'
+
+import type { IServerlessService } from '@/interfaces'
 
 export type NestServerlessHoistingOptions = {}
 
 export interface IServerlessHoistingApplicationContext<K = unknown> {
-  execute(event: LambdaEvent): Promise<K>
+	execute(event: LambdaEvent): Promise<K>
 }
 
-type IEntryNestModule = Type<any> | DynamicModule | ForwardReference | Promise<IEntryNestModule>
+type IEntryNestModule =
+	| Type<any>
+	| DynamicModule
+	| ForwardReference
+	| Promise<IEntryNestModule>
 
 class CustomLogger extends ConsoleLogger {
-  instanceLoaders: string[] = []
+	instanceLoaders: string[] = []
 
-  log(message: string, context?: string) {
-    if (context === 'InstanceLoader') {
-      const [moduleName, ...parts] = message.split(' ')
+	log(message: string, context?: string) {
+		if (context === 'InstanceLoader') {
+			const [moduleName, ...parts] = message.split(' ')
 
-      const cleanMessage = `${moduleName.replace(/\d+/g, '')} ${parts.join(' ')}`
+			const cleanMessage = `${moduleName.replace(/\d+/g, '')} ${parts.join(' ')}`
 
-      if (!this.instanceLoaders.includes(cleanMessage)) {
-        super.log(cleanMessage, context)
-      }
+			if (!this.instanceLoaders.includes(cleanMessage)) {
+				super.log(cleanMessage, context)
+			}
 
-      this.instanceLoaders.push(cleanMessage)
+			this.instanceLoaders.push(cleanMessage)
 
-      return
-    }
+			return
+		}
 
-    super.log(message, context)
-  }
+		super.log(message, context)
+	}
 }
 
 const create = async <T extends {}, K extends {}>(
-  entryModule: IEntryNestModule,
-  serviceClass: Type<IServerlessService<T, K>>,
-  options?: NestServerlessHoistingOptions,
+	entryModule: IEntryNestModule,
+	serviceClass: Type<IServerlessService<T, K>>,
+	options?: NestServerlessHoistingOptions,
 ) => {
-  if (!('execute' in serviceClass.prototype)) {
-    throw new Error('The provided class must have an "execute" method.')
-  }
+	if (!('execute' in serviceClass.prototype)) {
+		throw new Error('The provided class must have an "execute" method.')
+	}
 
-  const app: INestApplicationContext = await NestFactory.createApplicationContext(entryModule, {
-    logger: new CustomLogger(),
-  })
+	const app: INestApplicationContext =
+		await NestFactory.createApplicationContext(entryModule, {
+			logger: new CustomLogger(),
+		})
 
-  const execute = async (event: LambdaEvent) => {
-    const service = app.get(serviceClass)
+	const execute = async (event: LambdaEvent) => {
+		const service = app.get(serviceClass)
 
-    const input = parseLambdaEvent<T>(event)
+		const input = parseLambdaEvent<T>(event)
 
-    const result = await service.execute(input)
+		const result = await service.execute(input)
 
-    await app.close()
+		await app.close()
 
-    return result
-  }
+		return result
+	}
 
-  Reflect.defineProperty(app, 'execute', {
-    value: execute,
-    writable: false,
-    enumerable: false,
-    configurable: false,
-  })
+	Reflect.defineProperty(app, 'execute', {
+		value: execute,
+		writable: false,
+		enumerable: false,
+		configurable: false,
+	})
 
-  return app as unknown as IServerlessHoistingApplicationContext<K>
+	return app as unknown as IServerlessHoistingApplicationContext<K>
 }
 
 export const NestServerlessHoistingFactory = {
-  create,
+	create,
 }

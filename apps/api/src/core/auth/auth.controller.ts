@@ -1,20 +1,20 @@
 import { UnauthorizedException } from '@nestjs/common'
-import { Controller, Route, Request } from '@starter/nestjs-server-hoisting'
-import { OTPService, UserService, OTPContextEnum } from '@starter/domain'
+import { OTPContextEnum, type OTPService, type UserService } from '@starter/domain'
+import { Controller, Request, Route } from '@starter/nestjs-server-hoisting'
 
-import { AuthService } from '@/core/auth/auth.service'
 import {
-  SignInSchema,
-  PasswordLessSchema,
-  SocialSignOnSchema,
-  SignUpSchema,
+  type ForgotPasswordRequest,
   ForgotPasswordSchema,
-  SignInRequest,
-  PasswordLessRequest,
-  SocialSignOnRequest,
-  SignUpRequest,
-  ForgotPasswordRequest,
+  type PasswordLessRequest,
+  PasswordLessSchema,
+  type SignInRequest,
+  SignInSchema,
+  type SignUpRequest,
+  SignUpSchema,
+  type SocialSignOnRequest,
+  SocialSignOnSchema,
 } from '@/core/auth/auth.controller.schema'
+import type { AuthService } from '@/core/auth/auth.service'
 
 @Controller({
   name: 'Auth',

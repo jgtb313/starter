@@ -1,7 +1,8 @@
-import { Injectable, Inject } from '@nestjs/common'
+import { Inject, Injectable } from '@nestjs/common'
 
-import { INotificationStrategy, IMobilePushAdapter } from '@/ports/notification'
 import { templates } from './mobile-push.templates'
+
+import type { IMobilePushAdapter, INotificationStrategy } from '@/ports/notification'
 
 @Injectable()
 export class MobilePushStrategy implements INotificationStrategy<'MOBILE_PUSH'> {

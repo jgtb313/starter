@@ -1,102 +1,123 @@
-import { createRequestSchema, RequestInput } from '@starter/nestjs-server-hoisting'
-import { z, PaginationSchema, BasePaginationSchemaOutput } from '@starter/schema'
 import { ID, UserSchema } from '@starter/domain'
+import {
+	createRequestSchema,
+	type RequestInput,
+} from '@starter/nestjs-server-hoisting'
+import {
+	BasePaginationSchemaOutput,
+	PaginationSchema,
+	z,
+} from '@starter/schema'
 
 import { FilterSchema } from '@/support/schema'
 
 export const ListUsersSchema = createRequestSchema({
-  params: z.object({
-    workspaceId: ID('workspace'),
-  }),
-  query: UserSchema.pick({
-    name: true,
-    status: true,
-  })
-    .partial()
-    .merge(
-      z
-        .object({
-          filter: FilterSchema(['name', 'email'], { example: 'John Doe' }),
-        })
-        .partial(),
-    )
-    .and(PaginationSchema),
-  output: BasePaginationSchemaOutput.merge(z.object({ values: z.array(UserSchema) })),
+	params: z.object({
+		workspaceId: ID('workspace'),
+	}),
+	query: UserSchema.pick({
+		name: true,
+		status: true,
+	})
+		.partial()
+		.merge(
+			z
+				.object({
+					filter: FilterSchema(
+						[
+							'name',
+							'email',
+						],
+						{
+							example: 'John Doe',
+						},
+					),
+				})
+				.partial(),
+		)
+		.and(PaginationSchema),
+	output: BasePaginationSchemaOutput.merge(
+		z.object({
+			values: z.array(UserSchema),
+		}),
+	),
 })
 export type ListUsersRequest = RequestInput<typeof ListUsersSchema>
 
 export const GetUserSchema = createRequestSchema({
-  params: UserSchema.pick({
-    userId: true,
-  }).and(
-    z.object({
-      workspaceId: ID('workspace'),
-    }),
-  ),
-  output: UserSchema,
+	params: UserSchema.pick({
+		userId: true,
+	}).and(
+		z.object({
+			workspaceId: ID('workspace'),
+		}),
+	),
+	output: UserSchema,
 })
 export type GetUserRequest = RequestInput<typeof GetUserSchema>
 
 export const CreateUserSchema = createRequestSchema({
-  params: z.object({
-    workspaceId: ID('workspace'),
-  }),
-  body: UserSchema.pick({
-    permissions: true,
-    name: true,
-    email: true,
-    phone: true,
-    avatar: true,
-    password: true,
-  }).and(
-    z.object({
-      organizations: z.array(
-        z.object({
-          organizationId: ID('organization'),
-          roleIds: z.array(ID('role')),
-        }),
-      ),
-    }),
-  ),
-  output: UserSchema,
+	params: z.object({
+		workspaceId: ID('workspace'),
+	}),
+	body: UserSchema.pick({
+		permissions: true,
+		name: true,
+		email: true,
+		phone: true,
+		avatar: true,
+		password: true,
+	}).and(
+		z.object({
+			organizations: z.array(
+				z.object({
+					organizationId: ID('organization'),
+					roleIds: z.array(ID('role')),
+				}),
+			),
+		}),
+	),
+	output: UserSchema,
 })
 export type CreateUserRequest = RequestInput<typeof CreateUserSchema>
 
 export const UpdateUserSchema = createRequestSchema({
-  params: UserSchema.pick({ userId: true }).and(
-    z.object({
-      workspaceId: ID('workspace'),
-    }),
-  ),
-  body: UserSchema.pick({
-    name: true,
-    status: true,
-  })
-    .partial()
-    .and(
-      z
-        .object({
-          organizations: z.array(
-            z.object({
-              organizationId: ID('organization'),
-              roleIds: z.array(ID('role')),
-            }),
-          ),
-        })
-        .partial(),
-    ),
-  output: UserSchema,
+	params: UserSchema.pick({
+		userId: true,
+	}).and(
+		z.object({
+			workspaceId: ID('workspace'),
+		}),
+	),
+	body: UserSchema.pick({
+		name: true,
+		status: true,
+	})
+		.partial()
+		.and(
+			z
+				.object({
+					organizations: z.array(
+						z.object({
+							organizationId: ID('organization'),
+							roleIds: z.array(ID('role')),
+						}),
+					),
+				})
+				.partial(),
+		),
+	output: UserSchema,
 })
 export type UpdateUserRequest = RequestInput<typeof UpdateUserSchema>
 
 export const DeleteUserSchema = createRequestSchema({
-  params: UserSchema.pick({
-    userId: true,
-  }).and(
-    z.object({
-      workspaceId: ID('workspace'),
-    }),
-  ),
-  output: UserSchema,
+	params: UserSchema.pick({
+		userId: true,
+	}).and(
+		z.object({
+			workspaceId: ID('workspace'),
+		}),
+	),
+	output: UserSchema,
 })
 export type DeleteUserRequest = RequestInput<typeof DeleteUserSchema>

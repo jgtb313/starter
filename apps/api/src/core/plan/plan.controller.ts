@@ -1,7 +1,7 @@
-import { Controller, Route, Request } from '@starter/nestjs-server-hoisting'
-import { PlanService, PlanSchema, PlanStatusEnum } from '@starter/domain'
+import { PlanSchema, type PlanService, PlanStatusEnum } from '@starter/domain'
+import { Controller, Request, Route } from '@starter/nestjs-server-hoisting'
 
-import { ListPlansSchema, GetPlanSchema, ListPlansRequest, GetPlanRequest } from '@/core/plan/plan.controller.schema'
+import { type GetPlanRequest, GetPlanSchema, type ListPlansRequest, ListPlansSchema } from '@/core/plan/plan.controller.schema'
 
 @Controller({
   name: 'Plan',

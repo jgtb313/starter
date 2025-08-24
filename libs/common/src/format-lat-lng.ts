@@ -1,1 +1,2 @@
-export const formatLatLng = (lat: string | number, lng: string | number) => `${lat},${lng}`
+export const formatLatLng = (lat: string | number, lng: string | number) =>
+	`${lat},${lng}`

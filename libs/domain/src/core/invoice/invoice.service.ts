@@ -1,12 +1,13 @@
-import { Injectable, Inject, forwardRef } from '@nestjs/common'
+import { forwardRef, Inject, Injectable } from '@nestjs/common'
 import { AclForbiddenException } from '@starter/nestjs-error-handling'
-import { Pagination } from '@starter/schema'
+import type { Pagination } from '@starter/schema'
 
-import { createWorkspaceReference, WithWorkspaceReference } from '@/support/workspace-reference'
-import { IInvoiceRepository } from '@/ports/database/invoice'
-import { WorkspaceService } from '@/core/workspace/workspace.service'
+import { createWorkspaceReference, type WithWorkspaceReference } from '@/support/workspace-reference'
+
+import type { BaseInvoice, Invoice } from '@/core/invoice/invoice.schema'
 import { SubscriptionService } from '@/core/subscription/subscription.service'
-import { Invoice, BaseInvoice } from '@/core/invoice/invoice.schema'
+import { WorkspaceService } from '@/core/workspace/workspace.service'
+import type { IInvoiceRepository } from '@/ports/database/invoice'
 
 export type InvoiceWorkspaceReference = WithWorkspaceReference<'invoiceId'>
 export const getInvoiceWorkspaceReference = createWorkspaceReference('invoiceId')

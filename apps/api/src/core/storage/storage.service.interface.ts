@@ -1,11 +1,11 @@
-import { FileContextEnum } from '@/core/storage/storage.controller.schema'
+import type { FileContextEnum } from '@/core/storage/storage.controller.schema'
 
 export interface IStorageService {
-  getPresignedUrl(
-    fileContext: FileContextEnum,
-    fileName: string,
-  ): Promise<{
-    fileName: string
-    fileNameSigned: string
-  }>
+	getPresignedUrl(
+		fileContext: FileContextEnum,
+		fileName: string,
+	): Promise<{
+		fileName: string
+		fileNameSigned: string
+	}>
 }

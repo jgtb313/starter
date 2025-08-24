@@ -1,51 +1,51 @@
 {
-  "name": "@starter/emails",
-  "version": "1.0.0",
-  "author": "João <jgtb313@gmail.com>",
-  "license": "MIT",
-  "type": "module",
-  "scripts": {
-    "dev": "yarn email dev --dir src/emails --port 6901",
-    "build": "vite build",
-    "build:watch": "vite build --watch",
-    "type-check": "tsc --project tsconfig.json --pretty --noEmit"
-  },
-  "peerDependencies": {
-    "react": "19.0.0",
-    "react-dom": "19.0.0"
-  },
-  "dependencies": {
-    "@react-email/components": "^0.0.33",
-    "@starter/config": "workspace:*",
-    "react": "19.0.0",
-    "react-dom": "19.0.0",
-    "react-email": "^3.0.7",
-    "typescript": "5.4.2",
-    "vite": "6.0.5",
-    "vite-plugin-dts": "4.4.0"
-  },
-  "devDependencies": {
-    "@types/node": "^22",
-    "@types/react": "19.0.0",
-    "@types/react-dom": "19.0.0",
-    "@vitejs/plugin-react": "^4.3.4",
-    "autoprefixer": "^10.4.20",
-    "init": "^0.1.2",
-    "jsdom": "^25.0.1",
-    "prettier": "^3.4.2"
-  },
-  "main": "dist/emails.cjs",
-  "module": "dist/emails.js",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "require": "./dist/emails.cjs",
-      "import": "./dist/emails.js"
-    }
-  },
-  "typings": "dist/index.d.ts",
-  "files": [
-    "dist",
-    "src"
-  ]
+	"name": "@starter/emails",
+	"version": "1.0.0",
+	"author": "João <jgtb313@gmail.com>",
+	"license": "MIT",
+	"type": "module",
+	"scripts": {
+		"dev": "yarn email dev --dir src/emails --port 6901",
+		"build": "vite build",
+		"build:watch": "vite build --watch",
+		"type-check": "tsc --project tsconfig.json --pretty --noEmit"
+	},
+	"peerDependencies": {
+		"react": "19.0.0",
+		"react-dom": "19.0.0"
+	},
+	"dependencies": {
+		"@react-email/components": "^0.0.33",
+		"@starter/config": "workspace:*",
+		"react": "19.0.0",
+		"react-dom": "19.0.0",
+		"react-email": "^3.0.7",
+		"typescript": "5.4.2",
+		"vite": "6.0.5",
+		"vite-plugin-dts": "4.4.0"
+	},
+	"devDependencies": {
+		"@types/node": "^22",
+		"@types/react": "19.0.0",
+		"@types/react-dom": "19.0.0",
+		"@vitejs/plugin-react": "^4.3.4",
+		"autoprefixer": "^10.4.20",
+		"init": "^0.1.2",
+		"jsdom": "^25.0.1",
+		"prettier": "^3.4.2"
+	},
+	"main": "dist/emails.cjs",
+	"module": "dist/emails.js",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"require": "./dist/emails.cjs",
+			"import": "./dist/emails.js"
+		}
+	},
+	"typings": "dist/index.d.ts",
+	"files": [
+		"dist",
+		"src"
+	]
 }

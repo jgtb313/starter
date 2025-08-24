@@ -1,73 +1,73 @@
 {
-  "name": "@starter/domain",
-  "version": "1.0.0",
-  "author": "João <jgtb313@gmail.com>",
-  "license": "MIT",
-  "scripts": {
-    "migration:create": "node --loader ts-node/esm ./scripts/migration.create.mts",
-    "dev": "vite build --watch",
-    "build": "vite build",
-    "build:watch": "vite build --watch",
-    "test": "vitest run",
-    "test:ui": "vitest --watch --coverage --ui",
-    "test:watch": "vitest --watch --coverage",
-    "test:coverage": "vitest --watch --coverage",
-    "type-check": "tsc --project tsconfig.json --pretty --noEmit"
-  },
-  "dependencies": {
-    "@aws-sdk/client-sns": "^3.821.0",
-    "@aws-sdk/client-sqs": "^3.821.0",
-    "@elastic/ecs-pino-format": "^1.5.0",
-    "@nestjs/common": "^11.0.1",
-    "@nestjs/config": "^4.0.0",
-    "@nestjs/testing": "^11.0.11",
-    "@nestjs/typeorm": "^11.0.0",
-    "@rollup/plugin-typescript": "^12.1.2",
-    "@starter/common": "workspace:*",
-    "@starter/config": "workspace:*",
-    "@starter/emails": "workspace:*",
-    "@starter/nestjs-error-handling": "workspace:*",
-    "@starter/schema": "workspace:*",
-    "@swc/core": "^1.2.165",
-    "aws-sdk": "^2.1692.0",
-    "bcryptjs": "^2.4.3",
-    "crypto": "^1.0.1",
-    "expo-server-sdk": "^3.13.0",
-    "glob": "^11.0.1",
-    "nodemailer": "^6.10.0",
-    "onesignal-node": "^3.4.0",
-    "pg": "^8.13.1",
-    "pino": "^9.6.0",
-    "pino-elasticsearch": "^8.1.0",
-    "redis": "^4.7.0",
-    "reflect-metadata": "^0.2.2",
-    "stripe": "^18.0.0",
-    "twilio": "^5.4.3",
-    "typeorm": "^0.3.20"
-  },
-  "main": "dist/domain.cjs",
-  "module": "dist/domain.js",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "require": "./dist/domain.cjs",
-      "import": "./dist/domain.js"
-    }
-  },
-  "typings": "dist/types/src/index.d.ts",
-  "files": [
-    "dist"
-  ],
-  "devDependencies": {
-    "@types/bcryptjs": "^2.4.6",
-    "@types/glob": "^8.1.0",
-    "@types/nodemailer": "^6.4.17",
-    "@vitest/coverage-v8": "^3.2.4",
-    "@vitest/ui": "^3.2.4",
-    "sqlite3": "^5.1.7",
-    "typescript": "5.4.2",
-    "vite": "6.0.5",
-    "vite-plugin-dts": "4.4.0",
-    "vitest": "^3.2.4"
-  }
+	"name": "@starter/domain",
+	"version": "1.0.0",
+	"author": "João <jgtb313@gmail.com>",
+	"license": "MIT",
+	"scripts": {
+		"migration:create": "node --loader ts-node/esm ./scripts/migration.create.mts",
+		"dev": "vite build --watch",
+		"build": "vite build",
+		"build:watch": "vite build --watch",
+		"test": "vitest run",
+		"test:ui": "vitest --watch --coverage --ui",
+		"test:watch": "vitest --watch --coverage",
+		"test:coverage": "vitest --watch --coverage",
+		"type-check": "tsc --project tsconfig.json --pretty --noEmit"
+	},
+	"dependencies": {
+		"@aws-sdk/client-sns": "^3.821.0",
+		"@aws-sdk/client-sqs": "^3.821.0",
+		"@elastic/ecs-pino-format": "^1.5.0",
+		"@nestjs/common": "^11.0.1",
+		"@nestjs/config": "^4.0.0",
+		"@nestjs/testing": "^11.0.11",
+		"@nestjs/typeorm": "^11.0.0",
+		"@rollup/plugin-typescript": "^12.1.2",
+		"@starter/common": "workspace:*",
+		"@starter/config": "workspace:*",
+		"@starter/emails": "workspace:*",
+		"@starter/nestjs-error-handling": "workspace:*",
+		"@starter/schema": "workspace:*",
+		"@swc/core": "^1.2.165",
+		"aws-sdk": "^2.1692.0",
+		"bcryptjs": "^2.4.3",
+		"crypto": "^1.0.1",
+		"expo-server-sdk": "^3.13.0",
+		"glob": "^11.0.1",
+		"nodemailer": "^6.10.0",
+		"onesignal-node": "^3.4.0",
+		"pg": "^8.13.1",
+		"pino": "^9.6.0",
+		"pino-elasticsearch": "^8.1.0",
+		"redis": "^4.7.0",
+		"reflect-metadata": "^0.2.2",
+		"stripe": "^18.0.0",
+		"twilio": "^5.4.3",
+		"typeorm": "^0.3.20"
+	},
+	"main": "dist/domain.cjs",
+	"module": "dist/domain.js",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"require": "./dist/domain.cjs",
+			"import": "./dist/domain.js"
+		}
+	},
+	"typings": "dist/types/src/index.d.ts",
+	"files": [
+		"dist"
+	],
+	"devDependencies": {
+		"@types/bcryptjs": "^2.4.6",
+		"@types/glob": "^8.1.0",
+		"@types/nodemailer": "^6.4.17",
+		"@vitest/coverage-v8": "^3.2.4",
+		"@vitest/ui": "^3.2.4",
+		"sqlite3": "^5.1.7",
+		"typescript": "5.4.2",
+		"vite": "6.0.5",
+		"vite-plugin-dts": "4.4.0",
+		"vitest": "^3.2.4"
+	}
 }

@@ -1,9 +1,9 @@
-import { Injectable, Inject, forwardRef } from '@nestjs/common'
-import { Pagination } from '@starter/schema'
+import { forwardRef, Inject, Injectable } from '@nestjs/common'
+import type { Pagination } from '@starter/schema'
 
-import { IWorkspaceRepository } from '@/ports/database/workspace'
 import { UserService } from '@/core/user/user.service'
-import { Workspace, BaseWorkspace } from '@/core/workspace/workspace.schema'
+import type { BaseWorkspace, Workspace } from '@/core/workspace/workspace.schema'
+import type { IWorkspaceRepository } from '@/ports/database/workspace'
 
 @Injectable()
 export class WorkspaceService {

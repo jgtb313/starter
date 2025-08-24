@@ -1,7 +1,10 @@
-import { Pagination, PaginationOutput } from '@starter/schema'
+import type { Pagination, PaginationOutput } from '@starter/schema'
 
-import { Workspace, BaseWorkspace } from '@/core/workspace/workspace.schema'
-import { WorkspaceDomain } from '@/core/workspace/workspace.domain'
+import type { WorkspaceDomain } from '@/core/workspace/workspace.domain'
+import type {
+	BaseWorkspace,
+	Workspace,
+} from '@/core/workspace/workspace.schema'
 
 // export type IWorkspaceRepository = {
 //   findAllPaginated(input: Pagination<Workspace>): Promise<PaginationOutput<Workspace>>
@@ -12,9 +15,14 @@ import { WorkspaceDomain } from '@/core/workspace/workspace.domain'
 // }
 
 export type IWorkspaceRepository = {
-  findAllPaginated(input: Pagination<Workspace>): Promise<PaginationOutput<WorkspaceDomain>>
-  findAll(input: Partial<Workspace>): Promise<WorkspaceDomain[]>
-  findById(workspaceId: string): Promise<WorkspaceDomain>
-  create(input: BaseWorkspace): Promise<WorkspaceDomain>
-  updateById(workspaceId: string, input: Partial<Workspace>): Promise<WorkspaceDomain>
+	findAllPaginated(
+		input: Pagination<Workspace>,
+	): Promise<PaginationOutput<WorkspaceDomain>>
+	findAll(input: Partial<Workspace>): Promise<WorkspaceDomain[]>
+	findById(workspaceId: string): Promise<WorkspaceDomain>
+	create(input: BaseWorkspace): Promise<WorkspaceDomain>
+	updateById(
+		workspaceId: string,
+		input: Partial<Workspace>,
+	): Promise<WorkspaceDomain>
 }

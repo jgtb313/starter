@@ -1,13 +1,14 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository, DeepPartial } from 'typeorm'
-import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity'
+import type { DeepPartial, Repository } from 'typeorm'
+import type { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity'
 
 import { deepMapDatesToISOString } from '@/support/utilities'
-import { IOTPRepository } from '@/ports/database/otp'
+
 import { OTPEntity } from '@/adapters/database/otp/otp.typeorm.entity'
 import { OTPDomain } from '@/core/otp/otp.domain'
-import { OTP, BaseOTP } from '@/core/otp/otp.schema'
+import type { BaseOTP, OTP } from '@/core/otp/otp.schema'
+import type { IOTPRepository } from '@/ports/database/otp'
 
 @Injectable()
 export class OTPTypeorm implements IOTPRepository {

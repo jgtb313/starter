@@ -1,71 +1,112 @@
+import {
+	Ability,
+	AbilityBuilder,
+	type MongoQuery,
+	subject as subjectFactory,
+} from '@casl/ability'
+import type { AnyObject } from '@casl/ability/dist/types/types'
 import { Injectable } from '@nestjs/common'
+import type { User } from '@starter/domain'
 import { AclForbiddenException } from '@starter/nestjs-error-handling'
-import { User } from '@starter/domain'
-import { AbilityBuilder, subject as subjectFactory, Ability, MongoQuery } from '@casl/ability'
-import { AnyObject } from '@casl/ability/dist/types/types'
 
-import { PERMISSION_SUBJECT_ACTIONS, Permission, PermissionSubject } from '@/support/access-control/permission'
+import {
+	PERMISSION_SUBJECT_ACTIONS,
+	type Permission,
+	type PermissionSubject,
+} from '@/support/access-control/permission'
 
 @Injectable()
 export class ACLService {
-  private defineAbilities(user: User, options: { withOrganizationId: boolean }) {
-    const { can, build } = new AbilityBuilder(Ability)
+	private defineAbilities(
+		user: User,
+		options: {
+			withOrganizationId: boolean
+		},
+	) {
+		const { can, build } = new AbilityBuilder(Ability)
 
-    // const permissions = [...new Set([...user.roles.flatMap((role) => role.permissions), ...user.permissions])]
-    const permissions = ['']
+		// const permissions = [...new Set([...user.roles.flatMap((role) => role.permissions), ...user.permissions])]
+		const permissions = [
+			'',
+		]
 
-    const condition: MongoQuery<AnyObject> = {
-      workspaceId: user.workspaceId,
-    }
+		const condition: MongoQuery<AnyObject> = {
+			workspaceId: user.workspaceId,
+		}
 
-    if (options.withOrganizationId) {
-      // condition['organizationId'] = { $in: user.organizationIds }
-    }
+		if (options.withOrganizationId) {
+			// condition['organizationId'] = { $in: user.organizationIds }
+		}
 
-    permissions.forEach((permission) => {
-      const [subject, action] = permission.split(':') as [PermissionSubject, string]
+		permissions.forEach((permission) => {
+			const [subject, action] = permission.split(':') as [
+				PermissionSubject,
+				string,
+			]
 
-      if (subject === 'workspace' && action === 'manage') {
-        can('manage', 'all', { workspaceId: user.workspaceId })
-      } else if (action === 'manage') {
-        const subjectPermissions: Permission[] = PERMISSION_SUBJECT_ACTIONS[subject]
-          .filter((action) => !action.key.endsWith('manage'))
-          .map((action) => `${subject}:${action.key}` as Permission)
+			if (subject === 'workspace' && action === 'manage') {
+				can('manage', 'all', {
+					workspaceId: user.workspaceId,
+				})
+			} else if (action === 'manage') {
+				const subjectPermissions: Permission[] = PERMISSION_SUBJECT_ACTIONS[
+					subject
+				]
+					.filter((action) => !action.key.endsWith('manage'))
+					.map((action) => `${subject}:${action.key}` as Permission)
 
-        subjectPermissions.forEach((subjectPermission) => {
-          const [subject, action] = subjectPermission.split(':')
+				subjectPermissions.forEach((subjectPermission) => {
+					const [subject, action] = subjectPermission.split(':')
 
-          can(action, subject, condition)
-        })
-      } else {
-        can(action, subject, condition)
-      }
-    })
+					can(action, subject, condition)
+				})
+			} else {
+				can(action, subject, condition)
+			}
+		})
 
-    return build()
-  }
+		return build()
+	}
 
-  public canPerformActionByPermission(user: User, permission: Permission, resource?: { workspaceId: string; organizationId?: string }) {
-    const withOrganizationId = !!resource?.organizationId
+	public canPerformActionByPermission(
+		user: User,
+		permission: Permission,
+		resource?: {
+			workspaceId: string
+			organizationId?: string
+		},
+	) {
+		const withOrganizationId = !!resource?.organizationId
 
-    const ability = this.defineAbilities(user, {
-      withOrganizationId: !!resource?.organizationId,
-    })
+		const ability = this.defineAbilities(user, {
+			withOrganizationId: !!resource?.organizationId,
+		})
 
-    const permissions: Permission[] = [permission, 'workspace:manage']
+		const permissions: Permission[] = [
+			permission,
+			'workspace:manage',
+		]
 
-    if (withOrganizationId) {
-      permissions.push('organization:manage')
-    }
+		if (withOrganizationId) {
+			permissions.push('organization:manage')
+		}
 
-    const authorized = permissions.some((permission) => {
-      const [subject, action] = permission.split(':')
+		const authorized = permissions.some((permission) => {
+			const [subject, action] = permission.split(':')
 
-      return resource ? ability.can(action, subjectFactory(subject, { type: subject, ...resource })) : ability.can(action, subject)
-    })
+			return resource
+				? ability.can(
+						action,
+						subjectFactory(subject, {
+							type: subject,
+							...resource,
+						}),
+					)
+				: ability.can(action, subject)
+		})
 
-    if (!authorized) {
-      throw new AclForbiddenException()
-    }
-  }
+		if (!authorized) {
+			throw new AclForbiddenException()
+		}
+	}
 }

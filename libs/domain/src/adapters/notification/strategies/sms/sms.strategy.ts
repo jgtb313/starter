@@ -1,7 +1,8 @@
-import { Injectable, Inject } from '@nestjs/common'
+import { Inject, Injectable } from '@nestjs/common'
 
-import { INotificationStrategy, ISMSAdapter } from '@/ports/notification'
 import { templates } from './sms.templates'
+
+import type { INotificationStrategy, ISMSAdapter } from '@/ports/notification'
 
 @Injectable()
 export class SMSStrategy implements INotificationStrategy<'SMS'> {

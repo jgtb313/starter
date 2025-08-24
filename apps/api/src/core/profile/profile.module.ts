@@ -1,10 +1,15 @@
 import { Module } from '@nestjs/common'
-import { UserServiceModule, OTPServiceModule } from '@starter/domain'
+import { OTPServiceModule, UserServiceModule } from '@starter/domain'
 
 import { ProfileController } from './profile.controller'
 
 @Module({
-  imports: [UserServiceModule, OTPServiceModule],
-  controllers: [ProfileController],
+	imports: [
+		UserServiceModule,
+		OTPServiceModule,
+	],
+	controllers: [
+		ProfileController,
+	],
 })
 export class ProfileModule {}

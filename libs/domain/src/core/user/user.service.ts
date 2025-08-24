@@ -1,14 +1,15 @@
-import { Injectable, Inject, forwardRef } from '@nestjs/common'
-import { BadRequestException, ConflictException, AclForbiddenException } from '@starter/nestjs-error-handling'
-import { Pagination, Phone } from '@starter/schema'
+import { forwardRef, Inject, Injectable } from '@nestjs/common'
+import { AclForbiddenException, BadRequestException, ConflictException } from '@starter/nestjs-error-handling'
+import type { Pagination, Phone } from '@starter/schema'
 
-import { createWorkspaceReference, WithWorkspaceReference } from '@/support/workspace-reference'
-import { IUserRepository } from '@/ports/database/user'
-import { EncryptService } from '@/adapters/encrypt'
-import { WorkspaceDomain } from '@/core/workspace/workspace.domain'
-import { WorkspaceService } from '@/core/workspace/workspace.service'
+import { createWorkspaceReference, type WithWorkspaceReference } from '@/support/workspace-reference'
+
+import type { EncryptService } from '@/adapters/encrypt'
 import { RoleService } from '@/core/role/role.service'
-import { User, BaseUser } from '@/core/user/user.schema'
+import type { BaseUser, User } from '@/core/user/user.schema'
+import type { WorkspaceDomain } from '@/core/workspace/workspace.domain'
+import { WorkspaceService } from '@/core/workspace/workspace.service'
+import type { IUserRepository } from '@/ports/database/user'
 
 export type UserWorkspaceReference = WithWorkspaceReference<'userId'>
 export const getUserWorkspaceReference = createWorkspaceReference('userId')
@@ -69,7 +70,7 @@ export class UserService {
   }
 
   async createUser({ workspaceId, scopes, ...input }: BaseUser) {
-    let workspace: WorkspaceDomain | undefined = undefined
+    let workspace: WorkspaceDomain | undefined 
 
     if (workspaceId) {
       workspace = await this.workspaceService.getWorkspace(workspaceId)

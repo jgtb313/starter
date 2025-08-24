@@ -1,40 +1,49 @@
 import { ConflictException } from '@starter/nestjs-error-handling'
 
 import { BaseDomain } from '@/support/base-domain'
-import { OrganizationSchema, Organization, OrganizationInput, OrganizationStatusEnum } from '@/core/organization/organization.schema'
 
-export class OrganizationDomain extends BaseDomain<Organization, OrganizationInput> {
-  constructor(organization: OrganizationInput) {
-    super(OrganizationSchema, organization)
-  }
+import {
+	type Organization,
+	type OrganizationInput,
+	OrganizationSchema,
+	OrganizationStatusEnum,
+} from '@/core/organization/organization.schema'
 
-  isActive() {
-    return this.state.status === OrganizationStatusEnum.ACTIVE
-  }
+export class OrganizationDomain extends BaseDomain<
+	Organization,
+	OrganizationInput
+> {
+	constructor(organization: OrganizationInput) {
+		super(OrganizationSchema, organization)
+	}
 
-  isInactive() {
-    return this.state.status === OrganizationStatusEnum.INACTIVE
-  }
+	isActive() {
+		return this.state.status === OrganizationStatusEnum.ACTIVE
+	}
 
-  markAsActive() {
-    this.checkIfCanBeActive()
-    this.state.status = OrganizationStatusEnum.ACTIVE
-  }
+	isInactive() {
+		return this.state.status === OrganizationStatusEnum.INACTIVE
+	}
 
-  markAsInactive() {
-    this.checkIfCanBeInactive()
-    this.state.status = OrganizationStatusEnum.INACTIVE
-  }
+	markAsActive() {
+		this.checkIfCanBeActive()
+		this.state.status = OrganizationStatusEnum.ACTIVE
+	}
 
-  private checkIfCanBeActive() {
-    if (this.isActive()) {
-      throw new ConflictException(`This organization is already active.`)
-    }
-  }
+	markAsInactive() {
+		this.checkIfCanBeInactive()
+		this.state.status = OrganizationStatusEnum.INACTIVE
+	}
 
-  private checkIfCanBeInactive() {
-    if (this.isInactive()) {
-      throw new ConflictException(`This organization is already inactive.`)
-    }
-  }
+	private checkIfCanBeActive() {
+		if (this.isActive()) {
+			throw new ConflictException(`This organization is already active.`)
+		}
+	}
+
+	private checkIfCanBeInactive() {
+		if (this.isInactive()) {
+			throw new ConflictException(`This organization is already inactive.`)
+		}
+	}
 }

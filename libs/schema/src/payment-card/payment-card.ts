@@ -1,64 +1,88 @@
+import {
+	isPaymentCardCVVValid,
+	isPaymentCardExpirationDateValid,
+	isPaymentCardNumberValid,
+} from '@starter/common'
+
 import { z } from '@/zod'
-import { isPaymentCardNumberValid, isPaymentCardExpirationDateValid, isPaymentCardCVVValid } from '@starter/common'
 
 const Number = z.string().min(1)
 
 const HolderName = z.string().min(1)
 
 const ExpirationDate = z.string().refine((expirationDate) => {
-  const [month, year] = expirationDate.split('/')
-  return isPaymentCardExpirationDateValid(month, year)
+	const [month, year] = expirationDate.split('/')
+	return isPaymentCardExpirationDateValid(month, year)
 })
 
 const CVV = z.string().min(1)
 
 export const PaymentCardTokenSchema = z
-  .string()
-  .min(1)
-  .meta({
-    description: 'Token representing a securely stored payment card, typically returned by a payment provider.',
-    examples: ['tok_1N6zXeF6L3aBcD9X3gT2V9pQ'],
-  })
+	.string()
+	.min(1)
+	.meta({
+		description:
+			'Token representing a securely stored payment card, typically returned by a payment provider.',
+		examples: [
+			'tok_1N6zXeF6L3aBcD9X3gT2V9pQ',
+		],
+	})
 export type PaymentCardToken = z.infer<typeof PaymentCardTokenSchema>
 
 export const BasePaymentCardSchema = z.object({
-  token: PaymentCardTokenSchema,
-  number: Number.meta({
-    description: 'Masked card number for secure display.',
-    examples: ['5555 ********* 55'],
-  }),
-  holderName: HolderName.meta({
-    description: 'Name of the cardholder as printed on the card.',
-    examples: ['John Doe'],
-  }),
-  expirationDate: ExpirationDate.meta({
-    description: 'Card expiration date in MM/YY format.',
-    examples: ['12/27'],
-  }),
+	token: PaymentCardTokenSchema,
+	number: Number.meta({
+		description: 'Masked card number for secure display.',
+		examples: [
+			'5555 ********* 55',
+		],
+	}),
+	holderName: HolderName.meta({
+		description: 'Name of the cardholder as printed on the card.',
+		examples: [
+			'John Doe',
+		],
+	}),
+	expirationDate: ExpirationDate.meta({
+		description: 'Card expiration date in MM/YY format.',
+		examples: [
+			'12/27',
+		],
+	}),
 })
 export type BasePaymentCard = z.infer<typeof BasePaymentCardSchema>
 
 export const PaymentCardSchema = z
-  .object({
-    token: PaymentCardTokenSchema,
-    number: Number.refine((number) => isPaymentCardNumberValid(number)).meta({
-      description: 'Full credit card number.',
-      examples: ['5555555555554444'],
-    }),
-    holderName: HolderName.meta({
-      description: 'Name of the cardholder as printed on the card.',
-      examples: ['John Doe'],
-    }),
-    expirationDate: ExpirationDate.meta({
-      description: 'Card expiration date in MM/YY format.',
-      examples: ['12/27'],
-    }),
-    cvv: CVV.meta({
-      description: 'Card Verification Value (CVV), usually 3 or 4 digits.',
-      examples: ['123'],
-    }),
-  })
-  .refine(({ number, cvv }) => isPaymentCardCVVValid(number, cvv), {
-    path: ['cvv'],
-  })
+	.object({
+		token: PaymentCardTokenSchema,
+		number: Number.refine((number) => isPaymentCardNumberValid(number)).meta({
+			description: 'Full credit card number.',
+			examples: [
+				'5555555555554444',
+			],
+		}),
+		holderName: HolderName.meta({
+			description: 'Name of the cardholder as printed on the card.',
+			examples: [
+				'John Doe',
+			],
+		}),
+		expirationDate: ExpirationDate.meta({
+			description: 'Card expiration date in MM/YY format.',
+			examples: [
+				'12/27',
+			],
+		}),
+		cvv: CVV.meta({
+			description: 'Card Verification Value (CVV), usually 3 or 4 digits.',
+			examples: [
+				'123',
+			],
+		}),
+	})
+	.refine(({ number, cvv }) => isPaymentCardCVVValid(number, cvv), {
+		path: [
+			'cvv',
+		],
+	})
 export type PaymentCard = z.infer<typeof PaymentCardSchema>

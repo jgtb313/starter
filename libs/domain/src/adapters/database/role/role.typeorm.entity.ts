@@ -1,38 +1,61 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, OneToMany } from 'typeorm'
+import {
+	Column,
+	CreateDateColumn,
+	DeleteDateColumn,
+	Entity,
+	OneToMany,
+	PrimaryGeneratedColumn,
+	UpdateDateColumn,
+} from 'typeorm'
 
 import { RoleOrganizationEntity } from '@/adapters/database/role/role-organization.typeorm.entity'
 import { RolePermissionEntity } from '@/adapters/database/role/role-permission.typeorm.entity'
-import { Role } from '@/core/role/role.schema'
+import type { Role } from '@/core/role/role.schema'
 
 @Entity('roles')
 export class RoleEntity {
-  @PrimaryGeneratedColumn('uuid')
-  roleId: Role['roleId']
+	@PrimaryGeneratedColumn('uuid')
+	roleId: Role['roleId']
 
-  @Column({ type: 'uuid' })
-  workspaceId: Role['workspaceId']
+	@Column({
+		type: 'uuid',
+	})
+	workspaceId: Role['workspaceId']
 
-  @OneToMany(() => RoleOrganizationEntity, (roleOrganization) => roleOrganization.role)
-  organizations: RoleOrganizationEntity[]
+	@OneToMany(
+		() => RoleOrganizationEntity,
+		(roleOrganization) => roleOrganization.role,
+	)
+	organizations: RoleOrganizationEntity[]
 
-  @OneToMany(() => RolePermissionEntity, (rolePermission) => rolePermission.role)
-  permissions: RolePermissionEntity[]
+	@OneToMany(
+		() => RolePermissionEntity,
+		(rolePermission) => rolePermission.role,
+	)
+	permissions: RolePermissionEntity[]
 
-  @Column({ type: 'varchar' })
-  name: Role['name']
+	@Column({
+		type: 'varchar',
+	})
+	name: Role['name']
 
-  @Column({ type: 'simple-array', nullable: true })
-  tags: Role['tags']
+	@Column({
+		type: 'simple-array',
+		nullable: true,
+	})
+	tags: Role['tags']
 
-  @Column({ type: 'varchar' })
-  status: Role['status']
+	@Column({
+		type: 'varchar',
+	})
+	status: Role['status']
 
-  @DeleteDateColumn()
-  deletedAt: Role['deletedAt']
+	@DeleteDateColumn()
+	deletedAt: Role['deletedAt']
 
-  @CreateDateColumn()
-  createdAt: Role['createdAt']
+	@CreateDateColumn()
+	createdAt: Role['createdAt']
 
-  @UpdateDateColumn()
-  updatedAt: Role['updatedAt']
+	@UpdateDateColumn()
+	updatedAt: Role['updatedAt']
 }

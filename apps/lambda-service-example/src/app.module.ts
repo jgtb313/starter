@@ -5,14 +5,16 @@ import { NotificationModule } from '@starter/domain'
 import { LambdaExampleService } from './lambda-example.service'
 
 @Module({
-  imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-      envFilePath: '../../.env',
-    }),
-    NotificationModule,
-  ],
+	imports: [
+		ConfigModule.forRoot({
+			isGlobal: true,
+			envFilePath: '../../.env',
+		}),
+		NotificationModule,
+	],
 
-  providers: [LambdaExampleService],
+	providers: [
+		LambdaExampleService,
+	],
 })
 export class AppModule {}

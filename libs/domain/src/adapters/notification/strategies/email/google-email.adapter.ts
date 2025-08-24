@@ -1,8 +1,8 @@
-import { Injectable, Inject } from '@nestjs/common'
-import { ConfigService } from '@nestjs/config'
-import { Transporter } from 'nodemailer'
+import { Inject, Injectable } from '@nestjs/common'
+import type { ConfigService } from '@nestjs/config'
+import type { Transporter } from 'nodemailer'
 
-import { IEmailAdapter } from '@/ports/notification'
+import type { IEmailAdapter } from '@/ports/notification'
 
 @Injectable()
 export class GoogleEmailAdapter implements IEmailAdapter {

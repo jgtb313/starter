@@ -1,7 +1,7 @@
-import { Injectable, Inject } from '@nestjs/common'
-import { Logger as Pino } from 'pino'
+import { Inject, Injectable } from '@nestjs/common'
+import type { Logger as Pino } from 'pino'
 
-import { ILoggerAdapter } from '@/ports/logger'
+import type { ILoggerAdapter } from '@/ports/logger'
 
 @Injectable()
 export class PinoESAdapter implements ILoggerAdapter {

@@ -1,13 +1,13 @@
 {
-  "extends": "./tsconfig.json",
-  "compilerOptions": {
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["src/*"]
-    }
-  },
-  "include": ["src/**/*", "docs/**/*"],
-  "exclude": ["node_modules", "test", "dist", "**/*spec.ts"]
+	"extends": "./tsconfig.json",
+	"compilerOptions": {
+		"outDir": "./dist",
+		"rootDir": "./src",
+		"baseUrl": ".",
+		"paths": {
+			"@/*": ["src/*"]
+		}
+	},
+	"include": ["src/**/*", "docs/**/*"],
+	"exclude": ["node_modules", "test", "dist", "**/*spec.ts"]
 }

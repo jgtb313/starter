@@ -1,14 +1,18 @@
-import { createParamDecorator, ExecutionContext } from '@nestjs/common'
+import { createParamDecorator, type ExecutionContext } from '@nestjs/common'
 
-import { RequestSchemaInput, RequestInput } from '@/interfaces'
+import type { RequestInput, RequestSchemaInput } from '@/interfaces'
 
-export const createRequestSchema = <T extends RequestSchemaInput>(schemas: T) => schemas
+export const createRequestSchema = <T extends RequestSchemaInput>(schemas: T) =>
+	schemas
 
 export const Request = <T extends RequestSchemaInput>() =>
-  createParamDecorator((_, ctx: ExecutionContext): RequestInput<T> => {
-    const request = ctx.switchToHttp().getRequest()
+	createParamDecorator((_, ctx: ExecutionContext): RequestInput<T> => {
+		const request = ctx.switchToHttp().getRequest()
 
-    const { requestZodData, pagination } = request
+		const { requestZodData, pagination } = request
 
-    return { ...requestZodData, pagination }
-  })()
+		return {
+			...requestZodData,
+			pagination,
+		}
+	})()

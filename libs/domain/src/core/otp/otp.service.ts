@@ -1,15 +1,15 @@
-import { Injectable, Inject, forwardRef } from '@nestjs/common'
+import { forwardRef, Inject, Injectable } from '@nestjs/common'
+import { addSeconds, random, uuid } from '@starter/common'
 import { ConflictException } from '@starter/nestjs-error-handling'
-import { random, addSeconds, uuid } from '@starter/common'
-import { Phone } from '@starter/schema'
+import type { Phone } from '@starter/schema'
 
-import { IOTPRepository } from '@/ports/database/otp'
 import { NotificationService } from '@/adapters/notification'
-import { UserService } from '@/core/user/user.service'
 import { OTPDomain } from '@/core/otp/otp.domain'
+import { type OTP, OTPChannelEnum, OTPPhoneChannelEnum } from '@/core/otp/otp.schema'
 import { OTPContextDomain } from '@/core/otp/otp-context.domain'
-import { OTP, OTPChannelEnum, OTPPhoneChannelEnum } from '@/core/otp/otp.schema'
 import { OTPContextEnum } from '@/core/otp/otp-context.schema'
+import { UserService } from '@/core/user/user.service'
+import type { IOTPRepository } from '@/ports/database/otp'
 
 @Injectable()
 export class OTPService {

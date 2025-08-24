@@ -1,40 +1,46 @@
 import { ConflictException } from '@starter/nestjs-error-handling'
 
 import { BaseDomain } from '@/support/base-domain'
-import { RoleSchema, Role, RoleInput, RoleStatusEnum } from '@/core/role/role.schema'
+
+import {
+	type Role,
+	type RoleInput,
+	RoleSchema,
+	RoleStatusEnum,
+} from '@/core/role/role.schema'
 
 export class RoleDomain extends BaseDomain<Role, RoleInput> {
-  constructor(role: RoleInput) {
-    super(RoleSchema, role)
-  }
+	constructor(role: RoleInput) {
+		super(RoleSchema, role)
+	}
 
-  isActive() {
-    return this.state.status === RoleStatusEnum.ACTIVE
-  }
+	isActive() {
+		return this.state.status === RoleStatusEnum.ACTIVE
+	}
 
-  isInactive() {
-    return this.state.status === RoleStatusEnum.INACTIVE
-  }
+	isInactive() {
+		return this.state.status === RoleStatusEnum.INACTIVE
+	}
 
-  markAsActive() {
-    this.checkIfCanBeActive()
-    this.state.status = RoleStatusEnum.ACTIVE
-  }
+	markAsActive() {
+		this.checkIfCanBeActive()
+		this.state.status = RoleStatusEnum.ACTIVE
+	}
 
-  markAsInactive() {
-    this.checkIfCanBeInactive()
-    this.state.status = RoleStatusEnum.INACTIVE
-  }
+	markAsInactive() {
+		this.checkIfCanBeInactive()
+		this.state.status = RoleStatusEnum.INACTIVE
+	}
 
-  private checkIfCanBeActive() {
-    if (this.isActive()) {
-      throw new ConflictException('This role is already active.')
-    }
-  }
+	private checkIfCanBeActive() {
+		if (this.isActive()) {
+			throw new ConflictException('This role is already active.')
+		}
+	}
 
-  private checkIfCanBeInactive() {
-    if (this.isInactive()) {
-      throw new ConflictException('This role is already inactive.')
-    }
-  }
+	private checkIfCanBeInactive() {
+		if (this.isInactive()) {
+			throw new ConflictException('This role is already inactive.')
+		}
+	}
 }

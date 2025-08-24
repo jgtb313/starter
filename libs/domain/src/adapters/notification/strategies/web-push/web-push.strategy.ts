@@ -1,7 +1,8 @@
-import { Injectable, Inject } from '@nestjs/common'
+import { Inject, Injectable } from '@nestjs/common'
 
-import { INotificationStrategy, IWebPushAdapter } from '@/ports/notification'
 import { templates } from './web-push.templates'
+
+import type { INotificationStrategy, IWebPushAdapter } from '@/ports/notification'
 
 @Injectable()
 export class WebPushStrategy implements INotificationStrategy<'WEB_PUSH'> {

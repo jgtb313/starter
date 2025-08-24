@@ -1,11 +1,11 @@
-import { isAfter, getDate, setHours } from '@starter/common'
+import { getDate, isAfter, setHours } from '@starter/common'
 
-import { DateSchema, DateOptionalSchema } from '../date'
+import { DateOptionalSchema, DateSchema } from '../date'
 
-export const BirthdaySchema = DateSchema.refine((value) => isAfter(getDate(value), getDate(new Date(1900, 0, 0)))).transform((value) =>
-  setHours(getDate(value), 12),
-)
+export const BirthdaySchema = DateSchema.refine((value) =>
+	isAfter(getDate(value), getDate(new Date(1900, 0, 0))),
+).transform((value) => setHours(getDate(value), 12))
 
 export const BirthdayOptionalSchema = DateOptionalSchema.refine((value) =>
-  value ? isAfter(getDate(value), getDate(new Date(1900, 0, 0))) : true,
+	value ? isAfter(getDate(value), getDate(new Date(1900, 0, 0))) : true,
 ).transform((value) => (value ? setHours(getDate(value), 12) : null))

@@ -1,14 +1,15 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository, FindOptionsWhere, DeepPartial } from 'typeorm'
-import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity'
 import { PaginationSchemaTransform } from '@starter/schema'
+import type { DeepPartial, FindOptionsWhere, Repository } from 'typeorm'
+import type { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity'
 
 import { deepMapDatesToISOString } from '@/support/utilities'
-import { ISubscriptionRepository } from '@/ports/database/subscription'
+
 import { SubscriptionEntity } from '@/adapters/database/subscription/subscription.typeorm.entity'
 import { SubscriptionDomain } from '@/core/subscription/subscription.domain'
-import { Subscription, BaseSubscription } from '@/core/subscription/subscription.schema'
+import type { BaseSubscription, Subscription } from '@/core/subscription/subscription.schema'
+import type { ISubscriptionRepository } from '@/ports/database/subscription'
 
 @Injectable()
 export class SubscriptionTypeorm implements ISubscriptionRepository {

@@ -5,13 +5,19 @@ import { PlanTypeorm } from '@/adapters/database/plan/plan.typeorm.adapter'
 import { PlanEntity } from '@/adapters/database/plan/plan.typeorm.entity'
 
 @Module({
-  imports: [TypeOrmModule.forFeature([PlanEntity])],
-  providers: [
-    {
-      provide: 'PLAN_REPOSITORY',
-      useClass: PlanTypeorm,
-    },
-  ],
-  exports: ['PLAN_REPOSITORY'],
+	imports: [
+		TypeOrmModule.forFeature([
+			PlanEntity,
+		]),
+	],
+	providers: [
+		{
+			provide: 'PLAN_REPOSITORY',
+			useClass: PlanTypeorm,
+		},
+	],
+	exports: [
+		'PLAN_REPOSITORY',
+	],
 })
 export class PlanRepositoryModule {}

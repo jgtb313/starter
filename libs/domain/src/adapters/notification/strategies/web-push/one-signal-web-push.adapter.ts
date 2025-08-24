@@ -1,7 +1,7 @@
 import { Inject } from '@nestjs/common'
-import OneSignal from 'onesignal-node'
+import type OneSignal from 'onesignal-node'
 
-import { IWebPushAdapter } from '@/ports/notification'
+import type { IWebPushAdapter } from '@/ports/notification'
 
 export class OneSignalWebPushAdapter implements IWebPushAdapter {
   constructor(@Inject('ONE_SIGNAL_CLIENT') private readonly client: OneSignal.Client) {}

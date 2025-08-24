@@ -1,45 +1,72 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm'
+import {
+	Column,
+	CreateDateColumn,
+	Entity,
+	PrimaryGeneratedColumn,
+	UpdateDateColumn,
+} from 'typeorm'
 
-import { OTP } from '@/core/otp/otp.schema'
+import type { OTP } from '@/core/otp/otp.schema'
 
 @Entity('otps')
 export class OTPEntity {
-  @PrimaryGeneratedColumn('uuid')
-  otpId: OTP['otpId']
+	@PrimaryGeneratedColumn('uuid')
+	otpId: OTP['otpId']
 
-  @Column({ type: 'uuid', nullable: true })
-  userId: OTP['userId']
+	@Column({
+		type: 'uuid',
+		nullable: true,
+	})
+	userId: OTP['userId']
 
-  @Column({ type: 'varchar' })
-  channel: OTP['channel']
+	@Column({
+		type: 'varchar',
+	})
+	channel: OTP['channel']
 
-  @Column({ type: 'varchar' })
-  context: OTP['context']
+	@Column({
+		type: 'varchar',
+	})
+	context: OTP['context']
 
-  @Column({ type: 'varchar' })
-  recipient: OTP['recipient']
+	@Column({
+		type: 'varchar',
+	})
+	recipient: OTP['recipient']
 
-  @Column({ type: 'varchar' })
-  code: OTP['code']
+	@Column({
+		type: 'varchar',
+	})
+	code: OTP['code']
 
-  @Column({ type: 'int' })
-  validationAttempts: OTP['validationAttempts']
+	@Column({
+		type: 'int',
+	})
+	validationAttempts: OTP['validationAttempts']
 
-  @Column({ type: 'int' })
-  maxValidationAttempts: OTP['maxValidationAttempts']
+	@Column({
+		type: 'int',
+	})
+	maxValidationAttempts: OTP['maxValidationAttempts']
 
-  @Column({ type: 'int' })
-  resendCooldownSeconds: OTP['resendCooldownSeconds']
+	@Column({
+		type: 'int',
+	})
+	resendCooldownSeconds: OTP['resendCooldownSeconds']
 
-  @Column({ type: 'int' })
-  maxRequestsPerDay: OTP['maxRequestsPerDay']
+	@Column({
+		type: 'int',
+	})
+	maxRequestsPerDay: OTP['maxRequestsPerDay']
 
-  @Column({ type: 'datetime' })
-  expiresAt: OTP['expiresAt']
+	@Column({
+		type: 'datetime',
+	})
+	expiresAt: OTP['expiresAt']
 
-  @CreateDateColumn()
-  createdAt: OTP['createdAt']
+	@CreateDateColumn()
+	createdAt: OTP['createdAt']
 
-  @UpdateDateColumn()
-  updatedAt: OTP['updatedAt']
+	@UpdateDateColumn()
+	updatedAt: OTP['updatedAt']
 }

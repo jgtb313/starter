@@ -1,11 +1,11 @@
-import { Injectable, Inject, forwardRef } from '@nestjs/common'
+import { forwardRef, Inject, Injectable } from '@nestjs/common'
 import { AclForbiddenException } from '@starter/nestjs-error-handling'
 
-import { IRoleRepository } from '@/ports/database/role'
 import { OrganizationService } from '@/core/organization/organization.service'
 import { PermissionService } from '@/core/permission/permission.service'
 import { RoleStatusEnum } from '@/core/role/role.schema'
-import { getRoleWorkspaceReference, IRoleService } from '@/core/role/role.service.interface'
+import { getRoleWorkspaceReference, type IRoleService } from '@/core/role/role.service.interface'
+import type { IRoleRepository } from '@/ports/database/role'
 
 @Injectable()
 export class RoleService implements IRoleService {

@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common'
-import { IServerlessService } from '@starter/nestjs-serverless-hoisting'
+import type { IServerlessService } from '@starter/nestjs-serverless-hoisting'
 
 export type Service = IServerlessService<{}, number>
 
 @Injectable()
 export class LambdaExampleService implements Service {
-  constructor() {}
+	constructor() {}
 
-  async execute() {
-    return 10
-  }
+	async execute() {
+		return 10
+	}
 }

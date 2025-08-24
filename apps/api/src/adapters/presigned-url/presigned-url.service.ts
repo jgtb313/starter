@@ -1,7 +1,7 @@
-import { Injectable, Inject } from '@nestjs/common'
-import { ConfigService } from '@nestjs/config'
+import { Inject, Injectable } from '@nestjs/common'
+import type { ConfigService } from '@nestjs/config'
 
-import { IPresignedUrl, IPresignedUrlAdapter } from '@/ports/presigned-url'
+import type { IPresignedUrl, IPresignedUrlAdapter } from '@/ports/presigned-url'
 
 @Injectable()
 export class PresignedUrlService {

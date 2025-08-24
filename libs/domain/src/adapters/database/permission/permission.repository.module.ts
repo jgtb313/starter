@@ -5,13 +5,19 @@ import { PermissionTypeorm } from '@/adapters/database/permission/permission.rep
 import { PermissionEntity } from '@/adapters/database/permission/permission.typeorm.entity'
 
 @Module({
-  imports: [TypeOrmModule.forFeature([PermissionEntity])],
-  providers: [
-    {
-      provide: 'PERMISSION_REPOSITORY',
-      useClass: PermissionTypeorm,
-    },
-  ],
-  exports: ['PERMISSION_REPOSITORY'],
+	imports: [
+		TypeOrmModule.forFeature([
+			PermissionEntity,
+		]),
+	],
+	providers: [
+		{
+			provide: 'PERMISSION_REPOSITORY',
+			useClass: PermissionTypeorm,
+		},
+	],
+	exports: [
+		'PERMISSION_REPOSITORY',
+	],
 })
 export class PermissionRepositoryModule {}

@@ -5,8 +5,15 @@ import { RecurrenceModule } from '@/adapters/recurrence'
 import { PlanService } from '@/core/plan/plan.service'
 
 @Module({
-  imports: [PlanRepositoryModule, RecurrenceModule],
-  providers: [PlanService],
-  exports: [PlanService],
+	imports: [
+		PlanRepositoryModule,
+		RecurrenceModule,
+	],
+	providers: [
+		PlanService,
+	],
+	exports: [
+		PlanService,
+	],
 })
 export class PlanServiceModule {}

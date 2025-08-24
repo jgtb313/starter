@@ -1,14 +1,15 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository, ILike, FindOptionsWhere, DeepPartial } from 'typeorm'
-import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity'
 import { PaginationSchemaTransform } from '@starter/schema'
+import { type DeepPartial, type FindOptionsWhere, ILike, type Repository } from 'typeorm'
+import type { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity'
 
 import { deepMapDatesToISOString } from '@/support/utilities'
-import { IInvoiceRepository } from '@/ports/database/invoice'
+
 import { InvoiceEntity } from '@/adapters/database/invoice/invoice.typeorm.entity'
 import { InvoiceDomain } from '@/core/invoice/invoice.domain'
-import { Invoice, BaseInvoice } from '@/core/invoice/invoice.schema'
+import type { BaseInvoice, Invoice } from '@/core/invoice/invoice.schema'
+import type { IInvoiceRepository } from '@/ports/database/invoice'
 
 @Injectable()
 export class InvoiceTypeorm implements IInvoiceRepository {

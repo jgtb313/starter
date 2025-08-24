@@ -1,7 +1,7 @@
-import { Inject, ConflictException } from '@nestjs/common'
+import { ConflictException, Inject } from '@nestjs/common'
 import { Expo } from 'expo-server-sdk'
 
-import { IMobilePushAdapter } from '@/ports/notification'
+import type { IMobilePushAdapter } from '@/ports/notification'
 
 export class ExpoMobilePushAdapter implements IMobilePushAdapter {
   constructor(@Inject('EXPO_CLIENT') private readonly client: Expo) {}
