@@ -1,6 +1,3 @@
-import { writeFileSync } from 'node:fs'
-import { join } from 'node:path'
-
 import type { INestApplication } from '@nestjs/common'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import { set } from '@starter/common'
@@ -40,9 +37,9 @@ export const registerSwagger = (
 		'Bearer',
 	)
 
-	Object.values(state.controllers).forEach((controller) =>
-		builder.addTag(controller.name, controller.description),
-	)
+	Object.values(state.controllers).forEach((controller) => {
+		builder.addTag(controller.name, controller.description)
+	})
 
 	const builderConfig = builder.build()
 
@@ -131,8 +128,4 @@ export const registerSwagger = (
         </html>
       `)
 	})
-
-	const outputPath = join(__dirname, '../../..', 'openapi-spec.json')
-
-	writeFileSync(outputPath, JSON.stringify(document, null, 2))
 }

@@ -8,6 +8,11 @@ type CustomRouteOptions = RouteOptions & {
 	operationId: string
 }
 
+export type State = {
+	controllers: Record<string, CustomControllerOptions>
+	routes: Record<string, CustomRouteOptions[]>
+}
+
 export class StateManager {
 	private static controllers: Record<string, CustomControllerOptions> = {}
 	private static routes: Record<string, CustomRouteOptions[]> = {}
@@ -19,8 +24,10 @@ export class StateManager {
 	}
 
 	static addRoute(name: string, options: CustomRouteOptions) {
+		const previousRoutes = StateManager.routes[name] ?? []
+
 		StateManager.routes[name] = [
-			...(StateManager.routes[name] ?? []),
+			...previousRoutes,
 			options,
 		]
 	}
@@ -35,9 +42,4 @@ export class StateManager {
 	static getController(target: Function): CustomControllerOptions | undefined {
 		return StateManager.controllers[target.name]
 	}
-}
-
-export type State = {
-	controllers: Record<string, CustomControllerOptions>
-	routes: Record<string, CustomRouteOptions[]>
 }

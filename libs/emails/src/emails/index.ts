@@ -1,5 +1,5 @@
-import { SendOTP } from './SendOTP.email'
-import { Welcome } from './Welcome.email'
+import { SendOTP } from './send-otp.email'
+import { Welcome } from './welcome.email'
 
 import type { IEmails } from '@/interfaces'
 

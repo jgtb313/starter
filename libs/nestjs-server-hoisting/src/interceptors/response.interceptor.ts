@@ -10,24 +10,23 @@ import { map } from 'rxjs/operators'
 
 @Injectable()
 export class ResponseInterceptor implements NestInterceptor {
+	private readonly OMIT = [
+		'password',
+	]
+
 	intercept(context: ExecutionContext, next: CallHandler) {
 		const request = context.switchToHttp().getRequest<Request>()
 
 		const { fields } = request.query
 
 		if (!fields) {
-			return next.handle().pipe(map((data) => deepOmit(data, 'password')))
+			return next.handle().pipe(map((data) => deepOmit(data, this.OMIT)))
 		}
 
 		const parsedFields = fields.toString().replace(/\s+/g, '')
 
 		const formatResponse = <T extends {}>(value: T) =>
-			deepPick(
-				parsedFields,
-				deepOmit(value, [
-					'password',
-				]),
-			)
+			deepPick(parsedFields, deepOmit(value, this.OMIT))
 
 		return next.handle().pipe(
 			map((data) => {
@@ -41,5 +40,9 @@ export class ResponseInterceptor implements NestInterceptor {
 				return formatResponse(data)
 			}),
 		)
+	}
+
+	private baseOmit(value: any) {
+		return deepOmit(value, this.OMIT)
 	}
 }

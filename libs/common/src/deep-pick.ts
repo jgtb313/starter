@@ -1,4 +1,4 @@
-import { get, isArray, isPlainObject, set } from 'lodash'
+import { get, isArray, isPlainObject, set } from 'lodash-es'
 
 type DeepPickKeys = string | string[]
 

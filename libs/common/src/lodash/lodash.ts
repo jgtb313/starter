@@ -30,4 +30,4 @@ export {
 	toUpper,
 	uniqBy,
 	upperFirst,
-} from 'lodash'
+} from 'lodash-es'

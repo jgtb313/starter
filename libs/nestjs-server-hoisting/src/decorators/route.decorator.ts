@@ -155,7 +155,7 @@ export const zodSchemaToJSONSchema = (zodType: z.ZodType): any => {
 const getMergedProperties = (jsonSchema: z.core.JSONSchema.ObjectSchema) => {
 	if (jsonSchema.properties) {
 		return Object.entries(jsonSchema.properties).map(([name, props]) => ({
-			...props,
+			...JSON.parse(JSON.stringify(props)),
 			name,
 			required: jsonSchema?.required?.includes(name),
 		}))
@@ -167,7 +167,7 @@ const getMergedProperties = (jsonSchema: z.core.JSONSchema.ObjectSchema) => {
 				const required = (get(schema, 'required') ?? []) as string[]
 
 				return {
-					...props,
+					...JSON.parse(JSON.stringify(props)),
 					name,
 					required: required.includes(name),
 				}
@@ -216,11 +216,21 @@ export const Route = (options: RouteOptions): MethodDecorator => {
 			}),
 		)
 
-		if (options.method === 'GET') decorators.push(Get(options.path))
-		if (options.method === 'POST') decorators.push(Post(options.path))
-		if (options.method === 'PUT') decorators.push(Put(options.path))
-		if (options.method === 'PATCH') decorators.push(Patch(options.path))
-		if (options.method === 'DELETE') decorators.push(Delete(options.path))
+		if (options.method === 'GET') {
+			decorators.push(Get(options.path))
+		}
+		if (options.method === 'POST') {
+			decorators.push(Post(options.path))
+		}
+		if (options.method === 'PUT') {
+			decorators.push(Put(options.path))
+		}
+		if (options.method === 'PATCH') {
+			decorators.push(Patch(options.path))
+		}
+		if (options.method === 'DELETE') {
+			decorators.push(Delete(options.path))
+		}
 
 		decorators.push(
 			UseZodGuard({

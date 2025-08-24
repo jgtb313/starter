@@ -5,7 +5,40 @@ export enum StageEnum {
 	PRD = 'prd',
 }
 
-export const config = {
+export type Config = {
+	name: string
+	domain: string
+
+	apiUrls: Record<StageEnum, string>
+
+	logo: {
+		light: string
+		dark: string
+		lightSymbol: string
+		darkSymbol: string
+	}
+
+	theme: {
+		palette: {
+			primary: string
+		}
+	}
+
+	contact: {
+		email?: string
+		phone?: string
+	}
+
+	social: {
+		facebook?: string
+		twitter?: string
+		instagram?: string
+	}
+
+	address: string
+}
+
+export const config: Config = {
 	name: 'Starter',
 	domain: 'starter.com',
 

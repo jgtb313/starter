@@ -48,34 +48,42 @@ export const Layout = ({ title, children }: PropsWithChildren<LayoutProps>) => {
 								align='center'
 							>
 								<Column className='pr-[8px]'>
-									<Link href={config.social.facebook}>
-										<Img
-											src='https://i.imgur.com/ess1JW0.png'
-											alt='Facebook'
-											width={30}
-											height={30}
-										/>
-									</Link>
+									{config.social.facebook && (
+										<Link href={config.social.facebook}>
+											<Img
+												src='https://i.imgur.com/ess1JW0.png'
+												alt='Facebook'
+												width={30}
+												height={30}
+											/>
+										</Link>
+									)}
 								</Column>
+
 								<Column className='pr-[8px]'>
-									<Link href={config.social.twitter}>
-										<Img
-											src='https://i.imgur.com/DsoTAYE.png'
-											alt='Twitter'
-											width={30}
-											height={30}
-										/>
-									</Link>
+									{config.social.twitter && (
+										<Link href={config.social.twitter}>
+											<Img
+												src='https://i.imgur.com/DsoTAYE.png'
+												alt='Twitter'
+												width={30}
+												height={30}
+											/>
+										</Link>
+									)}
 								</Column>
+
 								<Column className='pr-[8px]'>
-									<Link href={config.social.instagram}>
-										<Img
-											src='https://i.imgur.com/A46ahq8.png'
-											alt='Instagram'
-											width={30}
-											height={30}
-										/>
-									</Link>
+									{config.social.instagram && (
+										<Link href={config.social.instagram}>
+											<Img
+												src='https://i.imgur.com/A46ahq8.png'
+												alt='Instagram'
+												width={30}
+												height={30}
+											/>
+										</Link>
+									)}
 								</Column>
 							</Row>
 

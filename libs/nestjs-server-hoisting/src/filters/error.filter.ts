@@ -35,7 +35,7 @@ export class ErrorFilter implements ExceptionFilter {
 				statusCode: 400,
 				error: 'Bad Request Error',
 				issues: issues.map((issue) => ({
-					[isString(issue.path) ? issue.path : issue.path.join('.')]:
+					[`${isString(issue.path) ? issue.path : issue.path.join('.')}`]:
 						issue.message,
 				})),
 			})

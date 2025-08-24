@@ -1,8 +1,8 @@
+import type { SendOTPProps } from '@/emails/send-otp.email'
+import type { WelcomeProps } from '@/emails/welcome.email'
+
 export interface IEmails {
-	WELCOME: {
-		message: string
-	}
-	SEND_OTP: {
-		code: string
-	}
+	SEND_OTP: SendOTPProps
+
+	WELCOME: WelcomeProps
 }

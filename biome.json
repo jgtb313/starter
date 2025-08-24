@@ -58,10 +58,12 @@
 				"noNonNullAssertion": "off"
 			},
 			"performance": {
-				"noDelete": "off"
+				"noDelete": "off",
+				"noAccumulatingSpread": "off"
 			},
 			"complexity": {
-				"noBannedTypes": "off"
+				"noBannedTypes": "off",
+				"noStaticOnlyClass": "off"
 			}
 		}
 	},
@@ -86,6 +88,9 @@
 			"bracketSameLine": false,
 			"attributePosition": "multiline",
 			"expand": "always"
+		},
+		"parser": {
+			"unsafeParameterDecoratorsEnabled": true
 		}
 	}
 }
