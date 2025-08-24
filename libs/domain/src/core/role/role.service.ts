@@ -1,15 +1,11 @@
 import { Injectable, Inject, forwardRef } from '@nestjs/common'
 import { AclForbiddenException } from '@starter/nestjs-error-handling'
 
-import { createWorkspaceReference, WithWorkspaceReference } from '@/support/workspace-reference'
 import { IRoleRepository } from '@/ports/database/role'
 import { OrganizationService } from '@/core/organization/organization.service'
 import { PermissionService } from '@/core/permission/permission.service'
 import { RoleStatusEnum } from '@/core/role/role.schema'
-import { IRoleService } from '@/core/role/role.service.interface'
-
-export type RoleWorkspaceReference = WithWorkspaceReference<'roleId'>
-export const getRoleWorkspaceReference = createWorkspaceReference('roleId')
+import { getRoleWorkspaceReference, IRoleService } from '@/core/role/role.service.interface'
 
 @Injectable()
 export class RoleService implements IRoleService {
@@ -94,6 +90,10 @@ export class RoleService implements IRoleService {
     const role = await this.getRole(reference)
 
     await this.roleRepository.deleteById(role.state.roleId)
+  }
+
+  validateRoleIds: IRoleService['validateRoleIds'] = async (roleIds) => {
+    await this.roleRepository.validateRoleIds(roleIds)
   }
 
   validateRoleIdsByOrganizationId: IRoleService['validateRoleIdsByOrganizationId'] = async (organizationId, roleIds) => {

@@ -25,13 +25,13 @@
     "editor.formatOnSave": false
   },
   "json.schemaDownload.enable": true,
-  "typescript.tsdk": "node_modules/typescript/lib"
-  // "files.exclude": {
-  //   "**/node_modules": true,
-  //   "**/dist": true
-  // },
-  // "search.exclude": {
-  //   "node_modules": true,
-  //   "**/dist": true
-  // }
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "files.exclude": {
+    "**/node_modules": true,
+    "**/dist": true
+  },
+  "search.exclude": {
+    "node_modules": true,
+    "**/dist": true
+  }
 }

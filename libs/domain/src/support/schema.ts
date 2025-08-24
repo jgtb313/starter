@@ -16,11 +16,8 @@ export const ID = (resourceName: string) => {
   })
 }
 
-export const CreatedAt = z.iso.datetime().transform((value) => new Date(value))
+export const CreatedAt = z.iso.datetime()
 
-export const UpdatedAt = z.iso.datetime().transform((value) => new Date(value))
+export const UpdatedAt = z.iso.datetime()
 
-export const DeletedAt = z.iso
-  .datetime()
-  .nullish()
-  .transform((value) => (value ? new Date(value) : null))
+export const DeletedAt = z.iso.datetime().nullish()

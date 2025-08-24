@@ -1,3 +1,5 @@
+name: starter-app
+
 services:
   redis:
     container_name: starter-app_redis

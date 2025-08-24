@@ -1,5 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm'
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, OneToMany } from 'typeorm'
 
+import { RoleOrganizationEntity } from '@/adapters/database/role/role-organization.typeorm.entity'
+import { RolePermissionEntity } from '@/adapters/database/role/role-permission.typeorm.entity'
 import { Role } from '@/core/role/role.schema'
 
 @Entity('roles')
@@ -10,6 +12,12 @@ export class RoleEntity {
   @Column({ type: 'uuid' })
   workspaceId: Role['workspaceId']
 
+  @OneToMany(() => RoleOrganizationEntity, (roleOrganization) => roleOrganization.role)
+  organizations: RoleOrganizationEntity[]
+
+  @OneToMany(() => RolePermissionEntity, (rolePermission) => rolePermission.role)
+  permissions: RolePermissionEntity[]
+
   @Column({ type: 'varchar' })
   name: Role['name']
 
@@ -19,12 +27,12 @@ export class RoleEntity {
   @Column({ type: 'varchar' })
   status: Role['status']
 
-  @DeleteDateColumn({})
+  @DeleteDateColumn()
   deletedAt: Role['deletedAt']
 
-  @CreateDateColumn({})
+  @CreateDateColumn()
   createdAt: Role['createdAt']
 
-  @UpdateDateColumn({})
+  @UpdateDateColumn()
   updatedAt: Role['updatedAt']
 }

@@ -29,7 +29,7 @@ export const BasePaginationSchemaOutput = z.object({
   }),
 })
 
-export type Pagination<T> = Partial<T> & Partial<z.infer<typeof PaginationSchema>>
+export type Pagination = Partial<z.infer<typeof PaginationSchema>>
 export type PaginationOutput<T> = {
   values: T[]
   meta: z.infer<typeof PaginationMeta>

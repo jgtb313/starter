@@ -1,8 +1,8 @@
 import { z } from 'zod'
 
 export const SortEnum = {
-  asc: 1,
-  desc: -1,
+  asc: 'ASC',
+  desc: 'DESC',
 } as const
 
 export const SortSchema = (allowedFields: string[]) =>
@@ -17,11 +17,15 @@ export const SortSchema = (allowedFields: string[]) =>
     })
     .refine((value) => {
       if (value === undefined) return true
-      const [_, order] = value.split(':')
+      const [, order] = value.split(':')
       return ['asc', 'desc'].includes(order)
     })
     .transform((value) => {
-      if (value === undefined) return undefined
+      if (value === undefined) return {}
       const [field, order] = value.split(':')
       return { [field]: SortEnum[order as keyof typeof SortEnum] }
     })
+
+export type Sort<K extends string> = {
+  sort?: Partial<Record<K, (typeof SortEnum)[keyof typeof SortEnum]>>
+}

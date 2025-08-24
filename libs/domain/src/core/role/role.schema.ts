@@ -1,5 +1,4 @@
 import { z } from '@starter/schema'
-import { formatToCapitalized } from '@starter/common'
 
 import { ID, DeletedAt, CreatedAt, UpdatedAt, BaseSchema } from '@/support/schema'
 import { OrganizationSchema } from '@/core/organization/organization.schema'
@@ -18,10 +17,7 @@ const Organization = z.array(OrganizationSchema).default([])
 
 const Permission = z.array(PermissionSchema).default([])
 
-const Name = z
-  .string()
-  .min(1)
-  .transform((value) => formatToCapitalized(value))
+const Name = z.string().min(1)
 
 const Tags = z
   .array(z.string())

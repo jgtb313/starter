@@ -20,6 +20,7 @@
     "clean": "npm exec --workspaces -- npx rimraf node_modules && npm exec --workspaces -- npx rimraf dist"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.2.2",
     "@typescript-eslint/eslint-plugin": "^8.18.1",
     "@typescript-eslint/parser": "^8.18.1",
     "concurrently": "^9.1.0",
