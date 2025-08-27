@@ -22,16 +22,6 @@ export class UserEntity {
 	workspaceId: User['workspaceId']
 
 	@Column({
-		type: 'simple-array',
-	})
-	scopes: User['scopes']
-
-	@Column({
-		type: 'simple-array',
-	})
-	permissions: User['permissions']
-
-	@Column({
 		type: 'varchar',
 	})
 	name: User['name']

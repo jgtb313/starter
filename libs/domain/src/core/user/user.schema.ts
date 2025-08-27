@@ -20,15 +20,6 @@ const WorkspaceId = ID('workspaceId')
 	.nullish()
 	.transform((value) => value ?? null)
 
-const Scopes = z.array(
-	z.object({
-		organizationId: ID('organization'),
-		roleIds: z.array(ID('role')),
-	}),
-)
-
-const Permissions = z.array(z.string()).default([])
-
 const Name = z
 	.string()
 	.min(1)
@@ -68,8 +59,6 @@ const Status = z.enum(UserStatusEnum).default(UserStatusEnum.ACTIVE)
 export const UserSchema = z.object({
 	userId: UserId,
 	workspaceId: WorkspaceId,
-	scopes: Scopes,
-	permissions: Permissions,
 	name: Name,
 	email: Email,
 	phone: Phone,
