@@ -44,4 +44,12 @@ describe('isValidDate', () => {
 		expect(isValidDate('01/01/2023T00:00:00')).toBe(true) // DD/MM/YYYY with time
 		expect(isValidDate('01/01/2023 00:00:00')).toBe(true) // DD/MM/YYYY with time
 	})
+
+	it('returns false for non-date, non-string inputs', () => {
+		expect(isValidDate(null as unknown as string)).toBe(false)
+		expect(isValidDate(undefined as unknown as string)).toBe(false)
+		expect(isValidDate(123 as unknown as string)).toBe(false)
+		expect(isValidDate({} as unknown as string)).toBe(false)
+		expect(isValidDate([] as unknown as string)).toBe(false)
+	})
 })

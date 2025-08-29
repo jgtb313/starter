@@ -286,9 +286,9 @@ importers:
       '@types/omit-deep-lodash':
         specifier: ^1.1.3
         version: 1.1.3
-      '@vitest/coverage-c8':
-        specifier: ^0.33.0
-        version: 0.33.0(vitest@2.1.9)
+      '@vitest/coverage-v8':
+        specifier: 2.1.9
+        version: 2.1.9(vitest@2.1.9)
       '@vitest/ui':
         specifier: ^2.1.8
         version: 2.1.9(vitest@2.1.9)
@@ -11750,7 +11750,7 @@ snapshots:
       magic-string: 0.30.18
       picocolors: 1.1.1
       std-env: 3.9.0
-      vitest: 2.1.9(@types/node@24.3.0)(@vitest/ui@2.1.9)(jsdom@25.0.1)(terser@5.43.1)
+      vitest: 2.1.9(@types/node@22.17.2)(@vitest/ui@2.1.9)(jsdom@25.0.1)(terser@5.43.1)
 
   '@vitest/coverage-v8@2.1.9(vitest@2.1.9)':
     dependencies:
@@ -11876,7 +11876,7 @@ snapshots:
       sirv: 3.0.1
       tinyglobby: 0.2.14
       tinyrainbow: 1.2.0
-      vitest: 2.1.9(@types/node@24.3.0)(@vitest/ui@2.1.9)(jsdom@25.0.1)(terser@5.43.1)
+      vitest: 2.1.9(@types/node@22.17.2)(@vitest/ui@2.1.9)(jsdom@25.0.1)(terser@5.43.1)
 
   '@vitest/ui@3.2.4(vitest@3.2.4)':
     dependencies:

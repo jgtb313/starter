@@ -1,4 +1,4 @@
-import path from 'path'
+import path from 'node:path'
 
 import { defineConfig } from 'vitest/config'
 
@@ -10,10 +10,13 @@ export default defineConfig({
 	},
 
 	test: {
+		environment: 'node',
 		include: [
 			'**/*.test.{js,ts,jsx,tsx}',
 		],
 		coverage: {
+			all: true,
+			provider: 'v8',
 			include: [
 				'src/**/*.{js,ts,jsx,tsx}',
 			],
