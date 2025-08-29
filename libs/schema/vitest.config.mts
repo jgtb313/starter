@@ -10,10 +10,13 @@ export default defineConfig({
 	},
 
 	test: {
+		environment: 'node',
 		include: [
 			'**/*.test.{js,ts,jsx,tsx}',
 		],
 		coverage: {
+			all: true,
+			provider: 'v8',
 			include: [
 				'src/**/*.{js,ts,jsx,tsx}',
 			],
@@ -24,6 +27,8 @@ export default defineConfig({
 				'**/index.{js,ts,jsx,tsx}',
 				'**/*.d.ts',
 				'**/types.ts',
+				'**/locales.schema.ts',
+				'**/zod.ts',
 			],
 		},
 	},

@@ -16,6 +16,7 @@
 							":BLANK_LINE:",
 							":PACKAGE:",
 							":BLANK_LINE:",
+							["@/zod"],
 							["@/app"],
 							["@/support/**"],
 							["@/routes/**"],

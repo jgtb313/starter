@@ -1,46 +1,32 @@
 import { z } from '@/zod'
 
-const maxLimit = (limit: number) => (limit > 100 ? 100 : limit)
-
 export const PaginationSchema = z.object({
-	offset: z.coerce.number().optional().meta({
-		description: 'Number of items to skip in the result set.',
-	}),
-	limit: z.coerce.number().optional().meta({
-		description: 'Maximum number of items to return.',
-	}),
+	cursor: z.string().optional(),
+	limit: z.coerce.number().optional(),
 })
 
 export const PaginationSchemaTransform = PaginationSchema.transform(
-	(pagination) => {
-		return {
-			offset: Number(pagination.offset ?? 0),
-			limit: pagination.limit
-				? Number(pagination.limit) > 0
-					? maxLimit(Number(pagination.limit))
-					: 10
-				: 10,
-		}
-	},
+	(pagination) => ({
+		cursor: pagination.cursor ?? null,
+		limit: pagination.limit
+			? Number(pagination.limit) > 0
+				? Number(pagination.limit) > 100
+					? 100
+					: Number(pagination.limit)
+				: 10
+			: 10,
+	}),
 )
 
 const PaginationMeta = z.object({
-	total: z.number().default(0).meta({
-		example: 150,
-	}),
-	offset: z.number().default(0).meta({
-		example: 20,
-	}),
-	limit: z.number().default(0).meta({
-		example: 10,
-	}),
+	nextCursor: z.string().nullable().default(null),
+	limit: z.number().default(0),
 })
 
 export const BasePaginationSchemaOutput = z.object({
 	values: z.array(z.unknown()).default([]),
 	meta: PaginationMeta.default({
-		total: 0,
-		offset: 0,
+		nextCursor: null,
 		limit: 0,
 	}),
 })

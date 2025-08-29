@@ -7,26 +7,26 @@ import {
 } from './pagination'
 
 describe('PaginationSchema', () => {
-	it('should have undefined offset and limit if not provided', () => {
+	it('should have undefined cursor and limit if not provided', () => {
 		const result = PaginationSchema.parse({})
-		expect(result.offset).toBeUndefined()
+		expect(result.cursor).toBeUndefined()
 		expect(result.limit).toBeUndefined()
 	})
 
-	it('should accept custom offset and limit values', () => {
+	it('should accept custom cursor and limit values', () => {
 		const result = PaginationSchema.parse({
-			offset: 5,
+			cursor: 'abc123',
 			limit: 20,
 		})
-		expect(result.offset).toBe(5)
+		expect(result.cursor).toBe('abc123')
 		expect(result.limit).toBe(20)
 	})
 })
 
 describe('PaginationSchemaTransform', () => {
-	it('should default offset to 0 if not provided', () => {
+	it('should default cursor to null if not provided', () => {
 		const result = PaginationSchemaTransform.parse({})
-		expect(result.offset).toBe(0)
+		expect(result.cursor).toBeNull()
 	})
 
 	it('should default limit to 10 if not provided', () => {
@@ -36,7 +36,6 @@ describe('PaginationSchemaTransform', () => {
 
 	it('should cap limit at 100', () => {
 		const result = PaginationSchemaTransform.parse({
-			offset: 0,
 			limit: 150,
 		})
 		expect(result.limit).toBe(100)
@@ -44,7 +43,6 @@ describe('PaginationSchemaTransform', () => {
 
 	it('should set limit to 10 if a non-positive number is provided', () => {
 		const result = PaginationSchemaTransform.parse({
-			offset: 0,
 			limit: -5,
 		})
 		expect(result.limit).toBe(10)
@@ -52,11 +50,10 @@ describe('PaginationSchemaTransform', () => {
 
 	it('should transform string numbers into numbers', () => {
 		const result = PaginationSchemaTransform.parse({
-			offset: '5',
 			limit: '30',
 		})
-		expect(result.offset).toBe(5)
 		expect(result.limit).toBe(30)
+		expect(result.cursor).toBeNull()
 	})
 })
 
@@ -66,8 +63,7 @@ describe('BasePaginationSchemaOutput', () => {
 			values: [],
 		})
 
-		expect(result.meta.total).toBeDefined()
-		expect(result.meta.offset).toBeDefined()
+		expect(result.meta.nextCursor).toBeNull()
 		expect(result.meta.limit).toBeDefined()
 	})
 
@@ -75,14 +71,12 @@ describe('BasePaginationSchemaOutput', () => {
 		const result = BasePaginationSchemaOutput.parse({
 			values: [],
 			meta: {
-				total: 150,
-				offset: 20,
+				nextCursor: 'abc123',
 				limit: 10,
 			},
 		})
 
-		expect(result.meta.total).toBe(150)
-		expect(result.meta.offset).toBe(20)
+		expect(result.meta.nextCursor).toBe('abc123')
 		expect(result.meta.limit).toBe(10)
 	})
 })
