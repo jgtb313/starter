@@ -1,11 +1,8 @@
 import { Injectable } from '@nestjs/common'
 import { uuid } from '@starter/common'
 
+import type { IRecurrenceAdapter } from '@/adapters/recurrence/recurrence.adapter'
 import { InvoiceStatusEnum } from '@/core/invoice/invoice.schema'
-import {
-	type IRecurrenceAdapter,
-	RecurrencePaymentMethodEnum,
-} from '@/ports/recurrence'
 
 @Injectable()
 export class InMemoryRecurrenceAdapter implements IRecurrenceAdapter {
@@ -34,7 +31,7 @@ export class InMemoryRecurrenceAdapter implements IRecurrenceAdapter {
 	) => {
 		const subscriptionId = uuid()
 
-		if (input.paymentMethod === RecurrencePaymentMethodEnum.CARD) {
+		if (input.paymentMethod === 'CARD') {
 			return {
 				subscriptionId,
 				paymentMethod: input.paymentMethod,
@@ -54,7 +51,7 @@ export class InMemoryRecurrenceAdapter implements IRecurrenceAdapter {
 			}
 		}
 
-		if (input.paymentMethod === RecurrencePaymentMethodEnum.PIX) {
+		if (input.paymentMethod === 'PIX') {
 			return {
 				subscriptionId,
 				paymentMethod: input.paymentMethod,
@@ -92,7 +89,7 @@ export class InMemoryRecurrenceAdapter implements IRecurrenceAdapter {
 
 	changeSubscriptionPaymentMethod: IRecurrenceAdapter['changeSubscriptionPaymentMethod'] =
 		async ({ subscriptionId, ...input }) => {
-			if (input.paymentMethod === RecurrencePaymentMethodEnum.CARD) {
+			if (input.paymentMethod === 'CARD') {
 				return {
 					subscriptionId,
 					paymentMethod: input.paymentMethod,
@@ -105,7 +102,7 @@ export class InMemoryRecurrenceAdapter implements IRecurrenceAdapter {
 				}
 			}
 
-			if (input.paymentMethod === RecurrencePaymentMethodEnum.PIX) {
+			if (input.paymentMethod === 'PIX') {
 				return {
 					subscriptionId,
 					paymentMethod: input.paymentMethod,
@@ -144,13 +141,13 @@ export class InMemoryRecurrenceAdapter implements IRecurrenceAdapter {
 		}
 
 	changeSubscriptionPlan: IRecurrenceAdapter['changeSubscriptionPlan'] =
-		async ({ subscriptionId, planId }) => {
+		async ({ subscriptionId }) => {
 			return {
 				subscriptionId,
 				invoice: {
 					externalId: uuid(),
 					amount: 2000,
-					paymentMethod: RecurrencePaymentMethodEnum.CARD,
+					paymentMethod: 'CARD',
 					dueDate: new Date(),
 					status: InvoiceStatusEnum.PENDING,
 				},

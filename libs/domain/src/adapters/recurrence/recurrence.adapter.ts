@@ -125,7 +125,7 @@ export type RecurrenceCancelSubscriptionInput = {
 }
 export type RecurrenceCancelSubscriptionOutput = void
 
-export type IRecurrence = {
+export type IRecurrenceAdapter = {
 	createPlan: (
 		input: RecurrenceCreatePlanInput,
 	) => Promise<RecurrenceCreatePlanOutput>
