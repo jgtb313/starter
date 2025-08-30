@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common'
 
-import type { ICache, ICacheAdapter } from '@/ports/cache'
+import type { ICacheAdapter } from '@/adapters/cache/cache.adapter'
+import type { ICache } from '@/ports/cache'
 
 @Injectable()
 export class CacheService implements ICache {

@@ -19,7 +19,7 @@ describe('CacheService', () => {
 	const mockCache = {
 		get: vi.fn(),
 		set: vi.fn(),
-		del: vi.fn(),
+		delete: vi.fn(),
 	} as Mocked<ICache>
 
 	beforeEach(async () => {
@@ -69,9 +69,9 @@ describe('CacheService', () => {
 
 	describe('del', () => {
 		it('should call del with correct key', async () => {
-			await cacheService.del('testKey')
+			await cacheService.delete('testKey')
 
-			expect(mockCache.del).toHaveBeenCalledWith('testKey')
+			expect(mockCache.delete).toHaveBeenCalledWith('testKey')
 		})
 	})
 })

@@ -1,7 +1,7 @@
 import type { SNS } from '@aws-sdk/client-sns'
 import { Injectable } from '@nestjs/common'
 
-import type { IPublisherAdapter } from '@/ports/publisher'
+import type { IPublisherAdapter } from '@/adapters/publisher/publisher.adapter'
 
 @Injectable()
 export class AWSSNSAdapter implements IPublisherAdapter {

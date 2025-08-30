@@ -1,7 +1,7 @@
 import type { SQS } from '@aws-sdk/client-sqs'
 import { Injectable } from '@nestjs/common'
 
-import type { IPublisherAdapter } from '@/ports/publisher'
+import type { IPublisherAdapter } from '@/adapters/publisher/publisher.adapter'
 
 @Injectable()
 export class AWSSQSAdapter implements IPublisherAdapter {

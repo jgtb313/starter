@@ -1,33 +1,44 @@
 import { Inject, Injectable } from '@nestjs/common'
 import type { Logger as Pino } from 'pino'
 
-import type { ILoggerAdapter } from '@/ports/logger'
+import type { ILoggerAdapter } from '@/adapters/logger/logger.adapter'
 
 @Injectable()
 export class PinoESAdapter implements ILoggerAdapter {
-  constructor(@Inject('PINO_ES_CLIENT') private readonly client: Pino | undefined) {}
+	constructor(
+		@Inject('PINO_ES_CLIENT') private readonly client: Pino | undefined,
+	) {}
 
-  info: ILoggerAdapter['info'] = async (message, event) => {
-    if (!this.client) {
-      return
-    }
+	info: ILoggerAdapter['info'] = async (message, event) => {
+		if (!this.client) {
+			return
+		}
 
-    await this.client.info({ message, event })
-  }
+		await this.client.info({
+			message,
+			event,
+		})
+	}
 
-  warn: ILoggerAdapter['warn'] = async (message, event) => {
-    if (!this.client) {
-      return
-    }
+	warn: ILoggerAdapter['warn'] = async (message, event) => {
+		if (!this.client) {
+			return
+		}
 
-    await this.client.warn({ message, event })
-  }
+		await this.client.warn({
+			message,
+			event,
+		})
+	}
 
-  error: ILoggerAdapter['error'] = async (message, event) => {
-    if (!this.client) {
-      return
-    }
+	error: ILoggerAdapter['error'] = async (message, event) => {
+		if (!this.client) {
+			return
+		}
 
-    await this.client.error({ message, event })
-  }
+		await this.client.error({
+			message,
+			event,
+		})
+	}
 }
