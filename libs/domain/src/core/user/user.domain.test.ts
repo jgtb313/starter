@@ -3,40 +3,39 @@ import { ConflictException } from '@starter/nestjs-error-handling'
 import { describe, expect, it } from 'vitest'
 
 import { makeUser } from '@/core/user/user.mock'
-import { UserStatusEnum } from '@/core/user/user.schema'
 
 describe('UserDomain', () => {
 	it('should return true for isActive when status is ACTIVE', () => {
 		const user = makeUser({
-			status: UserStatusEnum.ACTIVE,
+			status: 'ACTIVE',
 		})
 		expect(user.isActive()).toBe(true)
 	})
 
 	it('should return false for isActive when status is INACTIVE', () => {
 		const user = makeUser({
-			status: UserStatusEnum.INACTIVE,
+			status: 'INACTIVE',
 		})
 		expect(user.isActive()).toBe(false)
 	})
 
 	it('should return true for isInactive when status is INACTIVE', () => {
 		const user = makeUser({
-			status: UserStatusEnum.INACTIVE,
+			status: 'INACTIVE',
 		})
 		expect(user.isInactive()).toBe(true)
 	})
 
 	it('should return false for isInactive when status is ACTIVE', () => {
 		const user = makeUser({
-			status: UserStatusEnum.ACTIVE,
+			status: 'ACTIVE',
 		})
 		expect(user.isInactive()).toBe(false)
 	})
 
 	it('should allow marking user as active when inactive', () => {
 		const user = makeUser({
-			status: UserStatusEnum.INACTIVE,
+			status: 'INACTIVE',
 		})
 		user.markAsActive()
 		expect(user.isActive()).toBe(true)
@@ -44,7 +43,7 @@ describe('UserDomain', () => {
 
 	it('should throw when marking user as active if already active', () => {
 		const user = makeUser({
-			status: UserStatusEnum.ACTIVE,
+			status: 'ACTIVE',
 		})
 		expect(() => user.markAsActive()).toThrowError(
 			new ConflictException('This user is already active.'),
@@ -53,7 +52,7 @@ describe('UserDomain', () => {
 
 	it('should allow marking user as inactive when active', () => {
 		const user = makeUser({
-			status: UserStatusEnum.ACTIVE,
+			status: 'ACTIVE',
 		})
 		user.markAsInactive()
 		expect(user.isInactive()).toBe(true)
@@ -61,7 +60,7 @@ describe('UserDomain', () => {
 
 	it('should throw when marking user as inactive if already inactive', () => {
 		const user = makeUser({
-			status: UserStatusEnum.INACTIVE,
+			status: 'INACTIVE',
 		})
 		expect(() => user.markAsInactive()).toThrowError(
 			new ConflictException('This user is already inactive.'),

@@ -6,7 +6,6 @@ import {
 	type Invoice,
 	type InvoiceInput,
 	InvoiceSchema,
-	InvoiceStatusEnum,
 } from '@/core/invoice/invoice.schema'
 
 export class InvoiceDomain extends BaseDomain<Invoice, InvoiceInput> {
@@ -15,40 +14,40 @@ export class InvoiceDomain extends BaseDomain<Invoice, InvoiceInput> {
 	}
 
 	isPending() {
-		return this.state.status === InvoiceStatusEnum.PENDING
+		return this.state.status === 'PENDING'
 	}
 
 	isPaid() {
-		return this.state.status === InvoiceStatusEnum.PAID
+		return this.state.status === 'PAID'
 	}
 
 	isOverdue() {
-		return this.state.status === InvoiceStatusEnum.OVERDUE
+		return this.state.status === 'OVERDUE'
 	}
 
 	isCanceled() {
-		return this.state.status === InvoiceStatusEnum.CANCELED
+		return this.state.status === 'CANCELED'
 	}
 
 	markAsPaid() {
 		this.checkIfCanBePaid()
 
 		this.state.paidAt = new Date()
-		this.state.status = InvoiceStatusEnum.PAID
+		this.state.status = 'PAID'
 	}
 
 	markAsOverdue() {
 		this.checkIfCanBeOverdue()
 
 		this.state.overdueAt = new Date()
-		this.state.status = InvoiceStatusEnum.OVERDUE
+		this.state.status = 'OVERDUE'
 	}
 
 	markAsCanceled() {
 		this.checkIfCanBeCanceled()
 
 		this.state.canceledAt = new Date()
-		this.state.status = InvoiceStatusEnum.CANCELED
+		this.state.status = 'CANCELED'
 	}
 
 	private checkIfCanBePaid() {

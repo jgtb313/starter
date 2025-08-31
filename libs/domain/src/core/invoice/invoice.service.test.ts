@@ -8,12 +8,10 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { InMemoryDatabaseModule } from '@/adapters/database'
 import { InvoiceRepositoryModule } from '@/adapters/database/invoice/invoice.repository.module'
 import { invoiceMocks, makeInvoice } from '@/core/invoice/invoice.mock'
-import { InvoiceStatusEnum } from '@/core/invoice/invoice.schema'
 import { InvoiceService } from '@/core/invoice/invoice.service'
 import { SubscriptionService } from '@/core/subscription/subscription.service'
 import { WorkspaceService } from '@/core/workspace/workspace.service'
 import type { IInvoiceRepository } from '@/ports/database/invoice'
-import { RecurrencePaymentMethodEnum } from '@/ports/recurrence'
 
 describe('InvoiceService', () => {
 	let service: InvoiceService
@@ -129,7 +127,7 @@ describe('InvoiceService', () => {
 				const invoice = makeInvoice({
 					workspaceId: '0e6c34bb-5a5c-4b31-bfec-33ec3651d57f',
 					subscriptionId: '126b6b16-0238-41bc-9c27-54f260b08aaa',
-					paymentMethod: RecurrencePaymentMethodEnum.CARD,
+					paymentMethod: 'CARD',
 					card: {
 						token: 'tok_001',
 						number: '4111 ********** 11',
@@ -155,7 +153,7 @@ describe('InvoiceService', () => {
 				const invoice = makeInvoice({
 					workspaceId: '0e6c34bb-5a5c-4b31-bfec-33ec3651d57f',
 					subscriptionId: '126b6b16-0238-41bc-9c27-54f260b08aaa',
-					paymentMethod: RecurrencePaymentMethodEnum.CARD,
+					paymentMethod: 'CARD',
 					card: {
 						token: 'tok_001',
 						number: '4111 ********** 11',
@@ -180,10 +178,10 @@ describe('InvoiceService', () => {
 				const [invoice] = invoiceMocks
 
 				const result = await service.updateInvoice(invoice.state.invoiceId, {
-					status: InvoiceStatusEnum.CANCELED,
+					status: 'CANCELED',
 				})
 
-				expect(result.state.status).toBe(InvoiceStatusEnum.CANCELED)
+				expect(result.state.status).toBe('CANCELED')
 			})
 
 			it('should throw an error if the invoice does not exist', async () => {

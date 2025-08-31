@@ -1,4 +1,5 @@
-import type { Pagination, PaginationOutput } from '@starter/schema'
+import type { Merge } from '@starter/common'
+import type { Pagination, PaginationOutput, Sort } from '@starter/schema'
 
 import type { SubscriptionDomain } from '@/core/subscription/subscription.domain'
 import type {
@@ -6,9 +7,29 @@ import type {
 	Subscription,
 } from '@/core/subscription/subscription.schema'
 
+type FindSubscriptionInput = Partial<
+	Pick<
+		Subscription,
+		| 'workspaceId'
+		| 'planId'
+		| 'externalId'
+		| 'paymentMethod'
+		| 'deadline'
+		| 'status'
+	>
+>
+
+type SubscriptionSort = Sort<'status' | 'createdAt'>
+
 export type ISubscriptionRepository = {
 	findAllPaginated(
-		input: Pagination<Subscription>,
+		input: Merge<
+			[
+				FindSubscriptionInput,
+				SubscriptionSort,
+				Pagination,
+			]
+		>,
 	): Promise<PaginationOutput<SubscriptionDomain>>
 	findAll(input: Partial<Subscription>): Promise<SubscriptionDomain[]>
 	findById(roleId: string): Promise<SubscriptionDomain>

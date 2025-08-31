@@ -1,25 +1,42 @@
-import type { Pagination, PaginationOutput, Phone } from '@starter/schema'
+import type { Merge } from '@starter/common'
+import type { Pagination, PaginationOutput, Phone, Sort } from '@starter/schema'
 
 import type { UserDomain } from '@/core/user/user.domain'
 import type { BaseUser, User } from '@/core/user/user.schema'
 
+type FindUserInput = Partial<
+	Pick<User, 'workspaceId' | 'email' | 'phone' | 'status'>
+>
+
+type UserSort = Sort<'name' | 'status' | 'createdAt'>
+
+type FindByEmailOptions = {
+	workspaceId?: User['workspaceId']
+}
+
+type FindByPhoneOptions = {
+	workspaceId?: User['workspaceId']
+}
+
 export type IUserRepository = {
 	findAllPaginated(
-		input: Pagination<User>,
+		input: Merge<
+			[
+				FindUserInput,
+				Pagination,
+				UserSort,
+			]
+		>,
 	): Promise<PaginationOutput<UserDomain>>
 	findAll(input: Partial<User>): Promise<UserDomain[]>
 	findById(userId: string): Promise<UserDomain>
 	findByEmail(
 		email: string,
-		options?: {
-			workspaceId?: User['workspaceId']
-		},
+		options?: FindByEmailOptions,
 	): Promise<UserDomain | null>
 	findByPhone(
 		phone: Phone,
-		options?: {
-			workspaceId?: User['workspaceId']
-		},
+		options?: FindByPhoneOptions,
 	): Promise<UserDomain | null>
 	findBySocial(
 		provider: 'FACEBOOK' | 'GOOGLE',

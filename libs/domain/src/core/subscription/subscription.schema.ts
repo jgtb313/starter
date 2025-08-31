@@ -9,8 +9,6 @@ import {
 
 import { type BaseSchema, CreatedAt, ID, UpdatedAt } from '@/support/schema'
 
-import { RecurrencePaymentMethodEnum } from '@/ports/recurrence'
-
 export enum SubscriptionStatusEnum {
 	TRIAL = 'TRIAL',
 	ACTIVE = 'ACTIVE',
@@ -54,7 +52,7 @@ export const SubscriptionCardSchema = z
 		planId: PlanId,
 		externalId: ExternalId,
 		amount: Amount,
-		paymentMethod: z.literal(RecurrencePaymentMethodEnum.CARD),
+		paymentMethod: z.literal('CARD'),
 		card: BasePaymentCardSchema,
 		payer: SubscriptionPayerSchema,
 		deadline: Deadline,
@@ -75,7 +73,7 @@ export const SubscriptionPixSchema = z
 		planId: PlanId,
 		externalId: ExternalId,
 		amount: Amount,
-		paymentMethod: z.literal(RecurrencePaymentMethodEnum.PIX),
+		paymentMethod: z.literal('PIX'),
 		payer: SubscriptionPayerSchema,
 		deadline: Deadline,
 		canceledAt: CanceledAt,
@@ -95,7 +93,7 @@ export const SubscriptionBoletoSchema = z
 		planId: PlanId,
 		externalId: ExternalId,
 		amount: Amount,
-		paymentMethod: z.literal(RecurrencePaymentMethodEnum.BOLETO),
+		paymentMethod: z.literal('BOLETO'),
 		payer: SubscriptionPayerSchema,
 		deadline: Deadline,
 		canceledAt: CanceledAt,

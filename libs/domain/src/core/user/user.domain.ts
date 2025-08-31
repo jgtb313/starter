@@ -2,12 +2,7 @@ import { ConflictException } from '@starter/nestjs-error-handling'
 
 import { BaseDomain } from '@/support/base-domain'
 
-import {
-	type User,
-	type UserInput,
-	UserSchema,
-	UserStatusEnum,
-} from '@/core/user/user.schema'
+import { type User, type UserInput, UserSchema } from '@/core/user/user.schema'
 
 export class UserDomain extends BaseDomain<User, UserInput> {
 	constructor(user: UserInput) {
@@ -15,21 +10,21 @@ export class UserDomain extends BaseDomain<User, UserInput> {
 	}
 
 	isActive() {
-		return this.state.status === UserStatusEnum.ACTIVE
+		return this.state.status === 'ACTIVE'
 	}
 
 	isInactive() {
-		return this.state.status === UserStatusEnum.INACTIVE
+		return this.state.status === 'INACTIVE'
 	}
 
 	markAsActive() {
 		this.checkIfCanBeActive()
-		this.state.status = UserStatusEnum.ACTIVE
+		this.state.status = 'ACTIVE'
 	}
 
 	markAsInactive() {
 		this.checkIfCanBeInactive()
-		this.state.status = UserStatusEnum.INACTIVE
+		this.state.status = 'INACTIVE'
 	}
 
 	assignToWorkspace(workspaceId: string) {

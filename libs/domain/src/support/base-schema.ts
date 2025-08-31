@@ -1,15 +1,23 @@
 import type { PickNotNullable, PickNullable } from '@starter/common'
 import { z } from '@starter/schema'
 
-export type BaseSchema<K extends keyof T, T> = {
-	[Key in keyof PickNullable<Omit<T, 'createdAt' | 'updatedAt' | K>>]?: Exclude<
-		T[Key],
-		null
-	> | null
+export type BaseSchema<
+	T,
+	Config extends {
+		optional?: (keyof T)[]
+	} = {
+		optional?: []
+	},
+> = {
+	[Key in keyof PickNullable<
+		Omit<T, 'createdAt' | 'updatedAt' | NonNullable<Config['optional']>[number]>
+	>]?: Exclude<T[Key], null> | null
 } & {
-	[Key in keyof PickNotNullable<Omit<T, 'createdAt' | 'updatedAt' | K>>]: T[Key]
+	[Key in keyof PickNotNullable<
+		Omit<T, 'createdAt' | 'updatedAt' | NonNullable<Config['optional']>[number]>
+	>]: T[Key]
 } & {
-	[Key in K]?: T[Key]
+	[Key in NonNullable<Config['optional']>[number]]?: T[Key]
 }
 
 export const ID = (resourceName: string) => {
@@ -26,8 +34,8 @@ export const UpdatedAt = z.iso.datetime()
 export const DeletedAt = z.iso.datetime().nullish()
 
 export const BaseSchema = {
-	ID,
-	CreatedAt,
-	UpdatedAt,
-	DeletedAt,
+	id: ID,
+	createdAt: CreatedAt,
+	updatedAt: UpdatedAt,
+	deletedAt: DeletedAt,
 }

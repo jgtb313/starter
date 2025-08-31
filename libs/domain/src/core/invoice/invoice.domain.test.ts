@@ -2,22 +2,20 @@ import { ConflictException } from '@starter/nestjs-error-handling'
 import { describe, expect, it } from 'vitest'
 
 import { makeInvoice } from '@/core/invoice/invoice.mock'
-import { InvoiceStatusEnum } from '@/core/invoice/invoice.schema'
-import { RecurrencePaymentMethodEnum } from '@/ports/recurrence'
 
 describe('InvoiceDomain', () => {
 	it('should identify status correctly', () => {
 		const invoice = makeInvoice({
 			workspaceId: '0e6c34bb-5a5c-4b31-bfec-33ec3651d57f',
 			subscriptionId: '126b6b16-0238-41bc-9c27-54f260b08aaa',
-			paymentMethod: RecurrencePaymentMethodEnum.CARD,
+			paymentMethod: 'CARD',
 			card: {
 				token: 'tok_001',
 				number: '4111 ********** 11',
 				holderName: 'Alice Smith',
 				expirationDate: '12/27',
 			},
-			status: InvoiceStatusEnum.PAID,
+			status: 'PAID',
 		})
 
 		expect(invoice.isPaid()).toBe(true)
@@ -30,12 +28,12 @@ describe('InvoiceDomain', () => {
 		const invoice = makeInvoice({
 			workspaceId: '0e6c34bb-5a5c-4b31-bfec-33ec3651d57f',
 			subscriptionId: '126b6b16-0238-41bc-9c27-54f260b08aaa',
-			paymentMethod: RecurrencePaymentMethodEnum.PIX,
+			paymentMethod: 'PIX',
 			pix: {
 				qrCodeUrl: 'https://pix.example.com/qrcode',
 				expiresAt: new Date().toISOString(),
 			},
-			status: InvoiceStatusEnum.PENDING,
+			status: 'PENDING',
 		})
 
 		invoice.markAsPaid()
@@ -45,12 +43,12 @@ describe('InvoiceDomain', () => {
 	})
 
 	it('should throw when marking as paid if not pending', () => {
-		const status = InvoiceStatusEnum.CANCELED
+		const status = 'CANCELED'
 
 		const invoice = makeInvoice({
 			workspaceId: '0e6c34bb-5a5c-4b31-bfec-33ec3651d57f',
 			subscriptionId: '126b6b16-0238-41bc-9c27-54f260b08aaa',
-			paymentMethod: RecurrencePaymentMethodEnum.BOLETO,
+			paymentMethod: 'BOLETO',
 			boleto: {
 				url: 'https://boleto.example.com/123',
 				expiresAt: new Date().toISOString(),
@@ -69,14 +67,14 @@ describe('InvoiceDomain', () => {
 		const invoice = makeInvoice({
 			workspaceId: '0e6c34bb-5a5c-4b31-bfec-33ec3651d57f',
 			subscriptionId: '126b6b16-0238-41bc-9c27-54f260b08aaa',
-			paymentMethod: RecurrencePaymentMethodEnum.CARD,
+			paymentMethod: 'CARD',
 			card: {
 				token: 'tok_002',
 				number: '4111 ********** 11',
 				holderName: 'Bob Brown',
 				expirationDate: '10/28',
 			},
-			status: InvoiceStatusEnum.PENDING,
+			status: 'PENDING',
 		})
 
 		invoice.markAsOverdue()
@@ -86,12 +84,12 @@ describe('InvoiceDomain', () => {
 	})
 
 	it('should throw when marking as overdue if not pending', () => {
-		const status = InvoiceStatusEnum.PAID
+		const status = 'PAID'
 
 		const invoice = makeInvoice({
 			workspaceId: '0e6c34bb-5a5c-4b31-bfec-33ec3651d57f',
 			subscriptionId: '126b6b16-0238-41bc-9c27-54f260b08aaa',
-			paymentMethod: RecurrencePaymentMethodEnum.CARD,
+			paymentMethod: 'CARD',
 			card: {
 				token: 'tok_003',
 				number: '4111 ********** 11',
@@ -110,12 +108,12 @@ describe('InvoiceDomain', () => {
 		const invoice = makeInvoice({
 			workspaceId: '0e6c34bb-5a5c-4b31-bfec-33ec3651d57f',
 			subscriptionId: '126b6b16-0238-41bc-9c27-54f260b08aaa',
-			paymentMethod: RecurrencePaymentMethodEnum.PIX,
+			paymentMethod: 'PIX',
 			pix: {
 				qrCodeUrl: 'https://pix.example.com/qrcode',
 				expiresAt: new Date().toISOString(),
 			},
-			status: InvoiceStatusEnum.PENDING,
+			status: 'PENDING',
 		})
 
 		invoice.markAsCanceled()
@@ -128,12 +126,12 @@ describe('InvoiceDomain', () => {
 		const invoice = makeInvoice({
 			workspaceId: '0e6c34bb-5a5c-4b31-bfec-33ec3651d57f',
 			subscriptionId: '126b6b16-0238-41bc-9c27-54f260b08aaa',
-			paymentMethod: RecurrencePaymentMethodEnum.PIX,
+			paymentMethod: 'PIX',
 			pix: {
 				qrCodeUrl: 'https://pix.example.com/qrcode',
 				expiresAt: new Date().toISOString(),
 			},
-			status: InvoiceStatusEnum.CANCELED,
+			status: 'CANCELED',
 		})
 
 		expect(() => invoice.markAsCanceled()).toThrowError(
@@ -145,12 +143,12 @@ describe('InvoiceDomain', () => {
 		const invoice = makeInvoice({
 			workspaceId: '0e6c34bb-5a5c-4b31-bfec-33ec3651d57f',
 			subscriptionId: '126b6b16-0238-41bc-9c27-54f260b08aaa',
-			paymentMethod: RecurrencePaymentMethodEnum.PIX,
+			paymentMethod: 'PIX',
 			pix: {
 				qrCodeUrl: 'https://pix.example.com/qrcode',
 				expiresAt: new Date().toISOString(),
 			},
-			status: InvoiceStatusEnum.PAID,
+			status: 'PAID',
 		})
 
 		expect(() => invoice.markAsCanceled()).toThrowError(
@@ -162,12 +160,12 @@ describe('InvoiceDomain', () => {
 		const invoice = makeInvoice({
 			workspaceId: '0e6c34bb-5a5c-4b31-bfec-33ec3651d57f',
 			subscriptionId: '126b6b16-0238-41bc-9c27-54f260b08aaa',
-			paymentMethod: RecurrencePaymentMethodEnum.BOLETO,
+			paymentMethod: 'BOLETO',
 			boleto: {
 				url: 'https://boleto.example.com/123',
 				expiresAt: new Date().toISOString(),
 			},
-			status: InvoiceStatusEnum.OVERDUE,
+			status: 'OVERDUE',
 		})
 
 		expect(() => invoice.markAsPaid()).toThrowError(

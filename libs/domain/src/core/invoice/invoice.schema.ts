@@ -5,22 +5,13 @@ import {
 	z,
 } from '@starter/schema'
 
-import { type BaseSchema, CreatedAt, ID, UpdatedAt } from '@/support/schema'
+import { BaseSchema } from '@/support/base-schema'
 
-import { RecurrencePaymentMethodEnum } from '@/ports/recurrence'
+const InvoiceId = BaseSchema.id('invoice')
 
-export enum InvoiceStatusEnum {
-	PENDING = 'PENDING',
-	PAID = 'PAID',
-	OVERDUE = 'OVERDUE',
-	CANCELED = 'CANCELED',
-}
+const WorkspaceId = BaseSchema.id('workspace')
 
-const InvoiceId = ID('invoice')
-
-const WorkspaceId = ID('workspace')
-
-const SubscriptionId = ID('subscription')
+const SubscriptionId = BaseSchema.id('subscription')
 
 const ExternalId = z.string().min(1)
 
@@ -47,7 +38,15 @@ const CanceledAt = z.iso
 	.nullish()
 	.transform((value) => (value ? new Date(value) : null))
 
-const Status = z.enum(InvoiceStatusEnum).default(InvoiceStatusEnum.PENDING)
+const Status = z
+	.enum([
+		'PENDING',
+		'PAID',
+		'OVERDUE',
+		'CANCELED',
+	])
+	.default('PENDING')
+export type InvoiceStatus = z.infer<typeof Status>
 
 export const InvoiceCardSchema = z
 	.object({
@@ -57,7 +56,7 @@ export const InvoiceCardSchema = z
 		externalId: ExternalId,
 		description: Description,
 		amount: Amount,
-		paymentMethod: z.literal(RecurrencePaymentMethodEnum.CARD),
+		paymentMethod: z.literal('CARD'),
 		card: BasePaymentCardSchema,
 		dueDate: DueDate,
 		issuedAt: IssuedAt,
@@ -65,8 +64,8 @@ export const InvoiceCardSchema = z
 		overdueAt: OverdueAt,
 		canceledAt: CanceledAt,
 		status: Status,
-		createdAt: CreatedAt,
-		updatedAt: UpdatedAt,
+		createdAt: BaseSchema.createdAt,
+		updatedAt: BaseSchema.updatedAt,
 	})
 	.meta({
 		title: 'InvoiceCard',
@@ -81,7 +80,7 @@ export const InvoicePixSchema = z
 		externalId: ExternalId,
 		description: Description,
 		amount: Amount,
-		paymentMethod: z.literal(RecurrencePaymentMethodEnum.PIX),
+		paymentMethod: z.literal('PIX'),
 		pix: PixSchema,
 		dueDate: DueDate,
 		issuedAt: IssuedAt,
@@ -89,8 +88,8 @@ export const InvoicePixSchema = z
 		overdueAt: OverdueAt,
 		canceledAt: CanceledAt,
 		status: Status,
-		createdAt: CreatedAt,
-		updatedAt: UpdatedAt,
+		createdAt: BaseSchema.createdAt,
+		updatedAt: BaseSchema.updatedAt,
 	})
 	.meta({
 		title: 'InvoicePix',
@@ -105,7 +104,7 @@ export const InvoiceBoletoSchema = z
 		externalId: ExternalId,
 		description: Description,
 		amount: Amount,
-		paymentMethod: z.literal(RecurrencePaymentMethodEnum.BOLETO),
+		paymentMethod: z.literal('BOLETO'),
 		boleto: BoletoSchema,
 		dueDate: DueDate,
 		issuedAt: IssuedAt,
@@ -113,8 +112,8 @@ export const InvoiceBoletoSchema = z
 		overdueAt: OverdueAt,
 		canceledAt: CanceledAt,
 		status: Status,
-		createdAt: CreatedAt,
-		updatedAt: UpdatedAt,
+		createdAt: BaseSchema.createdAt,
+		updatedAt: BaseSchema.updatedAt,
 	})
 	.meta({
 		title: 'InvoiceBoleto',
@@ -129,4 +128,11 @@ export const InvoiceSchema = z.discriminatedUnion('paymentMethod', [
 
 export type Invoice = z.infer<typeof InvoiceSchema>
 export type InvoiceInput = z.input<typeof InvoiceSchema>
-export type BaseInvoice = BaseSchema<'invoiceId', Invoice>
+export type BaseInvoice = BaseSchema<
+	Invoice,
+	{
+		optional: [
+			'invoiceId',
+		]
+	}
+>

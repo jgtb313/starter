@@ -1,7 +1,7 @@
 import { uuid } from '@starter/common'
 
 import { UserDomain } from '@/core/user/user.domain'
-import { type UserInput, UserStatusEnum } from '@/core/user/user.schema'
+import type { UserInput } from '@/core/user/user.schema'
 
 type UserOverrides = Partial<UserInput>
 
@@ -9,15 +9,13 @@ export const makeUser = (overrides: UserOverrides): UserDomain => {
 	const base: UserInput = {
 		userId: uuid(),
 		workspaceId: uuid(),
-		scopes: [],
-		permissions: [],
 		name: 'John Doe',
 		email: 'john.doe@example.com',
 		phone: null,
 		avatar: null,
 		social: null,
 		password: 'hashedPassword',
-		status: UserStatusEnum.ACTIVE,
+		status: 'ACTIVE',
 		deletedAt: null,
 		createdAt: new Date().toISOString(),
 		updatedAt: new Date().toISOString(),
@@ -38,51 +36,51 @@ export const userMocks: UserDomain[] = [
 			ddi: '+55',
 			number: '11999999999',
 		},
-		status: UserStatusEnum.ACTIVE,
+		status: 'ACTIVE',
 	}),
 	makeUser({
 		name: 'Bob Smith',
 		email: 'bob.smith@example.com',
-		status: UserStatusEnum.INACTIVE,
+		status: 'INACTIVE',
 	}),
 	makeUser({
 		name: 'Carol White',
 		email: 'carol.white@example.com',
-		status: UserStatusEnum.ACTIVE,
+		status: 'ACTIVE',
 	}),
 	makeUser({
 		name: 'David Lee',
 		email: 'david.lee@example.com',
-		status: UserStatusEnum.INACTIVE,
+		status: 'INACTIVE',
 	}),
 	makeUser({
 		name: 'Eve Black',
 		email: 'eve.black@example.com',
-		status: UserStatusEnum.ACTIVE,
+		status: 'ACTIVE',
 	}),
 	makeUser({
 		name: 'Frank Green',
 		email: 'frank.green@example.com',
-		status: UserStatusEnum.INACTIVE,
+		status: 'INACTIVE',
 	}),
 	makeUser({
 		name: 'Grace Brown',
 		email: 'grace.brown@example.com',
-		status: UserStatusEnum.ACTIVE,
+		status: 'ACTIVE',
 	}),
 	makeUser({
 		name: 'Henry Adams',
 		email: 'henry.adams@example.com',
-		status: UserStatusEnum.INACTIVE,
+		status: 'INACTIVE',
 	}),
 	makeUser({
 		name: 'Isabel Clark',
 		email: 'isabel.clark@example.com',
-		status: UserStatusEnum.ACTIVE,
+		status: 'ACTIVE',
 	}),
 	makeUser({
 		name: 'Jack Wilson',
 		email: 'jack.wilson@example.com',
-		status: UserStatusEnum.INACTIVE,
+		status: 'INACTIVE',
 	}),
 ]

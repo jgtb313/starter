@@ -1,3 +1,4 @@
+import type { Merge } from '@starter/common'
 import type { Pagination, PaginationOutput } from '@starter/schema'
 
 import type { WorkspaceDomain } from '@/core/workspace/workspace.domain'
@@ -5,6 +6,8 @@ import type {
 	BaseWorkspace,
 	Workspace,
 } from '@/core/workspace/workspace.schema'
+
+type FindWorkspaceInput = Partial<Workspace>
 
 // export type IWorkspaceRepository = {
 //   findAllPaginated(input: Pagination<Workspace>): Promise<PaginationOutput<Workspace>>
@@ -16,7 +19,12 @@ import type {
 
 export type IWorkspaceRepository = {
 	findAllPaginated(
-		input: Pagination<Workspace>,
+		input: Merge<
+			[
+				FindWorkspaceInput,
+				Pagination,
+			]
+		>,
 	): Promise<PaginationOutput<WorkspaceDomain>>
 	findAll(input: Partial<Workspace>): Promise<WorkspaceDomain[]>
 	findById(workspaceId: string): Promise<WorkspaceDomain>

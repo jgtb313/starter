@@ -2,26 +2,22 @@ import { uuid } from '@starter/common'
 import type { BaseBoleto, BasePaymentCard, BasePix } from '@starter/schema'
 
 import { InvoiceDomain } from '@/core/invoice/invoice.domain'
-import {
-	type InvoiceInput,
-	InvoiceStatusEnum,
-} from '@/core/invoice/invoice.schema'
-import { RecurrencePaymentMethodEnum } from '@/ports/recurrence'
+import type { InvoiceInput } from '@/core/invoice/invoice.schema'
 
 type InvoiceOverrides =
 	| (Partial<Omit<InvoiceInput, 'workspaceId' | 'subscriptionId'>> &
 			Pick<InvoiceInput, 'workspaceId' | 'subscriptionId'> & {
-				paymentMethod: RecurrencePaymentMethodEnum.CARD
+				paymentMethod: 'CARD'
 				card: BasePaymentCard
 			})
 	| (Partial<Omit<InvoiceInput, 'workspaceId' | 'subscriptionId'>> &
 			Pick<InvoiceInput, 'workspaceId' | 'subscriptionId'> & {
-				paymentMethod: RecurrencePaymentMethodEnum.PIX
+				paymentMethod: 'PIX'
 				pix: BasePix
 			})
 	| (Partial<Omit<InvoiceInput, 'workspaceId' | 'subscriptionId'>> &
 			Pick<InvoiceInput, 'workspaceId' | 'subscriptionId'> & {
-				paymentMethod: RecurrencePaymentMethodEnum.BOLETO
+				paymentMethod: 'BOLETO'
 				boleto: BaseBoleto
 			})
 
@@ -39,7 +35,7 @@ export const makeInvoice = (overrides: InvoiceOverrides): InvoiceDomain => {
 		paidAt: null,
 		overdueAt: null,
 		canceledAt: null,
-		status: InvoiceStatusEnum.PENDING,
+		status: 'PENDING',
 		createdAt: new Date().toISOString(),
 		updatedAt: new Date().toISOString(),
 	}
@@ -54,7 +50,7 @@ export const invoiceMocks: InvoiceDomain[] = [
 	makeInvoice({
 		workspaceId: '0e6c34bb-5a5c-4b31-bfec-33ec3651d57f',
 		subscriptionId: '126b6b16-0238-41bc-9c27-54f260b08aaa',
-		paymentMethod: RecurrencePaymentMethodEnum.CARD,
+		paymentMethod: 'CARD',
 		card: {
 			token: 'tok_001',
 			number: '4111 ********** 11',
@@ -65,56 +61,56 @@ export const invoiceMocks: InvoiceDomain[] = [
 	makeInvoice({
 		workspaceId: '0e6c34bb-5a5c-4b31-bfec-33ec3651d57f',
 		subscriptionId: '126b6b16-0238-41bc-9c27-54f260b08aab',
-		paymentMethod: RecurrencePaymentMethodEnum.CARD,
+		paymentMethod: 'CARD',
 		card: {
 			token: 'tok_002',
 			number: '5500 ********** 55',
 			holderName: 'Bob Johnson',
 			expirationDate: '11/26',
 		},
-		status: InvoiceStatusEnum.PAID,
+		status: 'PAID',
 		paidAt: new Date('2025-04-10T12:00:00Z').toISOString(),
 	}),
 	makeInvoice({
 		workspaceId: '0e6c34bb-5a5c-4b31-bfec-33ec3651d580',
 		subscriptionId: '126b6b16-0238-41bc-9c27-54f260b08aac',
-		paymentMethod: RecurrencePaymentMethodEnum.PIX,
+		paymentMethod: 'PIX',
 		pix: {
 			qrCodeUrl: 'https://pix.example.com/v2/abc123',
 			expiresAt: new Date('2025-05-01T23:59:59Z').toISOString(),
 		},
-		status: InvoiceStatusEnum.OVERDUE,
+		status: 'OVERDUE',
 	}),
 	makeInvoice({
 		workspaceId: '0e6c34bb-5a5c-4b31-bfec-33ec3651d581',
 		subscriptionId: '126b6b16-0238-41bc-9c27-54f260b08aad',
-		paymentMethod: RecurrencePaymentMethodEnum.PIX,
+		paymentMethod: 'PIX',
 		pix: {
 			qrCodeUrl: 'https://pix.example.com/v2/def456',
 			expiresAt: new Date('2025-06-01T23:59:59Z').toISOString(),
 		},
-		status: InvoiceStatusEnum.CANCELED,
+		status: 'CANCELED',
 		canceledAt: new Date('2025-04-15T15:00:00Z').toISOString(),
 	}),
 	makeInvoice({
 		workspaceId: '0e6c34bb-5a5c-4b31-bfec-33ec3651d582',
 		subscriptionId: '126b6b16-0238-41bc-9c27-54f260b08aae',
-		paymentMethod: RecurrencePaymentMethodEnum.BOLETO,
+		paymentMethod: 'BOLETO',
 		boleto: {
 			url: 'https://boleto.example.com/123',
 			expiresAt: new Date('2025-05-01T23:59:59Z').toISOString(),
 		},
-		status: InvoiceStatusEnum.PENDING,
+		status: 'PENDING',
 	}),
 	makeInvoice({
 		workspaceId: '0e6c34bb-5a5c-4b31-bfec-33ec3651d583',
 		subscriptionId: '126b6b16-0238-41bc-9c27-54f260b08aaf',
-		paymentMethod: RecurrencePaymentMethodEnum.BOLETO,
+		paymentMethod: 'BOLETO',
 		boleto: {
 			url: 'https://boleto.example.com/456',
 			expiresAt: new Date('2025-05-01T23:59:59Z').toISOString(),
 		},
-		status: InvoiceStatusEnum.PAID,
+		status: 'PAID',
 		paidAt: new Date('2025-04-08T09:30:00Z').toISOString(),
 	}),
 ]

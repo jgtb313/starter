@@ -1,22 +1,9 @@
 import { formatToCapitalized } from '@starter/common'
 import { EmailSchema, PasswordSchema, PhoneSchema, z } from '@starter/schema'
 
-import {
-	type BaseSchema,
-	CreatedAt,
-	DeletedAt,
-	ID,
-	UpdatedAt,
-} from '@/support/schema'
+import { BaseSchema } from '@/support/base-schema'
 
-export enum UserStatusEnum {
-	ACTIVE = 'ACTIVE',
-	INACTIVE = 'INACTIVE',
-}
-
-const UserId = ID('user')
-
-const WorkspaceId = ID('workspaceId')
+const WorkspaceId = BaseSchema.id('workspaceId')
 	.nullish()
 	.transform((value) => value ?? null)
 
@@ -54,10 +41,16 @@ const Social = z
 
 const Password = PasswordSchema
 
-const Status = z.enum(UserStatusEnum).default(UserStatusEnum.ACTIVE)
+const Status = z
+	.enum([
+		'ACTIVE',
+		'INACTIVE',
+	])
+	.default('ACTIVE')
+export type UserStatus = z.infer<typeof Status>
 
 export const UserSchema = z.object({
-	userId: UserId,
+	userId: BaseSchema.id('user'),
 	workspaceId: WorkspaceId,
 	name: Name,
 	email: Email,
@@ -66,10 +59,17 @@ export const UserSchema = z.object({
 	social: Social,
 	password: Password,
 	status: Status,
-	deletedAt: DeletedAt,
-	createdAt: CreatedAt,
-	updatedAt: UpdatedAt,
+	deletedAt: BaseSchema.deletedAt,
+	createdAt: BaseSchema.createdAt,
+	updatedAt: BaseSchema.updatedAt,
 })
 export type User = z.infer<typeof UserSchema>
 export type UserInput = z.input<typeof UserSchema>
-export type BaseUser = BaseSchema<'userId', User>
+export type BaseUser = BaseSchema<
+	User,
+	{
+		optional: [
+			'userId',
+		]
+	}
+>

@@ -4,15 +4,15 @@ import type { Pagination, PaginationOutput, Sort } from '@starter/schema'
 import type { RoleDomain } from '@/core/role/role.domain'
 import type { BaseRole } from '@/core/role/role.schema'
 
-type RoleSort = Sort<
-	'name' | 'organizationName' | 'permissionName' | 'status' | 'createdAt'
->
-
 type FindRoleInput = Partial<
 	Pick<BaseRole, 'workspaceId' | 'name' | 'tags' | 'status'> & {
 		organizationIds?: string[]
 		permissionIds?: string[]
 	}
+>
+
+type RoleSort = Sort<
+	'name' | 'organizationName' | 'permissionName' | 'status' | 'createdAt'
 >
 
 type CreateRoleInput = Pick<
