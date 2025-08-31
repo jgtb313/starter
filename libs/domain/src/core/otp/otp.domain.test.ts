@@ -8,7 +8,6 @@ import { describe, expect, it } from 'vitest'
 
 import { OTPDomain } from '@/core/otp/otp.domain'
 import { makeOTP } from '@/core/otp/otp.mock'
-import { OTPContextEnum } from '@/core/otp/otp-context.schema'
 
 describe('OTPDomain', () => {
 	describe('checkIfCanResend', () => {
@@ -97,20 +96,18 @@ describe('OTPDomain', () => {
 	describe('checkIfHasValidContext', () => {
 		it('should not throw if context is valid', () => {
 			const otp = makeOTP({
-				context: OTPContextEnum.FORGOT_PASSWORD,
+				context: 'FORGOT_PASSWORD',
 			})
-			expect(() =>
-				otp.checkIfHasValidContext(OTPContextEnum.FORGOT_PASSWORD),
-			).not.toThrow()
+			expect(() => otp.checkIfHasValidContext('FORGOT_PASSWORD')).not.toThrow()
 		})
 
 		it('should throw BadRequestException if context is invalid', () => {
 			const otp = makeOTP({
-				context: OTPContextEnum.FORGOT_PASSWORD,
+				context: 'FORGOT_PASSWORD',
 			})
-			expect(() =>
-				otp.checkIfHasValidContext('INVALID_CONTEXT' as OTPContextEnum),
-			).toThrowError(BadRequestException)
+			expect(() => otp.checkIfHasValidContext('INVALID_CONTEXT')).toThrowError(
+				BadRequestException,
+			)
 		})
 	})
 

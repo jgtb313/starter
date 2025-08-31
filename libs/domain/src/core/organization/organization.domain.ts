@@ -6,7 +6,6 @@ import {
 	type Organization,
 	type OrganizationInput,
 	OrganizationSchema,
-	OrganizationStatusEnum,
 } from '@/core/organization/organization.schema'
 
 export class OrganizationDomain extends BaseDomain<
@@ -18,21 +17,21 @@ export class OrganizationDomain extends BaseDomain<
 	}
 
 	isActive() {
-		return this.state.status === OrganizationStatusEnum.ACTIVE
+		return this.state.status === 'ACTIVE'
 	}
 
 	isInactive() {
-		return this.state.status === OrganizationStatusEnum.INACTIVE
+		return this.state.status === 'INACTIVE'
 	}
 
 	markAsActive() {
 		this.checkIfCanBeActive()
-		this.state.status = OrganizationStatusEnum.ACTIVE
+		this.state.status = 'ACTIVE'
 	}
 
 	markAsInactive() {
 		this.checkIfCanBeInactive()
-		this.state.status = OrganizationStatusEnum.INACTIVE
+		this.state.status = 'INACTIVE'
 	}
 
 	private checkIfCanBeActive() {

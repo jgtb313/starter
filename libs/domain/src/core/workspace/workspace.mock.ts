@@ -1,10 +1,7 @@
 import { uuid } from '@starter/common'
 
 import { WorkspaceDomain } from '@/core/workspace/workspace.domain'
-import {
-	type WorkspaceInput,
-	WorkspaceStatusEnum,
-} from '@/core/workspace/workspace.schema'
+import type { WorkspaceInput } from '@/core/workspace/workspace.schema'
 
 type WorkspaceOverrides = Partial<WorkspaceInput>
 
@@ -14,7 +11,7 @@ export const makeWorkspace = (
 	const base: WorkspaceInput = {
 		workspaceId: uuid(),
 		name: 'Manea CED',
-		status: WorkspaceStatusEnum.ACTIVE,
+		status: 'ACTIVE',
 		integrations: null,
 		createdAt: new Date().toISOString(),
 		updatedAt: new Date().toISOString(),
@@ -34,7 +31,7 @@ export const workspaceMocks: WorkspaceDomain[] = [
 	makeWorkspace({
 		workspaceId: '0e6c34bb-5a5c-4b31-bfec-33ec3651d580',
 		name: 'Engineering Squad',
-		status: WorkspaceStatusEnum.INACTIVE,
+		status: 'INACTIVE',
 	}),
 	makeWorkspace({
 		workspaceId: '0e6c34bb-5a5c-4b31-bfec-33ec3651d581',
@@ -46,7 +43,7 @@ export const workspaceMocks: WorkspaceDomain[] = [
 	makeWorkspace({
 		workspaceId: '0e6c34bb-5a5c-4b31-bfec-33ec3651d582',
 		name: 'Customer Success',
-		status: WorkspaceStatusEnum.ACTIVE,
+		status: 'ACTIVE',
 	}),
 	makeWorkspace({
 		workspaceId: '0e6c34bb-5a5c-4b31-bfec-33ec3651d583',
@@ -54,6 +51,6 @@ export const workspaceMocks: WorkspaceDomain[] = [
 		integrations: {
 			recurrenceCustomerId: 'cus_finance_123',
 		},
-		status: WorkspaceStatusEnum.INACTIVE,
+		status: 'INACTIVE',
 	}),
 ]

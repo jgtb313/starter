@@ -21,21 +21,13 @@ const Avatar = z
 	.nullish()
 	.transform((value) => value ?? null)
 
-const Social = z
-	.object({
-		googleId: z
-			.string()
-			.nullish()
-			.transform((value) => value ?? null),
-		facebookId: z
-			.string()
-			.nullish()
-			.transform((value) => value ?? null),
-	})
-	.default({
-		googleId: null,
-		facebookId: null,
-	})
+const SocialGoogleId = z
+	.string()
+	.nullish()
+	.transform((value) => value ?? null)
+
+const SocialFacebookId = z
+	.string()
 	.nullish()
 	.transform((value) => value ?? null)
 
@@ -56,7 +48,8 @@ export const UserSchema = z.object({
 	email: Email,
 	phone: Phone,
 	avatar: Avatar,
-	social: Social,
+	socialGoogleId: SocialGoogleId,
+	socialFacebookId: SocialFacebookId,
 	password: Password,
 	status: Status,
 	deletedAt: BaseSchema.deletedAt,

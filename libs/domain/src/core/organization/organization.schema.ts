@@ -8,11 +8,6 @@ import {
 	UpdatedAt,
 } from '@/support/schema'
 
-export enum OrganizationStatusEnum {
-	ACTIVE = 'ACTIVE',
-	INACTIVE = 'INACTIVE',
-}
-
 const OrganizationId = ID('organization')
 
 const WorkspaceId = ID('workspace')
@@ -20,8 +15,11 @@ const WorkspaceId = ID('workspace')
 const Name = z.string().min(1)
 
 const Status = z
-	.enum(OrganizationStatusEnum)
-	.default(OrganizationStatusEnum.ACTIVE)
+	.enum([
+		'ACTIVE',
+		'INACTIVE',
+	])
+	.default('ACTIVE')
 
 export const OrganizationSchema = z.object({
 	organizationId: OrganizationId,

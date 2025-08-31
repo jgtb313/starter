@@ -1,10 +1,7 @@
 import { uuid } from '@starter/common'
 
 import { OrganizationDomain } from '@/core/organization/organization.domain'
-import {
-	type OrganizationInput,
-	OrganizationStatusEnum,
-} from '@/core/organization/organization.schema'
+import type { OrganizationInput } from '@/core/organization/organization.schema'
 
 type OrganizationOverrides = Partial<OrganizationInput>
 
@@ -16,7 +13,7 @@ export const makeOrganization = (
 		workspaceId: uuid(),
 		name: 'Delta Inc',
 		deletedAt: null,
-		status: OrganizationStatusEnum.ACTIVE,
+		status: 'ACTIVE',
 		createdAt: new Date().toISOString(),
 		updatedAt: new Date().toISOString(),
 	}
@@ -30,24 +27,24 @@ export const makeOrganization = (
 export const organizationMocks: OrganizationDomain[] = [
 	makeOrganization({
 		name: 'BrightFuture Inc.',
-		status: OrganizationStatusEnum.ACTIVE,
+		status: 'ACTIVE',
 	}),
 	makeOrganization({
 		name: 'GreenField Solutions',
-		status: OrganizationStatusEnum.INACTIVE,
+		status: 'INACTIVE',
 	}),
 	makeOrganization({
 		name: 'CloudHaven Ltd.',
-		status: OrganizationStatusEnum.ACTIVE,
+		status: 'ACTIVE',
 	}),
 	makeOrganization({
 		name: 'SilentWave Corp.',
-		status: OrganizationStatusEnum.INACTIVE,
+		status: 'INACTIVE',
 	}),
 	makeOrganization({
 		name: 'QuantumEdge',
 		deletedAt: new Date().toISOString(),
-		status: OrganizationStatusEnum.ACTIVE,
+		status: 'ACTIVE',
 	}),
 	// makeOrganization({ name: 'DeepFocus Group', status: OrganizationStatusEnum.INACTIVE }),
 	// makeOrganization({

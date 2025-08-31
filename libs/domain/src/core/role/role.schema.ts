@@ -1,24 +1,13 @@
 import { z } from '@starter/schema'
 
-import {
-	type BaseSchema,
-	CreatedAt,
-	DeletedAt,
-	ID,
-	UpdatedAt,
-} from '@/support/schema'
+import { BaseSchema } from '@/support/base-schema'
 
 import { OrganizationSchema } from '@/core/organization/organization.schema'
 import { PermissionSchema } from '@/core/permission/permission.schema'
 
-export enum RoleStatusEnum {
-	ACTIVE = 'ACTIVE',
-	INACTIVE = 'INACTIVE',
-}
+const RoleId = BaseSchema.id('role')
 
-const RoleId = ID('role')
-
-const WorkspaceId = ID('workspace')
+const WorkspaceId = BaseSchema.id('workspace')
 
 const Organization = z.array(OrganizationSchema).default([])
 
@@ -31,7 +20,12 @@ const Tags = z
 	.nullish()
 	.transform((value) => value ?? null)
 
-const Status = z.enum(RoleStatusEnum).default(RoleStatusEnum.ACTIVE)
+const Status = z
+	.enum([
+		'ACTIVE',
+		'INACTIVE',
+	])
+	.default('ACTIVE')
 
 export const RoleSchema = z.object({
 	roleId: RoleId,
@@ -41,13 +35,17 @@ export const RoleSchema = z.object({
 	name: Name,
 	tags: Tags,
 	status: Status,
-	deletedAt: DeletedAt,
-	createdAt: CreatedAt,
-	updatedAt: UpdatedAt,
+	deletedAt: BaseSchema.deletedAt,
+	createdAt: BaseSchema.createdAt,
+	updatedAt: BaseSchema.updatedAt,
 })
 export type Role = z.infer<typeof RoleSchema>
 export type RoleInput = z.input<typeof RoleSchema>
 export type BaseRole = BaseSchema<
-	'roleId' | 'workspaceId' | 'organizations' | 'permissions',
-	Role
+	Role,
+	{
+		optional: [
+			'roleId',
+		]
+	}
 >

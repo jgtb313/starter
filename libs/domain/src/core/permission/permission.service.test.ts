@@ -6,11 +6,9 @@ import { InMemoryDatabaseModule, loadDatabase } from '@/adapters/database'
 import { PermissionRepositoryModule } from '@/adapters/database/permission/permission.repository.module'
 import { permissionMocks } from '@/core/permission/permission.mock'
 import { PermissionService } from '@/core/permission/permission.service'
-import type { IPermissionRepository } from '@/ports/database/permission'
 
 describe('PermissionService', () => {
 	let service: PermissionService
-	let repository: IPermissionRepository
 
 	beforeEach(async () => {
 		const module: TestingModule = await Test.createTestingModule({
@@ -24,7 +22,6 @@ describe('PermissionService', () => {
 		}).compile()
 
 		service = module.get(PermissionService)
-		repository = module.get<IPermissionRepository>('PERMISSION_REPOSITORY')
 
 		await loadDatabase(module)
 

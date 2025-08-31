@@ -1,62 +1,74 @@
 import { Inject, Injectable } from '@nestjs/common'
-import { uuid } from '@starter/common'
+import { type Merge, uuid } from '@starter/common'
+import type { Pagination } from '@starter/schema'
 
 import type { RecurrenceService } from '@/adapters/recurrence'
-import { PlanStatusEnum } from '@/core/plan/plan.schema'
-import type { IPlanService } from '@/core/plan/plan.service.interface'
-import type { IPlanRepository } from '@/ports/database/plan'
+import type { BasePlan, Plan } from '@/core/plan/plan.schema'
+import type {
+	FindPlanInput,
+	IPlanRepository,
+	PlanSort,
+} from '@/ports/database/plan'
 
 @Injectable()
-export class PlanService implements IPlanService {
-  constructor(
-    @Inject('PLAN_REPOSITORY') private readonly planRepository: IPlanRepository,
-    private readonly recurrenceService: RecurrenceService,
-  ) {}
+export class PlanService {
+	constructor(
+		@Inject('PLAN_REPOSITORY') private readonly planRepository: IPlanRepository,
+		private readonly recurrenceService: RecurrenceService,
+	) {}
 
-  getPaginatedPlans: IPlanService['getPaginatedPlans'] = async (input) => {
-    return this.planRepository.findAllPaginated(input)
-  }
+	getPaginatedPlans = async (
+		input: Merge<
+			[
+				FindPlanInput,
+				PlanSort,
+				Pagination,
+			]
+		>,
+	) => {
+		return this.planRepository.findAllPaginated(input)
+	}
 
-  getPlan: IPlanService['getPlan'] = async (planId) => {
-    return this.planRepository.findById(planId)
-  }
+	getPlan = async (planId: string) => {
+		return this.planRepository.findById(planId)
+	}
 
-  createPlan: IPlanService['createPlan'] = async (input) => {
-    const planId = uuid()
+	createPlan = async ({ status = 'INACTIVE', ...input }: BasePlan) => {
+		const planId = uuid()
 
-    const recurrencePlan = await this.recurrenceService.createPlan({
-      ...input,
-      referenceId: planId,
-    })
+		const recurrencePlan = await this.recurrenceService.createPlan({
+			...input,
+			referenceId: planId,
+		})
 
-    return this.planRepository.create({
-      ...input,
-      planId,
-      externalId: recurrencePlan.planId,
-      status: PlanStatusEnum.ACTIVE,
-    })
-  }
+		return this.planRepository.create({
+			...input,
+			planId,
+			externalId: recurrencePlan.planId,
+			status,
+		})
+	}
 
-  updatePlan: IPlanService['updatePlan'] = async (planId, input) => {
-    const plan = await this.planRepository.findById(planId)
+	updatePlan = async (planId: string, input: Partial<Plan>) => {
+		const plan = await this.planRepository.findById(planId)
 
-    await this.recurrenceService.updatePlan({
-      planId,
-      ...input,
-    })
+		await this.recurrenceService.updatePlan({
+			planId,
+			...input,
+		})
 
-    return this.planRepository.updateById(plan.state.planId, input)
-  }
+		return this.planRepository.updateById(plan.state.planId, input)
+	}
 
-  deletePlan: IPlanService['deletePlan'] = async (planId) => {
-    const plan = await this.planRepository.findById(planId)
+	deletePlan = async (planId: string) => {
+		const plan = await this.planRepository.findById(planId)
 
-    await this.recurrenceService.cancelPlan({
-      planId,
-    })
+		await this.recurrenceService.cancelPlan({
+			planId,
+		})
 
-    plan.markAsDeleted()
+		plan.markAsDeleted()
 
-    await this.planRepository.updateById(plan.state.planId, plan.state)
-  }
+		await this.planRepository.updateById(plan.state.planId, plan.state)
+	}
 }

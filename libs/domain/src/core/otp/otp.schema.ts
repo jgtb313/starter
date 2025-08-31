@@ -1,37 +1,42 @@
 import { z } from '@starter/schema'
 
-import { type BaseSchema, CreatedAt, ID, UpdatedAt } from '@/support/schema'
+import { BaseSchema } from '@/support/base-schema'
 
-import { OTPContextEnum } from '@/core/otp/otp-context.schema'
+import { OTPContext } from '@/core/otp/otp-context.schema'
 
-export enum OTPChannelEnum {
-	EMAIL = 'EMAIL',
-	SMS = 'SMS',
-	WHATSAPP = 'WHATSAPP',
-}
+export type OTPChannelEnum = 'EMAIL' | 'SMS' | 'WHATSAPP'
 
-export enum OTPPhoneChannelEnum {
-	SMS = 'SMS',
-	WHATSAPP = 'WHATSAPP',
-}
+export type OTPPhoneChannelEnum = 'SMS' | 'WHATSAPP'
 
-const OTPId = ID('otp')
+const OTPId = BaseSchema.id('otp')
 
-const UserId = ID('user')
+const UserId = BaseSchema.id('user')
 	.nullish()
 	.transform((value) => value ?? null)
 
-const OTPChannelSchema = z.enum(OTPChannelEnum).meta({
-	description: 'Channel through which the OTP is delivered',
-	example: [
-		OTPChannelEnum.EMAIL,
-	],
-})
+const OTPChannelSchema = z
+	.enum([
+		'EMAIL',
+		'SMS',
+		'WHATSAPP',
+	])
+	.meta({
+		description: 'Channel through which the OTP is delivered',
+		example: [
+			'EMAIL',
+			'SMS',
+			'WHATSAPP',
+		],
+	})
+export type OTPChannel = z.infer<typeof OTPChannelSchema>
 
-const OTPContextSchema = z.enum(OTPContextEnum).meta({
+const OTPContextSchema = OTPContext.meta({
 	description: 'Business scenario for which the OTP is generated',
 	example: [
-		OTPContextEnum.UPDATE_EMAIL,
+		'PASSWORD_LESS',
+		'FORGOT_PASSWORD',
+		'UPDATE_EMAIL',
+		'UPDATE_PHONE',
 	],
 })
 
@@ -116,10 +121,17 @@ export const OTPSchema = z.object({
 	resendCooldownSeconds: ResendCooldownSeconds,
 	maxRequestsPerDay: MaxRequestsPerDay,
 	expiresAt: ExpiresAt,
-	createdAt: CreatedAt,
-	updatedAt: UpdatedAt,
+	createdAt: BaseSchema.createdAt,
+	updatedAt: BaseSchema.updatedAt,
 })
 
 export type OTP = z.infer<typeof OTPSchema>
 export type OTPInput = z.input<typeof OTPSchema>
-export type BaseOTP = BaseSchema<'otpId', OTP>
+export type BaseOTP = BaseSchema<
+	OTP,
+	{
+		optional: [
+			'otpId',
+		]
+	}
+>

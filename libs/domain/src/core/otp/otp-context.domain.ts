@@ -1,39 +1,39 @@
 import { NotFoundException } from '@starter/nestjs-error-handling'
 
-import { OTPContextEnum } from '@/core/otp/otp-context.schema'
+import type { OTPContext } from '@/core/otp/otp-context.schema'
 
-export type OTPContext = {
-	context: OTPContextEnum
+export type OTPContextValue = {
+	context: OTPContext
 	maxRequestsPerDay: number
 	resendCooldownSeconds: number
 	maxValidationAttempts: number
 	expirationTimeSeconds: number
 }
 
-export const OTPContexts: Record<OTPContextEnum, OTPContext> = {
-	[OTPContextEnum.PASSWORD_LESS]: {
-		context: OTPContextEnum.PASSWORD_LESS,
+export const OTPContextValues: Record<OTPContext, OTPContextValue> = {
+	PASSWORD_LESS: {
+		context: 'PASSWORD_LESS',
 		maxRequestsPerDay: 60,
 		resendCooldownSeconds: 60,
 		maxValidationAttempts: 4,
 		expirationTimeSeconds: 12000,
 	},
-	[OTPContextEnum.FORGOT_PASSWORD]: {
-		context: OTPContextEnum.FORGOT_PASSWORD,
+	FORGOT_PASSWORD: {
+		context: 'FORGOT_PASSWORD',
 		maxRequestsPerDay: 60,
 		resendCooldownSeconds: 60,
 		maxValidationAttempts: 4,
 		expirationTimeSeconds: 12000,
 	},
-	[OTPContextEnum.UPDATE_EMAIL]: {
-		context: OTPContextEnum.UPDATE_EMAIL,
+	UPDATE_EMAIL: {
+		context: 'UPDATE_EMAIL',
 		maxRequestsPerDay: 60,
 		resendCooldownSeconds: 60,
 		maxValidationAttempts: 4,
 		expirationTimeSeconds: 12000,
 	},
-	[OTPContextEnum.UPDATE_PHONE]: {
-		context: OTPContextEnum.UPDATE_PHONE,
+	UPDATE_PHONE: {
+		context: 'UPDATE_PHONE',
 		maxRequestsPerDay: 60,
 		resendCooldownSeconds: 60,
 		maxValidationAttempts: 4,
@@ -42,13 +42,13 @@ export const OTPContexts: Record<OTPContextEnum, OTPContext> = {
 }
 
 export class OTPContextDomain {
-	getContext(context: OTPContextEnum): OTPContext {
-		const ctx = OTPContexts[context]
+	getContext(context: OTPContext): OTPContextValue {
+		const value = OTPContextValues[context]
 
-		if (!ctx) {
+		if (!value) {
 			throw new NotFoundException(`OTP context ${context} not found`)
 		}
 
-		return ctx
+		return value
 	}
 }

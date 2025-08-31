@@ -10,7 +10,6 @@ import { WorkspaceRepositoryModule } from '@/adapters/database/workspace/workspa
 import type { User } from '@/core/user/user.schema'
 import { UserService } from '@/core/user/user.service'
 import { makeWorkspace, workspaceMocks } from '@/core/workspace/workspace.mock'
-import { WorkspaceStatusEnum } from '@/core/workspace/workspace.schema'
 import { WorkspaceService } from '@/core/workspace/workspace.service'
 import type { IWorkspaceRepository } from '@/ports/database/workspace'
 
@@ -160,7 +159,7 @@ describe('WorkspaceService', () => {
 
 			const result = await service.activeWorkspace(workspace.state.workspaceId)
 
-			expect(result.state.status).toBe(WorkspaceStatusEnum.ACTIVE)
+			expect(result.state.status).toBe('ACTIVE')
 		})
 
 		it('should throw ConflictException if already active', async () => {
@@ -182,7 +181,7 @@ describe('WorkspaceService', () => {
 				workspace.state.workspaceId,
 			)
 
-			expect(result.state.status).toBe(WorkspaceStatusEnum.INACTIVE)
+			expect(result.state.status).toBe('INACTIVE')
 		})
 
 		it('should throw ConflictException if already inactive', async () => {

@@ -1,8 +1,7 @@
 import { addSeconds, uuid } from '@starter/common'
 
 import { OTPDomain } from '@/core/otp/otp.domain'
-import { OTPChannelEnum, type OTPInput } from '@/core/otp/otp.schema'
-import { OTPContextEnum } from '@/core/otp/otp-context.schema'
+import type { OTPInput } from '@/core/otp/otp.schema'
 
 type OTPOverrides = Partial<OTPInput>
 
@@ -13,8 +12,8 @@ export const makeOTP = (overrides: OTPOverrides = {}) => {
 	const base: OTPInput = {
 		otpId: uuid(),
 		userId: uuid(),
-		channel: OTPChannelEnum.EMAIL,
-		context: OTPContextEnum.UPDATE_EMAIL,
+		channel: 'EMAIL',
+		context: 'UPDATE_EMAIL',
 		recipient: 'user@example.com',
 		code,
 		validationAttempts: 0,
@@ -36,7 +35,7 @@ export const makeOTP = (overrides: OTPOverrides = {}) => {
 export const otpMocks: OTPDomain[] = [
 	makeOTP({
 		recipient: 'active1@example.com',
-		context: OTPContextEnum.UPDATE_EMAIL,
+		context: 'UPDATE_EMAIL',
 	}),
 	makeOTP({
 		recipient: 'expired@example.com',
@@ -52,8 +51,8 @@ export const otpMocks: OTPDomain[] = [
 	}),
 	makeOTP({
 		recipient: 'phone@example.com',
-		channel: OTPChannelEnum.EMAIL,
-		context: OTPContextEnum.UPDATE_PHONE,
+		channel: 'EMAIL',
+		context: 'UPDATE_PHONE',
 	}),
 	makeOTP({
 		recipient: 'limit@example.com',
@@ -69,7 +68,7 @@ export const otpMocks: OTPDomain[] = [
 	}),
 	makeOTP({
 		recipient: 'context-test@example.com',
-		context: OTPContextEnum.FORGOT_PASSWORD,
+		context: 'FORGOT_PASSWORD',
 	}),
 	makeOTP({
 		recipient: 'low-attempt@example.com',

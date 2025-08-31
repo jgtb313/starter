@@ -21,7 +21,9 @@ export class OTPDomain extends BaseDomain<OTP, OTPInput> {
 	}
 
 	checkIfCanResend(mostRecent: OTP | null, cooldownSeconds: number) {
-		if (!mostRecent) return
+		if (!mostRecent) {
+			return
+		}
 
 		const canResend = isBefore(
 			addSeconds(getDate(mostRecent.createdAt), cooldownSeconds),

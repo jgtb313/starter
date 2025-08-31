@@ -3,7 +3,7 @@ import { uuid } from '@starter/common'
 import { organizationMocks } from '@/core/organization/organization.mock'
 import { permissionMocks } from '@/core/permission/permission.mock'
 import { RoleDomain } from '@/core/role/role.domain'
-import { type RoleInput, RoleStatusEnum } from '@/core/role/role.schema'
+import type { RoleInput } from '@/core/role/role.schema'
 
 type RoleOverrides = Partial<RoleInput>
 
@@ -16,7 +16,7 @@ export const makeRole = (overrides: RoleOverrides): RoleDomain => {
 		name: 'Manager',
 		tags: [],
 		deletedAt: null,
-		status: RoleStatusEnum.ACTIVE,
+		status: 'ACTIVE',
 		createdAt: new Date().toISOString(),
 		updatedAt: new Date().toISOString(),
 	}
@@ -30,7 +30,7 @@ export const makeRole = (overrides: RoleOverrides): RoleDomain => {
 export const roleMocks: RoleDomain[] = [
 	makeRole({
 		name: 'Admin',
-		status: RoleStatusEnum.ACTIVE,
+		status: 'ACTIVE',
 		tags: [
 			'management',
 			'full-access',
@@ -46,7 +46,7 @@ export const roleMocks: RoleDomain[] = [
 	}),
 	makeRole({
 		name: 'Editor',
-		status: RoleStatusEnum.INACTIVE,
+		status: 'INACTIVE',
 		tags: [
 			'content',
 			'edit',
@@ -62,7 +62,7 @@ export const roleMocks: RoleDomain[] = [
 	}),
 	makeRole({
 		name: 'Viewer',
-		status: RoleStatusEnum.ACTIVE,
+		status: 'ACTIVE',
 		tags: [
 			'read-only',
 		],
@@ -77,7 +77,7 @@ export const roleMocks: RoleDomain[] = [
 	}),
 	makeRole({
 		name: 'Analyst',
-		status: RoleStatusEnum.INACTIVE,
+		status: 'INACTIVE',
 		tags: [
 			'data',
 			'reports',
@@ -92,7 +92,7 @@ export const roleMocks: RoleDomain[] = [
 	}),
 	makeRole({
 		name: 'Contributor',
-		status: RoleStatusEnum.ACTIVE,
+		status: 'ACTIVE',
 		tags: [
 			'content',
 			'submit',
@@ -107,7 +107,7 @@ export const roleMocks: RoleDomain[] = [
 	}),
 	makeRole({
 		name: 'Moderator',
-		status: RoleStatusEnum.INACTIVE,
+		status: 'INACTIVE',
 		tags: [
 			'community',
 			'moderation',
@@ -122,7 +122,7 @@ export const roleMocks: RoleDomain[] = [
 	}),
 	makeRole({
 		name: 'Support',
-		status: RoleStatusEnum.ACTIVE,
+		status: 'ACTIVE',
 		tags: [
 			'helpdesk',
 		],
@@ -136,7 +136,7 @@ export const roleMocks: RoleDomain[] = [
 	}),
 	makeRole({
 		name: 'Operator',
-		status: RoleStatusEnum.INACTIVE,
+		status: 'INACTIVE',
 		tags: [
 			'ops',
 		],
@@ -150,7 +150,7 @@ export const roleMocks: RoleDomain[] = [
 	}),
 	makeRole({
 		name: 'HR',
-		status: RoleStatusEnum.ACTIVE,
+		status: 'ACTIVE',
 		tags: [
 			'employees',
 			'hiring',
@@ -165,7 +165,7 @@ export const roleMocks: RoleDomain[] = [
 	}),
 	makeRole({
 		name: 'Developer',
-		status: RoleStatusEnum.INACTIVE,
+		status: 'INACTIVE',
 		tags: [
 			'tech',
 			'code',

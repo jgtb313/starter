@@ -1,7 +1,13 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { PaginationSchemaTransform } from '@starter/schema'
-import { type DeepPartial, type FindOptionsWhere, ILike, type Repository } from 'typeorm'
+import {
+	type DeepPartial,
+	type FindOptionsOrder,
+	type FindOptionsWhere,
+	ILike,
+	type Repository,
+} from 'typeorm'
 import type { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity'
 
 import { deepMapDatesToISOString } from '@/support/utilities'
@@ -13,101 +19,151 @@ import type { IPlanRepository } from '@/ports/database/plan'
 
 @Injectable()
 export class PlanTypeorm implements IPlanRepository {
-  constructor(
-    @InjectRepository(PlanEntity)
-    private readonly repository: Repository<PlanEntity>,
-  ) {}
+	constructor(
+		@InjectRepository(PlanEntity)
+		private readonly repository: Repository<PlanEntity>,
+	) {}
 
-  findAllPaginated: IPlanRepository['findAllPaginated'] = async ({ offset, limit, ...query }) => {
-    const { name, status } = query
+	findAllPaginated: IPlanRepository['findAllPaginated'] = async ({
+		offset,
+		limit,
+		sort,
+		...query
+	}) => {
+		const { name, description, status } = query
 
-    const where: FindOptionsWhere<PlanEntity> = {}
+		const where: FindOptionsWhere<PlanEntity> = {}
+		const order: FindOptionsOrder<PlanEntity> = {}
 
-    if (name) {
-      where.name = ILike(`%${name}%`)
-    }
+		if (name) {
+			where.name = ILike(`%${name}%`)
+		}
 
-    if (status) {
-      where.status = status
-    }
+		if (description) {
+			where.description = ILike(`%${description}%`)
+		}
 
-    const paginate = PaginationSchemaTransform.parse({ offset, limit })
+		if (status) {
+			where.status = status
+		}
 
-    const skip = paginate.offset
-    const take = paginate.limit
+		if (sort?.name) {
+			order.name = sort.name
+		}
 
-    const [values, total] = await this.repository.findAndCount({
-      where,
-      take,
-      skip,
-    })
+		if (sort?.description) {
+			order.description = sort.description
+		}
 
-    return {
-      values: values.map(this.toPlanDomain),
-      meta: {
-        ...paginate,
-        total,
-      },
-    }
-  }
+		if (sort?.status) {
+			order.status = sort.status
+		}
 
-  findAll: IPlanRepository['findAll'] = async (input) => {
-    const { name, status } = input
+		const paginate = PaginationSchemaTransform.parse({
+			offset,
+			limit,
+		})
 
-    const where: FindOptionsWhere<PlanEntity> = {}
+		const skip = paginate.offset
+		const take = paginate.limit
 
-    if (name) {
-      where.name = ILike(`%${name}%`)
-    }
+		const [values, total] = await this.repository.findAndCount({
+			where,
+			order,
+			take,
+			skip,
+		})
 
-    if (status) {
-      where.status = status
-    }
+		return {
+			values: values.map(this.toPlanDomain),
+			meta: {
+				...paginate,
+				total,
+			},
+		}
+	}
 
-    const values = await this.repository.find({ where })
+	findAll: IPlanRepository['findAll'] = async (input) => {
+		const { name, description, status, sort } = input
 
-    return values.map((plan) => this.toPlanDomain(plan))
-  }
+		const where: FindOptionsWhere<PlanEntity> = {}
+		const order: FindOptionsOrder<PlanEntity> = {}
 
-  findById: IPlanRepository['findById'] = async (planId) => {
-    const plan = await this.repository.findOne({ where: { planId } })
+		if (name) {
+			where.name = ILike(`%${name}%`)
+		}
 
-    if (!plan) {
-      throw new NotFoundException(`Plan ${planId} not found`)
-    }
+		if (description) {
+			where.description = ILike(`%${description}%`)
+		}
 
-    return this.toPlanDomain(plan)
-  }
+		if (status) {
+			where.status = status
+		}
 
-  create: IPlanRepository['create'] = async (input) => {
-    const data = this.repository.create(this.toPlanEntity(input))
+		if (sort?.name) {
+			order.name = sort.name
+		}
 
-    const plan = await this.repository.save(data)
+		if (sort?.description) {
+			order.description = sort.description
+		}
 
-    return this.toPlanDomain(plan)
-  }
+		const values = await this.repository.find({
+			where,
+			order,
+		})
 
-  updateById: IPlanRepository['updateById'] = async (planId, input) => {
-    const plan = await this.findById(planId)
+		return values.map((plan) => this.toPlanDomain(plan))
+	}
 
-    await this.repository.update(plan.state.planId, this.toPartialPlanEntity(input))
+	findById: IPlanRepository['findById'] = async (planId) => {
+		const plan = await this.repository.findOne({
+			where: {
+				planId,
+			},
+		})
 
-    return this.findById(plan.state.planId)
-  }
+		if (!plan) {
+			throw new NotFoundException(`Plan ${planId} not found`)
+		}
 
-  private toPlanEntity(plan: BasePlan): DeepPartial<PlanEntity> {
-    return {
-      ...plan,
-    }
-  }
+		return this.toPlanDomain(plan)
+	}
 
-  private toPartialPlanEntity(plan: Partial<Plan>): QueryDeepPartialEntity<PlanEntity> {
-    return {
-      ...plan,
-    }
-  }
+	create: IPlanRepository['create'] = async (input) => {
+		const payload = this.toPlanEntity(input)
+		const data = this.repository.create(payload)
 
-  private toPlanDomain(model: PlanEntity) {
-    return new PlanDomain(deepMapDatesToISOString(model))
-  }
+		const plan = await this.repository.save(data)
+
+		return this.toPlanDomain(plan)
+	}
+
+	updateById: IPlanRepository['updateById'] = async (planId, input) => {
+		const plan = await this.findById(planId)
+
+		const payload = this.toPartialPlanEntity(input)
+		await this.repository.update(plan.state.planId, payload)
+
+		return this.findById(plan.state.planId)
+	}
+
+	private toPlanEntity(plan: BasePlan): DeepPartial<PlanEntity> {
+		return {
+			...plan,
+		}
+	}
+
+	private toPartialPlanEntity(
+		plan: Partial<Plan>,
+	): QueryDeepPartialEntity<PlanEntity> {
+		return {
+			...plan,
+		}
+	}
+
+	private toPlanDomain(model: PlanEntity) {
+		return new PlanDomain(deepMapDatesToISOString(model))
+	}
 }

@@ -1,79 +1,112 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common'
+import type { Merge } from '@starter/common'
 import { AclForbiddenException } from '@starter/nestjs-error-handling'
 import type { Pagination } from '@starter/schema'
 
-import { createWorkspaceReference, type WithWorkspaceReference } from '@/support/workspace-reference'
+import {
+	createWorkspaceReference,
+	type WithWorkspaceReference,
+} from '@/support/workspace-reference'
 
-import type { BaseOrganization, Organization } from '@/core/organization/organization.schema'
+import type {
+	BaseOrganization,
+	Organization,
+} from '@/core/organization/organization.schema'
 import { WorkspaceService } from '@/core/workspace/workspace.service'
 import type { IOrganizationRepository } from '@/ports/database/organization'
 
-export type OrganizationWorkspaceReference = WithWorkspaceReference<'organizationId'>
-export const getOrganizationWorkspaceReference = createWorkspaceReference('organizationId')
+export type OrganizationWorkspaceReference =
+	WithWorkspaceReference<'organizationId'>
+export const getOrganizationWorkspaceReference =
+	createWorkspaceReference('organizationId')
 
 @Injectable()
 export class OrganizationService {
-  constructor(
-    @Inject('ORGANIZATION_REPOSITORY') private readonly organizationRepository: IOrganizationRepository,
-    @Inject(forwardRef(() => WorkspaceService)) private readonly workspaceService: WorkspaceService,
-  ) {}
+	constructor(
+		@Inject('ORGANIZATION_REPOSITORY')
+		private readonly organizationRepository: IOrganizationRepository,
+		@Inject(forwardRef(() => WorkspaceService))
+		private readonly workspaceService: WorkspaceService,
+	) {}
 
-  async getPaginatedOrganizations(input: Pagination<Organization>) {
-    return this.organizationRepository.findAllPaginated({
-      ...input,
-    })
-  }
+	async getPaginatedOrganizations(
+		input: Merge<
+			[
+				Pagination,
+			]
+		>,
+	) {
+		return this.organizationRepository.findAllPaginated({
+			...input,
+		})
+	}
 
-  async getOrganization(reference: OrganizationWorkspaceReference) {
-    const { organizationId, workspaceId } = getOrganizationWorkspaceReference(reference)
+	async getOrganization(reference: OrganizationWorkspaceReference) {
+		const { organizationId, workspaceId } =
+			getOrganizationWorkspaceReference(reference)
 
-    const organization = await this.organizationRepository.findById(organizationId)
+		const organization =
+			await this.organizationRepository.findById(organizationId)
 
-    if (workspaceId && organization.state.workspaceId !== workspaceId) {
-      throw new AclForbiddenException()
-    }
+		if (workspaceId && organization.state.workspaceId !== workspaceId) {
+			throw new AclForbiddenException()
+		}
 
-    return organization
-  }
+		return organization
+	}
 
-  async createOrganization({ workspaceId, ...input }: BaseOrganization) {
-    const workspace = await this.workspaceService.getWorkspace(workspaceId)
+	async createOrganization({ workspaceId, ...input }: BaseOrganization) {
+		const workspace = await this.workspaceService.getWorkspace(workspaceId)
 
-    return await this.organizationRepository.create({
-      ...input,
-      workspaceId: workspace.state.workspaceId,
-    })
-  }
+		return await this.organizationRepository.create({
+			...input,
+			workspaceId: workspace.state.workspaceId,
+		})
+	}
 
-  async updateOrganization(reference: OrganizationWorkspaceReference, input: Partial<Organization>) {
-    const organization = await this.getOrganization(reference)
+	async updateOrganization(
+		reference: OrganizationWorkspaceReference,
+		input: Partial<Organization>,
+	) {
+		const organization = await this.getOrganization(reference)
 
-    return this.organizationRepository.updateById(organization.state.organizationId, input)
-  }
+		return this.organizationRepository.updateById(
+			organization.state.organizationId,
+			input,
+		)
+	}
 
-  async activeOrganization(reference: OrganizationWorkspaceReference) {
-    const organization = await this.getOrganization(reference)
+	async activeOrganization(reference: OrganizationWorkspaceReference) {
+		const organization = await this.getOrganization(reference)
 
-    organization.markAsActive()
+		organization.markAsActive()
 
-    return this.organizationRepository.updateById(organization.state.organizationId, organization.state)
-  }
+		return this.organizationRepository.updateById(
+			organization.state.organizationId,
+			organization.state,
+		)
+	}
 
-  async inactiveOrganization(reference: OrganizationWorkspaceReference) {
-    const organization = await this.getOrganization(reference)
+	async inactiveOrganization(reference: OrganizationWorkspaceReference) {
+		const organization = await this.getOrganization(reference)
 
-    organization.markAsInactive()
+		organization.markAsInactive()
 
-    return this.organizationRepository.updateById(organization.state.organizationId, organization.state)
-  }
+		return this.organizationRepository.updateById(
+			organization.state.organizationId,
+			organization.state,
+		)
+	}
 
-  async deleteOrganization(reference: OrganizationWorkspaceReference) {
-    const organization = await this.getOrganization(reference)
+	async deleteOrganization(reference: OrganizationWorkspaceReference) {
+		const organization = await this.getOrganization(reference)
 
-    await this.organizationRepository.deleteById(organization.state.organizationId)
-  }
+		await this.organizationRepository.deleteById(
+			organization.state.organizationId,
+		)
+	}
 
-  async validateOrganizationIds(organizationIds: string[]) {
-    await this.organizationRepository.validateIds(organizationIds)
-  }
+	async validateOrganizationIds(organizationIds: string[]) {
+		await this.organizationRepository.validateIds(organizationIds)
+	}
 }

@@ -11,7 +11,6 @@ import {
 	makeOrganization,
 	organizationMocks,
 } from '@/core/organization/organization.mock'
-import { OrganizationStatusEnum } from '@/core/organization/organization.schema'
 import { OrganizationService } from '@/core/organization/organization.service'
 import { makeWorkspace } from '@/core/workspace/workspace.mock'
 import { WorkspaceService } from '@/core/workspace/workspace.service'
@@ -201,7 +200,7 @@ describe('OrganizationService', () => {
 				organization.state.organizationId,
 			)
 
-			expect(result.state.status).toBe(OrganizationStatusEnum.ACTIVE)
+			expect(result.state.status).toBe('ACTIVE')
 		})
 	})
 
@@ -216,7 +215,7 @@ describe('OrganizationService', () => {
 				workspaceId: organization.state.workspaceId,
 			})
 
-			expect(result.state.status).toBe(OrganizationStatusEnum.INACTIVE)
+			expect(result.state.status).toBe('INACTIVE')
 		})
 	})
 

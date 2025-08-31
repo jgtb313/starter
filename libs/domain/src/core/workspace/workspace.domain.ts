@@ -6,7 +6,6 @@ import {
 	type Workspace,
 	type WorkspaceInput,
 	WorkspaceSchema,
-	WorkspaceStatusEnum,
 } from '@/core/workspace/workspace.schema'
 
 export class WorkspaceDomain extends BaseDomain<Workspace, WorkspaceInput> {
@@ -15,21 +14,21 @@ export class WorkspaceDomain extends BaseDomain<Workspace, WorkspaceInput> {
 	}
 
 	isActive() {
-		return this.state.status === WorkspaceStatusEnum.ACTIVE
+		return this.state.status === 'ACTIVE'
 	}
 
 	isInactive() {
-		return this.state.status === WorkspaceStatusEnum.INACTIVE
+		return this.state.status === 'INACTIVE'
 	}
 
 	markAsActive() {
 		this.checkIfCanBeActive()
-		this.state.status = WorkspaceStatusEnum.ACTIVE
+		this.state.status = 'ACTIVE'
 	}
 
 	markAsInactive() {
 		this.checkIfCanBeInactive()
-		this.state.status = WorkspaceStatusEnum.INACTIVE
+		this.state.status = 'INACTIVE'
 	}
 
 	private checkIfCanBeActive() {

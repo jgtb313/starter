@@ -1,25 +1,8 @@
 import { z } from '@starter/schema'
 
-import {
-	type BaseSchema,
-	CreatedAt,
-	DeletedAt,
-	ID,
-	UpdatedAt,
-} from '@/support/schema'
+import { BaseSchema } from '@/support/base-schema'
 
-import { RecurrenceIntervalEnum } from '@/ports/recurrence'
-
-export enum PlanFeatureCodeEnum {
-	ORGANIZATION_COUNT = 'ORGANIZATION_COUNT',
-}
-
-export enum PlanStatusEnum {
-	ACTIVE = 'ACTIVE',
-	INACTIVE = 'INACTIVE',
-}
-
-const PlanId = ID('plan')
+const PlanId = BaseSchema.id('plan')
 
 const ExternalId = z.string().min(1)
 
@@ -29,18 +12,23 @@ const Description = z.string().min(1)
 
 const Amount = z.number().positive()
 
-const Interval = z.enum(RecurrenceIntervalEnum)
+const Interval = z.enum([
+	'DAY',
+	'WEEK',
+	'MONTH',
+	'YEAR',
+])
 
 const IntervalCount = z.number().default(1)
 
-const TrialDays = z.number()
+const TrialDays = z.number().default(7)
 
 const BaseFeature = z.object({
 	description: z.string().min(1),
 })
 
 const OrganizationCountFeature = BaseFeature.extend({
-	code: z.literal(PlanFeatureCodeEnum.ORGANIZATION_COUNT),
+	code: z.literal('ORGANIZATION_COUNT'),
 	props: z.object({
 		maxOrganizations: z.number().positive().default(1),
 	}),
@@ -56,7 +44,12 @@ export const PlanFeaturesSchema = z
 
 const Highlight = z.boolean().default(false)
 
-const Status = z.enum(PlanStatusEnum).default(PlanStatusEnum.ACTIVE)
+const Status = z
+	.enum([
+		'ACTIVE',
+		'INACTIVE',
+	])
+	.default('ACTIVE')
 
 export const PlanSchema = z.object({
 	planId: PlanId,
@@ -70,9 +63,17 @@ export const PlanSchema = z.object({
 	features: PlanFeaturesSchema,
 	highlight: Highlight,
 	status: Status,
-	deletedAt: DeletedAt,
-	createdAt: CreatedAt,
-	updatedAt: UpdatedAt,
+	deletedAt: BaseSchema.deletedAt,
+	createdAt: BaseSchema.createdAt,
+	updatedAt: BaseSchema.updatedAt,
 })
 export type Plan = z.infer<typeof PlanSchema>
-export type BasePlan = BaseSchema<'planId', Plan>
+export type PlanInput = z.input<typeof PlanSchema>
+export type BasePlan = BaseSchema<
+	Plan,
+	{
+		optional: [
+			'description',
+		]
+	}
+>

@@ -1,6 +1,9 @@
-export enum OTPContextEnum {
-	PASSWORD_LESS = 'PASSWORD_LESS',
-	FORGOT_PASSWORD = 'FORGOT_PASSWORD',
-	UPDATE_EMAIL = 'UPDATE_EMAIL',
-	UPDATE_PHONE = 'UPDATE_PHONE',
-}
+import { z } from '@starter/schema'
+
+export const OTPContext = z.enum([
+	'PASSWORD_LESS',
+	'FORGOT_PASSWORD',
+	'UPDATE_EMAIL',
+	'UPDATE_PHONE',
+])
+export type OTPContext = z.infer<typeof OTPContext>
