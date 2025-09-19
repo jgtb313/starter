@@ -1,6 +1,6 @@
 import 'reflect-metadata'
 
-export * from '@/support/schema'
+export * from '@/support/base-schema'
 
 export * from '@/adapters/cache'
 export * from '@/adapters/database'

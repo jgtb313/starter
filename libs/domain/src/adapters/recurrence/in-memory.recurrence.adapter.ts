@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common'
 import { uuid } from '@starter/common'
 
 import type { IRecurrenceAdapter } from '@/adapters/recurrence/recurrence.adapter'
-import { InvoiceStatusEnum } from '@/core/invoice/invoice.schema'
 
 @Injectable()
 export class InMemoryRecurrenceAdapter implements IRecurrenceAdapter {
@@ -40,7 +39,7 @@ export class InMemoryRecurrenceAdapter implements IRecurrenceAdapter {
 					amount: 1000,
 					paymentMethod: input.paymentMethod,
 					dueDate: new Date(),
-					status: InvoiceStatusEnum.PENDING,
+					status: 'PENDING',
 				},
 				card: {
 					token: input.cardToken,
@@ -60,7 +59,7 @@ export class InMemoryRecurrenceAdapter implements IRecurrenceAdapter {
 					amount: 1000,
 					paymentMethod: input.paymentMethod,
 					dueDate: new Date(),
-					status: InvoiceStatusEnum.PENDING,
+					status: 'PENDING',
 				},
 				pix: {
 					qrCodeUrl:
@@ -78,7 +77,7 @@ export class InMemoryRecurrenceAdapter implements IRecurrenceAdapter {
 				amount: 1000,
 				paymentMethod: input.paymentMethod,
 				dueDate: new Date(),
-				status: InvoiceStatusEnum.PENDING,
+				status: 'PENDING',
 			},
 			boleto: {
 				url: 'https://example.com/boleto.pdf',
@@ -111,7 +110,7 @@ export class InMemoryRecurrenceAdapter implements IRecurrenceAdapter {
 						amount: 1000,
 						paymentMethod: input.paymentMethod,
 						dueDate: new Date(),
-						status: InvoiceStatusEnum.PENDING,
+						status: 'PENDING',
 					},
 					pix: {
 						qrCodeUrl:
@@ -129,7 +128,7 @@ export class InMemoryRecurrenceAdapter implements IRecurrenceAdapter {
 					amount: 1000,
 					paymentMethod: input.paymentMethod,
 					dueDate: new Date(),
-					status: InvoiceStatusEnum.PENDING,
+					status: 'PENDING',
 				},
 				boleto: {
 					url: 'https://example.com/boleto.pdf',
@@ -149,7 +148,7 @@ export class InMemoryRecurrenceAdapter implements IRecurrenceAdapter {
 					amount: 2000,
 					paymentMethod: 'CARD',
 					dueDate: new Date(),
-					status: InvoiceStatusEnum.PENDING,
+					status: 'PENDING',
 				},
 			}
 		}

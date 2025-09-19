@@ -1,4 +1,6 @@
-import { isString } from '@starter/common'
+// import { isString } from '@starter/common'
+
+const isString = (value: any): value is string => typeof value === 'string'
 
 export type WithWorkspaceReference<T extends string> =
 	| string

@@ -16,7 +16,6 @@ import { JWTModule } from '@/adapters/jwt'
 	],
 	exports: [
 		AuthGuard,
-		JWTModule,
 	],
 })
 export class AuthGuardModule {}

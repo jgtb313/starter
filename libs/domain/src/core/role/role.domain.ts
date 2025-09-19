@@ -2,12 +2,7 @@ import { ConflictException } from '@starter/nestjs-error-handling'
 
 import { BaseDomain } from '@/support/base-domain'
 
-import {
-	type Role,
-	type RoleInput,
-	RoleSchema,
-	RoleStatusEnum,
-} from '@/core/role/role.schema'
+import { type Role, type RoleInput, RoleSchema } from '@/core/role/role.schema'
 
 export class RoleDomain extends BaseDomain<Role, RoleInput> {
 	constructor(role: RoleInput) {
@@ -15,21 +10,21 @@ export class RoleDomain extends BaseDomain<Role, RoleInput> {
 	}
 
 	isActive() {
-		return this.state.status === RoleStatusEnum.ACTIVE
+		return this.state.status === 'ACTIVE'
 	}
 
 	isInactive() {
-		return this.state.status === RoleStatusEnum.INACTIVE
+		return this.state.status === 'INACTIVE'
 	}
 
 	markAsActive() {
 		this.checkIfCanBeActive()
-		this.state.status = RoleStatusEnum.ACTIVE
+		this.state.status = 'ACTIVE'
 	}
 
 	markAsInactive() {
 		this.checkIfCanBeInactive()
-		this.state.status = RoleStatusEnum.INACTIVE
+		this.state.status = 'INACTIVE'
 	}
 
 	private checkIfCanBeActive() {

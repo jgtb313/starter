@@ -37,22 +37,4 @@ export class RolePermissionEntity {
 
 	@UpdateDateColumn({})
 	updatedAt: Date
-
-	@ManyToOne(
-		() => RoleEntity,
-		(role) => role.permissions,
-	)
-	@JoinColumn({
-		name: 'roleId',
-	})
-	role: RoleEntity
-
-	@ManyToOne(
-		() => PermissionEntity,
-		(permission) => permission.permissionId,
-	)
-	@JoinColumn({
-		name: 'permissionId',
-	})
-	permission: PermissionEntity
 }

@@ -7,20 +7,13 @@ import {
 	z,
 } from '@starter/schema'
 
-import { type BaseSchema, CreatedAt, ID, UpdatedAt } from '@/support/schema'
+import { BaseSchema } from '@/support/base-schema'
 
-export enum SubscriptionStatusEnum {
-	TRIAL = 'TRIAL',
-	ACTIVE = 'ACTIVE',
-	OVERDUE = 'OVERDUE',
-	CANCELED = 'CANCELED',
-}
+const SubscriptionId = BaseSchema.id('subscription')
 
-const SubscriptionId = ID('subscription')
+const WorkspaceId = BaseSchema.id('workspace')
 
-const WorkspaceId = ID('workspace')
-
-const PlanId = ID('plan')
+const PlanId = BaseSchema.id('plan')
 
 const ExternalId = z.string().min(1)
 
@@ -42,8 +35,14 @@ const CanceledAt = z.iso
 	.transform((value) => (value ? new Date(value) : null))
 
 const Status = z
-	.enum(SubscriptionStatusEnum)
-	.default(SubscriptionStatusEnum.ACTIVE)
+	.enum([
+		'TRIAL',
+		'ACTIVE',
+		'OVERDUE',
+		'CANCELED',
+	])
+	.default('TRIAL')
+export type SubscriptionStatus = z.infer<typeof Status>
 
 export const SubscriptionCardSchema = z
 	.object({
@@ -58,8 +57,8 @@ export const SubscriptionCardSchema = z
 		deadline: Deadline,
 		canceledAt: CanceledAt,
 		status: Status,
-		createdAt: CreatedAt,
-		updatedAt: UpdatedAt,
+		createdAt: BaseSchema.createdAt,
+		updatedAt: BaseSchema.updatedAt,
 	})
 	.meta({
 		title: 'SubscriptionCard',
@@ -78,8 +77,8 @@ export const SubscriptionPixSchema = z
 		deadline: Deadline,
 		canceledAt: CanceledAt,
 		status: Status,
-		createdAt: CreatedAt,
-		updatedAt: UpdatedAt,
+		createdAt: BaseSchema.createdAt,
+		updatedAt: BaseSchema.updatedAt,
 	})
 	.meta({
 		title: 'SubscriptionPix',
@@ -98,8 +97,8 @@ export const SubscriptionBoletoSchema = z
 		deadline: Deadline,
 		canceledAt: CanceledAt,
 		status: Status,
-		createdAt: CreatedAt,
-		updatedAt: UpdatedAt,
+		createdAt: BaseSchema.createdAt,
+		updatedAt: BaseSchema.updatedAt,
 	})
 	.meta({
 		title: 'SubscriptionBoleto',
@@ -114,6 +113,10 @@ export const SubscriptionSchema = z.discriminatedUnion('paymentMethod', [
 export type Subscription = z.infer<typeof SubscriptionSchema>
 export type SubscriptionInput = z.input<typeof SubscriptionSchema>
 export type BaseSubscription = BaseSchema<
-	'subscriptionId' | 'externalId',
-	Subscription
+	Subscription,
+	{
+		optional: [
+			'subscriptionId',
+		]
+	}
 >

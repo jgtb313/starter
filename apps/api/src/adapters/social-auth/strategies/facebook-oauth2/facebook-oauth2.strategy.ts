@@ -1,5 +1,5 @@
-import type { HttpService } from '@nestjs/axios'
-import { Injectable, UnauthorizedException } from '@nestjs/common'
+import { HttpService } from '@nestjs/axios'
+import { Inject, Injectable, UnauthorizedException } from '@nestjs/common'
 import { lastValueFrom } from 'rxjs'
 
 import type { ISocialAuthStrategy } from '@/ports/social-auth'
@@ -18,7 +18,7 @@ type FacebookUserInfo = {
 
 @Injectable()
 export class FacebookOauth2Strategy implements ISocialAuthStrategy {
-	constructor(private readonly httpService: HttpService) {}
+	constructor(@Inject(HttpService) private readonly httpService: HttpService) {}
 
 	private readonly facebookUserInfoUrl = 'https://graph.facebook.com/v14.0/me'
 

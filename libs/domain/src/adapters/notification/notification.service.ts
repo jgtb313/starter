@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common'
+import { Inject, Injectable } from '@nestjs/common'
 
-import type {
+import {
 	EmailStrategy,
 	MobilePushStrategy,
 	SMSStrategy,
@@ -16,10 +16,15 @@ import type {
 @Injectable()
 export class NotificationService implements INotification {
 	constructor(
+		@Inject(EmailStrategy)
 		private readonly email: EmailStrategy,
+		@Inject(SMSStrategy)
 		private readonly sms: SMSStrategy,
+		@Inject(WhatsappStrategy)
 		private readonly whatsapp: WhatsappStrategy,
+		@Inject(WebPushStrategy)
 		private readonly webPush: WebPushStrategy,
+		@Inject(MobilePushStrategy)
 		private readonly mobilePush: MobilePushStrategy,
 	) {}
 

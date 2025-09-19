@@ -1,247 +1,269 @@
-import { UseGuards } from '@nestjs/common'
+import { Inject, UseGuards } from '@nestjs/common'
 import { uuid } from '@starter/common'
-import { OTPSchema, type OTPService, type User } from '@starter/domain'
+import { OTPSchema, OTPService, type User } from '@starter/domain'
 import { Controller, Request, Route } from '@starter/nestjs-server-hoisting'
 
 import { AuthenticatedUser } from '@/support/decorators'
 import { AuthGuard } from '@/support/guards'
 
 import {
-  type SendForgotPasswordOTPRequest,
-  SendForgotPasswordOTPSchema,
-  SendPasswordLessSchema,
-  type SendUpdateEmailOTPRequest,
-  SendUpdateEmailOTPSchema,
-  type SendUpdatePhoneOTPRequest,
-  SendUpdatePhoneOTPSchema,
-  type ValidateOTPRequest,
-  ValidateOTPSchema,
+	type SendForgotPasswordOTPRequest,
+	SendForgotPasswordOTPSchema,
+	SendPasswordLessSchema,
+	type SendUpdateEmailOTPRequest,
+	SendUpdateEmailOTPSchema,
+	type SendUpdatePhoneOTPRequest,
+	SendUpdatePhoneOTPSchema,
+	type ValidateOTPRequest,
+	ValidateOTPSchema,
 } from '@/core/otp/otp.controller.schema'
 
 @Controller({
-  name: 'OTP',
+	name: 'OTP',
 
-  description: 'Module designed for validating and sending one-time passwords (OTPs) securely.',
+	description:
+		'Module designed for validating and sending one-time passwords (OTPs) securely.',
 
-  basePath: 'otps',
+	basePath: 'otps',
 
-  schemas: {
-    OTP: {
-      schema: OTPSchema,
-    },
-  },
+	schemas: {
+		OTP: {
+			schema: OTPSchema,
+		},
+	},
 })
 export class OTPController {
-  constructor(private readonly otpService: OTPService) {}
+	constructor(@Inject(OTPService) private readonly otpService: OTPService) {}
 
-  @Route({
-    summary: 'Validate OTP',
-    description: 'Verifies a provided OTP against the expected value for user authentication.',
+	@Route({
+		summary: 'Validate OTP',
+		description:
+			'Verifies a provided OTP against the expected value for user authentication.',
 
-    method: 'POST',
+		method: 'POST',
 
-    path: '/:otpId/validate',
+		path: '/:otpId/validate',
 
-    parameters: {
-      params: ValidateOTPSchema.params,
-      body: ValidateOTPSchema.body,
-    },
+		parameters: {
+			params: ValidateOTPSchema.params,
+			body: ValidateOTPSchema.body,
+		},
 
-    responses: {
-      204: {
-        description: 'OTP has been successfully validated',
-      },
-      403: {
-        description: 'OTP expired.',
-      },
-      404: {
-        description: 'OTP {{otpId}} not found.',
-      },
-      409: [
-        {
-          description: 'OTP insufficient resend time, please try again later.',
-        },
-        {
-          description: 'OTP daily attempt limit exceeded.',
-        },
-        {
-          description: 'OTP attempts expired.',
-        },
-      ],
-    },
-  })
-  validateOTP(@Request() { params, body }: ValidateOTPRequest) {
-    return this.otpService.validateOTP({ ...params, ...body })
-  }
+		responses: {
+			204: {
+				description: 'OTP has been successfully validated',
+			},
+			403: {
+				description: 'OTP expired.',
+			},
+			404: {
+				description: 'OTP {{otpId}} not found.',
+			},
+			409: [
+				{
+					description: 'OTP insufficient resend time, please try again later.',
+				},
+				{
+					description: 'OTP daily attempt limit exceeded.',
+				},
+				{
+					description: 'OTP attempts expired.',
+				},
+			],
+		},
+	})
+	validateOTP(@Request() { params, body }: ValidateOTPRequest) {
+		return this.otpService.validateOTP({
+			...params,
+			...body,
+		})
+	}
 
-  @Route({
-    summary: 'Send Password Less OTP',
-    description:
-      'Generates and sends a one-time password (OTP) to the user’s email address for password-less authentication, allowing secure sign-in without a password.',
+	@Route({
+		summary: 'Send Password Less OTP',
+		description:
+			'Generates and sends a one-time password (OTP) to the user’s email address for password-less authentication, allowing secure sign-in without a password.',
 
-    method: 'POST',
+		method: 'POST',
 
-    path: '/password-less',
+		path: '/password-less',
 
-    parameters: {
-      body: SendPasswordLessSchema.body,
-    },
+		parameters: {
+			body: SendPasswordLessSchema.body,
+		},
 
-    responses: {
-      201: {
-        schema: SendPasswordLessSchema.output,
-      },
-      404: { description: 'Email {{email}} not found.' },
-      409: [
-        {
-          description: 'OTP insufficient resend time, please try again later.',
-        },
-        {
-          description: 'OTP daily attempt limit exceeded.',
-        },
-      ],
-    },
-  })
-  async sendPasswordLessOTP(@Request() { body }: SendForgotPasswordOTPRequest) {
-    const recipient = body.email
+		responses: {
+			201: {
+				schema: SendPasswordLessSchema.output,
+			},
+			404: {
+				description: 'Email {{email}} not found.',
+			},
+			409: [
+				{
+					description: 'OTP insufficient resend time, please try again later.',
+				},
+				{
+					description: 'OTP daily attempt limit exceeded.',
+				},
+			],
+		},
+	})
+	async sendPasswordLessOTP(@Request() { body }: SendForgotPasswordOTPRequest) {
+		const recipient = body.email
 
-    const otp = await this.otpService.sendPasswordLess({ recipient })
+		const otp = await this.otpService.sendPasswordLess({
+			recipient,
+		})
 
-    if (!otp) {
-      return {
-        otpId: uuid(),
-      }
-    }
+		if (!otp) {
+			return {
+				otpId: uuid(),
+			}
+		}
 
-    return {
-      otpId: otp.state.otpId,
-    }
-  }
+		return {
+			otpId: otp.state.otpId,
+		}
+	}
 
-  @Route({
-    summary: 'Send Forgot Password OTP',
-    description: 'Generates and sends a one-time password (OTP) to the user’s email address for the purpose of validating a password reset request.',
+	@Route({
+		summary: 'Send Forgot Password OTP',
+		description:
+			'Generates and sends a one-time password (OTP) to the user’s email address for the purpose of validating a password reset request.',
 
-    method: 'POST',
+		method: 'POST',
 
-    path: '/forgot-password',
+		path: '/forgot-password',
 
-    parameters: {
-      body: SendForgotPasswordOTPSchema.body,
-    },
+		parameters: {
+			body: SendForgotPasswordOTPSchema.body,
+		},
 
-    responses: {
-      201: {
-        schema: SendForgotPasswordOTPSchema.output,
-      },
-      404: { description: 'Email {{email}} not found.' },
-      409: [
-        {
-          description: 'OTP insufficient resend time, please try again later.',
-        },
-        {
-          description: 'OTP daily attempt limit exceeded.',
-        },
-      ],
-    },
-  })
-  async sendForgotPasswordOTP(@Request() { body }: SendForgotPasswordOTPRequest) {
-    const recipient = body.email
+		responses: {
+			201: {
+				schema: SendForgotPasswordOTPSchema.output,
+			},
+			404: {
+				description: 'Email {{email}} not found.',
+			},
+			409: [
+				{
+					description: 'OTP insufficient resend time, please try again later.',
+				},
+				{
+					description: 'OTP daily attempt limit exceeded.',
+				},
+			],
+		},
+	})
+	async sendForgotPasswordOTP(
+		@Request() { body }: SendForgotPasswordOTPRequest,
+	) {
+		const recipient = body.email
 
-    const otp = await this.otpService.sendForgotPassword({ recipient })
+		const otp = await this.otpService.sendForgotPassword({
+			recipient,
+		})
 
-    if (!otp) {
-      return {
-        otpId: uuid(),
-      }
-    }
+		if (!otp) {
+			return {
+				otpId: uuid(),
+			}
+		}
 
-    return {
-      otpId: otp.state.otpId,
-    }
-  }
+		return {
+			otpId: otp.state.otpId,
+		}
+	}
 
-  @Route({
-    summary: 'Send Email Update OTP',
-    description:
-      'Generates and sends a one-time password (OTP) to the user’s email address for the purpose of validating an email address reset request.',
+	@Route({
+		summary: 'Send Email Update OTP',
+		description:
+			'Generates and sends a one-time password (OTP) to the user’s email address for the purpose of validating an email address reset request.',
 
-    method: 'POST',
+		method: 'POST',
 
-    path: '/update-email',
+		path: '/update-email',
 
-    parameters: {
-      body: SendUpdateEmailOTPSchema.body,
-    },
+		parameters: {
+			body: SendUpdateEmailOTPSchema.body,
+		},
 
-    responses: {
-      201: {
-        schema: SendUpdateEmailOTPSchema.output,
-      },
-      409: [
-        {
-          description: 'OTP insufficient resend time, please try again later.',
-        },
-        {
-          description: 'OTP daily attempt limit exceeded.',
-        },
-        {
-          description: 'E-mail {{email}} has already been taken.',
-        },
-      ],
-    },
-  })
-  @UseGuards(AuthGuard)
-  async sendUpdateEmailOTP(@AuthenticatedUser() user: User, @Request() { body }: SendUpdateEmailOTPRequest) {
-    const otp = await this.otpService.sendUpdateEmail({
-      userId: user.userId,
-      email: body.email,
-    })
+		responses: {
+			201: {
+				schema: SendUpdateEmailOTPSchema.output,
+			},
+			409: [
+				{
+					description: 'OTP insufficient resend time, please try again later.',
+				},
+				{
+					description: 'OTP daily attempt limit exceeded.',
+				},
+				{
+					description: 'E-mail {{email}} has already been taken.',
+				},
+			],
+		},
+	})
+	@UseGuards(AuthGuard)
+	async sendUpdateEmailOTP(
+		@AuthenticatedUser() user: User,
+		@Request() { body }: SendUpdateEmailOTPRequest,
+	) {
+		const otp = await this.otpService.sendUpdateEmail({
+			userId: user.userId,
+			email: body.email,
+		})
 
-    return {
-      otpId: otp.state.otpId,
-    }
-  }
+		return {
+			otpId: otp.state.otpId,
+		}
+	}
 
-  @Route({
-    summary: 'Send Update Phone OTP',
-    description:
-      'Generates and sends a one-time password (OTP) to the user’s phone number for the purpose of validating a phone number update request.',
+	@Route({
+		summary: 'Send Update Phone OTP',
+		description:
+			'Generates and sends a one-time password (OTP) to the user’s phone number for the purpose of validating a phone number update request.',
 
-    method: 'POST',
+		method: 'POST',
 
-    path: '/update-phone',
+		path: '/update-phone',
 
-    parameters: {
-      body: SendUpdatePhoneOTPSchema.body,
-    },
+		parameters: {
+			body: SendUpdatePhoneOTPSchema.body,
+		},
 
-    responses: {
-      201: {
-        schema: SendUpdatePhoneOTPSchema.output,
-      },
-      409: [
-        {
-          description: 'OTP insufficient resend time, please try again later.',
-        },
-        {
-          description: 'OTP daily attempt limit exceeded.',
-        },
-        {
-          description: 'Phone {{phone}} has already been taken.',
-        },
-      ],
-    },
-  })
-  @UseGuards(AuthGuard)
-  async sendUpdatePhoneOTP(@AuthenticatedUser() user: User, @Request() { body }: SendUpdatePhoneOTPRequest) {
-    const otp = await this.otpService.sendUpdatePhone(body.channel, {
-      userId: user.userId,
-      phone: body.phone,
-    })
+		responses: {
+			201: {
+				schema: SendUpdatePhoneOTPSchema.output,
+			},
+			409: [
+				{
+					description: 'OTP insufficient resend time, please try again later.',
+				},
+				{
+					description: 'OTP daily attempt limit exceeded.',
+				},
+				{
+					description: 'Phone {{phone}} has already been taken.',
+				},
+			],
+		},
+	})
+	@UseGuards(AuthGuard)
+	async sendUpdatePhoneOTP(
+		@AuthenticatedUser() user: User,
+		@Request() { body }: SendUpdatePhoneOTPRequest,
+	) {
+		const otp = await this.otpService.sendUpdatePhone(body.channel, {
+			userId: user.userId,
+			phone: body.phone,
+		})
 
-    return {
-      otpId: otp.state.otpId,
-    }
-  }
+		return {
+			otpId: otp.state.otpId,
+		}
+	}
 }

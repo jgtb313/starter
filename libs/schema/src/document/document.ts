@@ -1,10 +1,10 @@
 import { clearSpecialChars, isCNPJ, isCPF, isCPFOrCNPJ } from '@starter/common'
 
 import { z } from '@/zod'
+
 import {
 	DocumentTypeCNPJSchema,
 	DocumentTypeCPFSchema,
-	DocumentTypeEnum,
 	DocumentTypeSchema,
 } from '../document-type'
 
@@ -21,7 +21,7 @@ export const DocumentExplicitSchema = z
 	})
 	.refine(
 		({ number, type }) => {
-			if (type === DocumentTypeEnum.INDIVIDUAL) {
+			if (type === 'INDIVIDUAL') {
 				return isCPF(number)
 			} else {
 				return isCNPJ(number)

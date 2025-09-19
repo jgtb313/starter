@@ -59,13 +59,13 @@ export class UserEntity {
 		type: 'varchar',
 		nullable: true,
 	})
-	socialGoogleId: Required<User['social']>['googleId']
+	socialGoogleId: Required<User['socialGoogleId']>
 
 	@Column({
 		type: 'varchar',
 		nullable: true,
 	})
-	socialFacebookId: Required<User['social']>['facebookId']
+	socialFacebookId: Required<User['socialFacebookId']>
 
 	@Column({
 		type: 'varchar',

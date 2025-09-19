@@ -1,7 +1,7 @@
 import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
-import { Injectable } from '@nestjs/common'
-import type { ConfigService } from '@nestjs/config'
+import { Inject, Injectable } from '@nestjs/common'
+import { ConfigService } from '@nestjs/config'
 
 import type { IPresignedUrlAdapter } from '@/ports/presigned-url'
 
@@ -10,7 +10,9 @@ export class S3PresignedUrlAdapter implements IPresignedUrlAdapter {
 	private s3: S3Client
 	private bucket: string
 
-	constructor(private readonly configService: ConfigService) {
+	constructor(
+		@Inject(ConfigService) private readonly configService: ConfigService,
+	) {
 		this.bucket = this.configService.get<string>('AWS_S3_ASSETS_BUCKET')!
 
 		this.s3 = new S3Client({

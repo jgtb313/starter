@@ -3,100 +3,115 @@ import { AclForbiddenException } from '@starter/nestjs-error-handling'
 
 import { OrganizationService } from '@/core/organization/organization.service'
 import { PermissionService } from '@/core/permission/permission.service'
-import { RoleStatusEnum } from '@/core/role/role.schema'
-import { getRoleWorkspaceReference, type IRoleService } from '@/core/role/role.service.interface'
+import {
+	getRoleWorkspaceReference,
+	type IRoleService,
+} from '@/core/role/role.service.interface'
 import type { IRoleRepository } from '@/ports/database/role'
 
 @Injectable()
 export class RoleService implements IRoleService {
-  constructor(
-    @Inject('ROLE_REPOSITORY') private readonly roleRepository: IRoleRepository,
-    @Inject(forwardRef(() => OrganizationService)) private readonly organizationService: OrganizationService,
-    @Inject(forwardRef(() => PermissionService)) private readonly permissionService: PermissionService,
-  ) {}
+	constructor(
+		@Inject('ROLE_REPOSITORY') private readonly roleRepository: IRoleRepository,
+		@Inject(forwardRef(() => OrganizationService))
+		private readonly organizationService: OrganizationService,
+		@Inject(forwardRef(() => PermissionService))
+		private readonly permissionService: PermissionService,
+	) {}
 
-  getPaginatedRoles: IRoleService['getPaginatedRoles'] = async (input) => {
-    return this.roleRepository.findAllPaginated({
-      ...input,
-    })
-  }
+	getPaginatedRoles: IRoleService['getPaginatedRoles'] = async (input) => {
+		return this.roleRepository.findAllPaginated({
+			...input,
+		})
+	}
 
-  getRole: IRoleService['getRole'] = async (reference) => {
-    const { roleId, workspaceId } = getRoleWorkspaceReference(reference)
+	getRole: IRoleService['getRole'] = async (reference) => {
+		const { roleId, workspaceId } = getRoleWorkspaceReference(reference)
 
-    const role = await this.roleRepository.findById(roleId)
+		const role = await this.roleRepository.findById(roleId)
 
-    if (role.state.workspaceId !== workspaceId) {
-      throw new AclForbiddenException()
-    }
+		if (role.state.workspaceId !== workspaceId) {
+			throw new AclForbiddenException()
+		}
 
-    return role
-  }
+		return role
+	}
 
-  createRole: IRoleService['createRole'] = async ({ organizationIds, permissionIds, ...input }) => {
-    await this.organizationService.validateOrganizationIds(organizationIds)
+	createRole: IRoleService['createRole'] = async ({
+		organizationIds,
+		permissionIds,
+		...input
+	}) => {
+		await this.organizationService.validateOrganizationIds(organizationIds)
 
-    await this.permissionService.validatePermissionIds(permissionIds)
+		await this.permissionService.validatePermissionIds(permissionIds)
 
-    const role = await this.roleRepository.create({
-      ...input,
-      organizationIds,
-      permissionIds,
-      status: RoleStatusEnum.ACTIVE,
-    })
+		const role = await this.roleRepository.create({
+			...input,
+			organizationIds,
+			permissionIds,
+			status: 'ACTIVE',
+		})
 
-    return role
-  }
+		return role
+	}
 
-  updateRole: IRoleService['updateRole'] = async (reference, { organizationIds, permissionIds, ...input }) => {
-    const role = await this.getRole(reference)
+	updateRole: IRoleService['updateRole'] = async (
+		reference,
+		{ organizationIds, permissionIds, ...input },
+	) => {
+		const role = await this.getRole(reference)
 
-    if (organizationIds) {
-      await this.organizationService.validateOrganizationIds(organizationIds)
-    }
+		if (organizationIds) {
+			await this.organizationService.validateOrganizationIds(organizationIds)
+		}
 
-    if (permissionIds) {
-      await this.permissionService.validatePermissionIds(permissionIds)
-    }
+		if (permissionIds) {
+			await this.permissionService.validatePermissionIds(permissionIds)
+		}
 
-    return this.roleRepository.updateById(role.state.roleId, {
-      ...input,
-      organizationIds,
-      permissionIds,
-    })
-  }
+		return this.roleRepository.updateById(role.state.roleId, {
+			...input,
+			organizationIds,
+			permissionIds,
+		})
+	}
 
-  activeRole: IRoleService['activeRole'] = async (reference) => {
-    const role = await this.getRole(reference)
+	activeRole: IRoleService['activeRole'] = async (reference) => {
+		const role = await this.getRole(reference)
 
-    role.markAsActive()
+		role.markAsActive()
 
-    return this.roleRepository.updateById(role.state.roleId, {
-      status: role.state.status,
-    })
-  }
+		return this.roleRepository.updateById(role.state.roleId, {
+			status: role.state.status,
+		})
+	}
 
-  inactiveRole: IRoleService['inactiveRole'] = async (reference) => {
-    const role = await this.getRole(reference)
+	inactiveRole: IRoleService['inactiveRole'] = async (reference) => {
+		const role = await this.getRole(reference)
 
-    role.markAsInactive()
+		role.markAsInactive()
 
-    return this.roleRepository.updateById(role.state.roleId, {
-      status: role.state.status,
-    })
-  }
+		return this.roleRepository.updateById(role.state.roleId, {
+			status: role.state.status,
+		})
+	}
 
-  deleteRole: IRoleService['deleteRole'] = async (reference) => {
-    const role = await this.getRole(reference)
+	deleteRole: IRoleService['deleteRole'] = async (reference) => {
+		const role = await this.getRole(reference)
 
-    await this.roleRepository.deleteById(role.state.roleId)
-  }
+		await this.roleRepository.deleteById(role.state.roleId)
+	}
 
-  validateRoleIds: IRoleService['validateRoleIds'] = async (roleIds) => {
-    await this.roleRepository.validateRoleIds(roleIds)
-  }
+	validateRoleIds: IRoleService['validateRoleIds'] = async (roleIds) => {
+		await this.roleRepository.validateRoleIds(roleIds)
+	}
 
-  validateRoleIdsByOrganizationId: IRoleService['validateRoleIdsByOrganizationId'] = async (organizationId, roleIds) => {
-    await this.roleRepository.validateIdsByOrganizationId(organizationId, roleIds)
-  }
+	validateRoleIdsByOrganizationId: IRoleService['validateRoleIdsByOrganizationId'] =
+		async (organizationId, roleIds) => {
+			await this.roleRepository.validateIdsByOrganizationId(
+				organizationId,
+				roleIds,
+			)
+		}
 }

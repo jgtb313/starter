@@ -12,7 +12,6 @@ import { OrganizationService } from '@/core/organization/organization.service'
 import { permissionMocks } from '@/core/permission/permission.mock'
 import { PermissionService } from '@/core/permission/permission.service'
 import { makeRole, roleMocks } from '@/core/role/role.mock'
-import { RoleStatusEnum } from '@/core/role/role.schema'
 import { RoleService } from '@/core/role/role.service'
 
 describe('RoleService', async () => {
@@ -104,7 +103,7 @@ describe('RoleService', async () => {
 			},
 			{
 				input: {
-					status: RoleStatusEnum.ACTIVE,
+					status: 'ACTIVE',
 				},
 				length: 5,
 				total: 5,
@@ -190,7 +189,7 @@ describe('RoleService', async () => {
 				input: {
 					workspaceId: roleMocks[0].state.workspaceId,
 					name: 'Admin',
-					status: RoleStatusEnum.ACTIVE,
+					status: 'ACTIVE',
 					organizationIds: [
 						roleMocks[0].state.organizations[0].organizationId,
 					],
@@ -211,7 +210,7 @@ describe('RoleService', async () => {
 		])(
 			'should return roles correctly for $desc',
 			async ({ input, expectedIds, length, total }) => {
-				const result = await service.getPaginatedRoles(input)
+				const result = await service.getPaginatedRoles(input as any)
 
 				expect(result.values).toHaveLength(length)
 				expect(result.meta.total).toBe(total)
@@ -287,7 +286,7 @@ describe('RoleService', async () => {
 				permissionIds,
 			)
 			expect(result.state.roleId).toBeDefined()
-			expect(result.state.status).toBe(RoleStatusEnum.ACTIVE)
+			expect(result.state.status).toBe('ACTIVE')
 		})
 	})
 
@@ -351,31 +350,27 @@ describe('RoleService', async () => {
 
 	describe('activeRole', () => {
 		it('should mark role as active', async () => {
-			const role = roleMocks.find(
-				(role) => role.state.status === RoleStatusEnum.INACTIVE,
-			)!
+			const role = roleMocks.find((role) => role.state.status === 'INACTIVE')!
 
 			const result = await service.activeRole({
 				roleId: role.state.roleId,
 				workspaceId: role.state.workspaceId,
 			})
 
-			expect(result.state.status).toBe(RoleStatusEnum.ACTIVE)
+			expect(result.state.status).toBe('ACTIVE')
 		})
 	})
 
 	describe('inactiveRole', () => {
 		it('should mark role as inactive', async () => {
-			const role = roleMocks.find(
-				(role) => role.state.status === RoleStatusEnum.ACTIVE,
-			)!
+			const role = roleMocks.find((role) => role.state.status === 'ACTIVE')!
 
 			const result = await service.inactiveRole({
 				roleId: role.state.roleId,
 				workspaceId: role.state.workspaceId,
 			})
 
-			expect(result.state.status).toBe(RoleStatusEnum.INACTIVE)
+			expect(result.state.status).toBe('INACTIVE')
 		})
 	})
 

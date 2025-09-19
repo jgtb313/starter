@@ -4,16 +4,13 @@ import {
 	Injectable,
 	type NestInterceptor,
 } from '@nestjs/common'
-import { PaginationSchemaTransform } from '@starter/schema'
+import { type Pagination, PaginationSchemaTransform } from '@starter/schema'
 import type { Request } from 'express'
 import type { Observable } from 'rxjs'
 
 declare module 'express' {
 	interface Request {
-		pagination?: {
-			limit: number
-			offset: number
-		}
+		pagination?: Pagination
 	}
 }
 

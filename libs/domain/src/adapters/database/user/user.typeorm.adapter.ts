@@ -2,7 +2,12 @@ import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { capitalize } from '@starter/common'
 import { PaginationSchemaTransform } from '@starter/schema'
-import { type DeepPartial, type FindOptionsWhere, ILike, type Repository } from 'typeorm'
+import {
+	type DeepPartial,
+	type FindOptionsWhere,
+	ILike,
+	type Repository,
+} from 'typeorm'
 import type { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity'
 
 import { deepMapDatesToISOString } from '@/support/utilities'
@@ -14,198 +19,226 @@ import type { IUserRepository } from '@/ports/database/user'
 
 @Injectable()
 export class UserTypeorm implements IUserRepository {
-  constructor(
-    @InjectRepository(UserEntity)
-    private readonly repository: Repository<UserEntity>,
-  ) {}
+	constructor(
+		@InjectRepository(UserEntity)
+		private readonly repository: Repository<UserEntity>,
+	) {}
 
-  findAllPaginated: IUserRepository['findAllPaginated'] = async ({ offset, limit, ...query }) => {
-    const { name, workspaceId, status } = query
+	findAllPaginated: IUserRepository['findAllPaginated'] = async ({
+		cursor,
+		limit,
+		...query
+	}) => {
+		const { workspaceId, status } = query
 
-    const where: FindOptionsWhere<UserEntity> = {}
+		const where: FindOptionsWhere<UserEntity> = {}
 
-    if (name) {
-      where.name = ILike(`%${name}%`)
-    }
+		// if (name) {
+		//   where.name = ILike(`%${name}%`)
+		// }
 
-    if (workspaceId) {
-      where.workspaceId = workspaceId
-    }
+		if (workspaceId) {
+			where.workspaceId = workspaceId
+		}
 
-    if (status) {
-      where.status = status
-    }
+		if (status) {
+			where.status = status
+		}
 
-    const paginate = PaginationSchemaTransform.parse({ offset, limit })
+		const paginate = PaginationSchemaTransform.parse({
+			cursor,
+			limit,
+		})
 
-    const skip = paginate.offset
-    const take = paginate.limit
+		const take = paginate.limit
 
-    const [values, total] = await this.repository.findAndCount({
-      where,
-      take,
-      skip,
-    })
+		const [values, total] = await this.repository.findAndCount({
+			where,
+			take,
+		})
 
-    return {
-      values: values.map((user) => this.toUserDomain(user)),
-      meta: {
-        ...paginate,
-        total,
-      },
-    }
-  }
+		return {
+			values: values.map((user) => this.toUserDomain(user)),
+			meta: {
+				...paginate,
+				total,
+				nextCursor: null,
+			},
+		}
+	}
 
-  findAll: IUserRepository['findAll'] = async (input) => {
-    const { name, status } = input
+	findAll: IUserRepository['findAll'] = async (input) => {
+		const { name, status } = input
 
-    const where: FindOptionsWhere<UserEntity> = {}
+		const where: FindOptionsWhere<UserEntity> = {}
 
-    if (name) {
-      where.name = ILike(`%${name}%`)
-    }
+		if (name) {
+			where.name = ILike(`%${name}%`)
+		}
 
-    if (status) {
-      where.status = status
-    }
+		if (status) {
+			where.status = status
+		}
 
-    const values = await this.repository.find({ where })
+		const values = await this.repository.find({
+			where,
+		})
 
-    return values.map((user) => this.toUserDomain(user))
-  }
+		return values.map((user) => this.toUserDomain(user))
+	}
 
-  findById: IUserRepository['findById'] = async (userId) => {
-    const user = await this.repository.findOne({ where: { userId } })
+	findById: IUserRepository['findById'] = async (userId) => {
+		const user = await this.repository.findOne({
+			where: {
+				userId,
+			},
+		})
 
-    if (!user) {
-      throw new NotFoundException(`User ${userId} not found`)
-    }
+		if (!user) {
+			throw new NotFoundException(`User ${userId} not found`)
+		}
 
-    return this.toUserDomain(user)
-  }
+		return this.toUserDomain(user)
+	}
 
-  findByEmail: IUserRepository['findByEmail'] = async (email, options) => {
-    const where: FindOptionsWhere<UserEntity> = {}
+	findByEmail: IUserRepository['findByEmail'] = async (email, options) => {
+		const where: FindOptionsWhere<UserEntity> = {}
 
-    if (email) {
-      where.email = email
-    }
+		if (email) {
+			where.email = email
+		}
 
-    if (options?.workspaceId) {
-      where.workspaceId = options.workspaceId
-    }
+		if (options?.workspaceId) {
+			where.workspaceId = options.workspaceId
+		}
 
-    const user = await this.repository.findOne({ where })
+		const user = await this.repository.findOne({
+			where,
+		})
 
-    if (!user) {
-      return null
-    }
+		if (!user) {
+			return null
+		}
 
-    return this.toUserDomain(user)
-  }
+		return this.toUserDomain(user)
+	}
 
-  findByPhone: IUserRepository['findByPhone'] = async (phone, options) => {
-    const where: FindOptionsWhere<UserEntity> = {}
+	findByPhone: IUserRepository['findByPhone'] = async (phone, options) => {
+		const where: FindOptionsWhere<UserEntity> = {}
 
-    if (phone) {
-      where.phoneISO = phone.iso
-      where.phoneDDI = phone.ddi
-      where.phoneNumber = phone.number
-    }
+		if (phone) {
+			where.phoneISO = phone.iso
+			where.phoneDDI = phone.ddi
+			where.phoneNumber = phone.number
+		}
 
-    if (options?.workspaceId) {
-      where.workspaceId = options.workspaceId
-    }
+		if (options?.workspaceId) {
+			where.workspaceId = options.workspaceId
+		}
 
-    const user = await this.repository.findOne({ where })
+		const user = await this.repository.findOne({
+			where,
+		})
 
-    if (!user) {
-      return null
-    }
+		if (!user) {
+			return null
+		}
 
-    return this.toUserDomain(user)
-  }
+		return this.toUserDomain(user)
+	}
 
-  findBySocial: IUserRepository['findBySocial'] = async (provider, providerToken, email) => {
-    const socialKey = `social${capitalize(provider)}Id`
-    const where: FindOptionsWhere<UserEntity> = {
-      [socialKey]: providerToken,
-    }
+	findBySocial: IUserRepository['findBySocial'] = async (
+		provider,
+		providerToken,
+		email,
+	) => {
+		const socialKey = `social${capitalize(provider)}Id`
+		const where: FindOptionsWhere<UserEntity> = {
+			[socialKey]: providerToken,
+		}
 
-    if (email) {
-      where.email = email
-    }
+		if (email) {
+			where.email = email
+		}
 
-    const user = await this.repository.findOne({ where })
+		const user = await this.repository.findOne({
+			where,
+		})
 
-    if (!user) {
-      return null
-    }
+		if (!user) {
+			return null
+		}
 
-    return this.toUserDomain(user)
-  }
+		return this.toUserDomain(user)
+	}
 
-  create: IUserRepository['create'] = async (input) => {
-    const data = this.repository.create(this.toUserEntity(input))
+	create: IUserRepository['create'] = async (input) => {
+		const data = this.repository.create(this.toUserEntity(input))
 
-    const user = await this.repository.save(data)
+		const user = await this.repository.save(data)
 
-    return this.toUserDomain(user)
-  }
+		return this.toUserDomain(user)
+	}
 
-  updateById: IUserRepository['updateById'] = async (userId, input) => {
-    const user = await this.findById(userId)
+	updateById: IUserRepository['updateById'] = async (userId, input) => {
+		const user = await this.findById(userId)
 
-    await this.repository.update(user.state.userId, this.toPartialRoleEntity(input))
+		await this.repository.update(
+			user.state.userId,
+			this.toPartialRoleEntity(input),
+		)
 
-    return this.findById(user.state.userId)
-  }
+		return this.findById(user.state.userId)
+	}
 
-  deleteById: IUserRepository['deleteById'] = async (userId) => {
-    const user = await this.findById(userId)
+	deleteById: IUserRepository['deleteById'] = async (userId) => {
+		const user = await this.findById(userId)
 
-    await this.repository.softDelete({ userId: user.state.userId })
-  }
+		await this.repository.softDelete({
+			userId: user.state.userId,
+		})
+	}
 
-  private toUserEntity(user: BaseUser): DeepPartial<UserEntity> {
-    return {
-      ...user,
-      phoneISO: user.phone?.iso,
-      phoneDDI: user.phone?.ddi,
-      phoneNumber: user.phone?.number,
-      socialGoogleId: user.social?.googleId,
-      socialFacebookId: user.social?.facebookId,
-    }
-  }
+	private toUserEntity(user: BaseUser): DeepPartial<UserEntity> {
+		return {
+			...user,
+			phoneISO: user.phone?.iso,
+			phoneDDI: user.phone?.ddi,
+			phoneNumber: user.phone?.number,
+			socialGoogleId: user.socialGoogleId ?? undefined,
+			socialFacebookId: user.socialFacebookId ?? undefined,
+		}
+	}
 
-  private toPartialRoleEntity({ phone, ...user }: Partial<User>): QueryDeepPartialEntity<UserEntity> {
-    return {
-      ...user,
-      phoneISO: phone?.iso,
-      phoneDDI: phone?.ddi,
-      phoneNumber: phone?.number,
-      socialGoogleId: user.social?.googleId,
-      socialFacebookId: user.social?.facebookId,
-    }
-  }
+	private toPartialRoleEntity({
+		phone,
+		...user
+	}: Partial<User>): QueryDeepPartialEntity<UserEntity> {
+		return {
+			...user,
+			phoneISO: phone?.iso,
+			phoneDDI: phone?.ddi,
+			phoneNumber: phone?.number,
+			socialGoogleId: user.socialGoogleId ?? undefined,
+			socialFacebookId: user.socialFacebookId ?? undefined,
+		}
+	}
 
-  private toUserDomain(user: UserEntity): UserDomain {
-    const state: UserDomain['state'] = {
-      ...user,
-      phone:
-        user.phoneISO && user.phoneDDI && user.phoneNumber
-          ? {
-              iso: user.phoneISO,
-              ddi: user.phoneDDI,
-              number: user.phoneNumber,
-            }
-          : null,
-      social: {
-        googleId: user.socialGoogleId,
-        facebookId: user.socialFacebookId,
-      },
-    }
+	private toUserDomain(user: UserEntity): UserDomain {
+		const state: UserDomain['state'] = {
+			...user,
+			phone:
+				user.phoneISO && user.phoneDDI && user.phoneNumber
+					? {
+							iso: user.phoneISO,
+							ddi: user.phoneDDI,
+							number: user.phoneNumber,
+						}
+					: null,
+			socialGoogleId: user.socialGoogleId ?? undefined,
+			socialFacebookId: user.socialFacebookId ?? undefined,
+		}
 
-    return new UserDomain(deepMapDatesToISOString(state))
-  }
+		return new UserDomain(deepMapDatesToISOString(state))
+	}
 }

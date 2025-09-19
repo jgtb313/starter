@@ -4,10 +4,6 @@ import { BaseSchema } from '@/support/base-schema'
 
 import { OTPContext } from '@/core/otp/otp-context.schema'
 
-export type OTPChannelEnum = 'EMAIL' | 'SMS' | 'WHATSAPP'
-
-export type OTPPhoneChannelEnum = 'SMS' | 'WHATSAPP'
-
 const OTPId = BaseSchema.id('otp')
 
 const UserId = BaseSchema.id('user')
@@ -29,6 +25,7 @@ const OTPChannelSchema = z
 		],
 	})
 export type OTPChannel = z.infer<typeof OTPChannelSchema>
+export type OTPPhoneChannel = 'SMS' | 'WHATSAPP'
 
 const OTPContextSchema = OTPContext.meta({
 	description: 'Business scenario for which the OTP is generated',

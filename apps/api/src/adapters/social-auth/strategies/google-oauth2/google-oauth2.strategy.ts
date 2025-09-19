@@ -1,5 +1,5 @@
-import type { HttpService } from '@nestjs/axios'
-import { Injectable, UnauthorizedException } from '@nestjs/common'
+import { HttpService } from '@nestjs/axios'
+import { Inject, Injectable, UnauthorizedException } from '@nestjs/common'
 import { lastValueFrom } from 'rxjs'
 
 import type { ISocialAuthStrategy } from '@/ports/social-auth'
@@ -14,7 +14,7 @@ type GoogleUserInfo = {
 
 @Injectable()
 export class GoogleOauth2Strategy implements ISocialAuthStrategy {
-	constructor(private readonly httpService: HttpService) {}
+	constructor(@Inject(HttpService) private readonly httpService: HttpService) {}
 
 	private readonly googleUserInfoUrl =
 		'https://www.googleapis.com/oauth2/v1/userinfo?alt=json'

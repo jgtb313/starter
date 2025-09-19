@@ -13,6 +13,7 @@ import { Reflector } from '@nestjs/core'
 import {
 	ApiBearerAuth,
 	ApiBody,
+	ApiHeader,
 	ApiOperation,
 	ApiParam,
 	type ApiParamOptions,
@@ -21,7 +22,7 @@ import {
 	ApiResponse,
 } from '@nestjs/swagger'
 import { get } from '@starter/common'
-import { z } from '@starter/schema'
+import { LocaleSchema, z } from '@starter/schema'
 import { sample } from 'openapi-sampler'
 
 import { UseZodGuard } from '@/guards'
@@ -250,6 +251,15 @@ export const Route = (options: RouteOptions): MethodDecorator => {
 				required: false,
 			}),
 		)
+		decorators.push(
+			ApiHeader({
+				name: 'Accept-Language',
+				description:
+					'Specifies the preferred language to be used in the response.',
+				required: false,
+				schema: zodSchemaToJSONSchema(LocaleSchema),
+			}),
+		)
 
 		if (options.parameters.query) {
 			const openApiSchema = zodSchemaToJSONSchema(options.parameters.query)
@@ -326,6 +336,26 @@ export const Route = (options: RouteOptions): MethodDecorator => {
 					}),
 				)
 			} else {
+				const responseBodySchema =
+					'schema' in value
+						? zodSchemaToJSONSchema(value.schema)
+						: isHttpResponseError(httpResponse)
+							? zodSchemaToJSONSchema(
+									ErrorSchema[httpResponse](value.description),
+								)
+							: undefined
+
+				const response =
+					httpResponse === 204
+						? {}
+						: {
+								content: {
+									'application/json': {
+										schema: responseBodySchema,
+									},
+								},
+							}
+
 				decorators.push(
 					ApiResponse({
 						status: httpResponse,
@@ -333,18 +363,7 @@ export const Route = (options: RouteOptions): MethodDecorator => {
 							httpResponse.toString() === '204'
 								? get(value, 'description')
 								: httpResponsesDescriptions[httpResponse],
-						content: {
-							'application/json': {
-								schema:
-									'schema' in value
-										? zodSchemaToJSONSchema(value.schema)
-										: isHttpResponseError(httpResponse)
-											? zodSchemaToJSONSchema(
-													ErrorSchema[httpResponse](value.description),
-												)
-											: undefined,
-							},
-						},
+						...response,
 					}),
 				)
 			}

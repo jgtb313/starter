@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common'
+import { Inject, Injectable } from '@nestjs/common'
 
-import type {
+import {
 	FacebookOauth2Strategy,
 	GoogleOauth2Strategy,
 } from '@/adapters/social-auth/strategies'
@@ -9,7 +9,9 @@ import { type ISocialAuth, SocialAuthEnum } from '@/ports/social-auth'
 @Injectable()
 export class SocialAuthService {
 	constructor(
+		@Inject(GoogleOauth2Strategy)
 		private readonly googleOauth2: GoogleOauth2Strategy,
+		@Inject(FacebookOauth2Strategy)
 		private readonly facebookOauth2: FacebookOauth2Strategy,
 	) {}
 

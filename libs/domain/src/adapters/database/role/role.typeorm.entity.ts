@@ -22,18 +22,6 @@ export class RoleEntity {
 	})
 	workspaceId: Role['workspaceId']
 
-	@OneToMany(
-		() => RoleOrganizationEntity,
-		(roleOrganization) => roleOrganization.role,
-	)
-	organizations: RoleOrganizationEntity[]
-
-	@OneToMany(
-		() => RolePermissionEntity,
-		(rolePermission) => rolePermission.role,
-	)
-	permissions: RolePermissionEntity[]
-
 	@Column({
 		type: 'varchar',
 	})

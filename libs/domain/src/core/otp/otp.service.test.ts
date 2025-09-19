@@ -1,5 +1,5 @@
 import { Test, type TestingModule } from '@nestjs/testing'
-import { addSeconds, subSeconds, uuid } from '@starter/common'
+import { subSeconds, uuid } from '@starter/common'
 import {
 	ConflictException,
 	NotFoundException,
@@ -10,13 +10,8 @@ import { InMemoryDatabaseModule } from '@/adapters/database'
 import { OTPRepositoryModule } from '@/adapters/database/otp/otp.repository.module'
 import { NotificationService } from '@/adapters/notification'
 import { makeOTP, otpMocks } from '@/core/otp/otp.mock'
-import {
-	type OTP,
-	OTPChannelEnum,
-	OTPPhoneChannelEnum,
-} from '@/core/otp/otp.schema'
+import type { OTP, OTPChannel, OTPPhoneChannel } from '@/core/otp/otp.schema'
 import { OTPService } from '@/core/otp/otp.service'
-import { OTPContextEnum } from '@/core/otp/otp-context.schema'
 import { UserService } from '@/core/user/user.service'
 import type { IOTPRepository } from '@/ports/database/otp'
 
@@ -69,17 +64,17 @@ describe('OTPService', () => {
 
 	describe('sendOTP', () => {
 		it.each([
-			OTPChannelEnum.EMAIL,
-			OTPChannelEnum.SMS,
-			OTPChannelEnum.WHATSAPP,
+			'EMAIL',
+			'SMS',
+			'WHATSAPP',
 		])(
 			'should create an OTP and call notification service',
 			async (channel) => {
 				const input: Pick<OTP, 'userId' | 'channel' | 'context' | 'recipient'> =
 					{
 						userId: null,
-						channel,
-						context: OTPContextEnum.FORGOT_PASSWORD,
+						channel: channel as OTPChannel,
+						context: 'FORGOT_PASSWORD',
 						recipient: 'recipient',
 					}
 
@@ -93,8 +88,8 @@ describe('OTPService', () => {
 		it('should work even if a previous OTP exists within the resend cooldown interval', async () => {
 			const input = makeOTP({
 				userId: null,
-				channel: OTPChannelEnum.EMAIL,
-				context: OTPContextEnum.FORGOT_PASSWORD,
+				channel: 'EMAIL',
+				context: 'FORGOT_PASSWORD',
 				recipient: 'recipient',
 				createdAt: subSeconds(new Date(), 300).toISOString(),
 			})
@@ -137,7 +132,7 @@ describe('OTPService', () => {
 			await expect(
 				service.validateOTP({
 					otpId,
-					context: OTPContextEnum.UPDATE_EMAIL,
+					context: 'UPDATE_EMAIL',
 					code: '0000',
 					recipient: 'notfound@example.com',
 				}),
@@ -181,8 +176,8 @@ describe('OTPService', () => {
 			expect(userServiceMock.getUserByEmail).toHaveBeenCalledWith(user.email)
 			expect(spy).toHaveBeenCalledWith({
 				userId: user.userId,
-				channel: OTPChannelEnum.EMAIL,
-				context: OTPContextEnum.PASSWORD_LESS,
+				channel: 'EMAIL',
+				context: 'PASSWORD_LESS',
 				recipient: user.email,
 			})
 		})
@@ -218,8 +213,8 @@ describe('OTPService', () => {
 			expect(userServiceMock.getUserByEmail).toHaveBeenCalledWith(user.email)
 			expect(spy).toHaveBeenCalledWith({
 				userId: user.userId,
-				channel: OTPChannelEnum.EMAIL,
-				context: OTPContextEnum.FORGOT_PASSWORD,
+				channel: 'EMAIL',
+				context: 'FORGOT_PASSWORD',
 				recipient: user.email,
 			})
 		})
@@ -256,8 +251,8 @@ describe('OTPService', () => {
 			expect(userServiceMock.getUserByEmail).toHaveBeenCalledWith(user.email)
 			expect(spy).toHaveBeenCalledWith({
 				userId: user.userId,
-				channel: OTPChannelEnum.EMAIL,
-				context: OTPContextEnum.UPDATE_EMAIL,
+				channel: 'EMAIL',
+				context: 'UPDATE_EMAIL',
 				recipient: user.email,
 			})
 		})
@@ -282,8 +277,8 @@ describe('OTPService', () => {
 
 	describe('sendUpdatePhone', () => {
 		it.each([
-			OTPPhoneChannelEnum.SMS,
-			OTPPhoneChannelEnum.WHATSAPP,
+			'SMS',
+			'WHATSAPP',
 		])('should call send if user exists', async (channel) => {
 			const user = {
 				userId: uuid(),
@@ -297,7 +292,7 @@ describe('OTPService', () => {
 
 			const spy = vi.spyOn(service, 'sendOTP')
 
-			await service.sendUpdatePhone(channel, {
+			await service.sendUpdatePhone(channel as OTPPhoneChannel, {
 				userId: user.userId,
 				phone: {
 					iso: 'BR',
@@ -310,7 +305,7 @@ describe('OTPService', () => {
 			expect(spy).toHaveBeenCalledWith({
 				userId: user.userId,
 				channel,
-				context: OTPContextEnum.UPDATE_PHONE,
+				context: 'UPDATE_PHONE',
 				recipient: `${user.phone.ddi}${user.phone.number}`,
 			})
 		})
@@ -330,9 +325,9 @@ describe('OTPService', () => {
 				},
 			}
 
-			await expect(
-				service.sendUpdatePhone(OTPPhoneChannelEnum.SMS, input),
-			).rejects.toThrowError(ConflictException)
+			await expect(service.sendUpdatePhone('SMS', input)).rejects.toThrowError(
+				ConflictException,
+			)
 			expect(userServiceMock.getUserByPhone).toHaveBeenCalledWith(input.phone)
 		})
 	})

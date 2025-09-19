@@ -1,87 +1,99 @@
-import { UseGuards } from '@nestjs/common'
-import { InvoiceSchema, type InvoiceService, type User } from '@starter/domain'
+import { Inject, UseGuards } from '@nestjs/common'
+import { InvoiceSchema, InvoiceService, type User } from '@starter/domain'
 import { Controller, Request, Route } from '@starter/nestjs-server-hoisting'
 
-import type { ACLService } from '@/support/access-control'
+import { ACLService } from '@/support/access-control'
 import { AuthenticatedUser } from '@/support/decorators'
 import { AuthGuard } from '@/support/guards'
 
-import { type GetInvoiceRequest, GetInvoiceSchema, type ListInvoicesRequest, ListInvoicesSchema } from '@/core/invoice/invoice.controller.schema'
+import {
+	type GetInvoiceRequest,
+	GetInvoiceSchema,
+	type ListInvoicesRequest,
+	ListInvoicesSchema,
+} from '@/core/invoice/invoice.controller.schema'
 
 @Controller({
-  name: 'Invoice',
+	name: 'Invoice',
 
-  description: 'Handles operations for managing and retrieving invoices.',
+	description: 'Handles operations for managing and retrieving invoices.',
 
-  basePath: '/workspaces/:workspaceId/invoices',
+	basePath: '/workspaces/:workspaceId/invoices',
 
-  schemas: {
-    Invoice: {
-      schema: InvoiceSchema,
-    },
-  },
+	schemas: {
+		Invoice: {
+			schema: InvoiceSchema,
+		},
+	},
 })
 @UseGuards(AuthGuard)
 export class InvoiceController {
-  constructor(
-    private readonly aclService: ACLService,
-    private readonly invoiceService: InvoiceService,
-  ) {}
+	constructor(
+		@Inject(ACLService)
+		private readonly aclService: ACLService,
+		@Inject(InvoiceService)
+		private readonly invoiceService: InvoiceService,
+	) {}
 
-  @Route({
-    summary: 'List Invoices',
+	@Route({
+		summary: 'List Invoices',
 
-    description: 'Retrieves a list of invoices.',
+		description: 'Retrieves a list of invoices.',
 
-    method: 'GET',
+		method: 'GET',
 
-    parameters: {
-      params: ListInvoicesSchema.params,
-      query: ListInvoicesSchema.query,
-    },
+		parameters: {
+			params: ListInvoicesSchema.params,
+			query: ListInvoicesSchema.query,
+		},
 
-    responses: {
-      200: {
-        schema: ListInvoicesSchema.output,
-      },
-    },
-  })
-  async listInvoices(@AuthenticatedUser() user: User, @Request() { params, query, pagination }: ListInvoicesRequest) {
-    this.aclService.canPerformActionByPermission(user, 'invoice:read', {
-      workspaceId: params.workspaceId,
-    })
+		responses: {
+			200: {
+				schema: ListInvoicesSchema.output,
+			},
+		},
+	})
+	async listInvoices(
+		@AuthenticatedUser() user: User,
+		@Request() { params, query, pagination }: ListInvoicesRequest,
+	) {
+		this.aclService.canPerformActionByPermission(user, 'invoice:read', {
+			workspaceId: params.workspaceId,
+		})
 
-    return this.invoiceService.getPaginatedInvoices({
-      ...query,
-      ...pagination,
-      workspaceId: params.workspaceId,
-    })
-  }
+		return this.invoiceService.getPaginatedInvoices({
+			...query,
+			...pagination,
+		})
+	}
 
-  @Route({
-    summary: 'Get Invoice',
+	@Route({
+		summary: 'Get Invoice',
 
-    description: 'Retrieves a single invoice by their ID.',
+		description: 'Retrieves a single invoice by their ID.',
 
-    method: 'GET',
+		method: 'GET',
 
-    path: '/:invoiceId',
+		path: '/:invoiceId',
 
-    parameters: {
-      params: GetInvoiceSchema.params,
-    },
+		parameters: {
+			params: GetInvoiceSchema.params,
+		},
 
-    responses: {
-      200: {
-        schema: GetInvoiceSchema.output,
-      },
-    },
-  })
-  getInvoice(@AuthenticatedUser() user: User, @Request() { params }: GetInvoiceRequest) {
-    this.aclService.canPerformActionByPermission(user, 'invoice:read', {
-      workspaceId: params.workspaceId,
-    })
+		responses: {
+			200: {
+				schema: GetInvoiceSchema.output,
+			},
+		},
+	})
+	getInvoice(
+		@AuthenticatedUser() user: User,
+		@Request() { params }: GetInvoiceRequest,
+	) {
+		this.aclService.canPerformActionByPermission(user, 'invoice:read', {
+			workspaceId: params.workspaceId,
+		})
 
-    return this.invoiceService.getInvoice(params)
-  }
+		return this.invoiceService.getInvoice(params)
+	}
 }

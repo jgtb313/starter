@@ -1,4 +1,4 @@
-import { OTPPhoneChannelEnum, OTPSchema } from '@starter/domain'
+import { OTPSchema } from '@starter/domain'
 import {
 	createRequestSchema,
 	type RequestInput,
@@ -68,7 +68,10 @@ export type SendUpdateEmailOTPRequest = RequestInput<
 
 export const SendUpdatePhoneOTPSchema = createRequestSchema({
 	body: z.object({
-		channel: z.nativeEnum(OTPPhoneChannelEnum),
+		channel: z.enum([
+			'SMS',
+			'WHATSAPP',
+		]),
 		phone: PhoneSchema,
 	}),
 	output: OTPSchema.pick({

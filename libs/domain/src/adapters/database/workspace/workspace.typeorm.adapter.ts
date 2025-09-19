@@ -11,89 +11,104 @@ import type { IWorkspaceRepository } from '@/ports/database/workspace'
 
 @Injectable()
 export class WorkspaceTypeorm implements IWorkspaceRepository {
-  constructor(
-    @InjectRepository(WorkspaceEntity)
-    private readonly repository: Repository<WorkspaceEntity>,
-  ) {}
+	constructor(
+		@InjectRepository(WorkspaceEntity)
+		private readonly repository: Repository<WorkspaceEntity>,
+	) {}
 
-  findAllPaginated: IWorkspaceRepository['findAllPaginated'] = async ({ offset, limit, ...query }) => {
-    const { name, status } = query
+	findAllPaginated: IWorkspaceRepository['findAllPaginated'] = async ({
+		cursor,
+		limit,
+		...query
+	}) => {
+		const { name, status } = query
 
-    const where: FindOptionsWhere<WorkspaceEntity> = {}
+		const where: FindOptionsWhere<WorkspaceEntity> = {}
 
-    if (name) {
-      where.name = ILike(`%${name}%`)
-    }
+		if (name) {
+			where.name = ILike(`%${name}%`)
+		}
 
-    if (status) {
-      where.status = status
-    }
+		if (status) {
+			where.status = status
+		}
 
-    const paginate = PaginationSchemaTransform.parse({ offset, limit })
+		const paginate = PaginationSchemaTransform.parse({
+			cursor,
+			limit,
+		})
 
-    const skip = paginate.offset
-    const take = paginate.limit
+		const take = paginate.limit
 
-    const [values, total] = await this.repository.findAndCount({
-      where,
-      take,
-      skip,
-    })
+		const [values, total] = await this.repository.findAndCount({
+			where,
+			take,
+		})
 
-    return {
-      values: values.map((workspace) => this.toWorkspaceDomain(workspace)),
-      meta: {
-        ...paginate,
-        total,
-      },
-    }
-  }
+		return {
+			values: values.map((workspace) => this.toWorkspaceDomain(workspace)),
+			meta: {
+				...paginate,
+				total,
+				nextCursor: null,
+			},
+		}
+	}
 
-  findAll: IWorkspaceRepository['findAll'] = async (input) => {
-    const { name, status } = input
+	findAll: IWorkspaceRepository['findAll'] = async (input) => {
+		const { name, status } = input
 
-    const where: FindOptionsWhere<WorkspaceEntity> = {}
+		const where: FindOptionsWhere<WorkspaceEntity> = {}
 
-    if (name) {
-      where.name = ILike(`%${name}%`)
-    }
+		if (name) {
+			where.name = ILike(`%${name}%`)
+		}
 
-    if (status) {
-      where.status = status
-    }
+		if (status) {
+			where.status = status
+		}
 
-    const values = await this.repository.find({ where })
+		const values = await this.repository.find({
+			where,
+		})
 
-    return values.map((workspace) => this.toWorkspaceDomain(workspace))
-  }
+		return values.map((workspace) => this.toWorkspaceDomain(workspace))
+	}
 
-  findById: IWorkspaceRepository['findById'] = async (workspaceId) => {
-    const workspace = await this.repository.findOne({ where: { workspaceId } })
+	findById: IWorkspaceRepository['findById'] = async (workspaceId) => {
+		const workspace = await this.repository.findOne({
+			where: {
+				workspaceId,
+			},
+		})
 
-    if (!workspace) {
-      throw new NotFoundException(`Workspace ${workspaceId} not found`)
-    }
+		if (!workspace) {
+			throw new NotFoundException(`Workspace ${workspaceId} not found`)
+		}
 
-    return this.toWorkspaceDomain(workspace)
-  }
+		return this.toWorkspaceDomain(workspace)
+	}
 
-  create: IWorkspaceRepository['create'] = async (input) => {
-    const data = this.repository.create(input)
+	create: IWorkspaceRepository['create'] = async (input) => {
+		const data = this.repository.create(input)
 
-    const workspace = await this.repository.save(data)
+		const workspace = await this.repository.save(data)
 
-    return this.toWorkspaceDomain(workspace)
-  }
+		return this.toWorkspaceDomain(workspace)
+	}
 
-  updateById: IWorkspaceRepository['updateById'] = async (workspaceId, input) => {
-    const workspace = await this.findById(workspaceId)
+	updateById: IWorkspaceRepository['updateById'] = async (
+		workspaceId,
+		input,
+	) => {
+		const workspace = await this.findById(workspaceId)
 
-    await this.repository.update(workspace.state.workspaceId, input)
+		await this.repository.update(workspace.state.workspaceId, input)
 
-    return this.findById(workspace.state.workspaceId)
-  }
+		return this.findById(workspace.state.workspaceId)
+	}
 
-  private toWorkspaceDomain(model: WorkspaceEntity) {
-    return new WorkspaceDomain(deepMapDatesToISOString(model))
-  }
+	private toWorkspaceDomain(model: WorkspaceEntity) {
+		return new WorkspaceDomain(deepMapDatesToISOString(model))
+	}
 }

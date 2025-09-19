@@ -1,28 +1,29 @@
 import {
 	ConflictException,
+	Inject,
 	Injectable,
 	UnauthorizedException,
 } from '@nestjs/common'
-import type { ConfigService } from '@nestjs/config'
-import {
-	type EncryptService,
-	type LoggerService,
-	type UserService,
-	UserStatusEnum,
-} from '@starter/domain'
+import { ConfigService } from '@nestjs/config'
+import { EncryptService, LoggerService, UserService } from '@starter/domain'
 
-import type { JWTService } from '@/adapters/jwt'
-import type { SocialAuthService } from '@/adapters/social-auth'
-import { SocialAuthEnum } from '@/ports/social-auth'
+import { JWTService } from '@/adapters/jwt'
+import { SocialAuthService } from '@/adapters/social-auth'
 
 @Injectable()
 export class AuthService {
 	constructor(
+		@Inject(ConfigService)
 		private readonly configService: ConfigService,
+		@Inject(LoggerService)
 		private readonly loggerService: LoggerService,
+		@Inject(EncryptService)
 		private readonly encryptService: EncryptService,
+		@Inject(UserService)
 		private readonly userService: UserService,
+		@Inject(SocialAuthService)
 		private readonly socialAuthService: SocialAuthService,
+		@Inject(JWTService)
 		private readonly jwtService: JWTService,
 	) {}
 
@@ -74,21 +75,14 @@ export class AuthService {
 
 		if (!user) {
 			const user = await this.userService.createUser({
-				scopes: [],
-				permissions: [
-					'workspace:manage',
-				],
 				name,
 				email: email ?? `${providerId}@${input.context.toLowerCase()}.com`,
 				phone: null,
 				avatar,
 				password: providerId,
-				social: {
-					facebookId:
-						input.context === SocialAuthEnum.FACEBOOK ? providerId : null,
-					googleId: input.context === SocialAuthEnum.GOOGLE ? providerId : null,
-				},
-				status: UserStatusEnum.ACTIVE,
+				socialFacebookId: null,
+				socialGoogleId: null,
+				status: 'ACTIVE',
 			})
 
 			return this.grantAccessToken(user)
@@ -105,20 +99,14 @@ export class AuthService {
 		}
 
 		const user = await this.userService.createUser({
-			scopes: [],
-			permissions: [
-				'workspace:manage',
-			],
 			name,
 			email,
 			phone: null,
 			avatar: null,
 			password,
-			social: {
-				facebookId: null,
-				googleId: null,
-			},
-			status: UserStatusEnum.ACTIVE,
+			socialFacebookId: null,
+			socialGoogleId: null,
+			status: 'ACTIVE',
 		})
 
 		return this.grantAccessToken(user)
@@ -133,10 +121,7 @@ export class AuthService {
 
 		user.state.password = await this.encryptService.hash(password)
 
-		await this.userService.updateUser(user.state.userId, {
-			...user,
-			scopes: [],
-		})
+		await this.userService.updateUser(user.state.userId, {})
 
 		return this.grantAccessToken(user)
 	}

@@ -58,10 +58,10 @@ export const CreateRoleSchema = createRequestSchema({
 		workspaceId: true,
 	}),
 	body: RoleSchema.pick({
-		organizationIds: true,
+		// organizationIds: true,
 		name: true,
 		tags: true,
-		permissions: true,
+		// permissions: true,
 		status: true,
 	}),
 	output: RoleSchema,
@@ -74,10 +74,10 @@ export const UpdateRoleSchema = createRequestSchema({
 		roleId: true,
 	}),
 	body: RoleSchema.pick({
-		organizationIds: true,
+		// organizationIds: true,
 		name: true,
 		tags: true,
-		permissions: true,
+		// permissions: true,
 	}).partial(),
 	output: RoleSchema,
 })

@@ -1,183 +1,202 @@
-import { UseGuards } from '@nestjs/common'
-import { RoleSchema, type RoleService, type User } from '@starter/domain'
+import { Inject, UseGuards } from '@nestjs/common'
+import { RoleSchema, RoleService, type User } from '@starter/domain'
 import { Controller, Request, Route } from '@starter/nestjs-server-hoisting'
 
-import type { ACLService } from '@/support/access-control'
+import { ACLService } from '@/support/access-control'
 import { AuthenticatedUser } from '@/support/decorators'
 import { AuthGuard } from '@/support/guards'
 
 import {
-  type CreateRoleRequest,
-  CreateRoleSchema,
-  type DeleteRoleRequest,
-  DeleteRoleSchema,
-  type GetRoleRequest,
-  GetRoleSchema,
-  type ListRolesRequest,
-  ListRolesSchema,
-  type UpdateRoleRequest,
-  UpdateRoleSchema,
+	type CreateRoleRequest,
+	CreateRoleSchema,
+	type DeleteRoleRequest,
+	DeleteRoleSchema,
+	type GetRoleRequest,
+	GetRoleSchema,
+	type ListRolesRequest,
+	ListRolesSchema,
+	type UpdateRoleRequest,
+	UpdateRoleSchema,
 } from './role.controller.schema'
 
 @Controller({
-  name: 'Role',
+	name: 'Role',
 
-  description: 'Handles operations for managing and retrieving roles.',
+	description: 'Handles operations for managing and retrieving roles.',
 
-  basePath: 'workspaces/:workspaceId/roles',
+	basePath: 'workspaces/:workspaceId/roles',
 
-  schemas: {
-    Role: {
-      schema: RoleSchema,
-    },
-  },
+	schemas: {
+		Role: {
+			schema: RoleSchema,
+		},
+	},
 })
 @UseGuards(AuthGuard)
 export class RoleController {
-  constructor(
-    private readonly aclService: ACLService,
-    private readonly roleService: RoleService,
-  ) {}
+	constructor(
+		@Inject(ACLService)
+		private readonly aclService: ACLService,
+		@Inject(RoleService)
+		private readonly roleService: RoleService,
+	) {}
 
-  @Route({
-    summary: 'List Roles',
+	@Route({
+		summary: 'List Roles',
 
-    description: 'Retrieves a list of roles.',
+		description: 'Retrieves a list of roles.',
 
-    method: 'GET',
+		method: 'GET',
 
-    parameters: {
-      params: ListRolesSchema.params,
-      query: ListRolesSchema.query,
-    },
+		parameters: {
+			params: ListRolesSchema.params,
+			query: ListRolesSchema.query,
+		},
 
-    responses: {
-      200: {
-        schema: ListRolesSchema.output,
-      },
-    },
-  })
-  listRoles(@AuthenticatedUser() user: User, @Request() { params, query }: ListRolesRequest) {
-    this.aclService.canPerformActionByPermission(user, 'role:read', {
-      workspaceId: params.workspaceId,
-    })
+		responses: {
+			200: {
+				schema: ListRolesSchema.output,
+			},
+		},
+	})
+	listRoles(
+		@AuthenticatedUser() user: User,
+		@Request() { params, query }: ListRolesRequest,
+	) {
+		this.aclService.canPerformActionByPermission(user, 'role:read', {
+			workspaceId: params.workspaceId,
+		})
 
-    return this.roleService.getPaginatedRoles({
-      ...query,
-      workspaceId: params.workspaceId,
-    })
-  }
+		return this.roleService.getPaginatedRoles({
+			...query,
+			workspaceId: params.workspaceId,
+		})
+	}
 
-  @Route({
-    summary: 'Get Role',
+	@Route({
+		summary: 'Get Role',
 
-    description: 'Retrieves a single role by their ID.',
+		description: 'Retrieves a single role by their ID.',
 
-    method: 'GET',
+		method: 'GET',
 
-    path: '/:roleId',
+		path: '/:roleId',
 
-    parameters: {
-      params: GetRoleSchema.params,
-    },
+		parameters: {
+			params: GetRoleSchema.params,
+		},
 
-    responses: {
-      200: {
-        schema: GetRoleSchema.output,
-      },
-    },
-  })
-  getRole(@AuthenticatedUser() user: User, @Request() { params }: GetRoleRequest) {
-    this.aclService.canPerformActionByPermission(user, 'role:read', {
-      workspaceId: params.workspaceId,
-    })
+		responses: {
+			200: {
+				schema: GetRoleSchema.output,
+			},
+		},
+	})
+	getRole(
+		@AuthenticatedUser() user: User,
+		@Request() { params }: GetRoleRequest,
+	) {
+		this.aclService.canPerformActionByPermission(user, 'role:read', {
+			workspaceId: params.workspaceId,
+		})
 
-    return this.roleService.getRole(params)
-  }
+		return this.roleService.getRole(params)
+	}
 
-  @Route({
-    summary: 'Create Role',
+	@Route({
+		summary: 'Create Role',
 
-    description: 'Creates a new role.',
+		description: 'Creates a new role.',
 
-    method: 'POST',
+		method: 'POST',
 
-    parameters: {
-      params: CreateRoleSchema.params,
-      body: CreateRoleSchema.body,
-    },
+		parameters: {
+			params: CreateRoleSchema.params,
+			body: CreateRoleSchema.body,
+		},
 
-    responses: {
-      201: {
-        schema: CreateRoleSchema.output,
-      },
-    },
-  })
-  createRole(@AuthenticatedUser() user: User, @Request() { params, body }: CreateRoleRequest) {
-    this.aclService.canPerformActionByPermission(user, 'role:create', {
-      workspaceId: params.workspaceId,
-    })
+		responses: {
+			201: {
+				schema: CreateRoleSchema.output,
+			},
+		},
+	})
+	createRole(
+		@AuthenticatedUser() user: User,
+		@Request() { params, body }: CreateRoleRequest,
+	) {
+		this.aclService.canPerformActionByPermission(user, 'role:create', {
+			workspaceId: params.workspaceId,
+		})
 
-    return this.roleService.createRole({
-      ...body,
-      workspaceId: params.workspaceId,
-    })
-  }
+		return this.roleService.createRole({
+			...body,
+			workspaceId: params.workspaceId,
+			organizationIds: [],
+			permissionIds: [],
+		})
+	}
 
-  @Route({
-    summary: 'Update Role',
+	@Route({
+		summary: 'Update Role',
 
-    description: 'Updates an existing role by their ID.',
+		description: 'Updates an existing role by their ID.',
 
-    method: 'PATCH',
+		method: 'PATCH',
 
-    path: '/:roleId',
+		path: '/:roleId',
 
-    parameters: {
-      params: UpdateRoleSchema.params,
-      body: UpdateRoleSchema.body,
-    },
+		parameters: {
+			params: UpdateRoleSchema.params,
+			body: UpdateRoleSchema.body,
+		},
 
-    responses: {
-      200: {
-        schema: UpdateRoleSchema.output,
-      },
-    },
-  })
-  updateRole(@AuthenticatedUser() user: User, @Request() { params, body }: UpdateRoleRequest) {
-    this.aclService.canPerformActionByPermission(user, 'role:update', {
-      workspaceId: params.workspaceId,
-    })
+		responses: {
+			200: {
+				schema: UpdateRoleSchema.output,
+			},
+		},
+	})
+	updateRole(
+		@AuthenticatedUser() user: User,
+		@Request() { params, body }: UpdateRoleRequest,
+	) {
+		this.aclService.canPerformActionByPermission(user, 'role:update', {
+			workspaceId: params.workspaceId,
+		})
 
-    return this.roleService.updateRole(params, {
-      ...body,
-    })
-  }
+		return this.roleService.updateRole(params, {
+			...body,
+		})
+	}
 
-  @Route({
-    summary: 'Delete Role',
+	@Route({
+		summary: 'Delete Role',
 
-    description: 'Deletes a role by their ID.',
+		description: 'Deletes a role by their ID.',
 
-    method: 'DELETE',
+		method: 'DELETE',
 
-    path: '/:roleId',
+		path: '/:roleId',
 
-    parameters: {
-      params: DeleteRoleSchema.params,
-    },
+		parameters: {
+			params: DeleteRoleSchema.params,
+		},
 
-    responses: {
-      204: {
-        description: 'Role has been successfully deleted.',
-      },
-    },
-  })
-  deleteRole(@AuthenticatedUser() user: User, @Request() { params }: DeleteRoleRequest) {
-    this.aclService.canPerformActionByPermission(user, 'role:delete', {
-      workspaceId: params.workspaceId,
-    })
+		responses: {
+			204: {
+				description: 'Role has been successfully deleted.',
+			},
+		},
+	})
+	deleteRole(
+		@AuthenticatedUser() user: User,
+		@Request() { params }: DeleteRoleRequest,
+	) {
+		this.aclService.canPerformActionByPermission(user, 'role:delete', {
+			workspaceId: params.workspaceId,
+		})
 
-    return this.roleService.deleteRole(params)
-  }
+		return this.roleService.deleteRole(params)
+	}
 }

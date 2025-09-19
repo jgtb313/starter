@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common'
 import { type Merge, uuid } from '@starter/common'
 import type { Pagination } from '@starter/schema'
 
-import type { RecurrenceService } from '@/adapters/recurrence'
+import { RecurrenceService } from '@/adapters/recurrence'
 import type { BasePlan, Plan } from '@/core/plan/plan.schema'
 import type {
 	FindPlanInput,
@@ -14,6 +14,7 @@ import type {
 export class PlanService {
 	constructor(
 		@Inject('PLAN_REPOSITORY') private readonly planRepository: IPlanRepository,
+		@Inject(RecurrenceService)
 		private readonly recurrenceService: RecurrenceService,
 	) {}
 

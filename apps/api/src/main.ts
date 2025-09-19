@@ -1,12 +1,13 @@
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 
+import type { INestApplication } from '@nestjs/common'
 import { config, type StageEnum } from '@starter/config'
 import { NestServerHoistingFactory } from '@starter/nestjs-server-hoisting'
 
 import { AppModule } from '@/app.module'
 
-export const bootstrap = async () => {
+export const bootstrap = async (): Promise<INestApplication> => {
 	const documentationPath = resolve(process.cwd(), 'docs/Documentation.md')
 	const documentation = readFileSync(documentationPath, 'utf-8')
 

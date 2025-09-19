@@ -6,10 +6,7 @@ import {
 	UpdateDateColumn,
 } from 'typeorm'
 
-import {
-	type Workspace,
-	WorkspaceStatusEnum,
-} from '@/core/workspace/workspace.schema'
+import type { Workspace } from '@/core/workspace/workspace.schema'
 
 @Entity('workspaces')
 export class WorkspaceEntity {

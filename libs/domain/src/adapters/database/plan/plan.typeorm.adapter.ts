@@ -25,7 +25,7 @@ export class PlanTypeorm implements IPlanRepository {
 	) {}
 
 	findAllPaginated: IPlanRepository['findAllPaginated'] = async ({
-		offset,
+		cursor,
 		limit,
 		sort,
 		...query
@@ -60,18 +60,16 @@ export class PlanTypeorm implements IPlanRepository {
 		}
 
 		const paginate = PaginationSchemaTransform.parse({
-			offset,
+			cursor,
 			limit,
 		})
 
-		const skip = paginate.offset
 		const take = paginate.limit
 
 		const [values, total] = await this.repository.findAndCount({
 			where,
 			order,
 			take,
-			skip,
 		})
 
 		return {
@@ -79,6 +77,7 @@ export class PlanTypeorm implements IPlanRepository {
 			meta: {
 				...paginate,
 				total,
+				nextCursor: null,
 			},
 		}
 	}

@@ -37,22 +37,4 @@ export class RoleOrganizationEntity {
 
 	@UpdateDateColumn()
 	updatedAt: Date
-
-	@ManyToOne(
-		() => RoleEntity,
-		(role) => role.organizations,
-	)
-	@JoinColumn({
-		name: 'roleId',
-	})
-	role: RoleEntity
-
-	@ManyToOne(
-		() => OrganizationEntity,
-		(organization) => organization,
-	)
-	@JoinColumn({
-		name: 'organizationId',
-	})
-	organization: OrganizationEntity
 }

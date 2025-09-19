@@ -7,7 +7,7 @@ export const TranslationsSchema = z
 	.refine(
 		(data) => data['pt-BR'] !== undefined && data['pt-BR'].trim() !== '',
 		{
-			message: 'O campo ptBR é obrigatório e não pode ser vazio',
+			message: 'O campo `pt-BR` é obrigatório e não pode ser vazio',
 			path: [
 				'pt-BR',
 			],

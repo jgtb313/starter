@@ -12,7 +12,7 @@ import {
 	type WithWorkspaceReference,
 } from '@/support/workspace-reference'
 
-import type { EncryptService } from '@/adapters/encrypt'
+import { EncryptService } from '@/adapters/encrypt'
 import { RoleService } from '@/core/role/role.service'
 import type { BaseUser, User } from '@/core/user/user.schema'
 import type { WorkspaceDomain } from '@/core/workspace/workspace.domain'
@@ -30,6 +30,7 @@ export class UserService {
 		private readonly workspaceService: WorkspaceService,
 		@Inject(forwardRef(() => RoleService))
 		private readonly roleService: RoleService,
+		@Inject(EncryptService)
 		private readonly encryptService: EncryptService,
 	) {}
 

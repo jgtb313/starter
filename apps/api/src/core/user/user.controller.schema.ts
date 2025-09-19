@@ -1,4 +1,4 @@
-import { ID, UserSchema } from '@starter/domain'
+import { BaseSchema, UserSchema } from '@starter/domain'
 import {
 	createRequestSchema,
 	type RequestInput,
@@ -13,7 +13,7 @@ import { FilterSchema } from '@/support/schema'
 
 export const ListUsersSchema = createRequestSchema({
 	params: z.object({
-		workspaceId: ID('workspace'),
+		workspaceId: BaseSchema.id('workspace'),
 	}),
 	query: UserSchema.pick({
 		name: true,
@@ -49,7 +49,7 @@ export const GetUserSchema = createRequestSchema({
 		userId: true,
 	}).and(
 		z.object({
-			workspaceId: ID('workspace'),
+			workspaceId: BaseSchema.id('workspace'),
 		}),
 	),
 	output: UserSchema,
@@ -58,10 +58,10 @@ export type GetUserRequest = RequestInput<typeof GetUserSchema>
 
 export const CreateUserSchema = createRequestSchema({
 	params: z.object({
-		workspaceId: ID('workspace'),
+		workspaceId: BaseSchema.id('workspace'),
 	}),
 	body: UserSchema.pick({
-		permissions: true,
+		// permissions: true,
 		name: true,
 		email: true,
 		phone: true,
@@ -71,8 +71,8 @@ export const CreateUserSchema = createRequestSchema({
 		z.object({
 			organizations: z.array(
 				z.object({
-					organizationId: ID('organization'),
-					roleIds: z.array(ID('role')),
+					organizationId: BaseSchema.id('organization'),
+					roleIds: z.array(BaseSchema.id('role')),
 				}),
 			),
 		}),
@@ -86,7 +86,7 @@ export const UpdateUserSchema = createRequestSchema({
 		userId: true,
 	}).and(
 		z.object({
-			workspaceId: ID('workspace'),
+			workspaceId: BaseSchema.id('workspace'),
 		}),
 	),
 	body: UserSchema.pick({
@@ -99,8 +99,8 @@ export const UpdateUserSchema = createRequestSchema({
 				.object({
 					organizations: z.array(
 						z.object({
-							organizationId: ID('organization'),
-							roleIds: z.array(ID('role')),
+							organizationId: BaseSchema.id('organization'),
+							roleIds: z.array(BaseSchema.id('role')),
 						}),
 					),
 				})
@@ -115,7 +115,7 @@ export const DeleteUserSchema = createRequestSchema({
 		userId: true,
 	}).and(
 		z.object({
-			workspaceId: ID('workspace'),
+			workspaceId: BaseSchema.id('workspace'),
 		}),
 	),
 	output: UserSchema,

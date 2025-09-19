@@ -1,4 +1,4 @@
-import { isString, isUndefined } from 'lodash-es'
+import { isString, isUndefined } from 'lodash'
 
 import { formatDate } from './format-date'
 

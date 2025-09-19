@@ -14,7 +14,7 @@ export const ListInvoicesSchema = createRequestSchema({
 		workspaceId: ID('workspace'),
 	}),
 	query: PaginationSchema,
-	output: BasePaginationSchemaOutput.merge(
+	output: BasePaginationSchemaOutput.and(
 		z.object({
 			values: z.array(InvoiceSchema),
 		}),

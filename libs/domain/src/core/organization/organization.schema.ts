@@ -1,16 +1,10 @@
 import { z } from '@starter/schema'
 
-import {
-	type BaseSchema,
-	CreatedAt,
-	DeletedAt,
-	ID,
-	UpdatedAt,
-} from '@/support/schema'
+import { BaseSchema } from '@/support/base-schema'
 
-const OrganizationId = ID('organization')
+const OrganizationId = BaseSchema.id('organization')
 
-const WorkspaceId = ID('workspace')
+const WorkspaceId = BaseSchema.id('workspace')
 
 const Name = z.string().min(1)
 
@@ -26,10 +20,17 @@ export const OrganizationSchema = z.object({
 	workspaceId: WorkspaceId,
 	name: Name,
 	status: Status,
-	deletedAt: DeletedAt,
-	createdAt: CreatedAt,
-	updatedAt: UpdatedAt,
+	deletedAt: BaseSchema.deletedAt,
+	createdAt: BaseSchema.createdAt,
+	updatedAt: BaseSchema.updatedAt,
 })
 export type Organization = z.infer<typeof OrganizationSchema>
 export type OrganizationInput = z.input<typeof OrganizationSchema>
-export type BaseOrganization = BaseSchema<'organizationId', Organization>
+export type BaseOrganization = BaseSchema<
+	Organization,
+	{
+		optional: [
+			'organizationId',
+		]
+	}
+>

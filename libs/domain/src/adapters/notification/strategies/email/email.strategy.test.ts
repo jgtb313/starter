@@ -46,7 +46,8 @@ describe('EmailStrategy', () => {
 				recipient: 'test@email.com',
 				template: 'WELCOME',
 				props: {
-					message: 'Welcome',
+					name: 'John Doe',
+					getStartedUrl: 'https://example.com',
 				},
 			}
 

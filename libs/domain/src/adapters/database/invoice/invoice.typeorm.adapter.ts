@@ -1,7 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { PaginationSchemaTransform } from '@starter/schema'
-import { type DeepPartial, type FindOptionsWhere, ILike, type Repository } from 'typeorm'
+import {
+	type DeepPartial,
+	type FindOptionsWhere,
+	ILike,
+	type Repository,
+} from 'typeorm'
 import type { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity'
 
 import { deepMapDatesToISOString } from '@/support/utilities'
@@ -13,101 +18,118 @@ import type { IInvoiceRepository } from '@/ports/database/invoice'
 
 @Injectable()
 export class InvoiceTypeorm implements IInvoiceRepository {
-  constructor(
-    @InjectRepository(InvoiceEntity)
-    private readonly repository: Repository<InvoiceEntity>,
-  ) {}
+	constructor(
+		@InjectRepository(InvoiceEntity)
+		private readonly repository: Repository<InvoiceEntity>,
+	) {}
 
-  findAllPaginated: IInvoiceRepository['findAllPaginated'] = async ({ offset, limit, ...input }) => {
-    const { description, status } = input
+	findAllPaginated: IInvoiceRepository['findAllPaginated'] = async ({
+		cursor,
+		limit,
+		...input
+	}) => {
+		const { description, status } = input
 
-    const where: FindOptionsWhere<InvoiceEntity> = {}
+		const where: FindOptionsWhere<InvoiceEntity> = {}
 
-    if (description) {
-      where.description = ILike(`%${description}%`)
-    }
+		if (description) {
+			where.description = ILike(`%${description}%`)
+		}
 
-    if (status) {
-      where.status = status
-    }
+		if (status) {
+			where.status = status
+		}
 
-    const paginate = PaginationSchemaTransform.parse({ offset, limit })
+		const paginate = PaginationSchemaTransform.parse({
+			cursor,
+			limit,
+		})
 
-    const skip = paginate.offset
-    const take = paginate.limit
+		const take = paginate.limit
 
-    const [values, total] = await this.repository.findAndCount({
-      where,
-      take,
-      skip,
-    })
+		const [values, total] = await this.repository.findAndCount({
+			where,
+			take,
+		})
 
-    return {
-      values: values.map(this.toInvoiceDomain),
-      meta: {
-        ...paginate,
-        total,
-      },
-    }
-  }
+		return {
+			values: values.map(this.toInvoiceDomain),
+			meta: {
+				...paginate,
+				total,
+				nextCursor: null,
+			},
+		}
+	}
 
-  findAll: IInvoiceRepository['findAll'] = async (input) => {
-    const { description, status } = input
+	findAll: IInvoiceRepository['findAll'] = async (input) => {
+		const { description, status } = input
 
-    const where: FindOptionsWhere<InvoiceEntity> = {}
+		const where: FindOptionsWhere<InvoiceEntity> = {}
 
-    if (description) {
-      where.description = ILike(`%${description}%`)
-    }
+		if (description) {
+			where.description = ILike(`%${description}%`)
+		}
 
-    if (status) {
-      where.status = status
-    }
+		if (status) {
+			where.status = status
+		}
 
-    const values = await this.repository.find({ where })
+		const values = await this.repository.find({
+			where,
+		})
 
-    return values.map(this.toInvoiceDomain)
-  }
+		return values.map(this.toInvoiceDomain)
+	}
 
-  findById: IInvoiceRepository['findById'] = async (invoiceId) => {
-    const invoice = await this.repository.findOne({ where: { invoiceId } })
+	findById: IInvoiceRepository['findById'] = async (invoiceId) => {
+		const invoice = await this.repository.findOne({
+			where: {
+				invoiceId,
+			},
+		})
 
-    if (!invoice) {
-      throw new NotFoundException(`Invoice ${invoiceId} not found`)
-    }
+		if (!invoice) {
+			throw new NotFoundException(`Invoice ${invoiceId} not found`)
+		}
 
-    return this.toInvoiceDomain(invoice)
-  }
+		return this.toInvoiceDomain(invoice)
+	}
 
-  create: IInvoiceRepository['create'] = async (input) => {
-    const data = this.repository.create(this.toInvoiceEntity(input))
+	create: IInvoiceRepository['create'] = async (input) => {
+		const data = this.repository.create(this.toInvoiceEntity(input))
 
-    const invoice = await this.repository.save(data)
+		const invoice = await this.repository.save(data)
 
-    return this.toInvoiceDomain(invoice)
-  }
+		return this.toInvoiceDomain(invoice)
+	}
 
-  updateById: IInvoiceRepository['updateById'] = async (invoiceId, input) => {
-    const invoice = await this.findById(invoiceId)
+	updateById: IInvoiceRepository['updateById'] = async (invoiceId, input) => {
+		const invoice = await this.findById(invoiceId)
 
-    await this.repository.update(invoice.state.invoiceId, this.toPartialInvoiceEntity(input))
+		await this.repository.update(
+			invoice.state.invoiceId,
+			this.toPartialInvoiceEntity(input),
+		)
 
-    return this.findById(invoice.state.invoiceId)
-  }
+		return this.findById(invoice.state.invoiceId)
+	}
 
-  private toInvoiceEntity(invoice: BaseInvoice): DeepPartial<InvoiceEntity> {
-    return {
-      ...invoice,
-    }
-  }
+	private toInvoiceEntity(invoice: BaseInvoice): DeepPartial<InvoiceEntity> {
+		return {
+			...invoice,
+		}
+	}
 
-  private toPartialInvoiceEntity(invoice: Partial<Invoice>): QueryDeepPartialEntity<InvoiceEntity> {
-    return {
-      ...invoice,
-    }
-  }
+	private toPartialInvoiceEntity(
+		invoice: Partial<Invoice>,
+	): QueryDeepPartialEntity<InvoiceEntity> {
+		return {
+			...invoice,
+		}
+	}
 
-  private toInvoiceDomain(model: InvoiceEntity) {
-    return new InvoiceDomain(deepMapDatesToISOString(model))
-  }
+	private toInvoiceDomain(model: InvoiceEntity) {
+		return new InvoiceDomain(deepMapDatesToISOString(model))
+	}
 }

@@ -2,10 +2,11 @@ import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 import { DatabaseModule } from '@starter/domain'
 
-import { ACLModule } from '@/support/access-control'
-import { AuthGuardModule } from '@/support/guards'
+import { ACLModule } from '@/support/access-control/access-control.module'
+import { AuthGuardModule } from '@/support/guards/auth-guard/auth.guard.module'
 
 import { AuthModule } from '@/core/auth'
+import { InviteModule } from '@/core/invite'
 import { InvoiceModule } from '@/core/invoice'
 import { OrganizationModule } from '@/core/organization'
 import { OTPModule } from '@/core/otp'
@@ -33,6 +34,7 @@ import { WorkspaceModule } from '@/core/workspace'
 		}),
 
 		AuthModule,
+		InviteModule,
 		InvoiceModule,
 		StorageModule,
 		OrganizationModule,

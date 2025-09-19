@@ -1,3 +1,3 @@
-import { kebabCase } from 'lodash-es'
+import { kebabCase } from 'lodash'
 
 export const slugify = kebabCase

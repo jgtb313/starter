@@ -1,26 +1,17 @@
 import { z } from '@/zod'
 
-export enum DocumentTypeEnum {
-	INDIVIDUAL = 'INDIVIDUAL',
-	COMPANY = 'COMPANY',
-}
+export const DocumentTypeSchema = z.enum([
+	'INDIVIDUAL',
+	'COMPANY',
+])
+export type DocumentType = z.infer<typeof DocumentTypeSchema>
 
-export enum DocumentTypeCNPJEnum {
-	COMPANY = 'COMPANY',
-}
+export const DocumentTypeCNPJSchema = z.enum([
+	'COMPANY',
+])
+export type DocumentTypeCNPJ = z.infer<typeof DocumentTypeCNPJSchema>
 
-export enum DocumentTypeCPFEnum {
-	INDIVIDUAL = 'INDIVIDUAL',
-}
-
-export const DocumentTypeSchema = z.nativeEnum(DocumentTypeEnum).meta({
-	description: 'Represents document types for individuals or companies',
-})
-
-export const DocumentTypeCNPJSchema = z.nativeEnum(DocumentTypeCNPJEnum).meta({
-	description: 'Represents document types for individuals or companies',
-})
-
-export const DocumentTypeCPFSchema = z.nativeEnum(DocumentTypeCPFEnum).meta({
-	description: 'Represents document types for individuals or companies',
-})
+export const DocumentTypeCPFSchema = z.enum([
+	'INDIVIDUAL',
+])
+export type DocumentTypeCPF = z.infer<typeof DocumentTypeCPFSchema>

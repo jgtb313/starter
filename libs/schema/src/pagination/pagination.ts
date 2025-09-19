@@ -1,7 +1,7 @@
 import { z } from '@/zod'
 
 export const PaginationSchema = z.object({
-	cursor: z.string().optional(),
+	cursor: z.string().nullish(),
 	limit: z.coerce.number().optional(),
 })
 
@@ -21,6 +21,7 @@ export const PaginationSchemaTransform = PaginationSchema.transform(
 const PaginationMeta = z.object({
 	nextCursor: z.string().nullable().default(null),
 	limit: z.number().default(0),
+	total: z.number().default(0),
 })
 
 export const BasePaginationSchemaOutput = z.object({
@@ -28,6 +29,7 @@ export const BasePaginationSchemaOutput = z.object({
 	meta: PaginationMeta.default({
 		nextCursor: null,
 		limit: 0,
+		total: 0,
 	}),
 })
 

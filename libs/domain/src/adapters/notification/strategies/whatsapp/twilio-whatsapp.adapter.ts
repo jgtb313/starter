@@ -1,32 +1,38 @@
 import { Inject } from '@nestjs/common'
-import type { ConfigService } from '@nestjs/config'
+import { ConfigService } from '@nestjs/config'
 import type { Twilio } from 'twilio'
 
 import type { IWhatsappAdapter } from '@/ports/notification'
 
 export class TwillioWhatsappAdapter implements IWhatsappAdapter {
-  private readonly TWILIO_WHATSAPP_FROM: string
+	private readonly TWILIO_WHATSAPP_FROM: string
 
-  constructor(
-    @Inject('TWILIO_WHATSAPP_CLIENT') private readonly client: Twilio,
-    private readonly configService: ConfigService,
-  ) {
-    this.TWILIO_WHATSAPP_FROM = this.configService.get<string>('TWILIO_WHATSAPP_FROM')!
-  }
+	constructor(
+		@Inject('TWILIO_WHATSAPP_CLIENT') private readonly client: Twilio,
+		@Inject(ConfigService) private readonly configService: ConfigService,
+	) {
+		this.TWILIO_WHATSAPP_FROM = this.configService.get<string>(
+			'TWILIO_WHATSAPP_FROM',
+		)!
+	}
 
-  send: IWhatsappAdapter['send'] = async ({ to, contentSid, contentVariables }) => {
-    console.log({
-      from: `whatsapp:+${this.TWILIO_WHATSAPP_FROM}`,
-      to: `whatsapp:${to}`,
-      contentSid,
-      contentVariables,
-    })
+	send: IWhatsappAdapter['send'] = async ({
+		to,
+		contentSid,
+		contentVariables,
+	}) => {
+		console.log({
+			from: `whatsapp:+${this.TWILIO_WHATSAPP_FROM}`,
+			to: `whatsapp:${to}`,
+			contentSid,
+			contentVariables,
+		})
 
-    // await this.client.messages.create({
-    //   from: `whatsapp:+${this.TWILIO_WHATSAPP_FROM}`,
-    //   to: `whatsapp:${to}`,
-    //   contentSid,
-    //   contentVariables,
-    // })
-  }
+		// await this.client.messages.create({
+		//   from: `whatsapp:+${this.TWILIO_WHATSAPP_FROM}`,
+		//   to: `whatsapp:${to}`,
+		//   contentSid,
+		//   contentVariables,
+		// })
+	}
 }

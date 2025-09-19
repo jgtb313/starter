@@ -1,186 +1,204 @@
-import { UseGuards } from '@nestjs/common'
-import { OrganizationSchema, type OrganizationService, type User } from '@starter/domain'
+import { Inject, UseGuards } from '@nestjs/common'
+import {
+	OrganizationSchema,
+	OrganizationService,
+	type User,
+} from '@starter/domain'
 import { Controller, Request, Route } from '@starter/nestjs-server-hoisting'
 
-import type { ACLService } from '@/support/access-control'
+import { ACLService } from '@/support/access-control'
 import { AuthenticatedUser } from '@/support/decorators'
 import { AuthGuard } from '@/support/guards'
 
 import {
-  type CreateOrganizationRequest,
-  CreateOrganizationSchema,
-  type DeleteOrganizationRequest,
-  DeleteOrganizationSchema,
-  type GetOrganizationRequest,
-  GetOrganizationSchema,
-  type ListOrganizationsRequest,
-  ListOrganizationsSchema,
-  type UpdateOrganizationRequest,
-  UpdateOrganizationSchema,
+	type CreateOrganizationRequest,
+	CreateOrganizationSchema,
+	type DeleteOrganizationRequest,
+	DeleteOrganizationSchema,
+	type GetOrganizationRequest,
+	GetOrganizationSchema,
+	type ListOrganizationsRequest,
+	ListOrganizationsSchema,
+	type UpdateOrganizationRequest,
+	UpdateOrganizationSchema,
 } from '@/core/organization/organization.controller.schema'
 
 @Controller({
-  name: 'Organization',
+	name: 'Organization',
 
-  description: 'Handles operations for managing and retrieving organizations.',
+	description: 'Handles operations for managing and retrieving organizations.',
 
-  basePath: 'workspaces/:workspaceId/organizations',
+	basePath: 'workspaces/:workspaceId/organizations',
 
-  schemas: {
-    Organization: {
-      schema: OrganizationSchema,
-    },
-  },
+	schemas: {
+		Organization: {
+			schema: OrganizationSchema,
+		},
+	},
 })
 @UseGuards(AuthGuard)
 export class OrganizationController {
-  constructor(
-    private readonly aclService: ACLService,
-    private readonly organizationService: OrganizationService,
-  ) {}
+	constructor(
+		@Inject(ACLService)
+		private readonly aclService: ACLService,
+		@Inject(OrganizationService)
+		private readonly organizationService: OrganizationService,
+	) {}
 
-  @Route({
-    summary: 'List Organizations',
+	@Route({
+		summary: 'List Organizations',
 
-    description: 'Retrieves a list of organizations.',
+		description: 'Retrieves a list of organizations.',
 
-    method: 'GET',
+		method: 'GET',
 
-    parameters: {
-      params: ListOrganizationsSchema.params,
-      query: ListOrganizationsSchema.query,
-    },
+		parameters: {
+			params: ListOrganizationsSchema.params,
+			query: ListOrganizationsSchema.query,
+		},
 
-    responses: {
-      200: {
-        schema: ListOrganizationsSchema.output,
-      },
-    },
-  })
-  listOrganizations(@AuthenticatedUser() user: User, @Request() { params, query }: ListOrganizationsRequest) {
-    this.aclService.canPerformActionByPermission(user, 'organization:read', {
-      workspaceId: params.workspaceId,
-    })
+		responses: {
+			200: {
+				schema: ListOrganizationsSchema.output,
+			},
+		},
+	})
+	listOrganizations(
+		@AuthenticatedUser() user: User,
+		@Request() { params, query }: ListOrganizationsRequest,
+	) {
+		this.aclService.canPerformActionByPermission(user, 'organization:read', {
+			workspaceId: params.workspaceId,
+		})
 
-    return this.organizationService.getPaginatedOrganizations({
-      ...query,
-      workspaceId: params.workspaceId,
-    })
-  }
+		return this.organizationService.getPaginatedOrganizations({})
+	}
 
-  @Route({
-    summary: 'Get Organization',
+	@Route({
+		summary: 'Get Organization',
 
-    description: 'Retrieves a single organization by their ID.',
+		description: 'Retrieves a single organization by their ID.',
 
-    method: 'GET',
+		method: 'GET',
 
-    path: '/:organizationId',
+		path: '/:organizationId',
 
-    parameters: {
-      params: GetOrganizationSchema.params,
-    },
+		parameters: {
+			params: GetOrganizationSchema.params,
+		},
 
-    responses: {
-      200: {
-        schema: GetOrganizationSchema.output,
-      },
-    },
-  })
-  getOrganization(@AuthenticatedUser() user: User, @Request() { params }: GetOrganizationRequest) {
-    this.aclService.canPerformActionByPermission(user, 'organization:read', {
-      workspaceId: params.workspaceId,
-      organizationId: params.organizationId,
-    })
+		responses: {
+			200: {
+				schema: GetOrganizationSchema.output,
+			},
+		},
+	})
+	getOrganization(
+		@AuthenticatedUser() user: User,
+		@Request() { params }: GetOrganizationRequest,
+	) {
+		this.aclService.canPerformActionByPermission(user, 'organization:read', {
+			workspaceId: params.workspaceId,
+			organizationId: params.organizationId,
+		})
 
-    return this.organizationService.getOrganization(params)
-  }
+		return this.organizationService.getOrganization(params)
+	}
 
-  @Route({
-    summary: 'Create Organization',
+	@Route({
+		summary: 'Create Organization',
 
-    description: 'Creates a new organization.',
+		description: 'Creates a new organization.',
 
-    method: 'POST',
+		method: 'POST',
 
-    parameters: {
-      params: CreateOrganizationSchema.params,
-      body: CreateOrganizationSchema.body,
-    },
+		parameters: {
+			params: CreateOrganizationSchema.params,
+			body: CreateOrganizationSchema.body,
+		},
 
-    responses: {
-      201: {
-        schema: CreateOrganizationSchema.output,
-      },
-    },
-  })
-  createOrganization(@AuthenticatedUser() user: User, @Request() { params, body }: CreateOrganizationRequest) {
-    this.aclService.canPerformActionByPermission(user, 'organization:create', {
-      workspaceId: params.workspaceId,
-    })
+		responses: {
+			201: {
+				schema: CreateOrganizationSchema.output,
+			},
+		},
+	})
+	createOrganization(
+		@AuthenticatedUser() user: User,
+		@Request() { params, body }: CreateOrganizationRequest,
+	) {
+		this.aclService.canPerformActionByPermission(user, 'organization:create', {
+			workspaceId: params.workspaceId,
+		})
 
-    return this.organizationService.createOrganization({
-      ...body,
-      workspaceId: params.workspaceId,
-    })
-  }
+		return this.organizationService.createOrganization({
+			...body,
+			workspaceId: params.workspaceId,
+		})
+	}
 
-  @Route({
-    summary: 'Update Organization',
+	@Route({
+		summary: 'Update Organization',
 
-    description: 'Updates an existing organization by their ID.',
+		description: 'Updates an existing organization by their ID.',
 
-    method: 'PATCH',
+		method: 'PATCH',
 
-    path: '/:organizationId',
+		path: '/:organizationId',
 
-    parameters: {
-      params: UpdateOrganizationSchema.params,
-      body: UpdateOrganizationSchema.body,
-    },
+		parameters: {
+			params: UpdateOrganizationSchema.params,
+			body: UpdateOrganizationSchema.body,
+		},
 
-    responses: {
-      200: {
-        schema: UpdateOrganizationSchema.output,
-      },
-    },
-  })
-  updateOrganization(@AuthenticatedUser() user: User, @Request() { params, body }: UpdateOrganizationRequest) {
-    this.aclService.canPerformActionByPermission(user, 'organization:update', {
-      workspaceId: params.workspaceId,
-      organizationId: params.organizationId,
-    })
+		responses: {
+			200: {
+				schema: UpdateOrganizationSchema.output,
+			},
+		},
+	})
+	updateOrganization(
+		@AuthenticatedUser() user: User,
+		@Request() { params, body }: UpdateOrganizationRequest,
+	) {
+		this.aclService.canPerformActionByPermission(user, 'organization:update', {
+			workspaceId: params.workspaceId,
+			organizationId: params.organizationId,
+		})
 
-    return this.organizationService.updateOrganization(params, {
-      ...body,
-    })
-  }
+		return this.organizationService.updateOrganization(params, {
+			...body,
+		})
+	}
 
-  @Route({
-    summary: 'Delete Organization',
+	@Route({
+		summary: 'Delete Organization',
 
-    description: 'Deletes a organization by their ID.',
+		description: 'Deletes a organization by their ID.',
 
-    method: 'DELETE',
+		method: 'DELETE',
 
-    path: '/:organizationId',
+		path: '/:organizationId',
 
-    parameters: {
-      params: DeleteOrganizationSchema.params,
-    },
+		parameters: {
+			params: DeleteOrganizationSchema.params,
+		},
 
-    responses: {
-      204: {
-        description: 'Organization has been successfully deleted.',
-      },
-    },
-  })
-  deleteOrganization(@AuthenticatedUser() user: User, @Request() { params }: DeleteOrganizationRequest) {
-    this.aclService.canPerformActionByPermission(user, 'organization:delete', {
-      workspaceId: params.workspaceId,
-      organizationId: params.organizationId,
-    })
+		responses: {
+			204: {
+				description: 'Organization has been successfully deleted.',
+			},
+		},
+	})
+	deleteOrganization(
+		@AuthenticatedUser() user: User,
+		@Request() { params }: DeleteOrganizationRequest,
+	) {
+		this.aclService.canPerformActionByPermission(user, 'organization:delete', {
+			workspaceId: params.workspaceId,
+			organizationId: params.organizationId,
+		})
 
-    return this.organizationService.deleteOrganization(params)
-  }
+		return this.organizationService.deleteOrganization(params)
+	}
 }

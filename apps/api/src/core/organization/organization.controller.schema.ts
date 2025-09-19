@@ -20,7 +20,7 @@ export const ListOrganizationsSchema = createRequestSchema({
 		status: true,
 	})
 		.partial()
-		.merge(
+		.and(
 			z
 				.object({
 					filter: FilterSchema(
@@ -36,7 +36,7 @@ export const ListOrganizationsSchema = createRequestSchema({
 				.partial(),
 		)
 		.and(PaginationSchema),
-	output: BasePaginationSchemaOutput.merge(
+	output: BasePaginationSchemaOutput.and(
 		z.object({
 			values: z.array(OrganizationSchema),
 		}),

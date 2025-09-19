@@ -6,7 +6,7 @@ export const DateSchema = z
 	.string()
 	.or(z.iso.datetime().transform((value) => new Date(value)))
 	.refine(isValidDate)
-	.transform(getDate)
+	.transform((value) => getDate(value))
 
 export const DateOptionalSchema = z
 	.string()
