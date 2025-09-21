@@ -57,6 +57,9 @@ importers:
       '@starter/nestjs-error-handling':
         specifier: workspace:*
         version: link:../../libs/nestjs-error-handling
+      '@starter/nestjs-i18n':
+        specifier: workspace:*
+        version: link:../../libs/nestjs-i18n
       '@starter/nestjs-server-hoisting':
         specifier: workspace:*
         version: link:../../libs/nestjs-server-hoisting
@@ -252,6 +255,9 @@ importers:
       '@lukeed/uuid':
         specifier: 2.0.1
         version: 2.0.1
+      '@starter/schema':
+        specifier: workspace:*
+        version: link:../schema
       brazilian-values:
         specifier: ^0.13.0
         version: 0.13.1
@@ -365,6 +371,9 @@ importers:
       '@starter/nestjs-error-handling':
         specifier: workspace:*
         version: link:../nestjs-error-handling
+      '@starter/nestjs-i18n':
+        specifier: workspace:*
+        version: link:../nestjs-i18n
       '@starter/schema':
         specifier: workspace:*
         version: link:../schema
@@ -506,6 +515,31 @@ importers:
         specifier: ^3.4.2
         version: 3.6.2
 
+  libs/i18n:
+    dependencies:
+      '@starter/schema':
+        specifier: workspace:*
+        version: link:../schema
+      '@swc/core':
+        specifier: ^1.2.165
+        version: 1.13.4(@swc/helpers@0.5.17)
+      typesafe-i18n:
+        specifier: ^5.26.2
+        version: 5.26.2(typescript@5.4.2)
+      typescript:
+        specifier: 5.4.2
+        version: 5.4.2
+      vite:
+        specifier: 6.0.5
+        version: 6.0.5(@types/node@24.3.0)(terser@5.43.1)(yaml@2.8.1)
+      vite-plugin-dts:
+        specifier: 4.4.0
+        version: 4.4.0(@types/node@24.3.0)(rollup@4.48.0)(typescript@5.4.2)(vite@6.0.5(@types/node@24.3.0)(terser@5.43.1)(yaml@2.8.1))
+    devDependencies:
+      '@vitejs/plugin-react':
+        specifier: ^4.3.4
+        version: 4.7.0(vite@6.0.5(@types/node@24.3.0)(terser@5.43.1)(yaml@2.8.1))
+
   libs/nestjs-error-handling:
     dependencies:
       '@nestjs/common':
@@ -517,6 +551,39 @@ importers:
       '@rollup/plugin-typescript':
         specifier: ^12.1.2
         version: 12.1.4(rollup@4.48.0)(tslib@2.8.1)(typescript@5.4.2)
+      '@swc/core':
+        specifier: ^1.2.165
+        version: 1.13.4(@swc/helpers@0.5.17)
+      reflect-metadata:
+        specifier: ^0.2.2
+        version: 0.2.2
+      typescript:
+        specifier: 5.4.2
+        version: 5.4.2
+      vite:
+        specifier: 6.0.5
+        version: 6.0.5(@types/node@24.3.0)(terser@5.43.1)(yaml@2.8.1)
+      vite-plugin-dts:
+        specifier: 4.4.0
+        version: 4.4.0(@types/node@24.3.0)(rollup@4.48.0)(typescript@5.4.2)(vite@6.0.5(@types/node@24.3.0)(terser@5.43.1)(yaml@2.8.1))
+
+  libs/nestjs-i18n:
+    dependencies:
+      '@nestjs/common':
+        specifier: ^11.0.1
+        version: 11.1.6(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs/core':
+        specifier: ^11.0.1
+        version: 11.1.6(@nestjs/common@11.1.6(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/platform-express@11.1.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@rollup/plugin-typescript':
+        specifier: ^12.1.2
+        version: 12.1.4(rollup@4.48.0)(tslib@2.8.1)(typescript@5.4.2)
+      '@starter/i18n':
+        specifier: workspace:*
+        version: link:../i18n
+      '@starter/schema':
+        specifier: workspace:*
+        version: link:../schema
       '@swc/core':
         specifier: ^1.2.165
         version: 1.13.4(@swc/helpers@0.5.17)
@@ -565,6 +632,9 @@ importers:
       '@starter/nestjs-error-handling':
         specifier: workspace:*
         version: link:../nestjs-error-handling
+      '@starter/nestjs-i18n':
+        specifier: workspace:*
+        version: link:../nestjs-i18n
       '@starter/schema':
         specifier: workspace:*
         version: link:../schema
@@ -635,6 +705,9 @@ importers:
       '@starter/config':
         specifier: workspace:*
         version: link:../config
+      '@starter/nestjs-i18n':
+        specifier: workspace:*
+        version: link:../nestjs-i18n
       '@starter/schema':
         specifier: workspace:*
         version: link:../schema
@@ -7574,6 +7647,12 @@ packages:
         optional: true
       typeorm-aurora-data-api-driver:
         optional: true
+
+  typesafe-i18n@5.26.2:
+    resolution: {integrity: sha512-2QAriFmiY5JwUAJtG7yufoE/XZ1aFBY++wj7YFS2yo89a3jLBfKoWSdq5JfQYk1V2BS7V2c/u+KEcaCQoE65hw==}
+    hasBin: true
+    peerDependencies:
+      typescript: '>=3.5.1'
 
   typescript@5.4.2:
     resolution: {integrity: sha512-+2/g0Fds1ERlP6JsakQQDXjZdZMM+rqpamFZJEKh4kwTIn3iDkgKtby0CeNd5ATNZ4Ry1ax15TMx0W2V+miizQ==}
@@ -16841,6 +16920,10 @@ snapshots:
     transitivePeerDependencies:
       - babel-plugin-macros
       - supports-color
+
+  typesafe-i18n@5.26.2(typescript@5.4.2):
+    dependencies:
+      typescript: 5.4.2
 
   typescript@5.4.2: {}
 

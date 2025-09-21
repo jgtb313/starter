@@ -19,7 +19,7 @@ export default defineConfig({
 	build: {
 		lib: {
 			entry: 'src/index.ts',
-			name: 'common',
+			name: 'i18n',
 			formats: [
 				'es',
 				'cjs',

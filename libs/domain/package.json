@@ -23,6 +23,7 @@
 		"@nestjs/testing": "^11.0.11",
 		"@nestjs/typeorm": "^11.0.0",
 		"@rollup/plugin-typescript": "^12.1.2",
+		"@starter/nestjs-i18n": "workspace:*",
 		"@starter/common": "workspace:*",
 		"@starter/config": "workspace:*",
 		"@starter/emails": "workspace:*",

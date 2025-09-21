@@ -15,18 +15,18 @@ describe('TranslationsSchema', () => {
 		expect(result.success).toBe(true)
 	})
 
-	it('should invalidate when ptBR is empty', () => {
-		const input: Translations = {
-			'pt-BR': '',
-			en: 'en',
-			es: 'es',
+	it('should invalidate when locale is not a valid locale', () => {
+		const input = {
+			invalid: 'invalid',
 		}
 
 		const result = TranslationsSchema.safeParse(input)
 
 		expect(result.success).toBe(false)
-		expect(result.error?.issues[0].message).toMatch(
-			/O campo ptBR é obrigatório e não pode ser vazio/i,
-		)
+		expect(result.error?.issues[0]).toMatchObject({
+			params: {
+				code: 'translations.invalid_locale',
+			},
+		})
 	})
 })

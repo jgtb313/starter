@@ -1,5 +1,6 @@
 import { Inject, UnauthorizedException } from '@nestjs/common'
 import { OTPService, UserService } from '@starter/domain'
+import { I18nService } from '@starter/nestjs-i18n'
 import { Controller, Request, Route } from '@starter/nestjs-server-hoisting'
 
 import {
@@ -27,6 +28,8 @@ import { AuthService } from '@/core/auth/auth.service'
 })
 export class AuthController {
 	constructor(
+		@Inject(I18nService)
+		private readonly i18nService: I18nService,
 		@Inject(AuthService)
 		private readonly authService: AuthService,
 		@Inject(UserService)
@@ -57,6 +60,13 @@ export class AuthController {
 		},
 	})
 	signIn(@Request() { body }: SignInRequest) {
+		const hi = this.i18nService.current.hi({
+			name: 'John',
+			age: 20,
+		})
+
+		console.log(hi)
+
 		return this.authService.signIn(body)
 	}
 

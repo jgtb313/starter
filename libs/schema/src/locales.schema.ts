@@ -1,4 +1,24 @@
+import { get } from '@starter/common'
 import type { z } from 'zod'
+
+import type { Locale } from './locale'
+import { enData } from './locales.en'
+import { esData } from './locales.es'
+import { ptBRData } from './locales.ptBR'
+
+type Sizable = Record<
+	string,
+	{
+		unit: string
+	}
+>
+type Nouns = Record<string, string>
+
+const localesData: Record<Locale, Record<string, string>> = {
+	en: enData,
+	es: esData,
+	'pt-BR': ptBRData,
+}
 
 const parsedType = (data: unknown): string => {
 	const t = typeof data
@@ -32,15 +52,34 @@ const stringifyPrimitive = (value: unknown) =>
 	typeof value === 'string' ? `"${value}"` : String(value)
 
 const joinValues = (values: unknown[], sep: string) =>
-	values.map((v) => stringifyPrimitive(v)).join(sep)
+	values.map((value) => stringifyPrimitive(value)).join(sep)
 
-export const en: z.core.$ZodErrorMap = (issue) => {
-	const Sizable: Record<
-		string,
-		{
-			unit: string
-		}
-	> = {
+const getCustomMessage = (issue: unknown, locale: Locale) => {
+	const localeData = localesData[locale]
+
+	const code = get(issue, 'params.code') ?? get(issue, 'code')
+
+	if (!code) {
+		return undefined
+	}
+
+	const customMessage = get(localeData, code)
+
+	if (customMessage) {
+		return customMessage
+	}
+
+	return undefined
+}
+
+const en: z.core.$ZodErrorMap = (issue) => {
+	const customMessage = getCustomMessage(issue, 'en')
+
+	if (customMessage) {
+		return customMessage
+	}
+
+	const Sizable: Sizable = {
 		string: {
 			unit: 'characters',
 		},
@@ -52,7 +91,7 @@ export const en: z.core.$ZodErrorMap = (issue) => {
 		},
 	}
 
-	const Nouns: Record<string, string> = {
+	const Nouns: Nouns = {
 		regex: 'input',
 		email: 'email address',
 		url: 'URL',
@@ -119,7 +158,13 @@ export const en: z.core.$ZodErrorMap = (issue) => {
 	}
 }
 
-export const es: z.core.$ZodErrorMap = (issue) => {
+const es: z.core.$ZodErrorMap = (issue) => {
+	const customMessage = getCustomMessage(issue, 'es')
+
+	if (customMessage) {
+		return customMessage
+	}
+
 	const Sizable: Record<
 		string,
 		{
@@ -204,7 +249,13 @@ export const es: z.core.$ZodErrorMap = (issue) => {
 	}
 }
 
-export const ptBR: z.core.$ZodErrorMap = (issue) => {
+const ptBR: z.core.$ZodErrorMap = (issue) => {
+	const customMessage = getCustomMessage(issue, 'pt-BR')
+
+	if (customMessage) {
+		return customMessage
+	}
+
 	const Sizable: Record<
 		string,
 		{
@@ -287,4 +338,14 @@ export const ptBR: z.core.$ZodErrorMap = (issue) => {
 		default:
 			return 'Entrada inválida'
 	}
+}
+
+export const getLocaleHandler = (locale: Locale) => {
+	const localeHandlers = {
+		en,
+		es,
+		'pt-BR': ptBR,
+	}
+
+	return localeHandlers[locale]
 }

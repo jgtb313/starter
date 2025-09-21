@@ -3,14 +3,18 @@ import { z } from '@/zod'
 import { LocaleSchema } from '@/locale'
 
 export const TranslationsSchema = z
-	.record(LocaleSchema, z.string())
+	.record(z.string().min(1), z.string().min(1))
 	.refine(
-		(data) => data['pt-BR'] !== undefined && data['pt-BR'].trim() !== '',
+		(value) => {
+			return (
+				Object.keys(value).length <= LocaleSchema.options.length &&
+				Object.keys(value).every((key) => LocaleSchema.safeParse(key).success)
+			)
+		},
 		{
-			message: 'O campo `pt-BR` é obrigatório e não pode ser vazio',
-			path: [
-				'pt-BR',
-			],
+			params: {
+				code: 'translations.invalid_locale',
+			},
 		},
 	)
 export type Translations = z.infer<typeof TranslationsSchema>

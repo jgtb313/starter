@@ -1,6 +1,7 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common'
 import type { Merge } from '@starter/common'
 import { AclForbiddenException } from '@starter/nestjs-error-handling'
+import { I18nService } from '@starter/nestjs-i18n'
 import type { Pagination } from '@starter/schema'
 
 import {
@@ -20,6 +21,8 @@ export const getInvoiceWorkspaceReference =
 @Injectable()
 export class InvoiceService {
 	constructor(
+		@Inject(I18nService)
+		private readonly i18nService: I18nService,
 		@Inject('INVOICE_REPOSITORY')
 		private readonly invoiceRepository: IInvoiceRepository,
 		@Inject(forwardRef(() => WorkspaceService))
@@ -27,6 +30,19 @@ export class InvoiceService {
 		@Inject(forwardRef(() => SubscriptionService))
 		private readonly subscriptionService: SubscriptionService,
 	) {}
+
+	example(): any {
+		const hi = this.i18nService.current.hi({
+			name: 'John',
+			age: 20,
+		})
+
+		return {
+			message: {
+				hi,
+			},
+		}
+	}
 
 	async getPaginatedInvoices(
 		input: Merge<

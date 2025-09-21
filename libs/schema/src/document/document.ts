@@ -11,7 +11,11 @@ import {
 export const DocumentSchema = z
 	.string()
 	.min(1)
-	.refine(isCPFOrCNPJ)
+	.refine(isCPFOrCNPJ, {
+		params: {
+			code: 'document.invalid',
+		},
+	})
 	.transform(clearSpecialChars)
 
 export const DocumentExplicitSchema = z
@@ -31,6 +35,9 @@ export const DocumentExplicitSchema = z
 			path: [
 				'number',
 			],
+			params: {
+				code: 'document.type_mismatch',
+			},
 		},
 	)
 export type DocumentExplicit = z.infer<typeof DocumentExplicitSchema>
@@ -48,6 +55,9 @@ export const DocumentCNPJSchema = z
 			path: [
 				'number',
 			],
+			params: {
+				code: 'document.invalid_cnpj',
+			},
 		},
 	)
 export type DocumentCNPJ = z.infer<typeof DocumentCNPJSchema>
@@ -65,6 +75,9 @@ export const DocumentCPFSchema = z
 			path: [
 				'number',
 			],
+			params: {
+				code: 'document.invalid_cpf',
+			},
 		},
 	)
 export type DocumentCPF = z.infer<typeof DocumentCPFSchema>

@@ -1,0 +1,38 @@
+{
+	"name": "@starter/nestjs-i18n",
+	"version": "1.0.0",
+	"author": "João <jgtb313@gmail.com>",
+	"license": "MIT",
+	"type": "module",
+	"scripts": {
+		"dev": "vite build --watch",
+		"build": "vite build",
+		"build:watch": "vite build --watch",
+		"type-check": "tsc --project tsconfig.json --pretty --noEmit"
+	},
+	"dependencies": {
+		"@starter/i18n": "workspace:*",
+		"@starter/schema": "workspace:*",
+		"@nestjs/common": "^11.0.1",
+		"@nestjs/core": "^11.0.1",
+		"@rollup/plugin-typescript": "^12.1.2",
+		"@swc/core": "^1.2.165",
+		"reflect-metadata": "^0.2.2",
+		"typescript": "5.4.2",
+		"vite": "6.0.5",
+		"vite-plugin-dts": "4.4.0"
+	},
+	"main": "dist/nestjs-i18n.cjs",
+	"module": "dist/nestjs-i18n.js",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"require": "./dist/nestjs-i18n.cjs",
+			"import": "./dist/nestjs-i18n.js"
+		}
+	},
+	"typings": "dist/types/src/index.d.ts",
+	"files": [
+		"dist"
+	]
+}

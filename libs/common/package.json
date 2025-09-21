@@ -16,6 +16,7 @@
 		"type-check": "tsc --project tsconfig.json --pretty --noEmit"
 	},
 	"dependencies": {
+		"@starter/schema": "workspace:*",
 		"@lukeed/uuid": "2.0.1",
 		"brazilian-values": "^0.13.0",
 		"creditcard.js": "^3.0.33",

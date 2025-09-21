@@ -10,10 +10,17 @@ const CardNumber = z.string().min(1)
 
 const HolderName = z.string().min(1)
 
-const ExpirationDate = z.string().refine((expirationDate) => {
-	const [month, year] = expirationDate.split('/')
-	return isPaymentCardExpirationDateValid(month, year)
-})
+const ExpirationDate = z.string().refine(
+	(expirationDate) => {
+		const [month, year] = expirationDate.split('/')
+		return isPaymentCardExpirationDateValid(month, year)
+	},
+	{
+		params: {
+			code: 'payment_card.invalid_expiration_date',
+		},
+	},
+)
 
 const CVV = z.string().min(1)
 
@@ -83,6 +90,9 @@ export const PaymentCardSchema = z
 		}),
 	})
 	.refine(({ number, cvv }) => isPaymentCardCVVValid(number, cvv), {
+		params: {
+			code: 'payment_card.invalid_cvv',
+		},
 		path: [
 			'cvv',
 		],

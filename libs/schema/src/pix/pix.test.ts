@@ -24,7 +24,6 @@ describe('PixSchema', () => {
 		const result = PixSchema.safeParse(input)
 
 		expect(result.success).toBe(false)
-		expect(result.error?.issues[0].message).toMatch(/Invalid url/i)
 	})
 
 	it('should invalidate when expiresAt is not a valid ISO date string', () => {
@@ -36,6 +35,5 @@ describe('PixSchema', () => {
 		const result = PixSchema.safeParse(input)
 
 		expect(result.success).toBe(false)
-		expect(result.error?.issues[0].message).toMatch(/Invalid/i)
 	})
 })

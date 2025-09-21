@@ -13,26 +13,44 @@ export const SortSchema = (allowedFields: string[]) =>
 			z.undefined(),
 		])
 		.transform((value) => (value === '' || value == null ? undefined : value))
-		.refine((value) => value === undefined || value.includes(':'))
-		.refine((value) => {
-			if (value === undefined) {
-				return true
-			}
-
-			const [field] = value.split(':')
-			return allowedFields.includes(field)
+		.refine((value) => value === undefined || value.includes(':'), {
+			params: {
+				code: 'sort.invalid_format',
+			},
 		})
-		.refine((value) => {
-			if (value === undefined) {
-				return true
-			}
+		.refine(
+			(value) => {
+				if (value === undefined) {
+					return true
+				}
 
-			const [, order] = value.split(':')
-			return [
-				'asc',
-				'desc',
-			].includes(order)
-		})
+				const [field] = value.split(':')
+				return allowedFields.includes(field)
+			},
+			{
+				params: {
+					code: 'sort.invalid_field',
+				},
+			},
+		)
+		.refine(
+			(value) => {
+				if (value === undefined) {
+					return true
+				}
+
+				const [, order] = value.split(':')
+				return [
+					'asc',
+					'desc',
+				].includes(order)
+			},
+			{
+				params: {
+					code: 'sort.invalid_order',
+				},
+			},
+		)
 		.transform((value) => {
 			if (value === undefined) {
 				return {}

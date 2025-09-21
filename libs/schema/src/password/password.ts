@@ -2,23 +2,39 @@ import { z } from '@/zod'
 
 export const PasswordSchema = z
 	.string()
-	.min(8, {
-		message: 'Password must be at least 8 characters long',
+	.refine((password) => password.length >= 8, {
+		params: {
+			code: 'password.minLength',
+		},
 	})
-	.max(64, {
-		message: 'Password must be at most 64 characters long',
+	.refine((password) => password.length <= 64, {
+		params: {
+			code: 'password.maxLength',
+		},
 	})
-	.regex(/[a-z]/, {
-		message: 'Password must contain at least one lowercase letter',
+	.refine((password) => /[a-z]/.test(password), {
+		params: {
+			code: 'password.minLowercase',
+		},
 	})
-	.regex(/[A-Z]/, {
-		message: 'Password must contain at least one uppercase letter',
+	.refine((password) => /[A-Z]/.test(password), {
+		params: {
+			code: 'password.minUppercase',
+		},
 	})
-	.regex(/[0-9]/, {
-		message: 'Password must contain at least one number',
+	.refine((password) => /[0-9]/.test(password), {
+		params: {
+			code: 'password.minNumbers',
+		},
 	})
-	.regex(/[^a-zA-Z0-9]/, {
-		message: 'Password must contain at least one special character',
+	.refine((password) => /[^a-zA-Z0-9]/.test(password), {
+		params: {
+			code: 'password.minSymbols',
+		},
 	})
 	.trim()
+	.meta({
+		description: 'A strong password.',
+		examples: '07#M85_diJ0C',
+	})
 export type Password = z.infer<typeof PasswordSchema>

@@ -98,7 +98,7 @@ describe('PaymentCard', () => {
 			const input = {
 				number: card.number,
 				holderName: card.holderName,
-				expirationDate: '1025', // formato inválido
+				expirationDate: '1025',
 				token: card.token,
 			}
 

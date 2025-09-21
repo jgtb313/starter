@@ -24,5 +24,8 @@ export const PhoneSchema = z
 		path: [
 			'number',
 		],
+		params: {
+			code: 'phone.invalid',
+		},
 	})
 export type Phone = z.infer<typeof PhoneSchema>
