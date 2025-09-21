@@ -5,8 +5,10 @@ import type { Locale } from '@starter/schema'
 @Injectable()
 export class I18nService {
 	current: ReturnType<typeof i18n.create>
+	custom: typeof i18n.custom
 
 	constructor(locale: Locale = 'en') {
 		this.current = i18n.create(locale)
+		this.custom = i18n.custom
 	}
 }
