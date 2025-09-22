@@ -1,33 +1,29 @@
 import {
 	ConsoleLogger,
 	type DynamicModule,
-	type ForwardReference,
 	type INestApplication,
+	Module,
 	type Type,
 } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 import type { ExpressAdapter } from '@nestjs/platform-express'
 import type { Request, Response } from 'express'
 
+import { NestServerHoistingModule } from './nestjs-server-hoisting.module'
+
 import { ErrorFilter } from '@/filters'
 import { PaginationInterceptor, ResponseInterceptor } from '@/interceptors'
 import { registerSwagger } from '@/nestjs-server-hoisting.swagger'
 
 export type NestServerHoistingOptions = {
-	port?: number
-	documentation: {
+	port: number
+	documentation?: {
 		title: string
 		description: string
 		favicon: string
 		server: string
 	}
 }
-
-type IEntryNestModule =
-	| Type<any>
-	| DynamicModule
-	| ForwardReference
-	| Promise<IEntryNestModule>
 
 class CustomLogger extends ConsoleLogger {
 	instanceLoaders: string[] = []
@@ -51,14 +47,28 @@ class CustomLogger extends ConsoleLogger {
 	}
 }
 
+export function withDefaults(entryModule: Type<unknown>): DynamicModule {
+	@Module({
+		imports: [
+			entryModule,
+			NestServerHoistingModule,
+		],
+	})
+	class DefaultModule {}
+
+	return {
+		module: DefaultModule,
+	}
+}
+
 const create = async (
-	entryModule: IEntryNestModule,
+	entryModule: Type<unknown>,
 	options: NestServerHoistingOptions,
 ) => {
-	const PORT = options.port ?? 3000
+	const PORT = options.port
 
 	const app: INestApplication<ExpressAdapter> = await NestFactory.create(
-		entryModule,
+		withDefaults(entryModule),
 		{
 			logger: new CustomLogger(),
 		},
@@ -79,7 +89,9 @@ const create = async (
 	})
 
 	http.get('/', (_: Request, res: Response) => {
-		res.send(options.documentation.title)
+		res.send(
+			options.documentation ? options.documentation.title : 'API Reference',
+		)
 	})
 
 	await app.listen(PORT)

@@ -16,16 +16,20 @@ export type NestServerHoistingSwaggerOptions = {
 
 export const registerSwagger = (
 	app: INestApplication,
-	options: NestServerHoistingSwaggerOptions,
+	options?: NestServerHoistingSwaggerOptions,
 ) => {
 	const state = StateManager.getState()
 
 	const builder = new DocumentBuilder()
 
-	builder.setTitle(options.title)
-	builder.setDescription(options.description)
+	const title = options?.title ?? 'API Reference'
+	const description = options?.description ?? 'API Reference'
+	const server = options?.server ?? 'http://localhost:6000'
 
-	builder.addServer(options.server)
+	builder.setTitle(title)
+	builder.setDescription(description)
+
+	builder.addServer(server)
 
 	builder.addBearerAuth(
 		{
@@ -79,7 +83,7 @@ export const registerSwagger = (
           <head>
             <meta charset="utf-8">
             <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-            <title>${options.title}</title>
+            <title>${title}</title>
             <script src="https://unpkg.com/@stoplight/elements/web-components.min.js"></script>
             <link rel="stylesheet" href="https://unpkg.com/@stoplight/elements/styles.min.css">
             <link rel="icon" href="${config.logo.darkSymbol}" type="image/png">
@@ -120,7 +124,7 @@ export const registerSwagger = (
           <body>
             <elements-api
               logo="${config.logo.lightSymbol}"
-              apiDescriptionUrl="${options.server}/openapi"
+              apiDescriptionUrl="${server}/openapi"
               router="hash"
               layout="responsive"
             />

@@ -1,10 +1,9 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 import { DatabaseModule } from '@starter/domain'
-import { NestServerHoistingModule } from '@starter/nestjs-server-hoisting'
 
-import { ACLModule } from '@/support/access-control/access-control.module'
-import { AuthGuardModule } from '@/support/guards/auth-guard/auth.guard.module'
+import { ACLModule } from '@/support/access-control'
+import { AuthGuardModule } from '@/support/guards/auth-guard'
 
 import { AuthModule } from '@/core/auth'
 import { InviteModule } from '@/core/invite'
@@ -26,8 +25,6 @@ import { WorkspaceModule } from '@/core/workspace'
 			isGlobal: true,
 			envFilePath: '../../.env',
 		}),
-
-		NestServerHoistingModule,
 
 		AuthGuardModule,
 		ACLModule,

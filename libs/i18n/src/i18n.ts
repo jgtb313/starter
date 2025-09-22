@@ -17,17 +17,19 @@ function getTranslations(locale: Locale) {
 
 const defaultInstance = typesafeI18nObject('en', translationsEn)
 
-type LLType = typeof defaultInstance
+type I18nInstance = typeof defaultInstance
 
-let LL: LLType = defaultInstance
+let LL: I18nInstance = defaultInstance
 
-type I18nExtra = {
-	create(locale: Locale): LLType
+type I18nOptions = {
+	create(locale: Locale): I18nInstance
 	setLocale(locale: Locale): void
-	custom(locale: Locale): LLType
+	custom(locale: Locale): I18nInstance
 }
 
-export const i18n: I18nExtra & LLType = new Proxy<I18nExtra & LLType>(
+type I18n = I18nInstance & I18nOptions
+
+export const i18n: I18n = new Proxy<I18n>(
 	{
 		create(locale: Locale) {
 			const dict = getTranslations(locale)
@@ -44,7 +46,7 @@ export const i18n: I18nExtra & LLType = new Proxy<I18nExtra & LLType>(
 		custom(locale: Locale) {
 			return typesafeI18nObject(locale, getTranslations(locale))
 		},
-	} as I18nExtra & LLType,
+	} as I18n,
 	{
 		get(target, prop) {
 			if (prop === 'create' || prop === 'setLocale') {
@@ -55,3 +57,15 @@ export const i18n: I18nExtra & LLType = new Proxy<I18nExtra & LLType>(
 		},
 	},
 )
+
+i18n.setLocale('pt-BR')
+
+i18n.hello({
+	name: 'John',
+	variavel: 'variavel',
+})
+
+i18n.custom('en').hello({
+	name: 'John',
+	variavel: 'variavel',
+})
