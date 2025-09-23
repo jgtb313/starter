@@ -1,7 +1,9 @@
 import { Inject } from '@nestjs/common'
 import { PlanSchema, PlanService } from '@starter/domain'
+import type { I18nService } from '@starter/nestjs-i18n'
 import { Controller, Request, Route } from '@starter/nestjs-server-hoisting'
 
+import type { I18nDomain } from '@/app.module'
 import {
 	type GetPlanRequest,
 	GetPlanSchema,
@@ -23,7 +25,11 @@ import {
 	},
 })
 export class PlanController {
-	constructor(@Inject(PlanService) private readonly planService: PlanService) {}
+	constructor(
+		@Inject('I18N_SERVICE')
+		private readonly i18nService: I18nService<I18nDomain>,
+		@Inject(PlanService) private readonly planService: PlanService,
+	) {}
 
 	@Route({
 		summary: 'List Plans',
@@ -43,9 +49,18 @@ export class PlanController {
 		},
 	})
 	async listPlans(@Request() { query }: ListPlansRequest) {
-		const value = this.planService.example()
+		const fromController = this.i18nService.current.hello({
+			name: 'John',
+		})
 
-		return value
+		const fromDomain = this.planService.example()
+
+		return {
+			fromController: {
+				value: fromController as any,
+			},
+			fromDomain,
+		}
 
 		// return this.planService
 		// 	.getPaginatedPlans({

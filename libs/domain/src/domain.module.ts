@@ -9,7 +9,7 @@ import { DatabaseModule } from '@/adapters/database/database.module'
 
 type DomainModuleOptions = {
 	database: CreateDataSourceConfigOptions
-	i18n?: NestjsI18nModuleOptions<I18nDict>
+	i18n?: (dict: I18nDict) => NestjsI18nModuleOptions<I18nDict>
 }
 
 @Module({})

@@ -1,4 +1,4 @@
-import { type DynamicModule, Module, Scope } from '@nestjs/common'
+import { type DynamicModule, Global, Module, Scope } from '@nestjs/common'
 import { REQUEST } from '@nestjs/core'
 import type { I18nDict } from '@starter/i18n'
 import { I18nService, NestjsI18nModule } from '@starter/nestjs-i18n'
@@ -27,6 +27,7 @@ export const nestjsServerHoistingI18nModuleOptions = <T extends I18nDict>(
 	}
 }
 
+@Global()
 @Module({})
 export class NestjsServerHoistingI18nModule {
 	static register<T extends I18nDict>(
