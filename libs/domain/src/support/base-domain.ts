@@ -1,9 +1,9 @@
 import type { z } from '@starter/schema'
 
-export class BaseDomain<T, K> {
-	state!: T
+export class BaseDomain<State, Input> {
+	state!: State
 
-	constructor(schema: z.ZodType, data: K) {
+	constructor(schema: z.ZodType, data: Input) {
 		const state = schema.parse(data)
 
 		Object.assign(this, {

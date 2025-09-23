@@ -1,15 +1,7 @@
-import {
-	ConsoleLogger,
-	type DynamicModule,
-	type INestApplication,
-	Module,
-	type Type,
-} from '@nestjs/common'
+import { ConsoleLogger, type INestApplication, type Type } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 import type { ExpressAdapter } from '@nestjs/platform-express'
 import type { Request, Response } from 'express'
-
-import { NestServerHoistingModule } from './nestjs-server-hoisting.module'
 
 import { ErrorFilter } from '@/filters'
 import { PaginationInterceptor, ResponseInterceptor } from '@/interceptors'
@@ -47,20 +39,6 @@ class CustomLogger extends ConsoleLogger {
 	}
 }
 
-export function withDefaults(entryModule: Type<unknown>): DynamicModule {
-	@Module({
-		imports: [
-			entryModule,
-			NestServerHoistingModule,
-		],
-	})
-	class DefaultModule {}
-
-	return {
-		module: DefaultModule,
-	}
-}
-
 const create = async (
 	entryModule: Type<unknown>,
 	options: NestServerHoistingOptions,
@@ -68,7 +46,7 @@ const create = async (
 	const PORT = options.port
 
 	const app: INestApplication<ExpressAdapter> = await NestFactory.create(
-		withDefaults(entryModule),
+		entryModule,
 		{
 			logger: new CustomLogger(),
 		},

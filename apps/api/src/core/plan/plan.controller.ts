@@ -43,15 +43,19 @@ export class PlanController {
 		},
 	})
 	async listPlans(@Request() { query }: ListPlansRequest) {
-		return this.planService
-			.getPaginatedPlans({
-				...query,
-				status: 'ACTIVE',
-			})
-			.then((response) => ({
-				...response,
-				values: response.values.map((plan) => plan.toJSON()),
-			}))
+		const value = this.planService.example()
+
+		return value
+
+		// return this.planService
+		// 	.getPaginatedPlans({
+		// 		...query,
+		// 		status: 'ACTIVE',
+		// 	})
+		// 	.then((response) => ({
+		// 		...response,
+		// 		values: response.values.map((plan) => plan.toJSON()),
+		// 	}))
 	}
 
 	@Route({

@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
-import { DatabaseModule } from '@starter/domain'
+import { DomainModule } from '@starter/domain'
+import { nestjsServerHoistingI18nModuleOptions } from '@starter/nestjs-server-hoisting'
 
 import { ACLModule } from '@/support/access-control'
 import { AuthGuardModule } from '@/support/guards/auth-guard'
@@ -19,6 +20,22 @@ import { SubscriptionModule } from '@/core/subscription'
 import { UserModule } from '@/core/user'
 import { WorkspaceModule } from '@/core/workspace'
 
+const en = {
+	hello: 'Hello',
+} as const
+const es = {
+	hello: 'Hola',
+}
+const ptBR = {
+	hello: 'Olá',
+}
+
+const i18nOptions = nestjsServerHoistingI18nModuleOptions({
+	en,
+	es,
+	'pt-BR': ptBR,
+})
+
 @Module({
 	imports: [
 		ConfigModule.forRoot({
@@ -26,11 +43,20 @@ import { WorkspaceModule } from '@/core/workspace'
 			envFilePath: '../../.env',
 		}),
 
+		DomainModule.register({
+			database: {
+				migrationsRun: true,
+			},
+			i18n: i18nOptions,
+		}),
+
 		AuthGuardModule,
 		ACLModule,
 
-		DatabaseModule.register({
-			migrationsRun: true,
+		DomainModule.register({
+			database: {
+				migrationsRun: true,
+			},
 		}),
 
 		AuthModule,

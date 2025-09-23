@@ -28,8 +28,8 @@ import { AuthService } from '@/core/auth/auth.service'
 })
 export class AuthController {
 	constructor(
-		@Inject(I18nService)
-		private readonly i18nService: I18nService,
+		// @Inject(I18nService)
+		// private readonly i18nService: I18nService,
 		@Inject(AuthService)
 		private readonly authService: AuthService,
 		@Inject(UserService)
@@ -60,13 +60,6 @@ export class AuthController {
 		},
 	})
 	signIn(@Request() { body }: SignInRequest) {
-		const hi = this.i18nService.current.hi({
-			name: 'John',
-			age: 20,
-		})
-
-		console.log(hi)
-
 		return this.authService.signIn(body)
 	}
 

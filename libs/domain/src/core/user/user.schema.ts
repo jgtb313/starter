@@ -1,5 +1,11 @@
 import { formatToCapitalized } from '@starter/common'
-import { EmailSchema, PasswordSchema, PhoneSchema, z } from '@starter/schema'
+import {
+	BirthdaySchema,
+	EmailSchema,
+	PasswordSchema,
+	PhoneSchema,
+	z,
+} from '@starter/schema'
 
 import { BaseSchema } from '@/support/base-schema'
 
@@ -15,6 +21,8 @@ const Name = z
 const Email = EmailSchema
 
 const Phone = PhoneSchema.nullish().transform((value) => value ?? null)
+
+const Birthday = BirthdaySchema.nullish().transform((value) => value ?? null)
 
 const Avatar = z
 	.string()
@@ -47,6 +55,7 @@ export const UserSchema = z.object({
 	name: Name,
 	email: Email,
 	phone: Phone,
+	birthday: Birthday,
 	avatar: Avatar,
 	socialGoogleId: SocialGoogleId,
 	socialFacebookId: SocialFacebookId,

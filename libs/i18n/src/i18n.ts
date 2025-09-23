@@ -1,71 +1,49 @@
 import type { Locale } from '@starter/schema'
 import { typesafeI18nObject } from 'typesafe-i18n'
 
-import { translationsEn } from './locales/en.i18n'
-import { translationsEs } from './locales/es.i18n'
-import { translationsPtBR } from './locales/pt-BR.i18n'
+export type I18nDict<L extends Locale = Locale> = Record<
+	L,
+	Parameters<typeof typesafeI18nObject>[1]
+>
 
-function getTranslations(locale: Locale) {
-	const locales = {
-		en: translationsEn,
-		es: translationsEs,
-		'pt-BR': translationsPtBR,
-	}
+export type InferI18n<T extends I18nDict> = ReturnType<
+	typeof createI18n<Locale, T>
+>
 
-	return locales[locale]
+type I18nInstance<L extends Locale, T extends I18nDict<L>> = ReturnType<
+	typeof typesafeI18nObject<L, T[L]>
+>
+
+type I18n<L extends Locale, T extends I18nDict<L>> = I18nInstance<L, T> & {
+	setLocale(locale: L): void
+	custom(locale: L): I18nInstance<L, T>
 }
 
-const defaultInstance = typesafeI18nObject('en', translationsEn)
+const defaultLocale: Locale = 'en'
 
-type I18nInstance = typeof defaultInstance
+export const createI18n = <L extends Locale, T extends I18nDict<L>>(
+	dict: T,
+): I18n<L, T> => {
+	const locale = defaultLocale as L
 
-let LL: I18nInstance = defaultInstance
+	let LL: I18nInstance<L, T> = typesafeI18nObject(locale, dict[locale])
 
-type I18nOptions = {
-	create(locale: Locale): I18nInstance
-	setLocale(locale: Locale): void
-	custom(locale: Locale): I18nInstance
+	return new Proxy<I18n<L, T>>(
+		{
+			setLocale(locale: L) {
+				LL = typesafeI18nObject(locale, dict[locale])
+			},
+			custom(locale: L) {
+				return typesafeI18nObject(locale, dict[locale])
+			},
+		} as I18n<L, T>,
+		{
+			get(target, prop) {
+				if (prop === 'setLocale' || prop === 'custom') {
+					return target[prop]
+				}
+				return (LL as any)[prop]
+			},
+		},
+	)
 }
-
-type I18n = I18nInstance & I18nOptions
-
-export const i18n: I18n = new Proxy<I18n>(
-	{
-		create(locale: Locale) {
-			const dict = getTranslations(locale)
-
-			return typesafeI18nObject(locale, dict)
-		},
-
-		setLocale(locale: Locale) {
-			const dict = getTranslations(locale)
-
-			LL = typesafeI18nObject(locale, dict)
-		},
-
-		custom(locale: Locale) {
-			return typesafeI18nObject(locale, getTranslations(locale))
-		},
-	} as I18n,
-	{
-		get(target, prop) {
-			if (prop === 'create' || prop === 'setLocale') {
-				return target[prop]
-			}
-
-			return LL[prop as keyof typeof LL]
-		},
-	},
-)
-
-i18n.setLocale('pt-BR')
-
-i18n.hello({
-	name: 'John',
-	variavel: 'variavel',
-})
-
-i18n.custom('en').hello({
-	name: 'John',
-	variavel: 'variavel',
-})

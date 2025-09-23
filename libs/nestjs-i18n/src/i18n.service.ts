@@ -1,14 +1,13 @@
 import { Injectable } from '@nestjs/common'
-import { i18n } from '@starter/i18n'
+import { createI18n, type I18nDict, type InferI18n } from '@starter/i18n'
 import type { Locale } from '@starter/schema'
 
 @Injectable()
-export class I18nService {
-	current: ReturnType<typeof i18n.create>
-	custom: typeof i18n.custom
+export class I18nService<T extends I18nDict> {
+	current: InferI18n<T>
 
-	constructor(locale: Locale = 'en') {
-		this.current = i18n.create(locale)
-		this.custom = i18n.custom
+	constructor(dict: T, locale: Locale = 'en') {
+		this.current = createI18n(dict)
+		this.current.setLocale(locale)
 	}
 }

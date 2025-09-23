@@ -12,7 +12,7 @@ export const bootstrap = async (): Promise<INestApplication> => {
 	const documentation = readFileSync(documentationPath, 'utf-8')
 
 	const app = await NestServerHoistingFactory.create(AppModule, {
-		port: Number(process.env.SERVER_PORT!),
+		port: 4000,
 
 		documentation: {
 			title: `${config.name} API`,

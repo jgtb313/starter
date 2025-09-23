@@ -21,11 +21,11 @@
 		"editor.defaultFormatter": "biomejs.biome"
 	},
 	"files.exclude": {
-		"**/node_modules": false,
-		"**/dist": false
+		"**/node_modules": true,
+		"**/dist": true
 	},
 	"search.exclude": {
-		"node_modules": false,
-		"**/dist": false
+		"node_modules": true,
+		"**/dist": true
 	}
 }

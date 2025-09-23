@@ -50,6 +50,12 @@ export class UserEntity {
 	phoneNumber?: string
 
 	@Column({
+		type: 'date',
+		nullable: true,
+	})
+	birthday?: User['birthday']
+
+	@Column({
 		type: 'varchar',
 		nullable: true,
 	})
