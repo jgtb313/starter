@@ -10,7 +10,7 @@ export type I18nLambdaExampleService = I18nService<I18nLambdaExample>
 @Module({})
 export class I18nLambdaExampleModule {
 	static register(): DynamicModule {
-		const i18nModule = NestjsI18nModule.register('LAMBDA_I18N', {
+		const i18nModule = NestjsI18nModule.register(I18nLambdaExampleSymbol, {
 			dict: i18nDict,
 		})
 

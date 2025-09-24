@@ -15,7 +15,7 @@ export class I18nAPIModule {
 		const dict = i18nDict as unknown as T
 
 		const i18nModule = NestjsI18nModule.register(
-			'API_I18N',
+			I18nAPISymbol,
 			nestjsServerHoistingI18nModuleOptions(dict),
 		)
 

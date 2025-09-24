@@ -25,7 +25,7 @@ import {
 })
 export class PlanController {
 	constructor(
-		@Inject('API_I18N')
+		@Inject(I18nAPISymbol)
 		private readonly i18nService: I18nAPIService,
 		@Inject(PlanService) private readonly planService: PlanService,
 	) {}

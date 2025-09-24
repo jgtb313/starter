@@ -30,7 +30,7 @@ export class I18nDomainModule {
 				}
 
 		const i18nModule = NestjsI18nModule.register(
-			'DOMAIN_I18N',
+			I18nDomainSymbol,
 			nestjsI18nModuleOptions,
 		)
 

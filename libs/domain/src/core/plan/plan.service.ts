@@ -14,7 +14,7 @@ import type {
 @Injectable()
 export class PlanService {
 	constructor(
-		@Inject('DOMAIN_I18N')
+		@Inject(I18nDomainSymbol)
 		private readonly i18nService: I18nDomainService,
 		@Inject('PLAN_REPOSITORY') private readonly planRepository: IPlanRepository,
 		@Inject(RecurrenceService)

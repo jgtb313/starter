@@ -1,14 +1,17 @@
 import { Inject, Injectable } from '@nestjs/common'
 import type { IServerlessService } from '@starter/nestjs-serverless-hoisting'
 
-import type { I18nLambdaExampleService } from './lambda-example.service.i18n.module'
+import {
+	type I18nLambdaExampleService,
+	I18nLambdaExampleSymbol,
+} from './lambda-example.service.i18n.module'
 
 export type Service = IServerlessService<{}, number>
 
 @Injectable()
 export class LambdaExampleService implements Service {
 	constructor(
-		@Inject('LAMBDA_I18N')
+		@Inject(I18nLambdaExampleSymbol)
 		private readonly i18nService: I18nLambdaExampleService,
 	) {}
 

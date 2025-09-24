@@ -1,4 +1,10 @@
-import { type DynamicModule, Global, Module, type Scope } from '@nestjs/common'
+import {
+	type DynamicModule,
+	Global,
+	type InjectionToken,
+	Module,
+	type Scope,
+} from '@nestjs/common'
 import type { I18nDict } from '@starter/i18n'
 
 import { I18nService } from './nestjs-i18n.service'
@@ -17,7 +23,7 @@ export type NestjsI18nModuleOptions<T extends I18nDict> =
 @Module({})
 export class NestjsI18nModule {
 	static register<T extends I18nDict>(
-		provide: string,
+		provide: InjectionToken,
 		options: NestjsI18nModuleOptions<T>,
 	): DynamicModule {
 		if ('dict' in options) {
