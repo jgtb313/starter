@@ -13,7 +13,8 @@ export class LambdaExampleService implements Service {
 			template: 'WELCOME',
 			recipient: 'jgtb313@gmail.com',
 			props: {
-				message: 'Welcome...',
+				name: 'John',
+				getStartedUrl: 'https://google.com',
 			},
 		})
 		return 10

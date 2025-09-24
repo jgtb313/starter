@@ -19,7 +19,7 @@ export class DomainModule {
 			module: DomainModule,
 			imports: [
 				DatabaseModule.register(options.database),
-				I18nDomainModule.forRoot(options.i18n),
+				I18nDomainModule.register(options.i18n),
 			],
 		}
 	}
