@@ -36,7 +36,7 @@ export class NestjsServerHoistingI18nModule {
 		return {
 			module: NestjsServerHoistingI18nModule,
 			imports: [
-				NestjsI18nModule.register(options.provider, options.dict, {
+				NestjsI18nModule.register(options.provider, {
 					scope: Scope.REQUEST,
 					inject: [
 						REQUEST,
