@@ -1,8 +1,10 @@
 import { isString, isUndefined } from 'lodash'
 
+import { state } from './~state/common.state'
+import { dateFnsFormat } from './date-fns/date-fns.i18n'
 import { formatDate } from './format-date'
 
-export type FormatDageRangeOptions =
+export type FormatDateRangeOptions =
 	| string
 	| {
 			format?: string
@@ -12,10 +14,10 @@ export type FormatDageRangeOptions =
 export const formatDateRange = (
 	a: string | Date,
 	b: string | Date,
-	options?: FormatDageRangeOptions,
+	options?: FormatDateRangeOptions,
 ) => {
 	const format = isUndefined(options)
-		? 'dd/MM/yyyy'
+		? dateFnsFormat[state.locale]
 		: isString(options)
 			? options
 			: options?.format

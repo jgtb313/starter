@@ -1,4 +1,4 @@
-export { setupLocale as setupCommonLocale } from './@state/common.state'
+export { setupLocale as setupCommonLocale } from './~state/common.state'
 export * from './brazilian-values'
 export * from './clear-special-chars'
 export * from './creditcard-js'
