@@ -1,16 +1,18 @@
 import { type DynamicModule, Global, Module } from '@nestjs/common'
 import type { I18nDict } from '@starter/i18n'
 import {
+	type I18nService,
 	NestjsI18nModule,
 	type NestjsI18nModuleOptions,
 } from '@starter/nestjs-i18n'
-import { en, es, ptBR } from 'i18n/i18n.domain'
+import { en, es, type I18nDomain, ptBR } from 'i18n/i18n.domain'
 
 type I18nDomainModuleOptions<T extends I18nDict> = (
 	dict: T,
 ) => NestjsI18nModuleOptions<T>
 
-export const I18nServiceSymbol = Symbol('DOMAIN_I18N')
+export const I18nDomainSymbol = Symbol('DOMAIN_I18N')
+export type I18nDomainService = I18nService<I18nDomain>
 
 @Global()
 @Module({})
@@ -31,7 +33,7 @@ export class I18nDomainModule {
 				}
 
 		const i18nModule = NestjsI18nModule.register(
-			I18nServiceSymbol.toString(),
+			'DOMAIN_I18N',
 			nestjsI18nModuleOptions,
 		)
 

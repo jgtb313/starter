@@ -4,6 +4,7 @@ import type { Pagination } from '@starter/schema'
 
 import { RecurrenceService } from '@/adapters/recurrence'
 import type { BasePlan, Plan } from '@/core/plan/plan.schema'
+import { type I18nDomainService, I18nDomainSymbol } from '@/domain.i18n.module'
 import type {
 	FindPlanInput,
 	IPlanRepository,
@@ -13,10 +14,24 @@ import type {
 @Injectable()
 export class PlanService {
 	constructor(
+		@Inject('DOMAIN_I18N')
+		private readonly i18nService: I18nDomainService,
 		@Inject('PLAN_REPOSITORY') private readonly planRepository: IPlanRepository,
 		@Inject(RecurrenceService)
 		private readonly recurrenceService: RecurrenceService,
 	) {}
+
+	testI18n = () => {
+		return this.i18nService.current.hello({
+			name: 'John',
+		})
+	}
+
+	testCustomI18n = () => {
+		return this.i18nService.current.custom('es').hello({
+			name: 'John',
+		})
+	}
 
 	getPaginatedPlans = async (
 		input: Merge<

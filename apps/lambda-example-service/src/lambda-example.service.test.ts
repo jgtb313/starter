@@ -1,29 +1,23 @@
 import { Test, type TestingModule } from '@nestjs/testing'
-import { CacheService } from '@starter/domain'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { beforeEach, describe, expect, it } from 'vitest'
 
 import { LambdaExampleService } from './lambda-example.service'
+import { LambdaExampleServiceModule } from './lambda-example.service.module'
 
 describe('LambdaExampleService', () => {
 	let service: LambdaExampleService
-	let cacheService: CacheService
 
 	beforeEach(async () => {
 		const module: TestingModule = await Test.createTestingModule({
+			imports: [
+				LambdaExampleServiceModule,
+			],
 			providers: [
 				LambdaExampleService,
-				{
-					provide: CacheService,
-					useValue: {
-						get: vi.fn(),
-						set: vi.fn(),
-					},
-				},
 			],
 		}).compile()
 
 		service = module.get(LambdaExampleService)
-		cacheService = module.get(CacheService)
 	})
 
 	it('should be defined', () => {

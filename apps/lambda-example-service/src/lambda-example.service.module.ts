@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
-import { NotificationModule } from '@starter/domain'
 
 import { LambdaExampleService } from './lambda-example.service'
+import { I18nLambdaExampleModule } from './lambda-example.service.i18n.module'
 
 @Module({
 	imports: [
@@ -10,11 +10,12 @@ import { LambdaExampleService } from './lambda-example.service'
 			isGlobal: true,
 			envFilePath: '../../.env',
 		}),
-		NotificationModule,
+
+		I18nLambdaExampleModule.register(),
 	],
 
 	providers: [
 		LambdaExampleService,
 	],
 })
-export class AppModule {}
+export class LambdaExampleServiceModule {}

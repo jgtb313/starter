@@ -6,15 +6,15 @@ import {
 	NestServerlessHoistingFactory,
 } from '@starter/nestjs-serverless-hoisting'
 
-import { AppModule } from './app.module'
 import { LambdaExampleService } from './lambda-example.service'
+import { LambdaExampleServiceModule } from './lambda-example.service.module'
 
 let app: IServerlessHoistingApplicationContext | null = null
 
 export const handler = async (event: LambdaEvent) => {
 	if (!app) {
 		app = await NestServerlessHoistingFactory.create(
-			AppModule,
+			LambdaExampleServiceModule,
 			LambdaExampleService,
 		)
 	}

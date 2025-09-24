@@ -1,4 +1,4 @@
-service: lambda-service-example
+service: lambda-example-service
 
 provider:
   name: aws
@@ -18,7 +18,7 @@ resources:
     LambdaServiceExampleQueue:
       Type: AWS::SQS::Queue
       Properties:
-        QueueName: lambda-service-example-queue
+        QueueName: lambda-example-service-queue
 
 functions:
   service:
@@ -27,7 +27,7 @@ functions:
       - sqs:
           arn:
             Fn::GetAtt:
-              - LambdaServiceExampleQueue
+              - LambdaExampleServiceQueue
               - Arn
           batchSize: 1
           maximumBatchingWindow: 0

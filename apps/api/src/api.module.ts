@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 import { DomainModule } from '@starter/domain'
-import { NestjsI18nModule } from '@starter/nestjs-i18n'
 import { nestjsServerHoistingI18nModuleOptions } from '@starter/nestjs-server-hoisting'
 
 import { ACLModule } from '@/support/access-control'
 import { AuthGuardModule } from '@/support/guards/auth-guard'
 
+import { I18nAPIModule } from '@/api.i18n.module'
 import { AuthModule } from '@/core/auth'
 import { InviteModule } from '@/core/invite'
 import { InvoiceModule } from '@/core/invoice'
@@ -21,27 +21,6 @@ import { SubscriptionModule } from '@/core/subscription'
 import { UserModule } from '@/core/user'
 import { WorkspaceModule } from '@/core/workspace'
 
-export const en = {
-	hello: 'Hello {name:string}',
-} as const
-export type Translations = {
-	[K in keyof typeof en]: string
-}
-
-export const es: Translations = {
-	hello: 'Hola {name:string}',
-}
-
-export const ptBR: Translations = {
-	hello: 'Olá {name:string}',
-}
-
-export type I18nDomain = {
-	en: typeof en
-	es: typeof es
-	'pt-BR': typeof ptBR
-}
-
 @Module({
 	imports: [
 		ConfigModule.forRoot({
@@ -49,19 +28,7 @@ export type I18nDomain = {
 			envFilePath: '../../.env',
 		}),
 
-		NestjsI18nModule.register(
-			'I18N_SERVICE',
-			{
-				en,
-				es,
-				'pt-BR': ptBR,
-			},
-			nestjsServerHoistingI18nModuleOptions({
-				en,
-				es,
-				'pt-BR': ptBR,
-			}),
-		),
+		I18nAPIModule.register(),
 
 		DomainModule.register({
 			database: {
@@ -88,4 +55,4 @@ export type I18nDomain = {
 		WorkspaceModule,
 	],
 })
-export class AppModule {}
+export class APIModule {}

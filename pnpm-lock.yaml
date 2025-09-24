@@ -54,6 +54,9 @@ importers:
       '@starter/domain':
         specifier: workspace:*
         version: link:../../libs/domain
+      '@starter/i18n':
+        specifier: workspace:*
+        version: link:../../libs/i18n
       '@starter/nestjs-error-handling':
         specifier: workspace:*
         version: link:../../libs/nestjs-error-handling
@@ -115,198 +118,6 @@ importers:
       tsconfig-paths:
         specifier: ^4.2.0
         version: 4.2.0
-      typescript:
-        specifier: 5.4.2
-        version: 5.4.2
-      vite:
-        specifier: 6.0.5
-        version: 6.0.5(@types/node@22.17.2)(terser@5.43.1)(yaml@2.8.1)
-      vitest:
-        specifier: ^2.1.8
-        version: 2.1.9(@types/node@22.17.2)(@vitest/ui@2.1.9)(jsdom@25.0.1)(terser@5.43.1)
-
-  apps/cancel-subscription-service:
-    dependencies:
-      '@nestjs/common':
-        specifier: ^10.0.0
-        version: 10.4.20(reflect-metadata@0.1.14)(rxjs@7.8.2)
-      '@nestjs/config':
-        specifier: ^4.0.0
-        version: 4.0.2(@nestjs/common@10.4.20(reflect-metadata@0.1.14)(rxjs@7.8.2))(rxjs@7.8.2)
-      '@nestjs/core':
-        specifier: ^10.0.0
-        version: 10.4.20(@nestjs/common@10.4.20(reflect-metadata@0.1.14)(rxjs@7.8.2))(encoding@0.1.13)(reflect-metadata@0.1.14)(rxjs@7.8.2)
-      '@starter/common':
-        specifier: workspace:*
-        version: link:../../libs/common
-      '@starter/config':
-        specifier: workspace:*
-        version: link:../../libs/config
-      '@starter/domain':
-        specifier: workspace:*
-        version: link:../../libs/domain
-      '@starter/nestjs-error-handling':
-        specifier: workspace:*
-        version: link:../../libs/nestjs-error-handling
-      '@starter/nestjs-serverless-hoisting':
-        specifier: workspace:*
-        version: link:../../libs/nestjs-serverless-hoisting
-      '@starter/schema':
-        specifier: workspace:*
-        version: link:../../libs/schema
-      reflect-metadata:
-        specifier: ^0.1.13
-        version: 0.1.14
-      rxjs:
-        specifier: ^7.8.1
-        version: 7.8.2
-    devDependencies:
-      '@types/aws-lambda':
-        specifier: 8.10.149
-        version: 8.10.149
-      '@types/node':
-        specifier: ^22.14.0
-        version: 22.17.2
-      '@vitest/coverage-c8':
-        specifier: ^0.33.0
-        version: 0.33.0(vitest@2.1.9)
-      '@vitest/ui':
-        specifier: ^2.1.8
-        version: 2.1.9(vitest@2.1.9)
-      serverless:
-        specifier: ^3.38.0
-        version: 3.40.0(@types/node@22.17.2)(encoding@0.1.13)
-      serverless-dotenv-plugin:
-        specifier: ^6.0.0
-        version: 6.0.0(serverless@3.40.0(@types/node@22.17.2)(encoding@0.1.13))
-      typescript:
-        specifier: 5.4.2
-        version: 5.4.2
-      vite:
-        specifier: 6.0.5
-        version: 6.0.5(@types/node@22.17.2)(terser@5.43.1)(yaml@2.8.1)
-      vitest:
-        specifier: ^2.1.8
-        version: 2.1.9(@types/node@22.17.2)(@vitest/ui@2.1.9)(jsdom@25.0.1)(terser@5.43.1)
-
-  apps/create-invoice-service:
-    dependencies:
-      '@nestjs/common':
-        specifier: ^10.0.0
-        version: 10.4.20(reflect-metadata@0.1.14)(rxjs@7.8.2)
-      '@nestjs/config':
-        specifier: ^4.0.0
-        version: 4.0.2(@nestjs/common@10.4.20(reflect-metadata@0.1.14)(rxjs@7.8.2))(rxjs@7.8.2)
-      '@nestjs/core':
-        specifier: ^10.0.0
-        version: 10.4.20(@nestjs/common@10.4.20(reflect-metadata@0.1.14)(rxjs@7.8.2))(encoding@0.1.13)(reflect-metadata@0.1.14)(rxjs@7.8.2)
-      '@starter/common':
-        specifier: workspace:*
-        version: link:../../libs/common
-      '@starter/config':
-        specifier: workspace:*
-        version: link:../../libs/config
-      '@starter/domain':
-        specifier: workspace:*
-        version: link:../../libs/domain
-      '@starter/nestjs-error-handling':
-        specifier: workspace:*
-        version: link:../../libs/nestjs-error-handling
-      '@starter/nestjs-serverless-hoisting':
-        specifier: workspace:*
-        version: link:../../libs/nestjs-serverless-hoisting
-      '@starter/schema':
-        specifier: workspace:*
-        version: link:../../libs/schema
-      reflect-metadata:
-        specifier: ^0.1.13
-        version: 0.1.14
-      rxjs:
-        specifier: ^7.8.1
-        version: 7.8.2
-    devDependencies:
-      '@types/aws-lambda':
-        specifier: 8.10.149
-        version: 8.10.149
-      '@types/node':
-        specifier: ^22.14.0
-        version: 22.17.2
-      '@vitest/coverage-c8':
-        specifier: ^0.33.0
-        version: 0.33.0(vitest@2.1.9)
-      '@vitest/ui':
-        specifier: ^2.1.8
-        version: 2.1.9(vitest@2.1.9)
-      serverless:
-        specifier: ^3.38.0
-        version: 3.40.0(@types/node@22.17.2)(encoding@0.1.13)
-      serverless-dotenv-plugin:
-        specifier: ^6.0.0
-        version: 6.0.0(serverless@3.40.0(@types/node@22.17.2)(encoding@0.1.13))
-      typescript:
-        specifier: 5.4.2
-        version: 5.4.2
-      vite:
-        specifier: 6.0.5
-        version: 6.0.5(@types/node@22.17.2)(terser@5.43.1)(yaml@2.8.1)
-      vitest:
-        specifier: ^2.1.8
-        version: 2.1.9(@types/node@22.17.2)(@vitest/ui@2.1.9)(jsdom@25.0.1)(terser@5.43.1)
-
-  apps/event-ingestor-service:
-    dependencies:
-      '@nestjs/common':
-        specifier: ^10.0.0
-        version: 10.4.20(reflect-metadata@0.1.14)(rxjs@7.8.2)
-      '@nestjs/config':
-        specifier: ^4.0.0
-        version: 4.0.2(@nestjs/common@10.4.20(reflect-metadata@0.1.14)(rxjs@7.8.2))(rxjs@7.8.2)
-      '@nestjs/core':
-        specifier: ^10.0.0
-        version: 10.4.20(@nestjs/common@10.4.20(reflect-metadata@0.1.14)(rxjs@7.8.2))(encoding@0.1.13)(reflect-metadata@0.1.14)(rxjs@7.8.2)
-      '@starter/common':
-        specifier: workspace:*
-        version: link:../../libs/common
-      '@starter/config':
-        specifier: workspace:*
-        version: link:../../libs/config
-      '@starter/domain':
-        specifier: workspace:*
-        version: link:../../libs/domain
-      '@starter/nestjs-error-handling':
-        specifier: workspace:*
-        version: link:../../libs/nestjs-error-handling
-      '@starter/nestjs-serverless-hoisting':
-        specifier: workspace:*
-        version: link:../../libs/nestjs-serverless-hoisting
-      '@starter/schema':
-        specifier: workspace:*
-        version: link:../../libs/schema
-      reflect-metadata:
-        specifier: ^0.1.13
-        version: 0.1.14
-      rxjs:
-        specifier: ^7.8.1
-        version: 7.8.2
-    devDependencies:
-      '@types/aws-lambda':
-        specifier: 8.10.149
-        version: 8.10.149
-      '@types/node':
-        specifier: ^22.14.0
-        version: 22.17.2
-      '@vitest/coverage-c8':
-        specifier: ^0.33.0
-        version: 0.33.0(vitest@2.1.9)
-      '@vitest/ui':
-        specifier: ^2.1.8
-        version: 2.1.9(vitest@2.1.9)
-      serverless:
-        specifier: ^3.38.0
-        version: 3.40.0(@types/node@22.17.2)(encoding@0.1.13)
-      serverless-dotenv-plugin:
-        specifier: ^6.0.0
-        version: 6.0.0(serverless@3.40.0(@types/node@22.17.2)(encoding@0.1.13))
       typescript:
         specifier: 5.4.2
         version: 5.4.2
@@ -389,6 +200,9 @@ importers:
       '@nestjs/core':
         specifier: ^10.0.0
         version: 10.4.20(@nestjs/common@10.4.20(reflect-metadata@0.1.14)(rxjs@7.8.2))(encoding@0.1.13)(reflect-metadata@0.1.14)(rxjs@7.8.2)
+      '@nestjs/testing':
+        specifier: ^11.1.6
+        version: 11.1.6(@nestjs/common@10.4.20(reflect-metadata@0.1.14)(rxjs@7.8.2))(@nestjs/core@10.4.20(@nestjs/common@10.4.20(reflect-metadata@0.1.14)(rxjs@7.8.2))(encoding@0.1.13)(reflect-metadata@0.1.14)(rxjs@7.8.2))
       '@starter/common':
         specifier: workspace:*
         version: link:../../libs/common
@@ -398,73 +212,15 @@ importers:
       '@starter/domain':
         specifier: workspace:*
         version: link:../../libs/domain
+      '@starter/i18n':
+        specifier: workspace:*
+        version: link:../../libs/i18n
       '@starter/nestjs-error-handling':
         specifier: workspace:*
         version: link:../../libs/nestjs-error-handling
-      '@starter/nestjs-serverless-hoisting':
+      '@starter/nestjs-i18n':
         specifier: workspace:*
-        version: link:../../libs/nestjs-serverless-hoisting
-      '@starter/schema':
-        specifier: workspace:*
-        version: link:../../libs/schema
-      reflect-metadata:
-        specifier: ^0.1.13
-        version: 0.1.14
-      rxjs:
-        specifier: ^7.8.1
-        version: 7.8.2
-    devDependencies:
-      '@types/aws-lambda':
-        specifier: 8.10.149
-        version: 8.10.149
-      '@types/node':
-        specifier: ^22.14.0
-        version: 22.17.2
-      '@vitest/coverage-c8':
-        specifier: ^0.33.0
-        version: 0.33.0(vitest@2.1.9)
-      '@vitest/ui':
-        specifier: ^2.1.8
-        version: 2.1.9(vitest@2.1.9)
-      serverless:
-        specifier: ^3.38.0
-        version: 3.40.0(@types/node@22.17.2)(encoding@0.1.13)
-      serverless-dotenv-plugin:
-        specifier: ^6.0.0
-        version: 6.0.0(serverless@3.40.0(@types/node@22.17.2)(encoding@0.1.13))
-      typescript:
-        specifier: 5.4.2
-        version: 5.4.2
-      vite:
-        specifier: 6.0.5
-        version: 6.0.5(@types/node@22.17.2)(terser@5.43.1)(yaml@2.8.1)
-      vitest:
-        specifier: ^2.1.8
-        version: 2.1.9(@types/node@22.17.2)(@vitest/ui@2.1.9)(jsdom@25.0.1)(terser@5.43.1)
-
-  apps/update-invoice-service:
-    dependencies:
-      '@nestjs/common':
-        specifier: ^10.0.0
-        version: 10.4.20(reflect-metadata@0.1.14)(rxjs@7.8.2)
-      '@nestjs/config':
-        specifier: ^4.0.0
-        version: 4.0.2(@nestjs/common@10.4.20(reflect-metadata@0.1.14)(rxjs@7.8.2))(rxjs@7.8.2)
-      '@nestjs/core':
-        specifier: ^10.0.0
-        version: 10.4.20(@nestjs/common@10.4.20(reflect-metadata@0.1.14)(rxjs@7.8.2))(encoding@0.1.13)(reflect-metadata@0.1.14)(rxjs@7.8.2)
-      '@starter/common':
-        specifier: workspace:*
-        version: link:../../libs/common
-      '@starter/config':
-        specifier: workspace:*
-        version: link:../../libs/config
-      '@starter/domain':
-        specifier: workspace:*
-        version: link:../../libs/domain
-      '@starter/nestjs-error-handling':
-        specifier: workspace:*
-        version: link:../../libs/nestjs-error-handling
+        version: link:../../libs/nestjs-i18n
       '@starter/nestjs-serverless-hoisting':
         specifier: workspace:*
         version: link:../../libs/nestjs-serverless-hoisting
@@ -10912,6 +10668,12 @@ snapshots:
       path-to-regexp: 8.2.0
       reflect-metadata: 0.2.2
       swagger-ui-dist: 5.21.0
+
+  '@nestjs/testing@11.1.6(@nestjs/common@10.4.20(reflect-metadata@0.1.14)(rxjs@7.8.2))(@nestjs/core@10.4.20(@nestjs/common@10.4.20(reflect-metadata@0.1.14)(rxjs@7.8.2))(encoding@0.1.13)(reflect-metadata@0.1.14)(rxjs@7.8.2))':
+    dependencies:
+      '@nestjs/common': 10.4.20(reflect-metadata@0.1.14)(rxjs@7.8.2)
+      '@nestjs/core': 10.4.20(@nestjs/common@10.4.20(reflect-metadata@0.1.14)(rxjs@7.8.2))(encoding@0.1.13)(reflect-metadata@0.1.14)(rxjs@7.8.2)
+      tslib: 2.8.1
 
   '@nestjs/testing@11.1.6(@nestjs/common@11.1.6(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.6)(@nestjs/platform-express@11.1.6)':
     dependencies:

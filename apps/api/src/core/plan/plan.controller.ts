@@ -1,9 +1,8 @@
 import { Inject } from '@nestjs/common'
 import { PlanSchema, PlanService } from '@starter/domain'
-import type { I18nService } from '@starter/nestjs-i18n'
 import { Controller, Request, Route } from '@starter/nestjs-server-hoisting'
 
-import type { I18nDomain } from '@/app.module'
+import { type I18nAPIService, I18nAPISymbol } from '@/api.i18n.module'
 import {
 	type GetPlanRequest,
 	GetPlanSchema,
@@ -26,8 +25,8 @@ import {
 })
 export class PlanController {
 	constructor(
-		@Inject('I18N_SERVICE')
-		private readonly i18nService: I18nService<I18nDomain>,
+		@Inject('API_I18N')
+		private readonly i18nService: I18nAPIService,
 		@Inject(PlanService) private readonly planService: PlanService,
 	) {}
 
@@ -52,14 +51,18 @@ export class PlanController {
 		const fromController = this.i18nService.current.hello({
 			name: 'John',
 		})
+		const customFromController = this.i18nService.current.custom('es').hello({
+			name: 'John',
+		})
 
-		const fromDomain = this.planService.example()
+		const fromDomain = this.planService.testI18n()
+		const customFromDomain = this.planService.testCustomI18n()
 
 		return {
-			fromController: {
-				value: fromController as any,
-			},
+			fromController,
+			customFromController,
 			fromDomain,
+			customFromDomain,
 		}
 
 		// return this.planService

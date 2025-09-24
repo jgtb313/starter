@@ -29,6 +29,7 @@
 		"@starter/common": "workspace:*",
 		"@starter/config": "workspace:*",
 		"@starter/domain": "workspace:*",
+		"@starter/i18n": "workspace:*",
 		"@starter/nestjs-i18n": "workspace:*",
 		"@starter/nestjs-error-handling": "workspace:*",
 		"@starter/nestjs-server-hoisting": "workspace:*",

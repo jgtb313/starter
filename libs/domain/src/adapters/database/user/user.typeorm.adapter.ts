@@ -227,6 +227,7 @@ export class UserTypeorm implements IUserRepository {
 	private toUserDomain(user: UserEntity): UserDomain {
 		const state: UserDomain['state'] = {
 			...user,
+			birthday: user.birthday ?? null,
 			phone:
 				user.phoneISO && user.phoneDDI && user.phoneNumber
 					? {
