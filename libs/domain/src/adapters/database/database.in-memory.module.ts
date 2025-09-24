@@ -27,8 +27,6 @@ export const loadDatabase = async (module: TestingModule) => {
 	await dataSource.getRepository(RolePermissionEntity).deleteAll()
 	await dataSource.getRepository(RoleEntity).deleteAll()
 
-	console.log(await dataSource.getRepository(OrganizationEntity).find())
-
 	await dataSource
 		.getRepository(PermissionEntity)
 		.insert(permissionMocks.map((permission) => permission.toJSON()))

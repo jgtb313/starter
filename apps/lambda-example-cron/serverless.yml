@@ -1,4 +1,4 @@
-service: lambda-cron-example
+service: lambda-example-cron
 
 frameworkVersion: '3'
 

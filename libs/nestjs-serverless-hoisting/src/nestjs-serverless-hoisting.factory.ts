@@ -14,7 +14,7 @@ import type { IServerlessService } from '@/interfaces'
 export type NestServerlessHoistingOptions = {}
 
 export interface IServerlessHoistingApplicationContext<K = unknown> {
-	execute(event: LambdaEvent): Promise<K>
+	execute(event?: LambdaEvent): Promise<K>
 }
 
 type IEntryNestModule =

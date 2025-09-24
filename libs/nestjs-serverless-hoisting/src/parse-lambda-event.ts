@@ -2,7 +2,11 @@ import type { S3Event, SNSEvent, SQSEvent } from 'aws-lambda'
 
 export type LambdaEvent = SNSEvent | SQSEvent | S3Event
 
-export const parseLambdaEvent = <T>(event: LambdaEvent): T => {
+export const parseLambdaEvent = <T>(event?: LambdaEvent): T | undefined => {
+	if (!event) {
+		return
+	}
+
 	const record = event.Records[0]
 
 	if ('Sns' in record) {

@@ -11,14 +11,13 @@ import {
 } from 'typeorm'
 import type { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity'
 
-import { deepMapDatesToISOString } from '@/support/utilities'
-
 import { RoleEntity } from '@/adapters/database/role/role.typeorm.entity'
 import { RoleOrganizationEntity } from '@/adapters/database/role/role-organization.typeorm.entity'
 import { RolePermissionEntity } from '@/adapters/database/role/role-permission.typeorm.entity'
 import { RoleDomain } from '@/core/role/role.domain'
 import type { BaseRole } from '@/core/role/role.schema'
 import type { IRoleRepository } from '@/ports/database/role'
+import { deepMapDatesToISOString } from '@/support/utilities'
 
 @Injectable()
 export class RoleTypeorm implements IRoleRepository {
@@ -276,8 +275,6 @@ export class RoleTypeorm implements IRoleRepository {
 		roleId,
 		{ organizationIds, permissionIds, ...input },
 	) => {
-		console.log('updateById', roleId, input)
-
 		await this.repository.update(roleId, this.toPartialRoleEntity(input))
 
 		const roleOrganizations = organizationIds?.map((organizationId) =>
@@ -317,8 +314,6 @@ export class RoleTypeorm implements IRoleRepository {
 			// 	permissions: true,
 			// },
 		})
-
-		console.log(role)
 
 		return this.toRoleDomain(role!)
 	}
