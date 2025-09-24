@@ -6,10 +6,10 @@ import {
 } from '@nestjs/common'
 import { get, isString } from '@starter/common'
 import {
-	getLocaleHandler,
 	type Locale,
 	LocaleSchema,
 	type z,
+	zodI18nResolver,
 } from '@starter/schema'
 
 @Catch(HttpException)
@@ -41,7 +41,7 @@ export class ErrorFilter implements ExceptionFilter {
 		const issues = get(result, 'issues')
 
 		if (message === 'Validation failed') {
-			const localeHandler = getLocaleHandler(locale)
+			const resolver = zodI18nResolver(locale)
 			const issues = get(result, 'issues') as unknown as z.core.$ZodRawIssue[]
 
 			return response.status(status).json({
@@ -52,7 +52,7 @@ export class ErrorFilter implements ExceptionFilter {
 						? issue.path
 						: (issue.path?.join('.') ?? '')
 
-					const message = localeHandler(issue)
+					const message = resolver(issue as z.core.$ZodIssue)
 
 					return {
 						[path]: message,

@@ -1,10 +1,8 @@
 import { get } from '@starter/common'
+import type { Locale } from 'dist/src/locale'
 import type { z } from 'zod'
 
-import type { Locale } from './locale'
-import { enData } from './locales.en'
-import { esData } from './locales.es'
-import { ptBRData } from './locales.ptBR'
+import { i18nDict } from '@/~i18n/schema.i18n'
 
 type Sizable = Record<
 	string,
@@ -12,13 +10,8 @@ type Sizable = Record<
 		unit: string
 	}
 >
-type Nouns = Record<string, string>
 
-const localesData: Record<Locale, Record<string, string>> = {
-	en: enData,
-	es: esData,
-	'pt-BR': ptBRData,
-}
+type Nouns = Record<string, string>
 
 const parsedType = (data: unknown): string => {
 	const t = typeof data
@@ -54,31 +47,7 @@ const stringifyPrimitive = (value: unknown) =>
 const joinValues = (values: unknown[], sep: string) =>
 	values.map((value) => stringifyPrimitive(value)).join(sep)
 
-const getCustomMessage = (issue: unknown, locale: Locale) => {
-	const localeData = localesData[locale]
-
-	const code = get(issue, 'params.code') ?? get(issue, 'code')
-
-	if (!code) {
-		return undefined
-	}
-
-	const customMessage = get(localeData, code)
-
-	if (customMessage) {
-		return customMessage
-	}
-
-	return undefined
-}
-
 const en: z.core.$ZodErrorMap = (issue) => {
-	const customMessage = getCustomMessage(issue, 'en')
-
-	if (customMessage) {
-		return customMessage
-	}
-
 	const Sizable: Sizable = {
 		string: {
 			unit: 'characters',
@@ -159,12 +128,6 @@ const en: z.core.$ZodErrorMap = (issue) => {
 }
 
 const es: z.core.$ZodErrorMap = (issue) => {
-	const customMessage = getCustomMessage(issue, 'es')
-
-	if (customMessage) {
-		return customMessage
-	}
-
 	const Sizable: Record<
 		string,
 		{
@@ -250,12 +213,6 @@ const es: z.core.$ZodErrorMap = (issue) => {
 }
 
 const ptBR: z.core.$ZodErrorMap = (issue) => {
-	const customMessage = getCustomMessage(issue, 'pt-BR')
-
-	if (customMessage) {
-		return customMessage
-	}
-
 	const Sizable: Record<
 		string,
 		{
@@ -340,12 +297,38 @@ const ptBR: z.core.$ZodErrorMap = (issue) => {
 	}
 }
 
-export const getLocaleHandler = (locale: Locale) => {
-	const localeHandlers = {
-		en,
-		es,
-		'pt-BR': ptBR,
+const getCustomMessage = (issue: unknown, locale: Locale) => {
+	const localeData = i18nDict[locale]
+
+	const code = get(issue, 'params.code') ?? get(issue, 'code')
+
+	if (!code) {
+		return
 	}
 
-	return localeHandlers[locale]
+	const customMessage = get(localeData, code)
+
+	if (customMessage) {
+		return customMessage
+	}
+
+	return
 }
+
+export const zodI18nResolver =
+	(locale: Locale) => (issue: z.core.$ZodIssue) => {
+		const customMessage = getCustomMessage(issue, locale)
+
+		if (customMessage) {
+			return customMessage
+		}
+
+		switch (locale) {
+			case 'en':
+				return en(issue as Parameters<z.core.$ZodErrorMap>[0])
+			case 'es':
+				return es(issue as Parameters<z.core.$ZodErrorMap>[0])
+			case 'pt-BR':
+				return ptBR(issue as Parameters<z.core.$ZodErrorMap>[0])
+		}
+	}
