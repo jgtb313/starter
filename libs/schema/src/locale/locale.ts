@@ -1,8 +1,8 @@
 import { z } from '@/zod'
 
 export const LocaleSchema = z.enum([
-	'pt-BR',
 	'en',
 	'es',
+	'pt-BR',
 ])
 export type Locale = z.infer<typeof LocaleSchema>

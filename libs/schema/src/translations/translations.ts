@@ -1,6 +1,5 @@
+import { type Locale, LocaleSchema } from '@/locale'
 import { z } from '@/zod'
-
-import { LocaleSchema } from '@/locale'
 
 export const TranslationsSchema = z
 	.record(z.string().min(1), z.string().min(1))
@@ -17,4 +16,13 @@ export const TranslationsSchema = z
 			},
 		},
 	)
+	.meta({
+		example: LocaleSchema.options.reduce(
+			(acc, locale) => {
+				acc[locale] = 'value'
+				return acc
+			},
+			{} as Record<Locale, string>,
+		),
+	})
 export type Translations = z.infer<typeof TranslationsSchema>
