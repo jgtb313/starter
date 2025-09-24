@@ -1,7 +1,7 @@
 import { type DynamicModule, Global, Module } from '@nestjs/common'
 import { type I18nService, NestjsI18nModule } from '@starter/nestjs-i18n'
 
-import { type I18nLambdaExample, i18nDict } from './i18n'
+import { type I18nLambdaExample, i18nDict } from './~i18n'
 
 export const I18nLambdaExampleSymbol = Symbol('LAMBDA_I18N')
 export type I18nLambdaExampleService = I18nService<I18nLambdaExample>

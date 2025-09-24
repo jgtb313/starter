@@ -1,17 +1,17 @@
 import type { I18nDict } from '@starter/i18n'
 
-export const en = {
+const en = {
 	hello: 'Hello {name:string}',
 } as const
-export type Translations = {
+type Translations = {
 	[K in keyof typeof en]: string
 }
 
-export const es: Translations = {
+const es: Translations = {
 	hello: 'Hola {name:string}',
 }
 
-export const ptBR: Translations = {
+const ptBR: Translations = {
 	hello: 'Olá {name:string}',
 }
 
