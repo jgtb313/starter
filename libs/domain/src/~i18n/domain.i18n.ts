@@ -1,3 +1,5 @@
+import type { I18nDict } from '@starter/i18n'
+
 export const en = {
 	hello: 'Hello {name:string}',
 } as const
@@ -11,6 +13,12 @@ export const es: Translations = {
 
 export const ptBR: Translations = {
 	hello: 'Olá {name:string}',
+}
+
+export const i18nDict: I18nDict = {
+	en,
+	es,
+	'pt-BR': ptBR,
 }
 
 export type I18nDomain = {

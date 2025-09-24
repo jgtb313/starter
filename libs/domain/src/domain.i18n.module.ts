@@ -5,7 +5,8 @@ import {
 	NestjsI18nModule,
 	type NestjsI18nModuleOptions,
 } from '@starter/nestjs-i18n'
-import { en, es, type I18nDomain, ptBR } from 'i18n/i18n.domain'
+
+import { type I18nDomain, i18nDict } from '@/~i18n/domain.i18n'
 
 type I18nDomainModuleOptions<T extends I18nDict> = (
 	dict: T,
@@ -20,16 +21,12 @@ export class I18nDomainModule {
 	static register<T extends I18nDict>(
 		options?: I18nDomainModuleOptions<T>,
 	): DynamicModule {
-		const dict = {
-			en,
-			es,
-			'pt-BR': ptBR,
-		} as unknown as T
+		const dict = i18nDict as unknown as T
 
 		const nestjsI18nModuleOptions = options
 			? options(dict)
 			: {
-					dict,
+					dict: dict,
 				}
 
 		const i18nModule = NestjsI18nModule.register(
