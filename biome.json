@@ -10,18 +10,8 @@
 						"groups": [
 							":NODE:",
 							":BLANK_LINE:",
-							["@monorepo/client"],
-							["@monorepo/ui-web"],
-							["@monorepo/ui-mobile"],
 							":BLANK_LINE:",
 							":PACKAGE:",
-							":BLANK_LINE:",
-							["@/zod"],
-							["@/app"],
-							["@/support/**"],
-							["@/routes/**"],
-							["@/providers/**"],
-							["@/components/**"],
 							":BLANK_LINE:",
 							["./**"],
 							":BLANK_LINE:"
