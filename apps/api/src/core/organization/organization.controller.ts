@@ -6,10 +6,6 @@ import {
 } from '@starter/domain'
 import { Controller, Request, Route } from '@starter/nestjs-server-hoisting'
 
-import { ACLService } from '@/support/access-control'
-import { AuthenticatedUser } from '@/support/decorators'
-import { AuthGuard } from '@/support/guards'
-
 import {
 	type CreateOrganizationRequest,
 	CreateOrganizationSchema,
@@ -22,6 +18,9 @@ import {
 	type UpdateOrganizationRequest,
 	UpdateOrganizationSchema,
 } from '@/core/organization/organization.controller.schema'
+import { ACLService } from '@/support/access-control'
+import { AuthenticatedUser } from '@/support/decorators'
+import { AuthGuard } from '@/support/guards'
 
 @Controller({
 	name: 'Organization',
@@ -133,6 +132,7 @@ export class OrganizationController {
 
 		return this.organizationService.createOrganization({
 			...body,
+			name: body.name['pt-BR'],
 			workspaceId: params.workspaceId,
 		})
 	}

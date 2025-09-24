@@ -6,6 +6,7 @@ import {
 import {
 	BasePaginationSchemaOutput,
 	PaginationSchema,
+	TranslationsSchema,
 	z,
 } from '@starter/schema'
 
@@ -60,9 +61,13 @@ export const CreateOrganizationSchema = createRequestSchema({
 		workspaceId: true,
 	}),
 	body: OrganizationSchema.pick({
-		name: true,
+		// name: true,
 		status: true,
-	}),
+	}).and(
+		z.object({
+			name: TranslationsSchema,
+		}),
+	),
 	output: OrganizationSchema,
 })
 export type CreateOrganizationRequest = RequestInput<
