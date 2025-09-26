@@ -11,8 +11,10 @@
 		]
 	},
 	"scripts": {
-		"c": "node run-command.js",
-		"openapi-spec:watch": "node openapi-spec.watch.js",
+		"x": "node run-command.js",
+		"build:libs": "pnpm --filter \"./libs/*\" build",
+		"dev:apps": "pnpm --filter \"./apps/api\" dev",
+		"dev": "pnpm build:libs && pnpm dev:apps",
 		"docker": "pnpm docker:down && pnpm docker:up",
 		"docker:up": "docker-compose up -d",
 		"docker:down": "docker-compose down",

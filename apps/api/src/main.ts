@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 
 import type { INestApplication } from '@nestjs/common'
-import { config, type StageEnum } from '@starter/config'
+import { config, type Stage } from '@starter/config'
 import { NestServerHoistingFactory } from '@starter/nestjs-server-hoisting'
 
 import { APIModule } from '@/api.module'
@@ -18,7 +18,7 @@ export const bootstrap = async (): Promise<INestApplication> => {
 			title: `${config.name} API`,
 			description: documentation,
 			favicon: config.logo.darkSymbol,
-			server: config.apiUrls[process.env.STAGE as StageEnum],
+			server: config.apiUrls[process.env.STAGE as Stage],
 		},
 	})
 

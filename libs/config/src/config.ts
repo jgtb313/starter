@@ -1,15 +1,10 @@
-export enum StageEnum {
-	LOCAL = 'local',
-	DEV = 'dev',
-	STG = 'stg',
-	PRD = 'prd',
-}
+export type Stage = 'local' | 'dev' | 'stg' | 'prd'
 
 export type Config = {
 	name: string
 	domain: string
 
-	apiUrls: Record<StageEnum, string>
+	apiUrls: Record<Stage, string>
 
 	logo: {
 		light: string
@@ -43,10 +38,10 @@ export const config: Config = {
 	domain: 'starter.com',
 
 	apiUrls: {
-		[StageEnum.LOCAL]: 'http://127.0.0.1:4000',
-		[StageEnum.DEV]: 'https://api.dev.starter.com',
-		[StageEnum.STG]: 'https://api.stg.starter.com',
-		[StageEnum.PRD]: 'https://api.starter.com',
+		local: 'http://127.0.0.1:4000',
+		dev: 'https://api.dev.starter.com',
+		stg: 'https://api.stg.starter.com',
+		prd: 'https://api.starter.com',
 	},
 
 	logo: {
