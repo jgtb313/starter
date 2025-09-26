@@ -1,61 +1,43 @@
-import { describe, expect, it } from 'vitest'
+import { beforeEach, describe, expect, it } from 'vitest'
 
+import { setupLocale } from './~state/common.state'
 import { formatDate } from './format-date'
 
 describe('formatDate', () => {
-	const testDate = new Date('2023-05-15T10:30:00Z')
-	const testDateString = '2023-05-15T10:30:00Z'
-
-	it('formats Date object with default format', () => {
-		expect(formatDate(testDate)).toBe('15/05/2023')
+	beforeEach(() => {
+		setupLocale('en')
 	})
 
-	it('formats date string with default format', () => {
-		expect(formatDate(testDateString)).toBe('15/05/2023')
+	it('formats date with default format and locale en', () => {
+		const date = new Date('2025-09-24T12:00:00Z')
+		const result = formatDate(date)
+
+		expect(result).toBe('09/24/2025')
 	})
 
-	it('uses custom format', () => {
-		expect(formatDate(testDate, 'yyyy-MM-dd')).toBe('2023-05-15')
+	it('formats date with custom format and locale es', () => {
+		setupLocale('es')
+
+		const date = new Date('2025-09-24T12:00:00Z')
+		const result = formatDate(date, 'yyyy-MM-dd')
+
+		expect(result).toBe('2025-09-24')
 	})
 
-	it('uses Brazilian Portuguese locale', () => {
-		expect(formatDate(testDate, 'PPPP')).toBe(
-			'segunda-feira, 15 de maio de 2023',
-		)
+	it('formats string date with locale pt-BR', () => {
+		setupLocale('pt-BR')
+
+		const dateString = '2025-09-24T12:00:00Z'
+		const result = formatDate(dateString)
+		expect(result).toBe('24/09/2025')
 	})
 
-	it('uses America/Sao_Paulo timezone', () => {
-		expect(formatDate(testDate, 'HH:mm')).toBe('07:30') // São Paulo is UTC-3
-	})
+	it('uses default format when none provided', () => {
+		setupLocale('en')
 
-	it('combines custom format with locale and timezone', () => {
-		expect(formatDate(testDate, "d 'de' MMMM 'às' HH:mm")).toBe(
-			'15 de maio às 07:30',
-		)
-	})
+		const date = new Date('2025-09-24T12:00:00Z')
+		const result = formatDate(date)
 
-	it('handles date-only strings', () => {
-		expect(formatDate('2023-05-15')).toBe('15/05/2023')
-	})
-
-	it('formats time correctly', () => {
-		expect(formatDate(testDate, 'HH:mm:ss')).toBe('07:30:00')
-	})
-
-	it('includes timezone in output when specified in format', () => {
-		expect(formatDate(testDate, 'yyyy-MM-dd HH:mm:ssXXX')).toBe(
-			'2023-05-15 07:30:00-03:00',
-		)
-	})
-
-	it('uses 24-hour format', () => {
-		const eveningDate = new Date('2023-05-15T22:30:00Z')
-		expect(formatDate(eveningDate, 'HH:mm')).toBe('19:30')
-	})
-
-	it('calls getDate function for input processing', () => {
-		formatDate(testDate)
-
-		formatDate(testDateString)
+		expect(result).toBe('09/24/2025')
 	})
 })

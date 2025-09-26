@@ -17,7 +17,7 @@ export const dateFnsTimezones: Record<Locale, string> = {
 }
 
 export const dateFnsFormat: Record<Locale, string> = {
-	en: 'dd/MM/yyyy',
+	en: 'MM/dd/yyyy',
 	es: 'dd/MM/yyyy',
 	'pt-BR': 'dd/MM/yyyy',
 }

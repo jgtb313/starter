@@ -1,3 +1,4 @@
+import type { Locale } from '@starter/schema'
 import { isString, isUndefined } from 'lodash'
 
 import { state } from './~state/common.state'
@@ -9,6 +10,7 @@ export type FormatDateRangeOptions =
 	| {
 			format?: string
 			separator?: string
+			locale?: Locale
 	  }
 
 export const formatDateRange = (
@@ -16,16 +18,28 @@ export const formatDateRange = (
 	b: string | Date,
 	options?: FormatDateRangeOptions,
 ) => {
-	const format = isUndefined(options)
-		? dateFnsFormat[state.locale]
-		: isString(options)
-			? options
-			: options?.format
+	const locale = isString(options)
+		? state.locale
+		: (options?.locale ?? state.locale)
 	const separator = isUndefined(options)
 		? '•'
 		: isString(options)
 			? '•'
 			: (options?.separator ?? '•')
+	const f = isUndefined(options)
+		? dateFnsFormat[locale]
+		: isString(options)
+			? options
+			: (options?.format ?? dateFnsFormat[locale])
 
-	return `${formatDate(a, format)} ${separator} ${formatDate(b, format)}`
+	const dateA = formatDate(a, {
+		format: f,
+		locale,
+	})
+	const dateB = formatDate(b, {
+		format: f,
+		locale,
+	})
+
+	return `${dateA} ${separator} ${dateB}`
 }

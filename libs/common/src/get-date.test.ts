@@ -1,13 +1,18 @@
 import { toZonedTime } from 'date-fns-tz'
-import { afterEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
+import { setupLocale } from './~state/common.state'
 import { getDate } from './get-date'
 
 vi.mock('date-fns-tz', () => ({
-	toZonedTime: vi.fn((date, timezone) => new Date(date)),
+	toZonedTime: vi.fn((date) => new Date(date)),
 }))
 
 describe('getDate', () => {
+	beforeEach(() => {
+		setupLocale('en')
+	})
+
 	afterEach(() => {
 		vi.clearAllMocks()
 	})
@@ -17,7 +22,7 @@ describe('getDate', () => {
 
 		getDate(utcDate)
 
-		expect(toZonedTime).toHaveBeenCalledWith(utcDate, 'America/Sao_Paulo')
+		expect(toZonedTime).toHaveBeenCalledWith(utcDate, 'America/New_York')
 	})
 
 	it('handles date string input with default timezone', () => {
@@ -25,7 +30,7 @@ describe('getDate', () => {
 
 		getDate(dateString)
 
-		expect(toZonedTime).toHaveBeenCalledWith(dateString, 'America/Sao_Paulo')
+		expect(toZonedTime).toHaveBeenCalledWith(dateString, 'America/New_York')
 	})
 
 	it('handles ISO date string with default timezone', () => {
@@ -33,7 +38,7 @@ describe('getDate', () => {
 
 		getDate(isoString)
 
-		expect(toZonedTime).toHaveBeenCalledWith(isoString, 'America/Sao_Paulo')
+		expect(toZonedTime).toHaveBeenCalledWith(isoString, 'America/New_York')
 	})
 
 	it('returns a Date object', () => {
@@ -57,25 +62,31 @@ describe('getDate', () => {
 		'2023-05-15T10:30:00+00:00',
 	])('handles date format $s with default timezone', (format) => {
 		getDate(format)
-		expect(toZonedTime).toHaveBeenCalledWith(format, 'America/Sao_Paulo')
+		expect(toZonedTime).toHaveBeenCalledWith(format, 'America/New_York')
 	})
 
-	// Novos testes para timezone customizado
-	it('uses custom timezone when provided', () => {
+	it('uses locale from state when none provided', () => {
+		setupLocale('pt-BR')
+		const stateDate = new Date('2023-05-15T10:30:00Z')
+
+		getDate(stateDate)
+
+		expect(toZonedTime).toHaveBeenCalledWith(stateDate, 'America/Sao_Paulo')
+	})
+
+	it('uses provided locale when passed explicitly', () => {
 		const customDate = new Date('2023-05-15T10:30:00Z')
-		const customTimezone = 'Europe/London'
 
-		getDate(customDate, customTimezone)
+		getDate(customDate, 'es')
 
-		expect(toZonedTime).toHaveBeenCalledWith(customDate, customTimezone)
+		expect(toZonedTime).toHaveBeenCalledWith(customDate, 'America/Mexico_City')
 	})
 
-	it('handles date string with custom timezone', () => {
+	it('handles date string with provided locale', () => {
 		const dateString = '2023-05-15T10:30:00Z'
-		const customTimezone = 'Asia/Tokyo'
 
-		getDate(dateString, customTimezone)
+		getDate(dateString, 'pt-BR')
 
-		expect(toZonedTime).toHaveBeenCalledWith(dateString, customTimezone)
+		expect(toZonedTime).toHaveBeenCalledWith(dateString, 'America/Sao_Paulo')
 	})
 })
