@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common'
+import { Global, Inject, Injectable, Module } from '@nestjs/common'
 import type { z } from '@starter/schema'
 
 import { type I18nDomainService, I18nDomainSymbol } from '@/domain.i18n.module'
@@ -33,3 +33,14 @@ export class DomainFactory {
 		return new DomainClass(this.i18nService, input)
 	}
 }
+
+@Global()
+@Module({
+	providers: [
+		DomainFactory,
+	],
+	exports: [
+		DomainFactory,
+	],
+})
+export class DomainFactoryModule {}

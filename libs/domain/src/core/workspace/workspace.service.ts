@@ -17,7 +17,7 @@ export class WorkspaceService {
 		private readonly workspaceRepository: IWorkspaceRepository,
 		@Inject(forwardRef(() => UserService))
 		private readonly userService: UserService,
-		@Inject(forwardRef(() => PublisherService))
+		@Inject(PublisherService)
 		private readonly publisherService: PublisherService,
 	) {}
 

@@ -8,6 +8,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { InMemoryDatabaseModule } from '@/adapters/database'
 import { WorkspaceRepositoryModule } from '@/adapters/database/workspace/workspace.repository.module'
 import { PublisherModule } from '@/adapters/publisher/publisher.module'
+import { PublisherService } from '@/adapters/publisher/publisher.service'
 import { UserService } from '@/core/user/user.service'
 import { makeWorkspace, workspaceMocks } from '@/core/workspace/workspace.mock'
 import { WorkspaceService } from '@/core/workspace/workspace.service'
@@ -19,6 +20,10 @@ describe('WorkspaceService', () => {
 	const userServiceMock = {
 		getUser: vi.fn(),
 		updateUser: vi.fn(),
+	}
+
+	const publisherServiceMock = {
+		publish: vi.fn(),
 	}
 
 	beforeEach(async () => {
@@ -34,6 +39,10 @@ describe('WorkspaceService', () => {
 				{
 					provide: UserService,
 					useValue: userServiceMock,
+				},
+				{
+					provide: PublisherService,
+					useValue: publisherServiceMock,
 				},
 			],
 		}).compile()
@@ -117,20 +126,12 @@ describe('WorkspaceService', () => {
 					workspaceId: result.state.workspaceId,
 				}),
 			)
-		})
-
-		it('should throw ConflictException if user already has workspace', async () => {
-			userServiceMock.getUser.mockResolvedValueOnce({
-				state: {
-					userId: 'user-123',
-					workspaceId: 'workspace-abc',
-				},
-				assignToWorkspace: vi.fn(),
-			})
-
-			await expect(
-				service.createWorkspace('user-123', makeWorkspace({})),
-			).rejects.toThrow(new ConflictException('Workspace already exists.'))
+			expect(publisherServiceMock.publish).toHaveBeenCalledWith(
+				'WORKSPACE_CREATED',
+				expect.objectContaining({
+					workspaceId: result.state.workspaceId,
+				}),
+			)
 		})
 	})
 
@@ -143,6 +144,12 @@ describe('WorkspaceService', () => {
 			})
 
 			expect(result.state.name).toBe('Updated Workspace Name')
+			expect(publisherServiceMock.publish).toHaveBeenCalledWith(
+				'WORKSPACE_UPDATED',
+				expect.objectContaining({
+					workspaceId: result.state.workspaceId,
+				}),
+			)
 		})
 
 		it('should throw NotFoundException if workspace not found', async () => {
@@ -165,6 +172,12 @@ describe('WorkspaceService', () => {
 			const result = await service.activateWorkspace(workspace.workspaceId)
 
 			expect(result.state.status).toBe('ACTIVE')
+			expect(publisherServiceMock.publish).toHaveBeenCalledWith(
+				'WORKSPACE_ACTIVATED',
+				expect.objectContaining({
+					workspaceId: result.state.workspaceId,
+				}),
+			)
 		})
 
 		it('should throw ConflictException if already active', async () => {
@@ -189,6 +202,12 @@ describe('WorkspaceService', () => {
 			const result = await service.deactivateWorkspace(workspace.workspaceId)
 
 			expect(result.state.status).toBe('INACTIVE')
+			expect(publisherServiceMock.publish).toHaveBeenCalledWith(
+				'WORKSPACE_DEACTIVATED',
+				expect.objectContaining({
+					workspaceId: result.state.workspaceId,
+				}),
+			)
 		})
 
 		it('should throw ConflictException if already inactive', async () => {

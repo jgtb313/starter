@@ -60,7 +60,7 @@ export class OTPEntity {
 	maxRequestsPerDay: OTP['maxRequestsPerDay']
 
 	@Column({
-		type: 'timestamp',
+		type: 'datetime',
 	})
 	expiresAt: OTP['expiresAt']
 

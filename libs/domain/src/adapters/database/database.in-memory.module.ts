@@ -1,5 +1,4 @@
 import { type DynamicModule, Module } from '@nestjs/common'
-import type { TestingModule } from '@nestjs/testing'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { DataSource } from 'typeorm'
 
@@ -17,19 +16,14 @@ import { WorkspaceEntity } from '@/adapters/database/workspace/workspace.typeorm
 import { organizationMocks } from '@/core/organization/organization.mock'
 import { permissionMocks } from '@/core/permission/permission.mock'
 import { roleMocks } from '@/core/role/role.mock'
+import { workspaceMocks } from '@/core/workspace/workspace.mock'
+import { DomainFactoryModule } from '@/support/base-domain'
 
-export const loadDatabase = async (module: TestingModule) => {
-	const dataSource = module.get(DataSource)
-
-	await dataSource.getRepository(PermissionEntity).deleteAll()
-	await dataSource.getRepository(OrganizationEntity).deleteAll()
-	await dataSource.getRepository(RoleOrganizationEntity).deleteAll()
-	await dataSource.getRepository(RolePermissionEntity).deleteAll()
-	await dataSource.getRepository(RoleEntity).deleteAll()
-
+const seedDatabase = async (dataSource: DataSource) => {
 	await dataSource
 		.getRepository(PermissionEntity)
 		.insert(permissionMocks.map((permission) => permission.toJSON()))
+
 	await dataSource
 		.getRepository(OrganizationEntity)
 		.insert(organizationMocks.map((organization) => organization.toJSON()))
@@ -61,6 +55,8 @@ export const loadDatabase = async (module: TestingModule) => {
 		.getRepository(RoleOrganizationEntity)
 		.insert(roleOrganizations)
 	await dataSource.getRepository(RolePermissionEntity).insert(rolePermissions)
+
+	await dataSource.getRepository(WorkspaceEntity).insert(workspaceMocks)
 }
 
 @Module({})
@@ -69,6 +65,7 @@ export class InMemoryDatabaseModule {
 		return {
 			module: InMemoryDatabaseModule,
 			imports: [
+				DomainFactoryModule,
 				TypeOrmModule.forRootAsync({
 					useFactory: async () => ({
 						type: 'better-sqlite3',
@@ -90,6 +87,18 @@ export class InMemoryDatabaseModule {
 						synchronize: true,
 					}),
 				}),
+			],
+			providers: [
+				{
+					provide: 'SEED_DATABASE',
+					inject: [
+						DataSource,
+					],
+					useFactory: async (dataSource: DataSource) => {
+						await seedDatabase(dataSource)
+						return true
+					},
+				},
 			],
 		}
 	}

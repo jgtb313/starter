@@ -23,6 +23,24 @@ describe('WorkspaceDomain', () => {
 		domainFactory = module.get<DomainFactory>(DomainFactory)
 	})
 
+	it('should return true for isTrial when status is TRIAL', () => {
+		const workspace = makeWorkspace({
+			status: 'TRIAL',
+		})
+		const domain = domainFactory.create(WorkspaceDomain, workspace)
+
+		expect(domain.isTrial()).toBe(true)
+	})
+
+	it('should return false for isTrial when status is ACTIVE', () => {
+		const workspace = makeWorkspace({
+			status: 'ACTIVE',
+		})
+		const domain = domainFactory.create(WorkspaceDomain, workspace)
+
+		expect(domain.isTrial()).toBe(false)
+	})
+
 	it('should return true for isActive when status is ACTIVE', () => {
 		const workspace = makeWorkspace({
 			status: 'ACTIVE',
@@ -57,6 +75,26 @@ describe('WorkspaceDomain', () => {
 		const domain = domainFactory.create(WorkspaceDomain, workspace)
 
 		expect(domain.isInactive()).toBe(false)
+	})
+
+	it('should return true for isTrialEnded when trialEndsAt is in the past', () => {
+		const workspace = makeWorkspace({
+			trialEndsAt: new Date(Date.now() - 1000).toISOString(),
+			status: 'TRIAL',
+		})
+		const domain = domainFactory.create(WorkspaceDomain, workspace)
+
+		expect(domain.isTrialEnded()).toBe(true)
+	})
+
+	it('should return false for isTrialEnded when trialEndsAt is in the future', () => {
+		const workspace = makeWorkspace({
+			trialEndsAt: new Date(Date.now() + 1000 * 60).toISOString(),
+			status: 'TRIAL',
+		})
+		const domain = domainFactory.create(WorkspaceDomain, workspace)
+
+		expect(domain.isTrialEnded()).toBe(false)
 	})
 
 	it('should allow marking workspace as active when inactive', () => {

@@ -1,8 +1,7 @@
 import { ConflictException } from '@starter/nestjs-error-handling'
 
-import { BaseDomain } from '@/support/base-domain'
-
 import { type User, type UserInput, UserSchema } from '@/core/user/user.schema'
+import { BaseDomain } from '@/support/base-domain'
 
 export class UserDomain extends BaseDomain<User, UserInput> {
 	constructor(user: UserInput) {
@@ -28,6 +27,9 @@ export class UserDomain extends BaseDomain<User, UserInput> {
 	}
 
 	assignToWorkspace(workspaceId: string) {
+		console.log('this.state.workspaceId', this.state.workspaceId)
+		console.log('workspaceId', workspaceId)
+
 		if (this.state.workspaceId) {
 			throw new ConflictException(
 				'This user is already assigned to a workspace.',
