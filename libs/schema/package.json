@@ -16,6 +16,7 @@
 	},
 	"dependencies": {
 		"@starter/common": "workspace:*",
+		"@starter/i18n": "workspace:*",
 		"zod": "^4.1.1"
 	},
 	"devDependencies": {

@@ -2,10 +2,6 @@ import { Inject, UseGuards } from '@nestjs/common'
 import { type User, UserSchema, UserService } from '@starter/domain'
 import { Controller, Request, Route } from '@starter/nestjs-server-hoisting'
 
-import { ACLService } from '@/support/access-control'
-import { AuthenticatedUser } from '@/support/decorators'
-import { AuthGuard } from '@/support/guards'
-
 import {
 	type CreateUserRequest,
 	CreateUserSchema,
@@ -18,6 +14,10 @@ import {
 	type UpdateUserRequest,
 	UpdateUserSchema,
 } from './user.controller.schema'
+
+import { ACLService } from '@/support/access-control'
+import { AuthenticatedUser } from '@/support/decorators'
+import { AuthGuard } from '@/support/guards'
 
 @Controller({
 	name: 'User',
@@ -126,11 +126,11 @@ export class UserController {
 			workspaceId: params.workspaceId,
 		})
 
-		return this.userService.createUser({
-			...params,
-			...body,
-			status: 'ACTIVE',
-		})
+		// return this.userService.createUser({
+		// 	...params,
+		// 	...body,
+		// 	status: 'ACTIVE',
+		// })
 	}
 
 	@Route({
@@ -161,9 +161,9 @@ export class UserController {
 			workspaceId: params.workspaceId,
 		})
 
-		return this.userService.updateUser(params, {
-			...body,
-		})
+		// return this.userService.updateUser(params, {
+		// 	...body,
+		// })
 	}
 
 	// @Route({

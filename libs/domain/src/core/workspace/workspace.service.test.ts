@@ -7,17 +7,17 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { InMemoryDatabaseModule } from '@/adapters/database'
 import { WorkspaceRepositoryModule } from '@/adapters/database/workspace/workspace.repository.module'
-import type { User } from '@/core/user/user.schema'
+import { PublisherModule } from '@/adapters/publisher/publisher.module'
 import { UserService } from '@/core/user/user.service'
 import { makeWorkspace, workspaceMocks } from '@/core/workspace/workspace.mock'
 import { WorkspaceService } from '@/core/workspace/workspace.service'
-import type { IWorkspaceRepository } from '@/ports/database/workspace'
+import { I18nDomainModule } from '@/domain.i18n.module'
 
 describe('WorkspaceService', () => {
 	let service: WorkspaceService
-	let repository: IWorkspaceRepository
 
 	const userServiceMock = {
+		getUser: vi.fn(),
 		updateUser: vi.fn(),
 	}
 
@@ -25,6 +25,8 @@ describe('WorkspaceService', () => {
 		const module: TestingModule = await Test.createTestingModule({
 			imports: [
 				InMemoryDatabaseModule.register(),
+				I18nDomainModule.register(),
+				PublisherModule,
 				WorkspaceRepositoryModule,
 			],
 			providers: [
@@ -37,11 +39,6 @@ describe('WorkspaceService', () => {
 		}).compile()
 
 		service = module.get(WorkspaceService)
-		repository = module.get<IWorkspaceRepository>('WORKSPACE_REPOSITORY')
-
-		for (const workspace of workspaceMocks) {
-			await repository.create(workspace.state)
-		}
 
 		vi.clearAllMocks()
 	})
@@ -83,9 +80,9 @@ describe('WorkspaceService', () => {
 		it('should return the workspace if it exists', async () => {
 			const [workspace] = workspaceMocks
 
-			const result = await service.getWorkspace(workspace.state.workspaceId)
+			const result = await service.getWorkspace(workspace.workspaceId)
 
-			expect(result.state.workspaceId).toBe(workspace.state.workspaceId)
+			expect(result.state.workspaceId).toBe(workspace.workspaceId)
 		})
 
 		it('should throw NotFoundException if workspace does not exist', async () => {
@@ -97,7 +94,16 @@ describe('WorkspaceService', () => {
 
 	describe('createWorkspace', () => {
 		it('should create and return a new workspace', async () => {
-			const input = makeWorkspace({}).state
+			const input = makeWorkspace({})
+
+			userServiceMock.getUser.mockResolvedValueOnce({
+				state: {
+					userId: '0e6c34bb-5a5c-4b31-bfec-33ec3651d581',
+				},
+				assignToWorkspace(workspaceId: string) {
+					this.state.workspaceId = workspaceId
+				},
+			})
 
 			const result = await service.createWorkspace(
 				'0e6c34bb-5a5c-4b31-bfec-33ec3651d581',
@@ -107,23 +113,23 @@ describe('WorkspaceService', () => {
 			expect(result.state.workspaceId).toBeDefined()
 			expect(userServiceMock.updateUser).toHaveBeenCalledWith(
 				'0e6c34bb-5a5c-4b31-bfec-33ec3651d581',
-				{
+				expect.objectContaining({
 					workspaceId: result.state.workspaceId,
-				},
+				}),
 			)
 		})
 
 		it('should throw ConflictException if user already has workspace', async () => {
-			const user = {
-				userId: 'user-123',
-				workspaceId: 'workspace-abc',
-			} as User
+			userServiceMock.getUser.mockResolvedValueOnce({
+				state: {
+					userId: 'user-123',
+					workspaceId: 'workspace-abc',
+				},
+				assignToWorkspace: vi.fn(),
+			})
 
 			await expect(
-				service.createWorkspace(
-					'0e6c34bb-5a5c-4b31-bfec-33ec3651d581',
-					makeWorkspace({}).state,
-				),
+				service.createWorkspace('user-123', makeWorkspace({})),
 			).rejects.toThrow(new ConflictException('Workspace already exists.'))
 		})
 	})
@@ -132,12 +138,9 @@ describe('WorkspaceService', () => {
 		it('should update workspace correctly', async () => {
 			const [workspace] = workspaceMocks
 
-			const result = await service.updateWorkspace(
-				workspace.state.workspaceId,
-				{
-					name: 'Updated Workspace Name',
-				},
-			)
+			const result = await service.updateWorkspace(workspace.workspaceId, {
+				name: 'Updated Workspace Name',
+			})
 
 			expect(result.state.name).toBe('Updated Workspace Name')
 		})
@@ -153,42 +156,48 @@ describe('WorkspaceService', () => {
 		})
 	})
 
-	describe('activeWorkspace', () => {
+	describe('activateWorkspace', () => {
 		it('should mark workspace as active', async () => {
-			const [workspace] = workspaceMocks.filter((w) => w.isInactive())
+			const [workspace] = workspaceMocks.filter(
+				(workspace) => workspace.status === 'INACTIVE',
+			)
 
-			const result = await service.activeWorkspace(workspace.state.workspaceId)
+			const result = await service.activateWorkspace(workspace.workspaceId)
 
 			expect(result.state.status).toBe('ACTIVE')
 		})
 
 		it('should throw ConflictException if already active', async () => {
-			const [workspace] = workspaceMocks.filter((w) => w.isActive())
+			const [workspace] = workspaceMocks.filter(
+				(workspace) => workspace.status === 'ACTIVE',
+			)
 
 			await expect(
-				service.activeWorkspace(workspace.state.workspaceId),
+				service.activateWorkspace(workspace.workspaceId),
 			).rejects.toThrow(
 				new ConflictException('This workspace is already active.'),
 			)
 		})
 	})
 
-	describe('inactiveWorkspace', () => {
+	describe('deactivateWorkspace', () => {
 		it('should mark workspace as inactive', async () => {
-			const [workspace] = workspaceMocks.filter((w) => w.isActive())
-
-			const result = await service.inactiveWorkspace(
-				workspace.state.workspaceId,
+			const [workspace] = workspaceMocks.filter(
+				(workspace) => workspace.status === 'ACTIVE',
 			)
+
+			const result = await service.deactivateWorkspace(workspace.workspaceId)
 
 			expect(result.state.status).toBe('INACTIVE')
 		})
 
 		it('should throw ConflictException if already inactive', async () => {
-			const [workspace] = workspaceMocks.filter((w) => w.isInactive())
+			const [workspace] = workspaceMocks.filter(
+				(workspace) => workspace.status === 'INACTIVE',
+			)
 
 			await expect(
-				service.inactiveWorkspace(workspace.state.workspaceId),
+				service.deactivateWorkspace(workspace.workspaceId),
 			).rejects.toThrow(
 				new ConflictException('This workspace is already inactive.'),
 			)

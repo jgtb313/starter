@@ -19,12 +19,6 @@ export class WorkspaceEntity {
 	name: Workspace['name']
 
 	@Column({
-		type: 'json',
-		nullable: true,
-	})
-	integrations?: Workspace['integrations']
-
-	@Column({
 		type: 'varchar',
 	})
 	status: Workspace['status']

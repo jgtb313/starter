@@ -22,15 +22,11 @@ export class PlanService {
 	) {}
 
 	testI18n = () => {
-		return this.i18nService.current.hello({
-			name: 'John',
-		})
+		return this.i18nService.current.workspaceAlreadyActive()
 	}
 
 	testCustomI18n = () => {
-		return this.i18nService.current.custom('es').hello({
-			name: 'John',
-		})
+		return this.i18nService.current.custom('es').workspaceAlreadyInactive()
 	}
 
 	getPaginatedPlans = async (

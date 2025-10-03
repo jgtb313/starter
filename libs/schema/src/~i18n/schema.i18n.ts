@@ -1,3 +1,5 @@
+import type { I18nDict } from '@starter/i18n'
+
 const en = {
 	'password.minLength': 'Password must be at least 8 characters long',
 	'password.maxLength': 'Password must be at most 64 characters long',
@@ -78,7 +80,7 @@ const ptBR: Translations = {
 	'translations.invalid_locale': `Locale inválido deve ser um dos seguintes en, es, pt-BR`,
 }
 
-export const i18nDict = {
+export const i18nDict: I18nDict = {
 	en,
 	es,
 	'pt-BR': ptBR,

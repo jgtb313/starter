@@ -1,5 +1,10 @@
 import { Inject } from '@nestjs/common'
-import { PlanSchema, PlanService } from '@starter/domain'
+import {
+	PlanSchema,
+	PlanService,
+	type Workspace,
+	WorkspaceSchema,
+} from '@starter/domain'
 import { Controller, Request, Route } from '@starter/nestjs-server-hoisting'
 
 import { type I18nAPIService, I18nAPISymbol } from '@/api.i18n.module'

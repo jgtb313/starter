@@ -83,6 +83,6 @@ export class DefaultPlans1746231717836 implements MigrationInterface {
 	}
 
 	public async down(queryRunner: QueryRunner): Promise<void> {
-		await queryRunner.manager.delete('plan', {})
+		await queryRunner.manager.deleteAll('plan')
 	}
 }

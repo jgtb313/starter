@@ -11,6 +11,21 @@ export type PublisherEventsInput = {
 			workspaceId: string
 		}
 	}
+	WORKSPACE_UPDATED: {
+		input: {
+			workspaceId: string
+		}
+	}
+	WORKSPACE_ACTIVATED: {
+		input: {
+			workspaceId: string
+		}
+	}
+	WORKSPACE_DEACTIVATED: {
+		input: {
+			workspaceId: string
+		}
+	}
 }
 
 export type PublisherEventType = keyof PublisherEventsInput
@@ -24,6 +39,9 @@ export const PublisherEvents: Record<
 > = {
 	USER_CREATED: 'SNS',
 	WORKSPACE_CREATED: 'SQS',
+	WORKSPACE_UPDATED: 'SQS',
+	WORKSPACE_ACTIVATED: 'SQS',
+	WORKSPACE_DEACTIVATED: 'SQS',
 }
 
 export type IPublisherService = {

@@ -1,8 +1,9 @@
 import { get } from '@starter/common'
-import type { Locale } from 'dist/src/locale'
+import type { I18nDict } from '@starter/i18n'
 import type { z } from 'zod'
 
 import { i18nDict } from '@/~i18n/schema.i18n'
+import type { Locale } from '@/locale'
 
 type Sizable = Record<
 	string,
@@ -297,8 +298,10 @@ const ptBR: z.core.$ZodErrorMap = (issue) => {
 	}
 }
 
+let i18nDictCache: I18nDict = i18nDict
+
 const getCustomMessage = (issue: unknown, locale: Locale) => {
-	const localeData = i18nDict[locale]
+	const localeData = i18nDictCache[locale]
 
 	const code = get(issue, 'params.code') ?? get(issue, 'code')
 
@@ -332,3 +335,10 @@ export const zodI18nResolver =
 				return ptBR(issue as Parameters<z.core.$ZodErrorMap>[0])
 		}
 	}
+
+export const extendI18nDict = (extra: I18nDict) => {
+	i18nDictCache = {
+		...i18nDictCache,
+		...extra,
+	}
+}

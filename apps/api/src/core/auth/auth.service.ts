@@ -73,20 +73,20 @@ export class AuthService {
 			email,
 		)
 
-		if (!user) {
-			const user = await this.userService.createUser({
-				name,
-				email: email ?? `${providerId}@${input.context.toLowerCase()}.com`,
-				phone: null,
-				avatar,
-				password: providerId,
-				socialFacebookId: null,
-				socialGoogleId: null,
-				status: 'ACTIVE',
-			})
+		// if (!user) {
+		// 	const user = await this.userService.createUser({
+		// 		name,
+		// 		email: email ?? `${providerId}@${input.context.toLowerCase()}.com`,
+		// 		phone: null,
+		// 		avatar,
+		// 		password: providerId,
+		// 		socialFacebookId: null,
+		// 		socialGoogleId: null,
+		// 		status: 'ACTIVE',
+		// 	})
 
-			return this.grantAccessToken(user)
-		}
+		// 	return this.grantAccessToken(user)
+		// }
 
 		return this.grantAccessToken(user)
 	}
@@ -98,18 +98,18 @@ export class AuthService {
 			throw new ConflictException(`E-mail ${email} has already been taken.`)
 		}
 
-		const user = await this.userService.createUser({
-			name,
-			email,
-			phone: null,
-			avatar: null,
-			password,
-			socialFacebookId: null,
-			socialGoogleId: null,
-			status: 'ACTIVE',
-		})
+		// const user = await this.userService.createUser({
+		// 	name,
+		// 	email,
+		// 	phone: null,
+		// 	avatar: null,
+		// 	password,
+		// 	socialFacebookId: null,
+		// 	socialGoogleId: null,
+		// 	status: 'ACTIVE',
+		// })
 
-		return this.grantAccessToken(user)
+		// return this.grantAccessToken(user)
 	}
 
 	async forgotPassword({ email, password }) {

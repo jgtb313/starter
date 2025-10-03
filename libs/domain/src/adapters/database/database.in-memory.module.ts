@@ -70,31 +70,25 @@ export class InMemoryDatabaseModule {
 			module: InMemoryDatabaseModule,
 			imports: [
 				TypeOrmModule.forRootAsync({
-					useFactory: async () => {
-						const dataSource = new DataSource({
-							type: 'sqlite',
-							database: ':memory:',
-							entities: [
-								InvoiceEntity,
-								OrganizationEntity,
-								OTPEntity,
-								PlanEntity,
-								RoleEntity,
-								RoleOrganizationEntity,
-								RolePermissionEntity,
-								SubscriptionEntity,
-								UserEntity,
-								WorkspaceEntity,
-								PermissionEntity,
-							],
-							dropSchema: true,
-							synchronize: true,
-						})
-
-						await dataSource.initialize()
-
-						return dataSource.options
-					},
+					useFactory: async () => ({
+						type: 'better-sqlite3',
+						database: ':memory:',
+						entities: [
+							InvoiceEntity,
+							OrganizationEntity,
+							OTPEntity,
+							PlanEntity,
+							RoleEntity,
+							RoleOrganizationEntity,
+							RolePermissionEntity,
+							SubscriptionEntity,
+							UserEntity,
+							WorkspaceEntity,
+							PermissionEntity,
+						],
+						dropSchema: true,
+						synchronize: true,
+					}),
 				}),
 			],
 		}

@@ -1,18 +1,21 @@
 import type { I18nDict } from '@starter/i18n'
 
 const en = {
-	hello: 'Hello {name:string}',
+	workspaceAlreadyActive: 'This workspace is already active.',
+	workspaceAlreadyInactive: 'This workspace is already inactive.',
 } as const
 type Translations = {
 	[K in keyof typeof en]: string
 }
 
 const es: Translations = {
-	hello: 'Hola {name:string}',
+	workspaceAlreadyActive: 'Este workspace ya está activo.',
+	workspaceAlreadyInactive: 'Este workspace ya está inactivo.',
 }
 
 const ptBR: Translations = {
-	hello: 'Olá {name:string}',
+	workspaceAlreadyActive: 'Este workspace já está ativo.',
+	workspaceAlreadyInactive: 'Este workspace já está inativo.',
 }
 
 export const i18nDict: I18nDict = {

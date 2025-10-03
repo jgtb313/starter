@@ -3,17 +3,18 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { PaginationSchemaTransform } from '@starter/schema'
 import { type FindOptionsWhere, ILike, type Repository } from 'typeorm'
 
-import { deepMapDatesToISOString } from '@/support/utilities'
-
 import { WorkspaceEntity } from '@/adapters/database/workspace/workspace.typeorm.entity'
 import { WorkspaceDomain } from '@/core/workspace/workspace.domain'
 import type { IWorkspaceRepository } from '@/ports/database/workspace'
+import type { DomainFactory } from '@/support/base-domain'
+import { deepMapDatesToISOString } from '@/support/utilities'
 
 @Injectable()
 export class WorkspaceTypeorm implements IWorkspaceRepository {
 	constructor(
 		@InjectRepository(WorkspaceEntity)
 		private readonly repository: Repository<WorkspaceEntity>,
+		private readonly domainFactory: DomainFactory,
 	) {}
 
 	findAllPaginated: IWorkspaceRepository['findAllPaginated'] = async ({
@@ -109,6 +110,9 @@ export class WorkspaceTypeorm implements IWorkspaceRepository {
 	}
 
 	private toWorkspaceDomain(model: WorkspaceEntity) {
-		return new WorkspaceDomain(deepMapDatesToISOString(model))
+		return this.domainFactory.create(
+			WorkspaceDomain,
+			deepMapDatesToISOString(model),
+		)
 	}
 }
