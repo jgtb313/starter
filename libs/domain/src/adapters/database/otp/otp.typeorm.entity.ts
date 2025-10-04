@@ -2,16 +2,27 @@ import {
 	Column,
 	CreateDateColumn,
 	Entity,
+	ManyToOne,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 } from 'typeorm'
 
+import { UserEntity } from '@/adapters/database/user/user.typeorm.entity'
 import type { OTP } from '@/core/otp/otp.schema'
 
 @Entity('otps')
 export class OTPEntity {
 	@PrimaryGeneratedColumn('uuid')
 	otpId: OTP['otpId']
+
+	@ManyToOne(
+		() => UserEntity,
+		(user) => user.otps,
+		{
+			nullable: true,
+		},
+	)
+	user?: UserEntity
 
 	@Column({
 		type: 'uuid',
