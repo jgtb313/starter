@@ -5,6 +5,20 @@ import { describe, expect, it } from 'vitest'
 import { makeUser } from '@/core/user/user.mock'
 
 describe('UserDomain', () => {
+	it('should return true for isOnboarding when status is ONBOARDING', () => {
+		const user = makeUser({
+			status: 'ONBOARDING',
+		})
+		expect(user.isOnboarding()).toBe(true)
+	})
+
+	it('should return false for isOnboarding when status is ACTIVE', () => {
+		const user = makeUser({
+			status: 'ACTIVE',
+		})
+		expect(user.isOnboarding()).toBe(false)
+	})
+
 	it('should return true for isActive when status is ACTIVE', () => {
 		const user = makeUser({
 			status: 'ACTIVE',

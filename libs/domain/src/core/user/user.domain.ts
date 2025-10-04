@@ -8,6 +8,10 @@ export class UserDomain extends BaseDomain<User, UserInput> {
 		super(UserSchema, user)
 	}
 
+	isOnboarding() {
+		return this.state.status === 'ONBOARDING'
+	}
+
 	isActive() {
 		return this.state.status === 'ACTIVE'
 	}

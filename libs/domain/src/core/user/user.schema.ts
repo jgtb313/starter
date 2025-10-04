@@ -18,6 +18,16 @@ const WorkspaceId = BaseSchema.id('workspaceId')
 	.nullish()
 	.transform((value) => value ?? null)
 
+const GoogleProviderId = z
+	.string()
+	.nullish()
+	.transform((value) => value ?? null)
+
+const FacebookProviderId = z
+	.string()
+	.nullish()
+	.transform((value) => value ?? null)
+
 const Organizations = z
 	.array(
 		z.object({
@@ -32,16 +42,6 @@ const Organizations = z
 		}),
 	)
 	.default([])
-
-const SocialGoogleId = z
-	.string()
-	.nullish()
-	.transform((value) => value ?? null)
-
-const SocialFacebookId = z
-	.string()
-	.nullish()
-	.transform((value) => value ?? null)
 
 const Name = z
 	.string()
@@ -75,6 +75,7 @@ const Password = PasswordSchema
 
 const Status = z
 	.enum([
+		'ONBOARDING',
 		'ACTIVE',
 		'INACTIVE',
 	])
@@ -84,9 +85,9 @@ export type UserStatus = z.infer<typeof Status>
 export const UserSchema = z.object({
 	userId: BaseSchema.id('user'),
 	workspaceId: WorkspaceId,
+	googleProviderId: GoogleProviderId,
+	facebookProviderId: FacebookProviderId,
 	organizations: Organizations,
-	socialGoogleId: SocialGoogleId,
-	socialFacebookId: SocialFacebookId,
 	name: Name,
 	email: Email,
 	phone: Phone,
@@ -111,65 +112,3 @@ export type BaseUser = BaseSchema<
 		]
 	}
 >
-
-const user: User = {
-	userId: '123',
-	workspaceId: '123',
-	organizations: [
-		{
-			organizationId: '123',
-			organization: {
-				organizationId: '123',
-				workspaceId: '123',
-				name: 'Organization 1',
-				status: 'ACTIVE',
-				createdAt: new Date().toISOString(),
-				updatedAt: new Date().toISOString(),
-			},
-			roleIds: [
-				'123',
-			],
-			roles: [
-				{
-					roleId: '123',
-					workspaceId: '123',
-					name: 'Role 1',
-					status: 'ACTIVE',
-					permissions: [
-						{
-							permissionId: '123',
-							name: 'Permission 1',
-							action: 'READ',
-							description: 'Permission 1 description',
-							createdAt: new Date().toISOString(),
-							updatedAt: new Date().toISOString(),
-						},
-					],
-					tags: [
-						'tag1',
-						'tag2',
-						'tag3',
-					],
-					deletedAt: null,
-					createdAt: new Date().toISOString(),
-					updatedAt: new Date().toISOString(),
-				},
-			],
-		},
-	],
-	socialGoogleId: null,
-	socialFacebookId: null,
-	name: 'John Doe',
-	email: 'john.doe@example.com',
-	phone: null,
-	document: null,
-	address: null,
-	birthday: null,
-	avatar: null,
-	localePreference: null,
-	password: 'hashedPassword',
-	status: 'ACTIVE',
-	deletedAt: null,
-	createdAt: new Date().toISOString(),
-	updatedAt: new Date().toISOString(),
-}

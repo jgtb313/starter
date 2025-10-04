@@ -9,14 +9,19 @@ export const makeUser = (overrides: UserOverrides): UserDomain => {
 	const base: UserInput = {
 		userId: uuid(),
 		workspaceId: uuid(),
+		googleProviderId: null,
+		facebookProviderId: null,
+		organizations: [],
 		name: 'John Doe',
 		email: 'john.doe@example.com',
 		phone: null,
+		birthday: null,
+		document: null,
+		address: null,
 		avatar: null,
-		socialGoogleId: null,
-		socialFacebookId: null,
+		localePreference: null,
 		password: 'hashedPassword',
-		status: 'ACTIVE',
+		status: 'ONBOARDING',
 		deletedAt: null,
 		createdAt: new Date().toISOString(),
 		updatedAt: new Date().toISOString(),
@@ -29,6 +34,21 @@ export const makeUser = (overrides: UserOverrides): UserDomain => {
 }
 
 export const userMocks: UserDomain[] = [
+	makeUser({
+		name: 'John Doe',
+		email: 'john.doe@example.com',
+		status: 'ONBOARDING',
+	}),
+	makeUser({
+		name: 'Jane Doe',
+		email: 'jane.doe@example.com',
+		status: 'ONBOARDING',
+	}),
+	makeUser({
+		name: 'Jim Doe',
+		email: 'jim.doe@example.com',
+		status: 'ONBOARDING',
+	}),
 	makeUser({
 		name: 'Alice Johnson',
 		email: 'alice.johnson@example.com',
