@@ -33,12 +33,10 @@ const Organizations = z
 		z.object({
 			organizationId: BaseSchema.id('organization'),
 			organization: OrganizationSchema,
-			roleIds: z.array(BaseSchema.id('role')),
-			roles: z.array(
-				RoleSchema.omit({
-					organizations: true,
-				}),
-			),
+			roleId: BaseSchema.id('role'),
+			role: RoleSchema.omit({
+				organizations: true,
+			}),
 		}),
 	)
 	.default([])
@@ -58,9 +56,7 @@ const Document = DocumentExplicitSchema.nullish().transform(
 	(value) => value ?? null,
 )
 
-const Address = CustomerAddressSchema.nullish().transform(
-	(value) => value ?? null,
-)
+const Addresses = z.array(CustomerAddressSchema).default([])
 
 const Avatar = z
 	.string()
@@ -93,7 +89,7 @@ export const UserSchema = z.object({
 	phone: Phone,
 	birthday: Birthday,
 	document: Document,
-	address: Address,
+	addresses: Addresses,
 	avatar: Avatar,
 	localePreference: LocalePreference,
 	password: Password,
