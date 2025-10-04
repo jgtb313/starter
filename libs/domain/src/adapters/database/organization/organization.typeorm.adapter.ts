@@ -10,8 +10,6 @@ import {
 } from 'typeorm'
 import type { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity'
 
-import { deepMapDatesToISOString } from '@/support/utilities'
-
 import { OrganizationEntity } from '@/adapters/database/organization/organization.typeorm.entity'
 import { OrganizationDomain } from '@/core/organization/organization.domain'
 import type {
@@ -19,6 +17,7 @@ import type {
 	Organization,
 } from '@/core/organization/organization.schema'
 import type { IOrganizationRepository } from '@/ports/database/organization'
+import { deepMapDatesToISOString } from '@/support/utilities'
 
 @Injectable()
 export class OrganizationTypeorm implements IOrganizationRepository {
