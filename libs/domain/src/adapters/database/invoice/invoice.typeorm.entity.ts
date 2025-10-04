@@ -2,10 +2,12 @@ import {
 	Column,
 	CreateDateColumn,
 	Entity,
+	ManyToOne,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 } from 'typeorm'
 
+import { SubscriptionEntity } from '@/adapters/database/subscription/subscription.typeorm.entity'
 import type {
 	Invoice,
 	InvoiceBoleto,
@@ -17,6 +19,12 @@ import type {
 export class InvoiceEntity {
 	@PrimaryGeneratedColumn('uuid')
 	invoiceId: Invoice['invoiceId']
+
+	@ManyToOne(
+		() => SubscriptionEntity,
+		(subscription) => subscription.invoices,
+	)
+	subscription: SubscriptionEntity
 
 	@Column({
 		type: 'uuid',
@@ -80,19 +88,19 @@ export class InvoiceEntity {
 		type: 'datetime',
 		nullable: true,
 	})
-	paidAt: Invoice['paidAt']
+	paidAt?: Invoice['paidAt']
 
 	@Column({
 		type: 'datetime',
 		nullable: true,
 	})
-	overdueAt: Invoice['overdueAt']
+	overdueAt?: Invoice['overdueAt']
 
 	@Column({
 		type: 'datetime',
 		nullable: true,
 	})
-	canceledAt: Invoice['canceledAt']
+	canceledAt?: Invoice['canceledAt']
 
 	@Column({
 		type: 'varchar',
