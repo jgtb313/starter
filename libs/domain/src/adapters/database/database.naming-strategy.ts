@@ -9,13 +9,13 @@ export class NamingStrategy
 		propertyName: string,
 		customName: string,
 		embeddedPrefixes: string[],
-	): string {
+	) {
 		return snakeCase(
 			embeddedPrefixes.concat(customName ?? propertyName).join('_'),
 		)
 	}
 
-	relationName(propertyName: string): string {
+	relationName(propertyName: string) {
 		return snakeCase(propertyName)
 	}
 }
