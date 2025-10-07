@@ -1,9 +1,10 @@
 import { Test, type TestingModule } from '@nestjs/testing'
 import { beforeEach, describe, expect, it, type Mocked, vi } from 'vitest'
 
-import { LoggerService } from './logger.service'
-
 import type { ILogger } from '@/ports/logger'
+
+import { LoggerSymbol } from './logger.module'
+import { LoggerService } from './logger.service'
 
 describe('LoggerService', () => {
 	let loggerService: LoggerService
@@ -21,7 +22,7 @@ describe('LoggerService', () => {
 			providers: [
 				LoggerService,
 				{
-					provide: 'Logger',
+					provide: LoggerSymbol,
 					useValue: mockerLogger,
 				},
 			],

@@ -5,8 +5,8 @@ import {
 	type WorkspaceInput,
 	WorkspaceSchema,
 } from '@/core/workspace/workspace.schema'
-import { type I18nDomainService, I18nDomainSymbol } from '@/domain.i18n.module'
 import { BaseDomain } from '@/support/base-domain'
+import type { I18nDomainService } from '@/domain.i18n.module'
 
 export class WorkspaceDomain extends BaseDomain<Workspace, WorkspaceInput> {
 	constructor(

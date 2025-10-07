@@ -1,6 +1,7 @@
 import { clearSpecialChars } from '@starter/common'
 
 import { z } from '@/zod'
+
 import { LocationSchema } from '../location'
 
 const Title = z
@@ -122,6 +123,7 @@ export const BaseAddressSchema = z.object({
 	street: Street,
 	number: StreetNumber,
 	complement: Complement,
+	landmark: Landmark,
 })
 export type BaseAddress = z.infer<typeof BaseAddressSchema>
 

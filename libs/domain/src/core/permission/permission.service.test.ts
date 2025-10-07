@@ -2,7 +2,7 @@ import { Test, type TestingModule } from '@nestjs/testing'
 import { NotFoundException } from '@starter/nestjs-error-handling'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { InMemoryDatabaseModule, loadDatabase } from '@/adapters/database'
+import { InMemoryDatabaseModule } from '@/adapters/database'
 import { PermissionRepositoryModule } from '@/adapters/database/permission/permission.repository.module'
 import { permissionMocks } from '@/core/permission/permission.mock'
 import { PermissionService } from '@/core/permission/permission.service'
@@ -22,8 +22,6 @@ describe('PermissionService', () => {
 		}).compile()
 
 		service = module.get(PermissionService)
-
-		await loadDatabase(module)
 
 		vi.clearAllMocks()
 	})
@@ -46,7 +44,7 @@ describe('PermissionService', () => {
 
 			await expect(
 				service.validatePermissionIds([
-					permission.state.permissionId,
+					permission.permissionId,
 				]),
 			).resolves.toBeUndefined()
 		})

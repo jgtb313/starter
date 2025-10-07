@@ -9,9 +9,10 @@ import {
 	vi,
 } from 'vitest'
 
-import { EncryptService } from './encrypt.service'
-
 import type { IEncrypt } from '@/ports/encrypt'
+
+import { EncryptSymbol } from './encrypt.module'
+import { EncryptService } from './encrypt.service'
 
 describe('EncryptService', () => {
 	let encryptService: EncryptService
@@ -26,7 +27,7 @@ describe('EncryptService', () => {
 			providers: [
 				EncryptService,
 				{
-					provide: 'Encrypt',
+					provide: EncryptSymbol,
 					useValue: mockEncrypt,
 				},
 			],

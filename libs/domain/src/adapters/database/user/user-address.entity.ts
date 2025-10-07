@@ -1,12 +1,17 @@
 import {
+	AfterLoad,
 	Column,
 	CreateDateColumn,
 	Entity,
+	JoinColumn,
+	ManyToOne,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 } from 'typeorm'
 
 import type { User } from '@/core/user/user.schema'
+
+import { UserEntity } from './user.typeorm.entity'
 
 type UserAddress = User['addresses'][number]
 
@@ -19,6 +24,15 @@ export class UserAddressEntity {
 		type: 'uuid',
 	})
 	userId: string
+
+	@ManyToOne(
+		() => UserEntity,
+		(user) => user.userAddresses,
+	)
+	@JoinColumn({
+		name: 'userId',
+	})
+	user: UserEntity
 
 	@Column({
 		type: 'varchar',
@@ -65,15 +79,17 @@ export class UserAddressEntity {
 	})
 	landmark: UserAddress['landmark']
 
-	@Column({
-		type: 'varchar',
-	})
-	locationLat: UserAddress['location']['lat']
+	location?: UserAddress['location']
 
 	@Column({
 		type: 'varchar',
 	})
-	locationLng: UserAddress['location']['lng']
+	lat: UserAddress['location']['lat']
+
+	@Column({
+		type: 'varchar',
+	})
+	lng: UserAddress['location']['lng']
 
 	@Column({
 		type: 'varchar',
@@ -85,4 +101,12 @@ export class UserAddressEntity {
 
 	@UpdateDateColumn()
 	updatedAt: Date
+
+	@AfterLoad()
+	loadDocument() {
+		this.location = {
+			lat: this.lat,
+			lng: this.lng,
+		}
+	}
 }

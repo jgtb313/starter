@@ -4,6 +4,8 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { WorkspaceTypeorm } from '@/adapters/database/workspace/workspace.typeorm.adapter'
 import { WorkspaceEntity } from '@/adapters/database/workspace/workspace.typeorm.entity'
 
+export const WorkspaceRepositorySymbol = Symbol('WorkspaceRepository')
+
 @Module({
 	imports: [
 		TypeOrmModule.forFeature([
@@ -12,12 +14,12 @@ import { WorkspaceEntity } from '@/adapters/database/workspace/workspace.typeorm
 	],
 	providers: [
 		{
-			provide: 'WORKSPACE_REPOSITORY',
+			provide: WorkspaceRepositorySymbol,
 			useClass: WorkspaceTypeorm,
 		},
 	],
 	exports: [
-		'WORKSPACE_REPOSITORY',
+		WorkspaceRepositorySymbol,
 	],
 })
 export class WorkspaceRepositoryModule {}

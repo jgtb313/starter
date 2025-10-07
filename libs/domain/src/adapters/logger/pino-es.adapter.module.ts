@@ -4,13 +4,15 @@ import { ConfigModule, ConfigService } from '@nestjs/config'
 import pino from 'pino'
 import pinoES from 'pino-elasticsearch'
 
+export const PinoESSymbol = Symbol('PinoES')
+
 @Module({
 	imports: [
 		ConfigModule,
 	],
 	providers: [
 		{
-			provide: 'PINO_ES_CLIENT',
+			provide: PinoESSymbol,
 			useFactory: async (configService: ConfigService) => {
 				const logger = new Logger('Logger')
 
@@ -56,7 +58,7 @@ import pinoES from 'pino-elasticsearch'
 		},
 	],
 	exports: [
-		'PINO_ES_CLIENT',
+		PinoESSymbol,
 	],
 })
 export class PinoESModule {}

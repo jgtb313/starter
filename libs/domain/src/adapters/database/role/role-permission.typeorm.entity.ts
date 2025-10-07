@@ -3,7 +3,6 @@ import {
 	CreateDateColumn,
 	DeleteDateColumn,
 	Entity,
-	JoinColumn,
 	ManyToOne,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
@@ -19,6 +18,18 @@ export class RolePermissionEntity {
 	@PrimaryGeneratedColumn('uuid')
 	rolePermissionId: string
 
+	@ManyToOne(
+		() => RoleEntity,
+		(role) => role.rolePermissions,
+	)
+	role: RoleEntity
+
+	@ManyToOne(
+		() => PermissionEntity,
+		(permission) => permission.rolePermissions,
+	)
+	permission: PermissionEntity
+
 	@Column({
 		type: 'uuid',
 	})
@@ -29,12 +40,12 @@ export class RolePermissionEntity {
 	})
 	permissionId: Permission['permissionId']
 
-	@DeleteDateColumn({})
+	@DeleteDateColumn()
 	deletedAt?: Date
 
-	@CreateDateColumn({})
+	@CreateDateColumn()
 	createdAt: Date
 
-	@UpdateDateColumn({})
+	@UpdateDateColumn()
 	updatedAt: Date
 }

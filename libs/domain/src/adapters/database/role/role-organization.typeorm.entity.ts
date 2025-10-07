@@ -3,7 +3,6 @@ import {
 	CreateDateColumn,
 	DeleteDateColumn,
 	Entity,
-	JoinColumn,
 	ManyToOne,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
@@ -18,6 +17,18 @@ import type { Role } from '@/core/role/role.schema'
 export class RoleOrganizationEntity {
 	@PrimaryGeneratedColumn('uuid')
 	roleOrganizationId: string
+
+	@ManyToOne(
+		() => RoleEntity,
+		(role) => role.roleOrganizations,
+	)
+	role: RoleEntity
+
+	@ManyToOne(
+		() => OrganizationEntity,
+		(organization) => organization.roleOrganizations,
+	)
+	organization: OrganizationEntity
 
 	@Column({
 		type: 'uuid',

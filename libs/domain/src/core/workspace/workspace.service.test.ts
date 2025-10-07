@@ -5,13 +5,13 @@ import {
 } from '@starter/nestjs-error-handling'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
+import { UserService } from '@/core/user/user.service'
+import { makeWorkspace, workspaceMocks } from '@/core/workspace/workspace.mock'
+import { WorkspaceService } from '@/core/workspace/workspace.service'
 import { InMemoryDatabaseModule } from '@/adapters/database'
 import { WorkspaceRepositoryModule } from '@/adapters/database/workspace/workspace.repository.module'
 import { PublisherModule } from '@/adapters/publisher/publisher.module'
 import { PublisherService } from '@/adapters/publisher/publisher.service'
-import { UserService } from '@/core/user/user.service'
-import { makeWorkspace, workspaceMocks } from '@/core/workspace/workspace.mock'
-import { WorkspaceService } from '@/core/workspace/workspace.service'
 import { I18nDomainModule } from '@/domain.i18n.module'
 
 describe('WorkspaceService', () => {

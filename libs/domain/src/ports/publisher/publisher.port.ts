@@ -2,36 +2,26 @@ export type PublisherEventTransport = 'SNS' | 'SQS' | 'KAFKA'
 
 export type PublisherEventsInput = {
 	USER_CREATED: {
-		input: {
-			userId: string
-		}
+		userId: string
 	}
 	WORKSPACE_CREATED: {
-		input: {
-			workspaceId: string
-		}
+		workspaceId: string
 	}
 	WORKSPACE_UPDATED: {
-		input: {
-			workspaceId: string
-		}
+		workspaceId: string
 	}
 	WORKSPACE_ACTIVATED: {
-		input: {
-			workspaceId: string
-		}
+		workspaceId: string
 	}
 	WORKSPACE_DEACTIVATED: {
-		input: {
-			workspaceId: string
-		}
+		workspaceId: string
 	}
 }
 
 export type PublisherEventType = keyof PublisherEventsInput
 
 export type PublisherEventInput<T extends PublisherEventType> =
-	PublisherEventsInput[T]['input']
+	PublisherEventsInput[T]
 
 export const PublisherEvents: Record<
 	PublisherEventType,
@@ -44,7 +34,7 @@ export const PublisherEvents: Record<
 	WORKSPACE_DEACTIVATED: 'SQS',
 }
 
-export type IPublisherService = {
+export interface IPublisherService {
 	publish<T extends PublisherEventType>(
 		eventType: T,
 		eventInput: PublisherEventInput<T>,

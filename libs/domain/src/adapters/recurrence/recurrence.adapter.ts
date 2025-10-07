@@ -7,8 +7,6 @@ import type {
 	Phone,
 } from '@starter/schema'
 
-import type { Invoice } from '@/core/invoice/invoice.schema'
-
 export type RecurrenceIntervalEnum = 'DAY' | 'WEEK' | 'MONTH' | 'YEAR'
 
 export type RecurrencePaymentMethodEnum = 'CARD' | 'PIX' | 'BOLETO'
@@ -28,8 +26,11 @@ export type RecurrenceCreatePlanOutput = {
 
 export type RecurrenceUpdatePlanInput = {
 	planId: string
-	name?: string
+	name: string
 	description?: string
+	amount: number
+	interval: RecurrenceIntervalEnum
+	intervalCount: number
 	trialDays?: number
 }
 export type RecurrenceUpdatePlanOutput = void
@@ -91,10 +92,6 @@ export type RecurrenceCreateSubscriptionInput = {
 } & RecurrencePaymentMethodInput
 export type RecurrenceCreateSubscriptionOutput = {
 	subscriptionId: string
-	invoice: Pick<
-		Invoice,
-		'invoiceId' | 'amount' | 'paymentMethod' | 'dueDate' | 'status'
-	>
 } & RecurrencePaymentMethodOutput
 
 export type RecurrenceChangeSubscriptionPaymentMethodInput = {
@@ -102,10 +99,6 @@ export type RecurrenceChangeSubscriptionPaymentMethodInput = {
 } & RecurrencePaymentMethodInput
 export type RecurrenceChangeSubscriptionPaymentMethodOutput = {
 	subscriptionId: string
-	invoice?: Pick<
-		Invoice,
-		'invoiceId' | 'amount' | 'paymentMethod' | 'dueDate' | 'status'
-	>
 } & RecurrencePaymentMethodOutput
 
 export type RecurrenceChangeSubscriptionPlanInput = {
@@ -114,10 +107,6 @@ export type RecurrenceChangeSubscriptionPlanInput = {
 }
 export type RecurrenceChangeSubscriptionPlanOutput = {
 	subscriptionId: string
-	invoice?: Pick<
-		Invoice,
-		'externalId' | 'amount' | 'paymentMethod' | 'dueDate' | 'status'
-	>
 }
 
 export type RecurrenceCancelSubscriptionInput = {
@@ -125,7 +114,7 @@ export type RecurrenceCancelSubscriptionInput = {
 }
 export type RecurrenceCancelSubscriptionOutput = void
 
-export type IRecurrenceAdapter = {
+export interface IRecurrenceAdapter {
 	createPlan: (
 		input: RecurrenceCreatePlanInput,
 	) => Promise<RecurrenceCreatePlanOutput>

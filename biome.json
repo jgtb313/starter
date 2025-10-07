@@ -13,6 +13,13 @@
 							":BLANK_LINE:",
 							":PACKAGE:",
 							":BLANK_LINE:",
+							"@/~i18n/**",
+							"@/core/**",
+							"@/adapters/**",
+							"@/ports/**",
+							"@/support/**",
+							"@/*",
+							":BLANK_LINE:",
 							["./**"],
 							":BLANK_LINE:"
 						]

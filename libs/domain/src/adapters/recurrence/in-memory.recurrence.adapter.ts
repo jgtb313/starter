@@ -34,13 +34,6 @@ export class InMemoryRecurrenceAdapter implements IRecurrenceAdapter {
 			return {
 				subscriptionId,
 				paymentMethod: input.paymentMethod,
-				invoice: {
-					invoiceId: uuid(),
-					amount: 1000,
-					paymentMethod: input.paymentMethod,
-					dueDate: new Date(),
-					status: 'PENDING',
-				},
 				card: {
 					token: input.cardToken,
 					number: `**** **** **** ${Math.floor(1000 + Math.random() * 9000)}`,
@@ -54,13 +47,6 @@ export class InMemoryRecurrenceAdapter implements IRecurrenceAdapter {
 			return {
 				subscriptionId,
 				paymentMethod: input.paymentMethod,
-				invoice: {
-					invoiceId: uuid(),
-					amount: 1000,
-					paymentMethod: input.paymentMethod,
-					dueDate: new Date(),
-					status: 'PENDING',
-				},
 				pix: {
 					qrCodeUrl:
 						'https://pix.example.com/v2/9c1b2841-d993-48a7-bb75-61b460bdbb69',
@@ -72,13 +58,6 @@ export class InMemoryRecurrenceAdapter implements IRecurrenceAdapter {
 		return {
 			subscriptionId,
 			paymentMethod: input.paymentMethod,
-			invoice: {
-				invoiceId: uuid(),
-				amount: 1000,
-				paymentMethod: input.paymentMethod,
-				dueDate: new Date(),
-				status: 'PENDING',
-			},
 			boleto: {
 				url: 'https://example.com/boleto.pdf',
 				expiresAt: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(),
@@ -105,13 +84,6 @@ export class InMemoryRecurrenceAdapter implements IRecurrenceAdapter {
 				return {
 					subscriptionId,
 					paymentMethod: input.paymentMethod,
-					invoice: {
-						invoiceId: uuid(),
-						amount: 1000,
-						paymentMethod: input.paymentMethod,
-						dueDate: new Date(),
-						status: 'PENDING',
-					},
 					pix: {
 						qrCodeUrl:
 							'https://pix.example.com/v2/9c1b2841-d993-48a7-bb75-61b460bdbb69',
@@ -123,13 +95,6 @@ export class InMemoryRecurrenceAdapter implements IRecurrenceAdapter {
 			return {
 				subscriptionId,
 				paymentMethod: input.paymentMethod,
-				invoice: {
-					invoiceId: uuid(),
-					amount: 1000,
-					paymentMethod: input.paymentMethod,
-					dueDate: new Date(),
-					status: 'PENDING',
-				},
 				boleto: {
 					url: 'https://example.com/boleto.pdf',
 					expiresAt: new Date(
@@ -143,13 +108,7 @@ export class InMemoryRecurrenceAdapter implements IRecurrenceAdapter {
 		async ({ subscriptionId }) => {
 			return {
 				subscriptionId,
-				invoice: {
-					externalId: uuid(),
-					amount: 2000,
-					paymentMethod: 'CARD',
-					dueDate: new Date(),
-					status: 'PENDING',
-				},
+				paymentMethod: 'CARD',
 			}
 		}
 

@@ -2,10 +2,14 @@ import {
 	Column,
 	CreateDateColumn,
 	Entity,
+	ManyToOne,
+	OneToMany,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 } from 'typeorm'
 
+import { InvoiceEntity } from '@/adapters/database/invoice/invoice.typeorm.entity'
+import { PlanEntity } from '@/adapters/database/plan/plan.typeorm.entity'
 import type {
 	Subscription,
 	SubscriptionCard,
@@ -15,6 +19,18 @@ import type {
 export class SubscriptionEntity {
 	@PrimaryGeneratedColumn('uuid')
 	subscriptionId: Subscription['subscriptionId']
+
+	@ManyToOne(
+		() => PlanEntity,
+		(plan) => plan.subscriptions,
+	)
+	plan: PlanEntity
+
+	@OneToMany(
+		() => InvoiceEntity,
+		(invoice) => invoice.subscription,
+	)
+	invoices: InvoiceEntity[]
 
 	@Column({
 		type: 'uuid',

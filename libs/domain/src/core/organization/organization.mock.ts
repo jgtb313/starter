@@ -1,13 +1,16 @@
 import { uuid } from '@starter/common'
 
-import { OrganizationDomain } from '@/core/organization/organization.domain'
-import type { OrganizationInput } from '@/core/organization/organization.schema'
+import {
+	type Organization,
+	type OrganizationInput,
+	OrganizationSchema,
+} from '@/core/organization/organization.schema'
 
 type OrganizationOverrides = Partial<OrganizationInput>
 
 export const makeOrganization = (
 	overrides: OrganizationOverrides,
-): OrganizationDomain => {
+): Organization => {
 	const base: OrganizationInput = {
 		organizationId: uuid(),
 		workspaceId: uuid(),
@@ -18,13 +21,13 @@ export const makeOrganization = (
 		updatedAt: new Date().toISOString(),
 	}
 
-	return new OrganizationDomain({
+	return OrganizationSchema.parse({
 		...base,
 		...overrides,
 	})
 }
 
-export const organizationMocks: OrganizationDomain[] = [
+export const organizationMocks: Organization[] = [
 	makeOrganization({
 		name: 'BrightFuture Inc.',
 		status: 'ACTIVE',
@@ -46,19 +49,4 @@ export const organizationMocks: OrganizationDomain[] = [
 		deletedAt: new Date().toISOString(),
 		status: 'ACTIVE',
 	}),
-	// makeOrganization({ name: 'DeepFocus Group', status: OrganizationStatusEnum.INACTIVE }),
-	// makeOrganization({
-	//   organizationId: 'a0f0050c-0515-4384-b2e5-e7b6e9f2c813',
-	//   name: 'PixelForge',
-	//   deletedAt: new Date().toISOString(),
-	//   status: OrganizationStatusEnum.ACTIVE,
-	// }),
-	// makeOrganization({
-	//   organizationId: 'a0f0050c-0515-4384-b2e5-e7b6e9f2c814',
-	//   name: 'IronBridge Technologies',
-	//   deletedAt: new Date().toISOString(),
-	//   status: OrganizationStatusEnum.INACTIVE,
-	// }),
-	// makeOrganization({ organizationId: 'a0f0050c-0515-4384-b2e5-e7b6e9f2c815', name: 'NovaSpark', status: OrganizationStatusEnum.ACTIVE }),
-	// makeOrganization({ organizationId: 'a0f0050c-0515-4384-b2e5-e7b6e9f2c816', name: 'ColdStream Systems', status: OrganizationStatusEnum.INACTIVE }),
 ]

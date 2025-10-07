@@ -2,11 +2,6 @@ import { forwardRef, Inject, Injectable } from '@nestjs/common'
 import { uuid } from '@starter/common'
 import { AclForbiddenException } from '@starter/nestjs-error-handling'
 
-import {
-	createWorkspaceReference,
-	type WithWorkspaceReference,
-} from '@/support/workspace-reference'
-
 import { RecurrenceService } from '@/adapters/recurrence'
 import { InvoiceService } from '@/core/invoice/invoice.service'
 import { PlanService } from '@/core/plan/plan.service'
@@ -18,6 +13,10 @@ import type {
 } from '@/core/subscription/subscription.schema'
 import { WorkspaceService } from '@/core/workspace/workspace.service'
 import type { ISubscriptionRepository } from '@/ports/database/subscription'
+import {
+	createWorkspaceReference,
+	type WithWorkspaceReference,
+} from '@/support/workspace-reference'
 
 type SubscriptionWorkspaceReference = WithWorkspaceReference<'subscriptionId'>
 const getSubscriptionWorkspaceReference =
@@ -131,9 +130,7 @@ export class SubscriptionService {
 		await this.workspaceService.updateWorkspace(
 			subscription.state.workspaceId,
 			{
-				integrations: {
-					recurrenceCustomerId,
-				},
+				recurrenceExternalId: recurrenceCustomerId,
 			},
 		)
 

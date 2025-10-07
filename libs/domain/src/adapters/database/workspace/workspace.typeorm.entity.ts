@@ -6,22 +6,30 @@ import {
 	Column,
 	CreateDateColumn,
 	Entity,
+	OneToOne,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 } from 'typeorm'
 
 import type { Workspace } from '@/core/workspace/workspace.schema'
+import { WorkspaceAddressEntity } from '@/adapters/database/workspace/workspace-address.typeorm.entity'
 
 @Entity('workspaces')
 export class WorkspaceEntity {
 	@PrimaryGeneratedColumn('uuid')
 	workspaceId: Workspace['workspaceId']
 
+	@OneToOne(
+		() => WorkspaceAddressEntity,
+		(workspaceAddress) => workspaceAddress.workspace,
+	)
+	workspaceAddress: WorkspaceAddressEntity
+
 	@Column({
 		type: 'varchar',
 		nullable: true,
 	})
-	recurrenceCustomerId?: Workspace['recurrenceCustomerId']
+	recurrenceExternalId?: Workspace['recurrenceExternalId']
 
 	@Column({
 		type: 'varchar',
@@ -75,66 +83,6 @@ export class WorkspaceEntity {
 		type: 'varchar',
 		nullable: true,
 	})
-	addressState?: Required<Workspace['address']>['state']
-
-	@Column({
-		type: 'varchar',
-		nullable: true,
-	})
-	addressCity?: Required<Workspace['address']>['city']
-
-	@Column({
-		type: 'varchar',
-		nullable: true,
-	})
-	addressZipCode?: Required<Workspace['address']>['zipCode']
-
-	@Column({
-		type: 'varchar',
-		nullable: true,
-	})
-	addressNeighborhood?: Required<Workspace['address']>['neighborhood']
-
-	@Column({
-		type: 'varchar',
-		nullable: true,
-	})
-	addressStreet?: Required<Workspace['address']>['street']
-
-	@Column({
-		type: 'varchar',
-		nullable: true,
-	})
-	addressNumber?: Required<Workspace['address']>['number']
-
-	@Column({
-		type: 'varchar',
-		nullable: true,
-	})
-	addressComplement?: Required<Workspace['address']>['complement']
-
-	@Column({
-		type: 'varchar',
-		nullable: true,
-	})
-	addressLandmark?: Required<Workspace['address']>['landmark']
-
-	@Column({
-		type: 'varchar',
-		nullable: true,
-	})
-	addressLocationLat?: Required<Workspace['address']>['location']['lat']
-
-	@Column({
-		type: 'varchar',
-		nullable: true,
-	})
-	addressLocationLng?: Required<Workspace['address']>['location']['lng']
-
-	@Column({
-		type: 'varchar',
-		nullable: true,
-	})
 	logo?: Workspace['logo']
 
 	@Column({
@@ -180,19 +128,6 @@ export class WorkspaceEntity {
 			this.documentType = this.document.type
 			this.documentNumber = this.document.number
 		}
-
-		if (this.address) {
-			this.addressState = this.address.state
-			this.addressCity = this.address.city
-			this.addressZipCode = this.address.zipCode
-			this.addressNeighborhood = this.address.neighborhood
-			this.addressStreet = this.address.street
-			this.addressNumber = this.address.number
-			this.addressComplement = this.address.complement
-			this.addressLandmark = this.address.landmark
-			this.addressLocationLat = this.address.location.lat
-			this.addressLocationLng = this.address.location.lng
-		}
 	}
 
 	@AfterLoad()
@@ -212,30 +147,19 @@ export class WorkspaceEntity {
 			}
 		}
 
-		if (
-			this.addressState &&
-			this.addressCity &&
-			this.addressZipCode &&
-			this.addressNeighborhood &&
-			this.addressStreet &&
-			this.addressNumber &&
-			this.addressComplement &&
-			this.addressLandmark &&
-			this.addressLocationLat &&
-			this.addressLocationLng
-		) {
+		if (this.workspaceAddress) {
 			this.address = {
-				state: this.addressState,
-				city: this.addressCity,
-				zipCode: this.addressZipCode,
-				neighborhood: this.addressNeighborhood,
-				street: this.addressStreet,
-				number: this.addressNumber,
-				complement: this.addressComplement,
-				landmark: this.addressLandmark,
+				state: this.workspaceAddress.state,
+				city: this.workspaceAddress.city,
+				zipCode: this.workspaceAddress.zipCode,
+				neighborhood: this.workspaceAddress.neighborhood,
+				street: this.workspaceAddress.street,
+				number: this.workspaceAddress.number,
+				complement: this.workspaceAddress.complement,
+				landmark: this.workspaceAddress.landmark,
 				location: {
-					lat: this.addressLocationLat,
-					lng: this.addressLocationLng,
+					lat: this.workspaceAddress.lat,
+					lng: this.workspaceAddress.lng,
 				},
 			}
 		}

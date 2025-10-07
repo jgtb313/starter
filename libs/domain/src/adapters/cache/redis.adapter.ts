@@ -3,10 +3,12 @@ import type { RedisClientType } from 'redis'
 
 import type { ICacheAdapter } from '@/adapters/cache/cache.adapter'
 
+import { RedisClientSymbol } from './redis.adapter.module'
+
 @Injectable()
 export class RedisAdapter implements ICacheAdapter {
 	constructor(
-		@Inject('REDIS_CLIENT')
+		@Inject(RedisClientSymbol)
 		private readonly client: RedisClientType | undefined,
 	) {}
 

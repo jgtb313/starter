@@ -2,12 +2,11 @@ import { uuid } from '@starter/common'
 
 import { organizationMocks } from '@/core/organization/organization.mock'
 import { permissionMocks } from '@/core/permission/permission.mock'
-import { RoleDomain } from '@/core/role/role.domain'
-import type { RoleInput } from '@/core/role/role.schema'
+import { type Role, type RoleInput, RoleSchema } from '@/core/role/role.schema'
 
 type RoleOverrides = Partial<RoleInput>
 
-export const makeRole = (overrides: RoleOverrides): RoleDomain => {
+export const makeRole = (overrides: RoleOverrides): Role => {
 	const base: RoleInput = {
 		roleId: uuid(),
 		workspaceId: uuid(),
@@ -21,13 +20,13 @@ export const makeRole = (overrides: RoleOverrides): RoleDomain => {
 		updatedAt: new Date().toISOString(),
 	}
 
-	return new RoleDomain({
+	return RoleSchema.parse({
 		...base,
 		...overrides,
 	})
 }
 
-export const roleMocks: RoleDomain[] = [
+export const roleMocks: Role[] = [
 	makeRole({
 		name: 'Admin',
 		status: 'ACTIVE',
@@ -36,12 +35,12 @@ export const roleMocks: RoleDomain[] = [
 			'full-access',
 		],
 		organizations: [
-			organizationMocks[0].state,
+			organizationMocks[0],
 		],
 		permissions: [
-			permissionMocks[0].state,
-			permissionMocks[1].state,
-			permissionMocks[2].state,
+			permissionMocks[0],
+			permissionMocks[1],
+			permissionMocks[2],
 		],
 	}),
 	makeRole({
@@ -52,12 +51,12 @@ export const roleMocks: RoleDomain[] = [
 			'edit',
 		],
 		organizations: [
-			organizationMocks[0].state,
+			organizationMocks[0],
 		],
 		permissions: [
-			permissionMocks[0].state,
-			permissionMocks[1].state,
-			permissionMocks[2].state,
+			permissionMocks[0],
+			permissionMocks[1],
+			permissionMocks[2],
 		],
 	}),
 	makeRole({
@@ -67,12 +66,12 @@ export const roleMocks: RoleDomain[] = [
 			'read-only',
 		],
 		organizations: [
-			organizationMocks[1].state,
+			organizationMocks[1],
 		],
 		permissions: [
-			permissionMocks[0].state,
-			permissionMocks[1].state,
-			permissionMocks[2].state,
+			permissionMocks[0],
+			permissionMocks[1],
+			permissionMocks[2],
 		],
 	}),
 	makeRole({
@@ -83,11 +82,11 @@ export const roleMocks: RoleDomain[] = [
 			'reports',
 		],
 		organizations: [
-			organizationMocks[1].state,
+			organizationMocks[1],
 		],
 		permissions: [
-			permissionMocks[1].state,
-			permissionMocks[2].state,
+			permissionMocks[1],
+			permissionMocks[2],
 		],
 	}),
 	makeRole({
@@ -98,11 +97,11 @@ export const roleMocks: RoleDomain[] = [
 			'submit',
 		],
 		organizations: [
-			organizationMocks[2].state,
+			organizationMocks[2],
 		],
 		permissions: [
-			permissionMocks[1].state,
-			permissionMocks[2].state,
+			permissionMocks[1],
+			permissionMocks[2],
 		],
 	}),
 	makeRole({
@@ -113,11 +112,11 @@ export const roleMocks: RoleDomain[] = [
 			'moderation',
 		],
 		organizations: [
-			organizationMocks[2].state,
+			organizationMocks[2],
 		],
 		permissions: [
-			permissionMocks[1].state,
-			permissionMocks[2].state,
+			permissionMocks[1],
+			permissionMocks[2],
 		],
 	}),
 	makeRole({
@@ -127,11 +126,11 @@ export const roleMocks: RoleDomain[] = [
 			'helpdesk',
 		],
 		organizations: [
-			organizationMocks[2].state,
+			organizationMocks[2],
 		],
 		permissions: [
-			permissionMocks[1].state,
-			permissionMocks[2].state,
+			permissionMocks[1],
+			permissionMocks[2],
 		],
 	}),
 	makeRole({
@@ -141,11 +140,11 @@ export const roleMocks: RoleDomain[] = [
 			'ops',
 		],
 		organizations: [
-			organizationMocks[3].state,
+			organizationMocks[3],
 		],
 		permissions: [
-			permissionMocks[1].state,
-			permissionMocks[2].state,
+			permissionMocks[1],
+			permissionMocks[2],
 		],
 	}),
 	makeRole({
@@ -156,11 +155,11 @@ export const roleMocks: RoleDomain[] = [
 			'hiring',
 		],
 		organizations: [
-			organizationMocks[4].state,
+			organizationMocks[4],
 		],
 		permissions: [
-			permissionMocks[1].state,
-			permissionMocks[2].state,
+			permissionMocks[1],
+			permissionMocks[2],
 		],
 	}),
 	makeRole({
@@ -171,11 +170,11 @@ export const roleMocks: RoleDomain[] = [
 			'code',
 		],
 		organizations: [
-			organizationMocks[4].state,
+			organizationMocks[4],
 		],
 		permissions: [
-			permissionMocks[1].state,
-			permissionMocks[2].state,
+			permissionMocks[1],
+			permissionMocks[2],
 		],
 	}),
 ]

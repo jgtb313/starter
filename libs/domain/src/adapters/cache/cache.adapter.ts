@@ -2,7 +2,7 @@ export type ICacheAdapterSetOptions = {
 	expiresIn?: number
 }
 
-export type ICacheAdapter = {
+export interface ICacheAdapter {
 	get<T>(key: string): Promise<T | undefined>
 	set<T>(
 		key: string,

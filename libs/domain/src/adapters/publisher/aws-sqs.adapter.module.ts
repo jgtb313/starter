@@ -4,13 +4,15 @@ import { ConfigModule, ConfigService } from '@nestjs/config'
 
 import { AWSSQSAdapter } from '@/adapters/publisher/aws-sqs.adapter'
 
+export const SQSClientSymbol = Symbol('SQS_CLIENT')
+
 @Module({
 	imports: [
 		ConfigModule,
 	],
 	providers: [
 		{
-			provide: 'SQS_CLIENT',
+			provide: SQSClientSymbol,
 			useFactory: (configService: ConfigService) => {
 				const region = configService.get<string>('AWS_SQS_REGION')!
 
@@ -26,7 +28,7 @@ import { AWSSQSAdapter } from '@/adapters/publisher/aws-sqs.adapter'
 			provide: AWSSQSAdapter,
 			useFactory: (client: SQS) => new AWSSQSAdapter(client),
 			inject: [
-				'SQS_CLIENT',
+				SQSClientSymbol,
 			],
 		},
 	],

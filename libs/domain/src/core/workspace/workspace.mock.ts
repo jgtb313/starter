@@ -36,7 +36,7 @@ export const workspaceMocks: Workspace[] = [
 	makeWorkspace({
 		workspaceId: '0e6c34bb-5a5c-4b31-bfec-33ec3651d581',
 		name: 'Product Ops',
-		recurrenceCustomerId: 'cus_prod_ops_001',
+		recurrenceExternalId: 'cus_prod_ops_001',
 	}),
 	makeWorkspace({
 		workspaceId: '0e6c34bb-5a5c-4b31-bfec-33ec3651d582',

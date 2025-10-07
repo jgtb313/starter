@@ -1,8 +1,8 @@
 import { forwardRef, Module } from '@nestjs/common'
 
-import { WorkspaceRepositoryModule } from '@/adapters/database/workspace'
 import { UserServiceModule } from '@/core/user/user.service.module'
 import { WorkspaceService } from '@/core/workspace/workspace.service'
+import { WorkspaceRepositoryModule } from '@/adapters/database/workspace'
 
 @Module({
 	imports: [

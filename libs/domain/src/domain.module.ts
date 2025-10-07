@@ -3,11 +3,11 @@ import type { I18nDict } from '@starter/i18n'
 import type { NestjsI18nModuleOptions } from '@starter/nestjs-i18n'
 import { extendI18nDict } from '@starter/schema'
 
-import { I18nDomainModule } from './domain.i18n.module'
-
 import { i18nDict } from '@/~i18n/domain.i18n.schema'
 import type { CreateDataSourceConfigOptions } from '@/adapters/database/data-source.config'
 import { DatabaseModule } from '@/adapters/database/database.module'
+
+import { I18nDomainModule } from './domain.i18n.module'
 
 type DomainModuleOptions = {
 	database: CreateDataSourceConfigOptions

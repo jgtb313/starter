@@ -3,10 +3,12 @@ import type { Logger as Pino } from 'pino'
 
 import type { ILoggerAdapter } from '@/adapters/logger/logger.adapter'
 
+import { PinoESSymbol } from './pino-es.adapter.module'
+
 @Injectable()
 export class PinoESAdapter implements ILoggerAdapter {
 	constructor(
-		@Inject('PINO_ES_CLIENT') private readonly client: Pino | undefined,
+		@Inject(PinoESSymbol) private readonly client: Pino | undefined,
 	) {}
 
 	info: ILoggerAdapter['info'] = async (message, event) => {

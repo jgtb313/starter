@@ -1,4 +1,5 @@
 import {
+	AfterLoad,
 	Column,
 	CreateDateColumn,
 	DeleteDateColumn,
@@ -17,6 +18,18 @@ export class RoleEntity {
 	@PrimaryGeneratedColumn('uuid')
 	roleId: Role['roleId']
 
+	@OneToMany(
+		() => RoleOrganizationEntity,
+		(roleOrganization) => roleOrganization,
+	)
+	roleOrganizations: RoleOrganizationEntity[]
+
+	@OneToMany(
+		() => RolePermissionEntity,
+		(rolePermission) => rolePermission,
+	)
+	rolePermissions: RolePermissionEntity[]
+
 	@Column({
 		type: 'uuid',
 	})
@@ -33,6 +46,10 @@ export class RoleEntity {
 	})
 	tags: Role['tags']
 
+	organizations: Role['organizations']
+
+	permissions: Role['permissions']
+
 	@Column({
 		type: 'varchar',
 	})
@@ -46,4 +63,19 @@ export class RoleEntity {
 
 	@UpdateDateColumn()
 	updatedAt: Role['updatedAt']
+
+	@AfterLoad()
+	loadDocument() {
+		if (this.roleOrganizations) {
+			this.organizations = this.roleOrganizations.map(
+				(roleOrganization) => roleOrganization.organization,
+			)
+		}
+
+		if (this.rolePermissions) {
+			this.permissions = this.rolePermissions.map(
+				(rolePermission) => rolePermission.permission,
+			)
+		}
+	}
 }

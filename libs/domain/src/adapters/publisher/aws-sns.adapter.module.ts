@@ -4,13 +4,15 @@ import { ConfigModule, ConfigService } from '@nestjs/config'
 
 import { AWSSNSAdapter } from '@/adapters/publisher/aws-sns.adapter'
 
+export const SNSClientSymbol = Symbol('SNS_CLIENT')
+
 @Module({
 	imports: [
 		ConfigModule,
 	],
 	providers: [
 		{
-			provide: 'SNS_CLIENT',
+			provide: SNSClientSymbol,
 			useFactory: (configService: ConfigService) => {
 				const region = configService.get<string>('AWS_SNS_REGION')!
 
@@ -26,7 +28,7 @@ import { AWSSNSAdapter } from '@/adapters/publisher/aws-sns.adapter'
 			provide: AWSSNSAdapter,
 			useFactory: (client: SNS) => new AWSSNSAdapter(client),
 			inject: [
-				'SNS_CLIENT',
+				SNSClientSymbol,
 			],
 		},
 	],

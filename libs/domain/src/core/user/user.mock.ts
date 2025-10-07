@@ -17,7 +17,6 @@ export const makeUser = (overrides: UserOverrides): UserDomain => {
 		phone: null,
 		birthday: null,
 		document: null,
-		address: null,
 		avatar: null,
 		localePreference: null,
 		password: 'hashedPassword',

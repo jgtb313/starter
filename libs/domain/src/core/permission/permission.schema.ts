@@ -24,7 +24,7 @@ export type BasePermission = BaseSchema<
 	Permission,
 	{
 		optional: [
-			'description',
+			'permissionId',
 		]
 	}
 >

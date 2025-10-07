@@ -2,6 +2,8 @@ import { Logger, Module } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { createClient, type RedisClientType } from 'redis'
 
+export const RedisClientSymbol = Symbol('RedisClient')
+
 let redisClient: RedisClientType | undefined
 
 @Module({
@@ -10,7 +12,7 @@ let redisClient: RedisClientType | undefined
 	],
 	providers: [
 		{
-			provide: 'REDIS_CLIENT',
+			provide: RedisClientSymbol,
 			useFactory: async (configService: ConfigService) => {
 				const logger = new Logger('RedisClient')
 
@@ -46,7 +48,7 @@ let redisClient: RedisClientType | undefined
 		},
 	],
 	exports: [
-		'REDIS_CLIENT',
+		RedisClientSymbol,
 	],
 })
 export class RedisModule {}

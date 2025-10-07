@@ -2,7 +2,7 @@ export type ICacheSetOptions = {
 	expiresIn?: number
 }
 
-export type ICache = {
+export interface ICache {
 	get<T>(key: string): Promise<T | undefined>
 	set<T>(key: string, value: T, options?: ICacheSetOptions): Promise<void>
 	delete(key: string): Promise<void>

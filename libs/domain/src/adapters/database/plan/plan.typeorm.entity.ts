@@ -3,16 +3,24 @@ import {
 	CreateDateColumn,
 	DeleteDateColumn,
 	Entity,
+	OneToMany,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 } from 'typeorm'
 
+import { SubscriptionEntity } from '@/adapters/database/subscription/subscription.typeorm.entity'
 import type { Plan } from '@/core/plan/plan.schema'
 
 @Entity('plans')
 export class PlanEntity {
 	@PrimaryGeneratedColumn('uuid')
 	planId: Plan['planId']
+
+	@OneToMany(
+		() => SubscriptionEntity,
+		(subscription) => subscription.plan,
+	)
+	subscriptions: SubscriptionEntity[]
 
 	@Column({
 		type: 'varchar',

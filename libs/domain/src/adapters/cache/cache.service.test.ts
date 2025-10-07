@@ -9,9 +9,10 @@ import {
 	vi,
 } from 'vitest'
 
-import { CacheService } from './cache.service'
-
 import type { ICache } from '@/ports/cache'
+
+import { CacheSymbol } from './cache.module'
+import { CacheService } from './cache.service'
 
 describe('CacheService', () => {
 	let cacheService: CacheService
@@ -27,7 +28,7 @@ describe('CacheService', () => {
 			providers: [
 				CacheService,
 				{
-					provide: 'Cache',
+					provide: CacheSymbol,
 					useValue: mockCache,
 				},
 			],

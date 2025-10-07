@@ -43,7 +43,7 @@ describe('OrganizationService', () => {
 		repository = module.get<IOrganizationRepository>('ORGANIZATION_REPOSITORY')
 
 		for (const organization of organizationMocks) {
-			await repository.create(organization.state)
+			await repository.create(organization)
 		}
 
 		vi.clearAllMocks()
@@ -87,13 +87,11 @@ describe('OrganizationService', () => {
 			const [organization] = organizationMocks
 
 			const result = await service.getOrganization({
-				organizationId: organization.state.organizationId,
-				workspaceId: organization.state.workspaceId,
+				organizationId: organization.organizationId,
+				workspaceId: organization.workspaceId,
 			})
 
-			expect(result.state.organizationId).toBe(
-				organization.state.organizationId,
-			)
+			expect(result.state.organizationId).toBe(organization.organizationId)
 		})
 
 		it('should throw NotFoundException if organization does not exist', async () => {
@@ -112,7 +110,7 @@ describe('OrganizationService', () => {
 
 			await expect(
 				service.getOrganization({
-					organizationId: organization.state.organizationId,
+					organizationId: organization.organizationId,
 					workspaceId: 'invalid-workspace',
 				}),
 			).rejects.toThrow(AclForbiddenException)
@@ -128,13 +126,13 @@ describe('OrganizationService', () => {
 			workspaceServiceMock.getWorkspace.mockResolvedValue(workspace)
 
 			const input = makeOrganization({
-				workspaceId: workspace.state.workspaceId,
-			}).state
+				workspaceId: workspace.workspaceId,
+			})
 
 			const result = await service.createOrganization(input)
 
 			expect(result.state.organizationId).toBeDefined()
-			expect(result.state.workspaceId).toBe(workspace.state.workspaceId)
+			expect(result.state.workspaceId).toBe(workspace.workspaceId)
 		})
 
 		it('should call getWorkspace with correct workspaceId', async () => {
@@ -145,13 +143,13 @@ describe('OrganizationService', () => {
 			workspaceServiceMock.getWorkspace.mockResolvedValue(workspace)
 
 			const input = makeOrganization({
-				workspaceId: workspace.state.workspaceId,
-			}).state
+				workspaceId: workspace.workspaceId,
+			})
 
 			await service.createOrganization(input)
 
 			expect(workspaceServiceMock.getWorkspace).toHaveBeenCalledWith(
-				workspace.state.workspaceId,
+				workspace.workspaceId,
 			)
 		})
 	})
@@ -162,8 +160,8 @@ describe('OrganizationService', () => {
 
 			const updated = await service.updateOrganization(
 				{
-					organizationId: organization.state.organizationId,
-					workspaceId: organization.state.workspaceId,
+					organizationId: organization.organizationId,
+					workspaceId: organization.workspaceId,
 				},
 				{
 					name: 'Updated Name',
@@ -192,12 +190,12 @@ describe('OrganizationService', () => {
 
 	describe('activeOrganization', () => {
 		it('should mark organization as active', async () => {
-			const [organization] = organizationMocks.filter((organization) =>
-				organization.isInactive(),
+			const [organization] = organizationMocks.filter(
+				(organization) => organization.status === 'INACTIVE',
 			)
 
 			const result = await service.activeOrganization(
-				organization.state.organizationId,
+				organization.organizationId,
 			)
 
 			expect(result.state.status).toBe('ACTIVE')
@@ -206,13 +204,13 @@ describe('OrganizationService', () => {
 
 	describe('inactiveOrganization', () => {
 		it('should mark organization as inactive', async () => {
-			const [organization] = organizationMocks.filter((organization) =>
-				organization.isActive(),
+			const [organization] = organizationMocks.filter(
+				(organization) => organization.status === 'ACTIVE',
 			)
 
 			const result = await service.inactiveOrganization({
-				organizationId: organization.state.organizationId,
-				workspaceId: organization.state.workspaceId,
+				organizationId: organization.organizationId,
+				workspaceId: organization.workspaceId,
 			})
 
 			expect(result.state.status).toBe('INACTIVE')
@@ -224,14 +222,14 @@ describe('OrganizationService', () => {
 			const [organization] = organizationMocks
 
 			await service.deleteOrganization({
-				organizationId: organization.state.organizationId,
-				workspaceId: organization.state.workspaceId,
+				organizationId: organization.organizationId,
+				workspaceId: organization.workspaceId,
 			})
 
 			await expect(
 				service.getOrganization({
-					organizationId: organization.state.organizationId,
-					workspaceId: organization.state.workspaceId,
+					organizationId: organization.organizationId,
+					workspaceId: organization.workspaceId,
 				}),
 			).rejects.toThrow(NotFoundException)
 		})
@@ -240,8 +238,8 @@ describe('OrganizationService', () => {
 	describe('validateOrganizationIds', () => {
 		it('should resolve when all IDs are valid', async () => {
 			const organizationIds = organizationMocks
-				.filter((organization) => !organization.state.deletedAt)
-				.map((organization) => organization.state.organizationId)
+				.filter((organization) => !organization.deletedAt)
+				.map((organization) => organization.organizationId)
 
 			await expect(
 				service.validateOrganizationIds(organizationIds),

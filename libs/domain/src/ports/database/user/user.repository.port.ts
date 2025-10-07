@@ -43,7 +43,34 @@ export type IUserRepository = {
 		providerToken: string,
 		email: string,
 	): Promise<UserDomain | null>
+
 	create(input: BaseUser): Promise<UserDomain>
 	updateById(userId: string, input: Partial<User>): Promise<UserDomain>
 	deleteById(userId: string): Promise<void>
+
+	attachOrganization(
+		userId: string,
+		organizationId: string,
+		roleId: string,
+	): Promise<UserDomain>
+	attachManyOrganizations(
+		userId: string,
+		input: Pick<User['organizations'][number], 'organizationId' | 'roleId'>[],
+	): Promise<UserDomain>
+	detachOrganization(userId: string, organizationId: string): Promise<void>
+	detachManyOrganizations(
+		userId: string,
+		organizationIds: string[],
+	): Promise<void>
+
+	createAddress(
+		userId: string,
+		input: User['addresses'][number],
+	): Promise<UserDomain>
+	updateAddressById(
+		userId: string,
+		addressId: string,
+		input: User['addresses'][number],
+	): Promise<UserDomain>
+	deleteAddressById(userId: string, addressId: string): Promise<void>
 }

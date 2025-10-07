@@ -3,10 +3,12 @@ import { Inject, Injectable } from '@nestjs/common'
 import type { IRecurrenceAdapter } from '@/adapters/recurrence/recurrence.adapter'
 import type { IRecurrence } from '@/ports/recurrence'
 
+import { RecurrenceSymbol } from './recurrence.module'
+
 @Injectable()
 export class RecurrenceService implements IRecurrence {
 	constructor(
-		@Inject('Recurrence') private readonly recurrence: IRecurrenceAdapter,
+		@Inject(RecurrenceSymbol) private readonly recurrence: IRecurrenceAdapter,
 	) {}
 
 	createPlan: IRecurrence['createPlan'] = async (input) => {

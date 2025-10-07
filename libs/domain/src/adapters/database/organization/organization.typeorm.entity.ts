@@ -3,13 +3,12 @@ import {
 	CreateDateColumn,
 	DeleteDateColumn,
 	Entity,
-	ManyToMany,
 	OneToMany,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 } from 'typeorm'
 
-import { RoleEntity } from '@/adapters/database/role/role.typeorm.entity'
+import { RoleOrganizationEntity } from '@/adapters/database/role/role-organization.typeorm.entity'
 import type { Organization } from '@/core/organization/organization.schema'
 
 @Entity('organizations')
@@ -17,11 +16,11 @@ export class OrganizationEntity {
 	@PrimaryGeneratedColumn('uuid')
 	organizationId: Organization['organizationId']
 
-	@ManyToMany(
-		() => RoleEntity,
-		(role) => role.organizations,
+	@OneToMany(
+		() => RoleOrganizationEntity,
+		(roleOrganization) => roleOrganization.organization,
 	)
-	roles: RoleEntity[]
+	roleOrganizations: RoleOrganizationEntity[]
 
 	@Column({
 		type: 'uuid',
@@ -38,12 +37,12 @@ export class OrganizationEntity {
 	})
 	status: Organization['status']
 
-	@DeleteDateColumn({})
+	@DeleteDateColumn()
 	deletedAt: Organization['deletedAt']
 
-	@CreateDateColumn({})
+	@CreateDateColumn()
 	createdAt: Organization['createdAt']
 
-	@UpdateDateColumn({})
+	@UpdateDateColumn()
 	updatedAt: Organization['updatedAt']
 }

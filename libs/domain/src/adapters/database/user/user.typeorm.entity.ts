@@ -12,8 +12,10 @@ import {
 	UpdateDateColumn,
 } from 'typeorm'
 
+import { UserAddressEntity } from './user-address.entity'
 import { UserOrganizationEntity } from './user-organization.entity'
 
+import { OTPEntity } from '@/adapters/database/otp/otp.typeorm.entity'
 import type { User } from '@/core/user/user.schema'
 
 @Entity('users')
@@ -22,10 +24,22 @@ export class UserEntity {
 	userId: User['userId']
 
 	@OneToMany(
+		() => OTPEntity,
+		(otp) => otp.user,
+	)
+	otps: OTPEntity[]
+
+	@OneToMany(
 		() => UserOrganizationEntity,
 		(userOrganization) => userOrganization.user,
 	)
-	organizations: UserOrganizationEntity[]
+	userOrganizations: UserOrganizationEntity[]
+
+	@OneToMany(
+		() => UserAddressEntity,
+		(userAddress) => userAddress.user,
+	)
+	userAddresses: UserAddressEntity[]
 
 	@Column({
 		type: 'uuid',
@@ -37,13 +51,15 @@ export class UserEntity {
 		type: 'varchar',
 		nullable: true,
 	})
-	googleProviderId?: Required<User['googleProviderId']>
+	googleProviderId?: User['googleProviderId']
 
 	@Column({
 		type: 'varchar',
 		nullable: true,
 	})
-	facebookProviderId?: Required<User['facebookProviderId']>
+	facebookProviderId?: User['facebookProviderId']
+
+	organizations: User['organizations']
 
 	@Column({
 		type: 'varchar',
@@ -95,79 +111,7 @@ export class UserEntity {
 	})
 	documentNumber?: Required<User['document']>['number']
 
-	address?: User['address']
-
-	@Column({
-		type: 'varchar',
-		nullable: true,
-	})
-	addressMain?: Required<User['address']>['main']
-
-	@Column({
-		type: 'varchar',
-		nullable: true,
-	})
-	addressTitle?: Required<User['address']>['title']
-
-	@Column({
-		type: 'varchar',
-		nullable: true,
-	})
-	addressState?: Required<User['address']>['state']
-
-	@Column({
-		type: 'varchar',
-		nullable: true,
-	})
-	addressCity?: Required<User['address']>['city']
-
-	@Column({
-		type: 'varchar',
-		nullable: true,
-	})
-	addressZipCode?: Required<User['address']>['zipCode']
-
-	@Column({
-		type: 'varchar',
-		nullable: true,
-	})
-	addressNeighborhood?: Required<User['address']>['neighborhood']
-
-	@Column({
-		type: 'varchar',
-		nullable: true,
-	})
-	addressStreet?: Required<User['address']>['street']
-
-	@Column({
-		type: 'varchar',
-		nullable: true,
-	})
-	addressNumber?: Required<User['address']>['number']
-
-	@Column({
-		type: 'varchar',
-		nullable: true,
-	})
-	addressComplement?: Required<User['address']>['complement']
-
-	@Column({
-		type: 'varchar',
-		nullable: true,
-	})
-	addressLandmark?: Required<User['address']>['landmark']
-
-	@Column({
-		type: 'varchar',
-		nullable: true,
-	})
-	addressLocationLat?: Required<User['address']>['location']['lat']
-
-	@Column({
-		type: 'varchar',
-		nullable: true,
-	})
-	addressLocationLng?: Required<User['address']>['location']['lng']
+	addresses: User['addresses']
 
 	@Column({
 		type: 'varchar',
@@ -213,21 +157,6 @@ export class UserEntity {
 			this.documentType = this.document.type
 			this.documentNumber = this.document.number
 		}
-
-		if (this.address) {
-			this.addressMain = this.address.main
-			this.addressTitle = this.address.title
-			this.addressState = this.address.state
-			this.addressCity = this.address.city
-			this.addressZipCode = this.address.zipCode
-			this.addressNeighborhood = this.address.neighborhood
-			this.addressStreet = this.address.street
-			this.addressNumber = this.address.number
-			this.addressComplement = this.address.complement
-			this.addressLandmark = this.address.landmark
-			this.addressLocationLat = this.address.location.lat
-			this.addressLocationLng = this.address.location.lng
-		}
 	}
 
 	@AfterLoad()
@@ -247,36 +176,32 @@ export class UserEntity {
 			}
 		}
 
-		if (
-			this.addressMain &&
-			this.addressTitle &&
-			this.addressState &&
-			this.addressCity &&
-			this.addressZipCode &&
-			this.addressNeighborhood &&
-			this.addressStreet &&
-			this.addressNumber &&
-			this.addressComplement &&
-			this.addressLandmark &&
-			this.addressLocationLat &&
-			this.addressLocationLng
-		) {
-			this.address = {
-				main: this.addressMain,
-				title: this.addressTitle,
-				state: this.addressState,
-				city: this.addressCity,
-				zipCode: this.addressZipCode,
-				neighborhood: this.addressNeighborhood,
-				street: this.addressStreet,
-				number: this.addressNumber,
-				complement: this.addressComplement,
-				landmark: this.addressLandmark,
+		if (this.userOrganizations) {
+			this.organizations = this.userOrganizations.map((userOrganization) => ({
+				organizationId: userOrganization.organizationId,
+				organization: userOrganization.organization,
+				roleId: userOrganization.roleId,
+				role: userOrganization.role,
+			}))
+		}
+
+		if (this.userAddresses) {
+			this.addresses = this.userAddresses.map((userAddress) => ({
+				title: userAddress.title,
+				state: userAddress.state,
+				city: userAddress.city,
+				zipCode: userAddress.zipCode,
+				neighborhood: userAddress.neighborhood,
+				street: userAddress.street,
+				number: userAddress.number,
+				complement: userAddress.complement,
+				landmark: userAddress.landmark,
 				location: {
-					lat: this.addressLocationLat,
-					lng: this.addressLocationLng,
+					lat: userAddress.locationLat,
+					lng: userAddress.locationLng,
 				},
-			}
+				main: userAddress.main,
+			}))
 		}
 	}
 }
