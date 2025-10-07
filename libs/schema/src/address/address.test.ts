@@ -20,6 +20,7 @@ describe('Address Schemas', () => {
 				street: 'Main St',
 				number: '123',
 				complement: null,
+				landmark: null,
 			}
 
 			expect(BaseAddressSchema.parse(input)).toEqual(input)
