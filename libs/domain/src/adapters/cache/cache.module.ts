@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common'
 
-import { CacheService } from '@/adapters/cache/cache.service'
+import {
+	CacheService,
+	CacheServiceSymbol,
+} from '@/adapters/cache/cache.service'
 import { RedisAdapter } from '@/adapters/cache/redis.adapter'
 import { RedisModule } from '@/adapters/cache/redis.adapter.module'
-
-export const CacheSymbol = Symbol('Cache')
 
 @Module({
 	imports: [
@@ -12,7 +13,7 @@ export const CacheSymbol = Symbol('Cache')
 	],
 	providers: [
 		{
-			provide: CacheSymbol,
+			provide: CacheServiceSymbol,
 			useClass: RedisAdapter,
 		},
 		CacheService,

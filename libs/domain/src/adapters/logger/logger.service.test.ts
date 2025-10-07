@@ -3,8 +3,7 @@ import { beforeEach, describe, expect, it, type Mocked, vi } from 'vitest'
 
 import type { ILogger } from '@/ports/logger'
 
-import { LoggerSymbol } from './logger.module'
-import { LoggerService } from './logger.service'
+import { LoggerService, LoggerServiceSymbol } from './logger.service'
 
 describe('LoggerService', () => {
 	let loggerService: LoggerService
@@ -22,7 +21,7 @@ describe('LoggerService', () => {
 			providers: [
 				LoggerService,
 				{
-					provide: LoggerSymbol,
+					provide: LoggerServiceSymbol,
 					useValue: mockerLogger,
 				},
 			],

@@ -11,8 +11,7 @@ import {
 
 import type { IEncrypt } from '@/ports/encrypt'
 
-import { EncryptSymbol } from './encrypt.module'
-import { EncryptService } from './encrypt.service'
+import { EncryptService, EncryptServiceSymbol } from './encrypt.service'
 
 describe('EncryptService', () => {
 	let encryptService: EncryptService
@@ -27,7 +26,7 @@ describe('EncryptService', () => {
 			providers: [
 				EncryptService,
 				{
-					provide: EncryptSymbol,
+					provide: EncryptServiceSymbol,
 					useValue: mockEncrypt,
 				},
 			],

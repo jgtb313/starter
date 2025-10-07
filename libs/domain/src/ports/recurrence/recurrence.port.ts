@@ -25,7 +25,6 @@ export type RecurrenceCreatePlanOutput = {
 }
 
 export type RecurrenceUpdatePlanInput = {
-	planId: string
 	name: string
 	description?: string
 	amount: number
@@ -119,6 +118,7 @@ export interface IRecurrence {
 		input: RecurrenceCreatePlanInput,
 	) => Promise<RecurrenceCreatePlanOutput>
 	updatePlan: (
+		planId: string,
 		input: RecurrenceUpdatePlanInput,
 	) => Promise<RecurrenceUpdatePlanOutput>
 	cancelPlan: (

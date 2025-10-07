@@ -1,14 +1,15 @@
 import { Module } from '@nestjs/common'
 
 import { InMemoryRecurrenceAdapter } from '@/adapters/recurrence/in-memory.recurrence.adapter'
-import { RecurrenceService } from '@/adapters/recurrence/recurrence.service'
-
-export const RecurrenceSymbol = Symbol('Recurrence')
+import {
+	RecurrenceService,
+	RecurrenceServiceSymbol,
+} from '@/adapters/recurrence/recurrence.service'
 
 @Module({
 	providers: [
 		{
-			provide: RecurrenceSymbol,
+			provide: RecurrenceServiceSymbol,
 			useClass: InMemoryRecurrenceAdapter,
 		},
 		RecurrenceService,

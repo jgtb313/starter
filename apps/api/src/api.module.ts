@@ -3,7 +3,6 @@ import { ConfigModule } from '@nestjs/config'
 import { DomainModule } from '@starter/domain'
 import { nestjsServerHoistingI18nModuleOptions } from '@starter/nestjs-server-hoisting'
 
-import { I18nAPIModule } from '@/api.i18n.module'
 import { AuthModule } from '@/core/auth'
 import { InviteModule } from '@/core/invite'
 import { InvoiceModule } from '@/core/invoice'
@@ -19,6 +18,7 @@ import { UserModule } from '@/core/user'
 import { WorkspaceModule } from '@/core/workspace'
 import { ACLModule } from '@/support/access-control'
 import { AuthGuardModule } from '@/support/guards/auth-guard'
+import { I18nAPIModule } from '@/api.i18n.module'
 
 @Module({
 	imports: [

@@ -12,11 +12,11 @@ import {
 	UpdateDateColumn,
 } from 'typeorm'
 
+import type { User } from '@/core/user/user.schema'
+import { OTPEntity } from '@/adapters/database/otp/otp.typeorm.entity'
+
 import { UserAddressEntity } from './user-address.entity'
 import { UserOrganizationEntity } from './user-organization.entity'
-
-import { OTPEntity } from '@/adapters/database/otp/otp.typeorm.entity'
-import type { User } from '@/core/user/user.schema'
 
 @Entity('users')
 export class UserEntity {
@@ -197,8 +197,8 @@ export class UserEntity {
 				complement: userAddress.complement,
 				landmark: userAddress.landmark,
 				location: {
-					lat: userAddress.locationLat,
-					lng: userAddress.locationLng,
+					lat: userAddress.lat,
+					lng: userAddress.lng,
 				},
 				main: userAddress.main,
 			}))

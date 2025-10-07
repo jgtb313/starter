@@ -4,7 +4,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config'
 
 import { AWSSQSAdapter } from '@/adapters/publisher/aws-sqs.adapter'
 
-export const SQSClientSymbol = Symbol('SQS_CLIENT')
+const SQSClientSymbol = Symbol('SQS_CLIENT')
 
 @Module({
 	imports: [

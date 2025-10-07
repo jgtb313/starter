@@ -4,7 +4,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config'
 
 import { AWSSNSAdapter } from '@/adapters/publisher/aws-sns.adapter'
 
-export const SNSClientSymbol = Symbol('SNS_CLIENT')
+const SNSClientSymbol = Symbol('SNS_CLIENT')
 
 @Module({
 	imports: [

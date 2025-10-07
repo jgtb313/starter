@@ -2,7 +2,10 @@ import { forwardRef, Inject, Injectable } from '@nestjs/common'
 import { uuid } from '@starter/common'
 import { AclForbiddenException } from '@starter/nestjs-error-handling'
 
-import { RecurrenceService } from '@/adapters/recurrence'
+import {
+	createWorkspaceReference,
+	type WithWorkspaceReference,
+} from '@/support/workspace-reference'
 import { InvoiceService } from '@/core/invoice/invoice.service'
 import { PlanService } from '@/core/plan/plan.service'
 import type {
@@ -12,11 +15,8 @@ import type {
 	SubscriptionPix,
 } from '@/core/subscription/subscription.schema'
 import { WorkspaceService } from '@/core/workspace/workspace.service'
+import { RecurrenceService } from '@/adapters/recurrence'
 import type { ISubscriptionRepository } from '@/ports/database/subscription'
-import {
-	createWorkspaceReference,
-	type WithWorkspaceReference,
-} from '@/support/workspace-reference'
 
 type SubscriptionWorkspaceReference = WithWorkspaceReference<'subscriptionId'>
 const getSubscriptionWorkspaceReference =
@@ -83,7 +83,7 @@ export class SubscriptionService {
 
 		plan.checkIfIsSignable()
 
-		const { customerId: recurrenceCustomerId } =
+		const { customerId: recurrenceExternalId } =
 			await this.recurrenceService.createCustmer({
 				workspaceId,
 				name: payer.name,
@@ -95,7 +95,7 @@ export class SubscriptionService {
 		const recurrenceSubscription =
 			await this.recurrenceService.createSubscription({
 				referenceId: subscriptionId,
-				customerId: recurrenceCustomerId,
+				customerId: recurrenceExternalId,
 				planId: plan.state.externalId,
 				payer,
 				...input,
@@ -114,23 +114,10 @@ export class SubscriptionService {
 			status: 'TRIAL',
 		})
 
-		const { invoiceId, ...recurrenceInvoice } = recurrenceSubscription.invoice
-
-		await this.invoiceService.createInvoice({
-			...recurrenceSubscription,
-			...recurrenceInvoice,
-			workspaceId: workspace.state.workspaceId,
-			subscriptionId: subscription.state.subscriptionId,
-			externalId: invoiceId,
-			paymentMethod: input.paymentMethod,
-			description: `Payment for the ${plan.state.name} plan for the month of [Month] [Year].`,
-			issuedAt: new Date(),
-		})
-
 		await this.workspaceService.updateWorkspace(
 			subscription.state.workspaceId,
 			{
-				recurrenceExternalId: recurrenceCustomerId,
+				recurrenceExternalId,
 			},
 		)
 

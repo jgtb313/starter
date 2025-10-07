@@ -8,12 +8,12 @@ import {
 	UpdateDateColumn,
 } from 'typeorm'
 
-import { InvoiceEntity } from '@/adapters/database/invoice/invoice.typeorm.entity'
-import { PlanEntity } from '@/adapters/database/plan/plan.typeorm.entity'
 import type {
 	Subscription,
 	SubscriptionCard,
 } from '@/core/subscription/subscription.schema'
+import { InvoiceEntity } from '@/adapters/database/invoice/invoice.typeorm.entity'
+import { PlanEntity } from '@/adapters/database/plan/plan.typeorm.entity'
 
 @Entity('subscriptions')
 export class SubscriptionEntity {
@@ -69,12 +69,12 @@ export class SubscriptionEntity {
 	payer: Subscription['payer']
 
 	@Column({
-		type: 'datetime',
+		type: 'timestamp',
 	})
 	deadline: Subscription['deadline']
 
 	@Column({
-		type: 'datetime',
+		type: 'timestamp',
 		nullable: true,
 	})
 	canceledAt: Subscription['canceledAt']

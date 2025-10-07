@@ -7,8 +7,8 @@ import {
 	UpdateDateColumn,
 } from 'typeorm'
 
-import { UserEntity } from '@/adapters/database/user/user.typeorm.entity'
 import type { OTP } from '@/core/otp/otp.schema'
+import { UserEntity } from '@/adapters/database/user/user.typeorm.entity'
 
 @Entity('otps')
 export class OTPEntity {
@@ -71,7 +71,7 @@ export class OTPEntity {
 	maxRequestsPerDay: OTP['maxRequestsPerDay']
 
 	@Column({
-		type: 'datetime',
+		type: 'timestamp',
 	})
 	expiresAt: OTP['expiresAt']
 

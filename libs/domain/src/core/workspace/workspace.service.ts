@@ -7,7 +7,6 @@ import type {
 	BaseWorkspace,
 	Workspace,
 } from '@/core/workspace/workspace.schema'
-import { WorkspaceRepositorySymbol } from '@/adapters/database/workspace/workspace.repository.module'
 import { LoggerService } from '@/adapters/logger'
 import { PublisherService } from '@/adapters/publisher/publisher.service'
 import type { IWorkspaceRepository } from '@/ports/database/workspace'
@@ -15,7 +14,7 @@ import type { IWorkspaceRepository } from '@/ports/database/workspace'
 @Injectable()
 export class WorkspaceService {
 	constructor(
-		@Inject(WorkspaceRepositorySymbol)
+		@Inject('WORKSPACE_REPOSITORY')
 		private readonly workspaceRepository: IWorkspaceRepository,
 		@Inject(forwardRef(() => UserService))
 		private readonly userService: UserService,

@@ -1,14 +1,15 @@
 import { Module } from '@nestjs/common'
 
 import { BcryptAdapter } from '@/adapters/encrypt/bcrypt.adapter'
-import { EncryptService } from '@/adapters/encrypt/encrypt.service'
-
-export const EncryptSymbol = Symbol('Encrypt')
+import {
+	EncryptService,
+	EncryptServiceSymbol,
+} from '@/adapters/encrypt/encrypt.service'
 
 @Module({
 	providers: [
 		{
-			provide: EncryptSymbol,
+			provide: EncryptServiceSymbol,
 			useClass: BcryptAdapter,
 		},
 		EncryptService,

@@ -3,12 +3,12 @@ import { Inject, Injectable } from '@nestjs/common'
 import type { IEncryptAdapter } from '@/adapters/encrypt/encrypt.adapter'
 import type { IEncrypt } from '@/ports/encrypt'
 
-import { EncryptSymbol } from './encrypt.module'
+export const EncryptServiceSymbol = Symbol('EncryptService')
 
 @Injectable()
 export class EncryptService implements IEncrypt {
 	constructor(
-		@Inject(EncryptSymbol) private readonly encrypt: IEncryptAdapter,
+		@Inject(EncryptServiceSymbol) private readonly encrypt: IEncryptAdapter,
 	) {}
 
 	hash: IEncrypt['hash'] = (plainText) => {

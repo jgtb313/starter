@@ -11,8 +11,7 @@ import {
 
 import type { ICache } from '@/ports/cache'
 
-import { CacheSymbol } from './cache.module'
-import { CacheService } from './cache.service'
+import { CacheService, CacheServiceSymbol } from './cache.service'
 
 describe('CacheService', () => {
 	let cacheService: CacheService
@@ -28,7 +27,7 @@ describe('CacheService', () => {
 			providers: [
 				CacheService,
 				{
-					provide: CacheSymbol,
+					provide: CacheServiceSymbol,
 					useValue: mockCache,
 				},
 			],
