@@ -1,19 +1,14 @@
 import { Inject } from '@nestjs/common'
-import {
-	PlanSchema,
-	PlanService,
-	type Workspace,
-	WorkspaceSchema,
-} from '@starter/domain'
+import { PlanSchema, PlanService } from '@starter/domain'
 import { Controller, Request, Route } from '@starter/nestjs-server-hoisting'
 
-import { type I18nAPIService, I18nAPISymbol } from '@/api.i18n.module'
 import {
 	type GetPlanRequest,
 	GetPlanSchema,
 	type ListPlansRequest,
 	ListPlansSchema,
 } from '@/core/plan/plan.controller.schema'
+import { type I18nAPIService, I18nAPISymbol } from '@/api.i18n.module'
 
 @Controller({
 	name: 'Plan',
@@ -53,32 +48,15 @@ export class PlanController {
 		},
 	})
 	async listPlans(@Request() { query }: ListPlansRequest) {
-		const fromController = this.i18nService.current.hello({
-			name: 'John',
-		})
-		const customFromController = this.i18nService.current.custom('es').hello({
-			name: 'John',
-		})
-
-		const fromDomain = this.planService.testI18n()
-		const customFromDomain = this.planService.testCustomI18n()
-
-		return {
-			fromController,
-			customFromController,
-			fromDomain,
-			customFromDomain,
-		}
-
-		// return this.planService
-		// 	.getPaginatedPlans({
-		// 		...query,
-		// 		status: 'ACTIVE',
-		// 	})
-		// 	.then((response) => ({
-		// 		...response,
-		// 		values: response.values.map((plan) => plan.toJSON()),
-		// 	}))
+		return this.planService
+			.getPaginatedPlans({
+				...query,
+				status: 'ACTIVE',
+			})
+			.then((response) => ({
+				...response,
+				values: response.values.map((plan) => plan.toJSON()),
+			}))
 	}
 
 	@Route({

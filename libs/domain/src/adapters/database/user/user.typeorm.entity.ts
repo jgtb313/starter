@@ -14,9 +14,9 @@ import {
 
 import type { User } from '@/core/user/user.schema'
 import { OTPEntity } from '@/adapters/database/otp/otp.typeorm.entity'
-
-import { UserAddressEntity } from './user-address.entity'
-import { UserOrganizationEntity } from './user-organization.entity'
+import { UserAddressEntity } from '@/adapters/database/user/user-address.typeorm.entity'
+import { UserOrganizationEntity } from '@/adapters/database/user/user-organization.typeorm.entity'
+import { UserPermissionEntity } from '@/adapters/database/user/user-permission.typeorm.entity'
 
 @Entity('users')
 export class UserEntity {
@@ -41,6 +41,12 @@ export class UserEntity {
 	)
 	userAddresses: UserAddressEntity[]
 
+	@OneToMany(
+		() => UserPermissionEntity,
+		(userPermission) => userPermission.user,
+	)
+	userPermissions: UserPermissionEntity[]
+
 	@Column({
 		type: 'uuid',
 		nullable: true,
@@ -60,6 +66,8 @@ export class UserEntity {
 	facebookProviderId?: User['facebookProviderId']
 
 	organizations: User['organizations']
+
+	attachedPermissions: User['attachedPermissions']
 
 	@Column({
 		type: 'varchar',
@@ -182,6 +190,16 @@ export class UserEntity {
 				organization: userOrganization.organization,
 				roleId: userOrganization.roleId,
 				role: userOrganization.role,
+			}))
+		}
+
+		if (this.userPermissions) {
+			this.attachedPermissions = this.userPermissions.map((userPermission) => ({
+				permissionId: userPermission.permissionId,
+				organizationId: userPermission.organizationId,
+				permission: userPermission.permission,
+				createdAt: userPermission.createdAt.toISOString(),
+				updatedAt: userPermission.updatedAt.toISOString(),
 			}))
 		}
 

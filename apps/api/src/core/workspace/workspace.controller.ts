@@ -65,10 +65,6 @@ export class WorkspaceController {
 		@AuthenticatedUser() user: User,
 		@Request() { params }: GetWorkspaceRequest,
 	) {
-		this.aclService.canPerformActionByPermission(user, 'workspace:read', {
-			workspaceId: params.workspaceId,
-		})
-
 		return this.workspaceService.getWorkspace(params.workspaceId)
 	}
 
@@ -93,8 +89,6 @@ export class WorkspaceController {
 		@AuthenticatedUser() user: User,
 		@Request() { body }: CreateWorkspaceRequest,
 	) {
-		this.aclService.canPerformActionByPermission(user, 'workspace:create')
-
 		return this.workspaceService.createWorkspace(user.userId, {
 			...body,
 			status: 'ACTIVE',

@@ -15,8 +15,8 @@ export class AuthGuard implements CanActivate {
 	constructor(
 		@Inject(ConfigService)
 		private readonly configService: ConfigService,
-		// @Inject(JWTService)
-		// private readonly jwtService: JWTService,
+		@Inject(JWTService)
+		private readonly jwtService: JWTService,
 		@Inject(UserService)
 		private readonly userService: UserService,
 	) {}
@@ -40,19 +40,17 @@ export class AuthGuard implements CanActivate {
 				'SERVER_AUTHENTICATE_SECRET',
 			)!
 
-			// const decoded = await this.jwtService.decode<{
-			// 	userId: string
-			// }>(accessToken, secret)
-
-			const decoded = {
-				userId: '123',
-			}
+			const decoded = await this.jwtService.decode<{
+				userId: string
+			}>(accessToken, secret)
 
 			if (!decoded) {
 				throw new UnauthorizedException('Unauthorized.')
 			}
 
-			request.user = await this.userService.getUser(decoded.userId)
+			const user = await this.userService.getUser(decoded.userId)
+
+			request.user = user.state
 			return true
 		} catch (error) {
 			throw new UnauthorizedException('Unauthorized.')

@@ -8,6 +8,8 @@ export class JoseAdapter implements IJWTAdapter {
 	generate: IJWTAdapter['generate'] = async (value, secret, options) => {
 		const secretKey = new TextEncoder().encode(secret)
 
+		console.log(value)
+
 		const jwt = await new SignJWT(value as JWTPayload)
 			.setProtectedHeader({
 				alg: 'HS256',

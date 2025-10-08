@@ -5,7 +5,12 @@ import {
 	UnauthorizedException,
 } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
-import { EncryptService, LoggerService, UserService } from '@starter/domain'
+import {
+	EncryptService,
+	LoggerService,
+	type User,
+	UserService,
+} from '@starter/domain'
 
 import { JWTService } from '@/adapters/jwt'
 import { SocialAuthService } from '@/adapters/social-auth'
@@ -56,7 +61,7 @@ export class AuthService {
 			throw new UnauthorizedException('Invalid access data.')
 		}
 
-		return this.grantAccessToken(user)
+		return this.grantAccessToken(user.state)
 	}
 
 	async socialSignOn(input) {
@@ -73,22 +78,24 @@ export class AuthService {
 			email,
 		)
 
-		// if (!user) {
-		// 	const user = await this.userService.createUser({
-		// 		name,
-		// 		email: email ?? `${providerId}@${input.context.toLowerCase()}.com`,
-		// 		phone: null,
-		// 		avatar,
-		// 		password: providerId,
-		// 		socialFacebookId: null,
-		// 		socialGoogleId: null,
-		// 		status: 'ACTIVE',
-		// 	})
+		if (!user) {
+			const user = await this.userService.createUser({
+				googleProviderId: null,
+				facebookProviderId: null,
+				organizations: [],
+				addresses: [],
+				name,
+				email: email ?? `${providerId}@${input.context.toLowerCase()}.com`,
+				phone: null,
+				avatar,
+				password: providerId,
+				status: 'ACTIVE',
+			})
 
-		// 	return this.grantAccessToken(user)
-		// }
+			return this.grantAccessToken(user.state)
+		}
 
-		return this.grantAccessToken(user)
+		return this.grantAccessToken(user.state)
 	}
 
 	async signUp({ name, email, password }) {
@@ -98,18 +105,20 @@ export class AuthService {
 			throw new ConflictException(`E-mail ${email} has already been taken.`)
 		}
 
-		// const user = await this.userService.createUser({
-		// 	name,
-		// 	email,
-		// 	phone: null,
-		// 	avatar: null,
-		// 	password,
-		// 	socialFacebookId: null,
-		// 	socialGoogleId: null,
-		// 	status: 'ACTIVE',
-		// })
+		const user = await this.userService.createUser({
+			googleProviderId: null,
+			facebookProviderId: null,
+			organizations: [],
+			addresses: [],
+			name,
+			email,
+			phone: null,
+			avatar: null,
+			password,
+			status: 'ACTIVE',
+		})
 
-		// return this.grantAccessToken(user)
+		return this.grantAccessToken(user.state)
 	}
 
 	async forgotPassword({ email, password }) {
@@ -123,10 +132,10 @@ export class AuthService {
 
 		await this.userService.updateUser(user.state.userId, {})
 
-		return this.grantAccessToken(user)
+		return this.grantAccessToken(user.state)
 	}
 
-	async grantAccessToken(user) {
+	async grantAccessToken(user: User) {
 		const tokenPayload = {
 			userId: user.userId,
 		}

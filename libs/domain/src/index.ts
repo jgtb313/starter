@@ -1,5 +1,7 @@
 import 'reflect-metadata'
 
+export { Transactional } from 'typeorm-transactional'
+
 export * from '@/support/base-schema'
 export * from '@/core/invoice'
 export * from '@/core/organization'

@@ -18,6 +18,19 @@ type FindByPhoneOptions = {
 	workspaceId?: User['workspaceId']
 }
 
+type UserRelationsInput = Partial<{
+	organizations: Pick<
+		User['organizations'][number],
+		'organizationId' | 'roleId'
+	>[]
+	attachedPermissions: Pick<
+		User['attachedPermissions'][number],
+		'permissionId' | 'organizationId'
+	>[]
+}>
+type CreateUserInput = BaseUser & UserRelationsInput
+type UpdateUserInput = Partial<BaseUser> & UserRelationsInput
+
 export type IUserRepository = {
 	findAllPaginated(
 		input: Merge<
@@ -44,8 +57,8 @@ export type IUserRepository = {
 		email: string,
 	): Promise<UserDomain | null>
 
-	create(input: BaseUser): Promise<UserDomain>
-	updateById(userId: string, input: Partial<User>): Promise<UserDomain>
+	create(input: CreateUserInput): Promise<UserDomain>
+	updateById(userId: string, input: UpdateUserInput): Promise<UserDomain>
 	deleteById(userId: string): Promise<void>
 
 	attachOrganization(

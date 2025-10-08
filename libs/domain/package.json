@@ -48,7 +48,8 @@
 		"sqlite3": "^5.1.7",
 		"stripe": "^18.0.0",
 		"twilio": "^5.4.3",
-		"typeorm": "^0.3.20"
+		"typeorm": "^0.3.20",
+		"typeorm-transactional": "^0.5.0"
 	},
 	"main": "dist/domain.cjs",
 	"module": "dist/domain.js",

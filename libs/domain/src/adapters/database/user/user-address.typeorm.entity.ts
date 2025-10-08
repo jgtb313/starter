@@ -3,15 +3,13 @@ import {
 	Column,
 	CreateDateColumn,
 	Entity,
-	JoinColumn,
 	ManyToOne,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 } from 'typeorm'
 
 import type { User } from '@/core/user/user.schema'
-
-import { UserEntity } from './user.typeorm.entity'
+import { UserEntity } from '@/adapters/database/user/user.typeorm.entity'
 
 type UserAddress = User['addresses'][number]
 
@@ -20,19 +18,16 @@ export class UserAddressEntity {
 	@PrimaryGeneratedColumn('uuid')
 	userAddressId: string
 
-	@Column({
-		type: 'uuid',
-	})
-	userId: string
-
 	@ManyToOne(
 		() => UserEntity,
 		(user) => user.userAddresses,
 	)
-	@JoinColumn({
-		name: 'userId',
-	})
 	user: UserEntity
+
+	@Column({
+		type: 'uuid',
+	})
+	userId: string
 
 	@Column({
 		type: 'varchar',

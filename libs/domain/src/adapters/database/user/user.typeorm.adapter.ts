@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { capitalize } from '@starter/common'
 import { PaginationSchemaTransform } from '@starter/schema'
 import {
+	type FindOptionsRelations,
 	type FindOptionsWhere,
 	ILike,
 	In,
@@ -10,13 +11,13 @@ import {
 	type Repository,
 } from 'typeorm'
 
-import { UserAddressEntity } from './user-address.entity'
-import { UserOrganizationEntity } from './user-organization.entity'
-
-import { UserEntity } from '@/adapters/database/user/user.typeorm.entity'
-import { UserDomain } from '@/core/user/user.domain'
-import type { IUserRepository } from '@/ports/database/user'
 import { deepMapDatesToISOString } from '@/support/utilities'
+import { UserDomain } from '@/core/user/user.domain'
+import { UserEntity } from '@/adapters/database/user/user.typeorm.entity'
+import type { IUserRepository } from '@/ports/database/user'
+
+import { UserAddressEntity } from './user-address.typeorm.entity'
+import { UserOrganizationEntity } from './user-organization.typeorm.entity'
 
 @Injectable()
 export class UserTypeorm implements IUserRepository {
@@ -64,13 +65,7 @@ export class UserTypeorm implements IUserRepository {
 		const [values, total] = await this.repository.findAndCount({
 			where,
 			take,
-			relations: {
-				organizations: {
-					organization: true,
-					role: true,
-				},
-				userAddresses: true,
-			},
+			relations: this.getRelations(),
 		})
 
 		const nextCursor =
@@ -101,6 +96,7 @@ export class UserTypeorm implements IUserRepository {
 
 		const values = await this.repository.find({
 			where,
+			relations: this.getRelations(),
 		})
 
 		return values.map((user) => this.toUserDomain(user))
@@ -111,6 +107,7 @@ export class UserTypeorm implements IUserRepository {
 			where: {
 				userId,
 			},
+			relations: this.getRelations(),
 		})
 
 		if (!user) {
@@ -131,6 +128,7 @@ export class UserTypeorm implements IUserRepository {
 
 		const user = await this.repository.findOne({
 			where,
+			relations: this.getRelations(),
 		})
 
 		if (!user) {
@@ -153,6 +151,7 @@ export class UserTypeorm implements IUserRepository {
 
 		const user = await this.repository.findOne({
 			where,
+			relations: this.getRelations(),
 		})
 
 		if (!user) {
@@ -178,6 +177,7 @@ export class UserTypeorm implements IUserRepository {
 
 		const user = await this.repository.findOne({
 			where,
+			relations: this.getRelations(),
 		})
 
 		if (!user) {
@@ -309,6 +309,19 @@ export class UserTypeorm implements IUserRepository {
 			userId: user.state.userId,
 			userAddressId: addressId,
 		})
+	}
+
+	private getRelations(): FindOptionsRelations<UserEntity> {
+		return {
+			organizations: {
+				organization: true,
+				role: true,
+			},
+			userAddresses: true,
+			userPermissions: {
+				permission: true,
+			},
+		}
 	}
 
 	private toUserDomain(model: UserEntity) {

@@ -3,11 +3,14 @@ import { resolve } from 'node:path'
 
 import type { INestApplication } from '@nestjs/common'
 import { config, type Stage } from '@starter/config'
+import { setupDatabaseTransaction } from '@starter/domain'
 import { NestServerHoistingFactory } from '@starter/nestjs-server-hoisting'
 
 import { APIModule } from '@/api.module'
 
 export const bootstrap = async (): Promise<INestApplication> => {
+	setupDatabaseTransaction()
+
 	const documentationPath = resolve(process.cwd(), 'docs/Documentation.md')
 	const documentation = readFileSync(documentationPath, 'utf-8')
 

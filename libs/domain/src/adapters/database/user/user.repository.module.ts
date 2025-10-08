@@ -3,8 +3,8 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 
 import { UserTypeorm } from '@/adapters/database/user/user.typeorm.adapter'
 import { UserEntity } from '@/adapters/database/user/user.typeorm.entity'
-import { UserAddressEntity } from '@/adapters/database/user/user-address.entity'
-import { UserOrganizationEntity } from '@/adapters/database/user/user-organization.entity'
+import { UserAddressEntity } from '@/adapters/database/user/user-address.typeorm.entity'
+import { UserOrganizationEntity } from '@/adapters/database/user/user-organization.typeorm.entity'
 
 @Module({
 	imports: [

@@ -115,7 +115,7 @@ export class AuthController {
 			recipient: body.email,
 		})
 
-		return this.authService.grantAccessToken(user)
+		return this.authService.grantAccessToken(user.state)
 	}
 
 	@Route({

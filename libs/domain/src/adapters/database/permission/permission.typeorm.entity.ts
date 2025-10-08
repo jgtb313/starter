@@ -7,8 +7,9 @@ import {
 	UpdateDateColumn,
 } from 'typeorm'
 
-import { RolePermissionEntity } from '@/adapters/database/role/role-permission.typeorm.entity'
 import type { Permission } from '@/core/permission/permission.schema'
+import { RolePermissionEntity } from '@/adapters/database/role/role-permission.typeorm.entity'
+import { UserPermissionEntity } from '@/adapters/database/user/user-permission.typeorm.entity'
 
 @Entity('permissions')
 export class PermissionEntity {
@@ -20,6 +21,12 @@ export class PermissionEntity {
 		(rolePermission) => rolePermission.permission,
 	)
 	rolePermissions: RolePermissionEntity[]
+
+	@OneToMany(
+		() => UserPermissionEntity,
+		(userPermission) => userPermission.permission,
+	)
+	userPermissions: UserPermissionEntity[]
 
 	@Column({
 		type: 'varchar',

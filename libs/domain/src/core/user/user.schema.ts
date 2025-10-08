@@ -10,9 +10,10 @@ import {
 	z,
 } from '@starter/schema'
 
-import { OrganizationSchema } from '@/core/organization/organization.schema'
-import { RoleSchema } from '@/core/role/role.schema'
 import { BaseSchema } from '@/support/base-schema'
+import { OrganizationSchema } from '@/core/organization/organization.schema'
+import { PermissionSchema } from '@/core/permission/permission.schema'
+import { RoleSchema } from '@/core/role/role.schema'
 
 const WorkspaceId = BaseSchema.id('workspaceId')
 	.nullish()
@@ -37,6 +38,18 @@ const Organizations = z
 			role: RoleSchema.omit({
 				organizations: true,
 			}),
+		}),
+	)
+	.default([])
+
+const AttachedPermissions = z
+	.array(
+		z.object({
+			permissionId: BaseSchema.id('permission'),
+			organizationId: BaseSchema.id('organization').nullish(),
+			permission: PermissionSchema,
+			createdAt: BaseSchema.createdAt,
+			updatedAt: BaseSchema.updatedAt,
 		}),
 	)
 	.default([])
@@ -84,6 +97,7 @@ export const UserSchema = z.object({
 	googleProviderId: GoogleProviderId,
 	facebookProviderId: FacebookProviderId,
 	organizations: Organizations,
+	attachedPermissions: AttachedPermissions,
 	name: Name,
 	email: Email,
 	phone: Phone,
@@ -105,6 +119,10 @@ export type BaseUser = BaseSchema<
 	{
 		optional: [
 			'userId',
+		]
+		exclude: [
+			'organizations',
+			'attachedPermissions',
 		]
 	}
 >

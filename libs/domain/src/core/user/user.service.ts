@@ -11,12 +11,11 @@ import {
 	createWorkspaceReference,
 	type WithWorkspaceReference,
 } from '@/support/workspace-reference'
-
-import { EncryptService } from '@/adapters/encrypt'
 import { RoleService } from '@/core/role/role.service'
 import type { BaseUser, User } from '@/core/user/user.schema'
 import type { WorkspaceDomain } from '@/core/workspace/workspace.domain'
 import { WorkspaceService } from '@/core/workspace/workspace.service'
+import { EncryptService } from '@/adapters/encrypt'
 import type { IUserRepository } from '@/ports/database/user'
 
 export type UserWorkspaceReference = WithWorkspaceReference<'userId'>
@@ -152,7 +151,7 @@ export class UserService {
 		// 	// payload.scopes = scopes
 		// }
 
-		await this.userRepository.updateById(user.state.userId, payload)
+		await this.userRepository.updateById(user.state.userId, {})
 
 		return this.getUser(user.state.userId)
 	}

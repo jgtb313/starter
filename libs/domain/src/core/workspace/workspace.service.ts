@@ -1,6 +1,7 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common'
 import type { Merge } from '@starter/common'
 import type { BaseAddress, BusinessAddress, Pagination } from '@starter/schema'
+import { Transactional } from 'typeorm-transactional'
 
 import { UserService } from '@/core/user/user.service'
 import type {
@@ -38,12 +39,14 @@ export class WorkspaceService {
 		return this.workspaceRepository.findById(workspaceId)
 	}
 
+	@Transactional()
 	async createWorkspace(userId: string, input: BaseWorkspace) {
 		const user = await this.userService.getUser(userId)
 
 		const workspace = await this.workspaceRepository.create(input)
 
 		user.assignToWorkspace(workspace.state.workspaceId)
+		// user.attachPermission('workspace:manage')
 
 		await this.userService.updateUser(user.state.userId, user.state)
 

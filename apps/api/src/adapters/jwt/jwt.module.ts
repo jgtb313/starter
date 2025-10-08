@@ -1,8 +1,9 @@
-import { Module } from '@nestjs/common'
+import { Global, Module } from '@nestjs/common'
 
-import { JoseModule } from './jose.adapter.module'
-import { JWTService } from './jwt.service'
+import { JoseModule } from '@/adapters/jwt/jose.adapter.module'
+import { JWTService } from '@/adapters/jwt/jwt.service'
 
+@Global()
 @Module({
 	imports: [
 		JoseModule,

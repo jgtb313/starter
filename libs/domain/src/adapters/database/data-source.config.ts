@@ -4,6 +4,7 @@ import { config } from 'dotenv'
 import type { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions'
 
 import { NamingStrategy } from '@/adapters/database/database.naming-strategy'
+import { ColumnFilterSubscriber } from '@/adapters/database/database.subscribers'
 
 const root = join(process.cwd(), '../../', '.env')
 
@@ -39,6 +40,9 @@ export const createDataSourceConfig = (
 		migrationsRun: false,
 		synchronize: process.env.STAGE === 'local',
 		namingStrategy: new NamingStrategy(),
+		subscribers: [
+			ColumnFilterSubscriber,
+		],
 		...options,
 	}
 }
