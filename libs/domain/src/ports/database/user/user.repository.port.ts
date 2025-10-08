@@ -2,7 +2,7 @@ import type { Merge } from '@starter/common'
 import type { Pagination, PaginationOutput, Phone, Sort } from '@starter/schema'
 
 import type { UserDomain } from '@/core/user/user.domain'
-import type { BaseUser, User } from '@/core/user/user.schema'
+import type { User, UserInput } from '@/core/user/user.schema'
 
 type FindUserInput = Partial<
 	Pick<User, 'workspaceId' | 'email' | 'phone' | 'status'>
@@ -18,21 +18,8 @@ type FindByPhoneOptions = {
 	workspaceId?: User['workspaceId']
 }
 
-type UserRelationsInput = Partial<{
-	organizations: Pick<
-		User['organizations'][number],
-		'organizationId' | 'roleId'
-	>[]
-	attachedPermissions: Pick<
-		User['attachedPermissions'][number],
-		'permissionId' | 'organizationId'
-	>[]
-}>
-type CreateUserInput = BaseUser & UserRelationsInput
-type UpdateUserInput = Partial<BaseUser> & UserRelationsInput
-
 export type IUserRepository = {
-	findAllPaginated(
+	findPaginated(
 		input: Merge<
 			[
 				FindUserInput,
@@ -41,7 +28,7 @@ export type IUserRepository = {
 			]
 		>,
 	): Promise<PaginationOutput<UserDomain>>
-	findAll(input: Partial<User>): Promise<UserDomain[]>
+	find(input: Partial<User>): Promise<UserDomain[]>
 	findById(userId: string): Promise<UserDomain>
 	findByEmail(
 		email: string,
@@ -57,10 +44,11 @@ export type IUserRepository = {
 		email: string,
 	): Promise<UserDomain | null>
 
-	create(input: CreateUserInput): Promise<UserDomain>
-	updateById(userId: string, input: UpdateUserInput): Promise<UserDomain>
+	create(input: UserInput): Promise<UserDomain>
+	updateById(userId: string, input: Partial<UserInput>): Promise<UserDomain>
 	deleteById(userId: string): Promise<void>
 
+	findOrganizations(userId: string): Promise<User['organizations']>
 	attachOrganization(
 		userId: string,
 		organizationId: string,
@@ -76,6 +64,23 @@ export type IUserRepository = {
 		organizationIds: string[],
 	): Promise<void>
 
+	findPermissions(userId: string): Promise<User['attachedPermissions']>
+	attachPermission(
+		userId: string,
+		permissionId: string,
+		organizationId: string,
+	): Promise<UserDomain>
+	attachManyPermissions(
+		userId: string,
+		input: Pick<
+			User['attachedPermissions'][number],
+			'permissionId' | 'organizationId'
+		>[],
+	): Promise<UserDomain>
+	detachPermission(userId: string, permissionId: string): Promise<void>
+	detachManyPermissions(userId: string, permissionIds: string[]): Promise<void>
+
+	findAddresses(userId: string): Promise<User['addresses']>
 	createAddress(
 		userId: string,
 		input: User['addresses'][number],

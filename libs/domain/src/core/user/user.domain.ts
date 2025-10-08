@@ -31,9 +31,6 @@ export class UserDomain extends BaseDomain<User, UserInput> {
 	}
 
 	assignToWorkspace(workspaceId: string) {
-		console.log('this.state.workspaceId', this.state.workspaceId)
-		console.log('workspaceId', workspaceId)
-
 		if (this.state.workspaceId) {
 			throw new ConflictException(
 				'This user is already assigned to a workspace.',

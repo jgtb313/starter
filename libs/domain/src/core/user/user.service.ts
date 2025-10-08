@@ -12,7 +12,7 @@ import {
 	type WithWorkspaceReference,
 } from '@/support/workspace-reference'
 import { RoleService } from '@/core/role/role.service'
-import type { BaseUser, User } from '@/core/user/user.schema'
+import type { User, UserInput } from '@/core/user/user.schema'
 import type { WorkspaceDomain } from '@/core/workspace/workspace.domain'
 import { WorkspaceService } from '@/core/workspace/workspace.service'
 import { EncryptService } from '@/adapters/encrypt'
@@ -40,7 +40,7 @@ export class UserService {
 			]
 		>,
 	) {
-		return this.userRepository.findAllPaginated(input)
+		return this.userRepository.findPaginated(input)
 	}
 
 	async getUser(reference: UserWorkspaceReference) {
@@ -99,7 +99,7 @@ export class UserService {
 		return user
 	}
 
-	async createUser({ workspaceId, ...input }: BaseUser) {
+	async createUser({ workspaceId, ...input }: UserInput) {
 		let workspace: WorkspaceDomain | undefined
 
 		if (workspaceId) {
@@ -125,7 +125,7 @@ export class UserService {
 
 		const user = await this.userRepository.create({
 			...input,
-			workspaceId: workspace?.state.workspaceId,
+			workspaceId: workspace?.state.workspaceId ?? null,
 			// scopes,
 			password: hashedPassword,
 		})
@@ -133,10 +133,13 @@ export class UserService {
 		return user
 	}
 
-	async updateUser(reference: UserWorkspaceReference, input: Partial<User>) {
+	async updateUser(
+		reference: UserWorkspaceReference,
+		input: Partial<UserInput>,
+	) {
 		const user = await this.getUser(reference)
 
-		const payload: Partial<User> = {
+		const payload: Partial<UserInput> = {
 			...input,
 		}
 
@@ -151,7 +154,7 @@ export class UserService {
 		// 	// payload.scopes = scopes
 		// }
 
-		await this.userRepository.updateById(user.state.userId, {})
+		await this.userRepository.updateById(user.state.userId, payload)
 
 		return this.getUser(user.state.userId)
 	}

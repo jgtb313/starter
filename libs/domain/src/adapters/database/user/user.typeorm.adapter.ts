@@ -18,6 +18,7 @@ import type { IUserRepository } from '@/ports/database/user'
 
 import { UserAddressEntity } from './user-address.typeorm.entity'
 import { UserOrganizationEntity } from './user-organization.typeorm.entity'
+import { UserPermissionEntity } from './user-permission.typeorm.entity'
 
 @Injectable()
 export class UserTypeorm implements IUserRepository {
@@ -28,6 +29,8 @@ export class UserTypeorm implements IUserRepository {
 		private readonly userAddressRepository: Repository<UserAddressEntity>,
 		@InjectRepository(UserOrganizationEntity)
 		private readonly userOrganizationRepository: Repository<UserOrganizationEntity>,
+		@InjectRepository(UserPermissionEntity)
+		private readonly userPermissionRepository: Repository<UserPermissionEntity>,
 	) {}
 
 	findAllPaginated: IUserRepository['findAllPaginated'] = async ({
@@ -187,14 +190,44 @@ export class UserTypeorm implements IUserRepository {
 		return this.toUserDomain(user)
 	}
 
-	create: IUserRepository['create'] = async ({
-		organizations,
-		addresses,
+	async create({
+		organizations = [],
+		attachedPermissions = [],
+		addresses = [],
 		...input
-	}) => {
+	}: Parameters<IUserRepository['create']>[number]) {
 		const data = this.repository.create(input)
 
 		const user = await this.repository.save(data)
+
+		if (organizations.length) {
+			await this.userOrganizationRepository.insert(
+				organizations.map((organization) => ({
+					userId: user.userId,
+					organizationId: organization.organizationId,
+					roleId: organization.roleId,
+				})),
+			)
+		}
+
+		if (attachedPermissions.length) {
+			await this.userPermissionRepository.insert(
+				attachedPermissions.map((permission) => ({
+					userId: user.userId,
+					permissionId: permission.permissionId,
+					organizationId: permission.organizationId ?? undefined,
+				})),
+			)
+		}
+
+		if (addresses.length) {
+			await this.userAddressRepository.insert(
+				addresses.map((address) => ({
+					userId: user.userId,
+					...address,
+				})),
+			)
+		}
 
 		return this.toUserDomain(user)
 	}

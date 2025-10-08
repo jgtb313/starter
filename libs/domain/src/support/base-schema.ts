@@ -5,35 +5,20 @@ export type BaseSchema<
 	T,
 	Config extends {
 		optional?: (keyof T)[]
-		exclude?: (keyof T)[]
-	} = {},
+	} = {
+		optional?: []
+	},
 > = {
 	[Key in keyof PickNullable<
-		Omit<
-			T,
-			| 'createdAt'
-			| 'updatedAt'
-			| NonNullable<Config['optional']>[number]
-			| NonNullable<Config['exclude']>[number]
-		>
+		Omit<T, 'createdAt' | 'updatedAt' | NonNullable<Config['optional']>[number]>
 	>]?: Exclude<T[Key], null> | null
 } & {
 	[Key in keyof PickNotNullable<
-		Omit<
-			T,
-			| 'createdAt'
-			| 'updatedAt'
-			| NonNullable<Config['optional']>[number]
-			| NonNullable<Config['exclude']>[number]
-		>
+		Omit<T, 'createdAt' | 'updatedAt' | NonNullable<Config['optional']>[number]>
 	>]: T[Key]
 } & {
 	[Key in NonNullable<Config['optional']>[number]]?: T[Key]
-} & (Config extends {
-		exclude: (keyof T)[]
-	}
-		? { [Key in Config['exclude'][number]]?: never }
-		: {})
+}
 
 export const ID = (resourceName: string) => {
 	return z.uuid().meta({
