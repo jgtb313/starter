@@ -1,6 +1,5 @@
 import { Inject, UnauthorizedException } from '@nestjs/common'
 import { OTPService, UserService } from '@starter/domain'
-import { I18nService } from '@starter/nestjs-i18n'
 import { Controller, Request, Route } from '@starter/nestjs-server-hoisting'
 
 import {
@@ -16,6 +15,7 @@ import {
 	SocialSignOnSchema,
 } from '@/core/auth/auth.controller.schema'
 import { AuthService } from '@/core/auth/auth.service'
+import { type I18nAPIService, I18nAPISymbol } from '@/api.i18n.module'
 
 @Controller({
 	name: 'Auth',
@@ -28,14 +28,14 @@ import { AuthService } from '@/core/auth/auth.service'
 })
 export class AuthController {
 	constructor(
-		// @Inject(I18nService)
-		// private readonly i18nService: I18nService,
 		@Inject(AuthService)
 		private readonly authService: AuthService,
 		@Inject(UserService)
 		private readonly userService: UserService,
 		@Inject(OTPService)
 		private readonly otpService: OTPService,
+		@Inject(I18nAPISymbol)
+		private readonly i18nService: I18nAPIService,
 	) {}
 
 	@Route({
@@ -106,7 +106,9 @@ export class AuthController {
 		const user = await this.userService.getUserByEmail(body.email)
 
 		if (!user) {
-			throw new UnauthorizedException('Invalid access data.')
+			throw new UnauthorizedException(
+				this.i18nService.current.invalidAccessData(),
+			)
 		}
 
 		await this.otpService.validateOTP({
@@ -115,7 +117,7 @@ export class AuthController {
 			recipient: body.email,
 		})
 
-		return this.authService.grantAccessToken(user.state)
+		return this.authService.grantAccessToken(user)
 	}
 
 	@Route({

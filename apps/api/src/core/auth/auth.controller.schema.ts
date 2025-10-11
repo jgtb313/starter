@@ -18,15 +18,36 @@ const OTPVerificationSchema = z.object({
 		}),
 	),
 })
+export type OTPVerificationInput = z.input<typeof OTPVerificationSchema>
+
+export const AuthenticatedSchema = z.object({
+	accessToken: z.string().meta({
+		description: 'JWT access token used to authenticate API requests.',
+		example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
+	}),
+
+	refreshToken: z.string().meta({
+		description: 'JWT refresh token used to obtain new access tokens.',
+		example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
+	}),
+
+	tokenType: z.string().default('Bearer').meta({
+		description: 'Type of token returned. Usually "Bearer".',
+		example: 'Bearer',
+	}),
+
+	expiresIn: z.number().meta({
+		description: 'Access token expiration time in hours.',
+		example: 8,
+	}),
+})
 
 export const SignInSchema = createRequestSchema({
 	body: z.object({
 		email: EmailSchema,
 		password: z.string().min(1),
 	}),
-	output: z.object({
-		accessToken: z.string(),
-	}),
+	output: AuthenticatedSchema,
 })
 export type SignInRequest = RequestInput<typeof SignInSchema>
 
@@ -36,9 +57,7 @@ export const PasswordLessSchema = createRequestSchema({
 			email: EmailSchema,
 		})
 		.and(OTPVerificationSchema),
-	output: z.object({
-		accessToken: z.string(),
-	}),
+	output: AuthenticatedSchema,
 })
 export type PasswordLessRequest = RequestInput<typeof PasswordLessSchema>
 
@@ -47,9 +66,7 @@ export const SocialSignOnSchema = createRequestSchema({
 		context: z.nativeEnum(SocialAuthEnum),
 		providerToken: z.string().min(1),
 	}),
-	output: z.object({
-		accessToken: z.string(),
-	}),
+	output: AuthenticatedSchema,
 })
 export type SocialSignOnRequest = RequestInput<typeof SocialSignOnSchema>
 
@@ -59,9 +76,7 @@ export const SignUpSchema = createRequestSchema({
 		email: true,
 		password: true,
 	}),
-	output: z.object({
-		accessToken: z.string(),
-	}),
+	output: AuthenticatedSchema,
 })
 export type SignUpRequest = RequestInput<typeof SignUpSchema>
 
@@ -72,8 +87,6 @@ export const ForgotPasswordSchema = createRequestSchema({
 			password: PasswordSchema,
 		})
 		.and(OTPVerificationSchema),
-	output: z.object({
-		accessToken: z.string(),
-	}),
+	output: AuthenticatedSchema,
 })
 export type ForgotPasswordRequest = RequestInput<typeof ForgotPasswordSchema>

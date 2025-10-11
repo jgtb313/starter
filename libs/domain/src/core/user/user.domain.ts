@@ -1,10 +1,8 @@
-import { ConflictException } from '@starter/nestjs-error-handling'
-
 import { BaseDomain } from '@/support/base-domain'
-import { type User, type UserInput, UserSchema } from '@/core/user/user.schema'
+import { type User, UserSchema } from '@/core/user/user.schema'
 
-export class UserDomain extends BaseDomain<User, UserInput> {
-	constructor(user: UserInput) {
+export class UserDomain extends BaseDomain<User> {
+	constructor(user: User) {
 		super(UserSchema, user)
 	}
 
@@ -20,35 +18,11 @@ export class UserDomain extends BaseDomain<User, UserInput> {
 		return this.state.status === 'INACTIVE'
 	}
 
-	markAsActive() {
-		this.checkIfCanBeActive()
-		this.state.status = 'ACTIVE'
+	checkIfCanActivate() {
+		return this.isInactive()
 	}
 
-	markAsInactive() {
-		this.checkIfCanBeInactive()
-		this.state.status = 'INACTIVE'
-	}
-
-	assignToWorkspace(workspaceId: string) {
-		if (this.state.workspaceId) {
-			throw new ConflictException(
-				'This user is already assigned to a workspace.',
-			)
-		}
-
-		this.state.workspaceId = workspaceId
-	}
-
-	private checkIfCanBeActive() {
-		if (this.isActive()) {
-			throw new ConflictException('This user is already active.')
-		}
-	}
-
-	private checkIfCanBeInactive() {
-		if (this.isInactive()) {
-			throw new ConflictException('This user is already inactive.')
-		}
+	checkIfCanDeactivate() {
+		return this.isActive()
 	}
 }

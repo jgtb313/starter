@@ -9,14 +9,6 @@ import type {
 
 type FindWorkspaceInput = Partial<Workspace>
 
-// export type IWorkspaceRepository = {
-//   findAllPaginated(input: Pagination<Workspace>): Promise<PaginationOutput<Workspace>>
-//   findAll(input: Partial<Workspace>): Promise<Workspace[]>
-//   findById(workspaceId: string): Promise<Workspace>
-//   create(input: BaseWorkspace): Promise<Workspace>
-//   updateById(workspaceId: string, input: Partial<Workspace>): Promise<Workspace>
-// }
-
 export type IWorkspaceRepository = {
 	findAllPaginated(
 		input: Merge<

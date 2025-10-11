@@ -1,18 +1,21 @@
 import type { I18nDict } from '@starter/i18n'
 
 const en = {
-	hello: 'Hello {name:string}',
+	emailHasAlreadyBeenTaken: 'Email {email:string} has already been taken.',
+	invalidAccessData: 'Invalid access data.',
 } as const
 type Translations = {
 	[K in keyof typeof en]: string
 }
 
 const es: Translations = {
-	hello: 'Hola {name:string}',
+	emailHasAlreadyBeenTaken: 'El correo {email:string} ya está en uso.',
+	invalidAccessData: 'Datos de acceso no válidos.',
 }
 
 const ptBR: Translations = {
-	hello: 'Olá {name:string}',
+	emailHasAlreadyBeenTaken: 'O e-mail {email:string} já está em uso.',
+	invalidAccessData: 'Dados de acesso inválidos.',
 }
 
 export const i18nDict: I18nDict = {

@@ -12,7 +12,7 @@ import {
 } from 'typeorm'
 
 import { deepMapDatesToISOString } from '@/support/utilities'
-import { UserDomain } from '@/core/user/user.domain'
+import { UserSchema } from '@/core/user'
 import { UserEntity } from '@/adapters/database/user/user.typeorm.entity'
 import type { IUserRepository } from '@/ports/database/user'
 
@@ -33,7 +33,7 @@ export class UserTypeorm implements IUserRepository {
 		private readonly userPermissionRepository: Repository<UserPermissionEntity>,
 	) {}
 
-	findAllPaginated: IUserRepository['findAllPaginated'] = async ({
+	findPaginated: IUserRepository['findPaginated'] = async ({
 		cursor,
 		limit,
 		...query
@@ -84,7 +84,7 @@ export class UserTypeorm implements IUserRepository {
 		}
 	}
 
-	findAll: IUserRepository['findAll'] = async (input) => {
+	find: IUserRepository['find'] = async (input) => {
 		const { name, status } = input
 
 		const where: FindOptionsWhere<UserEntity> = {}
@@ -235,17 +235,23 @@ export class UserTypeorm implements IUserRepository {
 	updateById: IUserRepository['updateById'] = async (userId, input) => {
 		const user = await this.findById(userId)
 
-		await this.repository.update(user.state.userId, input)
+		await this.repository.update(user.userId, input)
 
-		return this.findById(user.state.userId)
+		return this.findById(user.userId)
 	}
 
 	deleteById: IUserRepository['deleteById'] = async (userId) => {
 		const user = await this.findById(userId)
 
 		await this.repository.softDelete({
-			userId: user.state.userId,
+			userId: user.userId,
 		})
+	}
+
+	findOrganizations: IUserRepository['findOrganizations'] = async (userId) => {
+		const user = await this.findById(userId)
+
+		return user.organizations
 	}
 
 	attachOrganization: IUserRepository['attachOrganization'] = async (
@@ -256,12 +262,12 @@ export class UserTypeorm implements IUserRepository {
 		const user = await this.findById(userId)
 
 		await this.userOrganizationRepository.create({
-			userId: user.state.userId,
+			userId: user.userId,
 			organizationId,
 			roleId,
 		})
 
-		return this.findById(user.state.userId)
+		return this.findById(user.userId)
 	}
 
 	attachManyOrganizations: IUserRepository['attachManyOrganizations'] = async (
@@ -272,7 +278,7 @@ export class UserTypeorm implements IUserRepository {
 
 		const organizationUsers = input.map(({ organizationId, roleId }) =>
 			this.userOrganizationRepository.create({
-				userId: user.state.userId,
+				userId: user.userId,
 				organizationId,
 				roleId,
 			}),
@@ -280,7 +286,7 @@ export class UserTypeorm implements IUserRepository {
 
 		await this.userOrganizationRepository.insert(organizationUsers)
 
-		return this.findById(user.state.userId)
+		return this.findById(user.userId)
 	}
 
 	detachOrganization: IUserRepository['detachOrganization'] = async (
@@ -290,7 +296,7 @@ export class UserTypeorm implements IUserRepository {
 		const user = await this.findById(userId)
 
 		await this.userOrganizationRepository.softDelete({
-			userId: user.state.userId,
+			userId: user.userId,
 			organizationId,
 		})
 	}
@@ -302,9 +308,15 @@ export class UserTypeorm implements IUserRepository {
 		const user = await this.findById(userId)
 
 		await this.userOrganizationRepository.softDelete({
-			userId: user.state.userId,
+			userId: user.userId,
 			organizationId: In(organizationIds),
 		})
+	}
+
+	findAddresses: IUserRepository['findAddresses'] = async (userId) => {
+		const user = await this.findById(userId)
+
+		return user.addresses
 	}
 
 	createAddress: IUserRepository['createAddress'] = async (userId, input) => {
@@ -312,12 +324,12 @@ export class UserTypeorm implements IUserRepository {
 
 		const address = await this.userAddressRepository.create({
 			...input,
-			userId: user.state.userId,
+			userId: user.userId,
 		})
 
 		await this.userAddressRepository.save(address)
 
-		return this.findById(user.state.userId)
+		return this.findById(user.userId)
 	}
 
 	updateAddressById: IUserRepository['updateAddressById'] = async (
@@ -329,7 +341,7 @@ export class UserTypeorm implements IUserRepository {
 
 		await this.userAddressRepository.update(addressId, input)
 
-		return this.findById(user.state.userId)
+		return this.findById(user.userId)
 	}
 
 	deleteAddressById: IUserRepository['deleteAddressById'] = async (
@@ -339,8 +351,71 @@ export class UserTypeorm implements IUserRepository {
 		const user = await this.findById(userId)
 
 		await this.userAddressRepository.softDelete({
-			userId: user.state.userId,
+			userId: user.userId,
 			userAddressId: addressId,
+		})
+	}
+
+	findPermissions: IUserRepository['findPermissions'] = async (userId) => {
+		const user = await this.findById(userId)
+
+		return user.attachedPermissions
+	}
+
+	attachPermission: IUserRepository['attachPermission'] = async (
+		userId,
+		permissionId,
+		organizationId,
+	) => {
+		const user = await this.findById(userId)
+
+		await this.userPermissionRepository.create({
+			userId: user.userId,
+			permissionId,
+			organizationId,
+		})
+
+		return this.findById(user.userId)
+	}
+
+	attachManyPermissions: IUserRepository['attachManyPermissions'] = async (
+		userId,
+		input,
+	) => {
+		const user = await this.findById(userId)
+
+		await this.userPermissionRepository.insert(
+			input.map(({ permissionId, organizationId }) => ({
+				userId: user.userId,
+				permissionId,
+				organizationId: organizationId ?? undefined,
+			})),
+		)
+
+		return this.findById(user.userId)
+	}
+
+	detachPermission: IUserRepository['detachPermission'] = async (
+		userId,
+		permissionId,
+	) => {
+		const user = await this.findById(userId)
+
+		await this.userPermissionRepository.softDelete({
+			userId: user.userId,
+			permissionId,
+		})
+	}
+
+	detachManyPermissions: IUserRepository['detachManyPermissions'] = async (
+		userId,
+		permissionIds,
+	) => {
+		const user = await this.findById(userId)
+
+		await this.userPermissionRepository.softDelete({
+			userId: user.userId,
+			permissionId: In(permissionIds),
 		})
 	}
 
@@ -358,6 +433,6 @@ export class UserTypeorm implements IUserRepository {
 	}
 
 	private toUserDomain(model: UserEntity) {
-		return new UserDomain(deepMapDatesToISOString(model))
+		return UserSchema.parse(deepMapDatesToISOString(model))
 	}
 }

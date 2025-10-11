@@ -1,17 +1,19 @@
 import { uuid } from '@starter/common'
 
 import { UserDomain } from '@/core/user/user.domain'
-import type { UserInput } from '@/core/user/user.schema'
+import type { User } from '@/core/user/user.schema'
 
-type UserOverrides = Partial<UserInput>
+type UserOverrides = Partial<User>
 
 export const makeUser = (overrides: UserOverrides): UserDomain => {
-	const base: UserInput = {
+	const base: User = {
 		userId: uuid(),
 		workspaceId: uuid(),
 		googleProviderId: null,
 		facebookProviderId: null,
 		organizations: [],
+		addresses: [],
+		attachedPermissions: [],
 		name: 'John Doe',
 		email: 'john.doe@example.com',
 		phone: null,

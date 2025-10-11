@@ -10,13 +10,9 @@ type FindUserInput = Partial<
 
 type UserSort = Sort<'name' | 'status' | 'createdAt'>
 
-type FindByEmailOptions = {
-	workspaceId?: User['workspaceId']
-}
+type FindByEmailOptions = Pick<User, 'workspaceId'>
 
-type FindByPhoneOptions = {
-	workspaceId?: User['workspaceId']
-}
+type FindByPhoneOptions = Pick<User, 'workspaceId'>
 
 export type IUserRepository = {
 	findPaginated(
@@ -28,7 +24,7 @@ export type IUserRepository = {
 			]
 		>,
 	): Promise<PaginationOutput<UserDomain>>
-	find(input: Partial<User>): Promise<UserDomain[]>
+	find(input: FindUserInput): Promise<UserDomain[]>
 	findById(userId: string): Promise<UserDomain>
 	findByEmail(
 		email: string,
@@ -45,7 +41,7 @@ export type IUserRepository = {
 	): Promise<UserDomain | null>
 
 	create(input: UserInput): Promise<UserDomain>
-	updateById(userId: string, input: Partial<UserInput>): Promise<UserDomain>
+	updateById(userId: string, input: Partial<UserInput>): Promise<User>
 	deleteById(userId: string): Promise<void>
 
 	findOrganizations(userId: string): Promise<User['organizations']>
@@ -69,26 +65,23 @@ export type IUserRepository = {
 		userId: string,
 		permissionId: string,
 		organizationId: string,
-	): Promise<UserDomain>
+	): Promise<User>
 	attachManyPermissions(
 		userId: string,
 		input: Pick<
 			User['attachedPermissions'][number],
 			'permissionId' | 'organizationId'
 		>[],
-	): Promise<UserDomain>
+	): Promise<User>
 	detachPermission(userId: string, permissionId: string): Promise<void>
 	detachManyPermissions(userId: string, permissionIds: string[]): Promise<void>
 
 	findAddresses(userId: string): Promise<User['addresses']>
-	createAddress(
-		userId: string,
-		input: User['addresses'][number],
-	): Promise<UserDomain>
+	createAddress(userId: string, input: User['addresses'][number]): Promise<User>
 	updateAddressById(
 		userId: string,
 		addressId: string,
 		input: User['addresses'][number],
-	): Promise<UserDomain>
+	): Promise<User>
 	deleteAddressById(userId: string, addressId: string): Promise<void>
 }

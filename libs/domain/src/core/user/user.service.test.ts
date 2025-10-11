@@ -7,14 +7,14 @@ import {
 import { Phone } from '@starter/schema'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { InMemoryDatabaseModule } from '@/adapters/database'
-import { UserRepositoryModule } from '@/adapters/database/user/user.repository.module'
-import { EncryptModule } from '@/adapters/encrypt'
 import { RoleService } from '@/core/role/role.service'
 import { makeUser, userMocks } from '@/core/user/user.mock'
 import { UserService } from '@/core/user/user.service'
 import { makeWorkspace } from '@/core/workspace/workspace.mock'
 import { WorkspaceService } from '@/core/workspace/workspace.service'
+import { InMemoryDatabaseModule } from '@/adapters/database'
+import { UserRepositoryModule } from '@/adapters/database/user/user.repository.module'
+import { EncryptModule } from '@/adapters/encrypt'
 import type { IUserRepository } from '@/ports/database/user'
 
 const workspaceServiceMock = {
@@ -82,7 +82,7 @@ describe('UserService', () => {
 				userId: user.state.userId,
 				workspaceId: `${user.state.workspaceId}`,
 			})
-			expect(result.state.userId).toBe(user.state.userId)
+			expect(result.userId).toBe(user.state.userId)
 		})
 
 		it('should throw AclForbiddenException if workspaceId mismatches', async () => {

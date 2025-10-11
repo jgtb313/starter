@@ -7,6 +7,7 @@ import {
 	UpdateDateColumn,
 } from 'typeorm'
 
+import { OrganizationEntity } from '@/adapters/database/organization/organization.typeorm.entity'
 import { PermissionEntity } from '@/adapters/database/permission/permission.typeorm.entity'
 import { UserEntity } from '@/adapters/database/user/user.typeorm.entity'
 
@@ -26,6 +27,12 @@ export class UserPermissionEntity {
 		(permission) => permission.userPermissions,
 	)
 	permission: PermissionEntity
+
+	@ManyToOne(
+		() => OrganizationEntity,
+		(organization) => organization.userPermissions,
+	)
+	organization: OrganizationEntity
 
 	@Column({
 		type: 'uuid',

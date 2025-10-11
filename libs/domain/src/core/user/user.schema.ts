@@ -112,21 +112,22 @@ export const UserSchema = z.object({
 	createdAt: BaseSchema.createdAt,
 	updatedAt: BaseSchema.updatedAt,
 })
+
 export type User = z.infer<typeof UserSchema>
-export type UserInput = Omit<
-	z.infer<typeof UserSchema>,
+export type UserWithoutRelations = Omit<
+	User,
 	'organizations' | 'attachedPermissions'
-> &
-	Partial<{
-		organizations: Pick<
-			User['organizations'][number],
-			'organizationId' | 'roleId'
-		>[]
-		attachedPermissions: Pick<
-			User['attachedPermissions'][number],
-			'permissionId' | 'organizationId'
-		>[]
-	}>
+>
+export type UserInput = UserWithoutRelations & {
+	organizations: Pick<
+		User['organizations'][number],
+		'organizationId' | 'roleId'
+	>[]
+	attachedPermissions: Pick<
+		User['attachedPermissions'][number],
+		'permissionId' | 'organizationId'
+	>[]
+}
 export type BaseUser = BaseSchema<
 	User,
 	{

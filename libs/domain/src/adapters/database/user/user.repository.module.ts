@@ -5,6 +5,7 @@ import { UserTypeorm } from '@/adapters/database/user/user.typeorm.adapter'
 import { UserEntity } from '@/adapters/database/user/user.typeorm.entity'
 import { UserAddressEntity } from '@/adapters/database/user/user-address.typeorm.entity'
 import { UserOrganizationEntity } from '@/adapters/database/user/user-organization.typeorm.entity'
+import { UserPermissionEntity } from '@/adapters/database/user/user-permission.typeorm.entity'
 
 @Module({
 	imports: [
@@ -12,6 +13,7 @@ import { UserOrganizationEntity } from '@/adapters/database/user/user-organizati
 			UserEntity,
 			UserAddressEntity,
 			UserOrganizationEntity,
+			UserPermissionEntity,
 		]),
 	],
 	providers: [

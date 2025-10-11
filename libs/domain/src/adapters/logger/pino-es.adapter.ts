@@ -16,6 +16,13 @@ export class PinoESAdapter implements ILoggerAdapter {
 			return
 		}
 
+		console.log({
+			logger: {
+				message,
+				event,
+			},
+		})
+
 		await this.client.info({
 			message,
 			event,

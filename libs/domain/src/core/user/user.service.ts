@@ -5,7 +5,7 @@ import {
 	BadRequestException,
 	ConflictException,
 } from '@starter/nestjs-error-handling'
-import type { Pagination, Phone, Sort } from '@starter/schema'
+import type { Pagination, Phone } from '@starter/schema'
 
 import {
 	createWorkspaceReference,
@@ -57,7 +57,7 @@ export class UserService {
 
 	async getUserByEmail(
 		email: User['email'],
-		options?: Partial<Pick<User, 'workspaceId'>>,
+		options?: Pick<User, 'workspaceId'>,
 	) {
 		const user = await this.userRepository.findByEmail(email, options)
 
@@ -68,10 +68,7 @@ export class UserService {
 		return user
 	}
 
-	async getUserByPhone(
-		phone: Phone,
-		options?: Partial<Pick<User, 'workspaceId'>>,
-	) {
+	async getUserByPhone(phone: Phone, options?: Pick<User, 'workspaceId'>) {
 		const user = await this.userRepository.findByPhone(phone, options)
 
 		if (!user) {
@@ -114,19 +111,11 @@ export class UserService {
 			)
 		}
 
-		// for (const { organizationId, roleIds } of scopes) {
-		// 	await this.roleService.validateRoleIdsByOrganizationId(
-		// 		organizationId,
-		// 		roleIds,
-		// 	)
-		// }
-
 		const hashedPassword = await this.encryptService.hash(input.password)
 
 		const user = await this.userRepository.create({
 			...input,
 			workspaceId: workspace?.state.workspaceId ?? null,
-			// scopes,
 			password: hashedPassword,
 		})
 
@@ -143,17 +132,6 @@ export class UserService {
 			...input,
 		}
 
-		// if (scopes.length) {
-		// 	for (const { organizationId, roleIds } of scopes) {
-		// 		await this.roleService.validateRoleIdsByOrganizationId(
-		// 			organizationId,
-		// 			roleIds,
-		// 		)
-		// 	}
-
-		// 	// payload.scopes = scopes
-		// }
-
 		await this.userRepository.updateById(user.state.userId, payload)
 
 		return this.getUser(user.state.userId)
@@ -167,6 +145,30 @@ export class UserService {
 		await this.userRepository.updateById(user.state.userId, {
 			password: newPassword,
 		})
+	}
+
+	async activateUser(reference: UserWorkspaceReference) {
+		const user = await this.getUser(reference)
+
+		const canActivate = user.checkIfCanActivate()
+
+		if (!canActivate) {
+			throw new ConflictException('User cannot be activated.')
+		}
+
+		await this.userRepository.updateById(user.state.userId, {
+			status: 'ACTIVE',
+		})
+	}
+
+	async deactivateUser(reference: UserWorkspaceReference) {
+		const user = await this.getUser(reference)
+
+		const canDeactivate = user.checkIfCanDeactivate()
+
+		if (!canDeactivate) {
+			throw new ConflictException('User cannot be deactivated.')
+		}
 	}
 
 	async deleteUser(reference: UserWorkspaceReference) {

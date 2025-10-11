@@ -40,11 +40,6 @@ export class UserOrganizationEntity {
 	})
 	roleId: string
 
-	@Column({
-		type: 'uuid',
-	})
-	workspaceId: string
-
 	@CreateDateColumn()
 	createdAt: Date
 

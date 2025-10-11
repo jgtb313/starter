@@ -1,18 +1,13 @@
 import { ConflictException } from '@starter/nestjs-error-handling'
 
+import { BaseDomain } from '@/support/base-domain'
 import {
 	type Workspace,
-	type WorkspaceInput,
 	WorkspaceSchema,
 } from '@/core/workspace/workspace.schema'
-import { BaseDomain } from '@/support/base-domain'
-import type { I18nDomainService } from '@/domain.i18n.module'
 
-export class WorkspaceDomain extends BaseDomain<Workspace, WorkspaceInput> {
-	constructor(
-		private readonly i18nService: I18nDomainService,
-		workspace: WorkspaceInput,
-	) {
+export class WorkspaceDomain extends BaseDomain<Workspace> {
+	constructor(workspace: Workspace) {
 		super(WorkspaceSchema, workspace)
 	}
 
@@ -34,29 +29,11 @@ export class WorkspaceDomain extends BaseDomain<Workspace, WorkspaceInput> {
 		)
 	}
 
-	markAsActive() {
-		this.checkIfCanBeActive()
-		this.state.status = 'ACTIVE'
+	checkIfCanActivate() {
+		return this.isInactive()
 	}
 
-	markAsInactive() {
-		this.checkIfCanBeInactive()
-		this.state.status = 'INACTIVE'
-	}
-
-	private checkIfCanBeActive() {
-		if (this.isActive()) {
-			throw new ConflictException(
-				this.i18nService.current.workspaceAlreadyActive(),
-			)
-		}
-	}
-
-	private checkIfCanBeInactive() {
-		if (this.isInactive()) {
-			throw new ConflictException(
-				this.i18nService.current.workspaceAlreadyInactive(),
-			)
-		}
+	checkIfCanDeactivate() {
+		return this.isActive()
 	}
 }
