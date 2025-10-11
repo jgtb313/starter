@@ -1,14 +1,14 @@
 import { addSeconds, uuid } from '@starter/common'
 
 import { PlanDomain } from '@/core/plan/plan.domain'
-import type { PlanInput } from '@/core/plan/plan.schema'
+import type { Plan } from '@/core/plan/plan.schema'
 
-type PlanOverrides = Partial<PlanInput>
+type PlanOverrides = Partial<Plan>
 
 export const makePlan = (overrides: PlanOverrides = {}) => {
 	const now = new Date()
 
-	const base: PlanInput = {
+	const base: Plan = {
 		planId: uuid(),
 		externalId: uuid(),
 		name: 'name',

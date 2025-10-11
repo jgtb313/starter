@@ -68,7 +68,6 @@ export const PlanSchema = z.object({
 	updatedAt: BaseSchema.updatedAt,
 })
 export type Plan = z.infer<typeof PlanSchema>
-export type PlanInput = z.input<typeof PlanSchema>
 export type BasePlan = BaseSchema<
 	Plan,
 	{

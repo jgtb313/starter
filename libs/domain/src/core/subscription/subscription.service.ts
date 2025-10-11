@@ -71,6 +71,16 @@ export class SubscriptionService {
 		return subscription
 	}
 
+	async getUpcomingInvoice(reference: SubscriptionWorkspaceReference) {
+		const subscription = await this.getSubscription(reference)
+
+		const invoice = await this.recurrenceService.getUpcomingInvoice(
+			subscription.state.subscriptionId,
+		)
+
+		return invoice
+	}
+
 	async createSubscription({
 		workspaceId,
 		planId,
