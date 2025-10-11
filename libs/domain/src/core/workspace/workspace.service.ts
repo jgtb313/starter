@@ -1,4 +1,9 @@
-import { forwardRef, Inject, Injectable } from '@nestjs/common'
+import {
+	ConflictException,
+	forwardRef,
+	Inject,
+	Injectable,
+} from '@nestjs/common'
 import type { Merge } from '@starter/common'
 import type { BaseAddress, BusinessAddress, Pagination } from '@starter/schema'
 import { Transactional } from 'typeorm-transactional'
@@ -11,6 +16,7 @@ import type {
 import { LoggerService } from '@/adapters/logger'
 import { PublisherService } from '@/adapters/publisher/publisher.service'
 import type { IWorkspaceRepository } from '@/ports/database/workspace'
+import { type I18nDomainService, I18nDomainSymbol } from '@/domain.i18n.module'
 
 @Injectable()
 export class WorkspaceService {
@@ -23,6 +29,8 @@ export class WorkspaceService {
 		private readonly publisherService: PublisherService,
 		@Inject(LoggerService)
 		private readonly loggerService: LoggerService,
+		@Inject(I18nDomainSymbol)
+		private readonly i18nService: I18nDomainService,
 	) {}
 
 	async getPaginatedWorkspaces(
@@ -32,7 +40,7 @@ export class WorkspaceService {
 			]
 		>,
 	) {
-		return this.workspaceRepository.findAllPaginated(input)
+		return this.workspaceRepository.findPaginated(input)
 	}
 
 	async getWorkspace(workspaceId: string) {
@@ -41,14 +49,26 @@ export class WorkspaceService {
 
 	@Transactional()
 	async createWorkspace(userId: string, input: BaseWorkspace) {
+		this.loggerService.info('Attempting to create workspace', {
+			userId,
+			input,
+		})
+
 		const user = await this.userService.getUser(userId)
+
+		const hasWorkspace = user.checkIfHasWorkspace()
+
+		if (hasWorkspace) {
+			throw new ConflictException(
+				this.i18nService.current.userAlreadyHasWorkspace(),
+			)
+		}
 
 		const workspace = await this.workspaceRepository.create(input)
 
-		user.assignToWorkspace(workspace.state.workspaceId)
-		// user.attachPermission('workspace:manage')
-
-		await this.userService.updateUser(user.state.userId, user.state)
+		await this.userService.updateUser(user.state.userId, {
+			workspaceId: workspace.state.workspaceId,
+		})
 
 		this.publisherService.publish('WORKSPACE_CREATED', {
 			workspaceId: workspace.state.workspaceId,
@@ -60,6 +80,11 @@ export class WorkspaceService {
 	}
 
 	async updateWorkspace(workspaceId: string, input: Partial<Workspace>) {
+		this.loggerService.info('Attempting to update workspace', {
+			workspaceId,
+			input,
+		})
+
 		const workspace = await this.workspaceRepository.findById(workspaceId)
 
 		const updatedWorkspace = await this.workspaceRepository.updateById(
@@ -76,7 +101,12 @@ export class WorkspaceService {
 		return updatedWorkspace
 	}
 
-	async defineWorkspaceAddress(workspaceId: string, address: BaseAddress) {
+	async attachWorkspaceAddress(workspaceId: string, address: BaseAddress) {
+		this.loggerService.info('Attempting to attach workspace address', {
+			workspaceId,
+			address,
+		})
+
 		const workspace = await this.getWorkspace(workspaceId)
 
 		// TODO: get the location from the address
@@ -101,41 +131,99 @@ export class WorkspaceService {
 		return updatedWorkspace
 	}
 
-	async activateWorkspace(workspaceId: string) {
+	async deleteWorkspaceAddress(workspaceId: string) {
+		this.loggerService.info('Attempting to delete workspace address', {
+			workspaceId,
+		})
+
 		const workspace = await this.getWorkspace(workspaceId)
 
-		workspace.markAsActive()
+		await this.workspaceRepository.deleteAddress(workspace.state.workspaceId)
+
+		this.loggerService.info('Workspace address deleted', workspace.state)
+
+		return workspace
+	}
+
+	async activateWorkspace(workspaceId: string) {
+		this.loggerService.info('Attempting to activate workspace', {
+			workspaceId,
+		})
+
+		const workspace = await this.getWorkspace(workspaceId)
+
+		const canActivate = workspace.checkIfCanActivate()
+
+		if (!canActivate) {
+			throw new ConflictException(
+				this.i18nService.current.workspaceAlreadyActive(),
+			)
+		}
 
 		const updatedWorkspace = await this.workspaceRepository.updateById(
 			workspace.state.workspaceId,
-			workspace.state,
+			{
+				status: 'ACTIVE',
+			},
 		)
 
 		this.publisherService.publish('WORKSPACE_ACTIVATED', {
 			workspaceId: updatedWorkspace.state.workspaceId,
 		})
 
-		this.loggerService.info('Workspace activated', updatedWorkspace.state)
+		this.loggerService.info(
+			`Workspace ${updatedWorkspace.state.workspaceId} activated`,
+			updatedWorkspace.state,
+		)
 
 		return updatedWorkspace
 	}
 
 	async deactivateWorkspace(workspaceId: string) {
+		this.loggerService.info('Attempting to deactivate workspace', {
+			workspaceId,
+		})
+
 		const workspace = await this.getWorkspace(workspaceId)
 
-		workspace.markAsInactive()
+		const canDeactivate = workspace.checkIfCanDeactivate()
+
+		if (!canDeactivate) {
+			throw new ConflictException(
+				this.i18nService.current.workspaceAlreadyInactive(),
+			)
+		}
 
 		const updatedWorkspace = await this.workspaceRepository.updateById(
 			workspace.state.workspaceId,
-			workspace.state,
+			{
+				status: 'INACTIVE',
+			},
 		)
 
 		await this.publisherService.publish('WORKSPACE_DEACTIVATED', {
 			workspaceId: updatedWorkspace.state.workspaceId,
 		})
 
-		this.loggerService.info('Workspace deactivated', updatedWorkspace.state)
+		this.loggerService.info(
+			`Workspace ${updatedWorkspace.state.workspaceId} deactivated`,
+			updatedWorkspace.state,
+		)
 
 		return updatedWorkspace
+	}
+
+	async deleteWorkspace(workspaceId: string) {
+		this.loggerService.info('Attempting to delete workspace', {
+			workspaceId,
+		})
+
+		const workspace = await this.getWorkspace(workspaceId)
+
+		await this.workspaceRepository.deleteById(workspace.state.workspaceId)
+
+		this.loggerService.info('Workspace deleted', workspace.state)
+
+		return workspace
 	}
 }

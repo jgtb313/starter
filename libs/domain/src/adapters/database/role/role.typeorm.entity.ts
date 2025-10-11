@@ -9,9 +9,9 @@ import {
 	UpdateDateColumn,
 } from 'typeorm'
 
+import type { Role } from '@/core/role/role.schema'
 import { RoleOrganizationEntity } from '@/adapters/database/role/role-organization.typeorm.entity'
 import { RolePermissionEntity } from '@/adapters/database/role/role-permission.typeorm.entity'
-import type { Role } from '@/core/role/role.schema'
 
 @Entity('roles')
 export class RoleEntity {
@@ -20,13 +20,13 @@ export class RoleEntity {
 
 	@OneToMany(
 		() => RoleOrganizationEntity,
-		(roleOrganization) => roleOrganization,
+		(roleOrganization) => roleOrganization.role,
 	)
 	roleOrganizations: RoleOrganizationEntity[]
 
 	@OneToMany(
 		() => RolePermissionEntity,
-		(rolePermission) => rolePermission,
+		(rolePermission) => rolePermission.role,
 	)
 	rolePermissions: RolePermissionEntity[]
 

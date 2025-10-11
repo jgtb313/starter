@@ -2,6 +2,7 @@ import {
 	Column,
 	CreateDateColumn,
 	Entity,
+	JoinColumn,
 	ManyToOne,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
@@ -20,35 +21,27 @@ export class UserPermissionEntity {
 		() => UserEntity,
 		(user) => user.userPermissions,
 	)
+	@JoinColumn({
+		name: 'userId',
+	})
 	user: UserEntity
 
 	@ManyToOne(
 		() => PermissionEntity,
 		(permission) => permission.userPermissions,
 	)
+	@JoinColumn({
+		name: 'permissionId',
+	})
 	permission: PermissionEntity
 
-	@ManyToOne(
-		() => OrganizationEntity,
-		(organization) => organization.userPermissions,
-	)
-	organization: OrganizationEntity
-
-	@Column({
-		type: 'uuid',
-	})
-	userId: string
-
-	@Column({
-		type: 'uuid',
-	})
-	permissionId: string
-
-	@Column({
-		type: 'uuid',
+	@ManyToOne(() => OrganizationEntity, {
 		nullable: true,
 	})
-	organizationId?: string
+	@JoinColumn({
+		name: 'organizationId',
+	})
+	organization?: OrganizationEntity
 
 	@CreateDateColumn()
 	createdAt: Date

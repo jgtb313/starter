@@ -18,6 +18,10 @@ export class UserDomain extends BaseDomain<User> {
 		return this.state.status === 'INACTIVE'
 	}
 
+	checkIfHasWorkspace() {
+		return !!this.state.workspaceId
+	}
+
 	checkIfCanActivate() {
 		return this.isInactive()
 	}

@@ -11,9 +11,6 @@ import {
 } from '@starter/schema'
 
 import { BaseSchema } from '@/support/base-schema'
-import { OrganizationSchema } from '@/core/organization/organization.schema'
-import { PermissionSchema } from '@/core/permission/permission.schema'
-import { RoleSchema } from '@/core/role/role.schema'
 
 const WorkspaceId = BaseSchema.id('workspaceId')
 	.nullish()
@@ -28,31 +25,6 @@ const FacebookProviderId = z
 	.string()
 	.nullish()
 	.transform((value) => value ?? null)
-
-const Organizations = z
-	.array(
-		z.object({
-			organizationId: BaseSchema.id('organization'),
-			organization: OrganizationSchema,
-			roleId: BaseSchema.id('role'),
-			role: RoleSchema.omit({
-				organizations: true,
-			}),
-		}),
-	)
-	.default([])
-
-const AttachedPermissions = z
-	.array(
-		z.object({
-			permissionId: BaseSchema.id('permission'),
-			organizationId: BaseSchema.id('organization').nullish(),
-			permission: PermissionSchema,
-			createdAt: BaseSchema.createdAt,
-			updatedAt: BaseSchema.updatedAt,
-		}),
-	)
-	.default([])
 
 const Name = z
 	.string()
@@ -96,8 +68,6 @@ export const UserSchema = z.object({
 	workspaceId: WorkspaceId,
 	googleProviderId: GoogleProviderId,
 	facebookProviderId: FacebookProviderId,
-	organizations: Organizations,
-	attachedPermissions: AttachedPermissions,
 	name: Name,
 	email: Email,
 	phone: Phone,
@@ -114,27 +84,12 @@ export const UserSchema = z.object({
 })
 
 export type User = z.infer<typeof UserSchema>
-export type UserWithoutRelations = Omit<
-	User,
-	'organizations' | 'attachedPermissions'
->
-export type UserInput = UserWithoutRelations & {
-	organizations: Pick<
-		User['organizations'][number],
-		'organizationId' | 'roleId'
-	>[]
-	attachedPermissions: Pick<
-		User['attachedPermissions'][number],
-		'permissionId' | 'organizationId'
-	>[]
-}
+export type UserInput = z.input<typeof UserSchema>
 export type BaseUser = BaseSchema<
 	User,
 	{
 		optional: [
 			'userId',
-			'organizations',
-			'attachedPermissions',
 		]
 	}
 >

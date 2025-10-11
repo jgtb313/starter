@@ -2,6 +2,7 @@ import {
 	Column,
 	CreateDateColumn,
 	Entity,
+	JoinColumn,
 	ManyToOne,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
@@ -16,24 +17,42 @@ export class UserOrganizationEntity {
 	@PrimaryGeneratedColumn('uuid')
 	userOrganizationId: string
 
-	@ManyToOne(() => UserEntity)
+	@ManyToOne(
+		() => UserEntity,
+		(user) => user.userOrganizations,
+	)
+	@JoinColumn({
+		name: 'userId',
+	})
 	user: UserEntity
-
-	@ManyToOne(() => OrganizationEntity)
-	organization: OrganizationEntity
-
-	@ManyToOne(() => RoleEntity)
-	role: RoleEntity
 
 	@Column({
 		type: 'uuid',
 	})
 	userId: string
 
+	@ManyToOne(
+		() => OrganizationEntity,
+		(organization) => organization.userOrganizations,
+	)
+	@JoinColumn({
+		name: 'organizationId',
+	})
+	organization: OrganizationEntity
+
 	@Column({
 		type: 'uuid',
 	})
 	organizationId: string
+
+	@ManyToOne(
+		() => RoleEntity,
+		(role) => role.roleOrganizations,
+	)
+	@JoinColumn({
+		name: 'roleId',
+	})
+	role: RoleEntity
 
 	@Column({
 		type: 'uuid',

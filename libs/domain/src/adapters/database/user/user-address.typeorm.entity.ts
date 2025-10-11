@@ -3,6 +3,7 @@ import {
 	Column,
 	CreateDateColumn,
 	Entity,
+	JoinColumn,
 	ManyToOne,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
@@ -22,12 +23,10 @@ export class UserAddressEntity {
 		() => UserEntity,
 		(user) => user.userAddresses,
 	)
-	user: UserEntity
-
-	@Column({
-		type: 'uuid',
+	@JoinColumn({
+		name: 'userId',
 	})
-	userId: string
+	user: UserEntity
 
 	@Column({
 		type: 'varchar',
@@ -66,30 +65,37 @@ export class UserAddressEntity {
 
 	@Column({
 		type: 'varchar',
+		nullable: true,
 	})
-	complement: UserAddress['complement']
+	complement?: UserAddress['complement']
 
 	@Column({
 		type: 'varchar',
+		nullable: true,
 	})
-	landmark: UserAddress['landmark']
+	landmark?: UserAddress['landmark']
 
 	location?: UserAddress['location']
 
 	@Column({
-		type: 'varchar',
+		type: 'decimal',
+		precision: 10,
+		scale: 7,
 	})
-	lat: UserAddress['location']['lat']
+	lat: string
 
 	@Column({
-		type: 'varchar',
+		type: 'decimal',
+		precision: 10,
+		scale: 7,
 	})
-	lng: UserAddress['location']['lng']
+	lng: string
 
 	@Column({
-		type: 'varchar',
+		type: 'boolean',
+		default: false,
 	})
-	main: UserAddress['main']
+	main: boolean
 
 	@CreateDateColumn()
 	createdAt: Date

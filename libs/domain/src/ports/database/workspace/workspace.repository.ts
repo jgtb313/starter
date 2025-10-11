@@ -1,5 +1,5 @@
-import type { Merge } from '@starter/common'
-import type { Pagination, PaginationOutput } from '@starter/schema'
+import type { Merge, Required } from '@starter/common'
+import type { Pagination, PaginationOutput, Sort } from '@starter/schema'
 
 import type { WorkspaceDomain } from '@/core/workspace/workspace.domain'
 import type {
@@ -7,22 +7,34 @@ import type {
 	Workspace,
 } from '@/core/workspace/workspace.schema'
 
-type FindWorkspaceInput = Partial<Workspace>
+type FindWorkspaceInput = Partial<
+	Pick<Workspace, 'workspaceId' | 'name' | 'status'>
+>
+
+type WorkspaceSort = Sort<'name' | 'status' | 'createdAt'>
 
 export type IWorkspaceRepository = {
-	findAllPaginated(
+	findPaginated(
 		input: Merge<
 			[
 				FindWorkspaceInput,
 				Pagination,
+				WorkspaceSort,
 			]
 		>,
 	): Promise<PaginationOutput<WorkspaceDomain>>
-	findAll(input: Partial<Workspace>): Promise<WorkspaceDomain[]>
+	find(input: FindWorkspaceInput): Promise<WorkspaceDomain[]>
 	findById(workspaceId: string): Promise<WorkspaceDomain>
 	create(input: BaseWorkspace): Promise<WorkspaceDomain>
 	updateById(
 		workspaceId: string,
 		input: Partial<Workspace>,
 	): Promise<WorkspaceDomain>
+	deleteById(workspaceId: string): Promise<void>
+
+	upsertAddress(
+		workspaceId: string,
+		input: Required<Workspace['address']>,
+	): Promise<void>
+	deleteAddress(workspaceId: string): Promise<void>
 }

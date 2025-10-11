@@ -65,10 +65,6 @@ export class UserEntity {
 	})
 	facebookProviderId?: User['facebookProviderId']
 
-	organizations: User['organizations']
-
-	attachedPermissions: User['attachedPermissions']
-
 	@Column({
 		type: 'varchar',
 	})
@@ -184,25 +180,6 @@ export class UserEntity {
 			}
 		}
 
-		if (this.userOrganizations) {
-			this.organizations = this.userOrganizations.map((userOrganization) => ({
-				organizationId: userOrganization.organizationId,
-				organization: userOrganization.organization,
-				roleId: userOrganization.roleId,
-				role: userOrganization.role,
-			}))
-		}
-
-		if (this.userPermissions) {
-			this.attachedPermissions = this.userPermissions.map((userPermission) => ({
-				permissionId: userPermission.permissionId,
-				organizationId: userPermission.organizationId,
-				permission: userPermission.permission,
-				createdAt: userPermission.createdAt.toISOString(),
-				updatedAt: userPermission.updatedAt.toISOString(),
-			}))
-		}
-
 		if (this.userAddresses) {
 			this.addresses = this.userAddresses.map((userAddress) => ({
 				title: userAddress.title,
@@ -212,8 +189,8 @@ export class UserEntity {
 				neighborhood: userAddress.neighborhood,
 				street: userAddress.street,
 				number: userAddress.number,
-				complement: userAddress.complement,
-				landmark: userAddress.landmark,
+				complement: userAddress.complement ?? null,
+				landmark: userAddress.landmark ?? null,
 				location: {
 					lat: userAddress.lat,
 					lng: userAddress.lng,

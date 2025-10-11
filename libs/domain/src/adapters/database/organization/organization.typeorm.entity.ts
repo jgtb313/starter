@@ -8,13 +8,20 @@ import {
 	UpdateDateColumn,
 } from 'typeorm'
 
-import { RoleOrganizationEntity } from '@/adapters/database/role/role-organization.typeorm.entity'
 import type { Organization } from '@/core/organization/organization.schema'
+import { RoleOrganizationEntity } from '@/adapters/database/role/role-organization.typeorm.entity'
+import { UserOrganizationEntity } from '@/adapters/database/user/user-organization.typeorm.entity'
 
 @Entity('organizations')
 export class OrganizationEntity {
 	@PrimaryGeneratedColumn('uuid')
 	organizationId: Organization['organizationId']
+
+	@OneToMany(
+		() => UserOrganizationEntity,
+		(userOrganization) => userOrganization.organization,
+	)
+	userOrganizations: UserOrganizationEntity[]
 
 	@OneToMany(
 		() => RoleOrganizationEntity,
