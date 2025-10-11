@@ -7,7 +7,6 @@ import {
 	createWorkspaceReference,
 	type WithWorkspaceReference,
 } from '@/support/workspace-reference'
-
 import type { BaseInvoice, Invoice } from '@/core/invoice/invoice.schema'
 import { SubscriptionService } from '@/core/subscription/subscription.service'
 import { WorkspaceService } from '@/core/workspace/workspace.service'
@@ -35,7 +34,7 @@ export class InvoiceService {
 			]
 		>,
 	) {
-		return this.invoiceRepository.findAllPaginated({
+		return this.invoiceRepository.findPaginated({
 			...input,
 		})
 	}

@@ -6,6 +6,7 @@ const en = {
 	workspaceAlreadyInactive: 'This workspace is already inactive.',
 	workspaceNotFound: 'Workspace {workspaceId:string} not found.',
 	userNotFound: 'User {userId:string} not found.',
+	invoiceNotFound: 'Invoice {invoiceId:string} not found.',
 } as const
 type Translations = {
 	[K in keyof typeof en]: string
@@ -17,6 +18,7 @@ const es: Translations = {
 	workspaceAlreadyInactive: 'Este workspace ya está inactivo.',
 	workspaceNotFound: 'El workspace {workspaceId:string} no existe.',
 	userNotFound: 'El usuario {userId:string} no existe.',
+	invoiceNotFound: 'La factura {invoiceId:string} no existe.',
 }
 
 const ptBR: Translations = {
@@ -25,6 +27,7 @@ const ptBR: Translations = {
 	workspaceAlreadyInactive: 'Este workspace já está inativo.',
 	workspaceNotFound: 'O workspace {workspaceId:string} não existe.',
 	userNotFound: 'O usuário {userId:string} não existe.',
+	invoiceNotFound: 'A fatura {invoiceId:string} não existe.',
 }
 
 export const i18nDict: I18nDict = {

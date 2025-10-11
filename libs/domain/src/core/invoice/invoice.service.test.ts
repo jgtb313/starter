@@ -5,12 +5,12 @@ import {
 } from '@starter/nestjs-error-handling'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { InMemoryDatabaseModule } from '@/adapters/database'
-import { InvoiceRepositoryModule } from '@/adapters/database/invoice/invoice.repository.module'
 import { invoiceMocks, makeInvoice } from '@/core/invoice/invoice.mock'
 import { InvoiceService } from '@/core/invoice/invoice.service'
 import { SubscriptionService } from '@/core/subscription/subscription.service'
 import { WorkspaceService } from '@/core/workspace/workspace.service'
+import { InMemoryDatabaseModule } from '@/adapters/database'
+import { InvoiceRepositoryModule } from '@/adapters/database/invoice/invoice.repository.module'
 import type { IInvoiceRepository } from '@/ports/database/invoice'
 
 describe('InvoiceService', () => {

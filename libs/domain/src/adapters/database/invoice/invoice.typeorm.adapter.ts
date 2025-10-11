@@ -1,35 +1,40 @@
-import { Injectable, NotFoundException } from '@nestjs/common'
+import { Inject, Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { PaginationSchemaTransform } from '@starter/schema'
 import {
-	type DeepPartial,
+	type FindOptionsOrder,
 	type FindOptionsWhere,
 	ILike,
 	type Repository,
 } from 'typeorm'
-import type { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity'
 
-import { InvoiceEntity } from '@/adapters/database/invoice/invoice.typeorm.entity'
-import { InvoiceDomain } from '@/core/invoice/invoice.domain'
-import type { BaseInvoice, Invoice } from '@/core/invoice/invoice.schema'
-import type { IInvoiceRepository } from '@/ports/database/invoice'
 import { deepMapDatesToISOString } from '@/support/utilities'
+import { InvoiceDomain } from '@/core/invoice/invoice.domain'
+import { InvoiceEntity } from '@/adapters/database/invoice/invoice.typeorm.entity'
+import type { IInvoiceRepository } from '@/ports/database/invoice'
+import { type I18nDomainService, I18nDomainSymbol } from '@/domain.i18n.module'
 
 @Injectable()
 export class InvoiceTypeorm implements IInvoiceRepository {
 	constructor(
 		@InjectRepository(InvoiceEntity)
 		private readonly repository: Repository<InvoiceEntity>,
+		@Inject(I18nDomainSymbol)
+		private readonly i18nService: I18nDomainService,
 	) {}
 
-	findAllPaginated: IInvoiceRepository['findAllPaginated'] = async ({
+	findPaginated: IInvoiceRepository['findPaginated'] = async ({
 		cursor,
 		limit,
+		sort,
 		...input
 	}) => {
 		const { description, status } = input
 
 		const where: FindOptionsWhere<InvoiceEntity> = {}
+		const order: FindOptionsOrder<InvoiceEntity> = {
+			...sort,
+		}
 
 		if (description) {
 			where.description = ILike(`%${description}%`)
@@ -49,6 +54,7 @@ export class InvoiceTypeorm implements IInvoiceRepository {
 		const [values, total] = await this.repository.findAndCount({
 			where,
 			take,
+			order,
 		})
 
 		return {
@@ -61,10 +67,13 @@ export class InvoiceTypeorm implements IInvoiceRepository {
 		}
 	}
 
-	findAll: IInvoiceRepository['findAll'] = async (input) => {
+	find: IInvoiceRepository['find'] = async ({ sort, ...input }) => {
 		const { description, status } = input
 
 		const where: FindOptionsWhere<InvoiceEntity> = {}
+		const order: FindOptionsOrder<InvoiceEntity> = {
+			...sort,
+		}
 
 		if (description) {
 			where.description = ILike(`%${description}%`)
@@ -76,6 +85,7 @@ export class InvoiceTypeorm implements IInvoiceRepository {
 
 		const values = await this.repository.find({
 			where,
+			order,
 		})
 
 		return values.map(this.toInvoiceDomain)
@@ -89,14 +99,18 @@ export class InvoiceTypeorm implements IInvoiceRepository {
 		})
 
 		if (!invoice) {
-			throw new NotFoundException(`Invoice ${invoiceId} not found`)
+			throw new NotFoundException(
+				this.i18nService.current.invoiceNotFound({
+					invoiceId,
+				}),
+			)
 		}
 
 		return this.toInvoiceDomain(invoice)
 	}
 
 	create: IInvoiceRepository['create'] = async (input) => {
-		const data = this.repository.create(this.toInvoiceEntity(input))
+		const data = this.repository.create(input)
 
 		const invoice = await this.repository.save(data)
 
@@ -106,26 +120,9 @@ export class InvoiceTypeorm implements IInvoiceRepository {
 	updateById: IInvoiceRepository['updateById'] = async (invoiceId, input) => {
 		const invoice = await this.findById(invoiceId)
 
-		await this.repository.update(
-			invoice.state.invoiceId,
-			this.toPartialInvoiceEntity(input),
-		)
+		await this.repository.update(invoice.state.invoiceId, input)
 
 		return this.findById(invoice.state.invoiceId)
-	}
-
-	private toInvoiceEntity(invoice: BaseInvoice): DeepPartial<InvoiceEntity> {
-		return {
-			...invoice,
-		}
-	}
-
-	private toPartialInvoiceEntity(
-		invoice: Partial<Invoice>,
-	): QueryDeepPartialEntity<InvoiceEntity> {
-		return {
-			...invoice,
-		}
 	}
 
 	private toInvoiceDomain(model: InvoiceEntity) {

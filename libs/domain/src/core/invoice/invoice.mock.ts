@@ -1,37 +1,35 @@
 import { uuid } from '@starter/common'
-import type { BaseBoleto, BasePaymentCard, BasePix } from '@starter/schema'
 
 import { InvoiceDomain } from '@/core/invoice/invoice.domain'
-import type { InvoiceInput } from '@/core/invoice/invoice.schema'
+import type {
+	Invoice,
+	InvoiceBoleto,
+	InvoiceCard,
+	InvoicePix,
+} from '@/core/invoice/invoice.schema'
 
 type InvoiceOverrides =
-	| (Partial<Omit<InvoiceInput, 'workspaceId' | 'subscriptionId'>> &
-			Pick<InvoiceInput, 'workspaceId' | 'subscriptionId'> & {
-				paymentMethod: 'CARD'
-				card: BasePaymentCard
-			})
-	| (Partial<Omit<InvoiceInput, 'workspaceId' | 'subscriptionId'>> &
-			Pick<InvoiceInput, 'workspaceId' | 'subscriptionId'> & {
-				paymentMethod: 'PIX'
-				pix: BasePix
-			})
-	| (Partial<Omit<InvoiceInput, 'workspaceId' | 'subscriptionId'>> &
-			Pick<InvoiceInput, 'workspaceId' | 'subscriptionId'> & {
-				paymentMethod: 'BOLETO'
-				boleto: BaseBoleto
-			})
+	| Partial<InvoiceCard>
+	| Partial<InvoicePix>
+	| Partial<InvoiceBoleto>
 
 export const makeInvoice = (overrides: InvoiceOverrides): InvoiceDomain => {
-	const base: Omit<
-		InvoiceInput,
-		'workspaceId' | 'subscriptionId' | 'paymentMethod'
-	> = {
+	const base: Invoice = {
+		workspaceId: uuid(),
+		subscriptionId: uuid(),
 		invoiceId: uuid(),
 		externalId: uuid(),
 		description: 'Invoice Subscription – January / 2025',
+		paymentMethod: 'CARD',
+		card: {
+			token: uuid(),
+			number: '4111 ********** 11',
+			holderName: 'Alice Smith',
+			expirationDate: '12/27',
+		},
 		amount: 10000,
-		dueDate: new Date().toISOString(),
-		issuedAt: new Date().toISOString(),
+		dueDate: new Date(),
+		issuedAt: new Date(),
 		paidAt: null,
 		overdueAt: null,
 		canceledAt: null,
@@ -43,7 +41,7 @@ export const makeInvoice = (overrides: InvoiceOverrides): InvoiceDomain => {
 	return new InvoiceDomain({
 		...base,
 		...overrides,
-	})
+	} as Invoice)
 }
 
 export const invoiceMocks: InvoiceDomain[] = [
@@ -69,7 +67,7 @@ export const invoiceMocks: InvoiceDomain[] = [
 			expirationDate: '11/26',
 		},
 		status: 'PAID',
-		paidAt: new Date('2025-04-10T12:00:00Z').toISOString(),
+		paidAt: new Date('2025-04-10T12:00:00Z'),
 	}),
 	makeInvoice({
 		workspaceId: '0e6c34bb-5a5c-4b31-bfec-33ec3651d580',
@@ -77,7 +75,7 @@ export const invoiceMocks: InvoiceDomain[] = [
 		paymentMethod: 'PIX',
 		pix: {
 			qrCodeUrl: 'https://pix.example.com/v2/abc123',
-			expiresAt: new Date('2025-05-01T23:59:59Z').toISOString(),
+			expiresAt: new Date('2025-05-01T23:59:59Z'),
 		},
 		status: 'OVERDUE',
 	}),
@@ -87,10 +85,10 @@ export const invoiceMocks: InvoiceDomain[] = [
 		paymentMethod: 'PIX',
 		pix: {
 			qrCodeUrl: 'https://pix.example.com/v2/def456',
-			expiresAt: new Date('2025-06-01T23:59:59Z').toISOString(),
+			expiresAt: new Date('2025-06-01T23:59:59Z'),
 		},
 		status: 'CANCELED',
-		canceledAt: new Date('2025-04-15T15:00:00Z').toISOString(),
+		canceledAt: new Date('2025-04-15T15:00:00Z'),
 	}),
 	makeInvoice({
 		workspaceId: '0e6c34bb-5a5c-4b31-bfec-33ec3651d582',
@@ -98,7 +96,7 @@ export const invoiceMocks: InvoiceDomain[] = [
 		paymentMethod: 'BOLETO',
 		boleto: {
 			url: 'https://boleto.example.com/123',
-			expiresAt: new Date('2025-05-01T23:59:59Z').toISOString(),
+			expiresAt: new Date('2025-05-01T23:59:59Z'),
 		},
 		status: 'PENDING',
 	}),
@@ -108,9 +106,9 @@ export const invoiceMocks: InvoiceDomain[] = [
 		paymentMethod: 'BOLETO',
 		boleto: {
 			url: 'https://boleto.example.com/456',
-			expiresAt: new Date('2025-05-01T23:59:59Z').toISOString(),
+			expiresAt: new Date('2025-05-01T23:59:59Z'),
 		},
 		status: 'PAID',
-		paidAt: new Date('2025-04-08T09:30:00Z').toISOString(),
+		paidAt: new Date('2025-04-08T09:30:00Z'),
 	}),
 ]

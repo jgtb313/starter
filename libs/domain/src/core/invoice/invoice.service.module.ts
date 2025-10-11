@@ -1,9 +1,9 @@
 import { forwardRef, Module } from '@nestjs/common'
 
-import { InvoiceRepositoryModule } from '@/adapters/database/invoice'
 import { InvoiceService } from '@/core/invoice/invoice.service'
 import { SubscriptionServiceModule } from '@/core/subscription/subscription.service.module'
 import { WorkspaceServiceModule } from '@/core/workspace/workspace.service.module'
+import { InvoiceRepositoryModule } from '@/adapters/database/invoice'
 
 @Module({
 	imports: [

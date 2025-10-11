@@ -141,4 +141,6 @@ export interface IRecurrence {
 	cancelSubscription: (
 		input: RecurrenceCancelSubscriptionInput,
 	) => Promise<RecurrenceCancelSubscriptionOutput>
+
+	getUpcomingInvoice: (subscriptionId: string) => Promise<{}>
 }

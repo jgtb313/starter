@@ -46,4 +46,11 @@ export class RecurrenceService implements IRecurrence {
 	cancelSubscription: IRecurrence['cancelSubscription'] = async (input) => {
 		return this.recurrence.cancelSubscription(input)
 	}
+
+	getUpcomingInvoice: IRecurrence['getUpcomingInvoice'] = async (
+		subscriptionId,
+	) => {
+		// return this.recurrence.getUpcomingInvoice(subscriptionId)
+		return {}
+	}
 }

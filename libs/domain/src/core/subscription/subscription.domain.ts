@@ -1,16 +1,11 @@
 import { BaseDomain } from '@/support/base-domain'
-
 import {
 	type Subscription,
-	type SubscriptionInput,
 	SubscriptionSchema,
 } from '@/core/subscription/subscription.schema'
 
-export class SubscriptionDomain extends BaseDomain<
-	Subscription,
-	SubscriptionInput
-> {
-	constructor(organization: SubscriptionInput) {
-		super(SubscriptionSchema, organization)
+export class SubscriptionDomain extends BaseDomain<Subscription> {
+	constructor(subscription: Subscription) {
+		super(SubscriptionSchema, subscription)
 	}
 }

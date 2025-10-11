@@ -2,6 +2,7 @@ import {
 	Column,
 	CreateDateColumn,
 	Entity,
+	JoinColumn,
 	ManyToOne,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
@@ -20,21 +21,19 @@ export class InvoiceEntity {
 	@PrimaryGeneratedColumn('uuid')
 	invoiceId: Invoice['invoiceId']
 
-	@ManyToOne(
-		() => SubscriptionEntity,
-		(subscription) => subscription.invoices,
-	)
-	subscription: SubscriptionEntity
-
 	@Column({
 		type: 'uuid',
 	})
 	workspaceId: Invoice['workspaceId']
 
-	@Column({
-		type: 'uuid',
+	@ManyToOne(
+		() => SubscriptionEntity,
+		(subscription) => subscription.invoices,
+	)
+	@JoinColumn({
+		name: 'subscriptionId',
 	})
-	subscriptionId: Invoice['subscriptionId']
+	subscription: SubscriptionEntity
 
 	@Column({
 		type: 'varchar',
