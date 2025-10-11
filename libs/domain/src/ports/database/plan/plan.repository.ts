@@ -11,7 +11,7 @@ export type FindPlanInput = Partial<
 export type PlanSort = Sort<'name' | 'description' | 'status'>
 
 export type IPlanRepository = {
-	findAllPaginated(
+	findPaginated(
 		input: Merge<
 			[
 				FindPlanInput,
@@ -20,7 +20,7 @@ export type IPlanRepository = {
 			]
 		>,
 	): Promise<PaginationOutput<PlanDomain>>
-	findAll(
+	find(
 		input: Merge<
 			[
 				FindPlanInput,

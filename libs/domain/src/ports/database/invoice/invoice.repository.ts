@@ -9,7 +9,7 @@ type FindInvoiceInput = Partial<Pick<Invoice, 'description' | 'status'>>
 type RoleSort = Sort<'description' | 'status' | 'createdAt'>
 
 export type IInvoiceRepository = {
-	findAllPaginated(
+	findPaginated(
 		input: Merge<
 			[
 				FindInvoiceInput,
@@ -18,7 +18,7 @@ export type IInvoiceRepository = {
 			]
 		>,
 	): Promise<PaginationOutput<InvoiceDomain>>
-	findAll(
+	find(
 		input: Merge<
 			[
 				FindInvoiceInput,

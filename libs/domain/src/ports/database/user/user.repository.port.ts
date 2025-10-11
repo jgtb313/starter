@@ -2,7 +2,7 @@ import type { Merge } from '@starter/common'
 import type { Pagination, PaginationOutput, Phone, Sort } from '@starter/schema'
 
 import type { UserDomain } from '@/core/user/user.domain'
-import type { User, UserInput } from '@/core/user/user.schema'
+import type { BaseUser, User } from '@/core/user/user.schema'
 
 type FindUserInput = Partial<
 	Pick<User, 'workspaceId' | 'name' | 'email' | 'phone' | 'status'>
@@ -46,8 +46,8 @@ export type IUserRepository = {
 		providerToken: string,
 		email: string,
 	): Promise<UserDomain | null>
-	create(input: UserInput): Promise<UserDomain>
-	updateById(userId: string, input: Partial<UserInput>): Promise<UserDomain>
+	create(input: BaseUser): Promise<UserDomain>
+	updateById(userId: string, input: Partial<BaseUser>): Promise<UserDomain>
 	deleteById(userId: string): Promise<void>
 
 	attachOrganization(

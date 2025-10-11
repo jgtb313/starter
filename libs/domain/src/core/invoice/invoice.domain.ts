@@ -1,15 +1,10 @@
 import { ConflictException } from '@starter/nestjs-error-handling'
 
 import { BaseDomain } from '@/support/base-domain'
+import { type Invoice, InvoiceSchema } from '@/core/invoice/invoice.schema'
 
-import {
-	type Invoice,
-	type InvoiceInput,
-	InvoiceSchema,
-} from '@/core/invoice/invoice.schema'
-
-export class InvoiceDomain extends BaseDomain<Invoice, InvoiceInput> {
-	constructor(invoice: InvoiceInput) {
+export class InvoiceDomain extends BaseDomain<Invoice> {
+	constructor(invoice: Invoice) {
 		super(InvoiceSchema, invoice)
 	}
 
@@ -27,27 +22,6 @@ export class InvoiceDomain extends BaseDomain<Invoice, InvoiceInput> {
 
 	isCanceled() {
 		return this.state.status === 'CANCELED'
-	}
-
-	markAsPaid() {
-		this.checkIfCanBePaid()
-
-		this.state.paidAt = new Date()
-		this.state.status = 'PAID'
-	}
-
-	markAsOverdue() {
-		this.checkIfCanBeOverdue()
-
-		this.state.overdueAt = new Date()
-		this.state.status = 'OVERDUE'
-	}
-
-	markAsCanceled() {
-		this.checkIfCanBeCanceled()
-
-		this.state.canceledAt = new Date()
-		this.state.status = 'CANCELED'
 	}
 
 	private checkIfCanBePaid() {

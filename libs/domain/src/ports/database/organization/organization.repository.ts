@@ -10,7 +10,7 @@ import type {
 type FindOrganizationInput = Partial<Organization>
 
 export type IOrganizationRepository = {
-	findAllPaginated(
+	findPaginated(
 		input: Merge<
 			[
 				FindOrganizationInput,
@@ -18,7 +18,7 @@ export type IOrganizationRepository = {
 			]
 		>,
 	): Promise<PaginationOutput<OrganizationDomain>>
-	findAll(input: Partial<Organization>): Promise<OrganizationDomain[]>
+	find(input: Partial<Organization>): Promise<OrganizationDomain[]>
 	findById(organizationId: string): Promise<OrganizationDomain>
 	create(input: BaseOrganization): Promise<OrganizationDomain>
 	updateById(
@@ -26,5 +26,6 @@ export type IOrganizationRepository = {
 		input: Partial<Organization>,
 	): Promise<OrganizationDomain>
 	deleteById(organizationId: string): Promise<void>
+
 	validateIds(organizationId: string[]): Promise<void>
 }

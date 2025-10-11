@@ -31,7 +31,7 @@ type UpdateRoleInput = Partial<
 >
 
 export type IRoleRepository = {
-	findAllPaginated(
+	findPaginated(
 		input: Merge<
 			[
 				FindRoleInput,
@@ -40,12 +40,20 @@ export type IRoleRepository = {
 			]
 		>,
 	): Promise<PaginationOutput<RoleDomain>>
-	findAll(input: Partial<FindRoleInput>): Promise<RoleDomain[]>
+	find(
+		input: Merge<
+			[
+				FindRoleInput,
+				RoleSort,
+			]
+		>,
+	): Promise<RoleDomain[]>
 	findById(roleId: string): Promise<RoleDomain>
 	create(input: CreateRoleInput): Promise<RoleDomain>
 	updateById(roleId: string, input: UpdateRoleInput): Promise<RoleDomain>
 	deleteById(roleId: string): Promise<void>
-	validateRoleIds(roleIds: string[]): Promise<void>
+
+	validateIds(roleIds: string[]): Promise<void>
 	validateIdsByOrganizationId(
 		organizationId: string,
 		roleId: string[],

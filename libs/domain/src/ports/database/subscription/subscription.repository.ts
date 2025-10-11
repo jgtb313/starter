@@ -22,7 +22,7 @@ type FindSubscriptionInput = Partial<
 type SubscriptionSort = Sort<'status' | 'createdAt'>
 
 export type ISubscriptionRepository = {
-	findAllPaginated(
+	findPaginated(
 		input: Merge<
 			[
 				FindSubscriptionInput,
@@ -31,7 +31,14 @@ export type ISubscriptionRepository = {
 			]
 		>,
 	): Promise<PaginationOutput<SubscriptionDomain>>
-	findAll(input: Partial<Subscription>): Promise<SubscriptionDomain[]>
+	find(
+		input: Merge<
+			[
+				FindSubscriptionInput,
+				SubscriptionSort,
+			]
+		>,
+	): Promise<SubscriptionDomain[]>
 	findById(roleId: string): Promise<SubscriptionDomain>
 	create(input: BaseSubscription): Promise<SubscriptionDomain>
 	updateById(
