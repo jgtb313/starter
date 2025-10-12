@@ -10,6 +10,7 @@ import {
 import type { BaseInvoice, Invoice } from '@/core/invoice/invoice.schema'
 import { SubscriptionService } from '@/core/subscription/subscription.service'
 import { WorkspaceService } from '@/core/workspace/workspace.service'
+import { LoggerService } from '@/adapters/logger'
 import type { IInvoiceRepository } from '@/ports/database/invoice'
 
 export type InvoiceWorkspaceReference = WithWorkspaceReference<'invoiceId'>
@@ -25,6 +26,8 @@ export class InvoiceService {
 		private readonly workspaceService: WorkspaceService,
 		@Inject(forwardRef(() => SubscriptionService))
 		private readonly subscriptionService: SubscriptionService,
+		@Inject(LoggerService)
+		private readonly loggerService: LoggerService,
 	) {}
 
 	async getPaginatedInvoices(
@@ -52,16 +55,32 @@ export class InvoiceService {
 	}
 
 	async createInvoice({ workspaceId, subscriptionId, ...input }: BaseInvoice) {
+		this.loggerService.info('Attempting to create invoice', {
+			workspaceId,
+			subscriptionId,
+			input,
+		})
+
 		const workspace = await this.workspaceService.getWorkspace(workspaceId)
 
-		const subscription =
-			await this.subscriptionService.getSubscription(subscriptionId)
+		const subscription = await this.subscriptionService.getSubscription({
+			workspaceId,
+			subscriptionId,
+		})
 
-		return this.invoiceRepository.create({
+		const invoice = await this.invoiceRepository.create({
 			...input,
 			workspaceId: workspace.state.workspaceId,
 			subscriptionId: subscription.state.subscriptionId,
 		})
+
+		this.loggerService.info('Invoice has been created', {
+			invoiceId: invoice.state.invoiceId,
+			workspaceId,
+			subscriptionId,
+		})
+
+		return invoice
 	}
 
 	async updateInvoice(
@@ -70,6 +89,15 @@ export class InvoiceService {
 	) {
 		const invoice = await this.getInvoice(reference)
 
-		return this.invoiceRepository.updateById(invoice.state.invoiceId, input)
+		const updatedInvoice = await this.invoiceRepository.updateById(
+			invoice.state.invoiceId,
+			input,
+		)
+
+		this.loggerService.info('Invoice has been updated', {
+			invoiceId: invoice.state.invoiceId,
+		})
+
+		return updatedInvoice
 	}
 }
