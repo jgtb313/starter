@@ -1,0 +1,49 @@
+{
+	"name": "@starter/console",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"predev": "pnpm generate",
+		"dev": "vite --port 3000",
+		"build": "vite build && tsc",
+		"serve": "vite preview",
+		"test": "vitest run",
+		"generate": "kubb generate"
+	},
+	"dependencies": {
+		"@kubb/plugin-client": "^4.1.2",
+		"@kubb/plugin-oas": "^4.1.2",
+		"@kubb/plugin-ts": "^4.1.2",
+		"@kubb/plugin-zod": "^4.1.2",
+		"@starter/common": "workspace:*",
+		"@starter/config": "workspace:*",
+		"@starter/i18n": "workspace:*",
+		"@starter/react-i18n": "workspace:*",
+		"@starter/schema": "workspace:*",
+		"@starter/ui": "workspace:*",
+		"@tanstack/react-devtools": "^0.7.0",
+		"@tanstack/react-query": "^5.90.2",
+		"@tanstack/react-router": "^1.132.0",
+		"@tanstack/react-router-devtools": "^1.132.0",
+		"@tanstack/router-plugin": "^1.132.0",
+		"axios": "^1.12.2",
+		"react": "19.1.1",
+		"react-dom": "19.1.1"
+	},
+	"devDependencies": {
+		"@kubb/cli": "^4.1.2",
+		"@kubb/core": "^4.1.2",
+		"@kubb/plugin-react-query": "^4.1.2",
+		"@testing-library/dom": "^10.4.0",
+		"@testing-library/react": "^16.2.0",
+		"@types/node": "^22.10.2",
+		"@types/react": "^19.0.8",
+		"@types/react-dom": "^19.0.3",
+		"@vitejs/plugin-react": "^5.0.4",
+		"jsdom": "^27.0.0",
+		"typescript": "^5.7.2",
+		"vite": "6.0.5",
+		"vitest": "^2.1.8",
+		"web-vitals": "^5.1.0"
+	}
+}
