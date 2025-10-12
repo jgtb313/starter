@@ -1,3 +1,5 @@
+import { deepReplace, uuid } from '@starter/common'
+import { PixSchema, z } from '@starter/schema'
 import { useI18n } from '@starter/react-i18n'
 
 import { createFileRoute } from '@tanstack/react-router'
@@ -8,6 +10,13 @@ export const Route = createFileRoute('/_authenticated/')({
 
 function RouteComponent() {
 	const i18n = useI18n()
+
+	console.log({
+		PixSchema,
+		z,
+		uuid,
+		deepReplace,
+	})
 
 	return (
 		<div>

@@ -41,6 +41,7 @@ export default defineConfig(() => {
 				output: {
 					path: './schemas',
 				},
+				importPath: '@starter/schema',
 				version: '4',
 			}),
 

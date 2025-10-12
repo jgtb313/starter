@@ -103,6 +103,7 @@ erDiagram
       string roleId FK
       string workspaceId FK
       datetime createdAt
+      datetime updatedAt
     }
 
     ROLE_PERMISSION {
@@ -114,14 +115,12 @@ erDiagram
     ROLE_ORGANIZATION {
       string roleId FK
       string organizationId FK
-      string workspaceId FK
       datetime createdAt
     }
 
     USER_ORGANIZATION {
       string userId FK
       string organizationId FK
-      string workspaceId FK
       datetime createdAt
     }
 
