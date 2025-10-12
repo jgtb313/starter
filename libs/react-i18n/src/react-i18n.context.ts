@@ -3,9 +3,9 @@ import type { I18nDict, InferI18n } from '@starter/i18n'
 
 import { createContext, useContext } from 'react'
 
-type I18nContextValue<T extends I18nDict> = {
-	t: InferI18n<T>
-	currentLocale: Locale
+export type I18nContextValue<T extends I18nDict> = {
+	t: Omit<InferI18n<T>, 'setLocale'>
+	locale: Locale
 	setLocale: (locale: Locale) => void
 }
 

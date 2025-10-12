@@ -32,7 +32,7 @@ export const I18nProvider = ({
 		<I18nContext.Provider
 			value={{
 				t: i18n,
-				currentLocale: internalLocale,
+				locale: internalLocale,
 				setLocale,
 			}}
 		>
