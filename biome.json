@@ -10,6 +10,18 @@
 						"groups": [
 							":NODE:",
 							":BLANK_LINE:",
+							"@starter/config",
+							"@starter/common",
+							"@starter/nestjs-error-handling",
+							"@starter/schema",
+							"@starter/domain",
+							"@starter/emails",
+							"@starter/nestjs-server-hoisting",
+							"@starter/nestjs-serverless-hoisting",
+							"@starter/nestjs-i18n",
+							"@starter/react-i18n",
+							"@starter/i18n",
+							"@starter/ui",
 							":BLANK_LINE:",
 							":PACKAGE:",
 							":BLANK_LINE:",
@@ -49,7 +61,8 @@
 			"correctness": {
 				"noUnusedVariables": "warn",
 				"noUnusedImports": "off",
-				"useExhaustiveDependencies": "off"
+				"useExhaustiveDependencies": "off",
+				"noEmptyPattern": "off"
 			},
 			"style": {
 				"useBlockStatements": "error",

@@ -1,7 +1,8 @@
-import { type DynamicModule, Global, Module } from '@nestjs/common'
-import type { I18nDict } from '@starter/i18n'
-import { type I18nService, NestjsI18nModule } from '@starter/nestjs-i18n'
 import { nestjsServerHoistingI18nModuleOptions } from '@starter/nestjs-server-hoisting'
+import { type I18nService, NestjsI18nModule } from '@starter/nestjs-i18n'
+import type { I18nDict } from '@starter/i18n'
+
+import { type DynamicModule, Global, Module } from '@nestjs/common'
 
 import { type I18nAPI, i18nDict } from '@/~i18n/api.i18n'
 

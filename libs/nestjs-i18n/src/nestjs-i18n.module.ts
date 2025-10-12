@@ -1,3 +1,5 @@
+import type { I18nDict } from '@starter/i18n'
+
 import {
 	type DynamicModule,
 	Global,
@@ -5,7 +7,6 @@ import {
 	Module,
 	type Scope,
 } from '@nestjs/common'
-import type { I18nDict } from '@starter/i18n'
 
 import { I18nService } from './nestjs-i18n.service'
 

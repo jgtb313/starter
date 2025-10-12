@@ -1,5 +1,5 @@
 {
-	"name": "@starter/ui",
+	"name": "@starter/react-i18n",
 	"version": "1.0.0",
 	"author": "João <jgtb313@gmail.com>",
 	"license": "MIT",
@@ -15,6 +15,8 @@
 		"react-dom": "19.1.1"
 	},
 	"dependencies": {
+		"@starter/schema": "workspace:*",
+		"@starter/i18n": "workspace:*",
 		"react": "19.1.1",
 		"react-dom": "19.1.1",
 		"@swc/core": "^1.2.165",
@@ -27,13 +29,13 @@
 		"@types/react": "^19.0.8",
 		"@types/react-dom": "^19.0.3"
 	},
-	"main": "dist/ui.cjs",
-	"module": "dist/ui.js",
+	"main": "dist/react-i18n.cjs",
+	"module": "dist/react-i18n.js",
 	"exports": {
 		".": {
 			"types": "./dist/index.d.ts",
-			"require": "./dist/ui.cjs",
-			"import": "./dist/ui.js"
+			"require": "./dist/react-i18n.cjs",
+			"import": "./dist/react-i18n.js"
 		}
 	},
 	"typings": "dist/index.d.ts",
