@@ -31,8 +31,7 @@
 		"@vitejs/plugin-react": "^4.3.4",
 		"autoprefixer": "^10.4.20",
 		"init": "^0.1.2",
-		"jsdom": "^25.0.1",
-		"prettier": "^3.4.2"
+		"jsdom": "^25.0.1"
 	},
 	"main": "dist/emails.cjs",
 	"module": "dist/emails.js",

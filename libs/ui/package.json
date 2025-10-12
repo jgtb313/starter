@@ -1,0 +1,36 @@
+{
+	"name": "@starter/ui",
+	"version": "1.0.0",
+	"author": "João <jgtb313@gmail.com>",
+	"license": "MIT",
+	"type": "module",
+	"scripts": {
+		"dev": "vite build --watch",
+		"build": "vite build",
+		"build:watch": "vite build --watch",
+		"type-check": "tsc --project tsconfig.json --pretty --noEmit"
+	},
+	"dependencies": {
+		"@mantinex/mantine-logo": "^1.1.0",
+		"@swc/core": "^1.2.165",
+		"typescript": "5.4.2",
+		"vite": "6.0.5",
+		"vite-plugin-dts": "4.4.0"
+	},
+	"devDependencies": {
+		"@vitejs/plugin-react": "^4.3.4"
+	},
+	"main": "dist/ui.cjs",
+	"module": "dist/ui.js",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"require": "./dist/ui.cjs",
+			"import": "./dist/ui.js"
+		}
+	},
+	"typings": "dist/index.d.ts",
+	"files": [
+		"dist"
+	]
+}
