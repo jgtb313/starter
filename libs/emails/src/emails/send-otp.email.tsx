@@ -1,11 +1,11 @@
 import { Section, Text } from '@react-email/components'
 
-import { Layout } from '@/emails.layout'
+import { Layout, type WithLayoutProps } from '@/emails.layout'
 
-export type SendOTPProps = {
+export type SendOTPProps = WithLayoutProps<{
 	code: string
 	expiresInMinutes: number
-}
+}>
 
 export const SendOTP = ({
 	code = '4910',
@@ -13,23 +13,23 @@ export const SendOTP = ({
 }: SendOTPProps) => {
 	return (
 		<Layout title='Verification Code'>
-			<Section>
-				<Text className='text-center'>
-					Use the code provided in this email to authorize access to your
-					account.
-				</Text>
+			{(i18n) => (
+				<Section>
+					<Text className='text-center'>{i18n.sendOTPDescription()}</Text>
 
-				<Section className='mx-auto my-[30px] w-[240px] rounded-[4px] bg-neutral-100'>
-					<Text className='mx-auto w-full py-[8px] text-center font-bold text-[24px] text-black leading-[30px] tracking-[6px]'>
-						{code}
+					<Section className='mx-auto my-[30px] w-[240px] rounded-[4px] bg-neutral-100'>
+						<Text className='mx-auto w-full py-[8px] text-center font-bold text-[24px] text-black leading-[30px] tracking-[6px]'>
+							{code}
+						</Text>
+					</Section>
+
+					<Text className='text-center'>
+						{i18n.sendOTPCodeValidity({
+							expiresInMinutes,
+						})}
 					</Text>
 				</Section>
-
-				<Text className='text-center'>
-					This code is valid for <strong>{expiresInMinutes} minutes</strong>,
-					starting from the moment you received this email.
-				</Text>
-			</Section>
+			)}
 		</Layout>
 	)
 }

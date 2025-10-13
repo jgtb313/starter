@@ -604,6 +604,15 @@ importers:
       '@starter/config':
         specifier: workspace:*
         version: link:../config
+      '@starter/i18n':
+        specifier: workspace:*
+        version: link:../i18n
+      '@starter/react-i18n':
+        specifier: workspace:*
+        version: link:../react-i18n
+      '@starter/schema':
+        specifier: workspace:*
+        version: link:../schema
     devDependencies:
       '@types/node':
         specifier: ^22

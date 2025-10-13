@@ -1,4 +1,6 @@
 import { config } from '@starter/config'
+import type { Locale } from '@starter/schema'
+import { createI18n, type InferI18n } from '@starter/i18n'
 
 import {
 	Body,
@@ -15,13 +17,27 @@ import {
 	Tailwind,
 	Text,
 } from '@react-email/components'
-import type { PropsWithChildren } from 'react'
+import type { ReactNode } from 'react'
+
+import type { I18nEmails } from '~/i18n'
+import { i18nDict } from '~/i18n'
+
+export type WithLayoutProps<T> = T & {
+	locale?: Locale
+}
 
 type LayoutProps = {
 	title: string
+	locale?: Locale
+	children: (i18n: InferI18n<I18nEmails>) => ReactNode
 }
 
-export const Layout = ({ title, children }: PropsWithChildren<LayoutProps>) => {
+export const Layout = ({
+	title,
+	children,
+}: Pick<LayoutProps, 'title' | 'children'>) => {
+	const i18n = createI18n(i18nDict) as InferI18n<I18nEmails>
+
 	return (
 		<Html>
 			<Head />
@@ -39,7 +55,7 @@ export const Layout = ({ title, children }: PropsWithChildren<LayoutProps>) => {
 							{title}
 						</Heading>
 
-						{children}
+						{children(i18n)}
 
 						<Hr className='mx-0 my-[26px] w-full border border-gray-300 border-solid' />
 
@@ -48,8 +64,8 @@ export const Layout = ({ title, children }: PropsWithChildren<LayoutProps>) => {
 								width={90}
 								align='center'
 							>
-								<Column className='pr-[8px]'>
-									{config.social.facebook && (
+								{config.social.facebook && (
+									<Column className='pr-[8px]'>
 										<Link href={config.social.facebook}>
 											<Img
 												src='https://i.imgur.com/ess1JW0.png'
@@ -58,11 +74,11 @@ export const Layout = ({ title, children }: PropsWithChildren<LayoutProps>) => {
 												height={30}
 											/>
 										</Link>
-									)}
-								</Column>
+									</Column>
+								)}
 
-								<Column className='pr-[8px]'>
-									{config.social.twitter && (
+								{config.social.twitter && (
+									<Column className='pr-[8px]'>
 										<Link href={config.social.twitter}>
 											<Img
 												src='https://i.imgur.com/DsoTAYE.png'
@@ -71,11 +87,11 @@ export const Layout = ({ title, children }: PropsWithChildren<LayoutProps>) => {
 												height={30}
 											/>
 										</Link>
-									)}
-								</Column>
+									</Column>
+								)}
 
-								<Column className='pr-[8px]'>
-									{config.social.instagram && (
+								{config.social.instagram && (
+									<Column className='pr-[8px]'>
 										<Link href={config.social.instagram}>
 											<Img
 												src='https://i.imgur.com/A46ahq8.png'
@@ -84,8 +100,8 @@ export const Layout = ({ title, children }: PropsWithChildren<LayoutProps>) => {
 												height={30}
 											/>
 										</Link>
-									)}
-								</Column>
+									</Column>
+								)}
 							</Row>
 
 							<Row>

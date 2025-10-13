@@ -3,6 +3,10 @@
 	"compilerOptions": {
 		"jsx": "react-jsx",
 		"baseUrl": ".",
-		"typeRoots": ["./node_modules/@types"]
+		"typeRoots": ["./node_modules/@types"],
+		"paths": {
+			"@/*": ["./src/*"],
+			"~/i18n": ["./src/~i18n/emails.i18n"]
+		}
 	}
 }
