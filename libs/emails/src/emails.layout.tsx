@@ -1,3 +1,5 @@
+import { config } from '@starter/config'
+
 import {
 	Body,
 	Column,
@@ -13,7 +15,6 @@ import {
 	Tailwind,
 	Text,
 } from '@react-email/components'
-import { config } from '@starter/config'
 import type { PropsWithChildren } from 'react'
 
 type LayoutProps = {

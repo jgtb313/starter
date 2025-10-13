@@ -27,8 +27,8 @@
 		"@tanstack/react-router-devtools": "^1.132.0",
 		"@tanstack/router-plugin": "^1.132.0",
 		"axios": "^1.12.2",
-		"react": "19.1.1",
-		"react-dom": "19.1.1"
+		"react": "19.0.0",
+		"react-dom": "19.0.0"
 	},
 	"devDependencies": {
 		"@kubb/cli": "^4.1.2",

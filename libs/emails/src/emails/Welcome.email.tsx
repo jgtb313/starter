@@ -1,5 +1,6 @@
-import { Button, Section, Text } from '@react-email/components'
 import { config } from '@starter/config'
+
+import { Button, Section, Text } from '@react-email/components'
 
 import { Layout } from '@/emails.layout'
 

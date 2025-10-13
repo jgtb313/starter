@@ -11,14 +11,12 @@
 		"type-check": "tsc --project tsconfig.json --pretty --noEmit"
 	},
 	"peerDependencies": {
-		"react": "19.1.1",
-		"react-dom": "19.1.1"
+		"react": "19.0.0",
+		"react-dom": "19.0.0"
 	},
 	"dependencies": {
 		"@starter/schema": "workspace:*",
 		"@starter/i18n": "workspace:*",
-		"react": "19.1.1",
-		"react-dom": "19.1.1",
 		"@swc/core": "^1.2.165",
 		"typescript": "5.4.2",
 		"vite": "6.0.5",
