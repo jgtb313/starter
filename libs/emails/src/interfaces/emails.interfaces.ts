@@ -3,6 +3,5 @@ import type { WelcomeProps } from '@/emails/welcome.email'
 
 export interface IEmails {
 	SEND_OTP: SendOTPProps
-
 	WELCOME: WelcomeProps
 }

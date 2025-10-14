@@ -43,6 +43,9 @@
 	"linter": {
 		"enabled": true,
 		"rules": {
+			"security": {
+				"noDangerouslySetInnerHtml": "off"
+			},
 			"nursery": {
 				"useSortedClasses": {
 					"level": "error",

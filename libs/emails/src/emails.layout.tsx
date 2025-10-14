@@ -1,6 +1,5 @@
 import { config } from '@starter/config'
 import type { Locale } from '@starter/schema'
-import { createI18n, type InferI18n } from '@starter/i18n'
 
 import {
 	Body,
@@ -17,27 +16,24 @@ import {
 	Tailwind,
 	Text,
 } from '@react-email/components'
-import type { ReactNode } from 'react'
+import type { PropsWithChildren } from 'react'
 
-import type { I18nEmails } from '~/i18n'
-import { i18nDict } from '~/i18n'
+import { defaultLocale, i18n } from '@/emails.i18n'
 
 export type WithLayoutProps<T> = T & {
 	locale?: Locale
 }
 
 type LayoutProps = {
-	title: string
 	locale?: Locale
-	children: (i18n: InferI18n<I18nEmails>) => ReactNode
+	title: string
 }
 
 export const Layout = ({
+	locale = defaultLocale,
 	title,
 	children,
-}: Pick<LayoutProps, 'title' | 'children'>) => {
-	const i18n = createI18n(i18nDict) as InferI18n<I18nEmails>
-
+}: PropsWithChildren<LayoutProps>) => {
 	return (
 		<Html>
 			<Head />
@@ -55,7 +51,7 @@ export const Layout = ({
 							{title}
 						</Heading>
 
-						{children(i18n)}
+						{children}
 
 						<Hr className='mx-0 my-[26px] w-full border border-gray-300 border-solid' />
 
@@ -106,8 +102,10 @@ export const Layout = ({
 
 							<Row>
 								<Text className='mt-4 mb-2 text-center text-gray-500 text-xs leading-[18px]'>
-									© {new Date().getFullYear()} {config.name}. All Rights
-									Reserved.
+									{i18n.custom(locale).copyright({
+										year: new Date().getFullYear(),
+										appName: config.name,
+									})}
 								</Text>
 
 								<Text className='m-0 text-center text-gray-500 text-xs leading-[18px]'>
