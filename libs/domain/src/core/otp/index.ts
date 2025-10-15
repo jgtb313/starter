@@ -1,3 +1,4 @@
+export * from './otp.mock'
 export * from './otp.schema'
 export * from './otp.service'
 export * from './otp.service.module'

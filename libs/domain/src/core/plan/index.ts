@@ -1,3 +1,4 @@
+export * from './plan.mock'
 export * from './plan.schema'
 export * from './plan.service'
 export * from './plan.service.module'

@@ -2,6 +2,7 @@ import {
 	Column,
 	CreateDateColumn,
 	Entity,
+	JoinColumn,
 	ManyToOne,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
@@ -10,7 +11,7 @@ import {
 import type { OTP } from '@/core/otp/otp.schema'
 import { UserEntity } from '@/adapters/database/user/user.typeorm.entity'
 
-@Entity('otps')
+@Entity('otp')
 export class OTPEntity {
 	@PrimaryGeneratedColumn('uuid')
 	otpId: OTP['otpId']
@@ -22,13 +23,10 @@ export class OTPEntity {
 			nullable: true,
 		},
 	)
-	user?: UserEntity
-
-	@Column({
-		type: 'uuid',
-		nullable: true,
+	@JoinColumn({
+		name: 'userId',
 	})
-	userId: OTP['userId']
+	user: UserEntity
 
 	@Column({
 		type: 'varchar',

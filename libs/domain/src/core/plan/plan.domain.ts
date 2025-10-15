@@ -1,5 +1,3 @@
-import { ConflictException } from '@starter/nestjs-error-handling'
-
 import { BaseDomain } from '@/support/base-domain'
 import { type Plan, PlanSchema } from '@/core/plan/plan.schema'
 

@@ -49,6 +49,8 @@ export const invoiceMocks: InvoiceDomain[] = [
 		workspaceId: '0e6c34bb-5a5c-4b31-bfec-33ec3651d57f',
 		subscriptionId: '126b6b16-0238-41bc-9c27-54f260b08aaa',
 		paymentMethod: 'CARD',
+		description: 'Invoice Subscription Pro Plan – March / 2025',
+		amount: 9900,
 		card: {
 			token: 'tok_001',
 			number: '4111 ********** 11',
@@ -60,6 +62,8 @@ export const invoiceMocks: InvoiceDomain[] = [
 		workspaceId: '0e6c34bb-5a5c-4b31-bfec-33ec3651d57f',
 		subscriptionId: '126b6b16-0238-41bc-9c27-54f260b08aab',
 		paymentMethod: 'CARD',
+		description: 'Invoice Subscription Starter Plan – April / 2025',
+		amount: 2900,
 		card: {
 			token: 'tok_002',
 			number: '5500 ********** 55',
@@ -73,16 +77,19 @@ export const invoiceMocks: InvoiceDomain[] = [
 		workspaceId: '0e6c34bb-5a5c-4b31-bfec-33ec3651d580',
 		subscriptionId: '126b6b16-0238-41bc-9c27-54f260b08aac',
 		paymentMethod: 'PIX',
+		amount: 5900,
 		pix: {
 			qrCodeUrl: 'https://pix.example.com/v2/abc123',
 			expiresAt: new Date('2025-05-01T23:59:59Z'),
 		},
 		status: 'OVERDUE',
+		overdueAt: new Date('2025-04-25T00:00:00Z'),
 	}),
 	makeInvoice({
 		workspaceId: '0e6c34bb-5a5c-4b31-bfec-33ec3651d581',
 		subscriptionId: '126b6b16-0238-41bc-9c27-54f260b08aad',
 		paymentMethod: 'PIX',
+		amount: 9900,
 		pix: {
 			qrCodeUrl: 'https://pix.example.com/v2/def456',
 			expiresAt: new Date('2025-06-01T23:59:59Z'),
@@ -94,6 +101,7 @@ export const invoiceMocks: InvoiceDomain[] = [
 		workspaceId: '0e6c34bb-5a5c-4b31-bfec-33ec3651d582',
 		subscriptionId: '126b6b16-0238-41bc-9c27-54f260b08aae',
 		paymentMethod: 'BOLETO',
+		amount: 12900,
 		boleto: {
 			url: 'https://boleto.example.com/123',
 			expiresAt: new Date('2025-05-01T23:59:59Z'),
@@ -104,6 +112,7 @@ export const invoiceMocks: InvoiceDomain[] = [
 		workspaceId: '0e6c34bb-5a5c-4b31-bfec-33ec3651d583',
 		subscriptionId: '126b6b16-0238-41bc-9c27-54f260b08aaf',
 		paymentMethod: 'BOLETO',
+		amount: 19900,
 		boleto: {
 			url: 'https://boleto.example.com/456',
 			expiresAt: new Date('2025-05-01T23:59:59Z'),

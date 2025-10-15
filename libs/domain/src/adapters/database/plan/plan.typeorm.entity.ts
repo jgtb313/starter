@@ -1,4 +1,5 @@
 import {
+	AfterLoad,
 	Column,
 	CreateDateColumn,
 	DeleteDateColumn,
@@ -8,10 +9,12 @@ import {
 	UpdateDateColumn,
 } from 'typeorm'
 
-import { SubscriptionEntity } from '@/adapters/database/subscription/subscription.typeorm.entity'
 import type { Plan } from '@/core/plan/plan.schema'
+import { PlanFeatureEntity } from '@/adapters/database/plan/plan-feature.typeorm.entity'
+import { PlanIntervalEntity } from '@/adapters/database/plan/plan-interval.typeorm.entity'
+import { SubscriptionEntity } from '@/adapters/database/subscription/subscription.typeorm.entity'
 
-@Entity('plans')
+@Entity('plan')
 export class PlanEntity {
 	@PrimaryGeneratedColumn('uuid')
 	planId: Plan['planId']
@@ -21,6 +24,18 @@ export class PlanEntity {
 		(subscription) => subscription.plan,
 	)
 	subscriptions: SubscriptionEntity[]
+
+	@OneToMany(
+		() => PlanIntervalEntity,
+		(planInterval) => planInterval.plan,
+	)
+	planIntervals: PlanIntervalEntity[]
+
+	@OneToMany(
+		() => PlanFeatureEntity,
+		(planFeature) => planFeature.plan,
+	)
+	planFeatures: PlanFeatureEntity[]
 
 	@Column({
 		type: 'varchar',
@@ -37,32 +52,9 @@ export class PlanEntity {
 	})
 	description: Plan['description']
 
-	@Column({
-		type: 'int',
-	})
-	amount: Plan['amount']
-
-	@Column({
-		type: 'varchar',
-	})
-	interval: Plan['interval']
-
-	@Column({
-		type: 'int',
-		default: 1,
-	})
-	intervalCount: Plan['intervalCount']
-
-	@Column({
-		type: 'int',
-	})
-	trialDays: Plan['trialDays']
-
-	@Column({
-		type: 'json',
-		nullable: true,
-	})
 	features: Plan['features']
+
+	intervals: Plan['intervals']
 
 	@Column({
 		type: 'boolean',
@@ -83,4 +75,33 @@ export class PlanEntity {
 
 	@UpdateDateColumn({})
 	updatedAt: Plan['updatedAt']
+
+	@AfterLoad()
+	loadRelations() {
+		if (this.planIntervals) {
+			this.intervals = this.planIntervals.map((planInterval) => ({
+				planIntervalId: planInterval.planIntervalId,
+				externalId: planInterval.externalId,
+				amount: planInterval.amount,
+				interval: planInterval.interval,
+				intervalCount: planInterval.intervalCount,
+				trialDays: planInterval.trialDays,
+				status: planInterval.status,
+				deletedAt: planInterval.deletedAt?.toISOString(),
+				createdAt: planInterval.createdAt.toISOString(),
+				updatedAt: planInterval.updatedAt.toISOString(),
+			}))
+		}
+
+		if (this.planFeatures) {
+			this.features = this.planFeatures.map((planFeature) => ({
+				planFeatureId: planFeature.planFeatureId,
+				feature: planFeature.feature,
+				description: planFeature.description,
+				props: planFeature.props,
+				createdAt: planFeature.createdAt.toISOString(),
+				updatedAt: planFeature.updatedAt.toISOString(),
+			}))
+		}
+	}
 }

@@ -12,7 +12,7 @@ import { OrganizationEntity } from '@/adapters/database/organization/organizatio
 import { PermissionEntity } from '@/adapters/database/permission/permission.typeorm.entity'
 import { UserEntity } from '@/adapters/database/user/user.typeorm.entity'
 
-@Entity('user_permissions')
+@Entity('user_permission')
 export class UserPermissionEntity {
 	@PrimaryGeneratedColumn('uuid')
 	userPermissionId: string
@@ -35,13 +35,17 @@ export class UserPermissionEntity {
 	})
 	permission: PermissionEntity
 
-	@ManyToOne(() => OrganizationEntity, {
-		nullable: true,
-	})
+	@ManyToOne(
+		() => OrganizationEntity,
+		(organization) => organization.userPermissions,
+		{
+			nullable: true,
+		},
+	)
 	@JoinColumn({
 		name: 'organizationId',
 	})
-	organization?: OrganizationEntity
+	organization: OrganizationEntity
 
 	@CreateDateColumn()
 	createdAt: Date

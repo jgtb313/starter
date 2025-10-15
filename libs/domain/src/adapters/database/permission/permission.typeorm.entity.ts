@@ -11,7 +11,7 @@ import type { Permission } from '@/core/permission/permission.schema'
 import { RolePermissionEntity } from '@/adapters/database/role/role-permission.typeorm.entity'
 import { UserPermissionEntity } from '@/adapters/database/user/user-permission.typeorm.entity'
 
-@Entity('permissions')
+@Entity('permission')
 export class PermissionEntity {
 	@PrimaryGeneratedColumn('uuid')
 	permissionId: Permission['permissionId']

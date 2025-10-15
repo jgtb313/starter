@@ -17,8 +17,6 @@ const PlanId = BaseSchema.id('plan')
 
 const ExternalId = z.string().min(1)
 
-const Amount = z.number().positive()
-
 export const SubscriptionPayerSchema = z.object({
 	name: z.string().min(1),
 	email: EmailSchema,
@@ -26,6 +24,8 @@ export const SubscriptionPayerSchema = z.object({
 	document: DocumentExplicitSchema,
 	address: BaseAddressSchema,
 })
+
+const NextBillingDate = z.iso.datetime().transform((value) => new Date(value))
 
 const Deadline = z.iso.datetime().transform((value) => new Date(value))
 
@@ -50,10 +50,10 @@ export const SubscriptionCardSchema = z
 		workspaceId: WorkspaceId,
 		planId: PlanId,
 		externalId: ExternalId,
-		amount: Amount,
 		paymentMethod: z.literal('CARD'),
 		card: BasePaymentCardSchema,
 		payer: SubscriptionPayerSchema,
+		nextBillingDate: NextBillingDate,
 		deadline: Deadline,
 		canceledAt: CanceledAt,
 		status: Status,
@@ -71,9 +71,9 @@ export const SubscriptionPixSchema = z
 		workspaceId: WorkspaceId,
 		planId: PlanId,
 		externalId: ExternalId,
-		amount: Amount,
 		paymentMethod: z.literal('PIX'),
 		payer: SubscriptionPayerSchema,
+		nextBillingDate: NextBillingDate,
 		deadline: Deadline,
 		canceledAt: CanceledAt,
 		status: Status,
@@ -91,9 +91,9 @@ export const SubscriptionBoletoSchema = z
 		workspaceId: WorkspaceId,
 		planId: PlanId,
 		externalId: ExternalId,
-		amount: Amount,
 		paymentMethod: z.literal('BOLETO'),
 		payer: SubscriptionPayerSchema,
+		nextBillingDate: NextBillingDate,
 		deadline: Deadline,
 		canceledAt: CanceledAt,
 		status: Status,

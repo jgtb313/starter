@@ -15,16 +15,21 @@ import type {
 	InvoicePix,
 } from '@/core/invoice/invoice.schema'
 import { SubscriptionEntity } from '@/adapters/database/subscription/subscription.typeorm.entity'
+import { WorkspaceEntity } from '@/adapters/database/workspace/workspace.typeorm.entity'
 
-@Entity('invoices')
+@Entity('invoice')
 export class InvoiceEntity {
 	@PrimaryGeneratedColumn('uuid')
 	invoiceId: Invoice['invoiceId']
 
-	@Column({
-		type: 'uuid',
+	@ManyToOne(
+		() => WorkspaceEntity,
+		(workspace) => workspace.invoices,
+	)
+	@JoinColumn({
+		name: 'workspaceId',
 	})
-	workspaceId: Invoice['workspaceId']
+	workspace: WorkspaceEntity
 
 	@ManyToOne(
 		() => SubscriptionEntity,
@@ -54,19 +59,19 @@ export class InvoiceEntity {
 		type: 'json',
 		nullable: true,
 	})
-	card?: InvoiceCard['card']
+	card: InvoiceCard['card']
 
 	@Column({
 		type: 'json',
 		nullable: true,
 	})
-	pix?: InvoicePix['pix']
+	pix: InvoicePix['pix']
 
 	@Column({
 		type: 'json',
 		nullable: true,
 	})
-	boleto?: InvoiceBoleto['boleto']
+	boleto: InvoiceBoleto['boleto']
 
 	@Column({
 		type: 'int',
@@ -87,19 +92,19 @@ export class InvoiceEntity {
 		type: 'timestamp',
 		nullable: true,
 	})
-	paidAt?: Invoice['paidAt']
+	paidAt: Invoice['paidAt']
 
 	@Column({
 		type: 'timestamp',
 		nullable: true,
 	})
-	overdueAt?: Invoice['overdueAt']
+	overdueAt: Invoice['overdueAt']
 
 	@Column({
 		type: 'timestamp',
 		nullable: true,
 	})
-	canceledAt?: Invoice['canceledAt']
+	canceledAt: Invoice['canceledAt']
 
 	@Column({
 		type: 'varchar',

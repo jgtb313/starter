@@ -1,4 +1,5 @@
 import type { Required } from '@starter/common'
+
 import {
 	AfterLoad,
 	BeforeInsert,
@@ -7,6 +8,8 @@ import {
 	CreateDateColumn,
 	DeleteDateColumn,
 	Entity,
+	JoinColumn,
+	ManyToOne,
 	OneToMany,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
@@ -17,8 +20,9 @@ import { OTPEntity } from '@/adapters/database/otp/otp.typeorm.entity'
 import { UserAddressEntity } from '@/adapters/database/user/user-address.typeorm.entity'
 import { UserOrganizationEntity } from '@/adapters/database/user/user-organization.typeorm.entity'
 import { UserPermissionEntity } from '@/adapters/database/user/user-permission.typeorm.entity'
+import { WorkspaceEntity } from '@/adapters/database/workspace/workspace.typeorm.entity'
 
-@Entity('users')
+@Entity('user')
 export class UserEntity {
 	@PrimaryGeneratedColumn('uuid')
 	userId: User['userId']
@@ -47,23 +51,29 @@ export class UserEntity {
 	)
 	userPermissions: UserPermissionEntity[]
 
-	@Column({
-		type: 'uuid',
-		nullable: true,
+	@ManyToOne(
+		() => WorkspaceEntity,
+		(workspace) => workspace.users,
+		{
+			nullable: true,
+		},
+	)
+	@JoinColumn({
+		name: 'workspaceId',
 	})
-	workspaceId: User['workspaceId']
+	workspace: WorkspaceEntity
 
 	@Column({
 		type: 'varchar',
 		nullable: true,
 	})
-	googleProviderId?: User['googleProviderId']
+	googleProviderId: User['googleProviderId']
 
 	@Column({
 		type: 'varchar',
 		nullable: true,
 	})
-	facebookProviderId?: User['facebookProviderId']
+	facebookProviderId: User['facebookProviderId']
 
 	@Column({
 		type: 'varchar',
@@ -75,45 +85,45 @@ export class UserEntity {
 	})
 	email: User['email']
 
-	phone?: User['phone']
+	phone: User['phone']
 
 	@Column({
 		type: 'varchar',
 		nullable: true,
 	})
-	phoneISO?: string
+	phoneISO: string
 
 	@Column({
 		type: 'varchar',
 		nullable: true,
 	})
-	phoneDDI?: string
+	phoneDDI: string
 
 	@Column({
 		type: 'varchar',
 		nullable: true,
 	})
-	phoneNumber?: string
+	phoneNumber: string
 
 	@Column({
 		type: 'date',
 		nullable: true,
 	})
-	birthday?: User['birthday']
+	birthday: User['birthday']
 
-	document?: User['document']
-
-	@Column({
-		type: 'varchar',
-		nullable: true,
-	})
-	documentType?: Required<User['document']>['type']
+	document: User['document']
 
 	@Column({
 		type: 'varchar',
 		nullable: true,
 	})
-	documentNumber?: Required<User['document']>['number']
+	documentType: Required<User['document']>['type']
+
+	@Column({
+		type: 'varchar',
+		nullable: true,
+	})
+	documentNumber: Required<User['document']>['number']
 
 	addresses: User['addresses']
 
@@ -121,18 +131,18 @@ export class UserEntity {
 		type: 'varchar',
 		nullable: true,
 	})
-	avatar?: User['avatar']
+	avatar: User['avatar']
 
 	@Column({
 		type: 'varchar',
 		nullable: true,
 	})
-	localePreference?: User['localePreference']
+	localePreference: User['localePreference']
 
 	@Column({
 		type: 'varchar',
 	})
-	password?: User['password']
+	password: User['password']
 
 	@Column({
 		type: 'varchar',

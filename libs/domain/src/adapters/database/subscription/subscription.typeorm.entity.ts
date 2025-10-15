@@ -2,6 +2,7 @@ import {
 	Column,
 	CreateDateColumn,
 	Entity,
+	JoinColumn,
 	ManyToOne,
 	OneToMany,
 	PrimaryGeneratedColumn,
@@ -14,16 +15,29 @@ import type {
 } from '@/core/subscription/subscription.schema'
 import { InvoiceEntity } from '@/adapters/database/invoice/invoice.typeorm.entity'
 import { PlanEntity } from '@/adapters/database/plan/plan.typeorm.entity'
+import { WorkspaceEntity } from '@/adapters/database/workspace/workspace.typeorm.entity'
 
-@Entity('subscriptions')
+@Entity('subscription')
 export class SubscriptionEntity {
 	@PrimaryGeneratedColumn('uuid')
 	subscriptionId: Subscription['subscriptionId']
 
 	@ManyToOne(
+		() => WorkspaceEntity,
+		(workspace) => workspace.subscriptions,
+	)
+	@JoinColumn({
+		name: 'workspaceId',
+	})
+	workspace: WorkspaceEntity
+
+	@ManyToOne(
 		() => PlanEntity,
 		(plan) => plan.subscriptions,
 	)
+	@JoinColumn({
+		name: 'planId',
+	})
 	plan: PlanEntity
 
 	@OneToMany(
@@ -33,24 +47,9 @@ export class SubscriptionEntity {
 	invoices: InvoiceEntity[]
 
 	@Column({
-		type: 'uuid',
-	})
-	workspaceId: Subscription['workspaceId']
-
-	@Column({
-		type: 'uuid',
-	})
-	planId: Subscription['planId']
-
-	@Column({
 		type: 'varchar',
 	})
 	externalId: Subscription['externalId']
-
-	@Column({
-		type: 'int',
-	})
-	amount: Subscription['amount']
 
 	@Column({
 		type: 'varchar',
@@ -61,12 +60,17 @@ export class SubscriptionEntity {
 		type: 'json',
 		nullable: true,
 	})
-	card?: SubscriptionCard['card']
+	card: SubscriptionCard['card']
 
 	@Column({
 		type: 'json',
 	})
 	payer: Subscription['payer']
+
+	@Column({
+		type: 'timestamp',
+	})
+	nextBillingDate: Subscription['nextBillingDate']
 
 	@Column({
 		type: 'timestamp',

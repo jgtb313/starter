@@ -12,7 +12,7 @@ import { OrganizationEntity } from '@/adapters/database/organization/organizatio
 import { RoleEntity } from '@/adapters/database/role/role.typeorm.entity'
 import { UserEntity } from '@/adapters/database/user/user.typeorm.entity'
 
-@Entity('user_organizations')
+@Entity('user_organization')
 export class UserOrganizationEntity {
 	@PrimaryGeneratedColumn('uuid')
 	userOrganizationId: string
@@ -26,11 +26,6 @@ export class UserOrganizationEntity {
 	})
 	user: UserEntity
 
-	@Column({
-		type: 'uuid',
-	})
-	userId: string
-
 	@ManyToOne(
 		() => OrganizationEntity,
 		(organization) => organization.userOrganizations,
@@ -40,24 +35,14 @@ export class UserOrganizationEntity {
 	})
 	organization: OrganizationEntity
 
-	@Column({
-		type: 'uuid',
-	})
-	organizationId: string
-
 	@ManyToOne(
 		() => RoleEntity,
-		(role) => role.roleOrganizations,
+		(role) => role.userOrganizations,
 	)
 	@JoinColumn({
 		name: 'roleId',
 	})
 	role: RoleEntity
-
-	@Column({
-		type: 'uuid',
-	})
-	roleId: string
 
 	@CreateDateColumn()
 	createdAt: Date

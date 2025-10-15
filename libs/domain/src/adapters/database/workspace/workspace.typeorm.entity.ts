@@ -1,4 +1,5 @@
 import type { Required } from '@starter/common'
+
 import {
 	AfterLoad,
 	BeforeInsert,
@@ -6,15 +7,21 @@ import {
 	Column,
 	CreateDateColumn,
 	Entity,
+	OneToMany,
 	OneToOne,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 } from 'typeorm'
 
 import type { Workspace } from '@/core/workspace/workspace.schema'
+import { InvoiceEntity } from '@/adapters/database/invoice/invoice.typeorm.entity'
+import { OrganizationEntity } from '@/adapters/database/organization/organization.typeorm.entity'
+import { RoleEntity } from '@/adapters/database/role/role.typeorm.entity'
+import { SubscriptionEntity } from '@/adapters/database/subscription/subscription.typeorm.entity'
+import { UserEntity } from '@/adapters/database/user/user.typeorm.entity'
 import { WorkspaceAddressEntity } from '@/adapters/database/workspace/workspace-address.typeorm.entity'
 
-@Entity('workspaces')
+@Entity('workspace')
 export class WorkspaceEntity {
 	@PrimaryGeneratedColumn('uuid')
 	workspaceId: Workspace['workspaceId']
@@ -25,15 +32,44 @@ export class WorkspaceEntity {
 	)
 	workspaceAddress: WorkspaceAddressEntity
 
-	@Column({
-		type: 'varchar',
-		nullable: true,
-	})
-	recurrenceExternalId?: Workspace['recurrenceExternalId']
+	@OneToMany(
+		() => UserEntity,
+		(user) => user.workspace,
+	)
+	users: UserEntity[]
+
+	@OneToMany(
+		() => OrganizationEntity,
+		(organization) => organization.workspace,
+	)
+	organizations: OrganizationEntity[]
+
+	@OneToMany(
+		() => RoleEntity,
+		(role) => role.workspace,
+	)
+	roles: RoleEntity[]
+
+	@OneToMany(
+		() => SubscriptionEntity,
+		(subscription) => subscription.workspace,
+	)
+	subscriptions: SubscriptionEntity[]
+
+	@OneToMany(
+		() => InvoiceEntity,
+		(invoice) => invoice.workspace,
+	)
+	invoices: InvoiceEntity[]
 
 	@Column({
 		type: 'varchar',
 		nullable: true,
+	})
+	recurrenceExternalId: Workspace['recurrenceExternalId']
+
+	@Column({
+		type: 'varchar',
 	})
 	name: Workspace['name']
 
@@ -41,73 +77,72 @@ export class WorkspaceEntity {
 		type: 'varchar',
 		nullable: true,
 	})
-	email?: Workspace['email']
+	email: Workspace['email']
 
-	phone?: Workspace['phone']
-
-	@Column({
-		type: 'varchar',
-		nullable: true,
-	})
-	phoneISO?: Required<Workspace['phone']>['iso']
+	phone: Workspace['phone']
 
 	@Column({
 		type: 'varchar',
 		nullable: true,
 	})
-	phoneDDI?: Required<Workspace['phone']>['ddi']
+	phoneISO: Required<Workspace['phone']>['iso']
 
 	@Column({
 		type: 'varchar',
 		nullable: true,
 	})
-	phoneNumber?: Required<Workspace['phone']>['number']
-
-	document?: Workspace['document']
+	phoneDDI: Required<Workspace['phone']>['ddi']
 
 	@Column({
 		type: 'varchar',
 		nullable: true,
 	})
-	documentType?: Required<Workspace['document']>['type']
+	phoneNumber: Required<Workspace['phone']>['number']
+
+	document: Workspace['document']
 
 	@Column({
 		type: 'varchar',
 		nullable: true,
 	})
-	documentNumber?: Required<Workspace['document']>['number']
-
-	address?: Workspace['address']
+	documentType: Required<Workspace['document']>['type']
 
 	@Column({
 		type: 'varchar',
 		nullable: true,
 	})
-	logo?: Workspace['logo']
+	documentNumber: Required<Workspace['document']>['number']
+
+	address: Workspace['address']
 
 	@Column({
 		type: 'varchar',
 		nullable: true,
 	})
-	domain?: Workspace['domain']
+	logo: Workspace['logo']
+
+	@Column({
+		type: 'varchar',
+		nullable: true,
+	})
+	domain: Workspace['domain']
 
 	@Column({
 		type: 'simple-json',
 		nullable: true,
 	})
-	locale?: Workspace['locale']
+	locale: Workspace['locale']
 
 	@Column({
 		type: 'timestamp',
 		nullable: true,
 	})
-	trialEndsAt?: Workspace['trialEndsAt']
+	trialEndsAt: Workspace['trialEndsAt']
 
 	@Column({
 		type: 'varchar',
-		nullable: true,
 	})
-	status?: Workspace['status']
+	status: Workspace['status']
 
 	@CreateDateColumn({})
 	createdAt: Workspace['createdAt']

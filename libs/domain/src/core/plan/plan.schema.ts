@@ -10,37 +10,49 @@ const Name = z.string().min(1)
 
 const Description = z.string().min(1)
 
-const Amount = z.number().positive()
-
-const Interval = z.enum([
-	'DAY',
-	'WEEK',
-	'MONTH',
-	'YEAR',
-])
-
-const IntervalCount = z.number().default(1)
-
-const TrialDays = z.number().default(7)
-
-const BaseFeature = z.object({
+const BasePlanFeature = z.object({
+	planFeatureId: BaseSchema.id('planFeature'),
 	description: z.string().min(1),
+	createdAt: BaseSchema.createdAt,
+	updatedAt: BaseSchema.updatedAt,
 })
 
-const OrganizationCountFeature = BaseFeature.extend({
-	code: z.literal('ORGANIZATION_COUNT'),
+const OrganizationCountFeature = BasePlanFeature.extend({
+	feature: z.literal('ORGANIZATION_COUNT'),
 	props: z.object({
-		maxOrganizations: z.number().positive().default(1),
+		maxOrganizations: z.number().positive(),
 	}),
 })
 
-export const PlanFeaturesSchema = z
-	.array(
-		z.discriminatedUnion('code', [
-			OrganizationCountFeature,
-		]),
-	)
-	.default([])
+const PlanFeatureSchema = z.discriminatedUnion('feature', [
+	OrganizationCountFeature,
+])
+
+const PlanIntervalSchema = z.object({
+	planIntervalId: BaseSchema.id('planInterval'),
+	externalId: z.string().min(1),
+	amount: z.number().positive(),
+	interval: z.enum([
+		'DAY',
+		'WEEK',
+		'MONTH',
+		'YEAR',
+	]),
+	intervalCount: z.number().default(1),
+	trialDays: z.number().default(7),
+	status: z
+		.enum([
+			'ACTIVE',
+			'INACTIVE',
+		])
+		.default('ACTIVE'),
+	createdAt: BaseSchema.createdAt,
+	updatedAt: BaseSchema.updatedAt,
+})
+
+const Features = z.array(PlanFeatureSchema).default([])
+
+const Intervals = z.array(PlanIntervalSchema).default([])
 
 const Highlight = z.boolean().default(false)
 
@@ -56,11 +68,8 @@ export const PlanSchema = z.object({
 	externalId: ExternalId,
 	name: Name,
 	description: Description,
-	amount: Amount,
-	interval: Interval,
-	intervalCount: IntervalCount,
-	trialDays: TrialDays,
-	features: PlanFeaturesSchema,
+	features: Features,
+	intervals: Intervals,
 	highlight: Highlight,
 	status: Status,
 	deletedAt: BaseSchema.deletedAt,
@@ -72,7 +81,7 @@ export type BasePlan = BaseSchema<
 	Plan,
 	{
 		optional: [
-			'description',
+			'planId',
 		]
 	}
 >

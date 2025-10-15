@@ -1,20 +1,17 @@
+import { PaginationSchemaTransform } from '@starter/schema'
+
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { PaginationSchemaTransform } from '@starter/schema'
 import {
-	type DeepPartial,
 	type FindOptionsOrder,
 	type FindOptionsWhere,
 	ILike,
 	type Repository,
 } from 'typeorm'
-import type { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity'
 
 import { deepMapDatesToISOString } from '@/support/utilities'
-
-import { PlanEntity } from '@/adapters/database/plan/plan.typeorm.entity'
 import { PlanDomain } from '@/core/plan/plan.domain'
-import type { BasePlan, Plan } from '@/core/plan/plan.schema'
+import { PlanEntity } from '@/adapters/database/plan/plan.typeorm.entity'
 import type { IPlanRepository } from '@/ports/database/plan'
 
 @Injectable()
@@ -24,7 +21,7 @@ export class PlanTypeorm implements IPlanRepository {
 		private readonly repository: Repository<PlanEntity>,
 	) {}
 
-	findAllPaginated: IPlanRepository['findAllPaginated'] = async ({
+	findPaginated: IPlanRepository['findPaginated'] = async ({
 		cursor,
 		limit,
 		sort,
@@ -82,7 +79,7 @@ export class PlanTypeorm implements IPlanRepository {
 		}
 	}
 
-	findAll: IPlanRepository['findAll'] = async (input) => {
+	find: IPlanRepository['find'] = async (input) => {
 		const { name, description, status, sort } = input
 
 		const where: FindOptionsWhere<PlanEntity> = {}
@@ -131,8 +128,7 @@ export class PlanTypeorm implements IPlanRepository {
 	}
 
 	create: IPlanRepository['create'] = async (input) => {
-		const payload = this.toPlanEntity(input)
-		const data = this.repository.create(payload)
+		const data = this.repository.create(input)
 
 		const plan = await this.repository.save(data)
 
@@ -142,24 +138,15 @@ export class PlanTypeorm implements IPlanRepository {
 	updateById: IPlanRepository['updateById'] = async (planId, input) => {
 		const plan = await this.findById(planId)
 
-		const payload = this.toPartialPlanEntity(input)
-		await this.repository.update(plan.state.planId, payload)
+		await this.repository.update(plan.state.planId, input)
 
 		return this.findById(plan.state.planId)
 	}
 
-	private toPlanEntity(plan: BasePlan): DeepPartial<PlanEntity> {
-		return {
-			...plan,
-		}
-	}
+	deleteById: IPlanRepository['deleteById'] = async (planId) => {
+		const plan = await this.findById(planId)
 
-	private toPartialPlanEntity(
-		plan: Partial<Plan>,
-	): QueryDeepPartialEntity<PlanEntity> {
-		return {
-			...plan,
-		}
+		await this.repository.softDelete(plan.state.planId)
 	}
 
 	private toPlanDomain(model: PlanEntity) {

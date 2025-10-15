@@ -4,16 +4,22 @@ import {
 	CreateDateColumn,
 	DeleteDateColumn,
 	Entity,
+	JoinColumn,
+	ManyToOne,
 	OneToMany,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 } from 'typeorm'
 
 import type { Role } from '@/core/role/role.schema'
+import type { OrganizationEntity } from '@/adapters/database/organization/organization.typeorm.entity'
+import type { PermissionEntity } from '@/adapters/database/permission/permission.typeorm.entity'
 import { RoleOrganizationEntity } from '@/adapters/database/role/role-organization.typeorm.entity'
 import { RolePermissionEntity } from '@/adapters/database/role/role-permission.typeorm.entity'
+import { UserOrganizationEntity } from '@/adapters/database/user/user-organization.typeorm.entity'
+import { WorkspaceEntity } from '@/adapters/database/workspace/workspace.typeorm.entity'
 
-@Entity('roles')
+@Entity('role')
 export class RoleEntity {
 	@PrimaryGeneratedColumn('uuid')
 	roleId: Role['roleId']
@@ -30,10 +36,20 @@ export class RoleEntity {
 	)
 	rolePermissions: RolePermissionEntity[]
 
-	@Column({
-		type: 'uuid',
+	@OneToMany(
+		() => UserOrganizationEntity,
+		(userOrganization) => userOrganization.role,
+	)
+	userOrganizations: UserOrganizationEntity[]
+
+	@ManyToOne(
+		() => WorkspaceEntity,
+		(workspace) => workspace.roles,
+	)
+	@JoinColumn({
+		name: 'workspaceId',
 	})
-	workspaceId: Role['workspaceId']
+	workspace: WorkspaceEntity
 
 	@Column({
 		type: 'varchar',
@@ -46,9 +62,9 @@ export class RoleEntity {
 	})
 	tags: Role['tags']
 
-	organizations: Role['organizations']
+	organizations: OrganizationEntity[]
 
-	permissions: Role['permissions']
+	permissions: PermissionEntity[]
 
 	@Column({
 		type: 'varchar',

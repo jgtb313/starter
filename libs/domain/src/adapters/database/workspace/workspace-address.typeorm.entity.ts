@@ -1,9 +1,11 @@
 import type { Required } from '@starter/common'
+
 import {
 	AfterLoad,
 	Column,
 	CreateDateColumn,
 	Entity,
+	JoinColumn,
 	OneToOne,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
@@ -15,7 +17,7 @@ import { WorkspaceEntity } from './workspace.typeorm.entity'
 
 type WorkspaceAddress = Required<Workspace['address']>
 
-@Entity('workspace_addresses')
+@Entity('workspace_address')
 export class WorkspaceAddressEntity {
 	@PrimaryGeneratedColumn('uuid')
 	workspaceAddressId: string
@@ -24,13 +26,10 @@ export class WorkspaceAddressEntity {
 		() => WorkspaceEntity,
 		(workspace) => workspace.workspaceAddress,
 	)
-	workspace: WorkspaceEntity
-
-	@Column({
-		type: 'uuid',
-		name: 'workspace_id',
+	@JoinColumn({
+		name: 'workspaceId',
 	})
-	workspaceId: string
+	workspace: WorkspaceEntity
 
 	@Column({
 		type: 'varchar',
@@ -65,25 +64,31 @@ export class WorkspaceAddressEntity {
 
 	@Column({
 		type: 'varchar',
+		nullable: true,
 	})
 	complement: WorkspaceAddress['complement']
 
 	@Column({
 		type: 'varchar',
+		nullable: true,
 	})
 	landmark: WorkspaceAddress['landmark']
 
-	location?: WorkspaceAddress['location']
+	location: WorkspaceAddress['location']
 
 	@Column({
-		type: 'varchar',
+		type: 'decimal',
+		precision: 10,
+		scale: 7,
 	})
-	lat: WorkspaceAddress['location']['lat']
+	lat: string
 
 	@Column({
-		type: 'varchar',
+		type: 'decimal',
+		precision: 10,
+		scale: 7,
 	})
-	lng: WorkspaceAddress['location']['lng']
+	lng: string
 
 	@CreateDateColumn()
 	createdAt: Date

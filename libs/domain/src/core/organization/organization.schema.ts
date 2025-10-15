@@ -1,4 +1,9 @@
-import { z } from '@starter/schema'
+import {
+	DocumentExplicitSchema,
+	EmailSchema,
+	PhoneSchema,
+	z,
+} from '@starter/schema'
 
 import { BaseSchema } from '@/support/base-schema'
 
@@ -7,6 +12,24 @@ const OrganizationId = BaseSchema.id('organization')
 const WorkspaceId = BaseSchema.id('workspace')
 
 const Name = z.string().min(1)
+
+const Email = EmailSchema.nullish().transform((value) => value ?? null)
+
+const Phone = PhoneSchema.nullish().transform((value) => value ?? null)
+
+const Document = DocumentExplicitSchema.nullish().transform(
+	(value) => value ?? null,
+)
+
+const Logo = z
+	.string()
+	.nullish()
+	.transform((value) => value ?? null)
+
+const Domain = z
+	.string()
+	.nullish()
+	.transform((value) => value ?? null)
 
 const Status = z
 	.enum([
@@ -19,8 +42,12 @@ export const OrganizationSchema = z.object({
 	organizationId: OrganizationId,
 	workspaceId: WorkspaceId,
 	name: Name,
+	email: Email,
+	phone: Phone,
+	document: Document,
+	logo: Logo,
+	domain: Domain,
 	status: Status,
-	deletedAt: BaseSchema.deletedAt,
 	createdAt: BaseSchema.createdAt,
 	updatedAt: BaseSchema.updatedAt,
 })

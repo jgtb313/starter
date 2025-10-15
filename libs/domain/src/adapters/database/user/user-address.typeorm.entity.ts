@@ -14,7 +14,7 @@ import { UserEntity } from '@/adapters/database/user/user.typeorm.entity'
 
 type UserAddress = User['addresses'][number]
 
-@Entity('user_addresses')
+@Entity('user_address')
 export class UserAddressEntity {
 	@PrimaryGeneratedColumn('uuid')
 	userAddressId: string
@@ -67,15 +67,15 @@ export class UserAddressEntity {
 		type: 'varchar',
 		nullable: true,
 	})
-	complement?: UserAddress['complement']
+	complement: UserAddress['complement']
 
 	@Column({
 		type: 'varchar',
 		nullable: true,
 	})
-	landmark?: UserAddress['landmark']
+	landmark: UserAddress['landmark']
 
-	location?: UserAddress['location']
+	location: UserAddress['location']
 
 	@Column({
 		type: 'decimal',
