@@ -1,23 +1,13 @@
+import { PaginationSchemaTransform } from '@starter/schema'
+
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { PaginationSchemaTransform } from '@starter/schema'
-import {
-	type DeepPartial,
-	type FindOptionsWhere,
-	ILike,
-	In,
-	type Repository,
-} from 'typeorm'
-import type { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity'
+import { type FindOptionsWhere, ILike, In, type Repository } from 'typeorm'
 
-import { OrganizationEntity } from '@/adapters/database/organization/organization.typeorm.entity'
-import { OrganizationDomain } from '@/core/organization/organization.domain'
-import type {
-	BaseOrganization,
-	Organization,
-} from '@/core/organization/organization.schema'
-import type { IOrganizationRepository } from '@/ports/database/organization'
 import { deepMapDatesToISOString } from '@/support/utilities'
+import { OrganizationDomain } from '@/core/organization/organization.domain'
+import { OrganizationEntity } from '@/adapters/database/organization/organization.typeorm.entity'
+import type { IOrganizationRepository } from '@/ports/database/organization'
 
 @Injectable()
 export class OrganizationTypeorm implements IOrganizationRepository {
@@ -26,7 +16,7 @@ export class OrganizationTypeorm implements IOrganizationRepository {
 		private readonly repository: Repository<OrganizationEntity>,
 	) {}
 
-	findAllPaginated: IOrganizationRepository['findAllPaginated'] = async ({
+	findPaginated: IOrganizationRepository['findPaginated'] = async ({
 		cursor,
 		limit,
 		...input
@@ -67,7 +57,7 @@ export class OrganizationTypeorm implements IOrganizationRepository {
 		}
 	}
 
-	findAll: IOrganizationRepository['findAll'] = async (input) => {
+	find: IOrganizationRepository['find'] = async (input) => {
 		const { name, status } = input
 
 		const where: FindOptionsWhere<OrganizationEntity> = {}
@@ -102,7 +92,7 @@ export class OrganizationTypeorm implements IOrganizationRepository {
 	}
 
 	create: IOrganizationRepository['create'] = async (input) => {
-		const data = this.repository.create(this.toOrganizationEntity(input))
+		const data = this.repository.create(input)
 
 		const organization = await this.repository.save(data)
 
@@ -115,10 +105,7 @@ export class OrganizationTypeorm implements IOrganizationRepository {
 	) => {
 		const organization = await this.findById(organizationId)
 
-		await this.repository.update(
-			organization.state.organizationId,
-			this.toPartialOrganizationEntity(input),
-		)
+		await this.repository.update(organization.state.organizationId, input)
 
 		return this.findById(organization.state.organizationId)
 	}
@@ -153,22 +140,6 @@ export class OrganizationTypeorm implements IOrganizationRepository {
 			throw new NotFoundException(
 				`The following organizationIds were not found: ${missingOrganizationIds.join(', ')}`,
 			)
-		}
-	}
-
-	private toOrganizationEntity(
-		organization: BaseOrganization,
-	): DeepPartial<OrganizationEntity> {
-		return {
-			...organization,
-		}
-	}
-
-	private toPartialOrganizationEntity(
-		organization: Partial<Organization>,
-	): QueryDeepPartialEntity<OrganizationEntity> {
-		return {
-			...organization,
 		}
 	}
 
