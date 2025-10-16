@@ -1,5 +1,6 @@
-import { Controller, Route } from '@starter/nestjs-server-hoisting'
 import { z } from '@starter/schema'
+import { PermissionSchema } from '@starter/domain'
+import { Controller, Route } from '@starter/nestjs-server-hoisting'
 
 import {
 	PERMISSION_SUBJECT_ACTIONS,
@@ -13,7 +14,11 @@ import {
 
 	basePath: 'permissions',
 
-	schemas: {},
+	schemas: {
+		Permission: {
+			schema: PermissionSchema,
+		},
+	},
 })
 export class PermissionController {
 	constructor() {}

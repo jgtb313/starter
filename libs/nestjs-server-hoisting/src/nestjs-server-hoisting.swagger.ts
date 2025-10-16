@@ -1,7 +1,8 @@
+import { config } from '@starter/config'
+import { set } from '@starter/common'
+
 import type { INestApplication } from '@nestjs/common'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
-import { set } from '@starter/common'
-import { config } from '@starter/config'
 import type { Request, Response } from 'express'
 
 import { zodSchemaToJSONSchema } from '@/decorators'
@@ -79,7 +80,7 @@ export const registerSwagger = (
 		res.setHeader('Content-Type', 'text/html')
 		res.send(`
         <!doctype html>
-        <html lang="en" data-theme="dark">
+        <html lang="en">
           <head>
             <meta charset="utf-8">
             <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
