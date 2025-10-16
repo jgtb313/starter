@@ -1,9 +1,9 @@
+import { PhoneSchema, z } from '@starter/schema'
 import { OTPSchema, UserSchema } from '@starter/domain'
 import {
 	createRequestSchema,
 	type RequestInput,
 } from '@starter/nestjs-server-hoisting'
-import { PhoneSchema, z } from '@starter/schema'
 
 export const ProfileSchema = UserSchema.omit({
 	password: true,

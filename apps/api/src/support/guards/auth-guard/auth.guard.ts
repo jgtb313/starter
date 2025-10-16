@@ -1,3 +1,5 @@
+import { LoggerService, UserService } from '@starter/domain'
+
 import {
 	type CanActivate,
 	type ExecutionContext,
@@ -6,7 +8,6 @@ import {
 	UnauthorizedException,
 } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
-import { UserService } from '@starter/domain'
 
 import { JWTService } from '@/adapters/jwt'
 
@@ -19,6 +20,8 @@ export class AuthGuard implements CanActivate {
 		private readonly jwtService: JWTService,
 		@Inject(UserService)
 		private readonly userService: UserService,
+		@Inject(LoggerService)
+		private readonly loggerService: LoggerService,
 	) {}
 
 	async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -37,7 +40,7 @@ export class AuthGuard implements CanActivate {
 
 		try {
 			const secret = this.configService.get<string>(
-				'SERVER_AUTHENTICATE_SECRET',
+				'SERVER_ACCESS_TOKEN_SECRET',
 			)!
 
 			const decoded = await this.jwtService.decode<{
@@ -50,9 +53,13 @@ export class AuthGuard implements CanActivate {
 
 			const user = await this.userService.getUser(decoded.userId)
 
-			request.user = user
+			request.user = user.state
 			return true
 		} catch (error) {
+			console.log(error)
+			this.loggerService.error('Error decoding access token.', {
+				error,
+			})
 			throw new UnauthorizedException('Unauthorized.')
 		}
 	}

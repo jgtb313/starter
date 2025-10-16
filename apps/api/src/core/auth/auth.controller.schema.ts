@@ -1,9 +1,9 @@
+import { EmailSchema, PasswordSchema, z } from '@starter/schema'
 import { OTPSchema, UserSchema } from '@starter/domain'
 import {
 	createRequestSchema,
 	type RequestInput,
 } from '@starter/nestjs-server-hoisting'
-import { EmailSchema, PasswordSchema, z } from '@starter/schema'
 
 import { SocialAuthEnum } from '@/ports/social-auth'
 
@@ -63,7 +63,7 @@ export type PasswordLessRequest = RequestInput<typeof PasswordLessSchema>
 
 export const SocialSignOnSchema = createRequestSchema({
 	body: z.object({
-		context: z.nativeEnum(SocialAuthEnum),
+		context: z.enum(SocialAuthEnum),
 		providerToken: z.string().min(1),
 	}),
 	output: AuthenticatedSchema,

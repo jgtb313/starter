@@ -1,6 +1,7 @@
-import { Inject, UseGuards } from '@nestjs/common'
 import { OTPService, type User, UserService } from '@starter/domain'
 import { Controller, Request, Route } from '@starter/nestjs-server-hoisting'
+
+import { Inject, UseGuards } from '@nestjs/common'
 
 import { AuthenticatedUser } from '@/support/decorators'
 import { AuthGuard } from '@/support/guards'

@@ -126,15 +126,9 @@ export class AuthService {
 				addresses: [],
 				name,
 				email: email ?? `${providerId}@${input.context.toLowerCase()}.com`,
-				phone: null,
 				avatar,
 				password: providerId,
 				status: 'ACTIVE',
-				birthday: null,
-				document: null,
-				localePreference: null,
-				userId: uuid(),
-				workspaceId: null,
 			})
 
 			this.loggerService.info(
@@ -183,15 +177,8 @@ export class AuthService {
 			addresses: [],
 			name,
 			email,
-			phone: null,
-			avatar: null,
 			password,
 			status: 'ACTIVE',
-			birthday: null,
-			document: null,
-			localePreference: null,
-			userId: uuid(),
-			workspaceId: null,
 		})
 
 		this.loggerService.info(`User signed up successfully: ${email}`, {
