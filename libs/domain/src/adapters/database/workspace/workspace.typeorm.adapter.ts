@@ -1,6 +1,7 @@
+import { PaginationSchemaTransform } from '@starter/schema'
+
 import { Inject, Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { PaginationSchemaTransform } from '@starter/schema'
 import {
 	type FindOptionsOrder,
 	type FindOptionsWhere,
@@ -153,7 +154,9 @@ export class WorkspaceTypeorm implements IWorkspaceRepository {
 		await this.workspaceAddressRepository.upsert(
 			{
 				...input,
-				workspaceId: workspace.state.workspaceId,
+				workspace: {
+					workspaceId: workspace.state.workspaceId,
+				},
 			},
 			{
 				conflictPaths: [
@@ -170,7 +173,9 @@ export class WorkspaceTypeorm implements IWorkspaceRepository {
 		const workspace = await this.findById(workspaceId)
 
 		await this.workspaceAddressRepository.softDelete({
-			workspaceId: workspace.state.workspaceId,
+			workspace: {
+				workspaceId: workspace.state.workspaceId,
+			},
 		})
 	}
 

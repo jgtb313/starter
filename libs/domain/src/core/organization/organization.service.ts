@@ -1,13 +1,13 @@
-import { forwardRef, Inject, Injectable } from '@nestjs/common'
 import type { Merge } from '@starter/common'
 import { AclForbiddenException } from '@starter/nestjs-error-handling'
 import type { Pagination } from '@starter/schema'
+
+import { forwardRef, Inject, Injectable } from '@nestjs/common'
 
 import {
 	createWorkspaceReference,
 	type WithWorkspaceReference,
 } from '@/support/workspace-reference'
-
 import type {
 	BaseOrganization,
 	Organization,
@@ -36,7 +36,7 @@ export class OrganizationService {
 			]
 		>,
 	) {
-		return this.organizationRepository.findAllPaginated({
+		return this.organizationRepository.findPaginated({
 			...input,
 		})
 	}
@@ -79,22 +79,26 @@ export class OrganizationService {
 	async activeOrganization(reference: OrganizationWorkspaceReference) {
 		const organization = await this.getOrganization(reference)
 
-		organization.markAsActive()
+		organization.checkIfCanActivate()
 
 		return this.organizationRepository.updateById(
 			organization.state.organizationId,
-			organization.state,
+			{
+				status: 'ACTIVE',
+			},
 		)
 	}
 
 	async inactiveOrganization(reference: OrganizationWorkspaceReference) {
 		const organization = await this.getOrganization(reference)
 
-		organization.markAsInactive()
+		organization.checkIfCanDeactivate()
 
 		return this.organizationRepository.updateById(
 			organization.state.organizationId,
-			organization.state,
+			{
+				status: 'INACTIVE',
+			},
 		)
 	}
 

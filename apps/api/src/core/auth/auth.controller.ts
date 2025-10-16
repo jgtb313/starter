@@ -1,6 +1,7 @@
-import { Inject, UnauthorizedException } from '@nestjs/common'
 import { OTPService, UserService } from '@starter/domain'
 import { Controller, Request, Route } from '@starter/nestjs-server-hoisting'
+
+import { Inject, UnauthorizedException } from '@nestjs/common'
 
 import {
 	type ForgotPasswordRequest,
@@ -117,7 +118,7 @@ export class AuthController {
 			recipient: body.email,
 		})
 
-		return this.authService.grantAccessToken(user)
+		return this.authService.grantAccessToken(user.state)
 	}
 
 	@Route({

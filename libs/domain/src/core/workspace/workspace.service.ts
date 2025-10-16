@@ -1,11 +1,12 @@
+import type { Merge } from '@starter/common'
+import type { BaseAddress, BusinessAddress, Pagination } from '@starter/schema'
+
 import {
 	ConflictException,
 	forwardRef,
 	Inject,
 	Injectable,
 } from '@nestjs/common'
-import type { Merge } from '@starter/common'
-import type { BaseAddress, BusinessAddress, Pagination } from '@starter/schema'
 import { Transactional } from 'typeorm-transactional'
 
 import { UserService } from '@/core/user/user.service'
@@ -152,13 +153,7 @@ export class WorkspaceService {
 
 		const workspace = await this.getWorkspace(workspaceId)
 
-		const canActivate = workspace.checkIfCanActivate()
-
-		if (!canActivate) {
-			throw new ConflictException(
-				this.i18nService.current.workspaceAlreadyActive(),
-			)
-		}
+		workspace.checkIfCanActivate()
 
 		const updatedWorkspace = await this.workspaceRepository.updateById(
 			workspace.state.workspaceId,
@@ -186,13 +181,7 @@ export class WorkspaceService {
 
 		const workspace = await this.getWorkspace(workspaceId)
 
-		const canDeactivate = workspace.checkIfCanDeactivate()
-
-		if (!canDeactivate) {
-			throw new ConflictException(
-				this.i18nService.current.workspaceAlreadyInactive(),
-			)
-		}
+		workspace.checkIfCanDeactivate()
 
 		const updatedWorkspace = await this.workspaceRepository.updateById(
 			workspace.state.workspaceId,

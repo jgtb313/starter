@@ -1,6 +1,7 @@
-import { forwardRef, Inject, Injectable } from '@nestjs/common'
 import { uuid } from '@starter/common'
 import { AclForbiddenException } from '@starter/nestjs-error-handling'
+
+import { forwardRef, Inject, Injectable } from '@nestjs/common'
 
 import {
 	createWorkspaceReference,
@@ -111,6 +112,9 @@ export class SubscriptionService {
 				...input,
 			})
 
+		const nextBillingDate = new Date()
+		const deadline = new Date()
+
 		const subscription = await this.subscriptionRepository.create({
 			...recurrenceSubscription,
 			subscriptionId,
@@ -118,9 +122,9 @@ export class SubscriptionService {
 			planId: plan.state.planId,
 			externalId: recurrenceSubscription.subscriptionId,
 			payer,
-			amount: plan.state.amount,
 			paymentMethod: input.paymentMethod,
-			deadline: plan.nextBillingDate(new Date()),
+			nextBillingDate,
+			deadline,
 			status: 'TRIAL',
 		})
 

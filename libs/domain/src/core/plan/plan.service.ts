@@ -83,9 +83,9 @@ export class PlanService {
 		await this.recurrenceService.updatePlan(plan.state.externalId, {
 			...plan.state,
 			...input,
-			amount: input.intervals?.[0].amount,
-			interval: input.intervals?.[0].interval,
-			intervalCount: input.intervals[0].intervalCount,
+			amount: 0,
+			interval: 'DAY',
+			intervalCount: 1,
 		})
 
 		this.loggerService.info('Plan updated in Recurrence', {

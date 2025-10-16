@@ -1,13 +1,14 @@
-import { forwardRef, Inject, Injectable } from '@nestjs/common'
 import { addSeconds, random, uuid } from '@starter/common'
 import { ConflictException } from '@starter/nestjs-error-handling'
 import type { Phone } from '@starter/schema'
 
-import { NotificationService } from '@/adapters/notification'
+import { forwardRef, Inject, Injectable } from '@nestjs/common'
+
 import { OTPDomain } from '@/core/otp/otp.domain'
 import type { OTP } from '@/core/otp/otp.schema'
 import { OTPContextDomain } from '@/core/otp/otp-context.domain'
 import { UserService } from '@/core/user/user.service'
+import { NotificationService } from '@/adapters/notification'
 import type { IOTPRepository } from '@/ports/database/otp'
 
 @Injectable()
@@ -42,10 +43,7 @@ export class OTPService {
 			maxValidationAttempts: ctx.maxValidationAttempts,
 			resendCooldownSeconds: ctx.resendCooldownSeconds,
 			maxRequestsPerDay: ctx.maxRequestsPerDay,
-			expiresAt: addSeconds(
-				new Date(),
-				ctx.resendCooldownSeconds,
-			).toISOString(),
+			expiresAt: addSeconds(new Date(), ctx.resendCooldownSeconds),
 			createdAt: new Date().toISOString(),
 			updatedAt: new Date().toISOString(),
 		})

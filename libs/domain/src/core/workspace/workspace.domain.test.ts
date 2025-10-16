@@ -1,4 +1,5 @@
 import { ConflictException } from '@starter/nestjs-error-handling'
+
 import { describe, expect, it } from 'vitest'
 
 import { makeWorkspace } from '@/core/workspace/workspace.mock'

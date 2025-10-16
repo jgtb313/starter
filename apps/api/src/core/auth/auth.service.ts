@@ -1,10 +1,3 @@
-import {
-	ConflictException,
-	Inject,
-	Injectable,
-	UnauthorizedException,
-} from '@nestjs/common'
-import { ConfigService } from '@nestjs/config'
 import { uuid } from '@starter/common'
 import {
 	EncryptService,
@@ -12,6 +5,14 @@ import {
 	type User,
 	UserService,
 } from '@starter/domain'
+
+import {
+	ConflictException,
+	Inject,
+	Injectable,
+	UnauthorizedException,
+} from '@nestjs/common'
+import { ConfigService } from '@nestjs/config'
 
 import type {
 	ForgotPasswordInput,
@@ -62,7 +63,7 @@ export class AuthService {
 
 		const isValidPassword = await this.encryptService.compare(
 			password,
-			user.password,
+			user.state.password,
 		)
 		if (!isValidPassword) {
 			this.loggerService.warn(
@@ -79,7 +80,7 @@ export class AuthService {
 		this.loggerService.info(`User signed in successfully: ${email}`, {
 			email,
 		})
-		return this.grantAccessToken(user)
+		return this.grantAccessToken(user.state)
 	}
 
 	async socialSignOn(input: SocialSignOnInput) {
@@ -122,7 +123,6 @@ export class AuthService {
 			const user = await this.userService.createUser({
 				googleProviderId: null,
 				facebookProviderId: null,
-				organizations: [],
 				addresses: [],
 				name,
 				email: email ?? `${providerId}@${input.context.toLowerCase()}.com`,
@@ -135,8 +135,6 @@ export class AuthService {
 				localePreference: null,
 				userId: uuid(),
 				workspaceId: null,
-				createdAt: new Date().toISOString(),
-				updatedAt: new Date().toISOString(),
 			})
 
 			this.loggerService.info(
@@ -146,7 +144,7 @@ export class AuthService {
 					email,
 				},
 			)
-			return this.grantAccessToken(user)
+			return this.grantAccessToken(user.state)
 		}
 
 		this.loggerService.info(
@@ -156,7 +154,7 @@ export class AuthService {
 				email,
 			},
 		)
-		return this.grantAccessToken(existingUser)
+		return this.grantAccessToken(existingUser.state)
 	}
 
 	async signUp({ name, email, password }: SignUpInput) {
@@ -182,7 +180,6 @@ export class AuthService {
 		const user = await this.userService.createUser({
 			googleProviderId: null,
 			facebookProviderId: null,
-			organizations: [],
 			addresses: [],
 			name,
 			email,
@@ -195,14 +192,12 @@ export class AuthService {
 			localePreference: null,
 			userId: uuid(),
 			workspaceId: null,
-			createdAt: new Date().toISOString(),
-			updatedAt: new Date().toISOString(),
 		})
 
 		this.loggerService.info(`User signed up successfully: ${email}`, {
 			email,
 		})
-		return this.grantAccessToken(user)
+		return this.grantAccessToken(user.state)
 	}
 
 	async forgotPassword({ email, password }: ForgotPasswordInput) {
@@ -227,9 +222,11 @@ export class AuthService {
 			)
 		}
 
-		user.password = await this.encryptService.hash(password)
+		const newPassword = await this.encryptService.hash(password)
 
-		await this.userService.updateUser(user.userId, user)
+		await this.userService.updateUser(user.state.userId, {
+			password: newPassword,
+		})
 
 		this.loggerService.info(
 			`Password successfully reset for user with email: ${email}`,
@@ -237,7 +234,7 @@ export class AuthService {
 				email,
 			},
 		)
-		return this.grantAccessToken(user)
+		return this.grantAccessToken(user.state)
 	}
 
 	async grantAccessToken(user: User) {

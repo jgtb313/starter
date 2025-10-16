@@ -1,6 +1,7 @@
-import { Inject, UseGuards } from '@nestjs/common'
 import { RoleSchema, RoleService, type User } from '@starter/domain'
 import { Controller, Request, Route } from '@starter/nestjs-server-hoisting'
+
+import { Inject, UseGuards } from '@nestjs/common'
 
 import { ACLService } from '@/support/access-control'
 import { AuthenticatedUser } from '@/support/decorators'
@@ -69,7 +70,7 @@ export class RoleController {
 
 		return this.roleService.getPaginatedRoles({
 			...query,
-			workspaceId: params.workspaceId,
+			// workspaceId: params.workspaceId,
 		})
 	}
 
