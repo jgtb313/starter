@@ -1,7 +1,8 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common'
-import { InjectRepository } from '@nestjs/typeorm'
 import { capitalize } from '@starter/common'
 import { PaginationSchemaTransform } from '@starter/schema'
+
+import { Inject, Injectable, NotFoundException } from '@nestjs/common'
+import { InjectRepository } from '@nestjs/typeorm'
 import {
 	type FindOptionsOrder,
 	type FindOptionsRelations,
@@ -56,7 +57,9 @@ export class UserTypeorm implements IUserRepository {
 		}
 
 		if (workspaceId) {
-			where.workspaceId = workspaceId
+			where.workspace = {
+				workspaceId,
+			}
 		}
 
 		if (name) {
@@ -117,7 +120,9 @@ export class UserTypeorm implements IUserRepository {
 		}
 
 		if (workspaceId) {
-			where.workspaceId = workspaceId
+			where.workspace = {
+				workspaceId,
+			}
 		}
 
 		if (phone) {
@@ -168,7 +173,9 @@ export class UserTypeorm implements IUserRepository {
 		}
 
 		if (options?.workspaceId) {
-			where.workspaceId = options.workspaceId
+			where.workspace = {
+				workspaceId: options.workspaceId,
+			}
 		}
 
 		const user = await this.repository.findOne({
@@ -191,7 +198,9 @@ export class UserTypeorm implements IUserRepository {
 		}
 
 		if (options?.workspaceId) {
-			where.workspaceId = options.workspaceId
+			where.workspace = {
+				workspaceId: options.workspaceId,
+			}
 		}
 
 		const user = await this.repository.findOne({
@@ -279,8 +288,12 @@ export class UserTypeorm implements IUserRepository {
 			user: {
 				userId: user.state.userId,
 			},
-			organizationId,
-			roleId,
+			organization: {
+				organizationId,
+			},
+			role: {
+				roleId,
+			},
 		})
 
 		return
@@ -297,8 +310,12 @@ export class UserTypeorm implements IUserRepository {
 				user: {
 					userId: user.state.userId,
 				},
-				organizationId,
-				roleId,
+				organization: {
+					organizationId,
+				},
+				role: {
+					roleId,
+				},
 			}),
 		)
 
@@ -317,7 +334,9 @@ export class UserTypeorm implements IUserRepository {
 			user: {
 				userId: user.state.userId,
 			},
-			organizationId,
+			organization: {
+				organizationId,
+			},
 		})
 	}
 
@@ -331,7 +350,9 @@ export class UserTypeorm implements IUserRepository {
 			user: {
 				userId: user.state.userId,
 			},
-			organizationId: In(organizationIds),
+			organization: {
+				organizationId: In(organizationIds),
+			},
 		})
 	}
 

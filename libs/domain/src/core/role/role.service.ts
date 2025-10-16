@@ -1,16 +1,23 @@
-import { forwardRef, Inject, Injectable } from '@nestjs/common'
+import type { Merge } from '@starter/common'
 import { AclForbiddenException } from '@starter/nestjs-error-handling'
+import type { Pagination } from '@starter/schema'
 
+import { forwardRef, Inject, Injectable } from '@nestjs/common'
+
+import {
+	createWorkspaceReference,
+	type WithWorkspaceReference,
+} from '@/support/workspace-reference'
 import { OrganizationService } from '@/core/organization/organization.service'
 import { PermissionService } from '@/core/permission/permission.service'
-import {
-	getRoleWorkspaceReference,
-	type IRoleService,
-} from '@/core/role/role.service.interface'
+import type { BaseRole } from '@/core/role/role.schema'
 import type { IRoleRepository } from '@/ports/database/role'
 
+export type RoleWorkspaceReference = WithWorkspaceReference<'roleId'>
+export const getRoleWorkspaceReference = createWorkspaceReference('roleId')
+
 @Injectable()
-export class RoleService implements IRoleService {
+export class RoleService {
 	constructor(
 		@Inject('ROLE_REPOSITORY') private readonly roleRepository: IRoleRepository,
 		@Inject(forwardRef(() => OrganizationService))
@@ -19,13 +26,17 @@ export class RoleService implements IRoleService {
 		private readonly permissionService: PermissionService,
 	) {}
 
-	getPaginatedRoles: IRoleService['getPaginatedRoles'] = async (input) => {
-		return this.roleRepository.findAllPaginated({
-			...input,
-		})
+	getPaginatedRoles = async (
+		input: Merge<
+			[
+				Pagination,
+			]
+		>,
+	) => {
+		return this.roleRepository.findPaginated(input)
 	}
 
-	getRole: IRoleService['getRole'] = async (reference) => {
+	getRole = async (reference: RoleWorkspaceReference) => {
 		const { roleId, workspaceId } = getRoleWorkspaceReference(reference)
 
 		const role = await this.roleRepository.findById(roleId)
@@ -37,11 +48,7 @@ export class RoleService implements IRoleService {
 		return role
 	}
 
-	createRole: IRoleService['createRole'] = async ({
-		organizationIds,
-		permissionIds,
-		...input
-	}) => {
+	createRole = async ({ organizationIds, permissionIds, ...input }: any) => {
 		await this.organizationService.validateOrganizationIds(organizationIds)
 
 		await this.permissionService.validatePermissionIds(permissionIds)
@@ -56,9 +63,9 @@ export class RoleService implements IRoleService {
 		return role
 	}
 
-	updateRole: IRoleService['updateRole'] = async (
-		reference,
-		{ organizationIds, permissionIds, ...input },
+	updateRole = async (
+		reference: RoleWorkspaceReference,
+		{ organizationIds, permissionIds, ...input }: any,
 	) => {
 		const role = await this.getRole(reference)
 
@@ -77,41 +84,43 @@ export class RoleService implements IRoleService {
 		})
 	}
 
-	activeRole: IRoleService['activeRole'] = async (reference) => {
+	activateRole = async (reference: RoleWorkspaceReference) => {
 		const role = await this.getRole(reference)
 
-		role.markAsActive()
+		role.checkIfCanActivate()
 
 		return this.roleRepository.updateById(role.state.roleId, {
-			status: role.state.status,
+			status: 'ACTIVE',
 		})
 	}
 
-	inactiveRole: IRoleService['inactiveRole'] = async (reference) => {
+	deactivateRole = async (reference: RoleWorkspaceReference) => {
 		const role = await this.getRole(reference)
 
-		role.markAsInactive()
+		role.checkIfCanDeactivate()
 
 		return this.roleRepository.updateById(role.state.roleId, {
-			status: role.state.status,
+			status: 'INACTIVE',
 		})
 	}
 
-	deleteRole: IRoleService['deleteRole'] = async (reference) => {
+	deleteRole = async (reference: RoleWorkspaceReference) => {
 		const role = await this.getRole(reference)
 
 		await this.roleRepository.deleteById(role.state.roleId)
 	}
 
-	validateRoleIds: IRoleService['validateRoleIds'] = async (roleIds) => {
-		await this.roleRepository.validateRoleIds(roleIds)
+	validateRoleIds = async (roleIds: string[]) => {
+		await this.roleRepository.validateIds(roleIds)
 	}
 
-	validateRoleIdsByOrganizationId: IRoleService['validateRoleIdsByOrganizationId'] =
-		async (organizationId, roleIds) => {
-			await this.roleRepository.validateIdsByOrganizationId(
-				organizationId,
-				roleIds,
-			)
-		}
+	validateRoleIdsByOrganizationId = async (
+		organizationId: string,
+		roleIds: string[],
+	) => {
+		await this.roleRepository.validateIdsByOrganizationId(
+			organizationId,
+			roleIds,
+		)
+	}
 }

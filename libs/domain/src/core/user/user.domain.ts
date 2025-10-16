@@ -1,3 +1,5 @@
+import { ConflictException } from '@starter/nestjs-error-handling'
+
 import { BaseDomain } from '@/support/base-domain'
 import { type User, UserSchema } from '@/core/user/user.schema'
 
@@ -23,10 +25,24 @@ export class UserDomain extends BaseDomain<User> {
 	}
 
 	checkIfCanActivate() {
-		return this.isInactive()
+		if (this.isActive()) {
+			throw new ConflictException(this.i18nService.current.userAlreadyActive())
+		}
 	}
 
 	checkIfCanDeactivate() {
-		return this.isActive()
+		if (this.isInactive()) {
+			throw new ConflictException(
+				this.i18nService.current.userAlreadyInactive(),
+			)
+		}
+	}
+
+	checkIfCanBeOnboarding() {
+		if (this.isOnboarding()) {
+			throw new ConflictException(
+				this.i18nService.current.userAlreadyOnboarding(),
+			)
+		}
 	}
 }

@@ -1,6 +1,6 @@
 import { PaginationSchemaTransform } from '@starter/schema'
 
-import { Injectable, NotFoundException } from '@nestjs/common'
+import { Inject, Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { type FindOptionsWhere, ILike, In, type Repository } from 'typeorm'
 
@@ -8,12 +8,15 @@ import { deepMapDatesToISOString } from '@/support/utilities'
 import { OrganizationDomain } from '@/core/organization/organization.domain'
 import { OrganizationEntity } from '@/adapters/database/organization/organization.typeorm.entity'
 import type { IOrganizationRepository } from '@/ports/database/organization'
+import { type I18nDomainService, I18nDomainSymbol } from '@/domain.i18n.module'
 
 @Injectable()
 export class OrganizationTypeorm implements IOrganizationRepository {
 	constructor(
 		@InjectRepository(OrganizationEntity)
 		private readonly repository: Repository<OrganizationEntity>,
+		@Inject(I18nDomainSymbol)
+		private readonly i18nService: I18nDomainService,
 	) {}
 
 	findPaginated: IOrganizationRepository['findPaginated'] = async ({
@@ -85,7 +88,11 @@ export class OrganizationTypeorm implements IOrganizationRepository {
 		})
 
 		if (!organization) {
-			throw new NotFoundException(`Organization ${organizationId} not found`)
+			throw new NotFoundException(
+				this.i18nService.current.organizationNotFound({
+					organizationId,
+				}),
+			)
 		}
 
 		return this.toOrganizationDomain(organization)

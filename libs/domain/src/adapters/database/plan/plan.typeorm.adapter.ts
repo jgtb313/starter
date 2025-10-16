@@ -1,6 +1,6 @@
 import { PaginationSchemaTransform } from '@starter/schema'
 
-import { Injectable, NotFoundException } from '@nestjs/common'
+import { Inject, Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import {
 	type FindOptionsOrder,
@@ -13,12 +13,15 @@ import { deepMapDatesToISOString } from '@/support/utilities'
 import { PlanDomain } from '@/core/plan/plan.domain'
 import { PlanEntity } from '@/adapters/database/plan/plan.typeorm.entity'
 import type { IPlanRepository } from '@/ports/database/plan'
+import { type I18nDomainService, I18nDomainSymbol } from '@/domain.i18n.module'
 
 @Injectable()
 export class PlanTypeorm implements IPlanRepository {
 	constructor(
 		@InjectRepository(PlanEntity)
 		private readonly repository: Repository<PlanEntity>,
+		@Inject(I18nDomainSymbol)
+		private readonly i18nService: I18nDomainService,
 	) {}
 
 	findPaginated: IPlanRepository['findPaginated'] = async ({
@@ -121,7 +124,11 @@ export class PlanTypeorm implements IPlanRepository {
 		})
 
 		if (!plan) {
-			throw new NotFoundException(`Plan ${planId} not found`)
+			throw new NotFoundException(
+				this.i18nService.current.planNotFound({
+					planId,
+				}),
+			)
 		}
 
 		return this.toPlanDomain(plan)

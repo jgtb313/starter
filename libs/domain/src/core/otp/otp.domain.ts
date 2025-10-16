@@ -8,11 +8,10 @@ import {
 } from '@starter/nestjs-error-handling'
 
 import { BaseDomain } from '@/support/base-domain'
+import { type OTP, OTPSchema } from '@/core/otp/otp.schema'
 
-import { type OTP, type OTPInput, OTPSchema } from '@/core/otp/otp.schema'
-
-export class OTPDomain extends BaseDomain<OTP, OTPInput> {
-	constructor(input: OTPInput) {
+export class OTPDomain extends BaseDomain<OTP> {
+	constructor(input: OTP) {
 		super(OTPSchema, input)
 	}
 
@@ -82,7 +81,7 @@ export class OTPDomain extends BaseDomain<OTP, OTPInput> {
 		const hashed = OTPDomain.hashCode(code)
 
 		if (this.state.code !== hashed) {
-			this.state.validationAttempts++
+			// this.state.validationAttempts++
 			throw new BadRequestException({
 				issues: [
 					{

@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common'
 
-import { PermissionRepositoryModule } from '@/adapters/database/permission'
 import { PermissionService } from '@/core/permission/permission.service'
+import { PermissionRepositoryModule } from '@/adapters/database/permission'
 
 @Module({
 	imports: [

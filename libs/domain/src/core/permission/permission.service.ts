@@ -10,10 +10,10 @@ export class PermissionService {
 	) {}
 
 	getPermissions = async () => {
-		return this.permissionRepository.findAll()
+		return this.permissionRepository.find()
 	}
 
 	validatePermissionIds = async (permissionIds: string[]) => {
-		return this.permissionRepository.validatePermissionIds(permissionIds)
+		return this.permissionRepository.validateIds(permissionIds)
 	}
 }

@@ -1,3 +1,5 @@
+import { ConflictException } from '@starter/nestjs-error-handling'
+
 import { BaseDomain } from '@/support/base-domain'
 import {
 	type Workspace,
@@ -28,10 +30,18 @@ export class WorkspaceDomain extends BaseDomain<Workspace> {
 	}
 
 	checkIfCanActivate() {
-		return this.isInactive()
+		if (this.isActive()) {
+			throw new ConflictException(
+				this.i18nService.current.workspaceAlreadyActive(),
+			)
+		}
 	}
 
 	checkIfCanDeactivate() {
-		return this.isActive()
+		if (this.isInactive()) {
+			throw new ConflictException(
+				this.i18nService.current.workspaceAlreadyInactive(),
+			)
+		}
 	}
 }

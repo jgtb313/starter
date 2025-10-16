@@ -1,4 +1,3 @@
-import { forwardRef, Inject, Injectable } from '@nestjs/common'
 import type { Merge } from '@starter/common'
 import {
 	AclForbiddenException,
@@ -7,12 +6,14 @@ import {
 } from '@starter/nestjs-error-handling'
 import type { Pagination, Phone } from '@starter/schema'
 
+import { forwardRef, Inject, Injectable } from '@nestjs/common'
+
 import {
 	createWorkspaceReference,
 	type WithWorkspaceReference,
 } from '@/support/workspace-reference'
 import { RoleService } from '@/core/role/role.service'
-import type { User, UserInput } from '@/core/user/user.schema'
+import type { BaseUser, User, UserInput } from '@/core/user/user.schema'
 import type { WorkspaceDomain } from '@/core/workspace/workspace.domain'
 import { WorkspaceService } from '@/core/workspace/workspace.service'
 import { EncryptService } from '@/adapters/encrypt'
@@ -96,7 +97,7 @@ export class UserService {
 		return user
 	}
 
-	async createUser({ workspaceId, ...input }: UserInput) {
+	async createUser({ workspaceId, ...input }: BaseUser) {
 		let workspace: WorkspaceDomain | undefined
 
 		if (workspaceId) {
@@ -124,15 +125,11 @@ export class UserService {
 
 	async updateUser(
 		reference: UserWorkspaceReference,
-		input: Partial<UserInput>,
+		input: Partial<BaseUser>,
 	) {
 		const user = await this.getUser(reference)
 
-		const payload: Partial<UserInput> = {
-			...input,
-		}
-
-		await this.userRepository.updateById(user.state.userId, payload)
+		await this.userRepository.updateById(user.state.userId, input)
 
 		return this.getUser(user.state.userId)
 	}
@@ -150,11 +147,7 @@ export class UserService {
 	async activateUser(reference: UserWorkspaceReference) {
 		const user = await this.getUser(reference)
 
-		const canActivate = user.checkIfCanActivate()
-
-		if (!canActivate) {
-			throw new ConflictException('User cannot be activated.')
-		}
+		user.checkIfCanActivate()
 
 		await this.userRepository.updateById(user.state.userId, {
 			status: 'ACTIVE',
@@ -164,11 +157,11 @@ export class UserService {
 	async deactivateUser(reference: UserWorkspaceReference) {
 		const user = await this.getUser(reference)
 
-		const canDeactivate = user.checkIfCanDeactivate()
+		user.checkIfCanDeactivate()
 
-		if (!canDeactivate) {
-			throw new ConflictException('User cannot be deactivated.')
-		}
+		await this.userRepository.updateById(user.state.userId, {
+			status: 'INACTIVE',
+		})
 	}
 
 	async deleteUser(reference: UserWorkspaceReference) {

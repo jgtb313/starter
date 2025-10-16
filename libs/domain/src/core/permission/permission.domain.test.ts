@@ -1,4 +1,5 @@
 import { uuid } from '@starter/common'
+
 import { describe, expect, it } from 'vitest'
 
 import { PermissionDomain } from '@/core/permission/permission.domain'

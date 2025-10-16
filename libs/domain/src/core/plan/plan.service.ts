@@ -1,6 +1,7 @@
-import { Inject, Injectable } from '@nestjs/common'
 import { type Merge, uuid } from '@starter/common'
 import type { Pagination } from '@starter/schema'
+
+import { Inject, Injectable } from '@nestjs/common'
 
 import type { BasePlan, Plan } from '@/core/plan/plan.schema'
 import { LoggerService } from '@/adapters/logger'
@@ -10,7 +11,6 @@ import type {
 	IPlanRepository,
 	PlanSort,
 } from '@/ports/database/plan'
-import { type I18nDomainService, I18nDomainSymbol } from '@/domain.i18n.module'
 
 @Injectable()
 export class PlanService {
@@ -21,8 +21,6 @@ export class PlanService {
 		private readonly recurrenceService: RecurrenceService,
 		@Inject(LoggerService)
 		private readonly loggerService: LoggerService,
-		@Inject(I18nDomainSymbol)
-		private readonly i18nService: I18nDomainService,
 	) {}
 
 	getPaginatedPlans = async (
@@ -51,6 +49,9 @@ export class PlanService {
 		const recurrencePlan = await this.recurrenceService.createPlan({
 			...input,
 			referenceId: planId,
+			amount: input.intervals[0].amount,
+			interval: input.intervals[0].interval,
+			intervalCount: input.intervals[0].intervalCount,
 		})
 
 		this.loggerService.info('Plan created in Recurrence', {
@@ -82,6 +83,9 @@ export class PlanService {
 		await this.recurrenceService.updatePlan(plan.state.externalId, {
 			...plan.state,
 			...input,
+			amount: input.intervals?.[0].amount,
+			interval: input.intervals?.[0].interval,
+			intervalCount: input.intervals[0].intervalCount,
 		})
 
 		this.loggerService.info('Plan updated in Recurrence', {

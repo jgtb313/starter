@@ -1,3 +1,5 @@
+import { ConflictException } from '@starter/nestjs-error-handling'
+
 import { BaseDomain } from '@/support/base-domain'
 import { type Plan, PlanSchema } from '@/core/plan/plan.schema'
 
@@ -16,5 +18,19 @@ export class PlanDomain extends BaseDomain<Plan> {
 
 	checkIfIsSignable() {
 		return this.isActive()
+	}
+
+	checkIfCanActivate() {
+		if (this.isActive()) {
+			throw new ConflictException(this.i18nService.current.planAlreadyActive())
+		}
+	}
+
+	checkIfCanDeactivate() {
+		if (this.isInactive()) {
+			throw new ConflictException(
+				this.i18nService.current.planAlreadyInactive(),
+			)
+		}
 	}
 }

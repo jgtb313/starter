@@ -1,27 +1,30 @@
-import { Injectable, NotFoundException } from '@nestjs/common'
-import { InjectRepository } from '@nestjs/typeorm'
 import { PaginationSchemaTransform } from '@starter/schema'
+
+import { Inject, Injectable, NotFoundException } from '@nestjs/common'
+import { InjectRepository } from '@nestjs/typeorm'
 import type { DeepPartial, FindOptionsWhere, Repository } from 'typeorm'
 import type { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity'
 
 import { deepMapDatesToISOString } from '@/support/utilities'
-
-import { SubscriptionEntity } from '@/adapters/database/subscription/subscription.typeorm.entity'
 import { SubscriptionDomain } from '@/core/subscription/subscription.domain'
 import type {
 	BaseSubscription,
 	Subscription,
 } from '@/core/subscription/subscription.schema'
+import { SubscriptionEntity } from '@/adapters/database/subscription/subscription.typeorm.entity'
 import type { ISubscriptionRepository } from '@/ports/database/subscription'
+import { type I18nDomainService, I18nDomainSymbol } from '@/domain.i18n.module'
 
 @Injectable()
 export class SubscriptionTypeorm implements ISubscriptionRepository {
 	constructor(
 		@InjectRepository(SubscriptionEntity)
 		private readonly repository: Repository<SubscriptionEntity>,
+		@Inject(I18nDomainSymbol)
+		private readonly i18nService: I18nDomainService,
 	) {}
 
-	findAllPaginated: ISubscriptionRepository['findAllPaginated'] = async ({
+	findPaginated: ISubscriptionRepository['findPaginated'] = async ({
 		cursor,
 		limit,
 		...query
@@ -56,7 +59,7 @@ export class SubscriptionTypeorm implements ISubscriptionRepository {
 		}
 	}
 
-	findAll: ISubscriptionRepository['findAll'] = async (input) => {
+	find: ISubscriptionRepository['find'] = async (input) => {
 		const { status } = input
 
 		const where: FindOptionsWhere<SubscriptionEntity> = {}
@@ -80,7 +83,11 @@ export class SubscriptionTypeorm implements ISubscriptionRepository {
 		})
 
 		if (!subscription) {
-			throw new NotFoundException(`Subscription ${subscriptionId} not found`)
+			throw new NotFoundException(
+				this.i18nService.current.subscriptionNotFound({
+					subscriptionId,
+				}),
+			)
 		}
 
 		return this.toSubscriptionDomain(subscription)
