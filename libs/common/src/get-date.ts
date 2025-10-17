@@ -1,4 +1,5 @@
 import type { Locale } from '@starter/schema'
+
 import { toZonedTime } from 'date-fns-tz'
 
 import { state } from './~state/common.state'

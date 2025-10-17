@@ -1,10 +1,7 @@
 import { uuid } from '@starter/common'
 
 import { OrganizationDomain } from '@/core/organization/organization.domain'
-import type {
-	Organization,
-	OrganizationInput,
-} from '@/core/organization/organization.schema'
+import type { OrganizationInput } from '@/core/organization/organization.schema'
 
 type OrganizationOverrides = Partial<OrganizationInput>
 
@@ -28,7 +25,7 @@ export const makeOrganization = (
 	return new OrganizationDomain({
 		...base,
 		...overrides,
-	} as Organization)
+	})
 }
 
 export const organizationMocks: OrganizationDomain[] = []

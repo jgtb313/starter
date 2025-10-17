@@ -46,12 +46,21 @@ const en = {
 
 	// OTP
 	otpNotFound: 'OTP {otpId:string} not found.',
+	otpContextNotFound: 'OTP context {context:string} not found.',
+	otpInvalidRecipient: 'Invalid OTP recipient.',
+	otpInvalidContext: 'Invalid OTP context.',
+	otpInvalidCode: 'Invalid OTP code.',
+	otpExpired: 'OTP expired.',
+	otpAttemptsExceeded: 'OTP validation attempts exceeded.',
+	otpResendCooldown: 'OTP insufficient resend time, please try again later.',
+	otpDailyLimitExceeded: 'OTP daily request limit exceeded.',
 
 	// Permission
 	permissionNotFound: 'Permission {permissionId:string} not found.',
 	permissionIdsNotFound:
 		'The following permissions were not found: {permissionIds:string[]}.',
 } as const
+
 type Translations = {
 	[K in keyof typeof en]: string
 }
@@ -102,6 +111,17 @@ const es: Translations = {
 
 	// OTP
 	otpNotFound: 'El OTP {otpId:string} no existe.',
+	otpContextNotFound: 'El contexto OTP {context:string} no existe.',
+	otpInvalidRecipient: 'Destinatario del OTP inválido.',
+	otpInvalidContext: 'Contexto del OTP inválido.',
+	otpInvalidCode: 'Código OTP inválido.',
+	otpExpired: 'El OTP ha expirado.',
+	otpAttemptsExceeded:
+		'Se superó el número máximo de intentos de validación del OTP.',
+	otpResendCooldown:
+		'Tiempo de reenvío insuficiente, inténtelo de nuevo más tarde.',
+	otpDailyLimitExceeded:
+		'Se ha superado el límite diario de solicitudes de OTP.',
 
 	// Permission
 	permissionNotFound: 'El permiso {permissionId:string} no existe.',
@@ -155,6 +175,16 @@ const ptBR: Translations = {
 
 	// OTP
 	otpNotFound: 'O OTP {otpId:string} não existe.',
+	otpContextNotFound: 'O contexto OTP {context:string} não existe.',
+	otpInvalidRecipient: 'Destinatário do OTP inválido.',
+	otpInvalidContext: 'Contexto do OTP inválido.',
+	otpInvalidCode: 'Código OTP inválido.',
+	otpExpired: 'O OTP expirou.',
+	otpAttemptsExceeded:
+		'Número máximo de tentativas de validação do OTP excedido.',
+	otpResendCooldown:
+		'Tempo insuficiente para reenviar o OTP, tente novamente mais tarde.',
+	otpDailyLimitExceeded: 'Limite diário de solicitações de OTP excedido.',
 
 	// Permission
 	permissionNotFound: 'A permissão {permissionId:string} não existe.',

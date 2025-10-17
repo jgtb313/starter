@@ -1,8 +1,7 @@
 import { z } from '@starter/schema'
 
 import { BaseSchema } from '@/support/base-schema'
-
-import { OTPContext } from '@/core/otp/otp-context.schema'
+import { OTPContextSchema } from '@/core/otp/otp-context.schema'
 
 const OTPId = BaseSchema.id('otp')
 
@@ -26,16 +25,6 @@ const OTPChannelSchema = z
 	})
 export type OTPChannel = z.infer<typeof OTPChannelSchema>
 export type OTPPhoneChannel = 'SMS' | 'WHATSAPP'
-
-const OTPContextSchema = OTPContext.meta({
-	description: 'Business scenario for which the OTP is generated',
-	example: [
-		'PASSWORD_LESS',
-		'FORGOT_PASSWORD',
-		'UPDATE_EMAIL',
-		'UPDATE_PHONE',
-	],
-})
 
 const Recipient = z
 	.string()

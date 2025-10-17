@@ -2,7 +2,6 @@ import { uuid } from '@starter/common'
 
 import { SubscriptionDomain } from '@/core/subscription/subscription.domain'
 import type {
-	Subscription,
 	SubscriptionBoleto,
 	SubscriptionCard,
 	SubscriptionInput,
@@ -35,11 +34,11 @@ export const makeSubscription = (
 			phone: {
 				iso: 'BR',
 				ddi: '+55',
-				number: '11999999999',
+				number: '98991143200',
 			},
 			document: {
 				type: 'INDIVIDUAL',
-				number: '12345678900',
+				number: '05933837377',
 			},
 			address: {
 				state: 'SP',
@@ -67,7 +66,7 @@ export const makeSubscription = (
 	return new SubscriptionDomain({
 		...base,
 		...overrides,
-	} as Subscription)
+	} as SubscriptionInput)
 }
 
 export const subscriptionMocks: SubscriptionDomain[] = []

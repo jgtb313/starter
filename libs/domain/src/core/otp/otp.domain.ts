@@ -1,6 +1,6 @@
 import crypto from 'crypto'
 
-import { addSeconds, getDate, isBefore, isFuture } from '@starter/common'
+import { addSeconds, isBefore, isFuture } from '@starter/common'
 import {
 	BadRequestException,
 	ConflictException,
@@ -8,14 +8,14 @@ import {
 } from '@starter/nestjs-error-handling'
 
 import { BaseDomain } from '@/support/base-domain'
-import { type OTP, OTPSchema } from '@/core/otp/otp.schema'
+import { type OTP, type OTPInput, OTPSchema } from '@/core/otp/otp.schema'
 
-export class OTPDomain extends BaseDomain<OTP> {
-	constructor(input: OTP) {
+export class OTPDomain extends BaseDomain<OTP, OTPInput> {
+	constructor(input: OTPInput) {
 		super(OTPSchema, input)
 	}
 
-	static hashCode(code: string) {
+	static generateCode(code: string) {
 		return crypto.createHash('sha256').update(code).digest('hex')
 	}
 
@@ -25,22 +25,20 @@ export class OTPDomain extends BaseDomain<OTP> {
 		}
 
 		const canResend = isBefore(
-			addSeconds(getDate(mostRecent.createdAt), cooldownSeconds),
+			addSeconds(mostRecent.createdAt, cooldownSeconds),
 			new Date(),
 		)
 
 		if (!canResend) {
-			throw new ConflictException(
-				'OTP insufficient resend time, please try again later.',
-			)
+			throw new ConflictException(this.i18nService.current.otpResendCooldown())
 		}
 	}
 
 	checkIfHasExpired() {
-		const hasExpired = !isFuture(getDate(this.state.expiresAt))
+		const hasExpired = !isFuture(this.state.expiresAt)
 
 		if (hasExpired) {
-			throw new ForbiddenException('OTP expired.')
+			throw new ForbiddenException(this.i18nService.current.otpExpired())
 		}
 	}
 
@@ -49,7 +47,9 @@ export class OTPDomain extends BaseDomain<OTP> {
 			this.state.validationAttempts >= this.state.maxValidationAttempts
 
 		if (exceeded) {
-			throw new ConflictException('OTP validation attempts exceeded.')
+			throw new ConflictException(
+				this.i18nService.current.otpAttemptsExceeded(),
+			)
 		}
 	}
 
@@ -58,7 +58,7 @@ export class OTPDomain extends BaseDomain<OTP> {
 			throw new BadRequestException({
 				issues: [
 					{
-						recipient: 'Invalid recipient',
+						recipient: this.i18nService.current.otpInvalidRecipient(),
 					},
 				],
 			})
@@ -70,7 +70,7 @@ export class OTPDomain extends BaseDomain<OTP> {
 			throw new BadRequestException({
 				issues: [
 					{
-						context: 'Invalid context',
+						context: this.i18nService.current.otpInvalidContext(),
 					},
 				],
 			})
@@ -78,25 +78,28 @@ export class OTPDomain extends BaseDomain<OTP> {
 	}
 
 	checkIfHasValidCode(code: string) {
-		const hashed = OTPDomain.hashCode(code)
+		const hashed = OTPDomain.generateCode(code)
 
 		if (this.state.code !== hashed) {
-			// this.state.validationAttempts++
 			throw new BadRequestException({
 				issues: [
 					{
-						code: 'Invalid code',
+						code: this.i18nService.current.otpInvalidCode(),
 					},
 				],
 			})
 		}
+
+		return this.state
 	}
 
 	checkIfHasReachedDailyLimit(dailyCount: number) {
 		const exceeded = dailyCount >= this.state.maxRequestsPerDay
 
 		if (exceeded) {
-			throw new ConflictException('OTP daily request limit exceeded.')
+			throw new ConflictException(
+				this.i18nService.current.otpDailyLimitExceeded(),
+			)
 		}
 	}
 }

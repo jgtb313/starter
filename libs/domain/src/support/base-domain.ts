@@ -30,10 +30,14 @@ export class DomainContextInitializer implements OnModuleInit {
 	}
 }
 
-export class BaseDomain<State> {
+export class BaseDomain<State, Input> {
 	readonly state: Readonly<State>
 
-	constructor(schema: z.ZodType, data: State) {
+	constructor(schema?: z.ZodType, data?: Input) {
+		if (!schema || !data) {
+			return
+		}
+
 		const state = schema.parse(data)
 
 		Object.assign(this, {

@@ -1,6 +1,7 @@
 import { NotFoundException } from '@starter/nestjs-error-handling'
 
-import type { OTPContext } from '@/core/otp/otp-context.schema'
+import { BaseDomain } from '@/support/base-domain'
+import type { OTPContext, OTPContextInput } from '@/core/otp/otp-context.schema'
 
 export type OTPContextValue = {
 	context: OTPContext
@@ -41,14 +42,18 @@ export const OTPContextValues: Record<OTPContext, OTPContextValue> = {
 	},
 }
 
-export class OTPContextDomain {
+export class OTPContextDomain extends BaseDomain<OTPContext, OTPContextInput> {
 	getContext(context: OTPContext): OTPContextValue {
-		const value = OTPContextValues[context]
+		const otpContext = OTPContextValues[context]
 
-		if (!value) {
-			throw new NotFoundException(`OTP context ${context} not found`)
+		if (!otpContext) {
+			throw new NotFoundException(
+				this.i18nService.current.otpContextNotFound({
+					context,
+				}),
+			)
 		}
 
-		return value
+		return otpContext
 	}
 }

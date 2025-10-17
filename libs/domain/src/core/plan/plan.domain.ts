@@ -1,36 +1,8 @@
-import { ConflictException } from '@starter/nestjs-error-handling'
-
 import { BaseDomain } from '@/support/base-domain'
-import { type Plan, PlanSchema } from '@/core/plan/plan.schema'
+import { type Plan, type PlanInput, PlanSchema } from '@/core/plan/plan.schema'
 
-export class PlanDomain extends BaseDomain<Plan> {
-	constructor(plan: Plan) {
+export class PlanDomain extends BaseDomain<Plan, PlanInput> {
+	constructor(plan: PlanInput) {
 		super(PlanSchema, plan)
-	}
-
-	isActive() {
-		return this.state.status === 'ACTIVE'
-	}
-
-	isInactive() {
-		return this.state.status === 'INACTIVE'
-	}
-
-	checkIfIsSignable() {
-		return this.isActive()
-	}
-
-	checkIfCanActivate() {
-		if (this.isActive()) {
-			throw new ConflictException(this.i18nService.current.planAlreadyActive())
-		}
-	}
-
-	checkIfCanDeactivate() {
-		if (this.isInactive()) {
-			throw new ConflictException(
-				this.i18nService.current.planAlreadyInactive(),
-			)
-		}
 	}
 }

@@ -43,7 +43,10 @@ export class OTPService {
 			maxValidationAttempts: ctx.maxValidationAttempts,
 			resendCooldownSeconds: ctx.resendCooldownSeconds,
 			maxRequestsPerDay: ctx.maxRequestsPerDay,
-			expiresAt: addSeconds(new Date(), ctx.resendCooldownSeconds),
+			expiresAt: addSeconds(
+				new Date(),
+				ctx.resendCooldownSeconds,
+			).toISOString(),
 			createdAt: new Date().toISOString(),
 			updatedAt: new Date().toISOString(),
 		})

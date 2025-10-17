@@ -1,13 +1,13 @@
 import { uuid } from '@starter/common'
 
-import { type Role, RoleSchema } from '@/core/role/role.schema'
+import type { RoleInput } from '@/core/role/role.schema'
 
 import { RoleDomain } from './role.domain'
 
-type RoleOverrides = Partial<Role>
+type RoleOverrides = Partial<RoleInput>
 
 export const makeRole = (overrides: RoleOverrides): RoleDomain => {
-	const base: Role = {
+	const base: RoleInput = {
 		roleId: uuid(),
 		workspaceId: uuid(),
 		organizations: [],
@@ -26,4 +26,4 @@ export const makeRole = (overrides: RoleOverrides): RoleDomain => {
 	})
 }
 
-export const roleMocks: Role[] = []
+export const roleMocks: RoleDomain[] = []
