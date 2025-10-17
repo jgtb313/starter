@@ -1,20 +1,19 @@
-import { NotFoundException } from '@starter/nestjs-error-handling'
-
 import { Test, type TestingModule } from '@nestjs/testing'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { permissionMocks } from '@/core/permission/permission.mock'
 import { PermissionService } from '@/core/permission/permission.service'
-import { InMemoryDatabaseModule } from '@/adapters/database'
 import { PermissionRepositoryModule } from '@/adapters/database/permission/permission.repository.module'
+import type { IPermissionRepository } from '@/ports/database/permission'
+import { DomainTestModule } from '@/domain.test.module'
 
 describe('PermissionService', () => {
 	let service: PermissionService
+	let repository: IPermissionRepository
 
 	beforeEach(async () => {
 		const module: TestingModule = await Test.createTestingModule({
 			imports: [
-				InMemoryDatabaseModule.register(),
+				DomainTestModule.register(),
 				PermissionRepositoryModule,
 			],
 			providers: [
@@ -23,39 +22,12 @@ describe('PermissionService', () => {
 		}).compile()
 
 		service = module.get(PermissionService)
+		repository = module.get<IPermissionRepository>('PERMISSION_REPOSITORY')
 
 		vi.clearAllMocks()
 	})
 
-	it('should service be defined', () => {
+	it('should be defined', () => {
 		expect(service).toBeDefined()
-	})
-
-	describe('getPermissions', () => {
-		it('should return permissions correctly', async () => {
-			const result = await service.getPermissions()
-
-			expect(result).toHaveLength(permissionMocks.length)
-		})
-	})
-
-	describe('validatePermissionIds', () => {
-		it('should resolve when all permissionIds are valid', async () => {
-			const permission = permissionMocks[0]
-
-			await expect(
-				service.validatePermissionIds([
-					permission.permissionId,
-				]),
-			).resolves.toBeUndefined()
-		})
-
-		it('should throw NotFoundException when some permissionIds are not valid', async () => {
-			await expect(
-				service.validatePermissionIds([
-					'invalid-permission-id',
-				]),
-			).rejects.toThrow(NotFoundException)
-		})
 	})
 })

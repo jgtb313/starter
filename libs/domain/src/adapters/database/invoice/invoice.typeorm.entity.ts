@@ -79,29 +79,29 @@ export class InvoiceEntity {
 	amount: Invoice['amount']
 
 	@Column({
-		type: 'timestamp',
+		type: 'datetime',
 	})
 	issuedAt: Invoice['issuedAt']
 
 	@Column({
-		type: 'timestamp',
+		type: 'datetime',
 	})
 	dueDate: Invoice['dueDate']
 
 	@Column({
-		type: 'timestamp',
+		type: 'datetime',
 		nullable: true,
 	})
 	paidAt: Invoice['paidAt']
 
 	@Column({
-		type: 'timestamp',
+		type: 'datetime',
 		nullable: true,
 	})
 	overdueAt: Invoice['overdueAt']
 
 	@Column({
-		type: 'timestamp',
+		type: 'datetime',
 		nullable: true,
 	})
 	canceledAt: Invoice['canceledAt']

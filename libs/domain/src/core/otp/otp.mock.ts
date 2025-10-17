@@ -5,7 +5,7 @@ import type { OTP } from '@/core/otp/otp.schema'
 
 type OTPOverrides = Partial<OTP>
 
-export const makeOTP = (overrides: OTPOverrides = {}) => {
+export const makeOTP = (overrides: OTPOverrides): OTPDomain => {
 	const now = new Date()
 	const code = OTPDomain.hashCode(overrides.code ?? '123456')
 
@@ -31,46 +31,4 @@ export const makeOTP = (overrides: OTPOverrides = {}) => {
 	})
 }
 
-export const otpMocks: OTPDomain[] = [
-	// makeOTP({
-	// 	recipient: 'active1@example.com',
-	// 	context: 'UPDATE_EMAIL',
-	// }),
-	// makeOTP({
-	// 	recipient: 'expired@example.com',
-	// 	expiresAt: addSeconds(new Date(), -60),
-	// }),
-	// makeOTP({
-	// 	recipient: 'maxed@example.com',
-	// 	validationAttempts: 3,
-	// }),
-	// makeOTP({
-	// 	recipient: 'resend@example.com',
-	// 	createdAt: new Date().toISOString(),
-	// }),
-	// makeOTP({
-	// 	recipient: 'phone@example.com',
-	// 	channel: 'EMAIL',
-	// 	context: 'UPDATE_PHONE',
-	// }),
-	// makeOTP({
-	// 	recipient: 'limit@example.com',
-	// 	maxRequestsPerDay: 2,
-	// }),
-	// makeOTP({
-	// 	recipient: 'wrong-code@example.com',
-	// 	code: OTPDomain.hashCode('000000'),
-	// }),
-	// makeOTP({
-	// 	recipient: 'deleted@example.com',
-	// 	updatedAt: addSeconds(new Date(), -10000).toISOString(),
-	// }),
-	// makeOTP({
-	// 	recipient: 'context-test@example.com',
-	// 	context: 'FORGOT_PASSWORD',
-	// }),
-	// makeOTP({
-	// 	recipient: 'low-attempt@example.com',
-	// 	validationAttempts: 1,
-	// }),
-]
+export const otpMocks: OTPDomain[] = []

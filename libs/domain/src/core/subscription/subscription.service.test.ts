@@ -2,10 +2,19 @@ import { Test, type TestingModule } from '@nestjs/testing'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { PlanService } from '@/core/plan/plan.service'
-import { InMemoryDatabaseModule } from '@/adapters/database'
-import { PlanRepositoryModule } from '@/adapters/database/plan/plan.repository.module'
+import { SubscriptionService } from '@/core/subscription/subscription.service'
+import { WorkspaceService } from '@/core/workspace/workspace.service'
+import { SubscriptionRepositoryModule } from '@/adapters/database/subscription/subscription.repository.module'
 import { RecurrenceService } from '@/adapters/recurrence'
 import { DomainTestModule } from '@/domain.test.module'
+
+const workspaceServiceMock = {
+	getWorkspace: vi.fn(),
+}
+
+const planServiceMock = {
+	getPlan: vi.fn(),
+}
 
 const recurrenceServiceMock = {
 	createPlan: vi.fn(),
@@ -13,18 +22,25 @@ const recurrenceServiceMock = {
 	cancelPlan: vi.fn(),
 }
 
-describe('PlanService', () => {
-	let service: PlanService
+describe('SubscriptionService', () => {
+	let service: SubscriptionService
 
 	beforeEach(async () => {
 		const module: TestingModule = await Test.createTestingModule({
 			imports: [
 				DomainTestModule.register(),
-				InMemoryDatabaseModule.register(),
-				PlanRepositoryModule,
+				SubscriptionRepositoryModule,
 			],
 			providers: [
-				PlanService,
+				SubscriptionService,
+				{
+					provide: WorkspaceService,
+					useValue: workspaceServiceMock,
+				},
+				{
+					provide: PlanService,
+					useValue: planServiceMock,
+				},
 				{
 					provide: RecurrenceService,
 					useValue: recurrenceServiceMock,
@@ -32,7 +48,7 @@ describe('PlanService', () => {
 			],
 		}).compile()
 
-		service = module.get(PlanService)
+		service = module.get(SubscriptionService)
 
 		vi.clearAllMocks()
 	})

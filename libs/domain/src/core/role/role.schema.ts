@@ -1,7 +1,6 @@
 import { z } from '@starter/schema'
 
 import { BaseSchema } from '@/support/base-schema'
-
 import { OrganizationSchema } from '@/core/organization/organization.schema'
 import { PermissionSchema } from '@/core/permission/permission.schema'
 

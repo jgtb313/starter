@@ -10,7 +10,6 @@ import {
 } from '@/support/workspace-reference'
 import { OrganizationService } from '@/core/organization/organization.service'
 import { PermissionService } from '@/core/permission/permission.service'
-import type { BaseRole } from '@/core/role/role.schema'
 import type { IRoleRepository } from '@/ports/database/role'
 
 export type RoleWorkspaceReference = WithWorkspaceReference<'roleId'>

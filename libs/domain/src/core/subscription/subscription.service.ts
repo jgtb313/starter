@@ -7,7 +7,6 @@ import {
 	createWorkspaceReference,
 	type WithWorkspaceReference,
 } from '@/support/workspace-reference'
-import { InvoiceService } from '@/core/invoice/invoice.service'
 import { PlanService } from '@/core/plan/plan.service'
 import type {
 	Subscription,
@@ -50,8 +49,6 @@ export class SubscriptionService {
 		private readonly subscriptionRepository: ISubscriptionRepository,
 		@Inject(forwardRef(() => WorkspaceService))
 		private readonly workspaceService: WorkspaceService,
-		@Inject(forwardRef(() => InvoiceService))
-		private readonly invoiceService: InvoiceService,
 		@Inject(forwardRef(() => PlanService))
 		private readonly planService: PlanService,
 		@Inject(RecurrenceService)
