@@ -7,9 +7,9 @@ import { AuthServiceModule } from '@/core/auth/auth.service.module'
 
 @Module({
 	imports: [
+		// OTPServiceModule,
 		UserServiceModule,
-		AuthServiceModule,
-		OTPServiceModule,
+		// AuthServiceModule,
 	],
 	controllers: [
 		AuthController,

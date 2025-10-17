@@ -1,5 +1,3 @@
-// import { UserServiceModule } from '@starter/domain'
-
 import { UserServiceModule } from '@starter/domain'
 
 import { Global, Module } from '@nestjs/common'

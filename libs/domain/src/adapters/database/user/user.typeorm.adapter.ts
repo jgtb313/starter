@@ -14,15 +14,13 @@ import {
 } from 'typeorm'
 
 import { deepMapDatesToISOString } from '@/support/utilities'
-import { UserSchema } from '@/core/user'
 import { UserDomain } from '@/core/user/user.domain'
 import { UserEntity } from '@/adapters/database/user/user.typeorm.entity'
+import { UserAddressEntity } from '@/adapters/database/user/user-address.typeorm.entity'
+import { UserOrganizationEntity } from '@/adapters/database/user/user-organization.typeorm.entity'
+import { UserPermissionEntity } from '@/adapters/database/user/user-permission.typeorm.entity'
 import type { IUserRepository } from '@/ports/database/user'
 import { type I18nDomainService, I18nDomainSymbol } from '@/domain.i18n.module'
-
-import { UserAddressEntity } from './user-address.typeorm.entity'
-import { UserOrganizationEntity } from './user-organization.typeorm.entity'
-import { UserPermissionEntity } from './user-permission.typeorm.entity'
 
 @Injectable()
 export class UserTypeorm implements IUserRepository {

@@ -8,8 +8,8 @@ import { i18nDict } from '@/~i18n/domain.i18n.schema'
 import { DomainContextInitializer } from '@/support/base-domain'
 import type { CreateDataSourceConfigOptions } from '@/adapters/database/data-source.config'
 import { DatabaseModule } from '@/adapters/database/database.module'
-
-import { I18nDomainModule } from './domain.i18n.module'
+import { LoggerModule } from '@/adapters/logger'
+import { I18nDomainModule } from '@/domain.i18n.module'
 
 type DomainModuleOptions = {
 	database: CreateDataSourceConfigOptions
@@ -26,6 +26,7 @@ export class DomainModule {
 			imports: [
 				DatabaseModule.register(options.database),
 				I18nDomainModule.register(options.i18n),
+				LoggerModule,
 			],
 			providers: [
 				DomainContextInitializer,

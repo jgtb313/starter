@@ -1,13 +1,12 @@
-import { OTPServiceModule, UserServiceModule } from '@starter/domain'
+import { UserServiceModule } from '@starter/domain'
 
-import { Module } from '@nestjs/common'
+import { forwardRef, Module } from '@nestjs/common'
 
-import { ProfileController } from './profile.controller'
+import { ProfileController } from '@/core/profile/profile.controller'
 
 @Module({
 	imports: [
-		UserServiceModule,
-		OTPServiceModule,
+		forwardRef(() => UserServiceModule),
 	],
 	controllers: [
 		ProfileController,

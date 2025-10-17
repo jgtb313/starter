@@ -1,7 +1,7 @@
-import { UseGuards } from '@nestjs/common'
+import { UserService } from '@starter/domain'
 import { Controller, Request, Route } from '@starter/nestjs-server-hoisting'
 
-import { AuthGuard } from '@/support/guards'
+import { Inject, UseGuards } from '@nestjs/common'
 
 import {
 	type AcceptInviteRequest,
@@ -28,6 +28,36 @@ import {
 	},
 })
 export class InviteController {
+	constructor(
+		@Inject(UserService)
+		private readonly userService: UserService,
+	) {}
+
+	@Route({
+		summary: 'Get Invite',
+		description: 'Retrieves details of a specific invite.',
+		method: 'GET',
+		path: '/:inviteId',
+		parameters: {
+			params: GetInviteSchema.params,
+		},
+		responses: {
+			200: {
+				schema: GetInviteSchema.output,
+			},
+			404: {
+				description: 'Invite {{inviteId}} not found.',
+			},
+			401: {
+				description: 'Invite {{inviteId}} has expired.',
+			},
+		},
+	})
+	// @UseGuards(AuthGuard)
+	getInvite(@Request() { params }: GetInviteRequest) {
+		return this.userService.getPaginatedUsers({})
+	}
+
 	@Route({
 		summary: 'Send Invite',
 		description: 'Creates a new invite for a user in a workspace.',
@@ -37,15 +67,21 @@ export class InviteController {
 			body: SendInviteSchema.body,
 		},
 		responses: {
-			201: {
-				schema: SendInviteSchema.output,
+			204: {
+				description: 'Invite sent successfully.',
+			},
+			401: {
+				description: 'Unauthorized',
+			},
+			404: {
+				description: 'Workspace {{workspaceId}} not found.',
 			},
 			409: {
 				description: 'E-mail {{email}} has already been invited.',
 			},
 		},
 	})
-	@UseGuards(AuthGuard)
+	// @UseGuards(AuthGuard)
 	sendInvite(@Request() { params, body }: SendInviteRequest) {
 		return
 	}
@@ -60,8 +96,8 @@ export class InviteController {
 			body: AcceptInviteSchema.body,
 		},
 		responses: {
-			200: {
-				schema: AcceptInviteSchema.output,
+			204: {
+				description: 'Invite accepted successfully.',
 			},
 			401: {
 				description: 'Invite {{inviteId}} is invalid.',
@@ -84,8 +120,8 @@ export class InviteController {
 			params: ResendInviteSchema.params,
 		},
 		responses: {
-			200: {
-				schema: ResendInviteSchema.output,
+			204: {
+				description: 'Invite resent successfully.',
 			},
 			404: {
 				description: 'Invite {{inviteId}} not found.',
@@ -95,7 +131,7 @@ export class InviteController {
 			},
 		},
 	})
-	@UseGuards(AuthGuard)
+	// @UseGuards(AuthGuard)
 	resendInvite(@Request() { params }: ResendInviteRequest) {
 		return
 	}
@@ -109,41 +145,16 @@ export class InviteController {
 			params: CancelInviteSchema.params,
 		},
 		responses: {
-			200: {
-				schema: CancelInviteSchema.output,
+			204: {
+				description: 'Invite cancelled successfully.',
 			},
 			404: {
 				description: 'Invite {{inviteId}} not found.',
 			},
 		},
 	})
-	@UseGuards(AuthGuard)
+	// @UseGuards(AuthGuard)
 	cancelInvite(@Request() { params }: CancelInviteRequest) {
-		return
-	}
-
-	@Route({
-		summary: 'Get Invite',
-		description: 'Retrieves details of a specific invite.',
-		method: 'GET',
-		path: '/:inviteId',
-		parameters: {
-			params: GetInviteSchema.params,
-		},
-		responses: {
-			200: {
-				schema: GetInviteSchema.output,
-			},
-			404: {
-				description: 'Invite {{inviteId}} not found.',
-			},
-			401: {
-				description: 'Invite {{inviteId}} has expired.',
-			},
-		},
-	})
-	@UseGuards(AuthGuard)
-	getInvite(@Request() { params }: GetInviteRequest) {
 		return
 	}
 }

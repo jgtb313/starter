@@ -1,13 +1,13 @@
-import { ID, InvoiceSchema } from '@starter/domain'
-import {
-	createRequestSchema,
-	type RequestInput,
-} from '@starter/nestjs-server-hoisting'
 import {
 	BasePaginationSchemaOutput,
 	PaginationSchema,
 	z,
 } from '@starter/schema'
+import { ID, InvoiceSchema } from '@starter/domain'
+import {
+	createRequestSchema,
+	type RequestInput,
+} from '@starter/nestjs-server-hoisting'
 
 export const ListInvoicesSchema = createRequestSchema({
 	params: z.object({

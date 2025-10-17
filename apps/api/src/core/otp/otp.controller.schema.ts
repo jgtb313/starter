@@ -1,9 +1,9 @@
+import { EmailSchema, PhoneSchema, z } from '@starter/schema'
 import { OTPSchema } from '@starter/domain'
 import {
 	createRequestSchema,
 	type RequestInput,
 } from '@starter/nestjs-server-hoisting'
-import { EmailSchema, PhoneSchema, z } from '@starter/schema'
 
 export const SendOTPSchema = createRequestSchema({
 	body: OTPSchema.pick({

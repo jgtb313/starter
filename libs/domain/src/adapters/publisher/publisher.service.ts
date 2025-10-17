@@ -1,5 +1,6 @@
-import { Inject, Injectable } from '@nestjs/common'
 import { ConflictException } from '@starter/nestjs-error-handling'
+
+import { Inject, Injectable } from '@nestjs/common'
 
 import { LoggerService } from '@/adapters/logger/logger.service'
 import { AWSSNSAdapter } from '@/adapters/publisher/aws-sns.adapter'

@@ -24,7 +24,8 @@ export const getUserWorkspaceReference = createWorkspaceReference('userId')
 @Injectable()
 export class UserService {
 	constructor(
-		@Inject('USER_REPOSITORY') private readonly userRepository: IUserRepository,
+		@Inject('USER_REPOSITORY')
+		private readonly userRepository: IUserRepository,
 		@Inject(forwardRef(() => WorkspaceService))
 		private readonly workspaceService: WorkspaceService,
 		@Inject(EncryptService)

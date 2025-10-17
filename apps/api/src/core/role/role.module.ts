@@ -1,5 +1,6 @@
-import { Module } from '@nestjs/common'
 import { RoleServiceModule, UserServiceModule } from '@starter/domain'
+
+import { Module } from '@nestjs/common'
 
 import { RoleController } from './role.controller'
 

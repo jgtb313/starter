@@ -1,11 +1,11 @@
-import { Inject, UseGuards } from '@nestjs/common'
 import { uuid } from '@starter/common'
 import { OTPSchema, OTPService, type User } from '@starter/domain'
 import { Controller, Request, Route } from '@starter/nestjs-server-hoisting'
 
+import { Inject, UseGuards } from '@nestjs/common'
+
 import { AuthenticatedUser } from '@/support/decorators'
 import { AuthGuard } from '@/support/guards'
-
 import {
 	type SendForgotPasswordOTPRequest,
 	SendForgotPasswordOTPSchema,
@@ -33,7 +33,10 @@ import {
 	},
 })
 export class OTPController {
-	constructor(@Inject(OTPService) private readonly otpService: OTPService) {}
+	constructor(
+		@Inject(OTPService)
+		private readonly otpService: OTPService,
+	) {}
 
 	@Route({
 		summary: 'Validate OTP',
@@ -72,7 +75,7 @@ export class OTPController {
 			],
 		},
 	})
-	validateOTP(@Request() { params, body }: ValidateOTPRequest) {
+	async validateOTP(@Request() { params, body }: ValidateOTPRequest) {
 		return this.otpService.validateOTP({
 			...params,
 			...body,

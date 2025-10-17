@@ -1,11 +1,16 @@
-import { Inject, UseGuards } from '@nestjs/common'
-import { InvoiceSchema, InvoiceService, type User } from '@starter/domain'
+import {
+	InvoiceSchema,
+	InvoiceService,
+	type User,
+	UserService,
+} from '@starter/domain'
 import { Controller, Request, Route } from '@starter/nestjs-server-hoisting'
+
+import { Inject, UseGuards } from '@nestjs/common'
 
 import { ACLService } from '@/support/access-control'
 import { AuthenticatedUser } from '@/support/decorators'
 import { AuthGuard } from '@/support/guards'
-
 import {
 	type GetInvoiceRequest,
 	GetInvoiceSchema,
@@ -26,11 +31,13 @@ import {
 		},
 	},
 })
-@UseGuards(AuthGuard)
+// @UseGuards(AuthGuard)
 export class InvoiceController {
 	constructor(
 		@Inject(ACLService)
 		private readonly aclService: ACLService,
+		@Inject(UserService)
+		private readonly userService: UserService,
 		@Inject(InvoiceService)
 		private readonly invoiceService: InvoiceService,
 	) {}
@@ -61,10 +68,12 @@ export class InvoiceController {
 			workspaceId: params.workspaceId,
 		})
 
-		return this.invoiceService.getPaginatedInvoices({
-			...query,
-			...pagination,
-		})
+		return this.userService.getPaginatedUsers({})
+
+		// return this.invoiceService.getPaginatedInvoices({
+		// 	...query,
+		// 	...pagination,
+		// })
 	}
 
 	@Route({

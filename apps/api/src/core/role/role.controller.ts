@@ -1,4 +1,9 @@
-import { RoleSchema, RoleService, type User } from '@starter/domain'
+import {
+	RoleSchema,
+	RoleService,
+	type User,
+	UserService,
+} from '@starter/domain'
 import { Controller, Request, Route } from '@starter/nestjs-server-hoisting'
 
 import { Inject, UseGuards } from '@nestjs/common'
@@ -33,11 +38,13 @@ import {
 		},
 	},
 })
-@UseGuards(AuthGuard)
+// @UseGuards(AuthGuard)
 export class RoleController {
 	constructor(
 		@Inject(ACLService)
 		private readonly aclService: ACLService,
+		@Inject(UserService)
+		private readonly userService: UserService,
 		@Inject(RoleService)
 		private readonly roleService: RoleService,
 	) {}
@@ -68,10 +75,12 @@ export class RoleController {
 			workspaceId: params.workspaceId,
 		})
 
-		return this.roleService.getPaginatedRoles({
-			...query,
-			// workspaceId: params.workspaceId,
-		})
+		return this.userService.getPaginatedUsers({})
+
+		// return this.roleService.getPaginatedRoles({
+		// 	...query,
+		// 	// workspaceId: params.workspaceId,
+		// })
 	}
 
 	@Route({

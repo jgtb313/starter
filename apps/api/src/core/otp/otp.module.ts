@@ -1,5 +1,6 @@
-import { Module } from '@nestjs/common'
 import { OTPServiceModule, UserServiceModule } from '@starter/domain'
+
+import { Module } from '@nestjs/common'
 
 import { OTPController } from '@/core/otp/otp.controller'
 
