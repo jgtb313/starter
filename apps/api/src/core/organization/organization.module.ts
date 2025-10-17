@@ -1,5 +1,6 @@
-import { Module } from '@nestjs/common'
 import { OrganizationServiceModule, UserServiceModule } from '@starter/domain'
+
+import { Module } from '@nestjs/common'
 
 import { OrganizationController } from '@/core/organization/organization.controller'
 

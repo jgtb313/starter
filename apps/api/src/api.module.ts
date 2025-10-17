@@ -37,6 +37,7 @@ import { I18nAPIModule } from '@/api.i18n.module'
 			i18n: nestjsServerHoistingI18nModuleOptions,
 		}),
 
+		AuthGuardModule,
 		ACLModule,
 
 		AuthModule,
@@ -52,8 +53,6 @@ import { I18nAPIModule } from '@/api.i18n.module'
 		SubscriptionModule,
 		UserModule,
 		WorkspaceModule,
-
-		AuthGuardModule,
 	],
 })
 export class APIModule {}
