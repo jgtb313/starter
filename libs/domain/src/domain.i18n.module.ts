@@ -1,10 +1,11 @@
-import { type DynamicModule, Global, Module } from '@nestjs/common'
-import type { I18nDict } from '@starter/i18n'
 import {
 	type I18nService,
 	NestjsI18nModule,
 	type NestjsI18nModuleOptions,
 } from '@starter/nestjs-i18n'
+import type { I18nDict } from '@starter/i18n'
+
+import { type DynamicModule, Global, Module } from '@nestjs/common'
 
 import { type I18nDomain, i18nDict } from '@/~i18n/domain.i18n'
 
