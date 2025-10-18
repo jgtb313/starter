@@ -1,0 +1,27 @@
+{
+	"name": "@starter/api-e2e",
+	"version": "1.0.0",
+	"author": "João <jgtb313@gmail.com>",
+	"license": "MIT",
+	"scripts": {
+		"generate": "kubb generate",
+		"test": "vitest run"
+	},
+	"engines": {
+		"npm": ">=10.0.0",
+		"node": ">=20.0.0"
+	},
+	"dependencies": {
+		"@kubb/plugin-client": "^4.1.2",
+		"@kubb/plugin-oas": "^4.1.2",
+		"@kubb/plugin-ts": "^4.1.2",
+		"axios": "^1.12.2"
+	},
+	"devDependencies": {
+		"@kubb/cli": "^4.1.2",
+		"@kubb/core": "^4.1.2",
+		"@types/node": "^22.10.2",
+		"typescript": "^5.7.2",
+		"vitest": "^2.1.8"
+	}
+}

@@ -84,9 +84,6 @@ importers:
       rxjs:
         specifier: ^7.8.1
         version: 7.8.2
-      supertest:
-        specifier: ^7.1.4
-        version: 7.1.4
     devDependencies:
       '@nestjs/cli':
         specifier: ^11.0.0
@@ -130,6 +127,37 @@ importers:
       vite:
         specifier: 6.0.5
         version: 6.0.5(@types/node@22.17.2)(jiti@2.6.1)(terser@5.43.1)(tsx@4.20.6)(yaml@2.8.1)
+      vitest:
+        specifier: ^2.1.8
+        version: 2.1.9(@types/node@22.17.2)(@vitest/ui@2.1.9)(jsdom@27.0.0(postcss@8.5.6))(terser@5.43.1)
+
+  apps/api-e2e:
+    dependencies:
+      '@kubb/plugin-client':
+        specifier: ^4.1.2
+        version: 4.1.2(@kubb/react@4.1.2)(ajv@8.17.1)(axios@1.12.2)(encoding@0.1.13)
+      '@kubb/plugin-oas':
+        specifier: ^4.1.2
+        version: 4.1.2(@kubb/react@4.1.2)(ajv@8.17.1)(encoding@0.1.13)
+      '@kubb/plugin-ts':
+        specifier: ^4.1.2
+        version: 4.1.2(@kubb/react@4.1.2)(ajv@8.17.1)(encoding@0.1.13)
+      axios:
+        specifier: ^1.12.2
+        version: 1.12.2
+    devDependencies:
+      '@kubb/cli':
+        specifier: ^4.1.2
+        version: 4.1.2(typescript@5.9.3)
+      '@kubb/core':
+        specifier: ^4.1.2
+        version: 4.1.2
+      '@types/node':
+        specifier: ^22.10.2
+        version: 22.17.2
+      typescript:
+        specifier: ^5.7.2
+        version: 5.9.3
       vitest:
         specifier: ^2.1.8
         version: 2.1.9(@types/node@22.17.2)(@vitest/ui@2.1.9)(jsdom@27.0.0(postcss@8.5.6))(terser@5.43.1)
@@ -4617,9 +4645,6 @@ packages:
   aws4@1.13.2:
     resolution: {integrity: sha512-lHe62zvbTB5eEABUVi/AwVh0ZKY9rMMDhmm+eeyuuUQbQ3+J+fONVQOZyj+DdrvD4BY33uYniyRJ4UJIaSKAfw==}
 
-  axios@1.11.0:
-    resolution: {integrity: sha512-1Lx3WLFQWm3ooKDYZD1eXmoGO9fxYQjrycfHFC8P0sCfQVXyROp0p9PFWBehewBOdCwHc+f/b8I0fMto5eSfwA==}
-
   axios@1.12.2:
     resolution: {integrity: sha512-vMJzPewAlRyOgxV2dU0Cuz2O8zzzx9VYtbJOaBgXFeLc4IV/Eg50n4LowmehOOR61S8ZMpc2K5Sa7g6A4jfkUw==}
 
@@ -5893,10 +5918,6 @@ packages:
 
   formidable@2.1.5:
     resolution: {integrity: sha512-Oz5Hwvwak/DCaXVVUtPn4oLMLLy1CdclLKO1LFgU7XzDpVMUU5UjlSLpGMocyQNNk8F6IJW9M/YdooSn2MRI+Q==}
-
-  formidable@3.5.4:
-    resolution: {integrity: sha512-YikH+7CUTOtP44ZTnUhR7Ic2UASBPOqmaRkRKxRbywPTe5VxF7RRCck4af9wutiZ/QKM5nME9Bie2fFaPz5Gug==}
-    engines: {node: '>=14.0.0'}
 
   forwarded@0.2.0:
     resolution: {integrity: sha512-buRG0fpBtRHSTCOASe6hD258tEubFoRLb4ZNA6NxMVHNw2gOcwHo9wyablzMzOA5z9xA9L1KNjk/Nt6MT9aYow==}
@@ -8482,18 +8503,10 @@ packages:
       babel-plugin-macros:
         optional: true
 
-  superagent@10.2.3:
-    resolution: {integrity: sha512-y/hkYGeXAj7wUMjxRbB21g/l6aAEituGXM9Rwl4o20+SX3e8YOSV6BxFXl+dL3Uk0mjSL3kCbNkwURm8/gEDig==}
-    engines: {node: '>=14.18.0'}
-
   superagent@7.1.6:
     resolution: {integrity: sha512-gZkVCQR1gy/oUXr+kxJMLDjla434KmSOKbx5iGD30Ql+AkJQ/YlPKECJy2nhqOsHLjGHzoDTXNSjhnvWhzKk7g==}
     engines: {node: '>=6.4.0 <13 || >=14'}
     deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
-
-  supertest@7.1.4:
-    resolution: {integrity: sha512-tjLPs7dVyqgItVFirHYqe2T+MfWc2VOBQ8QFKKbWTA3PU7liZR8zoSpAi/C1k1ilm9RsXIKYf197oap9wXGVYg==}
-    engines: {node: '>=14.18.0'}
 
   supports-color@5.5.0:
     resolution: {integrity: sha512-QjVjwdXIt408MIiAqCX4oUKsgU2EqAGzs2Ppkm4aQYbjm+ZEWEcW4SfFNTr4uMNZma0ey4f5lgLrkB0aX0QMow==}
@@ -11908,6 +11921,24 @@ snapshots:
     transitivePeerDependencies:
       - typescript
 
+  '@kubb/cli@4.1.2(typescript@5.9.3)':
+    dependencies:
+      '@kubb/core': 4.1.2
+      chokidar: 4.0.3
+      citty: 0.1.6
+      cli-progress: 3.12.0
+      consola: 3.4.2
+      cosmiconfig: 9.0.0(typescript@5.9.3)
+      execa: 9.6.0
+      gradient-string: 3.0.0
+      jiti: 2.6.1
+      latest-version: 9.0.0
+      picocolors: 1.1.1
+      semver: 7.7.2
+      string-argv: 0.3.2
+    transitivePeerDependencies:
+      - typescript
+
   '@kubb/core@4.1.2':
     dependencies:
       '@kubb/parser-ts': 4.1.2
@@ -12894,7 +12925,7 @@ snapshots:
     dependencies:
       adm-zip: 0.5.16
       archiver: 5.3.2
-      axios: 1.11.0
+      axios: 1.12.2
       fast-glob: 3.3.3
       https-proxy-agent: 5.0.1(supports-color@8.1.1)
       ignore: 5.3.2
@@ -14509,14 +14540,6 @@ snapshots:
 
   aws4@1.13.2: {}
 
-  axios@1.11.0:
-    dependencies:
-      follow-redirects: 1.15.11
-      form-data: 4.0.4
-      proxy-from-env: 1.1.0
-    transitivePeerDependencies:
-      - debug
-
   axios@1.12.2:
     dependencies:
       follow-redirects: 1.15.11
@@ -15108,6 +15131,15 @@ snapshots:
       parse-json: 5.2.0
     optionalDependencies:
       typescript: 5.8.3
+
+  cosmiconfig@9.0.0(typescript@5.9.3):
+    dependencies:
+      env-paths: 2.2.1
+      import-fresh: 3.3.1
+      js-yaml: 4.1.0
+      parse-json: 5.2.0
+    optionalDependencies:
+      typescript: 5.9.3
 
   crc-32@1.2.2: {}
 
@@ -16145,12 +16177,6 @@ snapshots:
       dezalgo: 1.0.4
       once: 1.4.0
       qs: 6.14.0
-
-  formidable@3.5.4:
-    dependencies:
-      '@paralleldrive/cuid2': 2.2.2
-      dezalgo: 1.0.4
-      once: 1.4.0
 
   forwarded@0.2.0: {}
 
@@ -19069,20 +19095,6 @@ snapshots:
     optionalDependencies:
       '@babel/core': 7.24.5
 
-  superagent@10.2.3:
-    dependencies:
-      component-emitter: 1.3.1
-      cookiejar: 2.1.4
-      debug: 4.4.1(supports-color@8.1.1)
-      fast-safe-stringify: 2.1.1
-      form-data: 4.0.4
-      formidable: 3.5.4
-      methods: 1.1.2
-      mime: 2.6.0
-      qs: 6.14.0
-    transitivePeerDependencies:
-      - supports-color
-
   superagent@7.1.6(supports-color@8.1.1):
     dependencies:
       component-emitter: 1.3.1
@@ -19096,13 +19108,6 @@ snapshots:
       qs: 6.14.0
       readable-stream: 3.6.2
       semver: 7.7.2
-    transitivePeerDependencies:
-      - supports-color
-
-  supertest@7.1.4:
-    dependencies:
-      methods: 1.1.2
-      superagent: 10.2.3
     transitivePeerDependencies:
       - supports-color
 
@@ -19449,7 +19454,7 @@ snapshots:
 
   twilio@5.8.0:
     dependencies:
-      axios: 1.11.0
+      axios: 1.12.2
       dayjs: 1.11.13
       https-proxy-agent: 5.0.1(supports-color@8.1.1)
       jsonwebtoken: 9.0.2

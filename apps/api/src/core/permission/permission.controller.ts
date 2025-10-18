@@ -36,7 +36,7 @@ export class PermissionController {
 			},
 		},
 	})
-	async getPermissions() {
+	async listPermissions() {
 		return Object.values(PERMISSION_SUBJECT_ACTIONS).flat()
 	}
 }
