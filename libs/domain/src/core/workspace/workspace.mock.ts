@@ -1,14 +1,16 @@
 import { uuid } from '@starter/common'
 
-import { WorkspaceDomain } from '@/core/workspace/workspace.domain'
-import type { Workspace } from '@/core/workspace/workspace.schema'
+import type {
+	Workspace,
+	WorkspaceInput,
+} from '@/core/workspace/workspace.schema'
 
-type WorkspaceOverrides = Partial<Workspace>
+type WorkspaceOverrides = Partial<WorkspaceInput>
 
 export const makeWorkspace = (
 	overrides: WorkspaceOverrides,
-): WorkspaceDomain => {
-	const base: Workspace = {
+): WorkspaceInput => {
+	const base: WorkspaceInput = {
 		workspaceId: uuid(),
 		recurrenceExternalId: null,
 		name: 'Manea CED',
@@ -25,10 +27,10 @@ export const makeWorkspace = (
 		updatedAt: new Date().toISOString(),
 	}
 
-	return new WorkspaceDomain({
+	return {
 		...base,
 		...overrides,
-	})
+	}
 }
 
-export const workspaceMocks: WorkspaceDomain[] = []
+export const workspaceMocks: Workspace[] = []

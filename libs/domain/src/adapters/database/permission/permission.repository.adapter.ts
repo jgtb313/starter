@@ -44,7 +44,12 @@ export class PermissionTypeorm implements IPermissionRepository {
 		}
 	}
 
-	private toPermissionDomain(permission: PermissionEntity): PermissionDomain {
-		return new PermissionDomain(deepMapDatesToISOString(permission))
+	private toPermissionDomain = (
+		permission: PermissionEntity,
+	): PermissionDomain => {
+		return new PermissionDomain(
+			deepMapDatesToISOString(permission),
+			this.i18nService,
+		)
 	}
 }

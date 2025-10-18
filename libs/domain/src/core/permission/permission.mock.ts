@@ -1,14 +1,15 @@
 import { uuid } from '@starter/common'
 
-import type { PermissionInput } from '@/core/permission/permission.schema'
-
-import { PermissionDomain } from './permission.domain'
+import type {
+	Permission,
+	PermissionInput,
+} from '@/core/permission/permission.schema'
 
 type PermissionOverrides = Partial<PermissionInput>
 
 export const makePermission = (
 	overrides: PermissionOverrides,
-): PermissionDomain => {
+): PermissionInput => {
 	const base: PermissionInput = {
 		permissionId: uuid(),
 		action: 'workspace:create',
@@ -18,10 +19,10 @@ export const makePermission = (
 		updatedAt: new Date().toISOString(),
 	}
 
-	return new PermissionDomain({
+	return {
 		...base,
 		...overrides,
-	})
+	}
 }
 
-export const permissionMocks: PermissionDomain[] = []
+export const permissionMocks: Permission[] = []

@@ -1,7 +1,7 @@
 import { uuid } from '@starter/common'
 
-import { SubscriptionDomain } from '@/core/subscription/subscription.domain'
 import type {
+	Subscription,
 	SubscriptionBoleto,
 	SubscriptionCard,
 	SubscriptionInput,
@@ -15,7 +15,7 @@ type SubscriptionOverrides =
 
 export const makeSubscription = (
 	overrides: SubscriptionOverrides,
-): SubscriptionDomain => {
+): SubscriptionInput => {
 	const base: SubscriptionInput = {
 		subscriptionId: uuid(),
 		workspaceId: uuid(),
@@ -63,10 +63,10 @@ export const makeSubscription = (
 		updatedAt: new Date().toISOString(),
 	}
 
-	return new SubscriptionDomain({
+	return {
 		...base,
 		...overrides,
-	} as SubscriptionInput)
+	} as SubscriptionInput
 }
 
-export const subscriptionMocks: SubscriptionDomain[] = []
+export const subscriptionMocks: Subscription[] = []

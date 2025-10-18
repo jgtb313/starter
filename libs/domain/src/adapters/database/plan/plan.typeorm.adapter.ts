@@ -156,7 +156,7 @@ export class PlanTypeorm implements IPlanRepository {
 		await this.repository.softDelete(plan.state.planId)
 	}
 
-	private toPlanDomain(model: PlanEntity) {
-		return new PlanDomain(deepMapDatesToISOString(model))
+	private toPlanDomain = (model: PlanEntity) => {
+		return new PlanDomain(deepMapDatesToISOString(model), this.i18nService)
 	}
 }

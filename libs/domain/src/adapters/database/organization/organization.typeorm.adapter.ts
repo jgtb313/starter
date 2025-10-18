@@ -150,7 +150,10 @@ export class OrganizationTypeorm implements IOrganizationRepository {
 		}
 	}
 
-	private toOrganizationDomain(model: OrganizationEntity) {
-		return new OrganizationDomain(deepMapDatesToISOString(model))
+	private toOrganizationDomain = (model: OrganizationEntity) => {
+		return new OrganizationDomain(
+			deepMapDatesToISOString(model),
+			this.i18nService,
+		)
 	}
 }

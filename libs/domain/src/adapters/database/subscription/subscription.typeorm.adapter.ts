@@ -131,7 +131,10 @@ export class SubscriptionTypeorm implements ISubscriptionRepository {
 		}
 	}
 
-	private toSubscriptionDomain(subscription: SubscriptionEntity) {
-		return new SubscriptionDomain(deepMapDatesToISOString(subscription))
+	private toSubscriptionDomain = (subscription: SubscriptionEntity) => {
+		return new SubscriptionDomain(
+			deepMapDatesToISOString(subscription),
+			this.i18nService,
+		)
 	}
 }

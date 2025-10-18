@@ -179,7 +179,7 @@ export class WorkspaceTypeorm implements IWorkspaceRepository {
 		})
 	}
 
-	private toWorkspaceDomain(model: WorkspaceEntity) {
-		return new WorkspaceDomain(deepMapDatesToISOString(model))
+	private toWorkspaceDomain = (model: WorkspaceEntity) => {
+		return new WorkspaceDomain(deepMapDatesToISOString(model), this.i18nService)
 	}
 }

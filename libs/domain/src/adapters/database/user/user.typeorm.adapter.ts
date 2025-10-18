@@ -499,7 +499,7 @@ export class UserTypeorm implements IUserRepository {
 		}
 	}
 
-	private toUserDomain(model: UserEntity) {
-		return new UserDomain(deepMapDatesToISOString(model))
+	private toUserDomain = (model: UserEntity) => {
+		return new UserDomain(deepMapDatesToISOString(model), this.i18nService)
 	}
 }

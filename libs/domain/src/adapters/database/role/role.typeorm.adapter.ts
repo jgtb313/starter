@@ -315,7 +315,7 @@ export class RoleTypeorm implements IRoleRepository {
 			}
 		}
 
-	private toRoleDomain(role: RoleEntity): RoleDomain {
-		return new RoleDomain(deepMapDatesToISOString(role))
+	private toRoleDomain = (role: RoleEntity): RoleDomain => {
+		return new RoleDomain(deepMapDatesToISOString(role), this.i18nService)
 	}
 }

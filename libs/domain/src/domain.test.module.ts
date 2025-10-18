@@ -1,3 +1,4 @@
+import { isUndefined } from '@starter/common'
 import { extendI18nDict } from '@starter/schema'
 
 import { type DynamicModule, Module } from '@nestjs/common'
@@ -21,14 +22,14 @@ const loggerServiceMock: ILogger = {
 
 @Module({})
 export class DomainTestModule {
-	static register(options: DomainTestModuleOptions): DynamicModule {
+	static register(options?: DomainTestModuleOptions): DynamicModule {
 		extendI18nDict(i18nDict)
 
 		const imports = [
 			I18nDomainModule.register(),
 		]
 
-		if (options.withDatabase) {
+		if (isUndefined(options?.withDatabase) || options.withDatabase) {
 			imports.push(InMemoryDatabaseModule.register())
 		}
 

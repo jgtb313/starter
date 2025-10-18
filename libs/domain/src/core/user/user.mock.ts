@@ -18,7 +18,7 @@ export const makeUser = (overrides: UserOverrides): UserInput => {
 		addresses: [],
 		avatar: null,
 		localePreference: null,
-		password: 'hashedPassword',
+		password: 'Abcd1234!',
 		status: 'ONBOARDING',
 		deletedAt: null,
 		createdAt: new Date().toISOString(),

@@ -134,7 +134,7 @@ export class WorkspaceEntity {
 	locale: Workspace['locale']
 
 	@Column({
-		type: 'timestamp',
+		type: 'datetime',
 		nullable: true,
 	})
 	trialEndsAt: Workspace['trialEndsAt']

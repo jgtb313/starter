@@ -86,7 +86,7 @@ export class OTPTypeorm implements IOTPRepository {
 		return this.findById(otp.state.otpId)
 	}
 
-	private toOTPDomain(model: OTPEntity) {
-		return new OTPDomain(deepMapDatesToISOString(model))
+	private toOTPDomain = (model: OTPEntity) => {
+		return new OTPDomain(deepMapDatesToISOString(model), this.i18nService)
 	}
 }
