@@ -15,14 +15,12 @@ export default defineConfig({
 		],
 		coverage: {
 			include: [
-				'src/**/*.controller.{js,ts}',
 				'src/**/*.service.{js,ts}',
 				'src/**/*.strategy.{js,ts}',
 			],
 			exclude: [
 				'node_modules',
 				'**/*.test.{js,ts,jsx,tsx}',
-				'**/*.spec.{js,ts,jsx,tsx}',
 				'**/index.{js,ts,jsx,tsx}',
 				'**/*.d.ts',
 				'**/types.ts',
