@@ -11,6 +11,7 @@ export default defineConfig({
 
 	test: {
 		environment: 'node',
+		passWithNoTests: true,
 		include: [
 			'**/*.test.{js,ts,jsx,tsx}',
 		],
@@ -34,6 +35,11 @@ export default defineConfig({
 				'**/index.{js,ts,jsx,tsx}',
 				'**/*.d.ts',
 				'**/types.ts',
+			],
+			reporter: [
+				'text',
+				'json',
+				'html',
 			],
 		},
 	},

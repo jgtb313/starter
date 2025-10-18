@@ -1,24 +1,52 @@
-import { getDate, isAfter, setHours } from '@starter/common'
+import { isAfter, isValidDate, setHours } from '@starter/common'
 
-import { DateOptionalSchema, DateSchema } from '../date'
+import { z } from '@/zod'
 
-export const BirthdaySchema = DateSchema.refine(
-	(value) => {
-		return isAfter(getDate(value), getDate(new Date(1900, 0, 0)))
-	},
-	{
+const parseLocalDate = (value: Date | string): Date => {
+	if (value instanceof Date) {
+		return value
+	}
+
+	const [year, month, day] = value.split('-').map(Number)
+	return new Date(year, month - 1, day)
+}
+
+export const BirthdaySchema = z
+	.string()
+	.or(z.iso.datetime().transform((value) => new Date(value)))
+	.refine(isValidDate, {
 		params: {
-			code: 'birthday.invalid_range',
+			code: 'date.invalid',
 		},
-	},
-).transform((value) => setHours(getDate(value), 12))
+	})
+	.refine(
+		(value) => {
+			return isAfter(parseLocalDate(value), new Date(1900, 0, 0))
+		},
+		{
+			params: {
+				code: 'birthday.invalid_range',
+			},
+		},
+	)
+	.transform((value) => setHours(parseLocalDate(value), 12))
 
-export const BirthdayOptionalSchema = DateOptionalSchema.refine(
-	(value) =>
-		value ? isAfter(getDate(value), getDate(new Date(1900, 0, 0))) : true,
-	{
+export const BirthdayOptionalSchema = z
+	.string()
+	.or(z.iso.datetime().transform((value) => new Date(value)))
+	.nullish()
+	.refine((value) => (value ? isValidDate(value) : true), {
 		params: {
-			code: 'birthday.invalid_range',
+			code: 'date.invalid',
 		},
-	},
-).transform((value) => (value ? setHours(getDate(value), 12) : null))
+	})
+	.refine(
+		(value) =>
+			value ? isAfter(parseLocalDate(value), new Date(1900, 0, 0)) : true,
+		{
+			params: {
+				code: 'birthday.invalid_range',
+			},
+		},
+	)
+	.transform((value) => (value ? setHours(parseLocalDate(value), 12) : null))

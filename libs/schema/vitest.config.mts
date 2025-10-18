@@ -11,6 +11,7 @@ export default defineConfig({
 
 	test: {
 		environment: 'node',
+		passWithNoTests: true,
 		include: [
 			'**/*.test.{js,ts,jsx,tsx}',
 		],
@@ -29,6 +30,11 @@ export default defineConfig({
 				'**/types.ts',
 				'**/locales.schema.ts',
 				'**/zod.ts',
+			],
+			reporter: [
+				'text',
+				'json',
+				'html',
 			],
 		},
 	},

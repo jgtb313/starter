@@ -10,10 +10,13 @@ export default defineConfig({
 	},
 
 	test: {
+		environment: 'node',
+		passWithNoTests: true,
 		include: [
 			'**/*.test.{js,ts,jsx,tsx}',
 		],
 		coverage: {
+			provider: 'v8',
 			include: [
 				'src/**/*.service.{js,ts}',
 				'src/**/*.domain.{js,ts}',
@@ -25,6 +28,11 @@ export default defineConfig({
 				'**/index.{js,ts,jsx,tsx}',
 				'**/*.d.ts',
 				'**/types.ts',
+			],
+			reporter: [
+				'text',
+				'json',
+				'html',
 			],
 		},
 	},
