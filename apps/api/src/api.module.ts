@@ -10,7 +10,7 @@ import { AuthModule } from '@/core/auth'
 // import { InviteModule } from '@/core/invite'
 // import { InvoiceModule } from '@/core/invoice'
 // import { OrganizationModule } from '@/core/organization'
-// import { OTPModule } from '@/core/otp'
+import { OTPModule } from '@/core/otp'
 // import { PermissionModule } from '@/core/permission'
 // import { PlanModule } from '@/core/plan'
 // import { ProfileModule } from '@/core/profile'
@@ -45,7 +45,7 @@ import { I18nAPIModule } from '@/api.i18n.module'
 		// InvoiceModule,
 		// StorageModule,
 		// OrganizationModule,
-		// OTPModule,
+		OTPModule,
 		// PermissionModule,
 		// PlanModule,
 		// ProfileModule,

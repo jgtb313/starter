@@ -29,12 +29,12 @@ import { type I18nAPIService, I18nAPISymbol } from '@/api.i18n.module'
 })
 export class AuthController {
 	constructor(
-		// @Inject(AuthService)
-		// private readonly authService: AuthService,
+		@Inject(AuthService)
+		private readonly authService: AuthService,
 		@Inject(UserService)
 		private readonly userService: UserService,
-		// @Inject(OTPService)
-		// private readonly otpService: OTPService,
+		@Inject(OTPService)
+		private readonly otpService: OTPService,
 		@Inject(I18nAPISymbol)
 		private readonly i18nService: I18nAPIService,
 	) {}
@@ -61,167 +61,166 @@ export class AuthController {
 		},
 	})
 	signIn(@Request() { body }: SignInRequest) {
-		return this.userService.getUser('0f4a8409-9543-47e5-82ea-9af438709f03')
-		// return this.authService.signIn(body)
+		return this.authService.signIn(body)
 	}
 
-	// @Route({
-	// 	summary: 'Password Less',
-	// 	description:
-	// 		'Allows users to authenticate by using an OTP sent to their email, without requiring a password.',
+	@Route({
+		summary: 'Password Less',
+		description:
+			'Allows users to authenticate by using an OTP sent to their email, without requiring a password.',
 
-	// 	method: 'POST',
+		method: 'POST',
 
-	// 	path: '/password-less',
+		path: '/password-less',
 
-	// 	parameters: {
-	// 		body: PasswordLessSchema.body,
-	// 	},
+		parameters: {
+			body: PasswordLessSchema.body,
+		},
 
-	// 	responses: {
-	// 		200: {
-	// 			schema: PasswordLessSchema.output,
-	// 		},
-	// 		401: {
-	// 			description: 'Invalid access data.',
-	// 		},
-	// 		403: {
-	// 			description: 'OTP expired.',
-	// 		},
-	// 		404: {
-	// 			description: 'OTP {{otpId}} not found.',
-	// 		},
-	// 		409: [
-	// 			{
-	// 				description: 'OTP insufficient resend time, please try again later.',
-	// 			},
-	// 			{
-	// 				description: 'OTP daily attempt limit exceeded.',
-	// 			},
-	// 			{
-	// 				description: 'OTP attempts expired.',
-	// 			},
-	// 		],
-	// 	},
-	// })
-	// async passwordLess(@Request() { body }: PasswordLessRequest) {
-	// 	const user = await this.userService.getUserByEmail(body.email)
+		responses: {
+			200: {
+				schema: PasswordLessSchema.output,
+			},
+			401: {
+				description: 'Invalid access data.',
+			},
+			403: {
+				description: 'OTP expired.',
+			},
+			404: {
+				description: 'OTP {{otpId}} not found.',
+			},
+			409: [
+				{
+					description: 'OTP insufficient resend time, please try again later.',
+				},
+				{
+					description: 'OTP daily attempt limit exceeded.',
+				},
+				{
+					description: 'OTP attempts expired.',
+				},
+			],
+		},
+	})
+	async passwordLess(@Request() { body }: PasswordLessRequest) {
+		const user = await this.userService.getUserByEmail(body.email)
 
-	// 	if (!user) {
-	// 		throw new UnauthorizedException(
-	// 			this.i18nService.current.invalidAccessData(),
-	// 		)
-	// 	}
+		if (!user) {
+			throw new UnauthorizedException(
+				this.i18nService.current.invalidAccessData(),
+			)
+		}
 
-	// 	await this.otpService.validateOTP({
-	// 		...body.otpVerification,
-	// 		context: 'PASSWORD_LESS',
-	// 		recipient: body.email,
-	// 	})
+		await this.otpService.validateOTP({
+			...body.otpVerification,
+			context: 'PASSWORD_LESS',
+			recipient: body.email,
+		})
 
-	// 	return this.authService.grantAccessToken(user.state)
-	// }
+		return this.authService.grantAccessToken(user.state)
+	}
 
-	// @Route({
-	// 	summary: 'Social Sign-On',
-	// 	description:
-	// 		'Allows users to sign in using third-party services (such as Google, Facebook, etc.), providing a seamless authentication experience.',
+	@Route({
+		summary: 'Social Sign-On',
+		description:
+			'Allows users to sign in using third-party services (such as Google, Facebook, etc.), providing a seamless authentication experience.',
 
-	// 	method: 'POST',
+		method: 'POST',
 
-	// 	path: '/social-sign-on',
+		path: '/social-sign-on',
 
-	// 	parameters: {
-	// 		body: SocialSignOnSchema.body,
-	// 	},
+		parameters: {
+			body: SocialSignOnSchema.body,
+		},
 
-	// 	responses: {
-	// 		200: {
-	// 			schema: SocialSignOnSchema.output,
-	// 		},
-	// 		401: {
-	// 			description: 'Invalid access data.',
-	// 		},
-	// 	},
-	// })
-	// socialSignOn(@Request() { body }: SocialSignOnRequest) {
-	// 	return this.authService.socialSignOn(body)
-	// }
+		responses: {
+			200: {
+				schema: SocialSignOnSchema.output,
+			},
+			401: {
+				description: 'Invalid access data.',
+			},
+		},
+	})
+	socialSignOn(@Request() { body }: SocialSignOnRequest) {
+		return this.authService.socialSignOn(body)
+	}
 
-	// @Route({
-	// 	summary: 'Sign Up',
-	// 	description: 'Creates a new user account.',
+	@Route({
+		summary: 'Sign Up',
+		description: 'Creates a new user account.',
 
-	// 	method: 'POST',
+		method: 'POST',
 
-	// 	path: '/sign-up',
+		path: '/sign-up',
 
-	// 	parameters: {
-	// 		body: SignUpSchema.body,
-	// 	},
+		parameters: {
+			body: SignUpSchema.body,
+		},
 
-	// 	responses: {
-	// 		201: {
-	// 			schema: SignUpSchema.output,
-	// 		},
-	// 		409: {
-	// 			description: 'E-mail {{email}} has already been taken.',
-	// 		},
-	// 	},
-	// })
-	// signUp(@Request() { body }: SignUpRequest) {
-	// 	return this.authService.signUp(body)
-	// }
+		responses: {
+			201: {
+				schema: SignUpSchema.output,
+			},
+			409: {
+				description: 'E-mail {{email}} has already been taken.',
+			},
+		},
+	})
+	signUp(@Request() { body }: SignUpRequest) {
+		return this.authService.signUp(body)
+	}
 
-	// @Route({
-	// 	summary: 'Forgot Password',
-	// 	description:
-	// 		'Validates the OTP sent to the user’s email and allows them to reset their password.',
+	@Route({
+		summary: 'Forgot Password',
+		description:
+			'Validates the OTP sent to the user’s email and allows them to reset their password.',
 
-	// 	method: 'POST',
+		method: 'POST',
 
-	// 	path: '/forgot-password',
+		path: '/forgot-password',
 
-	// 	parameters: {
-	// 		body: ForgotPasswordSchema.body,
-	// 	},
+		parameters: {
+			body: ForgotPasswordSchema.body,
+		},
 
-	// 	responses: {
-	// 		200: {
-	// 			schema: ForgotPasswordSchema.output,
-	// 		},
-	// 		401: {
-	// 			description: 'Invalid access data.',
-	// 		},
-	// 		403: {
-	// 			description: 'OTP expired.',
-	// 		},
-	// 		404: {
-	// 			description: 'OTP {{otpId}} not found.',
-	// 		},
-	// 		409: [
-	// 			{
-	// 				description: 'OTP insufficient resend time, please try again later.',
-	// 			},
-	// 			{
-	// 				description: 'OTP daily attempt limit exceeded.',
-	// 			},
-	// 			{
-	// 				description: 'OTP attempts expired.',
-	// 			},
-	// 		],
-	// 	},
-	// })
-	// async forgotPassword(@Request() { body }: ForgotPasswordRequest) {
-	// 	await this.otpService.validateOTP({
-	// 		...body.otpVerification,
-	// 		context: 'FORGOT_PASSWORD',
-	// 		recipient: body.email,
-	// 	})
+		responses: {
+			200: {
+				schema: ForgotPasswordSchema.output,
+			},
+			401: {
+				description: 'Invalid access data.',
+			},
+			403: {
+				description: 'OTP expired.',
+			},
+			404: {
+				description: 'OTP {{otpId}} not found.',
+			},
+			409: [
+				{
+					description: 'OTP insufficient resend time, please try again later.',
+				},
+				{
+					description: 'OTP daily attempt limit exceeded.',
+				},
+				{
+					description: 'OTP attempts expired.',
+				},
+			],
+		},
+	})
+	async forgotPassword(@Request() { body }: ForgotPasswordRequest) {
+		await this.otpService.validateOTP({
+			...body.otpVerification,
+			context: 'FORGOT_PASSWORD',
+			recipient: body.email,
+		})
 
-	// 	return this.authService.forgotPassword({
-	// 		email: body.email,
-	// 		password: body.password,
-	// 	})
-	// }
+		return this.authService.forgotPassword({
+			email: body.email,
+			password: body.password,
+		})
+	}
 }
