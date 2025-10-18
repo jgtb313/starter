@@ -1,5 +1,6 @@
 import { join } from 'node:path'
 
+import type { TypeOrmModuleOptions } from '@nestjs/typeorm'
 import { config } from 'dotenv'
 import type { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions'
 
@@ -26,7 +27,7 @@ export type CreateDataSourceConfigOptions = Partial<
 
 export const createDataSourceConfig = (
 	options: CreateDataSourceConfigOptions,
-): PostgresConnectionOptions => {
+): TypeOrmModuleOptions => {
 	return {
 		type: 'postgres',
 		host: process.env.DB_HOST,

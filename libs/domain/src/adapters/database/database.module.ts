@@ -11,7 +11,6 @@ import {
 	type CreateDataSourceConfigOptions,
 	createDataSourceConfig,
 } from '@/adapters/database/data-source.config'
-// Importar todas as entidades
 import { InvoiceEntity } from '@/adapters/database/invoice/invoice.typeorm.entity'
 import { OrganizationEntity } from '@/adapters/database/organization/organization.typeorm.entity'
 import { OTPEntity } from '@/adapters/database/otp/otp.typeorm.entity'
@@ -30,7 +29,7 @@ import { UserPermissionEntity } from '@/adapters/database/user/user-permission.t
 import { WorkspaceEntity } from '@/adapters/database/workspace/workspace.typeorm.entity'
 import { WorkspaceAddressEntity } from '@/adapters/database/workspace/workspace-address.typeorm.entity'
 
-const allEntities = [
+const entities = [
 	InvoiceEntity,
 	OrganizationEntity,
 	OTPEntity,
@@ -64,7 +63,7 @@ export class DatabaseModule {
 						return addTransactionalDataSource(new DataSource(options!))
 					},
 				}),
-				TypeOrmModule.forFeature(allEntities),
+				TypeOrmModule.forFeature(entities),
 			],
 			exports: [
 				TypeOrmModule,
