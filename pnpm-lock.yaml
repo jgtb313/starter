@@ -45,6 +45,9 @@ importers:
       '@nestjs/core':
         specifier: ^11.0.1
         version: 11.1.6(@nestjs/common@11.1.6(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/platform-express@11.1.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs/testing':
+        specifier: ^11.1.6
+        version: 11.1.6(@nestjs/common@11.1.6(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.6)(@nestjs/platform-express@11.1.6)
       '@starter/common':
         specifier: workspace:*
         version: link:../../libs/common
@@ -81,6 +84,9 @@ importers:
       rxjs:
         specifier: ^7.8.1
         version: 7.8.2
+      supertest:
+        specifier: ^7.1.4
+        version: 7.1.4
     devDependencies:
       '@nestjs/cli':
         specifier: ^11.0.0
@@ -593,7 +599,7 @@ importers:
         specifier: 4.4.0
         version: 4.4.0(@types/node@24.3.0)(rollup@4.48.0)(typescript@5.4.2)(vite@6.0.5(@types/node@24.3.0)(jiti@2.6.1)(terser@5.43.1)(tsx@4.20.6)(yaml@2.8.1))
       vitest:
-        specifier: ^2.1.9
+        specifier: ^2.1.8
         version: 2.1.9(@types/node@24.3.0)(@vitest/ui@3.2.4)(jsdom@27.0.0(postcss@8.5.6))(terser@5.43.1)
 
   libs/emails:
@@ -5894,6 +5900,10 @@ packages:
   formidable@2.1.5:
     resolution: {integrity: sha512-Oz5Hwvwak/DCaXVVUtPn4oLMLLy1CdclLKO1LFgU7XzDpVMUU5UjlSLpGMocyQNNk8F6IJW9M/YdooSn2MRI+Q==}
 
+  formidable@3.5.4:
+    resolution: {integrity: sha512-YikH+7CUTOtP44ZTnUhR7Ic2UASBPOqmaRkRKxRbywPTe5VxF7RRCck4af9wutiZ/QKM5nME9Bie2fFaPz5Gug==}
+    engines: {node: '>=14.0.0'}
+
   forwarded@0.2.0:
     resolution: {integrity: sha512-buRG0fpBtRHSTCOASe6hD258tEubFoRLb4ZNA6NxMVHNw2gOcwHo9wyablzMzOA5z9xA9L1KNjk/Nt6MT9aYow==}
     engines: {node: '>= 0.6'}
@@ -8478,10 +8488,18 @@ packages:
       babel-plugin-macros:
         optional: true
 
+  superagent@10.2.3:
+    resolution: {integrity: sha512-y/hkYGeXAj7wUMjxRbB21g/l6aAEituGXM9Rwl4o20+SX3e8YOSV6BxFXl+dL3Uk0mjSL3kCbNkwURm8/gEDig==}
+    engines: {node: '>=14.18.0'}
+
   superagent@7.1.6:
     resolution: {integrity: sha512-gZkVCQR1gy/oUXr+kxJMLDjla434KmSOKbx5iGD30Ql+AkJQ/YlPKECJy2nhqOsHLjGHzoDTXNSjhnvWhzKk7g==}
     engines: {node: '>=6.4.0 <13 || >=14'}
     deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
+
+  supertest@7.1.4:
+    resolution: {integrity: sha512-tjLPs7dVyqgItVFirHYqe2T+MfWc2VOBQ8QFKKbWTA3PU7liZR8zoSpAi/C1k1ilm9RsXIKYf197oap9wXGVYg==}
+    engines: {node: '>=14.18.0'}
 
   supports-color@5.5.0:
     resolution: {integrity: sha512-QjVjwdXIt408MIiAqCX4oUKsgU2EqAGzs2Ppkm4aQYbjm+ZEWEcW4SfFNTr4uMNZma0ey4f5lgLrkB0aX0QMow==}
@@ -13950,7 +13968,7 @@ snapshots:
       sirv: 3.0.1
       tinyglobby: 0.2.14
       tinyrainbow: 1.2.0
-      vitest: 2.1.9(@types/node@24.3.0)(@vitest/ui@2.1.9)(jsdom@27.0.0(postcss@8.5.6))(terser@5.43.1)
+      vitest: 2.1.9(@types/node@22.17.2)(@vitest/ui@2.1.9)(jsdom@27.0.0(postcss@8.5.6))(terser@5.43.1)
 
   '@vitest/ui@3.2.4(vitest@2.1.9)':
     dependencies:
@@ -16127,6 +16145,12 @@ snapshots:
       dezalgo: 1.0.4
       once: 1.4.0
       qs: 6.14.0
+
+  formidable@3.5.4:
+    dependencies:
+      '@paralleldrive/cuid2': 2.2.2
+      dezalgo: 1.0.4
+      once: 1.4.0
 
   forwarded@0.2.0: {}
 
@@ -19036,6 +19060,20 @@ snapshots:
     optionalDependencies:
       '@babel/core': 7.24.5
 
+  superagent@10.2.3:
+    dependencies:
+      component-emitter: 1.3.1
+      cookiejar: 2.1.4
+      debug: 4.4.1(supports-color@8.1.1)
+      fast-safe-stringify: 2.1.1
+      form-data: 4.0.4
+      formidable: 3.5.4
+      methods: 1.1.2
+      mime: 2.6.0
+      qs: 6.14.0
+    transitivePeerDependencies:
+      - supports-color
+
   superagent@7.1.6(supports-color@8.1.1):
     dependencies:
       component-emitter: 1.3.1
@@ -19049,6 +19087,13 @@ snapshots:
       qs: 6.14.0
       readable-stream: 3.6.2
       semver: 7.7.2
+    transitivePeerDependencies:
+      - supports-color
+
+  supertest@7.1.4:
+    dependencies:
+      methods: 1.1.2
+      superagent: 10.2.3
     transitivePeerDependencies:
       - supports-color
 

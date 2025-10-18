@@ -26,18 +26,20 @@
 		"@nestjs/common": "^11.0.1",
 		"@nestjs/config": "^4.0.0",
 		"@nestjs/core": "^11.0.1",
+		"@nestjs/testing": "^11.1.6",
 		"@starter/common": "workspace:*",
 		"@starter/config": "workspace:*",
 		"@starter/domain": "workspace:*",
 		"@starter/i18n": "workspace:*",
-		"@starter/nestjs-i18n": "workspace:*",
 		"@starter/nestjs-error-handling": "workspace:*",
+		"@starter/nestjs-i18n": "workspace:*",
 		"@starter/nestjs-server-hoisting": "workspace:*",
 		"@starter/schema": "workspace:*",
 		"dotenv": "^16.4.7",
 		"jose": "^5.9.6",
 		"reflect-metadata": "^0.2.2",
-		"rxjs": "^7.8.1"
+		"rxjs": "^7.8.1",
+		"supertest": "^7.1.4"
 	},
 	"devDependencies": {
 		"@nestjs/cli": "^11.0.0",

@@ -15,6 +15,7 @@ export default defineConfig({
 		],
 		coverage: {
 			include: [
+				'src/**/*.controller.{js,ts}',
 				'src/**/*.service.{js,ts}',
 				'src/**/*.strategy.{js,ts}',
 			],
