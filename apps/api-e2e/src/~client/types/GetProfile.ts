@@ -147,7 +147,7 @@ export type GetProfile200 = {
     avatar?: (string | null);
     localePreference?: (GetProfile200LocalePreferenceEnum | null);
     /**
-     * @default "ACTIVE"
+     * @default "ONBOARDING"
      * @type string | undefined
     */
     status?: GetProfile200StatusEnum;

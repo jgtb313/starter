@@ -60,7 +60,7 @@ const Status = z
 		'ACTIVE',
 		'INACTIVE',
 	])
-	.default('ACTIVE')
+	.default('ONBOARDING')
 export type UserStatus = z.infer<typeof Status>
 
 export const UserSchema = z.object({

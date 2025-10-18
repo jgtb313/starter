@@ -11,8 +11,8 @@ import { ProfileController } from '@/core/profile/profile.controller'
 @Module({
 	imports: [
 		OTPServiceModule,
-		UserServiceModule,
 		ProfileServiceModule,
+		UserServiceModule,
 	],
 	controllers: [
 		ProfileController,

@@ -1,32 +1,34 @@
 import { describe, expect, it } from 'vitest'
 
+import { getRandomKey } from '@/support/utilities'
+
 import { signIn, signUp } from '~/client/services'
 import type { SignUpMutationRequest } from '~/client/types'
 
 describe('Auth Controller', () => {
 	it('should sign in correctly', async () => {
-		const email = `test-${Date.now()}@example.com`
+		const key = getRandomKey()
 		const user: SignUpMutationRequest = {
-			name: 'Test User',
-			email: email,
-			password: 'Am12lpaqde@',
+			name: `Test User ${key}`,
+			email: `${key}@example.com`,
+			password: 'Abcd1234@',
 		}
 
 		await signUp(user)
 
 		const response = await signIn(user)
 
-		expect(response.status).toBe(200)
+		expect(response.data.accessToken).toBeDefined()
 	})
 
 	it('should sign up correctly', async () => {
-		const email = `test-${Date.now()}@example.com`
+		const key = getRandomKey()
 		const response = await signUp({
-			name: 'Test User',
-			email: email,
-			password: 'Am12lpaqde@',
+			name: `Test User ${key}`,
+			email: `${key}@example.com`,
+			password: 'Abcd1234@',
 		})
 
-		expect(response.status).toBe(201)
+		expect(response.data.accessToken).toBeDefined()
 	})
 })

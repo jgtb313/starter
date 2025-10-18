@@ -6,8 +6,7 @@ describe('Permission', () => {
 	it('should list permissions', async () => {
 		const response = await listPermissions()
 
-		expect(response.status).toBe(200)
-		expect(response.data).toBeDefined()
+		expect(response).toBeDefined()
 		expect(response.data).toBeInstanceOf(Array)
 		expect(response.data.length).toBeGreaterThan(0)
 	})

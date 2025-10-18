@@ -160,7 +160,7 @@ export type CreateUser201 = {
     */
     password: string;
     /**
-     * @default "ACTIVE"
+     * @default "ONBOARDING"
      * @type string | undefined
     */
     status?: CreateUser201StatusEnum;

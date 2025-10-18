@@ -1,34 +1,15 @@
 import { describe, expect, it } from 'vitest'
 
-import { getProfile, signUp } from '~/client/services'
-import type { SignUpMutationRequest } from '~/client/types'
+import { getProfile } from '~/client/services'
+import { ensureAuthenticated } from '../support/utilities'
 
 describe('Profile', () => {
-	it('should get profile', async () => {
-		const email = `test-${Date.now()}@example.com`
-		const user: SignUpMutationRequest = {
-			name: 'Test User',
-			email: email,
-			password: 'Am12lpaqde@',
-		}
+	it('should get profile correctly', async () => {
+		await ensureAuthenticated()
 
-		const {
-			data: { accessToken },
-		} = await signUp(user)
+		const response = await getProfile()
 
-		const response = await getProfile(
-			{},
-			{},
-			{
-				headers: {
-					Authorization: `Bearer ${accessToken}`,
-				},
-			},
-		).catch((error) => {
-			console.log(error)
-			return error
-		})
-
-		expect(response.status).toBe(200)
+		expect(response).toBeDefined()
+		expect(response.data.userId).toBeDefined()
 	})
 })

@@ -165,7 +165,7 @@ export type UpdateUser200 = {
     */
     password: string;
     /**
-     * @default "ACTIVE"
+     * @default "ONBOARDING"
      * @type string | undefined
     */
     status?: UpdateUser200StatusEnum;
@@ -232,7 +232,7 @@ export type UpdateUserMutationRequest = {
     */
     name?: string;
     /**
-     * @default "ACTIVE"
+     * @default "ONBOARDING"
      * @type string | undefined
     */
     status?: UpdateUserMutationRequestStatusEnum;

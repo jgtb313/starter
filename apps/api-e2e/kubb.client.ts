@@ -36,6 +36,19 @@ const api = axios.create({
 	baseURL: 'http://localhost:4000',
 })
 
+export const setupAuthentication = (accessToken: string) => {
+	api.interceptors.request.use((config) => {
+		config.headers.Authorization = `Bearer ${accessToken}`
+		return config
+	})
+}
+export const clearAuthentication = () => {
+	api.interceptors.request.use((config) => {
+		delete config.headers.Authorization
+		return config
+	})
+}
+
 const client = async <TData, TError = unknown, TVariables = unknown>(
 	config: RequestConfig<TVariables>,
 ): Promise<ResponseConfig<TData>> => {

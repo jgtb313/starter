@@ -178,7 +178,7 @@ export class AuthService {
 			name,
 			email,
 			password,
-			status: 'ACTIVE',
+			status: 'ONBOARDING',
 		})
 
 		this.loggerService.info(`User signed up successfully: ${email}`, {

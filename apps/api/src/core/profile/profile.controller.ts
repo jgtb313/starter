@@ -55,7 +55,7 @@ export class ProfileController {
 	async getProfile(@AuthenticatedUser() user: User) {
 		const profile = await this.userService.getUser(user.userId)
 
-		return profile
+		return profile.toJSON()
 	}
 
 	@Route({

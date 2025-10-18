@@ -184,7 +184,7 @@ export type ListUsers200 = {
         */
         password: string;
         /**
-         * @default "ACTIVE"
+         * @default "ONBOARDING"
          * @type string | undefined
         */
         status?: ValuesStatusEnum7;

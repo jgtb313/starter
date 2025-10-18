@@ -165,7 +165,7 @@ export type GetUser200 = {
     */
     password: string;
     /**
-     * @default "ACTIVE"
+     * @default "ONBOARDING"
      * @type string | undefined
     */
     status?: GetUser200StatusEnum;
