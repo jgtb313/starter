@@ -20,6 +20,7 @@ export class TwilioSMSAdapter implements ISMSAdapter {
 			to,
 			body,
 		})
+
 		// await this.client.messages.create({
 		//   from: this.TWILIO_SMS_FROM,
 		//   to,

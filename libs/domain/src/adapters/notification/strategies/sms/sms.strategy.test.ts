@@ -1,10 +1,10 @@
 import { Test, type TestingModule } from '@nestjs/testing'
 import { beforeEach, describe, expect, it, type Mocked, vi } from 'vitest'
 
+import type { INotificationStrategy } from '@/ports/notification'
+
 import { SMSStrategy } from './sms.strategy'
 import * as templates from './sms.templates'
-
-import type { INotificationStrategy } from '@/ports/notification'
 
 vi.mock('./sms.templates', () => ({
 	templates: {

@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common'
 
-import { SMSStrategy } from './sms.strategy'
-import { TwilioSMSAdapter } from './twilio-sms.adapter'
-import { TwilioSMSModule } from './twilio-sms.adapter.module'
+import { SMSStrategy } from '@/adapters/notification/strategies/sms/sms.strategy'
+import { TwilioSMSAdapter } from '@/adapters/notification/strategies/sms/twilio-sms.adapter'
+import { TwilioSMSModule } from '@/adapters/notification/strategies/sms/twilio-sms.adapter.module'
 
 @Module({
 	imports: [

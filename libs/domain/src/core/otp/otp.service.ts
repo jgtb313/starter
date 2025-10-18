@@ -30,7 +30,7 @@ export class OTPService {
 		const ctx = new OTPContextDomain().getContext(context)
 
 		const code = random(1000, 9999).toString()
-		const hashedCode = OTPDomain.hashCode(code)
+		const hashedCode = OTPDomain.generateCode(code)
 
 		const otp = new OTPDomain({
 			otpId: uuid(),
@@ -119,7 +119,9 @@ export class OTPService {
 			otp.checkIfHasValidContext(context)
 			otp.checkIfHasValidCode(code)
 		} finally {
-			await this.otpRepository.updateById(otp.state.otpId, otp.state)
+			await this.otpRepository.updateById(otp.state.otpId, {
+				validationAttempts: otp.state.validationAttempts + 1,
+			})
 		}
 	}
 

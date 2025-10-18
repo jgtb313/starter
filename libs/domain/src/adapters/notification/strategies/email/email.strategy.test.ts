@@ -1,13 +1,14 @@
-import { Test, type TestingModule } from '@nestjs/testing'
 import * as renderEmail from '@starter/emails'
-import { beforeEach, describe, expect, it, type Mocked, vi } from 'vitest'
 
-import { EmailStrategy } from './email.strategy'
+import { Test, type TestingModule } from '@nestjs/testing'
+import { beforeEach, describe, expect, it, type Mocked, vi } from 'vitest'
 
 import type {
 	INotificationStrategy,
 	NotificationInput,
 } from '@/ports/notification'
+
+import { EmailStrategy } from './email.strategy'
 
 vi.mock('@starter/emails', () => ({
 	renderEmail: vi.fn(),
@@ -46,7 +47,7 @@ describe('EmailStrategy', () => {
 				recipient: 'test@email.com',
 				template: 'WELCOME',
 				props: {
-					name: 'John Doe',
+					userName: 'John Doe',
 					getStartedUrl: 'https://example.com',
 				},
 			}

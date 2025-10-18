@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common'
 
-import { EmailStrategy } from './email.strategy'
-import { GoogleEmailAdapter } from './google-email.adapter'
-import { GoogleEmailModule } from './google-email.adapter.module'
+import { EmailStrategy } from '@/adapters/notification/strategies/email/email.strategy'
+import { GoogleEmailAdapter } from '@/adapters/notification/strategies/email/google-email.adapter'
+import { GoogleEmailModule } from '@/adapters/notification/strategies/email/google-email.adapter.module'
 
 @Module({
 	imports: [

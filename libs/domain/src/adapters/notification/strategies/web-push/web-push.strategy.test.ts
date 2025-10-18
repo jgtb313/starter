@@ -1,10 +1,10 @@
 import { Test, type TestingModule } from '@nestjs/testing'
 import { beforeEach, describe, expect, it, type Mocked, vi } from 'vitest'
 
+import type { INotificationStrategy } from '@/ports/notification'
+
 import { WebPushStrategy } from './web-push.strategy'
 import * as templates from './web-push.templates'
-
-import type { INotificationStrategy } from '@/ports/notification'
 
 vi.mock('./web-push.templates', () => ({
 	templates: {
