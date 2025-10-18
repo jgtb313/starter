@@ -8,7 +8,7 @@ import type { RequestConfig, ResponseErrorConfig } from "../../../kubb.client";
 import type { GetPlanQueryResponse, GetPlanPathParams, GetPlanQueryParams, GetPlanHeaderParams, GetPlan400, GetPlan404, GetPlan500 } from "../types/GetPlan";
 
 function getGetPlanUrl({ planId }: { planId: GetPlanPathParams["planId"] }) {
-  const res = { method: 'GET', url: `http://localhost:4000//v1/plans/${planId}` as const }  
+  const res = { method: 'GET', url: `http://localhost:4000/v1/plans/${planId}` as const }  
   return res
 }
 

@@ -8,7 +8,7 @@ import type { RequestConfig, ResponseErrorConfig } from "../../../kubb.client";
 import type { SocialSignOnMutationRequest, SocialSignOnMutationResponse, SocialSignOnQueryParams, SocialSignOnHeaderParams, SocialSignOn400, SocialSignOn401, SocialSignOn500 } from "../types/SocialSignOn";
 
 function getSocialSignOnUrl() {
-  const res = { method: 'POST', url: `http://localhost:4000//v1/auth/social-sign-on` as const }  
+  const res = { method: 'POST', url: `http://localhost:4000/v1/auth/social-sign-on` as const }  
   return res
 }
 

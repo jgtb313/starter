@@ -8,7 +8,7 @@ import type { RequestConfig, ResponseErrorConfig } from "../../../kubb.client";
 import type { SignInMutationRequest, SignInMutationResponse, SignInQueryParams, SignInHeaderParams, SignIn400, SignIn401, SignIn500 } from "../types/SignIn";
 
 function getSignInUrl() {
-  const res = { method: 'POST', url: `http://localhost:4000//v1/auth/sign-in` as const }  
+  const res = { method: 'POST', url: `http://localhost:4000/v1/auth/sign-in` as const }  
   return res
 }
 

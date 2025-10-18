@@ -8,7 +8,7 @@ import type { RequestConfig, ResponseErrorConfig } from "../../../kubb.client";
 import type { SendPasswordLessOTPMutationRequest, SendPasswordLessOTPMutationResponse, SendPasswordLessOTPQueryParams, SendPasswordLessOTPHeaderParams, SendPasswordLessOTP400, SendPasswordLessOTP404, SendPasswordLessOTP409, SendPasswordLessOTP500 } from "../types/SendPasswordLessOTP";
 
 function getSendPasswordLessOTPUrl() {
-  const res = { method: 'POST', url: `http://localhost:4000//v1/otps/password-less` as const }  
+  const res = { method: 'POST', url: `http://localhost:4000/v1/otps/password-less` as const }  
   return res
 }
 

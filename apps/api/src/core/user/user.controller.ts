@@ -1,17 +1,14 @@
 import { type User, UserSchema, UserService } from '@starter/domain'
 import { Controller, Request, Route } from '@starter/nestjs-server-hoisting'
 
-import { Inject, UseGuards } from '@nestjs/common'
+import { Inject } from '@nestjs/common'
 
 import { ACLService } from '@/support/access-control'
 import { AuthenticatedUser } from '@/support/decorators'
-import { AuthGuard } from '@/support/guards'
 
 import {
 	type CreateUserRequest,
 	CreateUserSchema,
-	DeleteUserRequest,
-	DeleteUserSchema,
 	type GetUserRequest,
 	GetUserSchema,
 	type ListUsersRequest,
@@ -33,7 +30,6 @@ import {
 		},
 	},
 })
-@UseGuards(AuthGuard)
 export class UserController {
 	constructor(
 		@Inject(ACLService)

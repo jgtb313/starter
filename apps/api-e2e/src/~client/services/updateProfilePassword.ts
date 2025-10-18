@@ -8,7 +8,7 @@ import type { RequestConfig, ResponseErrorConfig } from "../../../kubb.client";
 import type { UpdateProfilePasswordMutationRequest, UpdateProfilePasswordMutationResponse, UpdateProfilePasswordQueryParams, UpdateProfilePasswordHeaderParams, UpdateProfilePassword400, UpdateProfilePassword401, UpdateProfilePassword500 } from "../types/UpdateProfilePassword";
 
 function getUpdateProfilePasswordUrl() {
-  const res = { method: 'PATCH', url: `http://localhost:4000//v1/profile/password` as const }  
+  const res = { method: 'PATCH', url: `http://localhost:4000/v1/profile/password` as const }  
   return res
 }
 

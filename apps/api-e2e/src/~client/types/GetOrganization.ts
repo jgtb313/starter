@@ -25,6 +25,18 @@ export type GetOrganizationQueryParams = {
     fields?: string;
 };
 
+export type GetOrganizationHeaderParamsAcceptLanguageEnum = "en" | "es" | "pt-BR";
+
+export type GetOrganizationHeaderParams = {
+    /**
+     * @description Specifies the preferred language to be used in the response.
+     * @type string | undefined
+    */
+    "Accept-Language"?: GetOrganizationHeaderParamsAcceptLanguageEnum;
+};
+
+export type DocumentTypeEnum10 = "INDIVIDUAL" | "COMPANY";
+
 export type GetOrganization200StatusEnum = "ACTIVE" | "INACTIVE";
 
 /**
@@ -45,12 +57,40 @@ export type GetOrganization200 = {
      * @type string
     */
     name: string;
+    email?: (string | null);
+    phone?: ({
+        /**
+         * @description The ISO 3166-1 country code.
+         * @type string
+        */
+        iso: string;
+        /**
+         * @description The international dialing code for the country, prefixed by the plus sign (+).
+         * @type string
+        */
+        ddi: string;
+        /**
+         * @type string
+        */
+        number: string;
+    } | null);
+    document?: ({
+        /**
+         * @type string
+        */
+        number: string;
+        /**
+         * @type string
+        */
+        type: DocumentTypeEnum10;
+    } | null);
+    logo?: (string | null);
+    domain?: (string | null);
     /**
      * @default "ACTIVE"
      * @type string | undefined
     */
     status?: GetOrganization200StatusEnum;
-    deletedAt?: (string | null);
     /**
      * @type string, date-time
     */
@@ -111,5 +151,6 @@ export type GetOrganizationQuery = {
     Response: GetOrganization200;
     PathParams: GetOrganizationPathParams;
     QueryParams: GetOrganizationQueryParams;
+    HeaderParams: GetOrganizationHeaderParams;
     Errors: GetOrganization400 | GetOrganization500;
 };

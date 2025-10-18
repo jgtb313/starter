@@ -33,15 +33,24 @@ export type ListOrganizationsQueryParams = {
      * @type string | undefined
     */
     filter?: string;
-    /**
-     * @type string | undefined
-    */
-    cursor?: string;
+    cursor?: (string | null);
     /**
      * @type number | undefined
     */
     limit?: number;
 };
+
+export type ListOrganizationsHeaderParamsAcceptLanguageEnum = "en" | "es" | "pt-BR";
+
+export type ListOrganizationsHeaderParams = {
+    /**
+     * @description Specifies the preferred language to be used in the response.
+     * @type string | undefined
+    */
+    "Accept-Language"?: ListOrganizationsHeaderParamsAcceptLanguageEnum;
+};
+
+export type DocumentTypeEnum8 = "INDIVIDUAL" | "COMPANY";
 
 export type ValuesStatusEnum4 = "ACTIVE" | "INACTIVE";
 
@@ -67,12 +76,40 @@ export type ListOrganizations200 = {
          * @type string
         */
         name: string;
+        email?: (string | null);
+        phone?: ({
+            /**
+             * @description The ISO 3166-1 country code.
+             * @type string
+            */
+            iso: string;
+            /**
+             * @description The international dialing code for the country, prefixed by the plus sign (+).
+             * @type string
+            */
+            ddi: string;
+            /**
+             * @type string
+            */
+            number: string;
+        } | null);
+        document?: ({
+            /**
+             * @type string
+            */
+            number: string;
+            /**
+             * @type string
+            */
+            type: DocumentTypeEnum8;
+        } | null);
+        logo?: (string | null);
+        domain?: (string | null);
         /**
          * @default "ACTIVE"
          * @type string | undefined
         */
         status?: ValuesStatusEnum4;
-        deletedAt?: (string | null);
         /**
          * @type string, date-time
         */
@@ -154,5 +191,6 @@ export type ListOrganizationsQuery = {
     Response: ListOrganizations200;
     PathParams: ListOrganizationsPathParams;
     QueryParams: ListOrganizationsQueryParams;
+    HeaderParams: ListOrganizationsHeaderParams;
     Errors: ListOrganizations400 | ListOrganizations500;
 };

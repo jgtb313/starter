@@ -8,7 +8,7 @@ import type { RequestConfig, ResponseErrorConfig } from "../../../kubb.client";
 import type { DeactivateProfileMutationResponse, DeactivateProfileQueryParams, DeactivateProfileHeaderParams, DeactivateProfile400, DeactivateProfile401, DeactivateProfile500 } from "../types/DeactivateProfile";
 
 function getDeactivateProfileUrl() {
-  const res = { method: 'DELETE', url: `http://localhost:4000//v1/profile` as const }  
+  const res = { method: 'DELETE', url: `http://localhost:4000/v1/profile` as const }  
   return res
 }
 

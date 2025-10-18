@@ -1,11 +1,10 @@
 import { UserServiceModule } from '@starter/domain'
 
-import { Global, Module } from '@nestjs/common'
+import { Module } from '@nestjs/common'
 
 import { AuthGuard } from '@/support/guards/auth-guard/auth.guard'
 import { JWTModule } from '@/adapters/jwt'
 
-@Global()
 @Module({
 	imports: [
 		UserServiceModule,

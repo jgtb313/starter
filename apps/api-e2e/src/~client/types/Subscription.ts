@@ -4,15 +4,15 @@
 */
 
 
-export type DocumentTypeEnum = "INDIVIDUAL" | "COMPANY";
+export type DocumentTypeEnum3 = "INDIVIDUAL" | "COMPANY";
 
 export type SubscriptionStatusEnum = "TRIAL" | "ACTIVE" | "OVERDUE" | "CANCELED";
 
-export type DocumentTypeEnum2 = "INDIVIDUAL" | "COMPANY";
+export type DocumentTypeEnum4 = "INDIVIDUAL" | "COMPANY";
 
 export type SubscriptionStatusEnum2 = "TRIAL" | "ACTIVE" | "OVERDUE" | "CANCELED";
 
-export type DocumentTypeEnum3 = "INDIVIDUAL" | "COMPANY";
+export type DocumentTypeEnum5 = "INDIVIDUAL" | "COMPANY";
 
 export type SubscriptionStatusEnum3 = "TRIAL" | "ACTIVE" | "OVERDUE" | "CANCELED";
 
@@ -36,10 +36,6 @@ export type Subscription = ({
      * @type string
     */
     externalId: string;
-    /**
-     * @type number
-    */
-    amount: number;
     /**
      * @type string
     */
@@ -109,269 +105,6 @@ export type Subscription = ({
             */
             number: string;
             /**
-             * @description Represents document types for individuals or companies
-             * @type string
-            */
-            type: DocumentTypeEnum;
-        };
-        /**
-         * @type object
-        */
-        address: {
-            /**
-             * @description Two-letter state code following the ISO 3166-2 standard for country subdivisions.
-             * @type string
-            */
-            state: string;
-            /**
-             * @description City name.
-             * @type string
-            */
-            city: string;
-            /**
-             * @description ZIP or postal code, containing digits only.
-             * @type string
-            */
-            zipCode: string;
-            /**
-             * @description Neighborhood or district name.
-             * @type string
-            */
-            neighborhood: string;
-            /**
-             * @description Street name.
-             * @type string
-            */
-            street: string;
-            /**
-             * @description Street number.
-             * @type string
-            */
-            number: string;
-            /**
-             * @description Additional address details (optional).
-            */
-            complement?: (string | null);
-        };
-    };
-    /**
-     * @type string, date-time
-    */
-    deadline: string;
-    canceledAt?: (string | null);
-    /**
-     * @default "TRIAL"
-     * @type string | undefined
-    */
-    status?: SubscriptionStatusEnum;
-    /**
-     * @type string, date-time
-    */
-    createdAt: string;
-    /**
-     * @type string, date-time
-    */
-    updatedAt: string;
-} | {
-    /**
-     * @description Unique identifier for subscription
-     * @type string, uuid
-    */
-    subscriptionId: string;
-    /**
-     * @description Unique identifier for workspace
-     * @type string, uuid
-    */
-    workspaceId: string;
-    /**
-     * @description Unique identifier for plan
-     * @type string, uuid
-    */
-    planId: string;
-    /**
-     * @type string
-    */
-    externalId: string;
-    /**
-     * @type number
-    */
-    amount: number;
-    /**
-     * @type string
-    */
-    paymentMethod: string;
-    /**
-     * @type object
-    */
-    payer: {
-        /**
-         * @type string
-        */
-        name: string;
-        /**
-         * @type string, email
-        */
-        email: string;
-        /**
-         * @type object
-        */
-        phone: {
-            /**
-             * @description The ISO 3166-1 country code.
-             * @type string
-            */
-            iso: string;
-            /**
-             * @description The international dialing code for the country, prefixed by the plus sign (+).
-             * @type string
-            */
-            ddi: string;
-            /**
-             * @type string
-            */
-            number: string;
-        };
-        /**
-         * @type object
-        */
-        document: {
-            /**
-             * @type string
-            */
-            number: string;
-            /**
-             * @description Represents document types for individuals or companies
-             * @type string
-            */
-            type: DocumentTypeEnum2;
-        };
-        /**
-         * @type object
-        */
-        address: {
-            /**
-             * @description Two-letter state code following the ISO 3166-2 standard for country subdivisions.
-             * @type string
-            */
-            state: string;
-            /**
-             * @description City name.
-             * @type string
-            */
-            city: string;
-            /**
-             * @description ZIP or postal code, containing digits only.
-             * @type string
-            */
-            zipCode: string;
-            /**
-             * @description Neighborhood or district name.
-             * @type string
-            */
-            neighborhood: string;
-            /**
-             * @description Street name.
-             * @type string
-            */
-            street: string;
-            /**
-             * @description Street number.
-             * @type string
-            */
-            number: string;
-            /**
-             * @description Additional address details (optional).
-            */
-            complement?: (string | null);
-        };
-    };
-    /**
-     * @type string, date-time
-    */
-    deadline: string;
-    canceledAt?: (string | null);
-    /**
-     * @default "TRIAL"
-     * @type string | undefined
-    */
-    status?: SubscriptionStatusEnum2;
-    /**
-     * @type string, date-time
-    */
-    createdAt: string;
-    /**
-     * @type string, date-time
-    */
-    updatedAt: string;
-} | {
-    /**
-     * @description Unique identifier for subscription
-     * @type string, uuid
-    */
-    subscriptionId: string;
-    /**
-     * @description Unique identifier for workspace
-     * @type string, uuid
-    */
-    workspaceId: string;
-    /**
-     * @description Unique identifier for plan
-     * @type string, uuid
-    */
-    planId: string;
-    /**
-     * @type string
-    */
-    externalId: string;
-    /**
-     * @type number
-    */
-    amount: number;
-    /**
-     * @type string
-    */
-    paymentMethod: string;
-    /**
-     * @type object
-    */
-    payer: {
-        /**
-         * @type string
-        */
-        name: string;
-        /**
-         * @type string, email
-        */
-        email: string;
-        /**
-         * @type object
-        */
-        phone: {
-            /**
-             * @description The ISO 3166-1 country code.
-             * @type string
-            */
-            iso: string;
-            /**
-             * @description The international dialing code for the country, prefixed by the plus sign (+).
-             * @type string
-            */
-            ddi: string;
-            /**
-             * @type string
-            */
-            number: string;
-        };
-        /**
-         * @type object
-        */
-        document: {
-            /**
-             * @type string
-            */
-            number: string;
-            /**
-             * @description Represents document types for individuals or companies
              * @type string
             */
             type: DocumentTypeEnum3;
@@ -414,8 +147,284 @@ export type Subscription = ({
              * @description Additional address details (optional).
             */
             complement?: (string | null);
+            /**
+             * @description Nearby reference point (optional).
+            */
+            landmark?: (string | null);
         };
     };
+    /**
+     * @type string, date-time
+    */
+    nextBillingDate: string;
+    /**
+     * @type string, date-time
+    */
+    deadline: string;
+    canceledAt?: (string | null);
+    /**
+     * @default "TRIAL"
+     * @type string | undefined
+    */
+    status?: SubscriptionStatusEnum;
+    /**
+     * @type string, date-time
+    */
+    createdAt: string;
+    /**
+     * @type string, date-time
+    */
+    updatedAt: string;
+} | {
+    /**
+     * @description Unique identifier for subscription
+     * @type string, uuid
+    */
+    subscriptionId: string;
+    /**
+     * @description Unique identifier for workspace
+     * @type string, uuid
+    */
+    workspaceId: string;
+    /**
+     * @description Unique identifier for plan
+     * @type string, uuid
+    */
+    planId: string;
+    /**
+     * @type string
+    */
+    externalId: string;
+    /**
+     * @type string
+    */
+    paymentMethod: string;
+    /**
+     * @type object
+    */
+    payer: {
+        /**
+         * @type string
+        */
+        name: string;
+        /**
+         * @type string, email
+        */
+        email: string;
+        /**
+         * @type object
+        */
+        phone: {
+            /**
+             * @description The ISO 3166-1 country code.
+             * @type string
+            */
+            iso: string;
+            /**
+             * @description The international dialing code for the country, prefixed by the plus sign (+).
+             * @type string
+            */
+            ddi: string;
+            /**
+             * @type string
+            */
+            number: string;
+        };
+        /**
+         * @type object
+        */
+        document: {
+            /**
+             * @type string
+            */
+            number: string;
+            /**
+             * @type string
+            */
+            type: DocumentTypeEnum4;
+        };
+        /**
+         * @type object
+        */
+        address: {
+            /**
+             * @description Two-letter state code following the ISO 3166-2 standard for country subdivisions.
+             * @type string
+            */
+            state: string;
+            /**
+             * @description City name.
+             * @type string
+            */
+            city: string;
+            /**
+             * @description ZIP or postal code, containing digits only.
+             * @type string
+            */
+            zipCode: string;
+            /**
+             * @description Neighborhood or district name.
+             * @type string
+            */
+            neighborhood: string;
+            /**
+             * @description Street name.
+             * @type string
+            */
+            street: string;
+            /**
+             * @description Street number.
+             * @type string
+            */
+            number: string;
+            /**
+             * @description Additional address details (optional).
+            */
+            complement?: (string | null);
+            /**
+             * @description Nearby reference point (optional).
+            */
+            landmark?: (string | null);
+        };
+    };
+    /**
+     * @type string, date-time
+    */
+    nextBillingDate: string;
+    /**
+     * @type string, date-time
+    */
+    deadline: string;
+    canceledAt?: (string | null);
+    /**
+     * @default "TRIAL"
+     * @type string | undefined
+    */
+    status?: SubscriptionStatusEnum2;
+    /**
+     * @type string, date-time
+    */
+    createdAt: string;
+    /**
+     * @type string, date-time
+    */
+    updatedAt: string;
+} | {
+    /**
+     * @description Unique identifier for subscription
+     * @type string, uuid
+    */
+    subscriptionId: string;
+    /**
+     * @description Unique identifier for workspace
+     * @type string, uuid
+    */
+    workspaceId: string;
+    /**
+     * @description Unique identifier for plan
+     * @type string, uuid
+    */
+    planId: string;
+    /**
+     * @type string
+    */
+    externalId: string;
+    /**
+     * @type string
+    */
+    paymentMethod: string;
+    /**
+     * @type object
+    */
+    payer: {
+        /**
+         * @type string
+        */
+        name: string;
+        /**
+         * @type string, email
+        */
+        email: string;
+        /**
+         * @type object
+        */
+        phone: {
+            /**
+             * @description The ISO 3166-1 country code.
+             * @type string
+            */
+            iso: string;
+            /**
+             * @description The international dialing code for the country, prefixed by the plus sign (+).
+             * @type string
+            */
+            ddi: string;
+            /**
+             * @type string
+            */
+            number: string;
+        };
+        /**
+         * @type object
+        */
+        document: {
+            /**
+             * @type string
+            */
+            number: string;
+            /**
+             * @type string
+            */
+            type: DocumentTypeEnum5;
+        };
+        /**
+         * @type object
+        */
+        address: {
+            /**
+             * @description Two-letter state code following the ISO 3166-2 standard for country subdivisions.
+             * @type string
+            */
+            state: string;
+            /**
+             * @description City name.
+             * @type string
+            */
+            city: string;
+            /**
+             * @description ZIP or postal code, containing digits only.
+             * @type string
+            */
+            zipCode: string;
+            /**
+             * @description Neighborhood or district name.
+             * @type string
+            */
+            neighborhood: string;
+            /**
+             * @description Street name.
+             * @type string
+            */
+            street: string;
+            /**
+             * @description Street number.
+             * @type string
+            */
+            number: string;
+            /**
+             * @description Additional address details (optional).
+            */
+            complement?: (string | null);
+            /**
+             * @description Nearby reference point (optional).
+            */
+            landmark?: (string | null);
+        };
+    };
+    /**
+     * @type string, date-time
+    */
+    nextBillingDate: string;
     /**
      * @type string, date-time
     */

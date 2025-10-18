@@ -8,7 +8,7 @@ import type { RequestConfig, ResponseErrorConfig } from "../../../kubb.client";
 import type { ForgotPasswordMutationRequest, ForgotPasswordMutationResponse, ForgotPasswordQueryParams, ForgotPasswordHeaderParams, ForgotPassword400, ForgotPassword401, ForgotPassword403, ForgotPassword404, ForgotPassword409, ForgotPassword500 } from "../types/ForgotPassword";
 
 function getForgotPasswordUrl() {
-  const res = { method: 'POST', url: `http://localhost:4000//v1/auth/forgot-password` as const }  
+  const res = { method: 'POST', url: `http://localhost:4000/v1/auth/forgot-password` as const }  
   return res
 }
 

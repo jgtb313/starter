@@ -8,7 +8,7 @@ import type { RequestConfig, ResponseErrorConfig } from "../../../kubb.client";
 import type { GetProfileQueryResponse, GetProfileQueryParams, GetProfileHeaderParams, GetProfile400, GetProfile401, GetProfile500 } from "../types/GetProfile";
 
 function getGetProfileUrl() {
-  const res = { method: 'GET', url: `http://localhost:4000//v1/profile` as const }  
+  const res = { method: 'GET', url: `http://localhost:4000/v1/profile` as const }  
   return res
 }
 

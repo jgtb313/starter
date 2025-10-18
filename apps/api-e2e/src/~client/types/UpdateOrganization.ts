@@ -25,6 +25,18 @@ export type UpdateOrganizationQueryParams = {
     fields?: string;
 };
 
+export type UpdateOrganizationHeaderParamsAcceptLanguageEnum = "en" | "es" | "pt-BR";
+
+export type UpdateOrganizationHeaderParams = {
+    /**
+     * @description Specifies the preferred language to be used in the response.
+     * @type string | undefined
+    */
+    "Accept-Language"?: UpdateOrganizationHeaderParamsAcceptLanguageEnum;
+};
+
+export type DocumentTypeEnum11 = "INDIVIDUAL" | "COMPANY";
+
 export type UpdateOrganization200StatusEnum = "ACTIVE" | "INACTIVE";
 
 /**
@@ -45,12 +57,40 @@ export type UpdateOrganization200 = {
      * @type string
     */
     name: string;
+    email?: (string | null);
+    phone?: ({
+        /**
+         * @description The ISO 3166-1 country code.
+         * @type string
+        */
+        iso: string;
+        /**
+         * @description The international dialing code for the country, prefixed by the plus sign (+).
+         * @type string
+        */
+        ddi: string;
+        /**
+         * @type string
+        */
+        number: string;
+    } | null);
+    document?: ({
+        /**
+         * @type string
+        */
+        number: string;
+        /**
+         * @type string
+        */
+        type: DocumentTypeEnum11;
+    } | null);
+    logo?: (string | null);
+    domain?: (string | null);
     /**
      * @default "ACTIVE"
      * @type string | undefined
     */
     status?: UpdateOrganization200StatusEnum;
-    deletedAt?: (string | null);
     /**
      * @type string, date-time
     */
@@ -126,5 +166,6 @@ export type UpdateOrganizationMutation = {
     Request: UpdateOrganizationMutationRequest;
     PathParams: UpdateOrganizationPathParams;
     QueryParams: UpdateOrganizationQueryParams;
+    HeaderParams: UpdateOrganizationHeaderParams;
     Errors: UpdateOrganization400 | UpdateOrganization500;
 };

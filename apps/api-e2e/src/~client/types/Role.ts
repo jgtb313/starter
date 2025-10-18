@@ -4,6 +4,8 @@
 */
 
 
+export type DocumentTypeEnum2 = "INDIVIDUAL" | "COMPANY";
+
 export type OrganizationsStatusEnum = "ACTIVE" | "INACTIVE";
 
 export type RoleStatusEnum = "ACTIVE" | "INACTIVE";
@@ -37,12 +39,40 @@ export type Role = {
          * @type string
         */
         name: string;
+        email?: (string | null);
+        phone?: ({
+            /**
+             * @description The ISO 3166-1 country code.
+             * @type string
+            */
+            iso: string;
+            /**
+             * @description The international dialing code for the country, prefixed by the plus sign (+).
+             * @type string
+            */
+            ddi: string;
+            /**
+             * @type string
+            */
+            number: string;
+        } | null);
+        document?: ({
+            /**
+             * @type string
+            */
+            number: string;
+            /**
+             * @type string
+            */
+            type: DocumentTypeEnum2;
+        } | null);
+        logo?: (string | null);
+        domain?: (string | null);
         /**
          * @default "ACTIVE"
          * @type string | undefined
         */
         status?: OrganizationsStatusEnum;
-        deletedAt?: (string | null);
         /**
          * @type string, date-time
         */

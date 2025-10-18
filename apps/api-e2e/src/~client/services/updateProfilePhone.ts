@@ -8,7 +8,7 @@ import type { RequestConfig, ResponseErrorConfig } from "../../../kubb.client";
 import type { UpdateProfilePhoneMutationRequest, UpdateProfilePhoneMutationResponse, UpdateProfilePhoneQueryParams, UpdateProfilePhoneHeaderParams, UpdateProfilePhone400, UpdateProfilePhone401, UpdateProfilePhone403, UpdateProfilePhone404, UpdateProfilePhone409, UpdateProfilePhone500 } from "../types/UpdateProfilePhone";
 
 function getUpdateProfilePhoneUrl() {
-  const res = { method: 'PATCH', url: `http://localhost:4000//v1/profile/phone` as const }  
+  const res = { method: 'PATCH', url: `http://localhost:4000/v1/profile/phone` as const }  
   return res
 }
 

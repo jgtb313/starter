@@ -4,7 +4,7 @@
 */
 
 
-export type DocumentTypeEnum = "INDIVIDUAL" | "COMPANY";
+export type DocumentTypeEnum7 = "INDIVIDUAL" | "COMPANY";
 
 export type LocaleDefaultLocaleEnum = "en" | "es" | "pt-BR";
 
@@ -48,7 +48,7 @@ export type Workspace = {
         /**
          * @type string
         */
-        type: DocumentTypeEnum;
+        type: DocumentTypeEnum7;
     } | null);
     address?: ({
         /**

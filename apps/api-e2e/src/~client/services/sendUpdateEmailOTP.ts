@@ -8,7 +8,7 @@ import type { RequestConfig, ResponseErrorConfig } from "../../../kubb.client";
 import type { SendUpdateEmailOTPMutationRequest, SendUpdateEmailOTPMutationResponse, SendUpdateEmailOTPQueryParams, SendUpdateEmailOTPHeaderParams, SendUpdateEmailOTP400, SendUpdateEmailOTP409, SendUpdateEmailOTP500 } from "../types/SendUpdateEmailOTP";
 
 function getSendUpdateEmailOTPUrl() {
-  const res = { method: 'POST', url: `http://localhost:4000//v1/otps/update-email` as const }  
+  const res = { method: 'POST', url: `http://localhost:4000/v1/otps/update-email` as const }  
   return res
 }
 

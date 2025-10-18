@@ -20,6 +20,18 @@ export type CreateRoleQueryParams = {
     fields?: string;
 };
 
+export type CreateRoleHeaderParamsAcceptLanguageEnum = "en" | "es" | "pt-BR";
+
+export type CreateRoleHeaderParams = {
+    /**
+     * @description Specifies the preferred language to be used in the response.
+     * @type string | undefined
+    */
+    "Accept-Language"?: CreateRoleHeaderParamsAcceptLanguageEnum;
+};
+
+export type DocumentTypeEnum17 = "INDIVIDUAL" | "COMPANY";
+
 export type OrganizationsStatusEnum3 = "ACTIVE" | "INACTIVE";
 
 export type CreateRole201StatusEnum = "ACTIVE" | "INACTIVE";
@@ -56,12 +68,40 @@ export type CreateRole201 = {
          * @type string
         */
         name: string;
+        email?: (string | null);
+        phone?: ({
+            /**
+             * @description The ISO 3166-1 country code.
+             * @type string
+            */
+            iso: string;
+            /**
+             * @description The international dialing code for the country, prefixed by the plus sign (+).
+             * @type string
+            */
+            ddi: string;
+            /**
+             * @type string
+            */
+            number: string;
+        } | null);
+        document?: ({
+            /**
+             * @type string
+            */
+            number: string;
+            /**
+             * @type string
+            */
+            type: DocumentTypeEnum17;
+        } | null);
+        logo?: (string | null);
+        domain?: (string | null);
         /**
          * @default "ACTIVE"
          * @type string | undefined
         */
         status?: OrganizationsStatusEnum3;
-        deletedAt?: (string | null);
         /**
          * @type string, date-time
         */
@@ -188,5 +228,6 @@ export type CreateRoleMutation = {
     Request: CreateRoleMutationRequest;
     PathParams: CreateRolePathParams;
     QueryParams: CreateRoleQueryParams;
+    HeaderParams: CreateRoleHeaderParams;
     Errors: CreateRole400 | CreateRole500;
 };

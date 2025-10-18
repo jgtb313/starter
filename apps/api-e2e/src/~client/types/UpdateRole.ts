@@ -25,6 +25,18 @@ export type UpdateRoleQueryParams = {
     fields?: string;
 };
 
+export type UpdateRoleHeaderParamsAcceptLanguageEnum = "en" | "es" | "pt-BR";
+
+export type UpdateRoleHeaderParams = {
+    /**
+     * @description Specifies the preferred language to be used in the response.
+     * @type string | undefined
+    */
+    "Accept-Language"?: UpdateRoleHeaderParamsAcceptLanguageEnum;
+};
+
+export type DocumentTypeEnum19 = "INDIVIDUAL" | "COMPANY";
+
 export type OrganizationsStatusEnum5 = "ACTIVE" | "INACTIVE";
 
 export type UpdateRole200StatusEnum = "ACTIVE" | "INACTIVE";
@@ -61,12 +73,40 @@ export type UpdateRole200 = {
          * @type string
         */
         name: string;
+        email?: (string | null);
+        phone?: ({
+            /**
+             * @description The ISO 3166-1 country code.
+             * @type string
+            */
+            iso: string;
+            /**
+             * @description The international dialing code for the country, prefixed by the plus sign (+).
+             * @type string
+            */
+            ddi: string;
+            /**
+             * @type string
+            */
+            number: string;
+        } | null);
+        document?: ({
+            /**
+             * @type string
+            */
+            number: string;
+            /**
+             * @type string
+            */
+            type: DocumentTypeEnum19;
+        } | null);
+        logo?: (string | null);
+        domain?: (string | null);
         /**
          * @default "ACTIVE"
          * @type string | undefined
         */
         status?: OrganizationsStatusEnum5;
-        deletedAt?: (string | null);
         /**
          * @type string, date-time
         */
@@ -186,5 +226,6 @@ export type UpdateRoleMutation = {
     Request: UpdateRoleMutationRequest;
     PathParams: UpdateRolePathParams;
     QueryParams: UpdateRoleQueryParams;
+    HeaderParams: UpdateRoleHeaderParams;
     Errors: UpdateRole400 | UpdateRole500;
 };

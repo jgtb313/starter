@@ -8,7 +8,7 @@ import type { RequestConfig, ResponseErrorConfig } from "../../../kubb.client";
 import type { PasswordLessMutationRequest, PasswordLessMutationResponse, PasswordLessQueryParams, PasswordLessHeaderParams, PasswordLess400, PasswordLess401, PasswordLess403, PasswordLess404, PasswordLess409, PasswordLess500 } from "../types/PasswordLess";
 
 function getPasswordLessUrl() {
-  const res = { method: 'POST', url: `http://localhost:4000//v1/auth/password-less` as const }  
+  const res = { method: 'POST', url: `http://localhost:4000/v1/auth/password-less` as const }  
   return res
 }
 

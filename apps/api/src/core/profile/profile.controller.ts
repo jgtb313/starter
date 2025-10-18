@@ -1,11 +1,11 @@
 import { OTPService, type User, UserService } from '@starter/domain'
 import { Controller, Request, Route } from '@starter/nestjs-server-hoisting'
 
-import { forwardRef, Inject } from '@nestjs/common'
+import { Inject, UseGuards } from '@nestjs/common'
 
 import { AuthenticatedUser } from '@/support/decorators'
+import { AuthGuard } from '@/support/guards/auth-guard'
 import {
-	GetProfileRequest,
 	GetProfileSchema,
 	type UpdateProfileEmailRequest,
 	UpdateProfileEmailSchema,
@@ -26,11 +26,12 @@ import {
 
 	schemas: {},
 })
+@UseGuards(AuthGuard)
 export class ProfileController {
 	constructor(
-		@Inject(forwardRef(() => OTPService))
+		@Inject(OTPService)
 		private readonly otpService: OTPService,
-		@Inject(forwardRef(() => UserService))
+		@Inject(UserService)
 		private readonly userService: UserService,
 	) {}
 
@@ -51,8 +52,8 @@ export class ProfileController {
 			},
 		},
 	})
-	async getProfile() {
-		const profile = await this.userService.getPaginatedUsers({})
+	async getProfile(@AuthenticatedUser() user: User) {
+		const profile = await this.userService.getUser(user.userId)
 
 		return profile
 	}

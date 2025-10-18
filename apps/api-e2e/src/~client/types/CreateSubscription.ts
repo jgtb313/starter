@@ -20,15 +20,25 @@ export type CreateSubscriptionQueryParams = {
     fields?: string;
 };
 
-export type DocumentTypeEnum10 = "INDIVIDUAL" | "COMPANY";
+export type CreateSubscriptionHeaderParamsAcceptLanguageEnum = "en" | "es" | "pt-BR";
+
+export type CreateSubscriptionHeaderParams = {
+    /**
+     * @description Specifies the preferred language to be used in the response.
+     * @type string | undefined
+    */
+    "Accept-Language"?: CreateSubscriptionHeaderParamsAcceptLanguageEnum;
+};
+
+export type DocumentTypeEnum26 = "INDIVIDUAL" | "COMPANY";
 
 export type CreateSubscription200StatusEnum = "TRIAL" | "ACTIVE" | "OVERDUE" | "CANCELED";
 
-export type DocumentTypeEnum11 = "INDIVIDUAL" | "COMPANY";
+export type DocumentTypeEnum27 = "INDIVIDUAL" | "COMPANY";
 
 export type CreateSubscription200StatusEnum2 = "TRIAL" | "ACTIVE" | "OVERDUE" | "CANCELED";
 
-export type DocumentTypeEnum12 = "INDIVIDUAL" | "COMPANY";
+export type DocumentTypeEnum28 = "INDIVIDUAL" | "COMPANY";
 
 export type CreateSubscription200StatusEnum3 = "TRIAL" | "ACTIVE" | "OVERDUE" | "CANCELED";
 
@@ -55,10 +65,6 @@ export type CreateSubscription200 = ({
      * @type string
     */
     externalId: string;
-    /**
-     * @type number
-    */
-    amount: number;
     /**
      * @type string
     */
@@ -128,10 +134,9 @@ export type CreateSubscription200 = ({
             */
             number: string;
             /**
-             * @description Represents document types for individuals or companies
              * @type string
             */
-            type: DocumentTypeEnum10;
+            type: DocumentTypeEnum26;
         };
         /**
          * @type object
@@ -171,8 +176,16 @@ export type CreateSubscription200 = ({
              * @description Additional address details (optional).
             */
             complement?: (string | null);
+            /**
+             * @description Nearby reference point (optional).
+            */
+            landmark?: (string | null);
         };
     };
+    /**
+     * @type string, date-time
+    */
+    nextBillingDate: string;
     /**
      * @type string, date-time
     */
@@ -212,10 +225,6 @@ export type CreateSubscription200 = ({
     */
     externalId: string;
     /**
-     * @type number
-    */
-    amount: number;
-    /**
      * @type string
     */
     paymentMethod: string;
@@ -259,10 +268,9 @@ export type CreateSubscription200 = ({
             */
             number: string;
             /**
-             * @description Represents document types for individuals or companies
              * @type string
             */
-            type: DocumentTypeEnum11;
+            type: DocumentTypeEnum27;
         };
         /**
          * @type object
@@ -302,8 +310,16 @@ export type CreateSubscription200 = ({
              * @description Additional address details (optional).
             */
             complement?: (string | null);
+            /**
+             * @description Nearby reference point (optional).
+            */
+            landmark?: (string | null);
         };
     };
+    /**
+     * @type string, date-time
+    */
+    nextBillingDate: string;
     /**
      * @type string, date-time
     */
@@ -343,10 +359,6 @@ export type CreateSubscription200 = ({
     */
     externalId: string;
     /**
-     * @type number
-    */
-    amount: number;
-    /**
      * @type string
     */
     paymentMethod: string;
@@ -390,10 +402,9 @@ export type CreateSubscription200 = ({
             */
             number: string;
             /**
-             * @description Represents document types for individuals or companies
              * @type string
             */
-            type: DocumentTypeEnum12;
+            type: DocumentTypeEnum28;
         };
         /**
          * @type object
@@ -433,8 +444,16 @@ export type CreateSubscription200 = ({
              * @description Additional address details (optional).
             */
             complement?: (string | null);
+            /**
+             * @description Nearby reference point (optional).
+            */
+            landmark?: (string | null);
         };
     };
+    /**
+     * @type string, date-time
+    */
+    nextBillingDate: string;
     /**
      * @type string, date-time
     */
@@ -499,11 +518,11 @@ export type CreateSubscription500 = {
     };
 };
 
-export type DocumentTypeEnum13 = "INDIVIDUAL" | "COMPANY";
+export type DocumentTypeEnum29 = "INDIVIDUAL" | "COMPANY";
 
-export type DocumentTypeEnum14 = "INDIVIDUAL" | "COMPANY";
+export type DocumentTypeEnum30 = "INDIVIDUAL" | "COMPANY";
 
-export type DocumentTypeEnum15 = "INDIVIDUAL" | "COMPANY";
+export type DocumentTypeEnum31 = "INDIVIDUAL" | "COMPANY";
 
 export type CreateSubscriptionMutationRequest = ({
     /**
@@ -551,10 +570,9 @@ export type CreateSubscriptionMutationRequest = ({
             */
             number: string;
             /**
-             * @description Represents document types for individuals or companies
              * @type string
             */
-            type: DocumentTypeEnum13;
+            type: DocumentTypeEnum29;
         };
         /**
          * @type object
@@ -594,6 +612,10 @@ export type CreateSubscriptionMutationRequest = ({
              * @description Additional address details (optional).
             */
             complement?: (string | null);
+            /**
+             * @description Nearby reference point (optional).
+            */
+            landmark?: (string | null);
         };
     };
     /**
@@ -651,10 +673,9 @@ export type CreateSubscriptionMutationRequest = ({
             */
             number: string;
             /**
-             * @description Represents document types for individuals or companies
              * @type string
             */
-            type: DocumentTypeEnum14;
+            type: DocumentTypeEnum30;
         };
         /**
          * @type object
@@ -694,6 +715,10 @@ export type CreateSubscriptionMutationRequest = ({
              * @description Additional address details (optional).
             */
             complement?: (string | null);
+            /**
+             * @description Nearby reference point (optional).
+            */
+            landmark?: (string | null);
         };
     };
     /**
@@ -746,10 +771,9 @@ export type CreateSubscriptionMutationRequest = ({
             */
             number: string;
             /**
-             * @description Represents document types for individuals or companies
              * @type string
             */
-            type: DocumentTypeEnum15;
+            type: DocumentTypeEnum31;
         };
         /**
          * @type object
@@ -789,6 +813,10 @@ export type CreateSubscriptionMutationRequest = ({
              * @description Additional address details (optional).
             */
             complement?: (string | null);
+            /**
+             * @description Nearby reference point (optional).
+            */
+            landmark?: (string | null);
         };
     };
     /**
@@ -804,5 +832,6 @@ export type CreateSubscriptionMutation = {
     Request: CreateSubscriptionMutationRequest;
     PathParams: CreateSubscriptionPathParams;
     QueryParams: CreateSubscriptionQueryParams;
+    HeaderParams: CreateSubscriptionHeaderParams;
     Errors: CreateSubscription400 | CreateSubscription500;
 };

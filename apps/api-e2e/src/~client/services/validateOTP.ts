@@ -8,7 +8,7 @@ import type { RequestConfig, ResponseErrorConfig } from "../../../kubb.client";
 import type { ValidateOTPMutationRequest, ValidateOTPMutationResponse, ValidateOTPPathParams, ValidateOTPQueryParams, ValidateOTPHeaderParams, ValidateOTP400, ValidateOTP403, ValidateOTP404, ValidateOTP409, ValidateOTP500 } from "../types/ValidateOTP";
 
 function getValidateOTPUrl({ otpId }: { otpId: ValidateOTPPathParams["otpId"] }) {
-  const res = { method: 'POST', url: `http://localhost:4000//v1/otps/${otpId}/validate` as const }  
+  const res = { method: 'POST', url: `http://localhost:4000/v1/otps/${otpId}/validate` as const }  
   return res
 }
 

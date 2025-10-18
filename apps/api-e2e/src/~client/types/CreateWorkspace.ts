@@ -22,7 +22,7 @@ export type CreateWorkspaceHeaderParams = {
     "Accept-Language"?: CreateWorkspaceHeaderParamsAcceptLanguageEnum;
 };
 
-export type DocumentTypeEnum8 = "INDIVIDUAL" | "COMPANY";
+export type DocumentTypeEnum40 = "INDIVIDUAL" | "COMPANY";
 
 export type LocaleDefaultLocaleEnum4 = "en" | "es" | "pt-BR";
 
@@ -69,7 +69,7 @@ export type CreateWorkspace200 = {
         /**
          * @type string
         */
-        type: DocumentTypeEnum8;
+        type: DocumentTypeEnum40;
     } | null);
     address?: ({
         /**

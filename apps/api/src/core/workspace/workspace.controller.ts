@@ -1,15 +1,10 @@
-import { Inject, UseGuards } from '@nestjs/common'
 import { type User, WorkspaceSchema, WorkspaceService } from '@starter/domain'
-import {
-	Controller,
-	Request,
-	RequestInput,
-	Route,
-} from '@starter/nestjs-server-hoisting'
+import { Controller, Request, Route } from '@starter/nestjs-server-hoisting'
+
+import { Inject } from '@nestjs/common'
 
 import { ACLService } from '@/support/access-control'
 import { AuthenticatedUser } from '@/support/decorators'
-import { AuthGuard } from '@/support/guards'
 
 import {
 	type CreateWorkspaceRequest,
@@ -33,7 +28,6 @@ import {
 		},
 	},
 })
-@UseGuards(AuthGuard)
 export class WorkspaceController {
 	constructor(
 		@Inject(ACLService)

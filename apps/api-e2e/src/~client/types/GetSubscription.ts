@@ -25,15 +25,25 @@ export type GetSubscriptionQueryParams = {
     fields?: string;
 };
 
-export type DocumentTypeEnum4 = "INDIVIDUAL" | "COMPANY";
+export type GetSubscriptionHeaderParamsAcceptLanguageEnum = "en" | "es" | "pt-BR";
+
+export type GetSubscriptionHeaderParams = {
+    /**
+     * @description Specifies the preferred language to be used in the response.
+     * @type string | undefined
+    */
+    "Accept-Language"?: GetSubscriptionHeaderParamsAcceptLanguageEnum;
+};
+
+export type DocumentTypeEnum20 = "INDIVIDUAL" | "COMPANY";
 
 export type GetSubscription200StatusEnum = "TRIAL" | "ACTIVE" | "OVERDUE" | "CANCELED";
 
-export type DocumentTypeEnum5 = "INDIVIDUAL" | "COMPANY";
+export type DocumentTypeEnum21 = "INDIVIDUAL" | "COMPANY";
 
 export type GetSubscription200StatusEnum2 = "TRIAL" | "ACTIVE" | "OVERDUE" | "CANCELED";
 
-export type DocumentTypeEnum6 = "INDIVIDUAL" | "COMPANY";
+export type DocumentTypeEnum22 = "INDIVIDUAL" | "COMPANY";
 
 export type GetSubscription200StatusEnum3 = "TRIAL" | "ACTIVE" | "OVERDUE" | "CANCELED";
 
@@ -60,10 +70,6 @@ export type GetSubscription200 = ({
      * @type string
     */
     externalId: string;
-    /**
-     * @type number
-    */
-    amount: number;
     /**
      * @type string
     */
@@ -133,10 +139,9 @@ export type GetSubscription200 = ({
             */
             number: string;
             /**
-             * @description Represents document types for individuals or companies
              * @type string
             */
-            type: DocumentTypeEnum4;
+            type: DocumentTypeEnum20;
         };
         /**
          * @type object
@@ -176,8 +181,16 @@ export type GetSubscription200 = ({
              * @description Additional address details (optional).
             */
             complement?: (string | null);
+            /**
+             * @description Nearby reference point (optional).
+            */
+            landmark?: (string | null);
         };
     };
+    /**
+     * @type string, date-time
+    */
+    nextBillingDate: string;
     /**
      * @type string, date-time
     */
@@ -217,10 +230,6 @@ export type GetSubscription200 = ({
     */
     externalId: string;
     /**
-     * @type number
-    */
-    amount: number;
-    /**
      * @type string
     */
     paymentMethod: string;
@@ -264,10 +273,9 @@ export type GetSubscription200 = ({
             */
             number: string;
             /**
-             * @description Represents document types for individuals or companies
              * @type string
             */
-            type: DocumentTypeEnum5;
+            type: DocumentTypeEnum21;
         };
         /**
          * @type object
@@ -307,8 +315,16 @@ export type GetSubscription200 = ({
              * @description Additional address details (optional).
             */
             complement?: (string | null);
+            /**
+             * @description Nearby reference point (optional).
+            */
+            landmark?: (string | null);
         };
     };
+    /**
+     * @type string, date-time
+    */
+    nextBillingDate: string;
     /**
      * @type string, date-time
     */
@@ -348,10 +364,6 @@ export type GetSubscription200 = ({
     */
     externalId: string;
     /**
-     * @type number
-    */
-    amount: number;
-    /**
      * @type string
     */
     paymentMethod: string;
@@ -395,10 +407,9 @@ export type GetSubscription200 = ({
             */
             number: string;
             /**
-             * @description Represents document types for individuals or companies
              * @type string
             */
-            type: DocumentTypeEnum6;
+            type: DocumentTypeEnum22;
         };
         /**
          * @type object
@@ -438,8 +449,16 @@ export type GetSubscription200 = ({
              * @description Additional address details (optional).
             */
             complement?: (string | null);
+            /**
+             * @description Nearby reference point (optional).
+            */
+            landmark?: (string | null);
         };
     };
+    /**
+     * @type string, date-time
+    */
+    nextBillingDate: string;
     /**
      * @type string, date-time
     */
@@ -510,5 +529,6 @@ export type GetSubscriptionQuery = {
     Response: GetSubscription200;
     PathParams: GetSubscriptionPathParams;
     QueryParams: GetSubscriptionQueryParams;
+    HeaderParams: GetSubscriptionHeaderParams;
     Errors: GetSubscription400 | GetSubscription500;
 };

@@ -25,6 +25,16 @@ export type DeleteOrganizationQueryParams = {
     fields?: string;
 };
 
+export type DeleteOrganizationHeaderParamsAcceptLanguageEnum = "en" | "es" | "pt-BR";
+
+export type DeleteOrganizationHeaderParams = {
+    /**
+     * @description Specifies the preferred language to be used in the response.
+     * @type string | undefined
+    */
+    "Accept-Language"?: DeleteOrganizationHeaderParamsAcceptLanguageEnum;
+};
+
 /**
  * @description Organization has been successfully deleted.
 */
@@ -80,5 +90,6 @@ export type DeleteOrganizationMutation = {
     Response: DeleteOrganization204;
     PathParams: DeleteOrganizationPathParams;
     QueryParams: DeleteOrganizationQueryParams;
+    HeaderParams: DeleteOrganizationHeaderParams;
     Errors: DeleteOrganization400 | DeleteOrganization500;
 };

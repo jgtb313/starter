@@ -20,6 +20,18 @@ export type CreateOrganizationQueryParams = {
     fields?: string;
 };
 
+export type CreateOrganizationHeaderParamsAcceptLanguageEnum = "en" | "es" | "pt-BR";
+
+export type CreateOrganizationHeaderParams = {
+    /**
+     * @description Specifies the preferred language to be used in the response.
+     * @type string | undefined
+    */
+    "Accept-Language"?: CreateOrganizationHeaderParamsAcceptLanguageEnum;
+};
+
+export type DocumentTypeEnum9 = "INDIVIDUAL" | "COMPANY";
+
 export type CreateOrganization201StatusEnum = "ACTIVE" | "INACTIVE";
 
 /**
@@ -40,12 +52,40 @@ export type CreateOrganization201 = {
      * @type string
     */
     name: string;
+    email?: (string | null);
+    phone?: ({
+        /**
+         * @description The ISO 3166-1 country code.
+         * @type string
+        */
+        iso: string;
+        /**
+         * @description The international dialing code for the country, prefixed by the plus sign (+).
+         * @type string
+        */
+        ddi: string;
+        /**
+         * @type string
+        */
+        number: string;
+    } | null);
+    document?: ({
+        /**
+         * @type string
+        */
+        number: string;
+        /**
+         * @type string
+        */
+        type: DocumentTypeEnum9;
+    } | null);
+    logo?: (string | null);
+    domain?: (string | null);
     /**
      * @default "ACTIVE"
      * @type string | undefined
     */
     status?: CreateOrganization201StatusEnum;
-    deletedAt?: (string | null);
     /**
      * @type string, date-time
     */
@@ -104,14 +144,16 @@ export type CreateOrganizationMutationRequestStatusEnum = "ACTIVE" | "INACTIVE";
 
 export type CreateOrganizationMutationRequest = {
     /**
-     * @type string
-    */
-    name: string;
-    /**
      * @default "ACTIVE"
      * @type string | undefined
     */
     status?: CreateOrganizationMutationRequestStatusEnum;
+    /**
+     * @type object
+    */
+    name: {
+        [key: string]: string;
+    };
 };
 
 export type CreateOrganizationMutationResponse = CreateOrganization201;
@@ -121,5 +163,6 @@ export type CreateOrganizationMutation = {
     Request: CreateOrganizationMutationRequest;
     PathParams: CreateOrganizationPathParams;
     QueryParams: CreateOrganizationQueryParams;
+    HeaderParams: CreateOrganizationHeaderParams;
     Errors: CreateOrganization400 | CreateOrganization500;
 };

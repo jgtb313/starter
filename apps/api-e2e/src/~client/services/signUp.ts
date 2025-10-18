@@ -8,7 +8,7 @@ import type { RequestConfig, ResponseErrorConfig } from "../../../kubb.client";
 import type { SignUpMutationRequest, SignUpMutationResponse, SignUpQueryParams, SignUpHeaderParams, SignUp400, SignUp409, SignUp500 } from "../types/SignUp";
 
 function getSignUpUrl() {
-  const res = { method: 'POST', url: `http://localhost:4000//v1/auth/sign-up` as const }  
+  const res = { method: 'POST', url: `http://localhost:4000/v1/auth/sign-up` as const }  
   return res
 }
 

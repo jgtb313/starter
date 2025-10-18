@@ -31,7 +31,7 @@ export type IntervalsIntervalEnum2 = "DAY" | "WEEK" | "MONTH" | "YEAR";
 
 export type IntervalsStatusEnum2 = "ACTIVE" | "INACTIVE";
 
-export type ValuesStatusEnum = "ACTIVE" | "INACTIVE";
+export type ValuesStatusEnum5 = "ACTIVE" | "INACTIVE";
 
 /**
  * @description OK
@@ -148,7 +148,7 @@ export type ListPlans200 = {
          * @default "ACTIVE"
          * @type string | undefined
         */
-        status?: ValuesStatusEnum;
+        status?: ValuesStatusEnum5;
         deletedAt?: (string | null);
         /**
          * @type string, date-time

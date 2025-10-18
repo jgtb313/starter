@@ -25,6 +25,54 @@ export const operations = {
     "path": "/v1/auth/forgot-password",
     "method": "post"
   },
+  "getInvite": {
+    "path": "/v1/workspaces/:workspaceId/invites/:inviteId",
+    "method": "get"
+  },
+  "cancelInvite": {
+    "path": "/v1/workspaces/:workspaceId/invites/:inviteId",
+    "method": "delete"
+  },
+  "sendInvite": {
+    "path": "/v1/workspaces/:workspaceId/invites",
+    "method": "post"
+  },
+  "acceptInvite": {
+    "path": "/v1/workspaces/:workspaceId/invites/:inviteId/accept",
+    "method": "post"
+  },
+  "resendInvite": {
+    "path": "/v1/workspaces/:workspaceId/invites/:inviteId/resend",
+    "method": "post"
+  },
+  "listInvoices": {
+    "path": "/v1/workspaces/:workspaceId/invoices",
+    "method": "get"
+  },
+  "getInvoice": {
+    "path": "/v1/workspaces/:workspaceId/invoices/:invoiceId",
+    "method": "get"
+  },
+  "listOrganizations": {
+    "path": "/v1/workspaces/:workspaceId/organizations",
+    "method": "get"
+  },
+  "createOrganization": {
+    "path": "/v1/workspaces/:workspaceId/organizations",
+    "method": "post"
+  },
+  "getOrganization": {
+    "path": "/v1/workspaces/:workspaceId/organizations/:organizationId",
+    "method": "get"
+  },
+  "updateOrganization": {
+    "path": "/v1/workspaces/:workspaceId/organizations/:organizationId",
+    "method": "patch"
+  },
+  "deleteOrganization": {
+    "path": "/v1/workspaces/:workspaceId/organizations/:organizationId",
+    "method": "delete"
+  },
   "validateOTP": {
     "path": "/v1/otps/:otpId/validate",
     "method": "post"
@@ -81,6 +129,50 @@ export const operations = {
     "path": "/v1/profile/password",
     "method": "patch"
   },
+  "listRoles": {
+    "path": "/v1/workspaces/:workspaceId/roles",
+    "method": "get"
+  },
+  "createRole": {
+    "path": "/v1/workspaces/:workspaceId/roles",
+    "method": "post"
+  },
+  "getRole": {
+    "path": "/v1/workspaces/:workspaceId/roles/:roleId",
+    "method": "get"
+  },
+  "updateRole": {
+    "path": "/v1/workspaces/:workspaceId/roles/:roleId",
+    "method": "patch"
+  },
+  "deleteRole": {
+    "path": "/v1/workspaces/:workspaceId/roles/:roleId",
+    "method": "delete"
+  },
+  "getPresignedUrl": {
+    "path": "/v1/storage/files",
+    "method": "post"
+  },
+  "getSubscription": {
+    "path": "/v1/workspaces/:workspaceId/subscriptions/:subscriptionId",
+    "method": "get"
+  },
+  "cancelSubscription": {
+    "path": "/v1/workspaces/:workspaceId/subscriptions/:subscriptionId",
+    "method": "delete"
+  },
+  "createSubscription": {
+    "path": "/v1/workspaces/:workspaceId/subscriptions",
+    "method": "post"
+  },
+  "changeSubscriptionPlan": {
+    "path": "/v1/workspaces/:workspaceId/subscriptions/:subscriptionId/plan",
+    "method": "post"
+  },
+  "changeSubscriptionPaymentMethod": {
+    "path": "/v1/workspaces/:workspaceId/subscriptions/:subscriptionId/payment-method",
+    "method": "post"
+  },
   "getWorkspace": {
     "path": "/v1/workspaces/:workspaceId",
     "method": "get"
@@ -92,5 +184,21 @@ export const operations = {
   "createWorkspace": {
     "path": "/v1/workspaces",
     "method": "post"
+  },
+  "listUsers": {
+    "path": "/v1/workspaces/:workspaceId/users",
+    "method": "get"
+  },
+  "createUser": {
+    "path": "/v1/workspaces/:workspaceId/users",
+    "method": "post"
+  },
+  "getUser": {
+    "path": "/v1/workspaces/:workspaceId/users/:userId",
+    "method": "get"
+  },
+  "updateUser": {
+    "path": "/v1/workspaces/:workspaceId/users/:userId",
+    "method": "patch"
   }
 }

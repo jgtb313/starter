@@ -8,7 +8,7 @@ import type { RequestConfig, ResponseErrorConfig } from "../../../kubb.client";
 import type { CreateWorkspaceMutationRequest, CreateWorkspaceMutationResponse, CreateWorkspaceQueryParams, CreateWorkspaceHeaderParams, CreateWorkspace400, CreateWorkspace500 } from "../types/CreateWorkspace";
 
 function getCreateWorkspaceUrl() {
-  const res = { method: 'POST', url: `http://localhost:4000//v1/workspaces` as const }  
+  const res = { method: 'POST', url: `http://localhost:4000/v1/workspaces` as const }  
   return res
 }
 

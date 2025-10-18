@@ -18,14 +18,21 @@ export type ListInvoicesQueryParams = {
      * @type string | undefined
     */
     fields?: string;
-    /**
-     * @type string
-    */
-    cursor: string;
+    cursor: (string | null);
     /**
      * @type number
     */
     limit: number;
+};
+
+export type ListInvoicesHeaderParamsAcceptLanguageEnum = "en" | "es" | "pt-BR";
+
+export type ListInvoicesHeaderParams = {
+    /**
+     * @description Specifies the preferred language to be used in the response.
+     * @type string | undefined
+    */
+    "Accept-Language"?: ListInvoicesHeaderParamsAcceptLanguageEnum;
 };
 
 export type ValuesStatusEnum = "PENDING" | "PAID" | "OVERDUE" | "CANCELED";
@@ -336,5 +343,6 @@ export type ListInvoicesQuery = {
     Response: ListInvoices200;
     PathParams: ListInvoicesPathParams;
     QueryParams: ListInvoicesQueryParams;
+    HeaderParams: ListInvoicesHeaderParams;
     Errors: ListInvoices400 | ListInvoices500;
 };

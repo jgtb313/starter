@@ -8,7 +8,7 @@ import type { RequestConfig, ResponseErrorConfig } from "../../../kubb.client";
 import type { GetWorkspaceQueryResponse, GetWorkspacePathParams, GetWorkspaceQueryParams, GetWorkspaceHeaderParams, GetWorkspace400, GetWorkspace500 } from "../types/GetWorkspace";
 
 function getGetWorkspaceUrl({ workspaceId }: { workspaceId: GetWorkspacePathParams["workspaceId"] }) {
-  const res = { method: 'GET', url: `http://localhost:4000//v1/workspaces/${workspaceId}` as const }  
+  const res = { method: 'GET', url: `http://localhost:4000/v1/workspaces/${workspaceId}` as const }  
   return res
 }
 

@@ -12,7 +12,7 @@ export type ListUsersPathParams = {
     workspaceId: string;
 };
 
-export type ListUsersQueryParamsStatusEnum = "ACTIVE" | "INACTIVE";
+export type ListUsersQueryParamsStatusEnum = "ONBOARDING" | "ACTIVE" | "INACTIVE";
 
 export type ListUsersQueryParams = {
     /**
@@ -33,17 +33,28 @@ export type ListUsersQueryParams = {
      * @type string | undefined
     */
     filter?: string;
-    /**
-     * @type string | undefined
-    */
-    cursor?: string;
+    cursor?: (string | null);
     /**
      * @type number | undefined
     */
     limit?: number;
 };
 
-export type ValuesStatusEnum7 = "ACTIVE" | "INACTIVE";
+export type ListUsersHeaderParamsAcceptLanguageEnum = "en" | "es" | "pt-BR";
+
+export type ListUsersHeaderParams = {
+    /**
+     * @description Specifies the preferred language to be used in the response.
+     * @type string | undefined
+    */
+    "Accept-Language"?: ListUsersHeaderParamsAcceptLanguageEnum;
+};
+
+export type DocumentTypeEnum41 = "INDIVIDUAL" | "COMPANY";
+
+export type ValuesLocalePreferenceEnum = "en" | "es" | "pt-BR";
+
+export type ValuesStatusEnum7 = "ONBOARDING" | "ACTIVE" | "INACTIVE";
 
 /**
  * @description OK
@@ -59,6 +70,8 @@ export type ListUsers200 = {
         */
         userId: string;
         workspaceId?: (string | null);
+        googleProviderId?: (string | null);
+        facebookProviderId?: (string | null);
         /**
          * @type string
         */
@@ -83,11 +96,90 @@ export type ListUsers200 = {
             */
             number: string;
         } | null);
-        avatar?: (string | null);
-        socialGoogleId?: (string | null);
-        socialFacebookId?: (string | null);
+        birthday?: ((string | string) | null);
+        document?: ({
+            /**
+             * @type string
+            */
+            number: string;
+            /**
+             * @type string
+            */
+            type: DocumentTypeEnum41;
+        } | null);
         /**
-         * @minLength 8
+         * @type array | undefined
+        */
+        addresses?: {
+            /**
+             * @description Label used to identify the address (e.g., Home, Office).
+             * @type string
+            */
+            title: string;
+            /**
+             * @description Two-letter state code following the ISO 3166-2 standard for country subdivisions.
+             * @type string
+            */
+            state: string;
+            /**
+             * @description City name.
+             * @type string
+            */
+            city: string;
+            /**
+             * @description ZIP or postal code, containing digits only.
+             * @type string
+            */
+            zipCode: string;
+            /**
+             * @description Neighborhood or district name.
+             * @type string
+            */
+            neighborhood: string;
+            /**
+             * @description Street name.
+             * @type string
+            */
+            street: string;
+            /**
+             * @description Street number.
+             * @type string
+            */
+            number: string;
+            /**
+             * @type object
+            */
+            location: {
+                /**
+                 * @description Latitude coordinate.
+                 * @type string
+                */
+                lat: string;
+                /**
+                 * @description Longitude coordinate.
+                 * @type string
+                */
+                lng: string;
+            };
+            /**
+             * @description Additional address details (optional).
+            */
+            complement?: (string | null);
+            /**
+             * @description Nearby reference point (optional).
+            */
+            landmark?: (string | null);
+            /**
+             * @description Indicates if this is the primary address.
+             * @default false
+             * @type boolean | undefined
+            */
+            main?: boolean;
+        }[];
+        avatar?: (string | null);
+        localePreference?: (ValuesLocalePreferenceEnum | null);
+        /**
+         * @description A strong password.
          * @type string
         */
         password: string;
@@ -178,5 +270,6 @@ export type ListUsersQuery = {
     Response: ListUsers200;
     PathParams: ListUsersPathParams;
     QueryParams: ListUsersQueryParams;
+    HeaderParams: ListUsersHeaderParams;
     Errors: ListUsers400 | ListUsers500;
 };

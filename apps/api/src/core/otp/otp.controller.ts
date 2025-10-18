@@ -5,7 +5,6 @@ import { Controller, Request, Route } from '@starter/nestjs-server-hoisting'
 import { Inject, UseGuards } from '@nestjs/common'
 
 import { AuthenticatedUser } from '@/support/decorators'
-import { AuthGuard } from '@/support/guards'
 import {
 	type SendForgotPasswordOTPRequest,
 	SendForgotPasswordOTPSchema,
@@ -210,7 +209,6 @@ export class OTPController {
 			],
 		},
 	})
-	@UseGuards(AuthGuard)
 	async sendUpdateEmailOTP(
 		@AuthenticatedUser() user: User,
 		@Request() { body }: SendUpdateEmailOTPRequest,
@@ -255,7 +253,6 @@ export class OTPController {
 			],
 		},
 	})
-	@UseGuards(AuthGuard)
 	async sendUpdatePhoneOTP(
 		@AuthenticatedUser() user: User,
 		@Request() { body }: SendUpdatePhoneOTPRequest,

@@ -8,7 +8,7 @@ import type { RequestConfig, ResponseErrorConfig } from "../../../kubb.client";
 import type { ListPlansQueryResponse, ListPlansQueryParams, ListPlansHeaderParams, ListPlans400, ListPlans500 } from "../types/ListPlans";
 
 function getListPlansUrl() {
-  const res = { method: 'GET', url: `http://localhost:4000//v1/plans` as const }  
+  const res = { method: 'GET', url: `http://localhost:4000/v1/plans` as const }  
   return res
 }
 

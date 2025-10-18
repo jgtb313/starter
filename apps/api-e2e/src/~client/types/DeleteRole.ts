@@ -25,6 +25,16 @@ export type DeleteRoleQueryParams = {
     fields?: string;
 };
 
+export type DeleteRoleHeaderParamsAcceptLanguageEnum = "en" | "es" | "pt-BR";
+
+export type DeleteRoleHeaderParams = {
+    /**
+     * @description Specifies the preferred language to be used in the response.
+     * @type string | undefined
+    */
+    "Accept-Language"?: DeleteRoleHeaderParamsAcceptLanguageEnum;
+};
+
 /**
  * @description Role has been successfully deleted.
 */
@@ -80,5 +90,6 @@ export type DeleteRoleMutation = {
     Response: DeleteRole204;
     PathParams: DeleteRolePathParams;
     QueryParams: DeleteRoleQueryParams;
+    HeaderParams: DeleteRoleHeaderParams;
     Errors: DeleteRole400 | DeleteRole500;
 };

@@ -1,5 +1,6 @@
-import { Inject } from '@nestjs/common'
 import { Controller, Request, Route } from '@starter/nestjs-server-hoisting'
+
+import { Inject } from '@nestjs/common'
 
 import {
 	type GetPresignedUrlRequest,

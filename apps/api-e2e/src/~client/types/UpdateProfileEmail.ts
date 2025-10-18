@@ -22,7 +22,7 @@ export type UpdateProfileEmailHeaderParams = {
     "Accept-Language"?: UpdateProfileEmailHeaderParamsAcceptLanguageEnum;
 };
 
-export type DocumentTypeEnum4 = "INDIVIDUAL" | "COMPANY";
+export type DocumentTypeEnum14 = "INDIVIDUAL" | "COMPANY";
 
 export type UpdateProfileEmail200LocalePreferenceEnum = "en" | "es" | "pt-BR";
 
@@ -73,7 +73,7 @@ export type UpdateProfileEmail200 = {
         /**
          * @type string
         */
-        type: DocumentTypeEnum4;
+        type: DocumentTypeEnum14;
     } | null);
     /**
      * @type array | undefined

@@ -25,15 +25,25 @@ export type CancelSubscriptionQueryParams = {
     fields?: string;
 };
 
-export type DocumentTypeEnum7 = "INDIVIDUAL" | "COMPANY";
+export type CancelSubscriptionHeaderParamsAcceptLanguageEnum = "en" | "es" | "pt-BR";
+
+export type CancelSubscriptionHeaderParams = {
+    /**
+     * @description Specifies the preferred language to be used in the response.
+     * @type string | undefined
+    */
+    "Accept-Language"?: CancelSubscriptionHeaderParamsAcceptLanguageEnum;
+};
+
+export type DocumentTypeEnum23 = "INDIVIDUAL" | "COMPANY";
 
 export type CancelSubscription200StatusEnum = "TRIAL" | "ACTIVE" | "OVERDUE" | "CANCELED";
 
-export type DocumentTypeEnum8 = "INDIVIDUAL" | "COMPANY";
+export type DocumentTypeEnum24 = "INDIVIDUAL" | "COMPANY";
 
 export type CancelSubscription200StatusEnum2 = "TRIAL" | "ACTIVE" | "OVERDUE" | "CANCELED";
 
-export type DocumentTypeEnum9 = "INDIVIDUAL" | "COMPANY";
+export type DocumentTypeEnum25 = "INDIVIDUAL" | "COMPANY";
 
 export type CancelSubscription200StatusEnum3 = "TRIAL" | "ACTIVE" | "OVERDUE" | "CANCELED";
 
@@ -60,10 +70,6 @@ export type CancelSubscription200 = ({
      * @type string
     */
     externalId: string;
-    /**
-     * @type number
-    */
-    amount: number;
     /**
      * @type string
     */
@@ -133,10 +139,9 @@ export type CancelSubscription200 = ({
             */
             number: string;
             /**
-             * @description Represents document types for individuals or companies
              * @type string
             */
-            type: DocumentTypeEnum7;
+            type: DocumentTypeEnum23;
         };
         /**
          * @type object
@@ -176,8 +181,16 @@ export type CancelSubscription200 = ({
              * @description Additional address details (optional).
             */
             complement?: (string | null);
+            /**
+             * @description Nearby reference point (optional).
+            */
+            landmark?: (string | null);
         };
     };
+    /**
+     * @type string, date-time
+    */
+    nextBillingDate: string;
     /**
      * @type string, date-time
     */
@@ -217,10 +230,6 @@ export type CancelSubscription200 = ({
     */
     externalId: string;
     /**
-     * @type number
-    */
-    amount: number;
-    /**
      * @type string
     */
     paymentMethod: string;
@@ -264,10 +273,9 @@ export type CancelSubscription200 = ({
             */
             number: string;
             /**
-             * @description Represents document types for individuals or companies
              * @type string
             */
-            type: DocumentTypeEnum8;
+            type: DocumentTypeEnum24;
         };
         /**
          * @type object
@@ -307,8 +315,16 @@ export type CancelSubscription200 = ({
              * @description Additional address details (optional).
             */
             complement?: (string | null);
+            /**
+             * @description Nearby reference point (optional).
+            */
+            landmark?: (string | null);
         };
     };
+    /**
+     * @type string, date-time
+    */
+    nextBillingDate: string;
     /**
      * @type string, date-time
     */
@@ -348,10 +364,6 @@ export type CancelSubscription200 = ({
     */
     externalId: string;
     /**
-     * @type number
-    */
-    amount: number;
-    /**
      * @type string
     */
     paymentMethod: string;
@@ -395,10 +407,9 @@ export type CancelSubscription200 = ({
             */
             number: string;
             /**
-             * @description Represents document types for individuals or companies
              * @type string
             */
-            type: DocumentTypeEnum9;
+            type: DocumentTypeEnum25;
         };
         /**
          * @type object
@@ -438,8 +449,16 @@ export type CancelSubscription200 = ({
              * @description Additional address details (optional).
             */
             complement?: (string | null);
+            /**
+             * @description Nearby reference point (optional).
+            */
+            landmark?: (string | null);
         };
     };
+    /**
+     * @type string, date-time
+    */
+    nextBillingDate: string;
     /**
      * @type string, date-time
     */
@@ -510,5 +529,6 @@ export type CancelSubscriptionMutation = {
     Response: CancelSubscription200;
     PathParams: CancelSubscriptionPathParams;
     QueryParams: CancelSubscriptionQueryParams;
+    HeaderParams: CancelSubscriptionHeaderParams;
     Errors: CancelSubscription400 | CancelSubscription500;
 };

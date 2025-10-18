@@ -20,7 +20,21 @@ export type CreateUserQueryParams = {
     fields?: string;
 };
 
-export type CreateUser201StatusEnum = "ACTIVE" | "INACTIVE";
+export type CreateUserHeaderParamsAcceptLanguageEnum = "en" | "es" | "pt-BR";
+
+export type CreateUserHeaderParams = {
+    /**
+     * @description Specifies the preferred language to be used in the response.
+     * @type string | undefined
+    */
+    "Accept-Language"?: CreateUserHeaderParamsAcceptLanguageEnum;
+};
+
+export type DocumentTypeEnum42 = "INDIVIDUAL" | "COMPANY";
+
+export type CreateUser201LocalePreferenceEnum = "en" | "es" | "pt-BR";
+
+export type CreateUser201StatusEnum = "ONBOARDING" | "ACTIVE" | "INACTIVE";
 
 /**
  * @description Created
@@ -32,6 +46,8 @@ export type CreateUser201 = {
     */
     userId: string;
     workspaceId?: (string | null);
+    googleProviderId?: (string | null);
+    facebookProviderId?: (string | null);
     /**
      * @type string
     */
@@ -56,11 +72,90 @@ export type CreateUser201 = {
         */
         number: string;
     } | null);
-    avatar?: (string | null);
-    socialGoogleId?: (string | null);
-    socialFacebookId?: (string | null);
+    birthday?: ((string | string) | null);
+    document?: ({
+        /**
+         * @type string
+        */
+        number: string;
+        /**
+         * @type string
+        */
+        type: DocumentTypeEnum42;
+    } | null);
     /**
-     * @minLength 8
+     * @type array | undefined
+    */
+    addresses?: {
+        /**
+         * @description Label used to identify the address (e.g., Home, Office).
+         * @type string
+        */
+        title: string;
+        /**
+         * @description Two-letter state code following the ISO 3166-2 standard for country subdivisions.
+         * @type string
+        */
+        state: string;
+        /**
+         * @description City name.
+         * @type string
+        */
+        city: string;
+        /**
+         * @description ZIP or postal code, containing digits only.
+         * @type string
+        */
+        zipCode: string;
+        /**
+         * @description Neighborhood or district name.
+         * @type string
+        */
+        neighborhood: string;
+        /**
+         * @description Street name.
+         * @type string
+        */
+        street: string;
+        /**
+         * @description Street number.
+         * @type string
+        */
+        number: string;
+        /**
+         * @type object
+        */
+        location: {
+            /**
+             * @description Latitude coordinate.
+             * @type string
+            */
+            lat: string;
+            /**
+             * @description Longitude coordinate.
+             * @type string
+            */
+            lng: string;
+        };
+        /**
+         * @description Additional address details (optional).
+        */
+        complement?: (string | null);
+        /**
+         * @description Nearby reference point (optional).
+        */
+        landmark?: (string | null);
+        /**
+         * @description Indicates if this is the primary address.
+         * @default false
+         * @type boolean | undefined
+        */
+        main?: boolean;
+    }[];
+    avatar?: (string | null);
+    localePreference?: (CreateUser201LocalePreferenceEnum | null);
+    /**
+     * @description A strong password.
      * @type string
     */
     password: string;
@@ -151,7 +246,7 @@ export type CreateUserMutationRequest = {
     } | null);
     avatar?: (string | null);
     /**
-     * @minLength 8
+     * @description A strong password.
      * @type string
     */
     password: string;
@@ -178,5 +273,6 @@ export type CreateUserMutation = {
     Request: CreateUserMutationRequest;
     PathParams: CreateUserPathParams;
     QueryParams: CreateUserQueryParams;
+    HeaderParams: CreateUserHeaderParams;
     Errors: CreateUser400 | CreateUser500;
 };

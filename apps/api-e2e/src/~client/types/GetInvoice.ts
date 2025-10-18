@@ -25,6 +25,16 @@ export type GetInvoiceQueryParams = {
     fields?: string;
 };
 
+export type GetInvoiceHeaderParamsAcceptLanguageEnum = "en" | "es" | "pt-BR";
+
+export type GetInvoiceHeaderParams = {
+    /**
+     * @description Specifies the preferred language to be used in the response.
+     * @type string | undefined
+    */
+    "Accept-Language"?: GetInvoiceHeaderParamsAcceptLanguageEnum;
+};
+
 export type GetInvoice200StatusEnum = "PENDING" | "PAID" | "OVERDUE" | "CANCELED";
 
 export type GetInvoice200StatusEnum2 = "PENDING" | "PAID" | "OVERDUE" | "CANCELED";
@@ -308,5 +318,6 @@ export type GetInvoiceQuery = {
     Response: GetInvoice200;
     PathParams: GetInvoicePathParams;
     QueryParams: GetInvoiceQueryParams;
+    HeaderParams: GetInvoiceHeaderParams;
     Errors: GetInvoice400 | GetInvoice500;
 };

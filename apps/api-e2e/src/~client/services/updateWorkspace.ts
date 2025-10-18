@@ -8,7 +8,7 @@ import type { RequestConfig, ResponseErrorConfig } from "../../../kubb.client";
 import type { UpdateWorkspaceMutationRequest, UpdateWorkspaceMutationResponse, UpdateWorkspacePathParams, UpdateWorkspaceQueryParams, UpdateWorkspaceHeaderParams, UpdateWorkspace400, UpdateWorkspace500 } from "../types/UpdateWorkspace";
 
 function getUpdateWorkspaceUrl({ workspaceId }: { workspaceId: UpdateWorkspacePathParams["workspaceId"] }) {
-  const res = { method: 'PATCH', url: `http://localhost:4000//v1/workspaces/${workspaceId}` as const }  
+  const res = { method: 'PATCH', url: `http://localhost:4000/v1/workspaces/${workspaceId}` as const }  
   return res
 }
 

@@ -8,7 +8,7 @@ import type { RequestConfig, ResponseErrorConfig } from "../../../kubb.client";
 import type { SendForgotPasswordOTPMutationRequest, SendForgotPasswordOTPMutationResponse, SendForgotPasswordOTPQueryParams, SendForgotPasswordOTPHeaderParams, SendForgotPasswordOTP400, SendForgotPasswordOTP404, SendForgotPasswordOTP409, SendForgotPasswordOTP500 } from "../types/SendForgotPasswordOTP";
 
 function getSendForgotPasswordOTPUrl() {
-  const res = { method: 'POST', url: `http://localhost:4000//v1/otps/forgot-password` as const }  
+  const res = { method: 'POST', url: `http://localhost:4000/v1/otps/forgot-password` as const }  
   return res
 }
 

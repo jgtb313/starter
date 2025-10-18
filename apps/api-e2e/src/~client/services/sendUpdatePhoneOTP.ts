@@ -8,7 +8,7 @@ import type { RequestConfig, ResponseErrorConfig } from "../../../kubb.client";
 import type { SendUpdatePhoneOTPMutationRequest, SendUpdatePhoneOTPMutationResponse, SendUpdatePhoneOTPQueryParams, SendUpdatePhoneOTPHeaderParams, SendUpdatePhoneOTP400, SendUpdatePhoneOTP409, SendUpdatePhoneOTP500 } from "../types/SendUpdatePhoneOTP";
 
 function getSendUpdatePhoneOTPUrl() {
-  const res = { method: 'POST', url: `http://localhost:4000//v1/otps/update-phone` as const }  
+  const res = { method: 'POST', url: `http://localhost:4000/v1/otps/update-phone` as const }  
   return res
 }
 

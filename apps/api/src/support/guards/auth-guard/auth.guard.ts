@@ -22,7 +22,9 @@ export class AuthGuard implements CanActivate {
 		private readonly userService: UserService,
 		@Inject(LoggerService)
 		private readonly loggerService: LoggerService,
-	) {}
+	) {
+		console.log('AuthGuard constructor', this)
+	}
 
 	async canActivate(context: ExecutionContext): Promise<boolean> {
 		const request = context.switchToHttp().getRequest()
@@ -51,7 +53,11 @@ export class AuthGuard implements CanActivate {
 				throw new UnauthorizedException('Unauthorized.')
 			}
 
+			console.log(decoded)
+
 			const user = await this.userService.getUser(decoded.userId)
+
+			console.log(user)
 
 			request.user = user.state
 			return true

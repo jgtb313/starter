@@ -12,6 +12,16 @@ export type GetPresignedUrlQueryParams = {
     fields?: string;
 };
 
+export type GetPresignedUrlHeaderParamsAcceptLanguageEnum = "en" | "es" | "pt-BR";
+
+export type GetPresignedUrlHeaderParams = {
+    /**
+     * @description Specifies the preferred language to be used in the response.
+     * @type string | undefined
+    */
+    "Accept-Language"?: GetPresignedUrlHeaderParamsAcceptLanguageEnum;
+};
+
 /**
  * @description OK
 */
@@ -89,5 +99,6 @@ export type GetPresignedUrlMutation = {
     Response: GetPresignedUrl200;
     Request: GetPresignedUrlMutationRequest;
     QueryParams: GetPresignedUrlQueryParams;
+    HeaderParams: GetPresignedUrlHeaderParams;
     Errors: GetPresignedUrl400 | GetPresignedUrl500;
 };

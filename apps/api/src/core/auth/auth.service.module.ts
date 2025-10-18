@@ -8,10 +8,10 @@ import { SocialAuthModule } from '@/adapters/social-auth'
 
 @Module({
 	imports: [
-		LoggerModule,
-		JWTModule,
 		EncryptModule,
+		LoggerModule,
 		UserServiceModule,
+		JWTModule,
 		SocialAuthModule,
 	],
 	providers: [

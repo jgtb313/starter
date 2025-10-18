@@ -25,15 +25,25 @@ export type ChangeSubscriptionPaymentMethodQueryParams = {
     fields?: string;
 };
 
-export type DocumentTypeEnum19 = "INDIVIDUAL" | "COMPANY";
+export type ChangeSubscriptionPaymentMethodHeaderParamsAcceptLanguageEnum = "en" | "es" | "pt-BR";
+
+export type ChangeSubscriptionPaymentMethodHeaderParams = {
+    /**
+     * @description Specifies the preferred language to be used in the response.
+     * @type string | undefined
+    */
+    "Accept-Language"?: ChangeSubscriptionPaymentMethodHeaderParamsAcceptLanguageEnum;
+};
+
+export type DocumentTypeEnum35 = "INDIVIDUAL" | "COMPANY";
 
 export type ChangeSubscriptionPaymentMethod200StatusEnum = "TRIAL" | "ACTIVE" | "OVERDUE" | "CANCELED";
 
-export type DocumentTypeEnum20 = "INDIVIDUAL" | "COMPANY";
+export type DocumentTypeEnum36 = "INDIVIDUAL" | "COMPANY";
 
 export type ChangeSubscriptionPaymentMethod200StatusEnum2 = "TRIAL" | "ACTIVE" | "OVERDUE" | "CANCELED";
 
-export type DocumentTypeEnum21 = "INDIVIDUAL" | "COMPANY";
+export type DocumentTypeEnum37 = "INDIVIDUAL" | "COMPANY";
 
 export type ChangeSubscriptionPaymentMethod200StatusEnum3 = "TRIAL" | "ACTIVE" | "OVERDUE" | "CANCELED";
 
@@ -60,10 +70,6 @@ export type ChangeSubscriptionPaymentMethod200 = ({
      * @type string
     */
     externalId: string;
-    /**
-     * @type number
-    */
-    amount: number;
     /**
      * @type string
     */
@@ -133,10 +139,9 @@ export type ChangeSubscriptionPaymentMethod200 = ({
             */
             number: string;
             /**
-             * @description Represents document types for individuals or companies
              * @type string
             */
-            type: DocumentTypeEnum19;
+            type: DocumentTypeEnum35;
         };
         /**
          * @type object
@@ -176,8 +181,16 @@ export type ChangeSubscriptionPaymentMethod200 = ({
              * @description Additional address details (optional).
             */
             complement?: (string | null);
+            /**
+             * @description Nearby reference point (optional).
+            */
+            landmark?: (string | null);
         };
     };
+    /**
+     * @type string, date-time
+    */
+    nextBillingDate: string;
     /**
      * @type string, date-time
     */
@@ -217,10 +230,6 @@ export type ChangeSubscriptionPaymentMethod200 = ({
     */
     externalId: string;
     /**
-     * @type number
-    */
-    amount: number;
-    /**
      * @type string
     */
     paymentMethod: string;
@@ -264,10 +273,9 @@ export type ChangeSubscriptionPaymentMethod200 = ({
             */
             number: string;
             /**
-             * @description Represents document types for individuals or companies
              * @type string
             */
-            type: DocumentTypeEnum20;
+            type: DocumentTypeEnum36;
         };
         /**
          * @type object
@@ -307,8 +315,16 @@ export type ChangeSubscriptionPaymentMethod200 = ({
              * @description Additional address details (optional).
             */
             complement?: (string | null);
+            /**
+             * @description Nearby reference point (optional).
+            */
+            landmark?: (string | null);
         };
     };
+    /**
+     * @type string, date-time
+    */
+    nextBillingDate: string;
     /**
      * @type string, date-time
     */
@@ -348,10 +364,6 @@ export type ChangeSubscriptionPaymentMethod200 = ({
     */
     externalId: string;
     /**
-     * @type number
-    */
-    amount: number;
-    /**
      * @type string
     */
     paymentMethod: string;
@@ -395,10 +407,9 @@ export type ChangeSubscriptionPaymentMethod200 = ({
             */
             number: string;
             /**
-             * @description Represents document types for individuals or companies
              * @type string
             */
-            type: DocumentTypeEnum21;
+            type: DocumentTypeEnum37;
         };
         /**
          * @type object
@@ -438,8 +449,16 @@ export type ChangeSubscriptionPaymentMethod200 = ({
              * @description Additional address details (optional).
             */
             complement?: (string | null);
+            /**
+             * @description Nearby reference point (optional).
+            */
+            landmark?: (string | null);
         };
     };
+    /**
+     * @type string, date-time
+    */
+    nextBillingDate: string;
     /**
      * @type string, date-time
     */
@@ -533,5 +552,6 @@ export type ChangeSubscriptionPaymentMethodMutation = {
     Request: ChangeSubscriptionPaymentMethodMutationRequest;
     PathParams: ChangeSubscriptionPaymentMethodPathParams;
     QueryParams: ChangeSubscriptionPaymentMethodQueryParams;
+    HeaderParams: ChangeSubscriptionPaymentMethodHeaderParams;
     Errors: ChangeSubscriptionPaymentMethod400 | ChangeSubscriptionPaymentMethod500;
 };
