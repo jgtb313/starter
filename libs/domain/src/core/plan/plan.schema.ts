@@ -10,18 +10,22 @@ const Name = z.string().min(1)
 
 const Description = z.string().min(1)
 
-const BasePlanFeature = z.object({
+const BasePlanFeatureStart = z.object({
 	planFeatureId: BaseSchema.id('planFeature'),
 	description: z.string().min(1),
+})
+const BasePlanFeatureEnd = z.object({
 	createdAt: BaseSchema.createdAt,
 	updatedAt: BaseSchema.updatedAt,
 })
 
-const OrganizationCountFeature = BasePlanFeature.extend({
+const OrganizationCountFeature = z.object({
+	...BasePlanFeatureStart.shape,
 	feature: z.literal('ORGANIZATION_COUNT'),
 	props: z.object({
 		maxOrganizations: z.number().positive(),
 	}),
+	...BasePlanFeatureEnd.shape,
 })
 
 const PlanFeatureSchema = z.discriminatedUnion('feature', [
@@ -31,7 +35,7 @@ const PlanFeatureSchema = z.discriminatedUnion('feature', [
 const PlanIntervalSchema = z.object({
 	planIntervalId: BaseSchema.id('planInterval'),
 	externalId: z.string().min(1),
-	amount: z.number().positive(),
+	amount: z.number().min(0),
 	interval: z.enum([
 		'DAY',
 		'WEEK',

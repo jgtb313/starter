@@ -17,72 +17,42 @@ const OTPChannelSchema = z
 	])
 	.meta({
 		description: 'Channel through which the OTP is delivered',
-		example: [
-			'EMAIL',
-			'SMS',
-			'WHATSAPP',
-		],
+		example: 'EMAIL',
 	})
 export type OTPChannel = z.infer<typeof OTPChannelSchema>
 export type OTPPhoneChannel = 'SMS' | 'WHATSAPP'
 
-const Recipient = z
-	.string()
-	.min(1)
-	.meta({
-		description: 'Target recipient of the OTP (email or phone number)',
-		example: [
-			'user@example.com',
-			'+15555555555',
-		],
-	})
+const Recipient = z.string().min(1).meta({
+	description: 'Target recipient of the OTP (email or phone number)',
+	example: 'user@example.com',
+})
 
-const Code = z
-	.string()
-	.min(1)
-	.meta({
-		description: 'One-time password code sent to the recipient',
-		example: [
-			'438210',
-		],
-	})
+const Code = z.string().min(1).meta({
+	description: 'One-time password code sent to the recipient',
+	example: '438210',
+})
 
-const ValidationAttempts = z
-	.number()
-	.default(0)
-	.meta({
-		description: 'Number of unsuccessful OTP validation attempts',
-		example: [
-			0,
-			1,
-		],
-	})
+const ValidationAttempts = z.number().default(0).meta({
+	description: 'Number of unsuccessful OTP validation attempts',
+	example: 0,
+})
 
-const MaxValidationAttempts = z
-	.number()
-	.default(0)
-	.meta({
-		description:
-			'Maximum allowed failed validation attempts before OTP becomes invalid',
-		example: [
-			4,
-		],
-	})
+const MaxValidationAttempts = z.number().default(0).meta({
+	description:
+		'Maximum allowed failed validation attempts before OTP becomes invalid',
+	example: 4,
+})
 
 const ResendCooldownSeconds = z.number().meta({
 	description:
 		'Time (in seconds) the user must wait before requesting the OTP again',
-	example: [
-		60,
-	],
+	example: 60,
 })
 
 const MaxRequestsPerDay = z.number().meta({
 	description:
 		'Maximum number of OTP requests allowed per recipient and context per day',
-	example: [
-		60,
-	],
+	example: 60,
 })
 
 const ExpiresAt = z.iso
@@ -90,9 +60,7 @@ const ExpiresAt = z.iso
 	.transform((value) => new Date(value))
 	.meta({
 		description: 'Date and time when the OTP expires (ISO format)',
-		example: [
-			new Date(Date.now() + 1200000).toISOString(),
-		],
+		example: new Date(Date.now() + 1200000).toISOString(),
 	})
 
 export const OTPSchema = z.object({

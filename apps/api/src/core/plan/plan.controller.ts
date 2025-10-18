@@ -1,6 +1,7 @@
-import { Inject } from '@nestjs/common'
 import { PlanSchema, PlanService } from '@starter/domain'
 import { Controller, Request, Route } from '@starter/nestjs-server-hoisting'
+
+import { Inject } from '@nestjs/common'
 
 import {
 	type GetPlanRequest,
@@ -8,7 +9,6 @@ import {
 	type ListPlansRequest,
 	ListPlansSchema,
 } from '@/core/plan/plan.controller.schema'
-import { type I18nAPIService, I18nAPISymbol } from '@/api.i18n.module'
 
 @Controller({
 	name: 'Plan',
@@ -24,11 +24,7 @@ import { type I18nAPIService, I18nAPISymbol } from '@/api.i18n.module'
 	},
 })
 export class PlanController {
-	constructor(
-		@Inject(I18nAPISymbol)
-		private readonly i18nService: I18nAPIService,
-		@Inject(PlanService) private readonly planService: PlanService,
-	) {}
+	constructor(@Inject(PlanService) private readonly planService: PlanService) {}
 
 	@Route({
 		summary: 'List Plans',
@@ -77,11 +73,11 @@ export class PlanController {
 				schema: GetPlanSchema.output,
 			},
 			404: {
-				description: 'Plan ${planId} not found',
+				description: 'Plan {planId} not found',
 			},
 		},
 	})
 	getPlan(@Request() { params }: GetPlanRequest) {
-		return this.planService.getPlan(params.planId)
+		return this.planService.getPlan(params.planId).then((plan) => plan.toJSON())
 	}
 }

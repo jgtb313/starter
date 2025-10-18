@@ -4,6 +4,7 @@ import { Inject, Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import {
 	type FindOptionsOrder,
+	type FindOptionsRelations,
 	type FindOptionsWhere,
 	ILike,
 	type Repository,
@@ -17,6 +18,11 @@ import { type I18nDomainService, I18nDomainSymbol } from '@/domain.i18n.module'
 
 @Injectable()
 export class PlanTypeorm implements IPlanRepository {
+	private readonly relations: FindOptionsRelations<PlanEntity> = {
+		planIntervals: true,
+		planFeatures: true,
+	}
+
 	constructor(
 		@InjectRepository(PlanEntity)
 		private readonly repository: Repository<PlanEntity>,
@@ -67,6 +73,7 @@ export class PlanTypeorm implements IPlanRepository {
 		const take = paginate.limit
 
 		const [values, total] = await this.repository.findAndCount({
+			relations: this.relations,
 			where,
 			order,
 			take,
@@ -109,6 +116,7 @@ export class PlanTypeorm implements IPlanRepository {
 		}
 
 		const values = await this.repository.find({
+			relations: this.relations,
 			where,
 			order,
 		})
@@ -118,6 +126,7 @@ export class PlanTypeorm implements IPlanRepository {
 
 	findById: IPlanRepository['findById'] = async (planId) => {
 		const plan = await this.repository.findOne({
+			relations: this.relations,
 			where: {
 				planId,
 			},
@@ -139,7 +148,7 @@ export class PlanTypeorm implements IPlanRepository {
 
 		const plan = await this.repository.save(data)
 
-		return this.toPlanDomain(plan)
+		return this.findById(plan.planId)
 	}
 
 	updateById: IPlanRepository['updateById'] = async (planId, input) => {

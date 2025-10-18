@@ -1,5 +1,6 @@
-import { Module } from '@nestjs/common'
 import { PlanServiceModule } from '@starter/domain'
+
+import { Module } from '@nestjs/common'
 
 import { PlanController } from './plan.controller'
 
