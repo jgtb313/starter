@@ -68,17 +68,17 @@ export class SubscriptionEntity {
 	payer: Subscription['payer']
 
 	@Column({
-		type: 'datetime',
+		type: 'timestamp',
 	})
 	nextBillingDate: Subscription['nextBillingDate']
 
 	@Column({
-		type: 'datetime',
+		type: 'timestamp',
 	})
 	deadline: Subscription['deadline']
 
 	@Column({
-		type: 'datetime',
+		type: 'timestamp',
 		nullable: true,
 	})
 	canceledAt: Subscription['canceledAt']

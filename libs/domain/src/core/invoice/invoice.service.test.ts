@@ -1,7 +1,6 @@
 import { Test, type TestingModule } from '@nestjs/testing'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { invoiceMocks } from '@/core/invoice/invoice.mock'
 import { InvoiceService } from '@/core/invoice/invoice.service'
 import { SubscriptionService } from '@/core/subscription/subscription.service'
 import { WorkspaceService } from '@/core/workspace/workspace.service'
@@ -42,10 +41,6 @@ describe('InvoiceService', () => {
 
 		service = module.get(InvoiceService)
 		repository = module.get<IInvoiceRepository>('INVOICE_REPOSITORY')
-
-		for (const invoice of invoiceMocks) {
-			await repository.create(invoice.state)
-		}
 
 		vi.clearAllMocks()
 	})

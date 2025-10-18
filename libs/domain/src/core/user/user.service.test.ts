@@ -1,7 +1,6 @@
 import { Test, type TestingModule } from '@nestjs/testing'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { userMocks } from '@/core/user/user.mock'
 import { UserService } from '@/core/user/user.service'
 import { WorkspaceService } from '@/core/workspace/workspace.service'
 import { UserRepositoryModule } from '@/adapters/database/user/user.repository.module'
@@ -35,10 +34,6 @@ describe('UserService', () => {
 
 		service = module.get(UserService)
 		repository = module.get<IUserRepository>('USER_REPOSITORY')
-
-		for (const user of userMocks) {
-			await repository.create(user.state)
-		}
 
 		vi.clearAllMocks()
 	})

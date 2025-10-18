@@ -1,7 +1,6 @@
 import { Test, type TestingModule } from '@nestjs/testing'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { otpMocks } from '@/core/otp/otp.mock'
 import { OTPService } from '@/core/otp/otp.service'
 import { UserService } from '@/core/user/user.service'
 import { OTPRepositoryModule } from '@/adapters/database/otp/otp.repository.module'
@@ -42,10 +41,6 @@ describe('OTPService', () => {
 
 		service = module.get(OTPService)
 		repository = module.get<IOTPRepository>('OTP_REPOSITORY')
-
-		for (const otp of otpMocks) {
-			await repository.create(otp.state)
-		}
 
 		vi.clearAllMocks()
 	})

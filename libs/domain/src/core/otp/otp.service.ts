@@ -35,7 +35,7 @@ export class OTPService {
 		const code = random(1000, 9999).toString()
 		const hashedCode = OTPDomain.generateCode(code)
 
-		const otp: OTP = {
+		const otpInput: OTP = {
 			otpId: uuid(),
 			userId,
 			channel,
@@ -64,7 +64,7 @@ export class OTPService {
 		)
 		otpContext.checkIfHasReachedDailyLimit(dailyCount)
 
-		await this.otpRepository.create(otp)
+		const otp = await this.otpRepository.create(otpInput)
 
 		switch (channel) {
 			case 'EMAIL':
