@@ -8,6 +8,7 @@
 		"build:docs": "npx ts-node -r tsconfig-paths/register scripts/generate-docs.ts",
 		"build": "nest build",
 		"start": "node dist/main",
+		"test:e2e": "vitest run",
 		"test": "vitest run",
 		"test:ui": "vitest --watch --coverage --ui",
 		"test:coverage": "vitest --watch --coverage",

@@ -8,27 +8,24 @@ import {
 	UpdateDateColumn,
 } from 'typeorm'
 
-import { OrganizationEntity } from '@/adapters/database/organization/organization.typeorm.entity'
-import { PermissionEntity } from '@/adapters/database/permission/permission.typeorm.entity'
-import { UserEntity } from '@/adapters/database/user/user.typeorm.entity'
+import type { OrganizationEntity } from '@/adapters/database/organization/organization.typeorm.entity'
+import type { PermissionEntity } from '@/adapters/database/permission/permission.typeorm.entity'
+import type { UserEntity } from '@/adapters/database/user/user.typeorm.entity'
 
 @Entity('user_permission')
 export class UserPermissionEntity {
 	@PrimaryGeneratedColumn('uuid')
 	userPermissionId: string
 
-	@ManyToOne(
-		() => UserEntity,
-		(user) => user.userPermissions,
-	)
+	@ManyToOne('UserEntity', (user: UserEntity) => user.userPermissions)
 	@JoinColumn({
 		name: 'userId',
 	})
 	user: UserEntity
 
 	@ManyToOne(
-		() => PermissionEntity,
-		(permission) => permission.userPermissions,
+		'PermissionEntity',
+		(permission: PermissionEntity) => permission.userPermissions,
 	)
 	@JoinColumn({
 		name: 'permissionId',
@@ -36,8 +33,8 @@ export class UserPermissionEntity {
 	permission: PermissionEntity
 
 	@ManyToOne(
-		() => OrganizationEntity,
-		(organization) => organization.userPermissions,
+		'OrganizationEntity',
+		(organization: OrganizationEntity) => organization.userPermissions,
 		{
 			nullable: true,
 		},

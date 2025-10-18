@@ -10,17 +10,14 @@ import {
 } from 'typeorm'
 
 import type { Plan } from '@/core/plan/plan.schema'
-import { PlanEntity } from '@/adapters/database/plan/plan.typeorm.entity'
+import type { PlanEntity } from '@/adapters/database/plan/plan.typeorm.entity'
 
 @Entity('plan_interval')
 export class PlanIntervalEntity {
 	@PrimaryGeneratedColumn('uuid')
 	planIntervalId: Plan['intervals'][number]['planIntervalId']
 
-	@ManyToOne(
-		() => PlanEntity,
-		(plan) => plan.planIntervals,
-	)
+	@ManyToOne('PlanEntity', (plan: PlanEntity) => plan.planIntervals)
 	@JoinColumn({
 		name: 'planId',
 	})

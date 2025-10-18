@@ -8,37 +8,31 @@ import {
 	UpdateDateColumn,
 } from 'typeorm'
 
-import { OrganizationEntity } from '@/adapters/database/organization/organization.typeorm.entity'
-import { RoleEntity } from '@/adapters/database/role/role.typeorm.entity'
-import { UserEntity } from '@/adapters/database/user/user.typeorm.entity'
+import type { OrganizationEntity } from '@/adapters/database/organization/organization.typeorm.entity'
+import type { RoleEntity } from '@/adapters/database/role/role.typeorm.entity'
+import type { UserEntity } from '@/adapters/database/user/user.typeorm.entity'
 
 @Entity('user_organization')
 export class UserOrganizationEntity {
 	@PrimaryGeneratedColumn('uuid')
 	userOrganizationId: string
 
-	@ManyToOne(
-		() => UserEntity,
-		(user) => user.userOrganizations,
-	)
+	@ManyToOne('UserEntity', (user: UserEntity) => user.userOrganizations)
 	@JoinColumn({
 		name: 'userId',
 	})
 	user: UserEntity
 
 	@ManyToOne(
-		() => OrganizationEntity,
-		(organization) => organization.userOrganizations,
+		'OrganizationEntity',
+		(organization: OrganizationEntity) => organization.userOrganizations,
 	)
 	@JoinColumn({
 		name: 'organizationId',
 	})
 	organization: OrganizationEntity
 
-	@ManyToOne(
-		() => RoleEntity,
-		(role) => role.userOrganizations,
-	)
+	@ManyToOne('RoleEntity', (role: RoleEntity) => role.userOrganizations)
 	@JoinColumn({
 		name: 'roleId',
 	})

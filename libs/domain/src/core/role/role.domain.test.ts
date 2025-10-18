@@ -12,9 +12,7 @@ describe('RoleDomain', () => {
 	beforeEach(async () => {
 		const module: TestingModule = await Test.createTestingModule({
 			imports: [
-				DomainTestModule.register({
-					withDatabase: false,
-				}),
+				DomainTestModule.register(),
 			],
 		}).compile()
 

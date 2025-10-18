@@ -1,16 +1,24 @@
 import { Test, type TestingModule } from '@nestjs/testing'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { beforeEach, describe, expect, it, type Mocked, vi } from 'vitest'
 
 import { PlanService } from '@/core/plan/plan.service'
-import { InMemoryDatabaseModule } from '@/adapters/database'
-import { PlanRepositoryModule } from '@/adapters/database/plan/plan.repository.module'
 import { RecurrenceService } from '@/adapters/recurrence'
+import type { IPlanRepository } from '@/ports/database/plan'
 import { DomainTestModule } from '@/domain.test.module'
 
 const recurrenceServiceMock = {
 	createPlan: vi.fn(),
 	updatePlan: vi.fn(),
 	cancelPlan: vi.fn(),
+}
+
+const mockPlanRepository: Mocked<IPlanRepository> = {
+	findPaginated: vi.fn(),
+	find: vi.fn(),
+	findById: vi.fn(),
+	create: vi.fn(),
+	updateById: vi.fn(),
+	deleteById: vi.fn(),
 }
 
 describe('PlanService', () => {
@@ -20,11 +28,13 @@ describe('PlanService', () => {
 		const module: TestingModule = await Test.createTestingModule({
 			imports: [
 				DomainTestModule.register(),
-				InMemoryDatabaseModule.register(),
-				PlanRepositoryModule,
 			],
 			providers: [
 				PlanService,
+				{
+					provide: 'PLAN_REPOSITORY',
+					useValue: mockPlanRepository,
+				},
 				{
 					provide: RecurrenceService,
 					useValue: recurrenceServiceMock,

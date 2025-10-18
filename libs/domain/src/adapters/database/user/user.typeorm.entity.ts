@@ -16,44 +16,41 @@ import {
 } from 'typeorm'
 
 import type { User } from '@/core/user/user.schema'
-import { OTPEntity } from '@/adapters/database/otp/otp.typeorm.entity'
-import { UserAddressEntity } from '@/adapters/database/user/user-address.typeorm.entity'
-import { UserOrganizationEntity } from '@/adapters/database/user/user-organization.typeorm.entity'
-import { UserPermissionEntity } from '@/adapters/database/user/user-permission.typeorm.entity'
-import { WorkspaceEntity } from '@/adapters/database/workspace/workspace.typeorm.entity'
+import type { OTPEntity } from '@/adapters/database/otp/otp.typeorm.entity'
+import type { UserAddressEntity } from '@/adapters/database/user/user-address.typeorm.entity'
+import type { UserOrganizationEntity } from '@/adapters/database/user/user-organization.typeorm.entity'
+import type { UserPermissionEntity } from '@/adapters/database/user/user-permission.typeorm.entity'
+import type { WorkspaceEntity } from '@/adapters/database/workspace/workspace.typeorm.entity'
 
 @Entity('user')
 export class UserEntity {
 	@PrimaryGeneratedColumn('uuid')
 	userId: User['userId']
 
-	@OneToMany(
-		() => OTPEntity,
-		(otp) => otp.user,
-	)
+	@OneToMany('OTPEntity', (otp: OTPEntity) => otp.user)
 	otps: OTPEntity[]
 
 	@OneToMany(
-		() => UserOrganizationEntity,
-		(userOrganization) => userOrganization.user,
+		'UserOrganizationEntity',
+		(userOrganization: UserOrganizationEntity) => userOrganization.user,
 	)
 	userOrganizations: UserOrganizationEntity[]
 
 	@OneToMany(
-		() => UserAddressEntity,
-		(userAddress) => userAddress.user,
+		'UserAddressEntity',
+		(userAddress: UserAddressEntity) => userAddress.user,
 	)
 	userAddresses: UserAddressEntity[]
 
 	@OneToMany(
-		() => UserPermissionEntity,
-		(userPermission) => userPermission.user,
+		'UserPermissionEntity',
+		(userPermission: UserPermissionEntity) => userPermission.user,
 	)
 	userPermissions: UserPermissionEntity[]
 
 	@ManyToOne(
-		() => WorkspaceEntity,
-		(workspace) => workspace.users,
+		'WorkspaceEntity',
+		(workspace: WorkspaceEntity) => workspace.users,
 		{
 			nullable: true,
 		},

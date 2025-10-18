@@ -10,9 +10,9 @@ import {
 } from 'typeorm'
 
 import type { Plan } from '@/core/plan/plan.schema'
-import { PlanFeatureEntity } from '@/adapters/database/plan/plan-feature.typeorm.entity'
-import { PlanIntervalEntity } from '@/adapters/database/plan/plan-interval.typeorm.entity'
-import { SubscriptionEntity } from '@/adapters/database/subscription/subscription.typeorm.entity'
+import type { PlanFeatureEntity } from '@/adapters/database/plan/plan-feature.typeorm.entity'
+import type { PlanIntervalEntity } from '@/adapters/database/plan/plan-interval.typeorm.entity'
+import type { SubscriptionEntity } from '@/adapters/database/subscription/subscription.typeorm.entity'
 
 @Entity('plan')
 export class PlanEntity {
@@ -20,20 +20,20 @@ export class PlanEntity {
 	planId: Plan['planId']
 
 	@OneToMany(
-		() => SubscriptionEntity,
-		(subscription) => subscription.plan,
+		'SubscriptionEntity',
+		(subscription: SubscriptionEntity) => subscription.plan,
 	)
 	subscriptions: SubscriptionEntity[]
 
 	@OneToMany(
-		() => PlanIntervalEntity,
-		(planInterval) => planInterval.plan,
+		'PlanIntervalEntity',
+		(planInterval: PlanIntervalEntity) => planInterval.plan,
 	)
 	planIntervals: PlanIntervalEntity[]
 
 	@OneToMany(
-		() => PlanFeatureEntity,
-		(planFeature) => planFeature.plan,
+		'PlanFeatureEntity',
+		(planFeature: PlanFeatureEntity) => planFeature.plan,
 	)
 	planFeatures: PlanFeatureEntity[]
 
@@ -53,7 +53,6 @@ export class PlanEntity {
 	description: Plan['description']
 
 	features: Plan['features']
-
 	intervals: Plan['intervals']
 
 	@Column({
@@ -67,13 +66,13 @@ export class PlanEntity {
 	})
 	status: Plan['status']
 
-	@DeleteDateColumn({})
+	@DeleteDateColumn()
 	deletedAt: Plan['deletedAt']
 
-	@CreateDateColumn({})
+	@CreateDateColumn()
 	createdAt: Plan['createdAt']
 
-	@UpdateDateColumn({})
+	@UpdateDateColumn()
 	updatedAt: Plan['updatedAt']
 
 	@AfterLoad()

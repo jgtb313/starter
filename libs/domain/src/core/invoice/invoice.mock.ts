@@ -1,7 +1,6 @@
 import { uuid } from '@starter/common'
 
 import type {
-	Invoice,
 	InvoiceBoleto,
 	InvoiceCard,
 	InvoiceInput,
@@ -43,5 +42,3 @@ export const makeInvoice = (overrides: InvoiceOverrides): InvoiceInput => {
 		...overrides,
 	} as InvoiceInput
 }
-
-export const invoiceMocks: Invoice[] = []

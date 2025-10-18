@@ -23,10 +23,10 @@ describe('PermissionController', () => {
 		await app.close()
 	})
 
-	describe('GET /permissions', () => {
+	describe('GET /v1/permissions', () => {
 		it('should return a permission list (200)', async () => {
 			const response = await request(app.getHttpServer())
-				.get('/permissions')
+				.get('/v1/permissions')
 				.query()
 
 			expect(Array.isArray(response.body.values)).toBe(true)

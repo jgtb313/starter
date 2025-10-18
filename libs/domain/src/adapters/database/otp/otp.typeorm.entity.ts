@@ -9,20 +9,16 @@ import {
 } from 'typeorm'
 
 import type { OTP } from '@/core/otp/otp.schema'
-import { UserEntity } from '@/adapters/database/user/user.typeorm.entity'
+import type { UserEntity } from '@/adapters/database/user/user.typeorm.entity'
 
 @Entity('otp')
 export class OTPEntity {
 	@PrimaryGeneratedColumn('uuid')
 	otpId: OTP['otpId']
 
-	@ManyToOne(
-		() => UserEntity,
-		(user) => user.otps,
-		{
-			nullable: true,
-		},
-	)
+	@ManyToOne('UserEntity', (user: UserEntity) => user.otps, {
+		nullable: true,
+	})
 	@JoinColumn({
 		name: 'userId',
 	})
@@ -69,7 +65,7 @@ export class OTPEntity {
 	maxRequestsPerDay: OTP['maxRequestsPerDay']
 
 	@Column({
-		type: 'timestamp',
+		type: 'datetime',
 	})
 	expiresAt: OTP['expiresAt']
 

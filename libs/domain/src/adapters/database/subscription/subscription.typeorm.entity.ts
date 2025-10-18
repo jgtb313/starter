@@ -13,9 +13,9 @@ import type {
 	Subscription,
 	SubscriptionCard,
 } from '@/core/subscription/subscription.schema'
-import { InvoiceEntity } from '@/adapters/database/invoice/invoice.typeorm.entity'
-import { PlanEntity } from '@/adapters/database/plan/plan.typeorm.entity'
-import { WorkspaceEntity } from '@/adapters/database/workspace/workspace.typeorm.entity'
+import type { InvoiceEntity } from '@/adapters/database/invoice/invoice.typeorm.entity'
+import type { PlanEntity } from '@/adapters/database/plan/plan.typeorm.entity'
+import type { WorkspaceEntity } from '@/adapters/database/workspace/workspace.typeorm.entity'
 
 @Entity('subscription')
 export class SubscriptionEntity {
@@ -23,27 +23,21 @@ export class SubscriptionEntity {
 	subscriptionId: Subscription['subscriptionId']
 
 	@ManyToOne(
-		() => WorkspaceEntity,
-		(workspace) => workspace.subscriptions,
+		'WorkspaceEntity',
+		(workspace: WorkspaceEntity) => workspace.subscriptions,
 	)
 	@JoinColumn({
 		name: 'workspaceId',
 	})
 	workspace: WorkspaceEntity
 
-	@ManyToOne(
-		() => PlanEntity,
-		(plan) => plan.subscriptions,
-	)
+	@ManyToOne('PlanEntity', (plan: PlanEntity) => plan.subscriptions)
 	@JoinColumn({
 		name: 'planId',
 	})
 	plan: PlanEntity
 
-	@OneToMany(
-		() => InvoiceEntity,
-		(invoice) => invoice.subscription,
-	)
+	@OneToMany('InvoiceEntity', (invoice: InvoiceEntity) => invoice.subscription)
 	invoices: InvoiceEntity[]
 
 	@Column({
@@ -68,17 +62,17 @@ export class SubscriptionEntity {
 	payer: Subscription['payer']
 
 	@Column({
-		type: 'timestamp',
+		type: 'datetime',
 	})
 	nextBillingDate: Subscription['nextBillingDate']
 
 	@Column({
-		type: 'timestamp',
+		type: 'datetime',
 	})
 	deadline: Subscription['deadline']
 
 	@Column({
-		type: 'timestamp',
+		type: 'datetime',
 		nullable: true,
 	})
 	canceledAt: Subscription['canceledAt']

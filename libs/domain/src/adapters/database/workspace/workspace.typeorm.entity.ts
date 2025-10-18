@@ -14,12 +14,12 @@ import {
 } from 'typeorm'
 
 import type { Workspace } from '@/core/workspace/workspace.schema'
-import { InvoiceEntity } from '@/adapters/database/invoice/invoice.typeorm.entity'
-import { OrganizationEntity } from '@/adapters/database/organization/organization.typeorm.entity'
-import { RoleEntity } from '@/adapters/database/role/role.typeorm.entity'
-import { SubscriptionEntity } from '@/adapters/database/subscription/subscription.typeorm.entity'
-import { UserEntity } from '@/adapters/database/user/user.typeorm.entity'
-import { WorkspaceAddressEntity } from '@/adapters/database/workspace/workspace-address.typeorm.entity'
+import type { InvoiceEntity } from '@/adapters/database/invoice/invoice.typeorm.entity'
+import type { OrganizationEntity } from '@/adapters/database/organization/organization.typeorm.entity'
+import type { RoleEntity } from '@/adapters/database/role/role.typeorm.entity'
+import type { SubscriptionEntity } from '@/adapters/database/subscription/subscription.typeorm.entity'
+import type { UserEntity } from '@/adapters/database/user/user.typeorm.entity'
+import type { WorkspaceAddressEntity } from '@/adapters/database/workspace/workspace-address.typeorm.entity'
 
 @Entity('workspace')
 export class WorkspaceEntity {
@@ -27,39 +27,30 @@ export class WorkspaceEntity {
 	workspaceId: Workspace['workspaceId']
 
 	@OneToOne(
-		() => WorkspaceAddressEntity,
-		(workspaceAddress) => workspaceAddress.workspace,
+		'WorkspaceAddressEntity',
+		(workspaceAddress: WorkspaceAddressEntity) => workspaceAddress.workspace,
 	)
 	workspaceAddress: WorkspaceAddressEntity
 
-	@OneToMany(
-		() => UserEntity,
-		(user) => user.workspace,
-	)
+	@OneToMany('UserEntity', (user: UserEntity) => user.workspace)
 	users: UserEntity[]
 
 	@OneToMany(
-		() => OrganizationEntity,
-		(organization) => organization.workspace,
+		'OrganizationEntity',
+		(organization: OrganizationEntity) => organization.workspace,
 	)
 	organizations: OrganizationEntity[]
 
-	@OneToMany(
-		() => RoleEntity,
-		(role) => role.workspace,
-	)
+	@OneToMany('RoleEntity', (role: RoleEntity) => role.workspace)
 	roles: RoleEntity[]
 
 	@OneToMany(
-		() => SubscriptionEntity,
-		(subscription) => subscription.workspace,
+		'SubscriptionEntity',
+		(subscription: SubscriptionEntity) => subscription.workspace,
 	)
 	subscriptions: SubscriptionEntity[]
 
-	@OneToMany(
-		() => InvoiceEntity,
-		(invoice) => invoice.workspace,
-	)
+	@OneToMany('InvoiceEntity', (invoice: InvoiceEntity) => invoice.workspace)
 	invoices: InvoiceEntity[]
 
 	@Column({
@@ -134,7 +125,7 @@ export class WorkspaceEntity {
 	locale: Workspace['locale']
 
 	@Column({
-		type: 'timestamp',
+		type: 'datetime',
 		nullable: true,
 	})
 	trialEndsAt: Workspace['trialEndsAt']

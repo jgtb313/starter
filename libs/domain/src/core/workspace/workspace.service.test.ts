@@ -1,9 +1,8 @@
 import { Test, type TestingModule } from '@nestjs/testing'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { beforeEach, describe, expect, it, type Mocked, vi } from 'vitest'
 
 import { UserService } from '@/core/user/user.service'
 import { WorkspaceService } from '@/core/workspace/workspace.service'
-import { WorkspaceRepositoryModule } from '@/adapters/database/workspace/workspace.repository.module'
 import { PublisherService } from '@/adapters/publisher/publisher.service'
 import type { IWorkspaceRepository } from '@/ports/database/workspace'
 import { DomainTestModule } from '@/domain.test.module'
@@ -16,18 +15,31 @@ const publisherServiceMock = {
 	publish: vi.fn(),
 }
 
+const mockWorkspaceRepository: Mocked<IWorkspaceRepository> = {
+	findPaginated: vi.fn(),
+	find: vi.fn(),
+	findById: vi.fn(),
+	create: vi.fn(),
+	updateById: vi.fn(),
+	deleteById: vi.fn(),
+	upsertAddress: vi.fn(),
+	deleteAddress: vi.fn(),
+}
+
 describe('WorkspaceService', () => {
 	let service: WorkspaceService
-	let repository: IWorkspaceRepository
 
 	beforeEach(async () => {
 		const module: TestingModule = await Test.createTestingModule({
 			imports: [
 				DomainTestModule.register(),
-				WorkspaceRepositoryModule,
 			],
 			providers: [
 				WorkspaceService,
+				{
+					provide: 'WORKSPACE_REPOSITORY',
+					useValue: mockWorkspaceRepository,
+				},
 				{
 					provide: UserService,
 					useValue: userServiceMock,
@@ -40,7 +52,6 @@ describe('WorkspaceService', () => {
 		}).compile()
 
 		service = module.get(WorkspaceService)
-		repository = module.get<IWorkspaceRepository>('WORKSPACE_REPOSITORY')
 
 		vi.clearAllMocks()
 	})

@@ -13,7 +13,7 @@ import {
 
 import type { Workspace } from '@/core/workspace/workspace.schema'
 
-import { WorkspaceEntity } from './workspace.typeorm.entity'
+import type { WorkspaceEntity } from './workspace.typeorm.entity'
 
 type WorkspaceAddress = Required<Workspace['address']>
 
@@ -23,8 +23,8 @@ export class WorkspaceAddressEntity {
 	workspaceAddressId: string
 
 	@OneToOne(
-		() => WorkspaceEntity,
-		(workspace) => workspace.workspaceAddress,
+		'WorkspaceEntity',
+		(workspace: WorkspaceEntity) => workspace.workspaceAddress,
 	)
 	@JoinColumn({
 		name: 'workspaceId',

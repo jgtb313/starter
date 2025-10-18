@@ -1,11 +1,9 @@
 import { Test, type TestingModule } from '@nestjs/testing'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { beforeEach, describe, expect, it, type Mocked, vi } from 'vitest'
 
 import { OrganizationService } from '@/core/organization/organization.service'
 import { PermissionService } from '@/core/permission/permission.service'
-import type { PlanService } from '@/core/plan/plan.service'
 import { RoleService } from '@/core/role/role.service'
-import { RoleRepositoryModule } from '@/adapters/database/role/role.repository.module'
 import type { IRoleRepository } from '@/ports/database/role'
 import { DomainTestModule } from '@/domain.test.module'
 
@@ -17,18 +15,31 @@ const permissionServiceMock = {
 	validatePermissionIds: vi.fn(),
 }
 
+const mockRoleRepository: Mocked<IRoleRepository> = {
+	findPaginated: vi.fn(),
+	find: vi.fn(),
+	findById: vi.fn(),
+	create: vi.fn(),
+	updateById: vi.fn(),
+	deleteById: vi.fn(),
+	validateIds: vi.fn(),
+	validateIdsByOrganizationId: vi.fn(),
+}
+
 describe('RoleService', () => {
-	let service: PlanService
-	let repository: IRoleRepository
+	let service: RoleService
 
 	beforeEach(async () => {
 		const module: TestingModule = await Test.createTestingModule({
 			imports: [
 				DomainTestModule.register(),
-				RoleRepositoryModule,
 			],
 			providers: [
 				RoleService,
+				{
+					provide: 'ROLE_REPOSITORY',
+					useValue: mockRoleRepository,
+				},
 				{
 					provide: OrganizationService,
 					useValue: organizationServiceMock,
