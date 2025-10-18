@@ -9,7 +9,7 @@ import {
 	vi,
 } from 'vitest'
 
-import type { ICache } from '@/ports/cache'
+import type { ICacheAdapter } from '@/adapters/cache/cache.adapter'
 
 import { CacheService, CacheServiceSymbol } from './cache.service'
 
@@ -19,8 +19,8 @@ describe('CacheService', () => {
 	const mockCache = {
 		get: vi.fn(),
 		set: vi.fn(),
-		delete: vi.fn(),
-	} as Mocked<ICache>
+		del: vi.fn(),
+	} as Mocked<ICacheAdapter>
 
 	beforeEach(async () => {
 		const testingModule: TestingModule = await Test.createTestingModule({
@@ -71,7 +71,7 @@ describe('CacheService', () => {
 		it('should call del with correct key', async () => {
 			await cacheService.delete('testKey')
 
-			expect(mockCache.delete).toHaveBeenCalledWith('testKey')
+			expect(mockCache.del).toHaveBeenCalledWith('testKey')
 		})
 	})
 })
