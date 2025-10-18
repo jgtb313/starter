@@ -89,8 +89,6 @@ export class SubscriptionService {
 
 		const plan = await this.planService.getPlan(planId)
 
-		plan.checkIfIsSignable()
-
 		const { customerId: recurrenceExternalId } =
 			await this.recurrenceService.createCustmer({
 				workspaceId,
@@ -162,8 +160,6 @@ export class SubscriptionService {
 	) {
 		const subscription = await this.getSubscription(reference)
 		const plan = await this.planService.getPlan(input.planId)
-
-		plan.checkIfIsSignable()
 
 		await this.recurrenceService.changeSubscriptionPlan({
 			subscriptionId: subscription.state.subscriptionId,

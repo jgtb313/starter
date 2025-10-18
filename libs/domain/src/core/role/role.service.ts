@@ -86,8 +86,6 @@ export class RoleService {
 	activateRole = async (reference: RoleWorkspaceReference) => {
 		const role = await this.getRole(reference)
 
-		role.checkIfCanActivate()
-
 		return this.roleRepository.updateById(role.state.roleId, {
 			status: 'ACTIVE',
 		})
@@ -95,8 +93,6 @@ export class RoleService {
 
 	deactivateRole = async (reference: RoleWorkspaceReference) => {
 		const role = await this.getRole(reference)
-
-		role.checkIfCanDeactivate()
 
 		return this.roleRepository.updateById(role.state.roleId, {
 			status: 'INACTIVE',

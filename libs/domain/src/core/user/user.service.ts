@@ -145,8 +145,6 @@ export class UserService {
 	async activateUser(reference: UserWorkspaceReference) {
 		const user = await this.getUser(reference)
 
-		user.checkIfCanActivate()
-
 		await this.userRepository.updateById(user.state.userId, {
 			status: 'ACTIVE',
 		})
@@ -154,8 +152,6 @@ export class UserService {
 
 	async deactivateUser(reference: UserWorkspaceReference) {
 		const user = await this.getUser(reference)
-
-		user.checkIfCanDeactivate()
 
 		await this.userRepository.updateById(user.state.userId, {
 			status: 'INACTIVE',

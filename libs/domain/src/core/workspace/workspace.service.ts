@@ -57,7 +57,7 @@ export class WorkspaceService {
 
 		const user = await this.userService.getUser(userId)
 
-		const hasWorkspace = user.checkIfHasWorkspace()
+		const hasWorkspace = user.state.workspaceId !== null
 
 		if (hasWorkspace) {
 			throw new ConflictException(
@@ -153,8 +153,6 @@ export class WorkspaceService {
 
 		const workspace = await this.getWorkspace(workspaceId)
 
-		workspace.checkIfCanActivate()
-
 		const updatedWorkspace = await this.workspaceRepository.updateById(
 			workspace.state.workspaceId,
 			{
@@ -180,8 +178,6 @@ export class WorkspaceService {
 		})
 
 		const workspace = await this.getWorkspace(workspaceId)
-
-		workspace.checkIfCanDeactivate()
 
 		const updatedWorkspace = await this.workspaceRepository.updateById(
 			workspace.state.workspaceId,

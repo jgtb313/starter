@@ -79,8 +79,6 @@ export class OrganizationService {
 	async activeOrganization(reference: OrganizationWorkspaceReference) {
 		const organization = await this.getOrganization(reference)
 
-		organization.checkIfCanActivate()
-
 		return this.organizationRepository.updateById(
 			organization.state.organizationId,
 			{
@@ -91,8 +89,6 @@ export class OrganizationService {
 
 	async inactiveOrganization(reference: OrganizationWorkspaceReference) {
 		const organization = await this.getOrganization(reference)
-
-		organization.checkIfCanDeactivate()
 
 		return this.organizationRepository.updateById(
 			organization.state.organizationId,
