@@ -10,6 +10,7 @@ import { OTPContextDomain } from '@/core/otp/otp-context.domain'
 import { UserService } from '@/core/user/user.service'
 import { NotificationService } from '@/adapters/notification'
 import type { IOTPRepository } from '@/ports/database/otp'
+import { type I18nDomainService, I18nDomainSymbol } from '@/domain.i18n.module'
 
 @Injectable()
 export class OTPService {
@@ -19,6 +20,8 @@ export class OTPService {
 		private readonly userService: UserService,
 		@Inject(forwardRef(() => NotificationService))
 		private readonly notificationService: NotificationService,
+		@Inject(I18nDomainSymbol)
+		private readonly i18nService: I18nDomainService,
 	) {}
 
 	async sendOTP({
@@ -27,12 +30,12 @@ export class OTPService {
 		context,
 		recipient,
 	}: Pick<OTP, 'userId' | 'channel' | 'context' | 'recipient'>) {
-		const ctx = new OTPContextDomain().getContext(context)
+		const otpContext = new OTPContextDomain(context, this.i18nService)
 
 		const code = random(1000, 9999).toString()
 		const hashedCode = OTPDomain.generateCode(code)
 
-		const otp = new OTPDomain({
+		const otp: OTP = {
 			otpId: uuid(),
 			userId,
 			channel,
@@ -40,35 +43,28 @@ export class OTPService {
 			recipient,
 			code: hashedCode,
 			validationAttempts: 0,
-			maxValidationAttempts: ctx.maxValidationAttempts,
-			resendCooldownSeconds: ctx.resendCooldownSeconds,
-			maxRequestsPerDay: ctx.maxRequestsPerDay,
-			expiresAt: addSeconds(
-				new Date(),
-				ctx.resendCooldownSeconds,
-			).toISOString(),
+			maxValidationAttempts: otpContext.state.maxValidationAttempts,
+			resendCooldownSeconds: otpContext.state.resendCooldownSeconds,
+			maxRequestsPerDay: otpContext.state.maxRequestsPerDay,
+			expiresAt: addSeconds(new Date(), otpContext.state.resendCooldownSeconds),
 			createdAt: new Date().toISOString(),
 			updatedAt: new Date().toISOString(),
-		})
+		}
 
 		const mostRecent = await this.otpRepository.findMostRecent(
 			recipient,
 			context,
 		)
 
-		otp.checkIfCanResend(
-			mostRecent ? mostRecent.state : null,
-			otp.state.resendCooldownSeconds,
-		)
+		otpContext.checkIfCanResend(mostRecent ? mostRecent.state : null)
 
 		const dailyCount = await this.otpRepository.countTodayAttempts(
 			recipient,
 			context,
 		)
+		otpContext.checkIfHasReachedDailyLimit(dailyCount)
 
-		otp.checkIfHasReachedDailyLimit(dailyCount)
-
-		await this.otpRepository.create(otp.state)
+		await this.otpRepository.create(otp)
 
 		switch (channel) {
 			case 'EMAIL':
@@ -77,7 +73,7 @@ export class OTPService {
 					recipient,
 					props: {
 						code,
-						expiresInMinutes: ctx.resendCooldownSeconds,
+						expiresInMinutes: otpContext.state.resendCooldownSeconds,
 					},
 				})
 				break
@@ -118,7 +114,7 @@ export class OTPService {
 			otp.checkIfHasValidRecipient(recipient)
 			otp.checkIfHasValidContext(context)
 			otp.checkIfHasValidCode(code)
-		} finally {
+		} catch (err) {
 			await this.otpRepository.updateById(otp.state.otpId, {
 				validationAttempts: otp.state.validationAttempts + 1,
 			})

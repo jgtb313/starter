@@ -127,6 +127,6 @@ export class InvoiceTypeorm implements IInvoiceRepository {
 	}
 
 	private toInvoiceDomain(model: InvoiceEntity) {
-		return new InvoiceDomain(deepMapDatesToISOString(model))
+		return new InvoiceDomain(deepMapDatesToISOString(model), this.i18nService)
 	}
 }

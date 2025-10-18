@@ -1,37 +1,30 @@
 import crypto from 'crypto'
 
-import { addSeconds, isBefore, isFuture } from '@starter/common'
+import { isFuture } from '@starter/common'
 import {
 	BadRequestException,
 	ConflictException,
 	ForbiddenException,
 } from '@starter/nestjs-error-handling'
 
+import { Inject, Injectable } from '@nestjs/common'
+
 import { BaseDomain } from '@/support/base-domain'
 import { type OTP, type OTPInput, OTPSchema } from '@/core/otp/otp.schema'
+import { type I18nDomainService, I18nDomainSymbol } from '@/domain.i18n.module'
 
-export class OTPDomain extends BaseDomain<OTP, OTPInput> {
-	constructor(input: OTPInput) {
-		super(OTPSchema, input)
+@Injectable()
+export class OTPDomain extends BaseDomain<OTP> {
+	constructor(
+		input: OTPInput,
+		@Inject(I18nDomainSymbol)
+		private readonly i18nService: I18nDomainService,
+	) {
+		super(OTPSchema.parse(input))
 	}
 
 	static generateCode(code: string) {
 		return crypto.createHash('sha256').update(code).digest('hex')
-	}
-
-	checkIfCanResend(mostRecent: OTP | null, cooldownSeconds: number) {
-		if (!mostRecent) {
-			return
-		}
-
-		const canResend = isBefore(
-			addSeconds(mostRecent.createdAt, cooldownSeconds),
-			new Date(),
-		)
-
-		if (!canResend) {
-			throw new ConflictException(this.i18nService.current.otpResendCooldown())
-		}
 	}
 
 	checkIfHasExpired() {
@@ -88,18 +81,6 @@ export class OTPDomain extends BaseDomain<OTP, OTPInput> {
 					},
 				],
 			})
-		}
-
-		return this.state
-	}
-
-	checkIfHasReachedDailyLimit(dailyCount: number) {
-		const exceeded = dailyCount >= this.state.maxRequestsPerDay
-
-		if (exceeded) {
-			throw new ConflictException(
-				this.i18nService.current.otpDailyLimitExceeded(),
-			)
 		}
 	}
 }

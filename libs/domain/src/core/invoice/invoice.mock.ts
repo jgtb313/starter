@@ -1,7 +1,7 @@
 import { uuid } from '@starter/common'
 
-import { InvoiceDomain } from '@/core/invoice/invoice.domain'
 import type {
+	Invoice,
 	InvoiceBoleto,
 	InvoiceCard,
 	InvoiceInput,
@@ -13,7 +13,7 @@ type InvoiceOverrides =
 	| Partial<InvoicePix>
 	| Partial<InvoiceBoleto>
 
-export const makeInvoice = (overrides: InvoiceOverrides): InvoiceDomain => {
+export const makeInvoice = (overrides: InvoiceOverrides): InvoiceInput => {
 	const base: InvoiceInput = {
 		workspaceId: uuid(),
 		subscriptionId: uuid(),
@@ -38,10 +38,10 @@ export const makeInvoice = (overrides: InvoiceOverrides): InvoiceDomain => {
 		updatedAt: new Date().toISOString(),
 	}
 
-	return new InvoiceDomain({
+	return {
 		...base,
 		...overrides,
-	} as InvoiceInput)
+	} as InvoiceInput
 }
 
-export const invoiceMocks: InvoiceDomain[] = []
+export const invoiceMocks: Invoice[] = []

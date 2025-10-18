@@ -1,7 +1,14 @@
-import { NotFoundException } from '@starter/nestjs-error-handling'
+import crypto from 'crypto'
+
+import { addSeconds, isBefore } from '@starter/common'
+import { ConflictException } from '@starter/nestjs-error-handling'
+
+import { Inject, Injectable } from '@nestjs/common'
 
 import { BaseDomain } from '@/support/base-domain'
-import type { OTPContext, OTPContextInput } from '@/core/otp/otp-context.schema'
+import type { OTP } from '@/core/otp/otp.schema'
+import type { OTPContext } from '@/core/otp/otp-context.schema'
+import { type I18nDomainService, I18nDomainSymbol } from '@/domain.i18n.module'
 
 export type OTPContextValue = {
 	context: OTPContext
@@ -42,18 +49,38 @@ export const OTPContextValues: Record<OTPContext, OTPContextValue> = {
 	},
 }
 
-export class OTPContextDomain extends BaseDomain<OTPContext, OTPContextInput> {
-	getContext(context: OTPContext): OTPContextValue {
-		const otpContext = OTPContextValues[context]
+@Injectable()
+export class OTPContextDomain extends BaseDomain<OTPContextValue> {
+	constructor(
+		context: OTPContext,
+		@Inject(I18nDomainSymbol)
+		private readonly i18nService: I18nDomainService,
+	) {
+		super(OTPContextValues[context])
+	}
 
-		if (!otpContext) {
-			throw new NotFoundException(
-				this.i18nService.current.otpContextNotFound({
-					context,
-				}),
-			)
+	checkIfCanResend(mostRecent: OTP | null) {
+		if (!mostRecent) {
+			return
 		}
 
-		return otpContext
+		const canResend = isBefore(
+			addSeconds(mostRecent.createdAt, this.state.resendCooldownSeconds),
+			new Date(),
+		)
+
+		if (!canResend) {
+			throw new ConflictException(this.i18nService.current.otpResendCooldown())
+		}
+	}
+
+	checkIfHasReachedDailyLimit(dailyCount: number) {
+		const exceeded = dailyCount >= this.state.maxRequestsPerDay
+
+		if (exceeded) {
+			throw new ConflictException(
+				this.i18nService.current.otpDailyLimitExceeded(),
+			)
+		}
 	}
 }

@@ -1,39 +1,22 @@
-import { NotFoundException } from '@starter/nestjs-error-handling'
+import { Test, type TestingModule } from '@nestjs/testing'
+import { beforeEach, describe } from 'vitest'
 
-import { beforeAll, describe, expect, it, vi } from 'vitest'
-
-import { DomainContext } from '@/support/base-domain'
-import {
-	OTPContextDomain,
-	OTPContextValues,
-} from '@/core/otp/otp-context.domain'
-import type { OTPContext } from '@/core/otp/otp-context.schema'
-import type { I18nDomainService } from '@/domain.i18n.module'
-
-const mockI18nService = {
-	current: {
-		otpContextNotFound: vi.fn(),
-	},
-} as unknown as I18nDomainService
+import { OTPContextDomain } from '@/core/otp/otp-context.domain'
+import { I18nDomainModule } from '@/domain.i18n.module'
 
 describe('OTPContextDomain', () => {
-	beforeAll(() => {
-		DomainContext.setI18nService(mockI18nService)
-	})
+	let domain: OTPContextDomain
 
-	const domain = new OTPContextDomain()
+	beforeEach(async () => {
+		const module: TestingModule = await Test.createTestingModule({
+			imports: [
+				I18nDomainModule.register(),
+			],
+			providers: [
+				OTPContextDomain,
+			],
+		}).compile()
 
-	it.each(Object.keys(OTPContextValues) as OTPContext[])(
-		'should return correct context for "%s"',
-		(context) => {
-			const result = domain.getContext(context)
-			expect(result.context).toBe(context)
-		},
-	)
-
-	it('should throw NotFoundException for invalid context', () => {
-		expect(() =>
-			domain.getContext('INVALID_CONTEXT' as OTPContext),
-		).toThrowError(NotFoundException)
+		domain = module.get(OTPContextDomain)
 	})
 })

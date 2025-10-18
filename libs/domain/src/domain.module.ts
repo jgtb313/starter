@@ -5,7 +5,6 @@ import type { I18nDict } from '@starter/i18n'
 import { type DynamicModule, Module } from '@nestjs/common'
 
 import { i18nDict } from '@/~i18n/domain.i18n.schema'
-import { DomainContextInitializer } from '@/support/base-domain'
 import type { CreateDataSourceConfigOptions } from '@/adapters/database/data-source.config'
 import { DatabaseModule } from '@/adapters/database/database.module'
 import { LoggerModule } from '@/adapters/logger'
@@ -27,12 +26,6 @@ export class DomainModule {
 				DatabaseModule.register(options.database),
 				I18nDomainModule.register(options.i18n),
 				LoggerModule,
-			],
-			providers: [
-				DomainContextInitializer,
-			],
-			exports: [
-				DomainContextInitializer,
 			],
 		}
 	}

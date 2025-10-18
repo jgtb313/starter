@@ -1,10 +1,16 @@
-import { ConflictException } from '@starter/nestjs-error-handling'
+import { Inject, Injectable } from '@nestjs/common'
 
 import { BaseDomain } from '@/support/base-domain'
 import { type User, type UserInput, UserSchema } from '@/core/user/user.schema'
+import { type I18nDomainService, I18nDomainSymbol } from '@/domain.i18n.module'
 
-export class UserDomain extends BaseDomain<User, UserInput> {
-	constructor(user: UserInput) {
-		super(UserSchema, user)
+@Injectable()
+export class UserDomain extends BaseDomain<User> {
+	constructor(
+		user: UserInput,
+		@Inject(I18nDomainSymbol)
+		private readonly i18nService: I18nDomainService,
+	) {
+		super(UserSchema.parse(user))
 	}
 }

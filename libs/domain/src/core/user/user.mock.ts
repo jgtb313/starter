@@ -1,11 +1,10 @@
 import { uuid } from '@starter/common'
 
-import { UserDomain } from '@/core/user/user.domain'
 import type { UserInput } from '@/core/user/user.schema'
 
 type UserOverrides = Partial<UserInput>
 
-export const makeUser = (overrides: UserOverrides): UserDomain => {
+export const makeUser = (overrides: UserOverrides): UserInput => {
 	const base: UserInput = {
 		userId: uuid(),
 		workspaceId: uuid(),
@@ -26,10 +25,10 @@ export const makeUser = (overrides: UserOverrides): UserDomain => {
 		updatedAt: new Date().toISOString(),
 	}
 
-	return new UserDomain({
+	return {
 		...base,
 		...overrides,
-	})
+	}
 }
 
-export const userMocks: UserDomain[] = []
+export const userMocks: UserInput[] = []

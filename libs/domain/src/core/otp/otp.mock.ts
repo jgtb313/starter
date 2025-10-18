@@ -1,13 +1,11 @@
 import { addSeconds, uuid } from '@starter/common'
 
-import { OTPDomain } from '@/core/otp/otp.domain'
 import type { OTPInput } from '@/core/otp/otp.schema'
 
 type OTPOverrides = Partial<OTPInput>
 
-export const makeOTP = (overrides: OTPOverrides): OTPDomain => {
+export const makeOTP = (overrides: OTPOverrides): OTPInput => {
 	const now = new Date()
-	const code = OTPDomain.generateCode(overrides.code ?? '123456')
 
 	const base: OTPInput = {
 		otpId: uuid(),
@@ -15,7 +13,7 @@ export const makeOTP = (overrides: OTPOverrides): OTPDomain => {
 		channel: 'EMAIL',
 		context: 'UPDATE_EMAIL',
 		recipient: 'user@example.com',
-		code,
+		code: '1234',
 		validationAttempts: 0,
 		maxValidationAttempts: 3,
 		maxRequestsPerDay: 5,
@@ -25,10 +23,10 @@ export const makeOTP = (overrides: OTPOverrides): OTPDomain => {
 		updatedAt: now.toISOString(),
 	}
 
-	return new OTPDomain({
+	return {
 		...base,
 		...overrides,
-	})
+	}
 }
 
-export const otpMocks: OTPDomain[] = []
+export const otpMocks: OTPInput[] = []
