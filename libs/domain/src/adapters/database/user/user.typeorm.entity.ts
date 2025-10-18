@@ -16,41 +16,44 @@ import {
 } from 'typeorm'
 
 import type { User } from '@/core/user/user.schema'
-import type { OTPEntity } from '@/adapters/database/otp/otp.typeorm.entity'
-import type { UserAddressEntity } from '@/adapters/database/user/user-address.typeorm.entity'
-import type { UserOrganizationEntity } from '@/adapters/database/user/user-organization.typeorm.entity'
-import type { UserPermissionEntity } from '@/adapters/database/user/user-permission.typeorm.entity'
-import type { WorkspaceEntity } from '@/adapters/database/workspace/workspace.typeorm.entity'
+import { OTPEntity } from '@/adapters/database/otp/otp.typeorm.entity'
+import { UserAddressEntity } from '@/adapters/database/user/user-address.typeorm.entity'
+import { UserOrganizationEntity } from '@/adapters/database/user/user-organization.typeorm.entity'
+import { UserPermissionEntity } from '@/adapters/database/user/user-permission.typeorm.entity'
+import { WorkspaceEntity } from '@/adapters/database/workspace/workspace.typeorm.entity'
 
 @Entity('user')
 export class UserEntity {
 	@PrimaryGeneratedColumn('uuid')
 	userId: User['userId']
 
-	@OneToMany('OTPEntity', (otp: OTPEntity) => otp.user)
+	@OneToMany(
+		() => OTPEntity,
+		(otp) => otp.user,
+	)
 	otps: OTPEntity[]
 
 	@OneToMany(
-		'UserOrganizationEntity',
-		(userOrganization: UserOrganizationEntity) => userOrganization.user,
+		() => UserOrganizationEntity,
+		(userOrganization) => userOrganization.user,
 	)
 	userOrganizations: UserOrganizationEntity[]
 
 	@OneToMany(
-		'UserAddressEntity',
-		(userAddress: UserAddressEntity) => userAddress.user,
+		() => UserAddressEntity,
+		(userAddress) => userAddress.user,
 	)
 	userAddresses: UserAddressEntity[]
 
 	@OneToMany(
-		'UserPermissionEntity',
-		(userPermission: UserPermissionEntity) => userPermission.user,
+		() => UserPermissionEntity,
+		(userPermission) => userPermission.user,
 	)
 	userPermissions: UserPermissionEntity[]
 
 	@ManyToOne(
-		'WorkspaceEntity',
-		(workspace: WorkspaceEntity) => workspace.users,
+		() => WorkspaceEntity,
+		(workspace) => workspace.users,
 		{
 			nullable: true,
 		},

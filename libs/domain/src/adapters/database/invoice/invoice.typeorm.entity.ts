@@ -15,8 +15,8 @@ import type {
 	InvoiceCard,
 	InvoicePix,
 } from '@/core/invoice/invoice.schema'
-import type { SubscriptionEntity } from '@/adapters/database/subscription/subscription.typeorm.entity'
-import type { WorkspaceEntity } from '@/adapters/database/workspace/workspace.typeorm.entity'
+import { SubscriptionEntity } from '@/adapters/database/subscription/subscription.typeorm.entity'
+import { WorkspaceEntity } from '@/adapters/database/workspace/workspace.typeorm.entity'
 
 @Entity('invoice')
 export class InvoiceEntity {
@@ -24,33 +24,22 @@ export class InvoiceEntity {
 	invoiceId: Invoice['invoiceId']
 
 	@ManyToOne(
-		'WorkspaceEntity',
-		(workspace: WorkspaceEntity) => workspace.invoices,
+		() => WorkspaceEntity,
+		(workspace) => workspace.invoices,
 	)
 	@JoinColumn({
 		name: 'workspaceId',
-		referencedColumnName: 'workspaceId',
 	})
 	workspace: WorkspaceEntity
 
-	@Column({
-		type: 'varchar',
-	})
-	workspaceId: Invoice['workspaceId']
-
 	@ManyToOne(
-		'SubscriptionEntity',
-		(subscription: SubscriptionEntity) => subscription.invoices,
+		() => SubscriptionEntity,
+		(subscription) => subscription.invoices,
 	)
 	@JoinColumn({
 		name: 'subscriptionId',
 	})
 	subscription: SubscriptionEntity
-
-	@Column({
-		type: 'varchar',
-	})
-	subscriptionId: Invoice['subscriptionId']
 
 	@Column({
 		type: 'varchar',
@@ -91,29 +80,29 @@ export class InvoiceEntity {
 	amount: Invoice['amount']
 
 	@Column({
-		type: 'datetime',
+		type: 'timestamp',
 	})
 	issuedAt: Invoice['issuedAt']
 
 	@Column({
-		type: 'datetime',
+		type: 'timestamp',
 	})
 	dueDate: Invoice['dueDate']
 
 	@Column({
-		type: 'datetime',
+		type: 'timestamp',
 		nullable: true,
 	})
 	paidAt: Invoice['paidAt']
 
 	@Column({
-		type: 'datetime',
+		type: 'timestamp',
 		nullable: true,
 	})
 	overdueAt: Invoice['overdueAt']
 
 	@Column({
-		type: 'datetime',
+		type: 'timestamp',
 		nullable: true,
 	})
 	canceledAt: Invoice['canceledAt']

@@ -8,8 +8,8 @@ import {
 } from 'typeorm'
 
 import type { Permission } from '@/core/permission/permission.schema'
-import type { RolePermissionEntity } from '@/adapters/database/role/role-permission.typeorm.entity'
-import type { UserPermissionEntity } from '@/adapters/database/user/user-permission.typeorm.entity'
+import { RolePermissionEntity } from '@/adapters/database/role/role-permission.typeorm.entity'
+import { UserPermissionEntity } from '@/adapters/database/user/user-permission.typeorm.entity'
 
 @Entity('permission')
 export class PermissionEntity {
@@ -17,14 +17,14 @@ export class PermissionEntity {
 	permissionId: Permission['permissionId']
 
 	@OneToMany(
-		'RolePermissionEntity',
-		(rolePermission: RolePermissionEntity) => rolePermission.permission,
+		() => RolePermissionEntity,
+		(rolePermission) => rolePermission.permission,
 	)
 	rolePermissions: RolePermissionEntity[]
 
 	@OneToMany(
-		'UserPermissionEntity',
-		(userPermission: UserPermissionEntity) => userPermission.permission,
+		() => UserPermissionEntity,
+		(userPermission) => userPermission.permission,
 	)
 	userPermissions: UserPermissionEntity[]
 

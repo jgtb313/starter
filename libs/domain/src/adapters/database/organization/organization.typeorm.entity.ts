@@ -15,10 +15,10 @@ import {
 } from 'typeorm'
 
 import type { Organization } from '@/core/organization/organization.schema'
-import type { RoleOrganizationEntity } from '@/adapters/database/role/role-organization.typeorm.entity'
-import type { UserOrganizationEntity } from '@/adapters/database/user/user-organization.typeorm.entity'
-import type { UserPermissionEntity } from '@/adapters/database/user/user-permission.typeorm.entity'
-import type { WorkspaceEntity } from '@/adapters/database/workspace/workspace.typeorm.entity'
+import { RoleOrganizationEntity } from '@/adapters/database/role/role-organization.typeorm.entity'
+import { UserOrganizationEntity } from '@/adapters/database/user/user-organization.typeorm.entity'
+import { UserPermissionEntity } from '@/adapters/database/user/user-permission.typeorm.entity'
+import { WorkspaceEntity } from '@/adapters/database/workspace/workspace.typeorm.entity'
 
 @Entity('organization')
 export class OrganizationEntity {
@@ -26,26 +26,26 @@ export class OrganizationEntity {
 	organizationId: Organization['organizationId']
 
 	@OneToMany(
-		'UserOrganizationEntity',
-		(userOrganization: UserOrganizationEntity) => userOrganization.organization,
+		() => UserOrganizationEntity,
+		(userOrganization) => userOrganization.organization,
 	)
 	userOrganizations: UserOrganizationEntity[]
 
 	@OneToMany(
-		'RoleOrganizationEntity',
-		(roleOrganization: RoleOrganizationEntity) => roleOrganization.organization,
+		() => RoleOrganizationEntity,
+		(roleOrganization) => roleOrganization.organization,
 	)
 	roleOrganizations: RoleOrganizationEntity[]
 
 	@OneToMany(
-		'UserPermissionEntity',
-		(userPermission: UserPermissionEntity) => userPermission.organization,
+		() => UserPermissionEntity,
+		(userPermission) => userPermission.organization,
 	)
 	userPermissions: UserPermissionEntity[]
 
 	@ManyToOne(
-		'WorkspaceEntity',
-		(workspace: WorkspaceEntity) => workspace.organizations,
+		() => WorkspaceEntity,
+		(workspace) => workspace.organizations,
 	)
 	@JoinColumn({
 		name: 'workspaceId',

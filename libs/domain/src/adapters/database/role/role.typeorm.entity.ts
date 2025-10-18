@@ -14,10 +14,10 @@ import {
 import type { Role } from '@/core/role/role.schema'
 import type { OrganizationEntity } from '@/adapters/database/organization/organization.typeorm.entity'
 import type { PermissionEntity } from '@/adapters/database/permission/permission.typeorm.entity'
-import type { RoleOrganizationEntity } from '@/adapters/database/role/role-organization.typeorm.entity'
-import type { RolePermissionEntity } from '@/adapters/database/role/role-permission.typeorm.entity'
-import type { UserOrganizationEntity } from '@/adapters/database/user/user-organization.typeorm.entity'
-import type { WorkspaceEntity } from '@/adapters/database/workspace/workspace.typeorm.entity'
+import { RoleOrganizationEntity } from '@/adapters/database/role/role-organization.typeorm.entity'
+import { RolePermissionEntity } from '@/adapters/database/role/role-permission.typeorm.entity'
+import { UserOrganizationEntity } from '@/adapters/database/user/user-organization.typeorm.entity'
+import { WorkspaceEntity } from '@/adapters/database/workspace/workspace.typeorm.entity'
 
 @Entity('role')
 export class RoleEntity {
@@ -25,24 +25,27 @@ export class RoleEntity {
 	roleId: Role['roleId']
 
 	@OneToMany(
-		'RoleOrganizationEntity',
-		(roleOrganization: RoleOrganizationEntity) => roleOrganization.role,
+		() => RoleOrganizationEntity,
+		(roleOrganization) => roleOrganization.role,
 	)
 	roleOrganizations: RoleOrganizationEntity[]
 
 	@OneToMany(
-		'RolePermissionEntity',
-		(rolePermission: RolePermissionEntity) => rolePermission.role,
+		() => RolePermissionEntity,
+		(rolePermission) => rolePermission.role,
 	)
 	rolePermissions: RolePermissionEntity[]
 
 	@OneToMany(
-		'UserOrganizationEntity',
-		(userOrganization: UserOrganizationEntity) => userOrganization.role,
+		() => UserOrganizationEntity,
+		(userOrganization) => userOrganization.role,
 	)
 	userOrganizations: UserOrganizationEntity[]
 
-	@ManyToOne('WorkspaceEntity', (workspace: WorkspaceEntity) => workspace.roles)
+	@ManyToOne(
+		() => WorkspaceEntity,
+		(workspace) => workspace.roles,
+	)
 	@JoinColumn({
 		name: 'workspaceId',
 	})

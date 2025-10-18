@@ -10,9 +10,9 @@ import {
 } from 'typeorm'
 
 import type { Plan } from '@/core/plan/plan.schema'
-import type { PlanFeatureEntity } from '@/adapters/database/plan/plan-feature.typeorm.entity'
-import type { PlanIntervalEntity } from '@/adapters/database/plan/plan-interval.typeorm.entity'
-import type { SubscriptionEntity } from '@/adapters/database/subscription/subscription.typeorm.entity'
+import { PlanFeatureEntity } from '@/adapters/database/plan/plan-feature.typeorm.entity'
+import { PlanIntervalEntity } from '@/adapters/database/plan/plan-interval.typeorm.entity'
+import { SubscriptionEntity } from '@/adapters/database/subscription/subscription.typeorm.entity'
 
 @Entity('plan')
 export class PlanEntity {
@@ -20,20 +20,20 @@ export class PlanEntity {
 	planId: Plan['planId']
 
 	@OneToMany(
-		'SubscriptionEntity',
-		(subscription: SubscriptionEntity) => subscription.plan,
+		() => SubscriptionEntity,
+		(subscription) => subscription.plan,
 	)
 	subscriptions: SubscriptionEntity[]
 
 	@OneToMany(
-		'PlanIntervalEntity',
-		(planInterval: PlanIntervalEntity) => planInterval.plan,
+		() => PlanIntervalEntity,
+		(planInterval) => planInterval.plan,
 	)
 	planIntervals: PlanIntervalEntity[]
 
 	@OneToMany(
-		'PlanFeatureEntity',
-		(planFeature: PlanFeatureEntity) => planFeature.plan,
+		() => PlanFeatureEntity,
+		(planFeature) => planFeature.plan,
 	)
 	planFeatures: PlanFeatureEntity[]
 
