@@ -1,4 +1,4 @@
-import { LoggerService, UserService } from '@starter/domain'
+import { LoggerService, ProfileService } from '@starter/domain'
 
 import {
 	type CanActivate,
@@ -18,8 +18,8 @@ export class AuthGuard implements CanActivate {
 		private readonly configService: ConfigService,
 		@Inject(JWTService)
 		private readonly jwtService: JWTService,
-		@Inject(UserService)
-		private readonly userService: UserService,
+		@Inject(ProfileService)
+		private readonly profileService: ProfileService,
 		@Inject(LoggerService)
 		private readonly loggerService: LoggerService,
 	) {
@@ -53,13 +53,9 @@ export class AuthGuard implements CanActivate {
 				throw new UnauthorizedException('Unauthorized.')
 			}
 
-			console.log(decoded)
+			const profile = await this.profileService.getProfile(decoded.userId)
 
-			const user = await this.userService.getUser(decoded.userId)
-
-			console.log(user)
-
-			request.user = user.state
+			request.user = profile
 			return true
 		} catch (error) {
 			console.log(error)

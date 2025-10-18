@@ -35,7 +35,7 @@ export type UpdateUserHeaderParams = {
     "Accept-Language"?: UpdateUserHeaderParamsAcceptLanguageEnum;
 };
 
-export type DocumentTypeEnum44 = "INDIVIDUAL" | "COMPANY";
+export type DocumentTypeEnum41 = "INDIVIDUAL" | "COMPANY";
 
 export type UpdateUser200LocalePreferenceEnum = "en" | "es" | "pt-BR";
 
@@ -86,7 +86,7 @@ export type UpdateUser200 = {
         /**
          * @type string
         */
-        type: DocumentTypeEnum44;
+        type: DocumentTypeEnum41;
     } | null);
     /**
      * @type array | undefined

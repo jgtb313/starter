@@ -1,4 +1,4 @@
-import { UserServiceModule } from '@starter/domain'
+import { ProfileServiceModule } from '@starter/domain'
 
 import { Module } from '@nestjs/common'
 
@@ -7,8 +7,8 @@ import { JWTModule } from '@/adapters/jwt'
 
 @Module({
 	imports: [
-		UserServiceModule,
 		JWTModule,
+		ProfileServiceModule,
 	],
 	providers: [
 		AuthGuard,

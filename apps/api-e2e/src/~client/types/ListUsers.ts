@@ -50,7 +50,7 @@ export type ListUsersHeaderParams = {
     "Accept-Language"?: ListUsersHeaderParamsAcceptLanguageEnum;
 };
 
-export type DocumentTypeEnum41 = "INDIVIDUAL" | "COMPANY";
+export type DocumentTypeEnum38 = "INDIVIDUAL" | "COMPANY";
 
 export type ValuesLocalePreferenceEnum = "en" | "es" | "pt-BR";
 
@@ -105,7 +105,7 @@ export type ListUsers200 = {
             /**
              * @type string
             */
-            type: DocumentTypeEnum41;
+            type: DocumentTypeEnum38;
         } | null);
         /**
          * @type array | undefined

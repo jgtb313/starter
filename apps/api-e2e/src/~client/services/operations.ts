@@ -173,18 +173,6 @@ export const operations = {
     "path": "/v1/workspaces/:workspaceId/subscriptions/:subscriptionId/payment-method",
     "method": "post"
   },
-  "getWorkspace": {
-    "path": "/v1/workspaces/:workspaceId",
-    "method": "get"
-  },
-  "updateWorkspace": {
-    "path": "/v1/workspaces/:workspaceId",
-    "method": "patch"
-  },
-  "createWorkspace": {
-    "path": "/v1/workspaces",
-    "method": "post"
-  },
   "listUsers": {
     "path": "/v1/workspaces/:workspaceId/users",
     "method": "get"
@@ -200,5 +188,17 @@ export const operations = {
   "updateUser": {
     "path": "/v1/workspaces/:workspaceId/users/:userId",
     "method": "patch"
+  },
+  "getWorkspace": {
+    "path": "/v1/workspaces/:workspaceId",
+    "method": "get"
+  },
+  "updateWorkspace": {
+    "path": "/v1/workspaces/:workspaceId",
+    "method": "patch"
+  },
+  "createWorkspace": {
+    "path": "/v1/workspaces",
+    "method": "post"
   }
 }

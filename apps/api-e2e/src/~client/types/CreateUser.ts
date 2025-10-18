@@ -30,7 +30,7 @@ export type CreateUserHeaderParams = {
     "Accept-Language"?: CreateUserHeaderParamsAcceptLanguageEnum;
 };
 
-export type DocumentTypeEnum42 = "INDIVIDUAL" | "COMPANY";
+export type DocumentTypeEnum39 = "INDIVIDUAL" | "COMPANY";
 
 export type CreateUser201LocalePreferenceEnum = "en" | "es" | "pt-BR";
 
@@ -81,7 +81,7 @@ export type CreateUser201 = {
         /**
          * @type string
         */
-        type: DocumentTypeEnum42;
+        type: DocumentTypeEnum39;
     } | null);
     /**
      * @type array | undefined

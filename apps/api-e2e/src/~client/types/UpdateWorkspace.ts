@@ -30,7 +30,7 @@ export type UpdateWorkspaceHeaderParams = {
     "Accept-Language"?: UpdateWorkspaceHeaderParamsAcceptLanguageEnum;
 };
 
-export type DocumentTypeEnum39 = "INDIVIDUAL" | "COMPANY";
+export type DocumentTypeEnum43 = "INDIVIDUAL" | "COMPANY";
 
 export type LocaleDefaultLocaleEnum3 = "en" | "es" | "pt-BR";
 
@@ -77,7 +77,7 @@ export type UpdateWorkspace200 = {
         /**
          * @type string
         */
-        type: DocumentTypeEnum39;
+        type: DocumentTypeEnum43;
     } | null);
     address?: ({
         /**
