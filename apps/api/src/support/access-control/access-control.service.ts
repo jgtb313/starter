@@ -35,9 +35,13 @@ export class ACLService {
 				: user.scopes.find((scope) => scope.kind === 'WORKSPACE')
 						?.permissions) ?? []
 
+		console.log(permissions)
+
 		const condition: MongoQuery<AnyObject> = {
 			workspaceId: user.workspaceId,
 		}
+
+		console.log(condition)
 
 		permissions.forEach((permission) => {
 			const [subject, action] = permission.split(':') as [

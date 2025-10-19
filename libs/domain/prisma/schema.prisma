@@ -1,0 +1,329 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_URL")
+}
+
+model User {
+  userId                    String           @id @default(uuid()) @map("user_id")
+  workspaceId               String?          @map("workspace_id")
+  googleProviderExternalId  String?          @map("google_provider_external_id")
+  facebookProviderExternalId String?         @map("facebook_provider_external_id")
+  name                      String
+  email                     String
+  phoneISO                  String?          @map("phone_iso")
+  phoneDDI                  String?          @map("phone_ddi")
+  phoneNumber               String?          @map("phone_number")
+  birthday                  DateTime?
+  documentType              String?          @map("document_type")
+  documentNumber            String?          @map("document_number")
+  avatar                    String?
+  localePreference          String?          @map("locale_preference")
+  password                  String
+  status                    String
+  deletedAt                 DateTime?        @map("deleted_at")
+  createdAt                 DateTime         @default(now()) @map("created_at")
+  updatedAt                 DateTime         @updatedAt @map("updated_at")
+
+  workspace                 Workspace?       @relation(fields: [workspaceId], references: [workspaceId])
+  userOrganizations          UserOrganization[]
+  userAddresses              UserAddress[]
+  userPermissions            UserPermission[]
+  otps                       OTP[]
+
+  @@map("user")
+}
+
+model UserOrganization {
+  userOrganizationId String   @id @default(uuid()) @map("user_organization_id")
+  userId             String   @map("user_id")
+  organizationId     String   @map("organization_id")
+  roleId             String   @map("role_id")
+  createdAt          DateTime @default(now()) @map("created_at")
+  updatedAt          DateTime @updatedAt @map("updated_at")
+
+  user          User         @relation(fields: [userId], references: [userId])
+  organization  Organization @relation(fields: [organizationId], references: [organizationId])
+  role          Role         @relation(fields: [roleId], references: [roleId])
+
+  @@map("user_organization")
+}
+
+model UserAddress {
+  userAddressId String   @id @default(uuid()) @map("user_address_id")
+  userId        String   @map("user_id")
+  title         String
+  state         String
+  city          String
+  zipCode       String   @map("zip_code")
+  neighborhood  String
+  street        String
+  number        String
+  complement    String?
+  landmark      String?
+  lat           Decimal
+  lng           Decimal
+  main          Boolean
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  user          User @relation(fields: [userId], references: [userId])
+
+  @@map("user_address")
+}
+
+model UserPermission {
+  userPermissionId String   @id @default(uuid()) @map("user_permission_id")
+  userId           String   @map("user_id")
+  permissionId     String   @map("permission_id")
+  organizationId   String?  @map("organization_id")
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updatedAt @map("updated_at")
+
+  user             User         @relation(fields: [userId], references: [userId])
+  organization     Organization? @relation(fields: [organizationId], references: [organizationId])
+
+  @@map("user_permission")
+}
+
+model Workspace {
+  workspaceId          String           @id @default(uuid()) @map("workspace_id")
+  planId               String           @map("plan_id")
+  recurrenceExternalId String?          @map("recurrence_external_id")
+  name                 String
+  email                String?
+  phoneISO             String?          @map("phone_iso")
+  phoneDDI             String?          @map("phone_ddi")
+  phoneNumber          String?          @map("phone_number")
+  documentType         String?          @map("document_type")
+  documentNumber       String?          @map("document_number")
+  logo                 String?
+  domain               String?
+  locale               Json?
+  trialEndsAt          DateTime?        @map("trial_ends_at")
+  status               String
+  createdAt            DateTime         @default(now()) @map("created_at")
+  updatedAt            DateTime         @updatedAt @map("updated_at")
+
+  plan                 Plan             @relation(fields: [planId], references: [planId])
+  users                User[]
+  organizations        Organization[]
+  workspaceAddresses   WorkspaceAddress[]
+  subscriptions        Subscription[]
+  invoices             Invoice[]
+  roles                Role[]
+
+  @@map("workspace")
+}
+
+model WorkspaceAddress {
+  workspaceAddressId String   @id @default(uuid()) @map("workspace_address_id")
+  workspaceId        String   @map("workspace_id")
+  state              String
+  city               String
+  zipCode            String   @map("zip_code")
+  neighborhood       String
+  street             String
+  number             String
+  complement         String?
+  landmark           String?
+  lat                Decimal
+  lng                Decimal
+  createdAt          DateTime @default(now()) @map("created_at")
+  updatedAt          DateTime @updatedAt @map("updated_at")
+
+  workspace          Workspace @relation(fields: [workspaceId], references: [workspaceId])
+
+  @@map("workspace_address")
+}
+
+model Organization {
+  organizationId    String            @id @default(uuid()) @map("organization_id")
+  workspaceId       String            @map("workspace_id")
+  name              String
+  email             String?
+  phoneISO          String?           @map("phone_iso")
+  phoneDDI          String?           @map("phone_ddi")
+  phoneNumber       String?           @map("phone_number")
+  documentType      String?           @map("document_type")
+  documentNumber    String?           @map("document_number")
+  logo              String?
+  domain            String?
+  status            String
+  createdAt         DateTime          @default(now()) @map("created_at")
+  updatedAt         DateTime          @updatedAt @map("updated_at")
+
+  workspace         Workspace         @relation(fields: [workspaceId], references: [workspaceId])
+  userOrganizations UserOrganization[]
+  roleOrganizations RoleOrganization[]
+  userPermissions   UserPermission[]
+
+  @@map("organization")
+}
+
+model Role {
+  roleId            String            @id @default(uuid()) @map("role_id")
+  workspaceId       String            @map("workspace_id")
+  name              String
+  tags              String?
+  status            String
+  deletedAt         DateTime?         @map("deleted_at")
+  createdAt         DateTime          @default(now()) @map("created_at")
+  updatedAt         DateTime          @updatedAt @map("updated_at")
+
+  workspace         Workspace         @relation(fields: [workspaceId], references: [workspaceId])
+  rolePermissions   RolePermission[]
+  roleOrganizations RoleOrganization[]
+  userOrganizations UserOrganization[]
+
+  @@map("role")
+}
+
+model RolePermission {
+  rolePermissionId String   @id @default(uuid()) @map("role_permission_id")
+  roleId           String   @map("role_id")
+  permissionId     String   @map("permission_id")
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updatedAt @map("updated_at")
+
+  role             Role @relation(fields: [roleId], references: [roleId])
+
+  @@map("role_permission")
+}
+
+model RoleOrganization {
+  roleOrganizationId String   @id @default(uuid()) @map("role_organization_id")
+  roleId             String   @map("role_id")
+  organizationId     String   @map("organization_id")
+  createdAt          DateTime @default(now()) @map("created_at")
+  updatedAt          DateTime @updatedAt @map("updated_at")
+
+  role               Role         @relation(fields: [roleId], references: [roleId])
+  organization       Organization @relation(fields: [organizationId], references: [organizationId])
+
+  @@map("role_organization")
+}
+
+model Plan {
+  planId        String           @id @default(uuid()) @map("plan_id")
+  externalId    String           @map("external_id")
+  name          String
+  description   String
+  features      Json?
+  default       Boolean          @default(false)
+  highlight     Boolean
+  status        String
+  deletedAt     DateTime?        @map("deleted_at")
+  createdAt     DateTime         @default(now()) @map("created_at")
+  updatedAt     DateTime         @updatedAt @map("updated_at")
+
+  subscriptions Subscription[]
+  planIntervals PlanInterval[]
+  planFeatures  PlanFeature[]
+  workspaces    Workspace[]
+
+  @@map("plan")
+}
+
+model PlanInterval {
+  planIntervalId String   @id @default(uuid()) @map("plan_interval_id")
+  planId         String   @map("plan_id")
+  externalId     String   @map("external_id")
+  amount         Float
+  interval       String
+  intervalCount  Int      @map("interval_count")
+  trialDays      Int      @map("trial_days")
+  status         String
+  deletedAt      DateTime? @map("deleted_at")
+  createdAt      DateTime  @default(now()) @map("created_at")
+  updatedAt      DateTime  @updatedAt @map("updated_at")
+
+  plan           Plan @relation(fields: [planId], references: [planId])
+
+  @@map("plan_interval")
+}
+
+model PlanFeature {
+  planFeatureId String   @id @default(uuid()) @map("plan_feature_id")
+  planId        String   @map("plan_id")
+  feature       String
+  description   String
+  props         Json
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  plan          Plan @relation(fields: [planId], references: [planId])
+
+  @@map("plan_feature")
+}
+
+model Subscription {
+  subscriptionId  String   @id @default(uuid()) @map("subscription_id")
+  workspaceId     String   @map("workspace_id")
+  planId          String   @map("plan_id")
+  externalId      String   @map("external_id")
+  paymentMethod   String   @map("payment_method")
+  card            Json?
+  payer           Json
+  nextBillingDate DateTime @map("next_billing_date")
+  deadline        DateTime
+  canceledAt      DateTime? @map("canceled_at")
+  status          String
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+
+  workspace       Workspace @relation(fields: [workspaceId], references: [workspaceId])
+  plan            Plan      @relation(fields: [planId], references: [planId])
+  invoices        Invoice[]
+
+  @@map("subscription")
+}
+
+model Invoice {
+  invoiceId      String   @id @default(uuid()) @map("invoice_id")
+  workspaceId    String   @map("workspace_id")
+  subscriptionId String   @map("subscription_id")
+  externalId     String   @map("external_id")
+  description    String
+  paymentMethod  String   @map("payment_method")
+  card           Json?
+  pix            Json?
+  boleto         Json?
+  amount         Float
+  issuedAt       DateTime @map("issued_at")
+  dueDate        DateTime @map("due_date")
+  paidAt         DateTime? @map("paid_at")
+  overdueAt      DateTime? @map("overdue_at")
+  canceledAt     DateTime? @map("canceled_at")
+  status         String
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  workspace      Workspace     @relation(fields: [workspaceId], references: [workspaceId])
+  subscription   Subscription  @relation(fields: [subscriptionId], references: [subscriptionId])
+
+  @@map("invoice")
+}
+
+model OTP {
+  otpId                 String   @id @default(uuid()) @map("otp_id")
+  userId                String?  @map("user_id")
+  channel               String
+  context               String
+  recipient             String
+  code                  String
+  validationAttempts    Int      @map("validation_attempts")
+  maxValidationAttempts Int      @map("max_validation_attempts")
+  resendCooldownSeconds Int      @map("resend_cooldown_seconds")
+  maxRequestsPerDay     Int      @map("max_requests_per_day")
+  expiresAt             DateTime @map("expires_at")
+  createdAt             DateTime @default(now()) @map("created_at")
+  updatedAt             DateTime @updatedAt @map("updated_at")
+
+  user                  User? @relation(fields: [userId], references: [userId])
+
+  @@map("otp")
+}

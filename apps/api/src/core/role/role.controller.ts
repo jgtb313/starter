@@ -6,10 +6,11 @@ import {
 } from '@starter/domain'
 import { Controller, Request, Route } from '@starter/nestjs-server-hoisting'
 
-import { Inject } from '@nestjs/common'
+import { Inject, UseGuards } from '@nestjs/common'
 
 import { ACLService } from '@/support/access-control'
 import { AuthenticatedProfile } from '@/support/decorators'
+import { AuthGuard } from '@/support/guards/auth-guard'
 
 import {
 	type CreateRoleRequest,
@@ -37,6 +38,7 @@ import {
 		},
 	},
 })
+@UseGuards(AuthGuard)
 export class RoleController {
 	constructor(
 		@Inject(ACLService)

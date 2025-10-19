@@ -2,14 +2,31 @@ import { z } from '@starter/schema'
 
 import { BaseSchema } from '@/support/base-schema'
 import { OrganizationSchema } from '@/core/organization/organization.schema'
+import { PermissionSchema } from '@/core/permission/permission.schema'
 
 const RoleId = BaseSchema.id('role')
 
 const WorkspaceId = BaseSchema.id('workspace')
 
+const OrganizationIds = z.array(BaseSchema.id('organization')).meta({
+	description: 'The IDs of the organizations to assign to the role',
+	example: [
+		'96738ebc-7da1-48e2-8685-705c7b9268cb',
+		'96738ebc-7da1-48e2-8685-705c7b9268cb',
+	],
+})
+
 const Organization = z.array(OrganizationSchema).default([])
 
-// const Permission = z.array(PermissionSchema).default([])
+const PermissionIds = z.array(PermissionSchema.shape.permissionId).meta({
+	description: 'The IDs of the permissions to assign to the role',
+	example: [
+		'user:read',
+		'organization:read',
+	],
+})
+
+const Permissions = z.array(PermissionSchema).default([])
 
 const Name = z.string().min(1)
 
@@ -28,8 +45,10 @@ const Status = z
 export const RoleSchema = z.object({
 	roleId: RoleId,
 	workspaceId: WorkspaceId,
+	organizationIds: OrganizationIds,
 	organizations: Organization,
-	// permissions: Permission,
+	permissionIds: PermissionIds,
+	permissions: Permissions,
 	name: Name,
 	tags: Tags,
 	status: Status,
@@ -44,6 +63,8 @@ export type BaseRole = BaseSchema<
 	{
 		optional: [
 			'roleId',
+			'organizations',
+			'permissions',
 		]
 	}
 >

@@ -169,13 +169,25 @@ export class RoleTypeorm implements IRoleRepository {
 	}
 
 	create: IRoleRepository['create'] = async ({
-		organizationIds,
-		permissionIds,
+		organizationIds = [],
+		permissionIds = [],
 		...input
 	}) => {
 		const data = this.repository.create(input)
 
-		const role = await this.repository.save(data)
+		const role = await this.repository.save({
+			...data,
+			roleOrganizations: organizationIds.map((organizationId) =>
+				this.roleOrganizationRepository.create({
+					organization: {
+						organizationId,
+					},
+				}),
+			),
+			// rolePermissions: permissionIds.map((permissionId) =>
+			// 	this.rolePermissionRepository.create({}),
+			// ),
+		})
 
 		return this.findById(role.roleId)
 	}

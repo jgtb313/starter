@@ -3,7 +3,7 @@ import {
 	PaginationSchema,
 	z,
 } from '@starter/schema'
-import { RoleSchema } from '@starter/domain'
+import { BaseSchema, PermissionSchema, RoleSchema } from '@starter/domain'
 import {
 	createRequestSchema,
 	type RequestInput,
@@ -20,7 +20,7 @@ export const ListRolesSchema = createRequestSchema({
 		status: true,
 	})
 		.partial()
-		.merge(
+		.and(
 			z
 				.object({
 					filter: FilterSchema(
@@ -36,7 +36,7 @@ export const ListRolesSchema = createRequestSchema({
 				.partial(),
 		)
 		.and(PaginationSchema),
-	output: BasePaginationSchemaOutput.merge(
+	output: BasePaginationSchemaOutput.and(
 		z.object({
 			values: z.array(RoleSchema),
 		}),
@@ -57,12 +57,23 @@ export const CreateRoleSchema = createRequestSchema({
 	params: RoleSchema.pick({
 		workspaceId: true,
 	}),
-	body: RoleSchema.pick({
-		// organizationIds: true,
-		name: true,
-		tags: true,
-		// permissions: true,
-		status: true,
+	body: z.object({
+		name: RoleSchema.shape.name,
+		organizationIds: z.array(BaseSchema.id('organization')).meta({
+			description: 'The IDs of the organizations to assign to the role',
+			example: [
+				'96738ebc-7da1-48e2-8685-705c7b9268cb',
+				'96738ebc-7da1-48e2-8685-705c7b9268cb',
+			],
+		}),
+		permissionIds: z.array(PermissionSchema.shape.permissionId).meta({
+			description: 'The IDs of the permissions to assign to the role',
+			example: [
+				'user:read',
+				'organization:read',
+			],
+		}),
+		tags: RoleSchema.shape.tags,
 	}),
 	output: RoleSchema,
 })

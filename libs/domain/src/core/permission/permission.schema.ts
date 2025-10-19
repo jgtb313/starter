@@ -194,8 +194,8 @@ export const PERMISSIONS = new Set(
 	) as Permission[],
 )
 
-export const PermissionSubjectSchema = z.object({
-	key: z.enum([
+export const PermissionSchema = z.object({
+	permissionId: z.enum([
 		...PERMISSIONS,
 	]),
 	subject: z.enum(Object.keys(PERMISSION_SUBJECT_ACTIONS)),

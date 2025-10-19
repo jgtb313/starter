@@ -34,6 +34,8 @@ export class AuthGuard implements CanActivate {
 
 		const [accessToken] = authorization.split(' ').reverse()
 
+		console.log(accessToken)
+
 		if (!accessToken) {
 			throw new UnauthorizedException('Unauthorized.')
 		}
@@ -46,6 +48,8 @@ export class AuthGuard implements CanActivate {
 			const decoded = await this.jwtService.decode<{
 				userId: string
 			}>(accessToken, secret)
+
+			console.log(decoded)
 
 			if (!decoded) {
 				throw new UnauthorizedException('Unauthorized.')

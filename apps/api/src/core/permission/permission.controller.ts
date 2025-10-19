@@ -1,9 +1,5 @@
 import { z } from '@starter/schema'
-import {
-	PermissionService,
-	PermissionSubjectSchema,
-	PermissionsSchema,
-} from '@starter/domain'
+import { PermissionSchema, PermissionService } from '@starter/domain'
 import { Controller, Route } from '@starter/nestjs-server-hoisting'
 
 import { Inject } from '@nestjs/common'
@@ -17,7 +13,7 @@ import { Inject } from '@nestjs/common'
 
 	schemas: {
 		Permission: {
-			schema: PermissionsSchema,
+			schema: PermissionSchema,
 		},
 	},
 })
@@ -38,7 +34,7 @@ export class PermissionController {
 
 		responses: {
 			200: {
-				schema: z.array(PermissionSubjectSchema),
+				schema: z.array(PermissionSchema),
 			},
 		},
 	})

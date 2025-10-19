@@ -10,6 +10,7 @@ import {
 } from '@/support/workspace-reference'
 import { OrganizationService } from '@/core/organization/organization.service'
 import { PermissionService } from '@/core/permission/permission.service'
+import type { BaseRole } from '@/core/role/role.schema'
 import type { IRoleRepository } from '@/ports/database/role'
 
 export type RoleWorkspaceReference = WithWorkspaceReference<'roleId'>
@@ -47,7 +48,11 @@ export class RoleService {
 		return role
 	}
 
-	createRole = async ({ organizationIds, permissionIds, ...input }: any) => {
+	createRole = async ({
+		organizationIds,
+		permissionIds,
+		...input
+	}: BaseRole) => {
 		await this.organizationService.validateOrganizationIds(organizationIds)
 
 		await this.permissionService.validatePermissionIds(permissionIds)
