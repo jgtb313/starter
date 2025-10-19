@@ -1,4 +1,5 @@
 import {
+	type Profile,
 	SubscriptionSchema,
 	SubscriptionService,
 	type User,
@@ -8,7 +9,7 @@ import { Controller, Request, Route } from '@starter/nestjs-server-hoisting'
 import { Inject } from '@nestjs/common'
 
 import { ACLService } from '@/support/access-control'
-import { AuthenticatedUser } from '@/support/decorators'
+import { AuthenticatedProfile } from '@/support/decorators'
 import {
 	type CancelSubscriptionRequest,
 	CancelSubscriptionSchema,
@@ -62,10 +63,10 @@ export class SubscriptionController {
 		},
 	})
 	getSubscription(
-		@AuthenticatedUser() user: User,
+		@AuthenticatedProfile() profile: Profile,
 		@Request() { params }: GetSubscriptionRequest,
 	) {
-		this.aclService.canPerformActionByPermission(user, 'subscription:read', {
+		this.aclService.canPerformActionByPermission(profile, 'subscription:read', {
 			workspaceId: params.workspaceId,
 		})
 
@@ -91,12 +92,16 @@ export class SubscriptionController {
 		},
 	})
 	createSubscription(
-		@AuthenticatedUser() user: User,
+		@AuthenticatedProfile() profile: Profile,
 		@Request() { params, body }: CreateSubscriptionRequest,
 	) {
-		this.aclService.canPerformActionByPermission(user, 'subscription:create', {
-			workspaceId: params.workspaceId,
-		})
+		this.aclService.canPerformActionByPermission(
+			profile,
+			'subscription:create',
+			{
+				workspaceId: params.workspaceId,
+			},
+		)
 
 		return this.subscriptionService.createSubscription({
 			...params,
@@ -124,11 +129,11 @@ export class SubscriptionController {
 		},
 	})
 	changeSubscriptionPlan(
-		@AuthenticatedUser() user: User,
+		@AuthenticatedProfile() profile: Profile,
 		@Request() { params, body }: ChangeSubscriptionPlanRequest,
 	) {
 		this.aclService.canPerformActionByPermission(
-			user,
+			profile,
 			'subscription:update:plan',
 			{
 				workspaceId: params.workspaceId,
@@ -162,11 +167,11 @@ export class SubscriptionController {
 		},
 	})
 	changeSubscriptionPaymentMethod(
-		@AuthenticatedUser() user: User,
+		@AuthenticatedProfile() profile: Profile,
 		@Request() { params }: ChangeSubscriptionPaymentMethodRequest,
 	) {
 		this.aclService.canPerformActionByPermission(
-			user,
+			profile,
 			'subscription:update:payment-method',
 			{
 				workspaceId: params.workspaceId,
@@ -198,12 +203,16 @@ export class SubscriptionController {
 		},
 	})
 	cancelSubscription(
-		@AuthenticatedUser() user: User,
+		@AuthenticatedProfile() profile: Profile,
 		@Request() { params }: CancelSubscriptionRequest,
 	) {
-		this.aclService.canPerformActionByPermission(user, 'subscription:delete', {
-			workspaceId: params.workspaceId,
-		})
+		this.aclService.canPerformActionByPermission(
+			profile,
+			'subscription:delete',
+			{
+				workspaceId: params.workspaceId,
+			},
+		)
 
 		return this.subscriptionService.cancelSubscription(params.workspaceId)
 	}

@@ -1,14 +1,16 @@
-import { type User, UserSchema, UserService } from '@starter/domain'
+import { type Profile, UserSchema, UserService } from '@starter/domain'
 import { Controller, Request, Route } from '@starter/nestjs-server-hoisting'
 
 import { Inject } from '@nestjs/common'
 
 import { ACLService } from '@/support/access-control'
-import { AuthenticatedUser } from '@/support/decorators'
+import { AuthenticatedProfile } from '@/support/decorators'
 
 import {
 	type CreateUserRequest,
 	CreateUserSchema,
+	type DeleteUserRequest,
+	DeleteUserSchema,
 	type GetUserRequest,
 	GetUserSchema,
 	type ListUsersRequest,
@@ -57,10 +59,10 @@ export class UserController {
 		},
 	})
 	listUsers(
-		@AuthenticatedUser() user: User,
+		@AuthenticatedProfile() profile: Profile,
 		@Request() { params, query }: ListUsersRequest,
 	) {
-		this.aclService.canPerformActionByPermission(user, 'user:read', {
+		this.aclService.canPerformActionByPermission(profile, 'user:read', {
 			workspaceId: params.workspaceId,
 		})
 
@@ -87,10 +89,10 @@ export class UserController {
 		},
 	})
 	getUser(
-		@AuthenticatedUser() user: User,
+		@AuthenticatedProfile() profile: Profile,
 		@Request() { params }: GetUserRequest,
 	) {
-		this.aclService.canPerformActionByPermission(user, 'user:read', {
+		this.aclService.canPerformActionByPermission(profile, 'user:read', {
 			workspaceId: params.workspaceId,
 		})
 
@@ -116,18 +118,19 @@ export class UserController {
 		},
 	})
 	createUser(
-		@AuthenticatedUser() user: User,
+		@AuthenticatedProfile() profile: Profile,
 		@Request() { params, body }: CreateUserRequest,
 	) {
-		this.aclService.canPerformActionByPermission(user, 'user:create', {
+		this.aclService.canPerformActionByPermission(profile, 'user:create', {
 			workspaceId: params.workspaceId,
 		})
 
-		// return this.userService.createUser({
-		// 	...params,
-		// 	...body,
-		// 	status: 'ACTIVE',
-		// })
+		return this.userService.createUser({
+			...params,
+			...body,
+			addresses: [],
+			status: 'ACTIVE',
+		})
 	}
 
 	@Route({
@@ -151,42 +154,48 @@ export class UserController {
 		},
 	})
 	updateUser(
-		@AuthenticatedUser() user: User,
+		@AuthenticatedProfile() profile: Profile,
 		@Request() { params, body }: UpdateUserRequest,
 	) {
-		this.aclService.canPerformActionByPermission(user, 'user:update', {
+		this.aclService.canPerformActionByPermission(profile, 'user:update', {
 			workspaceId: params.workspaceId,
 		})
 
-		// return this.userService.updateUser(params, {
-		// 	...body,
-		// })
+		return this.userService.updateUser(params.userId, {
+			...body,
+		})
 	}
 
-	// @Route({
-	//   summary: 'Delete User',
+	@Route({
+		summary: 'Delete User',
 
-	//   description: 'Deletes a user by their ID.',
+		description: 'Deletes a user by their ID.',
 
-	//   method: 'DELETE',
+		method: 'DELETE',
 
-	//   path: '/:userId',
+		path: '/:userId',
 
-	//   parameters: {
-	//     params: DeleteUserParamsSchema,
-	//   },
+		parameters: {
+			params: DeleteUserSchema.params,
+		},
 
-	//   responses: {
-	//     204: {
-	//       description: 'User has been successfully deleted.',
-	//     },
-	//   },
-	// })
-	// deleteUser(@AuthenticatedUser() user: User, @Request() { params }: RequestInput<{}, DeleteUserParamsInput, {}>) {
-	//   this.aclService.canPerformActionByPermission(user, 'user:delete', {
-	//     workspaceId: params.workspaceId,
-	//   })
+		responses: {
+			204: {
+				description: 'User has been successfully deleted.',
+			},
+		},
+	})
+	deleteUser(
+		@AuthenticatedProfile() profile: Profile,
+		@Request() { params }: DeleteUserRequest,
+	) {
+		this.aclService.canPerformActionByPermission(profile, 'user:delete', {
+			workspaceId: params.workspaceId,
+		})
 
-	//   return this.userService.deleteById(params.workspaceId, params.userId)
-	// }
+		return this.userService.deleteUser({
+			workspaceId: params.workspaceId,
+			userId: params.userId,
+		})
+	}
 }

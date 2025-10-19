@@ -1,10 +1,11 @@
 import { uuid } from '@starter/common'
-import { OTPSchema, OTPService, type User } from '@starter/domain'
+import { OTPSchema, OTPService, type Profile, type User } from '@starter/domain'
 import { Controller, Request, Route } from '@starter/nestjs-server-hoisting'
 
 import { Inject, UseGuards } from '@nestjs/common'
 
-import { AuthenticatedUser } from '@/support/decorators'
+import { AuthenticatedProfile } from '@/support/decorators'
+import { AuthGuard } from '@/support/guards/auth-guard'
 import {
 	type SendForgotPasswordOTPRequest,
 	SendForgotPasswordOTPSchema,
@@ -179,6 +180,7 @@ export class OTPController {
 		}
 	}
 
+	@UseGuards(AuthGuard)
 	@Route({
 		summary: 'Send Email Update OTP',
 		description:
@@ -210,11 +212,11 @@ export class OTPController {
 		},
 	})
 	async sendUpdateEmailOTP(
-		@AuthenticatedUser() user: User,
+		@AuthenticatedProfile() profile: Profile,
 		@Request() { body }: SendUpdateEmailOTPRequest,
 	) {
 		const otp = await this.otpService.sendUpdateEmail({
-			userId: user.userId,
+			userId: profile.userId,
 			email: body.email,
 		})
 
@@ -223,6 +225,7 @@ export class OTPController {
 		}
 	}
 
+	@UseGuards(AuthGuard)
 	@Route({
 		summary: 'Send Update Phone OTP',
 		description:
@@ -254,11 +257,11 @@ export class OTPController {
 		},
 	})
 	async sendUpdatePhoneOTP(
-		@AuthenticatedUser() user: User,
+		@AuthenticatedProfile() profile: Profile,
 		@Request() { body }: SendUpdatePhoneOTPRequest,
 	) {
 		const otp = await this.otpService.sendUpdatePhone(body.channel, {
-			userId: user.userId,
+			userId: profile.userId,
 			phone: body.phone,
 		})
 

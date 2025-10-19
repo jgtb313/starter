@@ -1,7 +1,7 @@
 import {
+	type Profile,
 	RoleSchema,
 	RoleService,
-	type User,
 	UserService,
 } from '@starter/domain'
 import { Controller, Request, Route } from '@starter/nestjs-server-hoisting'
@@ -9,7 +9,7 @@ import { Controller, Request, Route } from '@starter/nestjs-server-hoisting'
 import { Inject } from '@nestjs/common'
 
 import { ACLService } from '@/support/access-control'
-import { AuthenticatedUser } from '@/support/decorators'
+import { AuthenticatedProfile } from '@/support/decorators'
 
 import {
 	type CreateRoleRequest,
@@ -66,19 +66,16 @@ export class RoleController {
 		},
 	})
 	listRoles(
-		@AuthenticatedUser() user: User,
+		@AuthenticatedProfile() profile: Profile,
 		@Request() { params, query }: ListRolesRequest,
 	) {
-		this.aclService.canPerformActionByPermission(user, 'role:read', {
+		this.aclService.canPerformActionByPermission(profile, 'role:read', {
 			workspaceId: params.workspaceId,
 		})
 
-		return this.userService.getPaginatedUsers({})
-
-		// return this.roleService.getPaginatedRoles({
-		// 	...query,
-		// 	// workspaceId: params.workspaceId,
-		// })
+		return this.roleService.getPaginatedRoles({
+			...query,
+		})
 	}
 
 	@Route({
@@ -101,10 +98,10 @@ export class RoleController {
 		},
 	})
 	getRole(
-		@AuthenticatedUser() user: User,
+		@AuthenticatedProfile() profile: Profile,
 		@Request() { params }: GetRoleRequest,
 	) {
-		this.aclService.canPerformActionByPermission(user, 'role:read', {
+		this.aclService.canPerformActionByPermission(profile, 'role:read', {
 			workspaceId: params.workspaceId,
 		})
 
@@ -130,10 +127,10 @@ export class RoleController {
 		},
 	})
 	createRole(
-		@AuthenticatedUser() user: User,
+		@AuthenticatedProfile() profile: Profile,
 		@Request() { params, body }: CreateRoleRequest,
 	) {
-		this.aclService.canPerformActionByPermission(user, 'role:create', {
+		this.aclService.canPerformActionByPermission(profile, 'role:create', {
 			workspaceId: params.workspaceId,
 		})
 
@@ -166,10 +163,10 @@ export class RoleController {
 		},
 	})
 	updateRole(
-		@AuthenticatedUser() user: User,
+		@AuthenticatedProfile() profile: Profile,
 		@Request() { params, body }: UpdateRoleRequest,
 	) {
-		this.aclService.canPerformActionByPermission(user, 'role:update', {
+		this.aclService.canPerformActionByPermission(profile, 'role:update', {
 			workspaceId: params.workspaceId,
 		})
 
@@ -198,10 +195,10 @@ export class RoleController {
 		},
 	})
 	deleteRole(
-		@AuthenticatedUser() user: User,
+		@AuthenticatedProfile() profile: Profile,
 		@Request() { params }: DeleteRoleRequest,
 	) {
-		this.aclService.canPerformActionByPermission(user, 'role:delete', {
+		this.aclService.canPerformActionByPermission(profile, 'role:delete', {
 			workspaceId: params.workspaceId,
 		})
 

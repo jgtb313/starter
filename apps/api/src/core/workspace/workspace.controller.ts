@@ -1,10 +1,15 @@
-import { type User, WorkspaceSchema, WorkspaceService } from '@starter/domain'
+import {
+	type Profile,
+	type User,
+	WorkspaceSchema,
+	WorkspaceService,
+} from '@starter/domain'
 import { Controller, Request, Route } from '@starter/nestjs-server-hoisting'
 
 import { Inject, UseGuards } from '@nestjs/common'
 
 import { ACLService } from '@/support/access-control'
-import { AuthenticatedUser } from '@/support/decorators'
+import { AuthenticatedProfile } from '@/support/decorators'
 import { AuthGuard } from '@/support/guards/auth-guard'
 
 import {
@@ -58,10 +63,10 @@ export class WorkspaceController {
 		},
 	})
 	async getWorkspace(
-		@AuthenticatedUser() user: User,
+		@AuthenticatedProfile() profile: Profile,
 		@Request() { params }: GetWorkspaceRequest,
 	) {
-		this.aclService.canPerformActionByPermission(user, 'workspace:read', {
+		this.aclService.canPerformActionByPermission(profile, 'workspace:read', {
 			workspaceId: params.workspaceId,
 		})
 
@@ -90,13 +95,16 @@ export class WorkspaceController {
 		},
 	})
 	async createWorkspace(
-		@AuthenticatedUser() user: User,
+		@AuthenticatedProfile() profile: Profile,
 		@Request() { body }: CreateWorkspaceRequest,
 	) {
-		const workspace = await this.workspaceService.createWorkspace(user.userId, {
-			...body,
-			status: 'ACTIVE',
-		})
+		const workspace = await this.workspaceService.createWorkspace(
+			profile.userId,
+			{
+				...body,
+				status: 'ACTIVE',
+			},
+		)
 
 		return workspace.toJSON()
 	}
@@ -122,10 +130,10 @@ export class WorkspaceController {
 		},
 	})
 	async updateWorkspace(
-		@AuthenticatedUser() user: User,
+		@AuthenticatedProfile() profile: Profile,
 		@Request() { params, body }: UpdateWorkspaceRequest,
 	) {
-		this.aclService.canPerformActionByPermission(user, 'workspace:read', {
+		this.aclService.canPerformActionByPermission(profile, 'workspace:read', {
 			workspaceId: params.workspaceId,
 		})
 

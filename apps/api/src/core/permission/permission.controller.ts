@@ -1,10 +1,12 @@
 import { z } from '@starter/schema'
 import {
-	PERMISSION_SUBJECT_ACTIONS,
+	PermissionService,
 	PermissionSubjectSchema,
 	PermissionsSchema,
 } from '@starter/domain'
 import { Controller, Route } from '@starter/nestjs-server-hoisting'
+
+import { Inject } from '@nestjs/common'
 
 @Controller({
 	name: 'Permission',
@@ -20,6 +22,11 @@ import { Controller, Route } from '@starter/nestjs-server-hoisting'
 	},
 })
 export class PermissionController {
+	constructor(
+		@Inject(PermissionService)
+		private readonly permissionService: PermissionService,
+	) {}
+
 	@Route({
 		summary: 'List Permissions',
 		description:
@@ -36,6 +43,6 @@ export class PermissionController {
 		},
 	})
 	async listPermissions() {
-		return Object.values(PERMISSION_SUBJECT_ACTIONS).flat()
+		return this.permissionService.getPermissions()
 	}
 }

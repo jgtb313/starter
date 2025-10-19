@@ -48,7 +48,7 @@ export class WorkspaceService {
 		return this.workspaceRepository.findById(workspaceId)
 	}
 
-	// @Transactional()
+	@Transactional()
 	async createWorkspace(userId: string, input: BaseWorkspace) {
 		this.loggerService.info('Attempting to create workspace', {
 			userId,
@@ -67,12 +67,8 @@ export class WorkspaceService {
 
 		const workspace = await this.workspaceRepository.create(input)
 
-		const updatedUser = await this.userService.updateUser(user.state.userId, {
+		await this.userService.updateUser(user.state.userId, {
 			workspaceId: workspace.state.workspaceId,
-		})
-
-		console.log({
-			updateUserWorkspaceId: updatedUser.state.workspaceId,
 		})
 
 		this.publisherService.publish('WORKSPACE_CREATED', {

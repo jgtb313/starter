@@ -1,10 +1,4 @@
-import {
-	InvoiceSchema,
-	InvoiceService,
-	type Profile,
-	type User,
-	UserService,
-} from '@starter/domain'
+import { InvoiceSchema, InvoiceService, type Profile } from '@starter/domain'
 import { Controller, Request, Route } from '@starter/nestjs-server-hoisting'
 
 import { Inject, UseGuards } from '@nestjs/common'
@@ -37,8 +31,6 @@ export class InvoiceController {
 	constructor(
 		@Inject(ACLService)
 		private readonly aclService: ACLService,
-		@Inject(UserService)
-		private readonly userService: UserService,
 		@Inject(InvoiceService)
 		private readonly invoiceService: InvoiceService,
 	) {}

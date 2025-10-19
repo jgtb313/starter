@@ -1,7 +1,10 @@
-export enum SocialAuthEnum {
-	GOOGLE = 'GOOGLE',
-	FACEBOOK = 'FACEBOOK',
-}
+import { z } from '@starter/schema'
+
+export const SocialAuthSchema = z.enum([
+	'GOOGLE',
+	'FACEBOOK',
+])
+export type SocialAuth = z.infer<typeof SocialAuthSchema>
 
 export type SocialAuthGetInfoOutput = {
 	providerId: string
@@ -16,7 +19,7 @@ export type ISocialAuthStrategy = {
 
 export type ISocialAuth = {
 	getInfo: (
-		context: SocialAuthEnum,
+		context: SocialAuth,
 		providerToken: string,
 	) => Promise<SocialAuthGetInfoOutput>
 }

@@ -1,13 +1,13 @@
-import { RoleSchema } from '@starter/domain'
-import {
-	createRequestSchema,
-	type RequestInput,
-} from '@starter/nestjs-server-hoisting'
 import {
 	BasePaginationSchemaOutput,
 	PaginationSchema,
 	z,
 } from '@starter/schema'
+import { RoleSchema } from '@starter/domain'
+import {
+	createRequestSchema,
+	type RequestInput,
+} from '@starter/nestjs-server-hoisting'
 
 import { FilterSchema } from '@/support/schema'
 

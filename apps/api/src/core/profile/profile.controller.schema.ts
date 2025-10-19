@@ -24,7 +24,10 @@ export type GetProfileRequest = RequestInput<typeof GetProfileSchema>
 export const UpdateProfileSchema = createRequestSchema({
 	body: ProfileSchema.pick({
 		name: true,
+		birthday: true,
+		document: true,
 		avatar: true,
+		localePreference: true,
 	}).partial(),
 	output: ProfileSchema,
 })

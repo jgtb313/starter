@@ -1,15 +1,15 @@
 import {
 	OTPService,
+	type Profile,
 	ProfileSchema,
 	ProfileService,
-	type User,
 	UserService,
 } from '@starter/domain'
 import { Controller, Request, Route } from '@starter/nestjs-server-hoisting'
 
 import { Inject, UseGuards } from '@nestjs/common'
 
-import { AuthenticatedUser } from '@/support/decorators'
+import { AuthenticatedProfile } from '@/support/decorators'
 import { AuthGuard } from '@/support/guards/auth-guard'
 import {
 	GetProfileSchema,
@@ -64,8 +64,8 @@ export class ProfileController {
 			},
 		},
 	})
-	getProfile(@AuthenticatedUser() user: User) {
-		return this.profileService.getProfile(user.userId)
+	getProfile(@AuthenticatedProfile() profile: Profile) {
+		return this.profileService.getProfile(profile.userId)
 	}
 
 	@Route({
@@ -88,10 +88,10 @@ export class ProfileController {
 		},
 	})
 	updateProfile(
-		@AuthenticatedUser() user: User,
+		@AuthenticatedProfile() profile: Profile,
 		@Request() { body }: UpdateProfileRequest,
 	) {
-		return this.userService.updateUser(user.userId, body)
+		return this.userService.updateUser(profile.userId, body)
 	}
 
 	@Route({
@@ -136,7 +136,7 @@ export class ProfileController {
 		},
 	})
 	async updateProfileEmail(
-		@AuthenticatedUser() user: User,
+		@AuthenticatedProfile() profile: Profile,
 		@Request() { body }: UpdateProfileEmailRequest,
 	) {
 		const recipient = body.email
@@ -147,7 +147,7 @@ export class ProfileController {
 			recipient,
 		})
 
-		return this.userService.updateUser(user.userId, {
+		return this.userService.updateUser(profile.userId, {
 			email: body.email,
 		})
 	}
@@ -194,7 +194,7 @@ export class ProfileController {
 		},
 	})
 	async updateProfilePhone(
-		@AuthenticatedUser() user: User,
+		@AuthenticatedProfile() profile: Profile,
 		@Request() { body }: UpdateProfilePhoneRequest,
 	) {
 		const recipient = `${body.phone.ddi}${body.phone.number}`
@@ -205,7 +205,7 @@ export class ProfileController {
 			recipient,
 		})
 
-		return this.userService.updateUser(user.userId, {
+		return this.userService.updateUser(profile.userId, {
 			phone: body.phone,
 		})
 	}
@@ -232,12 +232,15 @@ export class ProfileController {
 		},
 	})
 	async updateProfilePassword(
-		@AuthenticatedUser() user: User,
+		@AuthenticatedProfile() profile: Profile,
 		@Request() { body }: UpdateProfilePasswordRequest,
 	) {
-		await this.userService.verifyUserPassword(user.userId, body.currentPassword)
+		await this.userService.verifyUserPassword(
+			profile.userId,
+			body.currentPassword,
+		)
 
-		await this.userService.updateUserPassword(user.userId, body.password)
+		await this.userService.updateUserPassword(profile.userId, body.password)
 	}
 
 	@Route({
@@ -257,7 +260,7 @@ export class ProfileController {
 			},
 		},
 	})
-	deactivateProfile(@AuthenticatedUser() user: User) {
-		return this.userService.deleteUser(user.userId)
+	deactivateProfile(@AuthenticatedProfile() profile: Profile) {
+		return this.userService.deleteUser(profile.userId)
 	}
 }

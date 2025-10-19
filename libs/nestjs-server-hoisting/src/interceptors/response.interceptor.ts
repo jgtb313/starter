@@ -1,10 +1,11 @@
+import { deepOmit, deepPick } from '@starter/common'
+
 import {
 	type CallHandler,
 	type ExecutionContext,
 	Injectable,
 	type NestInterceptor,
 } from '@nestjs/common'
-import { deepOmit, deepPick } from '@starter/common'
 import type { Request } from 'express'
 import { map } from 'rxjs/operators'
 
@@ -30,19 +31,19 @@ export class ResponseInterceptor implements NestInterceptor {
 
 		return next.handle().pipe(
 			map((data) => {
-				if (data.values) {
+				if (Array.isArray(data.values)) {
 					return {
 						...data,
 						values: data.values.map(formatResponse),
 					}
 				}
 
+				if (Array.isArray(data)) {
+					return data.map(formatResponse)
+				}
+
 				return formatResponse(data)
 			}),
 		)
-	}
-
-	private baseOmit(value: any) {
-		return deepOmit(value, this.OMIT)
 	}
 }

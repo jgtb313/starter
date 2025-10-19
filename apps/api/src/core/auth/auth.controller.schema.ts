@@ -5,7 +5,7 @@ import {
 	type RequestInput,
 } from '@starter/nestjs-server-hoisting'
 
-import { SocialAuthEnum } from '@/ports/social-auth'
+import { SocialAuthSchema } from '@/ports/social-auth'
 
 const OTPVerificationSchema = z.object({
 	otpVerification: OTPSchema.pick({
@@ -63,7 +63,7 @@ export type PasswordLessRequest = RequestInput<typeof PasswordLessSchema>
 
 export const SocialSignOnSchema = createRequestSchema({
 	body: z.object({
-		context: z.enum(SocialAuthEnum),
+		context: SocialAuthSchema,
 		providerToken: z.string().min(1),
 	}),
 	output: AuthenticatedSchema,

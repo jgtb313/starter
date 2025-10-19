@@ -98,8 +98,16 @@ export class OrganizationTypeorm implements IOrganizationRepository {
 		return this.toOrganizationDomain(organization)
 	}
 
-	create: IOrganizationRepository['create'] = async (input) => {
-		const data = this.repository.create(input)
+	create: IOrganizationRepository['create'] = async ({
+		workspaceId,
+		...input
+	}) => {
+		const data = this.repository.create({
+			...input,
+			workspace: {
+				workspaceId,
+			},
+		})
 
 		const organization = await this.repository.save(data)
 
@@ -108,11 +116,18 @@ export class OrganizationTypeorm implements IOrganizationRepository {
 
 	updateById: IOrganizationRepository['updateById'] = async (
 		organizationId,
-		input,
+		{ workspaceId, ...input },
 	) => {
 		const organization = await this.findById(organizationId)
 
-		await this.repository.update(organization.state.organizationId, input)
+		await this.repository.update(organization.state.organizationId, {
+			...input,
+			workspace: workspaceId
+				? {
+						workspaceId,
+					}
+				: undefined,
+		})
 
 		return this.findById(organization.state.organizationId)
 	}

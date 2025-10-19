@@ -1,14 +1,15 @@
 import {
 	OrganizationSchema,
 	OrganizationService,
-	type User,
+	type Profile,
 } from '@starter/domain'
 import { Controller, Request, Route } from '@starter/nestjs-server-hoisting'
 
-import { Inject } from '@nestjs/common'
+import { Inject, UseGuards } from '@nestjs/common'
 
 import { ACLService } from '@/support/access-control'
-import { AuthenticatedUser } from '@/support/decorators'
+import { AuthenticatedProfile } from '@/support/decorators'
+import { AuthGuard } from '@/support/guards/auth-guard'
 import {
 	type CreateOrganizationRequest,
 	CreateOrganizationSchema,
@@ -35,6 +36,7 @@ import {
 		},
 	},
 })
+@UseGuards(AuthGuard)
 export class OrganizationController {
 	constructor(
 		@Inject(ACLService)
@@ -61,15 +63,22 @@ export class OrganizationController {
 			},
 		},
 	})
-	listOrganizations(
-		@AuthenticatedUser() user: User,
+	async listOrganizations(
+		@AuthenticatedProfile() profile: Profile,
 		@Request() { params, query }: ListOrganizationsRequest,
 	) {
-		this.aclService.canPerformActionByPermission(user, 'organization:read', {
+		this.aclService.canPerformActionByPermission(profile, 'organization:read', {
 			workspaceId: params.workspaceId,
 		})
 
-		return this.organizationService.getPaginatedOrganizations({})
+		const response = await this.organizationService.getPaginatedOrganizations({
+			...query,
+		})
+
+		return {
+			...response,
+			values: response.values.map((organization) => organization.toJSON()),
+		}
 	}
 
 	@Route({
@@ -91,16 +100,18 @@ export class OrganizationController {
 			},
 		},
 	})
-	getOrganization(
-		@AuthenticatedUser() user: User,
+	async getOrganization(
+		@AuthenticatedProfile() profile: Profile,
 		@Request() { params }: GetOrganizationRequest,
 	) {
-		this.aclService.canPerformActionByPermission(user, 'organization:read', {
+		this.aclService.canPerformActionByPermission(profile, 'organization:read', {
 			workspaceId: params.workspaceId,
 			organizationId: params.organizationId,
 		})
 
-		return this.organizationService.getOrganization(params)
+		const organization = await this.organizationService.getOrganization(params)
+
+		return organization.toJSON()
 	}
 
 	@Route({
@@ -121,19 +132,24 @@ export class OrganizationController {
 			},
 		},
 	})
-	createOrganization(
-		@AuthenticatedUser() user: User,
+	async createOrganization(
+		@AuthenticatedProfile() profile: Profile,
 		@Request() { params, body }: CreateOrganizationRequest,
 	) {
-		this.aclService.canPerformActionByPermission(user, 'organization:create', {
+		this.aclService.canPerformActionByPermission(
+			profile,
+			'organization:create',
+			{
+				workspaceId: params.workspaceId,
+			},
+		)
+
+		const organization = await this.organizationService.createOrganization({
+			...body,
 			workspaceId: params.workspaceId,
 		})
 
-		return this.organizationService.createOrganization({
-			...body,
-			name: body.name['pt-BR'],
-			workspaceId: params.workspaceId,
-		})
+		return organization.toJSON()
 	}
 
 	@Route({
@@ -156,18 +172,27 @@ export class OrganizationController {
 			},
 		},
 	})
-	updateOrganization(
-		@AuthenticatedUser() user: User,
+	async updateOrganization(
+		@AuthenticatedProfile() profile: Profile,
 		@Request() { params, body }: UpdateOrganizationRequest,
 	) {
-		this.aclService.canPerformActionByPermission(user, 'organization:update', {
-			workspaceId: params.workspaceId,
-			organizationId: params.organizationId,
-		})
+		this.aclService.canPerformActionByPermission(
+			profile,
+			'organization:update',
+			{
+				workspaceId: params.workspaceId,
+				organizationId: params.organizationId,
+			},
+		)
 
-		return this.organizationService.updateOrganization(params, {
-			...body,
-		})
+		const organization = await this.organizationService.updateOrganization(
+			params,
+			{
+				...body,
+			},
+		)
+
+		return organization.toJSON()
 	}
 
 	@Route({
@@ -190,13 +215,17 @@ export class OrganizationController {
 		},
 	})
 	deleteOrganization(
-		@AuthenticatedUser() user: User,
+		@AuthenticatedProfile() profile: Profile,
 		@Request() { params }: DeleteOrganizationRequest,
 	) {
-		this.aclService.canPerformActionByPermission(user, 'organization:delete', {
-			workspaceId: params.workspaceId,
-			organizationId: params.organizationId,
-		})
+		this.aclService.canPerformActionByPermission(
+			profile,
+			'organization:delete',
+			{
+				workspaceId: params.workspaceId,
+				organizationId: params.organizationId,
+			},
+		)
 
 		return this.organizationService.deleteOrganization(params)
 	}

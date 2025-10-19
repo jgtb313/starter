@@ -11,6 +11,7 @@ import {
 	ManyToOne,
 	OneToMany,
 	PrimaryGeneratedColumn,
+	RelationId,
 	UpdateDateColumn,
 } from 'typeorm'
 
@@ -51,6 +52,9 @@ export class OrganizationEntity {
 		name: 'workspaceId',
 	})
 	workspace: WorkspaceEntity
+
+	@RelationId((organization: OrganizationEntity) => organization.workspace)
+	workspaceId: string
 
 	@Column({
 		type: 'varchar',

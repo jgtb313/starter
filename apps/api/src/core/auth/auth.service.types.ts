@@ -1,4 +1,4 @@
-import type { SocialAuthEnum } from '@/ports/social-auth'
+import type { SocialAuth } from '@/ports/social-auth'
 
 export type SignInInput = {
 	email: string
@@ -6,7 +6,7 @@ export type SignInInput = {
 }
 
 export type SocialSignOnInput = {
-	context: SocialAuthEnum
+	context: SocialAuth
 	providerToken: string
 }
 

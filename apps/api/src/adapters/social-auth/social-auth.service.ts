@@ -4,7 +4,7 @@ import {
 	FacebookOauth2Strategy,
 	GoogleOauth2Strategy,
 } from '@/adapters/social-auth/strategies'
-import { type ISocialAuth, SocialAuthEnum } from '@/ports/social-auth'
+import type { ISocialAuth } from '@/ports/social-auth'
 
 @Injectable()
 export class SocialAuthService {
@@ -16,13 +16,13 @@ export class SocialAuthService {
 	) {}
 
 	getInfo: ISocialAuth['getInfo'] = async (context, providerToken) => {
-		const handlers = {
-			[SocialAuthEnum.GOOGLE]: this.googleOauth2.getInfo,
-			[SocialAuthEnum.FACEBOOK]: this.facebookOauth2.getInfo,
+		const strategies = {
+			GOOGLE: this.googleOauth2.getInfo,
+			FACEBOOK: this.facebookOauth2.getInfo,
 		}
 
-		const handler = handlers[context]
+		const strategy = strategies[context]
 
-		return handler(providerToken)
+		return strategy(providerToken)
 	}
 }

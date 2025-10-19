@@ -29,8 +29,8 @@ export class ACLService {
 			(options.organizationId
 				? user.scopes.find(
 						(scope) =>
-							scope.kind === 'ORGANIZATION' &&
-							scope.organizationId === options.organizationId,
+							scope.organizationId === options.organizationId ||
+							scope.kind === 'WORKSPACE',
 					)?.permissions
 				: user.scopes.find((scope) => scope.kind === 'WORKSPACE')
 						?.permissions) ?? []
