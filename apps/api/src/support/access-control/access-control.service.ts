@@ -1,5 +1,5 @@
 import { AclForbiddenException } from '@starter/nestjs-error-handling'
-import type { User } from '@starter/domain'
+import type { Profile } from '@starter/domain'
 import {
 	PERMISSION_SUBJECT_ACTIONS,
 	type Permission,
@@ -18,24 +18,25 @@ import { Injectable } from '@nestjs/common'
 @Injectable()
 export class ACLService {
 	private defineAbilities(
-		user: User,
+		user: Profile,
 		options: {
-			withOrganizationId: boolean
+			organizationId?: Profile['scopes'][number]['organizationId']
 		},
 	) {
 		const { can, build } = new AbilityBuilder(Ability)
 
-		// const permissions = [...new Set([...user.roles.flatMap((role) => role.permissions), ...user.permissions])]
-		const permissions = [
-			'',
-		]
+		const permissions =
+			(options.organizationId
+				? user.scopes.find(
+						(scope) =>
+							scope.kind === 'ORGANIZATION' &&
+							scope.organizationId === options.organizationId,
+					)?.permissions
+				: user.scopes.find((scope) => scope.kind === 'WORKSPACE')
+						?.permissions) ?? []
 
 		const condition: MongoQuery<AnyObject> = {
 			workspaceId: user.workspaceId,
-		}
-
-		if (options.withOrganizationId) {
-			// condition['organizationId'] = { $in: user.organizationIds }
 		}
 
 		permissions.forEach((permission) => {
@@ -69,7 +70,7 @@ export class ACLService {
 	}
 
 	public canPerformActionByPermission(
-		user: User,
+		user: Profile,
 		permission: Permission,
 		resource?: {
 			workspaceId: string
@@ -79,7 +80,7 @@ export class ACLService {
 		const withOrganizationId = !!resource?.organizationId
 
 		const ability = this.defineAbilities(user, {
-			withOrganizationId: !!resource?.organizationId,
+			organizationId: resource?.organizationId,
 		})
 
 		const permissions: Permission[] = [

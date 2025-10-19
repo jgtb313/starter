@@ -1,15 +1,17 @@
 import {
 	InvoiceSchema,
 	InvoiceService,
+	type Profile,
 	type User,
 	UserService,
 } from '@starter/domain'
 import { Controller, Request, Route } from '@starter/nestjs-server-hoisting'
 
-import { Inject } from '@nestjs/common'
+import { Inject, UseGuards } from '@nestjs/common'
 
 import { ACLService } from '@/support/access-control'
-import { AuthenticatedUser } from '@/support/decorators'
+import { AuthenticatedProfile } from '@/support/decorators'
+import { AuthGuard } from '@/support/guards/auth-guard'
 import {
 	type GetInvoiceRequest,
 	GetInvoiceSchema,
@@ -30,7 +32,7 @@ import {
 		},
 	},
 })
-// @UseGuards(AuthGuard)
+@UseGuards(AuthGuard)
 export class InvoiceController {
 	constructor(
 		@Inject(ACLService)
@@ -60,19 +62,17 @@ export class InvoiceController {
 		},
 	})
 	async listInvoices(
-		@AuthenticatedUser() user: User,
+		@AuthenticatedProfile() profile: Profile,
 		@Request() { params, query, pagination }: ListInvoicesRequest,
 	) {
-		this.aclService.canPerformActionByPermission(user, 'invoice:read', {
+		this.aclService.canPerformActionByPermission(profile, 'invoice:read', {
 			workspaceId: params.workspaceId,
 		})
 
-		return this.userService.getPaginatedUsers({})
-
-		// return this.invoiceService.getPaginatedInvoices({
-		// 	...query,
-		// 	...pagination,
-		// })
+		return this.invoiceService.getPaginatedInvoices({
+			...query,
+			...pagination,
+		})
 	}
 
 	@Route({
@@ -95,10 +95,10 @@ export class InvoiceController {
 		},
 	})
 	getInvoice(
-		@AuthenticatedUser() user: User,
+		@AuthenticatedProfile() profile: Profile,
 		@Request() { params }: GetInvoiceRequest,
 	) {
-		this.aclService.canPerformActionByPermission(user, 'invoice:read', {
+		this.aclService.canPerformActionByPermission(profile, 'invoice:read', {
 			workspaceId: params.workspaceId,
 		})
 
