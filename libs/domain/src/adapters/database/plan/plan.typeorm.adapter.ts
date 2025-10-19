@@ -143,6 +143,24 @@ export class PlanTypeorm implements IPlanRepository {
 		return this.toPlanDomain(plan)
 	}
 
+	findDefault: IPlanRepository['findDefault'] = async () => {
+		const plan = await this.repository.findOne({
+			where: {
+				default: true,
+			},
+		})
+
+		if (!plan) {
+			throw new NotFoundException(
+				this.i18nService.current.planNotFound({
+					planId: 'default',
+				}),
+			)
+		}
+
+		return this.toPlanDomain(plan)
+	}
+
 	create: IPlanRepository['create'] = async (input) => {
 		const data = this.repository.create(input)
 

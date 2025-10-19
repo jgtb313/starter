@@ -13,11 +13,18 @@ import type { Plan } from '@/core/plan/plan.schema'
 import { PlanFeatureEntity } from '@/adapters/database/plan/plan-feature.typeorm.entity'
 import { PlanIntervalEntity } from '@/adapters/database/plan/plan-interval.typeorm.entity'
 import { SubscriptionEntity } from '@/adapters/database/subscription/subscription.typeorm.entity'
+import { WorkspaceEntity } from '@/adapters/database/workspace/workspace.typeorm.entity'
 
 @Entity('plan')
 export class PlanEntity {
 	@PrimaryGeneratedColumn('uuid')
 	planId: Plan['planId']
+
+	@OneToMany(
+		() => WorkspaceEntity,
+		(workspace) => workspace.plan,
+	)
+	workspacePlans: WorkspaceEntity[]
 
 	@OneToMany(
 		() => SubscriptionEntity,
@@ -53,7 +60,14 @@ export class PlanEntity {
 	description: Plan['description']
 
 	features: Plan['features']
+
 	intervals: Plan['intervals']
+
+	@Column({
+		type: 'boolean',
+		default: false,
+	})
+	default: Plan['default']
 
 	@Column({
 		type: 'boolean',

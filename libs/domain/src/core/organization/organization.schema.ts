@@ -48,6 +48,7 @@ export const OrganizationSchema = z.object({
 	logo: Logo,
 	domain: Domain,
 	status: Status,
+	deletedAt: BaseSchema.deletedAt,
 	createdAt: BaseSchema.createdAt,
 	updatedAt: BaseSchema.updatedAt,
 })

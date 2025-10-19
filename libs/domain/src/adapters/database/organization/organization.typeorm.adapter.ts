@@ -98,6 +98,18 @@ export class OrganizationTypeorm implements IOrganizationRepository {
 		return this.toOrganizationDomain(organization)
 	}
 
+	countByWorkspaceId: IOrganizationRepository['countByWorkspaceId'] = async (
+		workspaceId,
+	) => {
+		return this.repository.count({
+			where: {
+				workspace: {
+					workspaceId,
+				},
+			},
+		})
+	}
+
 	create: IOrganizationRepository['create'] = async ({
 		workspaceId,
 		...input

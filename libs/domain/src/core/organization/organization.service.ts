@@ -12,6 +12,7 @@ import type {
 	BaseOrganization,
 	Organization,
 } from '@/core/organization/organization.schema'
+import { PlanService } from '@/core/plan/plan.service'
 import { WorkspaceService } from '@/core/workspace/workspace.service'
 import type { IOrganizationRepository } from '@/ports/database/organization'
 
@@ -27,6 +28,8 @@ export class OrganizationService {
 		private readonly organizationRepository: IOrganizationRepository,
 		@Inject(forwardRef(() => WorkspaceService))
 		private readonly workspaceService: WorkspaceService,
+		@Inject(forwardRef(() => PlanService))
+		private readonly planService: PlanService,
 	) {}
 
 	async getPaginatedOrganizations(
@@ -57,6 +60,18 @@ export class OrganizationService {
 
 	async createOrganization({ workspaceId, ...input }: BaseOrganization) {
 		const workspace = await this.workspaceService.getWorkspace(workspaceId)
+
+		const plan = await this.planService.getPlan(workspace.state.planId)
+
+		const organizationCount =
+			await this.organizationRepository.countByWorkspaceId(workspaceId)
+
+		console.log({
+			workspaceId,
+			organizationCount,
+		})
+
+		plan.checkIfCanCreateOrganization(organizationCount)
 
 		return await this.organizationRepository.create({
 			...input,

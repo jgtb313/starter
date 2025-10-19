@@ -1,9 +1,9 @@
+import { z } from '@starter/schema'
 import { WorkspaceSchema } from '@starter/domain'
 import {
 	createRequestSchema,
 	type RequestInput,
 } from '@starter/nestjs-server-hoisting'
-import { z } from '@starter/schema'
 
 export const GetWorkspaceSchema = createRequestSchema({
 	params: WorkspaceSchema.pick({

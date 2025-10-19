@@ -1,5 +1,4 @@
 import {
-	AfterLoad,
 	Column,
 	CreateDateColumn,
 	Entity,
@@ -25,7 +24,7 @@ export class InvoiceEntity {
 
 	@ManyToOne(
 		() => WorkspaceEntity,
-		(workspace) => workspace.invoices,
+		(workspace) => workspace.workspaceInvoices,
 	)
 	@JoinColumn({
 		name: 'workspaceId',

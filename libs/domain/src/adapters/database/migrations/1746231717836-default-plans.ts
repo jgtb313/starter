@@ -13,11 +13,11 @@ export class DefaultPlans1746231717836 implements MigrationInterface {
 		// --- PLANS ---
 		await queryRunner.query(
 			`
-			INSERT INTO plan (plan_id, external_id, name, description, highlight, status, deleted_at, created_at, updated_at)
+			INSERT INTO plan (plan_id, external_id, name, description, default, highlight, status, deleted_at, created_at, updated_at)
 			VALUES
-				($1, $2, $3, $4, $5, $6, $7, $8, $9),
-				($10, $11, $12, $13, $14, $15, $16, $17, $18),
-				($19, $20, $21, $22, $23, $24, $25, $26, $27)
+				($1, $2, $3, $4, $5, $6, $7, $8, $9, $10),
+				($11, $12, $13, $14, $15, $16, $17, $18, $19, $20),
+				($21, $22, $23, $24, $25, $26, $27, $28, $29, $30)
 			`,
 			[
 				// Free Plan
@@ -25,6 +25,7 @@ export class DefaultPlans1746231717836 implements MigrationInterface {
 				'free-plan',
 				'Free',
 				'Ideal for individuals or small teams just getting started. Includes basic features with limited organization support.',
+				true,
 				false,
 				'ACTIVE',
 				null,
@@ -35,6 +36,7 @@ export class DefaultPlans1746231717836 implements MigrationInterface {
 				'pro-plan',
 				'Pro',
 				'Perfect for growing businesses that need more flexibility, more organizations, and premium support.',
+				false,
 				true,
 				'ACTIVE',
 				null,

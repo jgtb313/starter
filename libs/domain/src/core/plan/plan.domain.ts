@@ -1,3 +1,5 @@
+import { ConflictException } from '@starter/nestjs-error-handling'
+
 import { Inject, Injectable } from '@nestjs/common'
 
 import { BaseDomain } from '@/support/base-domain'
@@ -12,5 +14,28 @@ export class PlanDomain extends BaseDomain<Plan> {
 		private readonly i18nService: I18nDomainService,
 	) {
 		super(PlanSchema.parse(plan))
+	}
+
+	checkIfCanCreateOrganization = (organizationCount: number) => {
+		const organizationCountFeature = this.state.features.find(
+			(feature) => feature.feature === 'ORGANIZATION_COUNT',
+		)
+
+		if (!organizationCountFeature) {
+			return
+		}
+
+		const hasReachedLimit =
+			organizationCountFeature.props.maxOrganizations <= organizationCount
+
+		if (!hasReachedLimit) {
+			return
+		}
+
+		throw new ConflictException(
+			this.i18nService.current.planOrganizationCountLimitReached({
+				maxOrganizations: organizationCountFeature.props.maxOrganizations,
+			}),
+		)
 	}
 }

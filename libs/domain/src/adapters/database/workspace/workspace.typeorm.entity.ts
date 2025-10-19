@@ -7,15 +7,19 @@ import {
 	Column,
 	CreateDateColumn,
 	Entity,
+	JoinColumn,
+	ManyToOne,
 	OneToMany,
 	OneToOne,
 	PrimaryGeneratedColumn,
+	RelationId,
 	UpdateDateColumn,
 } from 'typeorm'
 
 import type { Workspace } from '@/core/workspace/workspace.schema'
 import { InvoiceEntity } from '@/adapters/database/invoice/invoice.typeorm.entity'
 import { OrganizationEntity } from '@/adapters/database/organization/organization.typeorm.entity'
+import { PlanEntity } from '@/adapters/database/plan/plan.typeorm.entity'
 import { RoleEntity } from '@/adapters/database/role/role.typeorm.entity'
 import { SubscriptionEntity } from '@/adapters/database/subscription/subscription.typeorm.entity'
 import { UserEntity } from '@/adapters/database/user/user.typeorm.entity'
@@ -36,31 +40,43 @@ export class WorkspaceEntity {
 		() => UserEntity,
 		(user) => user.workspace,
 	)
-	users: UserEntity[]
+	workspaceUsers: UserEntity[]
 
 	@OneToMany(
 		() => OrganizationEntity,
 		(organization) => organization.workspace,
 	)
-	organizations: OrganizationEntity[]
+	workspaceOrganizations: OrganizationEntity[]
 
 	@OneToMany(
 		() => RoleEntity,
 		(role) => role.workspace,
 	)
-	roles: RoleEntity[]
+	workspaceRoles: RoleEntity[]
 
 	@OneToMany(
 		() => SubscriptionEntity,
 		(subscription) => subscription.workspace,
 	)
-	subscriptions: SubscriptionEntity[]
+	workspaceSubscriptions: SubscriptionEntity[]
 
 	@OneToMany(
 		() => InvoiceEntity,
 		(invoice) => invoice.workspace,
 	)
-	invoices: InvoiceEntity[]
+	workspaceInvoices: InvoiceEntity[]
+
+	@ManyToOne(
+		() => PlanEntity,
+		(plan) => plan.workspacePlans,
+	)
+	@JoinColumn({
+		name: 'planId',
+	})
+	plan: PlanEntity
+
+	@RelationId((workspace: WorkspaceEntity) => workspace.plan)
+	planId: string
 
 	@Column({
 		type: 'varchar',

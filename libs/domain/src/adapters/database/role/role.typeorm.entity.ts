@@ -43,7 +43,7 @@ export class RoleEntity {
 
 	@ManyToOne(
 		() => WorkspaceEntity,
-		(workspace) => workspace.roles,
+		(workspace) => workspace.workspaceRoles,
 	)
 	@JoinColumn({
 		name: 'workspaceId',

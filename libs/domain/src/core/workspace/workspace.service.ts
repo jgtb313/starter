@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common'
 import { Transactional } from 'typeorm-transactional'
 
+import { PlanService } from '@/core/plan/plan.service'
 import { UserService } from '@/core/user/user.service'
 import type {
 	BaseWorkspace,
@@ -26,6 +27,8 @@ export class WorkspaceService {
 		private readonly workspaceRepository: IWorkspaceRepository,
 		@Inject(forwardRef(() => UserService))
 		private readonly userService: UserService,
+		@Inject(forwardRef(() => PlanService))
+		private readonly planService: PlanService,
 		@Inject(PublisherService)
 		private readonly publisherService: PublisherService,
 		@Inject(LoggerService)
@@ -65,7 +68,19 @@ export class WorkspaceService {
 			)
 		}
 
-		const workspace = await this.workspaceRepository.create(input)
+		const defaultPlan = await this.planService.getDefaultPlan()
+
+		this.loggerService.info(
+			`Attaching default plan ${defaultPlan.state.planId} to workspace`,
+			{
+				workspaceId: input.workspaceId,
+			},
+		)
+
+		const workspace = await this.workspaceRepository.create({
+			...input,
+			planId: defaultPlan.state.planId,
+		})
 
 		await this.userService.updateUser(user.state.userId, {
 			workspaceId: workspace.state.workspaceId,

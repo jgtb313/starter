@@ -24,7 +24,7 @@ export class SubscriptionEntity {
 
 	@ManyToOne(
 		() => WorkspaceEntity,
-		(workspace) => workspace.subscriptions,
+		(workspace) => workspace.workspaceSubscriptions,
 	)
 	@JoinColumn({
 		name: 'workspaceId',

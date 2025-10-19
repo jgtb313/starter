@@ -12,6 +12,7 @@ export const makeWorkspace = (
 ): WorkspaceInput => {
 	const base: WorkspaceInput = {
 		workspaceId: uuid(),
+		planId: uuid(),
 		recurrenceExternalId: null,
 		name: 'Manea CED',
 		email: null,

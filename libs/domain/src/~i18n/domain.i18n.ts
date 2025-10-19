@@ -23,6 +23,8 @@ const en = {
 	planAlreadyActive: 'This plan is already active.',
 	planAlreadyInactive: 'This plan is already inactive.',
 	planNotFound: 'Plan {planId:string} not found.',
+	planOrganizationCountLimitReached:
+		'This plan has reached the maximum of ({maxOrganizations:number}) organizations.',
 
 	// Role
 	roleAlreadyActive: 'This role is already active.',
@@ -88,6 +90,8 @@ const es: Translations = {
 	planAlreadyActive: 'Este plan ya está activo.',
 	planAlreadyInactive: 'Este plan ya está inactivo.',
 	planNotFound: 'El plan {planId:string} no existe.',
+	planOrganizationCountLimitReached:
+		'Este plan ha alcanzado el límite máximo de organizaciones.',
 
 	// Role
 	roleAlreadyActive: 'Este rol ya está activo.',
@@ -152,6 +156,8 @@ const ptBR: Translations = {
 	planAlreadyActive: 'Este plano já está ativo.',
 	planAlreadyInactive: 'Este plano já está inativo.',
 	planNotFound: 'O plano {planId:string} não existe.',
+	planOrganizationCountLimitReached:
+		'Este plano já atingiu o limite máximo de organizações.',
 
 	// Role
 	roleAlreadyActive: 'Este papel já está ativo.',

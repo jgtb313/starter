@@ -20,6 +20,7 @@ export type IOrganizationRepository = {
 	): Promise<PaginationOutput<OrganizationDomain>>
 	find(input: Partial<Organization>): Promise<OrganizationDomain[]>
 	findById(organizationId: string): Promise<OrganizationDomain>
+	countByWorkspaceId(workspaceId: string): Promise<number>
 	create(input: BaseOrganization): Promise<OrganizationDomain>
 	updateById(
 		organizationId: string,

@@ -30,7 +30,7 @@ export class UserEntity {
 
 	@ManyToOne(
 		() => WorkspaceEntity,
-		(workspace) => workspace.users,
+		(workspace) => workspace.workspaceUsers,
 		{
 			nullable: true,
 		},

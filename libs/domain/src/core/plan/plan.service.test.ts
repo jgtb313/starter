@@ -16,6 +16,7 @@ const mockPlanRepository: Mocked<IPlanRepository> = {
 	findPaginated: vi.fn(),
 	find: vi.fn(),
 	findById: vi.fn(),
+	findDefault: vi.fn(),
 	create: vi.fn(),
 	updateById: vi.fn(),
 	deleteById: vi.fn(),

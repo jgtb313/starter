@@ -12,6 +12,8 @@ import { BaseSchema } from '@/support/base-schema'
 
 const WorkspaceId = BaseSchema.id('workspace')
 
+const PlanId = BaseSchema.id('plan')
+
 const RecurrenceExternalId = z
 	.string()
 	.nullish()
@@ -82,6 +84,7 @@ export type WorkspaceStatus = z.infer<typeof Status>
 
 export const WorkspaceSchema = z.object({
 	workspaceId: WorkspaceId,
+	planId: PlanId,
 	recurrenceExternalId: RecurrenceExternalId,
 	name: Name,
 	email: Email,
@@ -103,6 +106,7 @@ export type BaseWorkspace = BaseSchema<
 	{
 		optional: [
 			'workspaceId',
+			'planId',
 		]
 	}
 >

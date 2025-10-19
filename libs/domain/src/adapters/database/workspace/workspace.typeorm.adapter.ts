@@ -120,8 +120,13 @@ export class WorkspaceTypeorm implements IWorkspaceRepository {
 		return this.toWorkspaceDomain(workspace)
 	}
 
-	create: IWorkspaceRepository['create'] = async (input) => {
-		const data = this.repository.create(input)
+	create: IWorkspaceRepository['create'] = async ({ planId, ...input }) => {
+		const data = this.repository.create({
+			...input,
+			plan: {
+				planId,
+			},
+		})
 
 		const workspace = await this.repository.save(data)
 
@@ -130,11 +135,18 @@ export class WorkspaceTypeorm implements IWorkspaceRepository {
 
 	updateById: IWorkspaceRepository['updateById'] = async (
 		workspaceId,
-		input,
+		{ planId, ...input },
 	) => {
 		const workspace = await this.findById(workspaceId)
 
-		await this.repository.update(workspace.state.workspaceId, input)
+		await this.repository.update(workspace.state.workspaceId, {
+			...input,
+			plan: planId
+				? {
+						planId,
+					}
+				: undefined,
+		})
 
 		return this.findById(workspace.state.workspaceId)
 	}

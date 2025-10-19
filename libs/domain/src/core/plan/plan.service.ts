@@ -39,6 +39,10 @@ export class PlanService {
 		return this.planRepository.findById(planId)
 	}
 
+	getDefaultPlan = async () => {
+		return this.planRepository.findDefault()
+	}
+
 	createPlan = async ({ status = 'INACTIVE', ...input }: BasePlan) => {
 		this.loggerService.info('Attempting to create plan', {
 			input,

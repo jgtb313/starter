@@ -14,6 +14,7 @@ const mockOrganizationRepository: Mocked<IOrganizationRepository> = {
 	findPaginated: vi.fn(),
 	find: vi.fn(),
 	findById: vi.fn(),
+	countByWorkspaceId: vi.fn(),
 	create: vi.fn(),
 	updateById: vi.fn(),
 	deleteById: vi.fn(),

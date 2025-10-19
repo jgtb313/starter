@@ -29,6 +29,7 @@ export type IPlanRepository = {
 		>,
 	): Promise<PlanDomain[]>
 	findById(planId: string): Promise<PlanDomain>
+	findDefault(): Promise<PlanDomain>
 	create(input: BasePlan): Promise<PlanDomain>
 	updateById(planId: string, input: Partial<Plan>): Promise<PlanDomain>
 	deleteById(planId: string): Promise<void>

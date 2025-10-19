@@ -60,6 +60,8 @@ const Intervals = z.array(PlanIntervalSchema).default([])
 
 const Highlight = z.boolean().default(false)
 
+const Default = z.boolean().default(false)
+
 const Status = z
 	.enum([
 		'ACTIVE',
@@ -75,6 +77,7 @@ export const PlanSchema = z.object({
 	features: Features,
 	intervals: Intervals,
 	highlight: Highlight,
+	default: Default,
 	status: Status,
 	deletedAt: BaseSchema.deletedAt,
 	createdAt: BaseSchema.createdAt,

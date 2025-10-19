@@ -6,6 +6,7 @@ import {
 	BeforeUpdate,
 	Column,
 	CreateDateColumn,
+	DeleteDateColumn,
 	Entity,
 	JoinColumn,
 	ManyToOne,
@@ -46,7 +47,7 @@ export class OrganizationEntity {
 
 	@ManyToOne(
 		() => WorkspaceEntity,
-		(workspace) => workspace.organizations,
+		(workspace) => workspace.workspaceOrganizations,
 	)
 	@JoinColumn({
 		name: 'workspaceId',
@@ -54,7 +55,7 @@ export class OrganizationEntity {
 	workspace: WorkspaceEntity
 
 	@RelationId((organization: OrganizationEntity) => organization.workspace)
-	workspaceId: string
+	workspaceId: Organization['workspaceId']
 
 	@Column({
 		type: 'varchar',
@@ -117,6 +118,9 @@ export class OrganizationEntity {
 		type: 'varchar',
 	})
 	status: Organization['status']
+
+	@DeleteDateColumn()
+	deletedAt: Organization['deletedAt']
 
 	@CreateDateColumn()
 	createdAt: Organization['createdAt']
