@@ -19,6 +19,7 @@ import { UserEntity } from '@/adapters/database/user/user.typeorm.entity'
 import { UserAddressEntity } from '@/adapters/database/user/user-address.typeorm.entity'
 import { UserOrganizationEntity } from '@/adapters/database/user/user-organization.typeorm.entity'
 import { UserPermissionEntity } from '@/adapters/database/user/user-permission.typeorm.entity'
+import { WorkspaceEntity } from '@/adapters/database/workspace/workspace.typeorm.entity'
 import type { IUserRepository } from '@/ports/database/user'
 import { type I18nDomainService, I18nDomainSymbol } from '@/domain.i18n.module'
 
@@ -245,26 +246,28 @@ export class UserTypeorm implements IUserRepository {
 
 	create: IUserRepository['create'] = async ({
 		addresses = [],
-		permissionIds,
+		permissionIds = [],
 		workspaceId,
 		...input
 	}) => {
-		const data = this.repository.create(input)
-
-		const user = await this.repository.save({
-			...data,
+		const data = this.repository.create({
+			...input,
 			workspace: workspaceId
 				? {
 						workspaceId,
 					}
 				: undefined,
-			userPermissions: permissionIds?.map((permissionId) => ({
-				permissionId,
-			})),
-			userAddresses: addresses.map((address) => ({
-				...address,
-			})),
+			userAddresses: addresses.map((address) =>
+				this.userAddressRepository.create(address),
+			),
+			userPermissions: permissionIds.map((permissionId) =>
+				this.userPermissionRepository.create({
+					permissionId,
+				}),
+			),
 		})
+
+		const user = await this.repository.save(data)
 
 		return this.toUserDomain(user)
 	}
@@ -276,6 +279,7 @@ export class UserTypeorm implements IUserRepository {
 		const user = await this.findById(userId)
 
 		await this.repository.update(user.state.userId, {
+			...user.state,
 			...input,
 			workspace: workspaceId
 				? {
@@ -284,7 +288,7 @@ export class UserTypeorm implements IUserRepository {
 				: undefined,
 		})
 
-		return this.findById(user.state.userId)
+		return this.findById(userId)
 	}
 
 	deleteById: IUserRepository['deleteById'] = async (userId) => {

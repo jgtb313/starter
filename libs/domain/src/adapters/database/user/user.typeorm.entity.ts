@@ -37,7 +37,7 @@ export class UserEntity {
 	@JoinColumn({
 		name: 'workspaceId',
 	})
-	workspace: WorkspaceEntity
+	workspace: WorkspaceEntity | null
 
 	@OneToMany(
 		() => OTPEntity,
@@ -54,12 +54,18 @@ export class UserEntity {
 	@OneToMany(
 		() => UserAddressEntity,
 		(userAddress) => userAddress.user,
+		{
+			cascade: true,
+		},
 	)
 	userAddresses: UserAddressEntity[]
 
 	@OneToMany(
 		() => UserPermissionEntity,
 		(userPermission) => userPermission.user,
+		{
+			cascade: true,
+		},
 	)
 	userPermissions: UserPermissionEntity[]
 
