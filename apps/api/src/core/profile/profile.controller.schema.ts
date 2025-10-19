@@ -1,13 +1,9 @@
 import { PhoneSchema, z } from '@starter/schema'
-import { OTPSchema, UserSchema } from '@starter/domain'
+import { OTPSchema, ProfileSchema, UserSchema } from '@starter/domain'
 import {
 	createRequestSchema,
 	type RequestInput,
 } from '@starter/nestjs-server-hoisting'
-
-export const ProfileSchema = UserSchema.omit({
-	password: true,
-})
 
 const OTPVerificationSchema = z.object({
 	otpVerification: OTPSchema.pick({

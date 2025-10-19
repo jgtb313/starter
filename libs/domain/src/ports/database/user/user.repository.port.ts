@@ -19,6 +19,11 @@ type CreateUserInput = BaseUser & {
 	permissionIds?: Permission[]
 }
 
+type PermissionOutput = {
+	organizationId: string | null
+	permissionId: Permission
+}
+
 export type IUserRepository = {
 	findPaginated(
 		input: Merge<
@@ -73,21 +78,24 @@ export type IUserRepository = {
 		organizationIds: string[],
 	): Promise<void>
 
-	findPermissions(userId: string): Promise<{}>
+	findPermissions(userId: string): Promise<PermissionOutput[]>
 	attachPermission(
 		userId: string,
-		permissionId: string,
+		permissionId: Permission,
 		organizationId: string,
 	): Promise<void>
 	attachManyPermissions(
 		userId: string,
 		input: {
-			permissionId: string
+			permissionId: Permission
 			organizationId: string
 		}[],
 	): Promise<void>
-	detachPermission(userId: string, permissionId: string): Promise<void>
-	detachManyPermissions(userId: string, permissionIds: string[]): Promise<void>
+	detachPermission(userId: string, permissionId: Permission): Promise<void>
+	detachManyPermissions(
+		userId: string,
+		permissionIds: Permission[],
+	): Promise<void>
 
 	createAddress(userId: string, input: User['addresses'][number]): Promise<void>
 	updateAddressById(

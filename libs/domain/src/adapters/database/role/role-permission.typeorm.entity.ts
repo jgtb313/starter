@@ -8,6 +8,7 @@ import {
 	UpdateDateColumn,
 } from 'typeorm'
 
+import type { Permission } from '@/core/permission/permission.schema'
 import { RoleEntity } from '@/adapters/database/role/role.typeorm.entity'
 
 @Entity('role_permission')
@@ -27,7 +28,7 @@ export class RolePermissionEntity {
 	@Column({
 		type: 'varchar',
 	})
-	permissionId: string
+	permissionId: Permission
 
 	@CreateDateColumn()
 	createdAt: Date

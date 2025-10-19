@@ -12,6 +12,7 @@ import {
 	ManyToOne,
 	OneToMany,
 	PrimaryGeneratedColumn,
+	RelationId,
 	UpdateDateColumn,
 } from 'typeorm'
 
@@ -68,6 +69,9 @@ export class UserEntity {
 		},
 	)
 	userPermissions: UserPermissionEntity[]
+
+	@RelationId((user: UserEntity) => user.workspace)
+	workspaceId: string | null
 
 	@Column({
 		type: 'varchar',

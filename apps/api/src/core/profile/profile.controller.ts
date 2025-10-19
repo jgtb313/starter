@@ -1,4 +1,10 @@
-import { OTPService, type User, UserService } from '@starter/domain'
+import {
+	OTPService,
+	ProfileSchema,
+	ProfileService,
+	type User,
+	UserService,
+} from '@starter/domain'
 import { Controller, Request, Route } from '@starter/nestjs-server-hoisting'
 
 import { Inject, UseGuards } from '@nestjs/common'
@@ -24,13 +30,19 @@ import {
 
 	basePath: 'profile',
 
-	schemas: {},
+	schemas: {
+		Profile: {
+			schema: ProfileSchema,
+		},
+	},
 })
 @UseGuards(AuthGuard)
 export class ProfileController {
 	constructor(
 		@Inject(OTPService)
 		private readonly otpService: OTPService,
+		@Inject(ProfileService)
+		private readonly profileService: ProfileService,
 		@Inject(UserService)
 		private readonly userService: UserService,
 	) {}
@@ -52,10 +64,8 @@ export class ProfileController {
 			},
 		},
 	})
-	async getProfile(@AuthenticatedUser() user: User) {
-		const profile = await this.userService.getUser(user.userId)
-
-		return profile.toJSON()
+	getProfile(@AuthenticatedUser() user: User) {
+		return this.profileService.getProfile(user.userId)
 	}
 
 	@Route({

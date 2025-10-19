@@ -19,7 +19,6 @@ import { UserEntity } from '@/adapters/database/user/user.typeorm.entity'
 import { UserAddressEntity } from '@/adapters/database/user/user-address.typeorm.entity'
 import { UserOrganizationEntity } from '@/adapters/database/user/user-organization.typeorm.entity'
 import { UserPermissionEntity } from '@/adapters/database/user/user-permission.typeorm.entity'
-import { WorkspaceEntity } from '@/adapters/database/workspace/workspace.typeorm.entity'
 import type { IUserRepository } from '@/ports/database/user'
 import { type I18nDomainService, I18nDomainSymbol } from '@/domain.i18n.module'
 
@@ -430,15 +429,40 @@ export class UserTypeorm implements IUserRepository {
 	findPermissions: IUserRepository['findPermissions'] = async (userId) => {
 		const user = await this.findById(userId)
 
-		const permissions = await this.userPermissionRepository.find({
-			where: {
-				user: {
-					userId: user.state.userId,
+		const [userPermissions, userOrganizations] = await Promise.all([
+			this.userPermissionRepository.find({
+				where: {
+					user: {
+						userId: user.state.userId,
+					},
 				},
-			},
-		})
+			}),
+			this.userOrganizationRepository.find({
+				relations: {
+					role: {
+						rolePermissions: true,
+					},
+				},
+				where: {
+					user: {
+						userId: user.state.userId,
+					},
+				},
+			}),
+		])
 
-		return permissions.map((permission) => permission)
+		return [
+			...userPermissions.map((userPermission) => ({
+				permissionId: userPermission.permissionId,
+				organizationId: null,
+			})),
+			...userOrganizations.flatMap((userOrganization) =>
+				userOrganization.role.rolePermissions.map((rolePermission) => ({
+					permissionId: rolePermission.permissionId,
+					organizationId: userOrganization.organization.organizationId,
+				})),
+			),
+		]
 	}
 
 	attachPermission: IUserRepository['attachPermission'] = async (
