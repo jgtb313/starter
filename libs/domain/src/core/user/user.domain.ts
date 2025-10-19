@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common'
+import { ConflictException, Inject, Injectable } from '@nestjs/common'
 
 import { BaseDomain } from '@/support/base-domain'
 import { type User, type UserInput, UserSchema } from '@/core/user/user.schema'
@@ -12,5 +12,17 @@ export class UserDomain extends BaseDomain<User> {
 		private readonly i18nService: I18nDomainService,
 	) {
 		super(UserSchema.parse(user))
+	}
+
+	checkIfAlreadyHasWorkspace() {
+		const hasWorkspace = this.state.workspaceId !== null
+
+		if (!hasWorkspace) {
+			return
+		}
+
+		throw new ConflictException(
+			this.i18nService.current.userAlreadyHasWorkspace(),
+		)
 	}
 }

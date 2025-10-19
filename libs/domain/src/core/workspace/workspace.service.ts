@@ -1,12 +1,7 @@
 import type { Merge } from '@starter/common'
 import type { BaseAddress, BusinessAddress, Pagination } from '@starter/schema'
 
-import {
-	ConflictException,
-	forwardRef,
-	Inject,
-	Injectable,
-} from '@nestjs/common'
+import { forwardRef, Inject, Injectable } from '@nestjs/common'
 import { Transactional } from 'typeorm-transactional'
 
 import { PlanService } from '@/core/plan/plan.service'
@@ -18,7 +13,6 @@ import type {
 import { LoggerService } from '@/adapters/logger'
 import { PublisherService } from '@/adapters/publisher/publisher.service'
 import type { IWorkspaceRepository } from '@/ports/database/workspace'
-import { type I18nDomainService, I18nDomainSymbol } from '@/domain.i18n.module'
 
 @Injectable()
 export class WorkspaceService {
@@ -33,8 +27,6 @@ export class WorkspaceService {
 		private readonly publisherService: PublisherService,
 		@Inject(LoggerService)
 		private readonly loggerService: LoggerService,
-		@Inject(I18nDomainSymbol)
-		private readonly i18nService: I18nDomainService,
 	) {}
 
 	async getPaginatedWorkspaces(
@@ -60,22 +52,9 @@ export class WorkspaceService {
 
 		const user = await this.userService.getUser(userId)
 
-		const hasWorkspace = user.state.workspaceId !== null
-
-		if (hasWorkspace) {
-			throw new ConflictException(
-				this.i18nService.current.userAlreadyHasWorkspace(),
-			)
-		}
+		user.checkIfAlreadyHasWorkspace()
 
 		const defaultPlan = await this.planService.getDefaultPlan()
-
-		this.loggerService.info(
-			`Attaching default plan ${defaultPlan.state.planId} to workspace`,
-			{
-				workspaceId: input.workspaceId,
-			},
-		)
 
 		const workspace = await this.workspaceRepository.create({
 			...input,
