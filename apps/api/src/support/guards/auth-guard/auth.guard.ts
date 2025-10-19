@@ -22,9 +22,7 @@ export class AuthGuard implements CanActivate {
 		private readonly profileService: ProfileService,
 		@Inject(LoggerService)
 		private readonly loggerService: LoggerService,
-	) {
-		console.log('AuthGuard constructor', this)
-	}
+	) {}
 
 	async canActivate(context: ExecutionContext): Promise<boolean> {
 		const request = context.switchToHttp().getRequest()

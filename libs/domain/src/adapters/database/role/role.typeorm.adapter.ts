@@ -23,7 +23,7 @@ import { type I18nDomainService, I18nDomainSymbol } from '@/domain.i18n.module'
 export class RoleTypeorm implements IRoleRepository {
 	private readonly relations: FindOptionsRelations<RoleEntity> = {
 		organizations: true,
-		permissions: true,
+		// permissions: true,
 	}
 	constructor(
 		@InjectRepository(RoleEntity)
@@ -72,11 +72,11 @@ export class RoleTypeorm implements IRoleRepository {
 			}
 		}
 
-		if (permissionIds?.length) {
-			where.permissions = {
-				permissionId: In(permissionIds),
-			}
-		}
+		// if (permissionIds?.length) {
+		// 	where.permissions = {
+		// 		permissionId: In(permissionIds),
+		// 	}
+		// }
 
 		if (status) {
 			where.status = status
@@ -92,11 +92,11 @@ export class RoleTypeorm implements IRoleRepository {
 			}
 		}
 
-		if (sort?.permissionName) {
-			order.permissions = {
-				name: sort.permissionName,
-			}
-		}
+		// if (sort?.permissionName) {
+		// 	order.permissions = {
+		// 		name: sort.permissionName,
+		// 	}
+		// }
 
 		if (sort?.status) {
 			order.status = sort.status
@@ -177,36 +177,6 @@ export class RoleTypeorm implements IRoleRepository {
 
 		const role = await this.repository.save(data)
 
-		const roleOrganizations = organizationIds.map((organizationId) =>
-			this.roleOrganizationRepository.create({
-				role: {
-					roleId: role.roleId,
-				},
-				organization: {
-					organizationId,
-				},
-			}),
-		)
-
-		const rolePermissions = permissionIds.map((permissionId) =>
-			this.rolePermissionRepository.create({
-				role: {
-					roleId: role.roleId,
-				},
-				permission: {
-					permissionId,
-				},
-			}),
-		)
-
-		if (roleOrganizations.length) {
-			await this.roleOrganizationRepository.insert(roleOrganizations)
-		}
-
-		if (rolePermissions.length) {
-			await this.rolePermissionRepository.insert(rolePermissions)
-		}
-
 		return this.findById(role.roleId)
 	}
 
@@ -217,46 +187,6 @@ export class RoleTypeorm implements IRoleRepository {
 		const role = await this.findById(roleId)
 
 		await this.repository.update(role.state.roleId, input)
-
-		const roleOrganizations = organizationIds?.map((organizationId) =>
-			this.roleOrganizationRepository.create({
-				role: {
-					roleId,
-				},
-				organization: {
-					organizationId,
-				},
-			}),
-		)
-
-		const rolePermissions = permissionIds?.map((permissionId) =>
-			this.rolePermissionRepository.create({
-				role: {
-					roleId,
-				},
-				permission: {
-					permissionId,
-				},
-			}),
-		)
-
-		if (roleOrganizations?.length) {
-			await this.roleOrganizationRepository.delete({
-				role: {
-					roleId,
-				},
-			})
-			await this.roleOrganizationRepository.insert(roleOrganizations)
-		}
-
-		if (rolePermissions?.length) {
-			await this.rolePermissionRepository.delete({
-				role: {
-					roleId,
-				},
-			})
-			await this.rolePermissionRepository.insert(rolePermissions)
-		}
 
 		return this.findById(role.state.roleId)
 	}

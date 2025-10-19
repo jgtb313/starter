@@ -8,8 +8,6 @@ import {
 	UpdateDateColumn,
 } from 'typeorm'
 
-import type { Organization } from '@/core/organization/organization.schema'
-import type { Role } from '@/core/role/role.schema'
 import { OrganizationEntity } from '@/adapters/database/organization/organization.typeorm.entity'
 import { RoleEntity } from '@/adapters/database/role/role.typeorm.entity'
 

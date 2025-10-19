@@ -24,6 +24,10 @@ import { type I18nDomainService, I18nDomainSymbol } from '@/domain.i18n.module'
 
 @Injectable()
 export class UserTypeorm implements IUserRepository {
+	private readonly relations: FindOptionsRelations<UserEntity> = {
+		userAddresses: true,
+	}
+
 	constructor(
 		@InjectRepository(UserEntity)
 		private readonly repository: Repository<UserEntity>,
@@ -86,10 +90,10 @@ export class UserTypeorm implements IUserRepository {
 		const take = paginate.limit
 
 		const [values, total] = await this.repository.findAndCount({
+			relations: this.relations,
 			where,
 			take,
 			order,
-			relations: this.getRelations(),
 		})
 
 		const nextCursor =
@@ -138,9 +142,9 @@ export class UserTypeorm implements IUserRepository {
 		}
 
 		const values = await this.repository.find({
+			relations: this.relations,
 			where,
 			order,
-			relations: this.getRelations(),
 		})
 
 		return values.map((user) => this.toUserDomain(user))
@@ -148,10 +152,10 @@ export class UserTypeorm implements IUserRepository {
 
 	findById: IUserRepository['findById'] = async (userId) => {
 		const user = await this.repository.findOne({
+			relations: this.relations,
 			where: {
 				userId,
 			},
-			relations: this.getRelations(),
 		})
 
 		if (!user) {
@@ -177,8 +181,8 @@ export class UserTypeorm implements IUserRepository {
 		}
 
 		const user = await this.repository.findOne({
+			relations: this.relations,
 			where,
-			relations: this.getRelations(),
 		})
 
 		if (!user) {
@@ -202,8 +206,8 @@ export class UserTypeorm implements IUserRepository {
 		}
 
 		const user = await this.repository.findOne({
+			relations: this.relations,
 			where,
-			relations: this.getRelations(),
 		})
 
 		if (!user) {
@@ -228,8 +232,8 @@ export class UserTypeorm implements IUserRepository {
 		}
 
 		const user = await this.repository.findOne({
+			relations: this.relations,
 			where,
-			relations: this.getRelations(),
 		})
 
 		if (!user) {
@@ -239,30 +243,46 @@ export class UserTypeorm implements IUserRepository {
 		return this.toUserDomain(user)
 	}
 
-	async create({
+	create: IUserRepository['create'] = async ({
 		addresses = [],
+		permissionIds,
+		workspaceId,
 		...input
-	}: Parameters<IUserRepository['create']>[number]) {
+	}) => {
 		const data = this.repository.create(input)
 
-		const user = await this.repository.save(data)
-
-		if (addresses.length) {
-			await this.userAddressRepository.insert(
-				addresses.map((address) => ({
-					userId: user.userId,
-					...address,
-				})),
-			)
-		}
+		const user = await this.repository.save({
+			...data,
+			workspace: workspaceId
+				? {
+						workspaceId,
+					}
+				: undefined,
+			userPermissions: permissionIds?.map((permissionId) => ({
+				permissionId,
+			})),
+			userAddresses: addresses.map((address) => ({
+				...address,
+			})),
+		})
 
 		return this.toUserDomain(user)
 	}
 
-	updateById: IUserRepository['updateById'] = async (userId, input) => {
+	updateById: IUserRepository['updateById'] = async (
+		userId,
+		{ workspaceId, ...input },
+	) => {
 		const user = await this.findById(userId)
 
-		await this.repository.update(user.state.userId, input)
+		await this.repository.update(user.state.userId, {
+			...input,
+			workspace: workspaceId
+				? {
+						workspaceId,
+					}
+				: undefined,
+		})
 
 		return this.findById(user.state.userId)
 	}
@@ -414,7 +434,7 @@ export class UserTypeorm implements IUserRepository {
 			},
 		})
 
-		return permissions.map((permission) => permission.permission)
+		return permissions.map((permission) => permission)
 	}
 
 	attachPermission: IUserRepository['attachPermission'] = async (
@@ -428,9 +448,7 @@ export class UserTypeorm implements IUserRepository {
 			user: {
 				userId: user.state.userId,
 			},
-			permission: {
-				permissionId,
-			},
+			permissionId,
 			organization: {
 				organizationId,
 			},
@@ -468,9 +486,7 @@ export class UserTypeorm implements IUserRepository {
 			user: {
 				userId: user.state.userId,
 			},
-			permission: {
-				permissionId,
-			},
+			permissionId,
 		})
 	}
 
@@ -484,19 +500,8 @@ export class UserTypeorm implements IUserRepository {
 			user: {
 				userId: user.state.userId,
 			},
-			permission: {
-				permissionId: In(permissionIds),
-			},
+			permissionId: In(permissionIds),
 		})
-	}
-
-	private getRelations(): FindOptionsRelations<UserEntity> {
-		return {
-			userAddresses: true,
-			userPermissions: {
-				permission: true,
-			},
-		}
 	}
 
 	private toUserDomain = (model: UserEntity) => {

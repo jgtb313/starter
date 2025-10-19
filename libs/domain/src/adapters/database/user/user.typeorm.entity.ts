@@ -27,6 +27,18 @@ export class UserEntity {
 	@PrimaryGeneratedColumn('uuid')
 	userId: User['userId']
 
+	@ManyToOne(
+		() => WorkspaceEntity,
+		(workspace) => workspace.users,
+		{
+			nullable: true,
+		},
+	)
+	@JoinColumn({
+		name: 'workspaceId',
+	})
+	workspace: WorkspaceEntity
+
 	@OneToMany(
 		() => OTPEntity,
 		(otp) => otp.user,
@@ -50,18 +62,6 @@ export class UserEntity {
 		(userPermission) => userPermission.user,
 	)
 	userPermissions: UserPermissionEntity[]
-
-	@ManyToOne(
-		() => WorkspaceEntity,
-		(workspace) => workspace.users,
-		{
-			nullable: true,
-		},
-	)
-	@JoinColumn({
-		name: 'workspaceId',
-	})
-	workspace: WorkspaceEntity
 
 	@Column({
 		type: 'varchar',

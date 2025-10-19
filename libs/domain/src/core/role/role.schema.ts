@@ -2,7 +2,6 @@ import { z } from '@starter/schema'
 
 import { BaseSchema } from '@/support/base-schema'
 import { OrganizationSchema } from '@/core/organization/organization.schema'
-import { PermissionSchema } from '@/core/permission/permission.schema'
 
 const RoleId = BaseSchema.id('role')
 
@@ -10,7 +9,7 @@ const WorkspaceId = BaseSchema.id('workspace')
 
 const Organization = z.array(OrganizationSchema).default([])
 
-const Permission = z.array(PermissionSchema).default([])
+// const Permission = z.array(PermissionSchema).default([])
 
 const Name = z.string().min(1)
 
@@ -30,7 +29,7 @@ export const RoleSchema = z.object({
 	roleId: RoleId,
 	workspaceId: WorkspaceId,
 	organizations: Organization,
-	permissions: Permission,
+	// permissions: Permission,
 	name: Name,
 	tags: Tags,
 	status: Status,

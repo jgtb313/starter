@@ -14,7 +14,6 @@ import {
 import { InvoiceEntity } from '@/adapters/database/invoice/invoice.typeorm.entity'
 import { OrganizationEntity } from '@/adapters/database/organization/organization.typeorm.entity'
 import { OTPEntity } from '@/adapters/database/otp/otp.typeorm.entity'
-import { PermissionEntity } from '@/adapters/database/permission/permission.typeorm.entity'
 import { PlanEntity } from '@/adapters/database/plan/plan.typeorm.entity'
 import { PlanFeatureEntity } from '@/adapters/database/plan/plan-feature.typeorm.entity'
 import { PlanIntervalEntity } from '@/adapters/database/plan/plan-interval.typeorm.entity'
@@ -33,7 +32,6 @@ const entities = [
 	InvoiceEntity,
 	OrganizationEntity,
 	OTPEntity,
-	PermissionEntity,
 	PlanEntity,
 	PlanFeatureEntity,
 	PlanIntervalEntity,

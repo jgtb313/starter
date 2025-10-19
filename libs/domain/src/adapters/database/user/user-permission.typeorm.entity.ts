@@ -9,7 +9,6 @@ import {
 } from 'typeorm'
 
 import { OrganizationEntity } from '@/adapters/database/organization/organization.typeorm.entity'
-import { PermissionEntity } from '@/adapters/database/permission/permission.typeorm.entity'
 import { UserEntity } from '@/adapters/database/user/user.typeorm.entity'
 
 @Entity('user_permission')
@@ -26,14 +25,10 @@ export class UserPermissionEntity {
 	})
 	user: UserEntity
 
-	@ManyToOne(
-		() => PermissionEntity,
-		(permission) => permission.userPermissions,
-	)
-	@JoinColumn({
-		name: 'permissionId',
+	@Column({
+		type: 'varchar',
 	})
-	permission: PermissionEntity
+	permissionId: string
 
 	@ManyToOne(
 		() => OrganizationEntity,

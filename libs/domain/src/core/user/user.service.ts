@@ -12,7 +12,9 @@ import {
 	createWorkspaceReference,
 	type WithWorkspaceReference,
 } from '@/support/workspace-reference'
+import { PermissionService } from '@/core/permission/permission.service'
 import type { BaseUser, User } from '@/core/user/user.schema'
+import type { CreateUserInput } from '@/core/user/user.service.types'
 import type { WorkspaceDomain } from '@/core/workspace/workspace.domain'
 import { WorkspaceService } from '@/core/workspace/workspace.service'
 import { EncryptService } from '@/adapters/encrypt'
@@ -28,6 +30,8 @@ export class UserService {
 		private readonly userRepository: IUserRepository,
 		@Inject(forwardRef(() => WorkspaceService))
 		private readonly workspaceService: WorkspaceService,
+		@Inject(forwardRef(() => PermissionService))
+		private readonly permissionService: PermissionService,
 		@Inject(EncryptService)
 		private readonly encryptService: EncryptService,
 	) {}
@@ -95,7 +99,7 @@ export class UserService {
 		return user
 	}
 
-	async createUser({ workspaceId, ...input }: BaseUser) {
+	async createUser({ workspaceId, permissionIds, ...input }: CreateUserInput) {
 		let workspace: WorkspaceDomain | undefined
 
 		if (workspaceId) {
@@ -110,12 +114,17 @@ export class UserService {
 			)
 		}
 
-		const hashedPassword = await this.encryptService.hash(input.password)
+		if (permissionIds) {
+			await this.permissionService.validatePermissionIds(permissionIds)
+		}
+
+		const password = await this.encryptService.hash(input.password)
 
 		const user = await this.userRepository.create({
 			...input,
 			workspaceId: workspace?.state.workspaceId ?? null,
-			password: hashedPassword,
+			permissionIds,
+			password,
 		})
 
 		return user

@@ -2,13 +2,7 @@ import { Test, type TestingModule } from '@nestjs/testing'
 import { beforeEach, describe, expect, it, type Mocked, vi } from 'vitest'
 
 import { PermissionService } from '@/core/permission/permission.service'
-import type { IPermissionRepository } from '@/ports/database/permission'
 import { DomainTestModule } from '@/domain.test.module'
-
-const mockPermissionRepository: Mocked<IPermissionRepository> = {
-	find: vi.fn(),
-	validateIds: vi.fn(),
-}
 
 describe('PermissionService', () => {
 	let service: PermissionService
@@ -20,10 +14,6 @@ describe('PermissionService', () => {
 			],
 			providers: [
 				PermissionService,
-				{
-					provide: 'PERMISSION_REPOSITORY',
-					useValue: mockPermissionRepository,
-				},
 			],
 		}).compile()
 

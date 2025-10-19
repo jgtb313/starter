@@ -1,11 +1,10 @@
 import { z } from '@starter/schema'
-import { PermissionSchema } from '@starter/domain'
-import { Controller, Route } from '@starter/nestjs-server-hoisting'
-
 import {
 	PERMISSION_SUBJECT_ACTIONS,
 	PermissionSubjectSchema,
-} from '@/support/access-control/permission'
+	PermissionsSchema,
+} from '@starter/domain'
+import { Controller, Route } from '@starter/nestjs-server-hoisting'
 
 @Controller({
 	name: 'Permission',
@@ -16,7 +15,7 @@ import {
 
 	schemas: {
 		Permission: {
-			schema: PermissionSchema,
+			schema: PermissionsSchema,
 		},
 	},
 })

@@ -1,10 +1,11 @@
 import { type User, WorkspaceSchema, WorkspaceService } from '@starter/domain'
 import { Controller, Request, Route } from '@starter/nestjs-server-hoisting'
 
-import { Inject } from '@nestjs/common'
+import { Inject, UseGuards } from '@nestjs/common'
 
 import { ACLService } from '@/support/access-control'
 import { AuthenticatedUser } from '@/support/decorators'
+import { AuthGuard } from '@/support/guards/auth-guard'
 
 import {
 	type CreateWorkspaceRequest,
@@ -28,6 +29,7 @@ import {
 		},
 	},
 })
+@UseGuards(AuthGuard)
 export class WorkspaceController {
 	constructor(
 		@Inject(ACLService)
@@ -55,11 +57,19 @@ export class WorkspaceController {
 			},
 		},
 	})
-	getWorkspace(
+	async getWorkspace(
 		@AuthenticatedUser() user: User,
 		@Request() { params }: GetWorkspaceRequest,
 	) {
-		return this.workspaceService.getWorkspace(params.workspaceId)
+		this.aclService.canPerformActionByPermission(user, 'workspace:read', {
+			workspaceId: params.workspaceId,
+		})
+
+		const workspace = await this.workspaceService.getWorkspace(
+			params.workspaceId,
+		)
+
+		return workspace.toJSON()
 	}
 
 	@Route({
@@ -79,14 +89,16 @@ export class WorkspaceController {
 			},
 		},
 	})
-	createWorkspace(
+	async createWorkspace(
 		@AuthenticatedUser() user: User,
 		@Request() { body }: CreateWorkspaceRequest,
 	) {
-		return this.workspaceService.createWorkspace(user.userId, {
+		const workspace = await this.workspaceService.createWorkspace(user.userId, {
 			...body,
 			status: 'ACTIVE',
 		})
+
+		return workspace.toJSON()
 	}
 
 	@Route({
@@ -109,7 +121,7 @@ export class WorkspaceController {
 			},
 		},
 	})
-	updateWorkspace(
+	async updateWorkspace(
 		@AuthenticatedUser() user: User,
 		@Request() { params, body }: UpdateWorkspaceRequest,
 	) {
@@ -117,6 +129,11 @@ export class WorkspaceController {
 			workspaceId: params.workspaceId,
 		})
 
-		return this.workspaceService.updateWorkspace(params.workspaceId, body)
+		const workspace = await this.workspaceService.updateWorkspace(
+			params.workspaceId,
+			body,
+		)
+
+		return workspace.toJSON()
 	}
 }

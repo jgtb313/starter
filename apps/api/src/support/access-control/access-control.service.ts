@@ -1,5 +1,10 @@
 import { AclForbiddenException } from '@starter/nestjs-error-handling'
 import type { User } from '@starter/domain'
+import {
+	PERMISSION_SUBJECT_ACTIONS,
+	type Permission,
+	type PermissionSubject,
+} from '@starter/domain'
 
 import {
 	Ability,
@@ -9,12 +14,6 @@ import {
 } from '@casl/ability'
 import type { AnyObject } from '@casl/ability/dist/types/types'
 import { Injectable } from '@nestjs/common'
-
-import {
-	PERMISSION_SUBJECT_ACTIONS,
-	type Permission,
-	type PermissionSubject,
-} from '@/support/access-control/permission'
 
 @Injectable()
 export class ACLService {
@@ -53,8 +52,8 @@ export class ACLService {
 				const subjectPermissions: Permission[] = PERMISSION_SUBJECT_ACTIONS[
 					subject
 				]
-					.filter((action) => !action.key.endsWith('manage'))
-					.map((action) => `${subject}:${action.key}` as Permission)
+					.filter((action) => !action.permissionId.endsWith('manage'))
+					.map((action) => `${subject}:${action.permissionId}` as Permission)
 
 				subjectPermissions.forEach((subjectPermission) => {
 					const [subject, action] = subjectPermission.split(':')

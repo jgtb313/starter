@@ -1,6 +1,7 @@
 import type { Merge } from '@starter/common'
 import type { Pagination, PaginationOutput, Phone, Sort } from '@starter/schema'
 
+import type { Permission } from '@/core/permission/permission.schema'
 import type { UserDomain } from '@/core/user/user.domain'
 import type { BaseUser, User } from '@/core/user/user.schema'
 
@@ -13,6 +14,10 @@ type UserSort = Sort<'name' | 'status' | 'createdAt'>
 type FindByEmailOptions = Pick<User, 'workspaceId'>
 
 type FindByPhoneOptions = Pick<User, 'workspaceId'>
+
+type CreateUserInput = BaseUser & {
+	permissionIds?: Permission[]
+}
 
 export type IUserRepository = {
 	findPaginated(
@@ -46,7 +51,7 @@ export type IUserRepository = {
 		providerToken: string,
 		email: string,
 	): Promise<UserDomain | null>
-	create(input: BaseUser): Promise<UserDomain>
+	create(input: CreateUserInput): Promise<UserDomain>
 	updateById(userId: string, input: Partial<BaseUser>): Promise<UserDomain>
 	deleteById(userId: string): Promise<void>
 
