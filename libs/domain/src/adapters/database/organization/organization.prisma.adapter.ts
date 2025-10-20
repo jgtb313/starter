@@ -4,7 +4,7 @@ import { Inject, Injectable, NotFoundException } from '@nestjs/common'
 
 import { deepMapDatesToISOString } from '@/support/utilities'
 import { OrganizationDomain } from '@/core/organization/organization.domain'
-import { type Prisma, prisma } from '@/adapters/database/prisma.client'
+import { type Prisma, prisma } from '@/adapters/database/database.prisma.client'
 import type { IOrganizationRepository } from '@/ports/database/organization'
 import { type I18nDomainService, I18nDomainSymbol } from '@/domain.i18n.module'
 
@@ -164,7 +164,7 @@ export class OrganizationPrisma implements IOrganizationRepository {
 				organizationId,
 			},
 			data: {
-				// deletedAt: new Date(),
+				deletedAt: new Date(),
 			},
 		})
 	}

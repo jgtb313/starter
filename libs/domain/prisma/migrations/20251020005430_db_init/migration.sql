@@ -29,6 +29,7 @@ CREATE TABLE "user_organization" (
     "user_id" TEXT NOT NULL,
     "organization_id" TEXT NOT NULL,
     "role_id" TEXT NOT NULL,
+    "deleted_at" TIMESTAMP(3),
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 
@@ -51,6 +52,7 @@ CREATE TABLE "user_address" (
     "lat" DECIMAL(65,30) NOT NULL,
     "lng" DECIMAL(65,30) NOT NULL,
     "main" BOOLEAN NOT NULL,
+    "deleted_at" TIMESTAMP(3),
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 
@@ -63,6 +65,7 @@ CREATE TABLE "user_permission" (
     "user_id" TEXT NOT NULL,
     "permission_id" TEXT NOT NULL,
     "organization_id" TEXT,
+    "deleted_at" TIMESTAMP(3),
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 
@@ -105,6 +108,7 @@ CREATE TABLE "workspace_address" (
     "landmark" TEXT,
     "lat" DECIMAL(65,30) NOT NULL,
     "lng" DECIMAL(65,30) NOT NULL,
+    "deleted_at" TIMESTAMP(3),
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 

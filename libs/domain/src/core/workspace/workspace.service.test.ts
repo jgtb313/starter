@@ -1,6 +1,7 @@
 import { Test, type TestingModule } from '@nestjs/testing'
 import { beforeEach, describe, expect, it, type Mocked, vi } from 'vitest'
 
+import { PlanService } from '@/core/plan/plan.service'
 import { UserService } from '@/core/user/user.service'
 import { WorkspaceService } from '@/core/workspace/workspace.service'
 import { PublisherService } from '@/adapters/publisher/publisher.service'
@@ -9,6 +10,10 @@ import { DomainTestModule } from '@/domain.test.module'
 
 const userServiceMock = {
 	getUser: vi.fn(),
+}
+
+const planServiceMock = {
+	getPlan: vi.fn(),
 }
 
 const publisherServiceMock = {
@@ -47,6 +52,10 @@ describe('WorkspaceService', () => {
 				{
 					provide: PublisherService,
 					useValue: publisherServiceMock,
+				},
+				{
+					provide: PlanService,
+					useValue: planServiceMock,
 				},
 			],
 		}).compile()

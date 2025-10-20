@@ -38,12 +38,13 @@ model User {
 }
 
 model UserOrganization {
-  userOrganizationId String   @id @default(uuid()) @map("user_organization_id")
-  userId             String   @map("user_id")
-  organizationId     String   @map("organization_id")
-  roleId             String   @map("role_id")
-  createdAt          DateTime @default(now()) @map("created_at")
-  updatedAt          DateTime @updatedAt @map("updated_at")
+  userOrganizationId String    @id @default(uuid()) @map("user_organization_id")
+  userId             String    @map("user_id")
+  organizationId     String    @map("organization_id")
+  roleId             String    @map("role_id")
+  deletedAt          DateTime? @map("deleted_at")
+  createdAt          DateTime  @default(now()) @map("created_at")
+  updatedAt          DateTime  @updatedAt @map("updated_at")
 
   user         User         @relation(fields: [userId], references: [userId])
   organization Organization @relation(fields: [organizationId], references: [organizationId])
@@ -67,6 +68,7 @@ model UserAddress {
   lat           Decimal
   lng           Decimal
   main          Boolean
+  deletedAt          DateTime? @map("deleted_at")
   createdAt     DateTime @default(now()) @map("created_at")
   updatedAt     DateTime @updatedAt @map("updated_at")
 
@@ -76,12 +78,13 @@ model UserAddress {
 }
 
 model UserPermission {
-  userPermissionId String   @id @default(uuid()) @map("user_permission_id")
-  userId           String   @map("user_id")
-  permissionId     String   @map("permission_id")
-  organizationId   String?  @map("organization_id")
-  createdAt        DateTime @default(now()) @map("created_at")
-  updatedAt        DateTime @updatedAt @map("updated_at")
+  userPermissionId String    @id @default(uuid()) @map("user_permission_id")
+  userId           String    @map("user_id")
+  permissionId     String    @map("permission_id")
+  organizationId   String?   @map("organization_id")
+  deletedAt        DateTime? @map("deleted_at")
+  createdAt        DateTime  @default(now()) @map("created_at")
+  updatedAt        DateTime  @updatedAt @map("updated_at")
 
   user         User          @relation(fields: [userId], references: [userId])
   organization Organization? @relation(fields: [organizationId], references: [organizationId])
@@ -108,13 +111,13 @@ model Workspace {
   createdAt            DateTime  @default(now()) @map("created_at")
   updatedAt            DateTime  @updatedAt @map("updated_at")
 
-  plan               Plan               @relation(fields: [planId], references: [planId])
-  users              User[]
-  organizations      Organization[]
-  workspaceAddress   WorkspaceAddress?
-  subscriptions      Subscription[]
-  invoices           Invoice[]
-  roles              Role[]
+  plan             Plan              @relation(fields: [planId], references: [planId])
+  users            User[]
+  organizations    Organization[]
+  workspaceAddress WorkspaceAddress?
+  subscriptions    Subscription[]
+  invoices         Invoice[]
+  roles            Role[]
 
   @@map("workspace")
 }
@@ -131,6 +134,7 @@ model WorkspaceAddress {
   landmark     String?
   lat          Decimal
   lng          Decimal
+  deletedAt          DateTime? @map("deleted_at")
   createdAt    DateTime @default(now()) @map("created_at")
   updatedAt    DateTime @updatedAt @map("updated_at")
 
@@ -140,21 +144,21 @@ model WorkspaceAddress {
 }
 
 model Organization {
-  organizationId String   @id @default(uuid()) @map("organization_id")
-  workspaceId    String   @map("workspace_id")
+  organizationId String    @id @default(uuid()) @map("organization_id")
+  workspaceId    String    @map("workspace_id")
   name           String
   email          String?
-  phoneISO       String?  @map("phone_iso")
-  phoneDDI       String?  @map("phone_ddi")
-  phoneNumber    String?  @map("phone_number")
-  documentType   String?  @map("document_type")
-  documentNumber String?  @map("document_number")
+  phoneISO       String?   @map("phone_iso")
+  phoneDDI       String?   @map("phone_ddi")
+  phoneNumber    String?   @map("phone_number")
+  documentType   String?   @map("document_type")
+  documentNumber String?   @map("document_number")
   logo           String?
   domain         String?
   status         String
-  deletedAt   DateTime? @map("deleted_at")
-  createdAt      DateTime @default(now()) @map("created_at")
-  updatedAt      DateTime @updatedAt @map("updated_at")
+  deletedAt      DateTime? @map("deleted_at")
+  createdAt      DateTime  @default(now()) @map("created_at")
+  updatedAt      DateTime  @updatedAt @map("updated_at")
 
   workspace         Workspace          @relation(fields: [workspaceId], references: [workspaceId])
   userOrganizations UserOrganization[]

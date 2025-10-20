@@ -11,6 +11,10 @@ import { type I18nDomainService, I18nDomainSymbol } from '@/domain.i18n.module'
 
 @Injectable()
 export class UserPrisma implements IUserRepository {
+	private readonly include: Prisma.UserInclude = {
+		userAddresses: true,
+	}
+
 	constructor(
 		@Inject(I18nDomainSymbol)
 		private readonly i18nService: I18nDomainService,
@@ -82,9 +86,7 @@ export class UserPrisma implements IUserRepository {
 				take,
 				skip,
 				cursor: cursorCriteria,
-				include: {
-					userAddresses: true,
-				},
+				include: this.include,
 			}),
 			prisma.user.count({
 				where,
@@ -150,9 +152,7 @@ export class UserPrisma implements IUserRepository {
 		const values = await prisma.user.findMany({
 			where,
 			orderBy,
-			include: {
-				userAddresses: true,
-			},
+			include: this.include,
 		})
 
 		return values.map(this.toUserDomain)
@@ -163,9 +163,7 @@ export class UserPrisma implements IUserRepository {
 			where: {
 				userId,
 			},
-			include: {
-				userAddresses: true,
-			},
+			include: this.include,
 		})
 
 		if (!user) {
@@ -190,9 +188,7 @@ export class UserPrisma implements IUserRepository {
 
 		const user = await prisma.user.findFirst({
 			where,
-			include: {
-				userAddresses: true,
-			},
+			include: this.include,
 		})
 
 		return user ? this.toUserDomain(user) : null
@@ -211,9 +207,7 @@ export class UserPrisma implements IUserRepository {
 
 		const user = await prisma.user.findFirst({
 			where,
-			include: {
-				userAddresses: true,
-			},
+			include: this.include,
 		})
 
 		return user ? this.toUserDomain(user) : null
@@ -238,9 +232,7 @@ export class UserPrisma implements IUserRepository {
 
 		const user = await prisma.user.findFirst({
 			where,
-			include: {
-				userAddresses: true,
-			},
+			include: this.include,
 		})
 
 		return user ? this.toUserDomain(user) : null
@@ -273,9 +265,7 @@ export class UserPrisma implements IUserRepository {
 					},
 				},
 			},
-			include: {
-				userAddresses: true,
-			},
+			include: this.include,
 		})
 
 		return this.toUserDomain(user)
@@ -295,9 +285,7 @@ export class UserPrisma implements IUserRepository {
 				...input,
 				workspaceId,
 			},
-			include: {
-				userAddresses: true,
-			},
+			include: this.include,
 		})
 
 		return this.toUserDomain(user)
@@ -353,7 +341,7 @@ export class UserPrisma implements IUserRepository {
 				organizationId,
 			},
 			data: {
-				// deletedAt: new Date(),
+				deletedAt: new Date(),
 			},
 		})
 	}
@@ -370,7 +358,7 @@ export class UserPrisma implements IUserRepository {
 				},
 			},
 			data: {
-				// deletedAt: new Date(),
+				deletedAt: new Date(),
 			},
 		})
 	}
@@ -452,7 +440,7 @@ export class UserPrisma implements IUserRepository {
 				permissionId,
 			},
 			data: {
-				// deletedAt: new Date(),
+				deletedAt: new Date(),
 			},
 		})
 	}
@@ -469,7 +457,7 @@ export class UserPrisma implements IUserRepository {
 				},
 			},
 			data: {
-				// deletedAt: new Date(),
+				deletedAt: new Date(),
 			},
 		})
 	}
@@ -513,7 +501,7 @@ export class UserPrisma implements IUserRepository {
 				userId,
 			},
 			data: {
-				// deletedAt: new Date(),
+				deletedAt: new Date(),
 			},
 		})
 	}

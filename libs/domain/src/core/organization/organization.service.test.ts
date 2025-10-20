@@ -2,6 +2,7 @@ import { Test, type TestingModule } from '@nestjs/testing'
 import { beforeEach, describe, expect, it, type Mocked, vi } from 'vitest'
 
 import { OrganizationService } from '@/core/organization/organization.service'
+import { PlanService } from '@/core/plan/plan.service'
 import { WorkspaceService } from '@/core/workspace/workspace.service'
 import type { IOrganizationRepository } from '@/ports/database/organization'
 import { DomainTestModule } from '@/domain.test.module'
@@ -21,6 +22,10 @@ const mockOrganizationRepository: Mocked<IOrganizationRepository> = {
 	validateIds: vi.fn(),
 }
 
+const planServiceMock = {
+	getPlan: vi.fn(),
+}
+
 describe('OrganizationService', () => {
 	let service: OrganizationService
 
@@ -38,6 +43,10 @@ describe('OrganizationService', () => {
 				{
 					provide: WorkspaceService,
 					useValue: workspaceServiceMock,
+				},
+				{
+					provide: PlanService,
+					useValue: planServiceMock,
 				},
 			],
 		}).compile()

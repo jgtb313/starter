@@ -10,6 +10,10 @@ import { type I18nDomainService, I18nDomainSymbol } from '@/domain.i18n.module'
 
 @Injectable()
 export class WorkspacePrisma implements IWorkspaceRepository {
+	private readonly include: Prisma.WorkspaceInclude = {
+		workspaceAddress: true,
+	}
+
 	constructor(
 		@Inject(I18nDomainSymbol)
 		private readonly i18nService: I18nDomainService,
@@ -63,9 +67,7 @@ export class WorkspacePrisma implements IWorkspaceRepository {
 				take,
 				skip,
 				cursor: cursorCriteria,
-				include: {
-					workspaceAddresses: true,
-				},
+				include: this.include,
 			}),
 			prisma.workspace.count({
 				where,
@@ -106,9 +108,7 @@ export class WorkspacePrisma implements IWorkspaceRepository {
 
 		const values = await prisma.workspace.findMany({
 			where,
-			include: {
-				workspaceAddresses: true,
-			},
+			include: this.include,
 		})
 
 		return values.map(this.toWorkspaceDomain)
@@ -119,9 +119,7 @@ export class WorkspacePrisma implements IWorkspaceRepository {
 			where: {
 				workspaceId,
 			},
-			include: {
-				workspaceAddresses: true,
-			},
+			include: this.include,
 		})
 
 		if (!workspace) {
@@ -149,7 +147,7 @@ export class WorkspacePrisma implements IWorkspaceRepository {
 						planId,
 					},
 				},
-				workspaceAddresses: address
+				workspaceAddress: address
 					? {
 							create: {
 								...address,
@@ -159,9 +157,7 @@ export class WorkspacePrisma implements IWorkspaceRepository {
 						}
 					: undefined,
 			},
-			include: {
-				workspaceAddresses: true,
-			},
+			include: this.include,
 		})
 
 		return this.toWorkspaceDomain(workspace)
@@ -179,9 +175,7 @@ export class WorkspacePrisma implements IWorkspaceRepository {
 				...input,
 				planId,
 			},
-			include: {
-				workspaceAddresses: true,
-			},
+			include: this.include,
 		})
 
 		return this.toWorkspaceDomain(workspace)
@@ -204,7 +198,7 @@ export class WorkspacePrisma implements IWorkspaceRepository {
 	) => {
 		await prisma.workspaceAddress.upsert({
 			where: {
-				workspaceAddressId: '',
+				workspaceId,
 			},
 			update: {
 				...input,
@@ -227,9 +221,12 @@ export class WorkspacePrisma implements IWorkspaceRepository {
 	deleteAddress: IWorkspaceRepository['deleteAddress'] = async (
 		workspaceId,
 	) => {
-		await prisma.workspaceAddress.delete({
+		await prisma.workspaceAddress.update({
 			where: {
-				workspaceAddressId: '',
+				workspaceId,
+			},
+			data: {
+				deletedAt: new Date(),
 			},
 		})
 	}
@@ -237,7 +234,7 @@ export class WorkspacePrisma implements IWorkspaceRepository {
 	private toWorkspaceDomain(
 		model: Prisma.WorkspaceGetPayload<{
 			include: {
-				workspaceAddresses: true
+				workspaceAddress: true
 			}
 		}>,
 	) {

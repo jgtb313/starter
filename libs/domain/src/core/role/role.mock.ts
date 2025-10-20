@@ -8,8 +8,10 @@ export const makeRole = (overrides: RoleOverrides): RoleInput => {
 	const base: RoleInput = {
 		roleId: uuid(),
 		workspaceId: uuid(),
+		organizationIds: [],
 		organizations: [],
-		// permissions: [],
+		permissionIds: [],
+		permissions: [],
 		name: 'Manager',
 		tags: [],
 		deletedAt: null,

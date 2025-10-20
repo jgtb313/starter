@@ -31,9 +31,7 @@ import { I18nAPIModule } from '@/api.i18n.module'
 		I18nAPIModule.register(),
 
 		DomainModule.register({
-			database: {
-				migrationsRun: true,
-			},
+			database: {},
 			i18n: nestjsServerHoistingI18nModuleOptions,
 		}),
 

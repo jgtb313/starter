@@ -139,8 +139,9 @@ export class RoleController {
 		return this.roleService.createRole({
 			...body,
 			workspaceId: params.workspaceId,
-			organizationIds: [],
-			permissionIds: [],
+			organizationIds: body.organizationIds,
+			permissionIds: body.permissionIds,
+			status: 'ACTIVE',
 		})
 	}
 

@@ -1,6 +1,7 @@
 import { Test, type TestingModule } from '@nestjs/testing'
 import { beforeEach, describe, expect, it, type Mocked, vi } from 'vitest'
 
+import { PermissionService } from '@/core/permission/permission.service'
 import { UserService } from '@/core/user/user.service'
 import { WorkspaceService } from '@/core/workspace/workspace.service'
 import { EncryptModule } from '@/adapters/encrypt/encrypt.module'
@@ -35,6 +36,10 @@ const mockUserRepository: Mocked<IUserRepository> = {
 	deleteAddressById: vi.fn(),
 }
 
+const permissionServiceMock = {
+	validatePermissionIds: vi.fn(),
+}
+
 describe('UserService', () => {
 	let service: UserService
 
@@ -53,6 +58,10 @@ describe('UserService', () => {
 				{
 					provide: WorkspaceService,
 					useValue: workspaceServiceMock,
+				},
+				{
+					provide: PermissionService,
+					useValue: permissionServiceMock,
 				},
 			],
 		}).compile()
