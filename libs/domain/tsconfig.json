@@ -14,7 +14,11 @@
 		"declarationMap": false,
 		"composite": false,
 		"baseUrl": ".",
-		"types": ["node"]
+		"types": ["node"],
+		"paths": {
+			"@/*": ["./src/*"],
+			"@prisma/client": ["./generated/prisma"]
+		}
 	},
 	"ts-node": {
 		"esm": true,

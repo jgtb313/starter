@@ -79,7 +79,7 @@ export class WorkspacePrisma implements IWorkspaceRepository {
 			: null
 
 		return {
-			values: values.map(this.toWorkspaceDomain),
+			values: values.map((workspace) => this.toWorkspaceDomain(workspace)),
 			meta: {
 				...paginate,
 				total,
@@ -111,7 +111,7 @@ export class WorkspacePrisma implements IWorkspaceRepository {
 			include: this.include,
 		})
 
-		return values.map(this.toWorkspaceDomain)
+		return values.map((workspace) => this.toWorkspaceDomain(workspace))
 	}
 
 	findById: IWorkspaceRepository['findById'] = async (workspaceId) => {
@@ -187,7 +187,7 @@ export class WorkspacePrisma implements IWorkspaceRepository {
 				workspaceId,
 			},
 			data: {
-				// deletedAt: new Date(),
+				deletedAt: new Date(),
 			},
 		})
 	}
@@ -221,12 +221,9 @@ export class WorkspacePrisma implements IWorkspaceRepository {
 	deleteAddress: IWorkspaceRepository['deleteAddress'] = async (
 		workspaceId,
 	) => {
-		await prisma.workspaceAddress.update({
+		await prisma.workspaceAddress.delete({
 			where: {
 				workspaceId,
-			},
-			data: {
-				deletedAt: new Date(),
 			},
 		})
 	}

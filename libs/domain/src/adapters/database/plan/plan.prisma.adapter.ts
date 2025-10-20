@@ -78,12 +78,14 @@ export class PlanPrisma implements IPlanRepository {
 			}),
 		])
 
+		const nextCursor = values.length ? values[values.length - 1].planId : null
+
 		return {
-			values: values.map(this.toPlanDomain),
+			values: values.map((plan) => this.toPlanDomain(plan)),
 			meta: {
 				...paginate,
 				total,
-				nextCursor: values.length ? values[values.length - 1].planId : null,
+				nextCursor,
 			},
 		}
 	}
@@ -125,7 +127,7 @@ export class PlanPrisma implements IPlanRepository {
 			include: this.include,
 		})
 
-		return values.map(this.toPlanDomain)
+		return values.map((plan) => this.toPlanDomain(plan))
 	}
 
 	findById: IPlanRepository['findById'] = async (planId) => {
@@ -198,14 +200,23 @@ export class PlanPrisma implements IPlanRepository {
 		})
 	}
 
-	private toPlanDomain(
-		model: Prisma.PlanGetPayload<{
-			include: {
-				planIntervals: true
-				planFeatures: true
-			}
-		}>,
-	) {
-		return new PlanDomain(deepMapDatesToISOString(model), this.i18nService)
+	private toPlanDomain({
+		planIntervals,
+		planFeatures,
+		...model
+	}: Prisma.PlanGetPayload<{
+		include: {
+			planIntervals: true
+			planFeatures: true
+		}
+	}>) {
+		return new PlanDomain(
+			deepMapDatesToISOString({
+				...model,
+				intervals: planIntervals,
+				features: planFeatures,
+			}),
+			this.i18nService,
+		)
 	}
 }

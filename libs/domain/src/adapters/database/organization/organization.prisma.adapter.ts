@@ -60,14 +60,18 @@ export class OrganizationPrisma implements IOrganizationRepository {
 			}),
 		])
 
+		const nextCursor = values.length
+			? values[values.length - 1].organizationId
+			: null
+
 		return {
-			values: values.map(this.toOrganizationDomain),
+			values: values.map((organization) =>
+				this.toOrganizationDomain(organization),
+			),
 			meta: {
 				...paginate,
 				total,
-				nextCursor: values.length
-					? values[values.length - 1].organizationId
-					: null,
+				nextCursor,
 			},
 		}
 	}
@@ -92,7 +96,7 @@ export class OrganizationPrisma implements IOrganizationRepository {
 			where,
 		})
 
-		return values.map(this.toOrganizationDomain)
+		return values.map((organization) => this.toOrganizationDomain(organization))
 	}
 
 	findById: IOrganizationRepository['findById'] = async (organizationId) => {

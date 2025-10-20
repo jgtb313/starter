@@ -58,14 +58,18 @@ export class SubscriptionPrisma implements ISubscriptionRepository {
 			}),
 		])
 
+		const nextCursor = values.length
+			? values[values.length - 1].subscriptionId
+			: null
+
 		return {
-			values: values.map(this.toSubscriptionDomain),
+			values: values.map((subscription) =>
+				this.toSubscriptionDomain(subscription),
+			),
 			meta: {
 				...paginate,
 				total,
-				nextCursor: values.length
-					? values[values.length - 1].subscriptionId
-					: null,
+				nextCursor,
 			},
 		}
 	}
@@ -92,7 +96,7 @@ export class SubscriptionPrisma implements ISubscriptionRepository {
 			orderBy,
 		})
 
-		return values.map(this.toSubscriptionDomain)
+		return values.map((subscription) => this.toSubscriptionDomain(subscription))
 	}
 
 	findById: ISubscriptionRepository['findById'] = async (subscriptionId) => {

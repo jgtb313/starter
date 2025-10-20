@@ -71,12 +71,16 @@ export class InvoicePrisma implements IInvoiceRepository {
 			}),
 		])
 
+		const nextCursor = values.length
+			? values[values.length - 1].invoiceId
+			: null
+
 		return {
-			values: values.map(this.toInvoiceDomain),
+			values: values.map((invoice) => this.toInvoiceDomain(invoice)),
 			meta: {
 				...paginate,
 				total,
-				nextCursor: values.length ? values[values.length - 1].invoiceId : null,
+				nextCursor,
 			},
 		}
 	}
@@ -111,7 +115,7 @@ export class InvoicePrisma implements IInvoiceRepository {
 			orderBy,
 		})
 
-		return values.map(this.toInvoiceDomain)
+		return values.map((invoice) => this.toInvoiceDomain(invoice))
 	}
 
 	findById: IInvoiceRepository['findById'] = async (invoiceId) => {

@@ -2,7 +2,6 @@ import type { Merge } from '@starter/common'
 import type { BaseAddress, BusinessAddress, Pagination } from '@starter/schema'
 
 import { forwardRef, Inject, Injectable } from '@nestjs/common'
-import { Transactional } from 'typeorm-transactional'
 
 import { PlanService } from '@/core/plan/plan.service'
 import { UserService } from '@/core/user/user.service'
@@ -43,7 +42,6 @@ export class WorkspaceService {
 		return this.workspaceRepository.findById(workspaceId)
 	}
 
-	@Transactional()
 	async createWorkspace(userId: string, input: BaseWorkspace) {
 		this.loggerService.info('Attempting to create workspace', {
 			userId,

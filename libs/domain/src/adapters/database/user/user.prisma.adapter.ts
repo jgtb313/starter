@@ -93,12 +93,14 @@ export class UserPrisma implements IUserRepository {
 			}),
 		])
 
+		const nextCursor = values.length ? values[values.length - 1].userId : null
+
 		return {
-			values: values.map(this.toUserDomain),
+			values: values.map((user) => this.toUserDomain(user)),
 			meta: {
 				...paginate,
 				total,
-				nextCursor: values.length ? values[values.length - 1].userId : null,
+				nextCursor,
 			},
 		}
 	}
@@ -155,7 +157,7 @@ export class UserPrisma implements IUserRepository {
 			include: this.include,
 		})
 
-		return values.map(this.toUserDomain)
+		return values.map((user) => this.toUserDomain(user))
 	}
 
 	findById: IUserRepository['findById'] = async (userId) => {
@@ -350,15 +352,12 @@ export class UserPrisma implements IUserRepository {
 		userId,
 		organizationIds,
 	) => {
-		await prisma.userOrganization.updateMany({
+		await prisma.userOrganization.deleteMany({
 			where: {
 				userId,
 				organizationId: {
 					in: organizationIds,
 				},
-			},
-			data: {
-				deletedAt: new Date(),
 			},
 		})
 	}
@@ -434,13 +433,10 @@ export class UserPrisma implements IUserRepository {
 		userId,
 		permissionId,
 	) => {
-		await prisma.userPermission.updateMany({
+		await prisma.userPermission.deleteMany({
 			where: {
 				userId,
 				permissionId,
-			},
-			data: {
-				deletedAt: new Date(),
 			},
 		})
 	}
@@ -449,15 +445,12 @@ export class UserPrisma implements IUserRepository {
 		userId,
 		permissionIds,
 	) => {
-		await prisma.userPermission.updateMany({
+		await prisma.userPermission.deleteMany({
 			where: {
 				userId,
 				permissionId: {
 					in: permissionIds,
 				},
-			},
-			data: {
-				deletedAt: new Date(),
 			},
 		})
 	}
@@ -495,13 +488,10 @@ export class UserPrisma implements IUserRepository {
 		userId,
 		addressId,
 	) => {
-		await prisma.userAddress.update({
+		await prisma.userAddress.delete({
 			where: {
 				userAddressId: addressId,
 				userId,
-			},
-			data: {
-				deletedAt: new Date(),
 			},
 		})
 	}

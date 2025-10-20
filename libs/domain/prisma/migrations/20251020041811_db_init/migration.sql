@@ -89,6 +89,7 @@ CREATE TABLE "workspace" (
     "locale" JSONB,
     "trial_ends_at" TIMESTAMP(3),
     "status" TEXT NOT NULL,
+    "deleted_at" TIMESTAMP(3),
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 

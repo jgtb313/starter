@@ -102,12 +102,14 @@ export class RolePrisma implements IRoleRepository {
 			}),
 		])
 
+		const nextCursor = values.length ? values[values.length - 1].roleId : null
+
 		return {
-			values: values.map(this.toRoleDomain),
+			values: values.map((role) => this.toRoleDomain(role)),
 			meta: {
 				...paginate,
 				total,
-				nextCursor: values.length ? values[values.length - 1].roleId : null,
+				nextCursor,
 			},
 		}
 	}
@@ -179,7 +181,7 @@ export class RolePrisma implements IRoleRepository {
 			},
 		})
 
-		return values.map(this.toRoleDomain)
+		return values.map((role) => this.toRoleDomain(role))
 	}
 
 	findById: IRoleRepository['findById'] = async (roleId) => {

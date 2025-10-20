@@ -1,4 +1,5 @@
-import { Prisma, PrismaClient } from '@prisma/client'
+import { type Prisma, PrismaClient } from '@prisma/client'
 
 export const prisma = new PrismaClient()
-export { Prisma }
+
+export type { Prisma }
