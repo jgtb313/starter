@@ -1,19 +1,12 @@
 import { Module } from '@nestjs/common'
-import { TypeOrmModule } from '@nestjs/typeorm'
 
-import { OTPTypeorm } from '@/adapters/database/otp/otp.typeorm.adapter'
-import { OTPEntity } from '@/adapters/database/otp/otp.typeorm.entity'
+import { OTPPrisma } from '@/adapters/database/otp/otp.prisma.adapter'
 
 @Module({
-	imports: [
-		TypeOrmModule.forFeature([
-			OTPEntity,
-		]),
-	],
 	providers: [
 		{
 			provide: 'OTP_REPOSITORY',
-			useClass: OTPTypeorm,
+			useClass: OTPPrisma,
 		},
 	],
 	exports: [

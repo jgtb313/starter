@@ -1,19 +1,12 @@
 import { Module } from '@nestjs/common'
-import { TypeOrmModule } from '@nestjs/typeorm'
 
-import { OrganizationTypeorm } from '@/adapters/database/organization/organization.typeorm.adapter'
-import { OrganizationEntity } from '@/adapters/database/organization/organization.typeorm.entity'
+import { OrganizationPrisma } from '@/adapters/database/organization/organization.prisma.adapter'
 
 @Module({
-	imports: [
-		TypeOrmModule.forFeature([
-			OrganizationEntity,
-		]),
-	],
 	providers: [
 		{
 			provide: 'ORGANIZATION_REPOSITORY',
-			useClass: OrganizationTypeorm,
+			useClass: OrganizationPrisma,
 		},
 	],
 	exports: [

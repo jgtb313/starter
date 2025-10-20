@@ -1,26 +1,20 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common'
-import { InjectRepository } from '@nestjs/typeorm'
-import type { DeepPartial, Repository } from 'typeorm'
-import type { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity'
 
 import { deepMapDatesToISOString } from '@/support/utilities'
 import { OTPDomain } from '@/core/otp/otp.domain'
-import type { BaseOTP, OTP } from '@/core/otp/otp.schema'
-import { OTPEntity } from '@/adapters/database/otp/otp.typeorm.entity'
+import { type Prisma, prisma } from '@/adapters/database/database.prisma.client'
 import type { IOTPRepository } from '@/ports/database/otp'
 import { type I18nDomainService, I18nDomainSymbol } from '@/domain.i18n.module'
 
 @Injectable()
-export class OTPTypeorm implements IOTPRepository {
+export class OTPPrisma implements IOTPRepository {
 	constructor(
-		@InjectRepository(OTPEntity)
-		private readonly repository: Repository<OTPEntity>,
 		@Inject(I18nDomainSymbol)
 		private readonly i18nService: I18nDomainService,
 	) {}
 
 	findById: IOTPRepository['findById'] = async (otpId) => {
-		const otp = await this.repository.findOne({
+		const otp = await prisma.oTP.findUnique({
 			where: {
 				otpId,
 			},
@@ -41,52 +35,57 @@ export class OTPTypeorm implements IOTPRepository {
 		recipient,
 		context,
 	) => {
-		const otp = await this.repository.findOne({
+		const otp = await prisma.oTP.findFirst({
 			where: {
 				recipient,
 				context,
 			},
-			order: {
-				createdAt: 'DESC',
+			orderBy: {
+				createdAt: 'desc',
 			},
 		})
 
-		if (!otp) {
-			return null
-		}
-
-		return this.toOTPDomain(otp)
+		return otp ? this.toOTPDomain(otp) : null
 	}
 
 	countTodayAttempts: IOTPRepository['countTodayAttempts'] = async (
 		recipient,
 		context,
 	) => {
-		return this.repository.count({
+		const today = new Date()
+		today.setHours(0, 0, 0, 0)
+
+		return prisma.oTP.count({
 			where: {
 				recipient,
 				context,
+				createdAt: {
+					gte: today,
+				},
 			},
 		})
 	}
 
 	create: IOTPRepository['create'] = async (input) => {
-		const data = this.repository.create(input)
-
-		const otp = await this.repository.save(data)
+		const otp = await prisma.oTP.create({
+			data: input,
+		})
 
 		return this.toOTPDomain(otp)
 	}
 
 	updateById: IOTPRepository['updateById'] = async (otpId, input) => {
-		const otp = await this.findById(otpId)
+		const otp = await prisma.oTP.update({
+			where: {
+				otpId,
+			},
+			data: input,
+		})
 
-		await this.repository.update(otp.state.otpId, input)
-
-		return this.findById(otp.state.otpId)
+		return this.toOTPDomain(otp)
 	}
 
-	private toOTPDomain = (model: OTPEntity) => {
+	private toOTPDomain(model: Prisma.OTPGetPayload<{}>) {
 		return new OTPDomain(deepMapDatesToISOString(model), this.i18nService)
 	}
 }

@@ -94,7 +94,6 @@ CREATE TABLE "workspace" (
 
 -- CreateTable
 CREATE TABLE "workspace_address" (
-    "workspace_address_id" TEXT NOT NULL,
     "workspace_id" TEXT NOT NULL,
     "state" TEXT NOT NULL,
     "city" TEXT NOT NULL,
@@ -109,7 +108,7 @@ CREATE TABLE "workspace_address" (
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "workspace_address_pkey" PRIMARY KEY ("workspace_address_id")
+    CONSTRAINT "workspace_address_pkey" PRIMARY KEY ("workspace_id")
 );
 
 -- CreateTable
@@ -126,6 +125,7 @@ CREATE TABLE "organization" (
     "logo" TEXT,
     "domain" TEXT,
     "status" TEXT NOT NULL,
+    "deleted_at" TIMESTAMP(3),
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 

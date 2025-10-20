@@ -5,13 +5,15 @@ import type { I18nDict } from '@starter/i18n'
 import { type DynamicModule, Module } from '@nestjs/common'
 
 import { i18nDict } from '@/~i18n/domain.i18n.schema'
-import type { CreateDataSourceConfigOptions } from '@/adapters/database/data-source.config'
-import { DatabaseModule } from '@/adapters/database/database.module'
+import {
+	DatabaseModule,
+	type DatabaseModuleOptions,
+} from '@/adapters/database/database.module'
 import { LoggerModule } from '@/adapters/logger'
 import { I18nDomainModule } from '@/domain.i18n.module'
 
 type DomainModuleOptions = {
-	database: CreateDataSourceConfigOptions
+	database: DatabaseModuleOptions
 	i18n?: (dict: I18nDict) => NestjsI18nModuleOptions<I18nDict>
 }
 

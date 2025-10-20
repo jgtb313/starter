@@ -1,19 +1,12 @@
 import { Module } from '@nestjs/common'
-import { TypeOrmModule } from '@nestjs/typeorm'
 
-import { PlanTypeorm } from '@/adapters/database/plan/plan.typeorm.adapter'
-import { PlanEntity } from '@/adapters/database/plan/plan.typeorm.entity'
+import { PlanPrisma } from '@/adapters/database/plan/plan.prisma.adapter'
 
 @Module({
-	imports: [
-		TypeOrmModule.forFeature([
-			PlanEntity,
-		]),
-	],
 	providers: [
 		{
 			provide: 'PLAN_REPOSITORY',
-			useClass: PlanTypeorm,
+			useClass: PlanPrisma,
 		},
 	],
 	exports: [
