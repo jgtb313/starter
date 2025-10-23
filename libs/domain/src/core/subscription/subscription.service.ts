@@ -88,14 +88,16 @@ export class SubscriptionService {
 
 		const subscriptionId = uuid()
 
-		const recurrenceSubscription =
-			await this.recurrenceService.createSubscription({
-				referenceId: subscriptionId,
-				customerId: recurrenceExternalId,
-				planId: plan.state.externalId,
-				payer,
-				...input,
-			})
+		const {
+			subscriptionId: recurrenceSubscriptionId,
+			...recurrenceSubscription
+		} = await this.recurrenceService.createSubscription({
+			referenceId: subscriptionId,
+			customerId: recurrenceExternalId,
+			planId: plan.state.externalId,
+			payer,
+			...input,
+		})
 
 		const nextBillingDate = new Date()
 		const deadline = new Date()
@@ -105,12 +107,15 @@ export class SubscriptionService {
 			subscriptionId,
 			workspaceId: workspace.state.workspaceId,
 			planId: plan.state.planId,
-			externalId: recurrenceSubscription.subscriptionId,
+			externalId: recurrenceSubscriptionId,
 			payer,
-			paymentMethod: input.paymentMethod,
+			paymentMethod: 'PIX',
 			nextBillingDate,
 			deadline,
 			status: 'TRIAL',
+			canceledAt: null,
+			createdAt: new Date().toISOString(),
+			updatedAt: new Date().toISOString(),
 		})
 
 		await this.workspaceService.updateWorkspace(
