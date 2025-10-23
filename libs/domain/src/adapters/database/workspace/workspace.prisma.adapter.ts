@@ -4,6 +4,7 @@ import { Inject, Injectable, NotFoundException } from '@nestjs/common'
 
 import { deepMapDatesToISOString } from '@/support/utilities'
 import { WorkspaceDomain } from '@/core/workspace/workspace.domain'
+import { WorkspaceInputSchema } from '@/core/workspace/workspace.schema'
 import { type Prisma, prisma } from '@/adapters/database/database.prisma.client'
 import type { IWorkspaceRepository } from '@/ports/database/workspace'
 import { type I18nDomainService, I18nDomainSymbol } from '@/domain.i18n.module'
@@ -170,12 +171,10 @@ export class WorkspacePrisma implements IWorkspaceRepository {
 		return this.toWorkspaceDomain(workspace)
 	}
 
-	create: IWorkspaceRepository['create'] = async ({
-		planId,
-		address,
-		locale,
-		...input
-	}) => {
+	create: IWorkspaceRepository['create'] = async (input) => {
+		const { planId, address, locale, ...data } =
+			WorkspaceInputSchema.parse(input)
+
 		const workspace: PrismaWorkspace = await prisma.workspace.create({
 			include: {
 				plan: {
@@ -187,7 +186,7 @@ export class WorkspacePrisma implements IWorkspaceRepository {
 				address: true,
 			},
 			data: {
-				...input,
+				...data,
 				plan: {
 					connect: {
 						planId,
@@ -210,8 +209,11 @@ export class WorkspacePrisma implements IWorkspaceRepository {
 
 	updateById: IWorkspaceRepository['updateById'] = async (
 		workspaceId,
-		{ plan, planId, address, locale, ...input },
+		input,
 	) => {
+		const { planId, subscriptionId, address, locale, ...data } =
+			WorkspaceInputSchema.parse(input)
+
 		const workspace: PrismaWorkspace = await prisma.workspace.update({
 			include: {
 				plan: {
@@ -226,8 +228,23 @@ export class WorkspacePrisma implements IWorkspaceRepository {
 				workspaceId,
 			},
 			data: {
-				...input,
-				planId,
+				...data,
+				plan: planId
+					? {
+							connect: {
+								planId,
+							},
+						}
+					: undefined,
+				address: address
+					? {
+							create: {
+								...address,
+								lat: address.location.lat,
+								lng: address.location.lng,
+							},
+						}
+					: undefined,
 			},
 		})
 

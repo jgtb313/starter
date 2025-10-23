@@ -4,6 +4,7 @@ import { Inject, Injectable, NotFoundException } from '@nestjs/common'
 
 import { deepMapDatesToISOString } from '@/support/utilities'
 import { OrganizationDomain } from '@/core/organization/organization.domain'
+import { OrganizationInputSchema } from '@/core/organization/organization.schema'
 import { type Prisma, prisma } from '@/adapters/database/database.prisma.client'
 import type { IOrganizationRepository } from '@/ports/database/organization'
 import { type I18nDomainService, I18nDomainSymbol } from '@/domain.i18n.module'
@@ -133,15 +134,13 @@ export class OrganizationPrisma implements IOrganizationRepository {
 		})
 	}
 
-	create: IOrganizationRepository['create'] = async ({
-		workspaceId,
-		phone,
-		document,
-		...input
-	}) => {
+	create: IOrganizationRepository['create'] = async (input) => {
+		const { workspaceId, phone, document, ...data } =
+			OrganizationInputSchema.parse(input)
+
 		const organization: PrismaOrganization = await prisma.organization.create({
 			data: {
-				...input,
+				...data,
 				workspace: {
 					connect: {
 						workspaceId,
@@ -158,16 +157,16 @@ export class OrganizationPrisma implements IOrganizationRepository {
 		return this.toOrganizationDomain(organization)
 	}
 
-	updateById: IOrganizationRepository['updateById'] = async (
-		organizationId,
-		{ workspaceId, phone, document, ...input },
-	) => {
+	updateById: IOrganizationRepository['updateById'] = async (input) => {
+		const { organizationId, workspaceId, phone, document, ...data } =
+			OrganizationInputSchema.parse(input)
+
 		const organization: PrismaOrganization = await prisma.organization.update({
 			where: {
 				organizationId,
 			},
 			data: {
-				...input,
+				...data,
 				workspace: workspaceId
 					? {
 							connect: {

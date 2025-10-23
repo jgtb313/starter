@@ -5,6 +5,7 @@ import { Inject, Injectable, NotFoundException } from '@nestjs/common'
 import { deepMapDatesToISOString } from '@/support/utilities'
 import type { Permission } from '@/core/permission'
 import { UserDomain } from '@/core/user/user.domain'
+import { UserInputSchema } from '@/core/user/user.schema'
 import { type Prisma, prisma } from '@/adapters/database/database.prisma.client'
 import type { IUserRepository } from '@/ports/database/user'
 import { type I18nDomainService, I18nDomainSymbol } from '@/domain.i18n.module'
@@ -257,18 +258,16 @@ export class UserPrisma implements IUserRepository {
 		return user ? this.toUserDomain(user) : null
 	}
 
-	create: IUserRepository['create'] = async ({
-		addresses = [],
-		permissionIds = [],
-		workspaceId,
-		...input
-	}) => {
+	create: IUserRepository['create'] = async (input) => {
+		const { addresses, permissionIds, workspaceId, ...data } =
+			UserInputSchema.parse(input)
+
 		const user = await prisma.user.create({
 			include: {
 				addresses: true,
 			},
 			data: {
-				...input,
+				...data,
 				workspace: workspaceId
 					? {
 							connect: {
@@ -298,11 +297,9 @@ export class UserPrisma implements IUserRepository {
 		return this.toUserDomain(user)
 	}
 
-	updateById: IUserRepository['updateById'] = async (
-		userId,
-		{ workspaceId, addresses = [], ...input },
-	) => {
-		await this.findById(userId)
+	updateById: IUserRepository['updateById'] = async (userId, input) => {
+		const { addresses, permissionIds, workspaceId, ...data } =
+			UserInputSchema.parse(input)
 
 		const user: PrismaUser = await prisma.user.update({
 			include: {
@@ -312,7 +309,7 @@ export class UserPrisma implements IUserRepository {
 				userId,
 			},
 			data: {
-				...input,
+				...data,
 				workspace: workspaceId
 					? {
 							connect: {
@@ -320,6 +317,24 @@ export class UserPrisma implements IUserRepository {
 							},
 						}
 					: undefined,
+				addresses: {
+					deleteMany: {},
+					createMany: {
+						data: addresses.map((address) => ({
+							...address,
+							lat: address.location.lat,
+							lng: address.location.lng,
+						})),
+					},
+				},
+				permissions: {
+					deleteMany: {},
+					createMany: {
+						data: permissionIds.map((permissionId) => ({
+							permissionId,
+						})),
+					},
+				},
 			},
 		})
 

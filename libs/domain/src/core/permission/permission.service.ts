@@ -1,12 +1,11 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common'
 
-import { type I18nDomainService, I18nDomainSymbol } from '@/domain.i18n.module'
-
 import {
 	PERMISSION_SUBJECT_ACTIONS,
 	PERMISSIONS,
 	type Permission,
-} from './permission.schema'
+} from '@/core/permission/permission.schema'
+import { type I18nDomainService, I18nDomainSymbol } from '@/domain.i18n.module'
 
 @Injectable()
 export class PermissionService {
@@ -19,7 +18,7 @@ export class PermissionService {
 		return Object.values(PERMISSION_SUBJECT_ACTIONS).flat()
 	}
 
-	validatePermissionIds = async (permissionIds: Permission[]) => {
+	validatePermissionIds = (permissionIds: Permission[]) => {
 		const missingPermissionIds = permissionIds.filter(
 			(permissionId) => !PERMISSIONS.has(permissionId),
 		)

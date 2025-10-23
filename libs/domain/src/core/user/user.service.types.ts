@@ -1,6 +1,6 @@
 import type { Permission } from '@/core/permission/permission.schema'
-import type { BaseUser } from '@/core/user/user.schema'
+import type { UserInput } from '@/core/user/user.schema'
 
-export type CreateUserInput = BaseUser & {
+export type CreateUserInput = UserInput & {
 	permissionIds?: Permission[]
 }

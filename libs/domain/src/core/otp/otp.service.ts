@@ -5,7 +5,7 @@ import type { Phone } from '@starter/schema'
 import { forwardRef, Inject, Injectable } from '@nestjs/common'
 
 import { OTPDomain } from '@/core/otp/otp.domain'
-import type { OTP } from '@/core/otp/otp.schema'
+import type { OTP, OTPInput } from '@/core/otp/otp.schema'
 import { OTPContextDomain } from '@/core/otp/otp-context.domain'
 import { UserService } from '@/core/user/user.service'
 import { NotificationService } from '@/adapters/notification'
@@ -35,7 +35,7 @@ export class OTPService {
 		const code = random(1000, 9999).toString()
 		const hashedCode = OTPDomain.generateCode(code)
 
-		const otpInput: OTP = {
+		const otpInput: OTPInput = {
 			otpId: uuid(),
 			userId,
 			channel,
@@ -46,9 +46,10 @@ export class OTPService {
 			maxValidationAttempts: otpContext.state.maxValidationAttempts,
 			resendCooldownSeconds: otpContext.state.resendCooldownSeconds,
 			maxRequestsPerDay: otpContext.state.maxRequestsPerDay,
-			expiresAt: addSeconds(new Date(), otpContext.state.resendCooldownSeconds),
-			createdAt: new Date().toISOString(),
-			updatedAt: new Date().toISOString(),
+			expiresAt: addSeconds(
+				new Date(),
+				otpContext.state.resendCooldownSeconds,
+			).toISOString(),
 		}
 
 		const mostRecent = await this.otpRepository.findMostRecent(

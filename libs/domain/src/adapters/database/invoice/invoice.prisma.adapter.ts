@@ -156,7 +156,7 @@ export class InvoicePrisma implements IInvoiceRepository {
 	}
 
 	create: IInvoiceRepository['create'] = async (input) => {
-		const { workspaceId, subscriptionId, planId, ...parsedInput } =
+		const { workspaceId, subscriptionId, planId, ...data } =
 			InvoiceInputSchema.parse(input)
 
 		const invoice: PrismaInvoice = await prisma.invoice.create({
@@ -164,7 +164,7 @@ export class InvoicePrisma implements IInvoiceRepository {
 				plan: true,
 			},
 			data: {
-				...parsedInput,
+				...data,
 				workspace: {
 					connect: {
 						workspaceId,
@@ -187,7 +187,7 @@ export class InvoicePrisma implements IInvoiceRepository {
 	}
 
 	updateById: IInvoiceRepository['updateById'] = async (invoiceId, input) => {
-		const { workspaceId, subscriptionId, planId, ...parsedInput } =
+		const { workspaceId, subscriptionId, planId, ...data } =
 			InvoiceInputSchema.parse(input)
 
 		const invoice: PrismaInvoice = await prisma.invoice.update({
@@ -198,7 +198,7 @@ export class InvoicePrisma implements IInvoiceRepository {
 				invoiceId,
 			},
 			data: {
-				...parsedInput,
+				...data,
 				workspace: {
 					connect: {
 						workspaceId,

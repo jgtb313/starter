@@ -5,10 +5,7 @@ import { forwardRef, Inject, Injectable } from '@nestjs/common'
 
 import { PlanService } from '@/core/plan/plan.service'
 import { UserService } from '@/core/user/user.service'
-import type {
-	BaseWorkspace,
-	Workspace,
-} from '@/core/workspace/workspace.schema'
+import type { WorkspaceInput } from '@/core/workspace/workspace.schema'
 import { LoggerService } from '@/adapters/logger'
 import { PublisherService } from '@/adapters/publisher/publisher.service'
 import type { IWorkspaceRepository } from '@/ports/database/workspace'
@@ -42,7 +39,7 @@ export class WorkspaceService {
 		return this.workspaceRepository.findById(workspaceId)
 	}
 
-	async createWorkspace(userId: string, input: BaseWorkspace) {
+	async createWorkspace(userId: string, input: WorkspaceInput) {
 		this.loggerService.info('Attempting to create workspace', {
 			userId,
 			input,
@@ -72,7 +69,7 @@ export class WorkspaceService {
 		return workspace
 	}
 
-	async updateWorkspace(workspaceId: string, input: Partial<Workspace>) {
+	async updateWorkspace(workspaceId: string, input: Partial<WorkspaceInput>) {
 		this.loggerService.info('Attempting to update workspace', {
 			workspaceId,
 			input,

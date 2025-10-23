@@ -4,6 +4,7 @@ import { Inject, Injectable, NotFoundException } from '@nestjs/common'
 
 import { deepMapDatesToISOString } from '@/support/utilities'
 import { RoleDomain } from '@/core/role/role.domain'
+import { RoleInputSchema } from '@/core/role/role.schema'
 import { type Prisma, prisma } from '@/adapters/database/database.prisma.client'
 import type { IRoleRepository } from '@/ports/database/role'
 import { type I18nDomainService, I18nDomainSymbol } from '@/domain.i18n.module'
@@ -223,12 +224,10 @@ export class RolePrisma implements IRoleRepository {
 		return this.toRoleDomain(role)
 	}
 
-	create: IRoleRepository['create'] = async ({
-		organizationIds = [],
-		permissionIds = [],
-		tags,
-		...input
-	}) => {
+	create: IRoleRepository['create'] = async (input) => {
+		const { organizationIds, permissionIds, tags, ...data } =
+			RoleInputSchema.parse(input)
+
 		const role: PrismaRole = await prisma.role.create({
 			include: {
 				organizations: {
@@ -239,7 +238,7 @@ export class RolePrisma implements IRoleRepository {
 				permissions: true,
 			},
 			data: {
-				...input,
+				...data,
 				organizations: {
 					createMany: {
 						data: organizationIds.map((organizationId) => ({
@@ -260,37 +259,9 @@ export class RolePrisma implements IRoleRepository {
 		return this.toRoleDomain(role)
 	}
 
-	updateById: IRoleRepository['updateById'] = async (
-		roleId,
-		{ organizationIds, permissionIds, tags, ...input },
-	) => {
-		if (organizationIds !== undefined) {
-			await prisma.roleOrganization.deleteMany({
-				where: {
-					roleId,
-				},
-			})
-			await prisma.roleOrganization.createMany({
-				data: organizationIds.map((organizationId) => ({
-					roleId,
-					organizationId,
-				})),
-			})
-		}
-
-		if (permissionIds !== undefined) {
-			await prisma.rolePermission.deleteMany({
-				where: {
-					roleId,
-				},
-			})
-			await prisma.rolePermission.createMany({
-				data: permissionIds.map((permissionId) => ({
-					roleId,
-					permissionId,
-				})),
-			})
-		}
+	updateById: IRoleRepository['updateById'] = async (roleId, input) => {
+		const { organizationIds, permissionIds, tags, ...data } =
+			RoleInputSchema.parse(input)
 
 		const role: PrismaRole = await prisma.role.update({
 			include: {
@@ -304,7 +275,25 @@ export class RolePrisma implements IRoleRepository {
 			where: {
 				roleId,
 			},
-			data: input,
+			data: {
+				...data,
+				organizations: {
+					deleteMany: {},
+					createMany: {
+						data: organizationIds.map((organizationId) => ({
+							organizationId,
+						})),
+					},
+				},
+				permissions: {
+					deleteMany: {},
+					createMany: {
+						data: permissionIds.map((permissionId) => ({
+							permissionId,
+						})),
+					},
+				},
+			},
 		})
 
 		return this.toRoleDomain(role)

@@ -4,6 +4,7 @@ import { Inject, Injectable, NotFoundException } from '@nestjs/common'
 
 import { deepMapDatesToISOString } from '@/support/utilities'
 import { PlanDomain } from '@/core/plan/plan.domain'
+import { PlanInputSchema } from '@/core/plan/plan.schema'
 import { type Prisma, prisma } from '@/adapters/database/database.prisma.client'
 import type { IPlanRepository } from '@/ports/database/plan'
 import { type I18nDomainService, I18nDomainSymbol } from '@/domain.i18n.module'
@@ -185,18 +186,16 @@ export class PlanPrisma implements IPlanRepository {
 		return this.toPlanDomain(plan)
 	}
 
-	create: IPlanRepository['create'] = async ({
-		intervals,
-		features,
-		...input
-	}) => {
+	create: IPlanRepository['create'] = async (input) => {
+		const { intervals, features, ...data } = PlanInputSchema.parse(input)
+
 		const plan: PrismaPlan = await prisma.plan.create({
 			include: {
 				intervals: true,
 				features: true,
 			},
 			data: {
-				...input,
+				...data,
 				intervals: {
 					createMany: {
 						data: intervals,
@@ -213,10 +212,9 @@ export class PlanPrisma implements IPlanRepository {
 		return this.toPlanDomain(plan)
 	}
 
-	updateById: IPlanRepository['updateById'] = async (
-		planId,
-		{ intervals, features, ...input },
-	) => {
+	updateById: IPlanRepository['updateById'] = async (planId, input) => {
+		const { intervals, features, ...data } = PlanInputSchema.parse(input)
+
 		const plan: PrismaPlan = await prisma.plan.update({
 			include: {
 				intervals: true,
@@ -226,7 +224,7 @@ export class PlanPrisma implements IPlanRepository {
 				planId,
 			},
 			data: {
-				...input,
+				...data,
 				intervals: {
 					createMany: {
 						data: intervals ?? [],
@@ -254,7 +252,7 @@ export class PlanPrisma implements IPlanRepository {
 		})
 	}
 
-	private toPlanDomain({ intervals, features, ...model }: PrismaPlan) {
+	private toPlanDomain(model: PrismaPlan) {
 		return new PlanDomain(deepMapDatesToISOString(model), this.i18nService)
 	}
 }
