@@ -20,6 +20,16 @@ export const makeSubscription = (
 		subscriptionId: uuid(),
 		workspaceId: uuid(),
 		planId: uuid(),
+		plan: {
+			planId: uuid(),
+			externalId: uuid(),
+			name: 'Basic',
+			description: 'Basic plan',
+			features: [],
+			intervals: [],
+			createdAt: new Date().toISOString(),
+			updatedAt: new Date().toISOString(),
+		},
 		externalId: uuid(),
 		paymentMethod: 'CARD',
 		card: {

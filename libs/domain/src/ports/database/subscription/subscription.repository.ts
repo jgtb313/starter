@@ -3,8 +3,8 @@ import type { Pagination, PaginationOutput, Sort } from '@starter/schema'
 
 import type { SubscriptionDomain } from '@/core/subscription/subscription.domain'
 import type {
-	BaseSubscription,
 	Subscription,
+	SubscriptionInput,
 } from '@/core/subscription/subscription.schema'
 
 type FindSubscriptionInput = Partial<
@@ -40,9 +40,9 @@ export type ISubscriptionRepository = {
 		>,
 	): Promise<SubscriptionDomain[]>
 	findById(roleId: string): Promise<SubscriptionDomain>
-	create(input: BaseSubscription): Promise<SubscriptionDomain>
+	create(input: SubscriptionInput): Promise<SubscriptionDomain>
 	updateById(
 		roleId: string,
-		input: Partial<Subscription>,
+		input: Partial<SubscriptionInput>,
 	): Promise<SubscriptionDomain>
 }

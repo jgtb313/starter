@@ -8,13 +8,15 @@ import { type Prisma, prisma } from '@/adapters/database/database.prisma.client'
 import type { IPlanRepository } from '@/ports/database/plan'
 import { type I18nDomainService, I18nDomainSymbol } from '@/domain.i18n.module'
 
+type PrismaPlan = Prisma.PlanGetPayload<{
+	include: {
+		intervals: true
+		features: true
+	}
+}>
+
 @Injectable()
 export class PlanPrisma implements IPlanRepository {
-	private readonly include: Prisma.PlanInclude = {
-		planIntervals: true,
-		planFeatures: true,
-	}
-
 	constructor(
 		@Inject(I18nDomainSymbol)
 		private readonly i18nService: I18nDomainService,
@@ -64,14 +66,20 @@ export class PlanPrisma implements IPlanRepository {
 				}
 			: undefined
 
-		const [values, total] = await prisma.$transaction([
+		const [values, total]: [
+			PrismaPlan[],
+			number,
+		] = await prisma.$transaction([
 			prisma.plan.findMany({
+				include: {
+					intervals: true,
+					features: true,
+				},
 				where,
 				orderBy,
 				take,
 				skip,
 				cursor: cursorCriteria,
-				include: this.include,
 			}),
 			prisma.plan.count({
 				where,
@@ -121,21 +129,27 @@ export class PlanPrisma implements IPlanRepository {
 					},
 				]
 
-		const values = await prisma.plan.findMany({
+		const values: PrismaPlan[] = await prisma.plan.findMany({
+			include: {
+				intervals: true,
+				features: true,
+			},
 			where,
 			orderBy,
-			include: this.include,
 		})
 
 		return values.map((plan) => this.toPlanDomain(plan))
 	}
 
 	findById: IPlanRepository['findById'] = async (planId) => {
-		const plan = await prisma.plan.findUnique({
+		const plan: PrismaPlan | null = await prisma.plan.findUnique({
+			include: {
+				intervals: true,
+				features: true,
+			},
 			where: {
 				planId,
 			},
-			include: this.include,
 		})
 
 		if (!plan) {
@@ -150,11 +164,14 @@ export class PlanPrisma implements IPlanRepository {
 	}
 
 	findDefault: IPlanRepository['findDefault'] = async () => {
-		const plan = await prisma.plan.findFirst({
+		const plan: PrismaPlan | null = await prisma.plan.findFirst({
+			include: {
+				intervals: true,
+				features: true,
+			},
 			where: {
 				default: true,
 			},
-			include: this.include,
 		})
 
 		if (!plan) {
@@ -168,22 +185,59 @@ export class PlanPrisma implements IPlanRepository {
 		return this.toPlanDomain(plan)
 	}
 
-	create: IPlanRepository['create'] = async (input) => {
-		const plan = await prisma.plan.create({
-			data: input,
-			include: this.include,
+	create: IPlanRepository['create'] = async ({
+		intervals,
+		features,
+		...input
+	}) => {
+		const plan: PrismaPlan = await prisma.plan.create({
+			include: {
+				intervals: true,
+				features: true,
+			},
+			data: {
+				...input,
+				intervals: {
+					createMany: {
+						data: intervals,
+					},
+				},
+				features: {
+					createMany: {
+						data: features,
+					},
+				},
+			},
 		})
 
 		return this.toPlanDomain(plan)
 	}
 
-	updateById: IPlanRepository['updateById'] = async (planId, input) => {
-		const plan = await prisma.plan.update({
+	updateById: IPlanRepository['updateById'] = async (
+		planId,
+		{ intervals, features, ...input },
+	) => {
+		const plan: PrismaPlan = await prisma.plan.update({
+			include: {
+				intervals: true,
+				features: true,
+			},
 			where: {
 				planId,
 			},
-			data: input,
-			include: this.include,
+			data: {
+				...input,
+				intervals: {
+					createMany: {
+						data: intervals ?? [],
+					},
+				},
+				features: {
+					createMany: {
+						data: features ?? [],
+					},
+				},
+			},
 		})
 
 		return this.toPlanDomain(plan)
@@ -200,23 +254,7 @@ export class PlanPrisma implements IPlanRepository {
 		})
 	}
 
-	private toPlanDomain({
-		planIntervals,
-		planFeatures,
-		...model
-	}: Prisma.PlanGetPayload<{
-		include: {
-			planIntervals: true
-			planFeatures: true
-		}
-	}>) {
-		return new PlanDomain(
-			deepMapDatesToISOString({
-				...model,
-				intervals: planIntervals,
-				features: planFeatures,
-			}),
-			this.i18nService,
-		)
+	private toPlanDomain({ intervals, features, ...model }: PrismaPlan) {
+		return new PlanDomain(deepMapDatesToISOString(model), this.i18nService)
 	}
 }

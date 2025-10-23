@@ -8,6 +8,16 @@ import { type Prisma, prisma } from '@/adapters/database/database.prisma.client'
 import type { IRoleRepository } from '@/ports/database/role'
 import { type I18nDomainService, I18nDomainSymbol } from '@/domain.i18n.module'
 
+type PrismaRole = Prisma.RoleGetPayload<{
+	include: {
+		organizations: {
+			include: {
+				organization: true
+			}
+		}
+	}
+}>
+
 @Injectable()
 export class RolePrisma implements IRoleRepository {
 	constructor(
@@ -50,7 +60,7 @@ export class RolePrisma implements IRoleRepository {
 		}
 
 		if (input.organizationIds?.length) {
-			where.roleOrganizations = {
+			where.organizations = {
 				some: {
 					organizationId: {
 						in: input.organizationIds,
@@ -60,7 +70,7 @@ export class RolePrisma implements IRoleRepository {
 		}
 
 		if (input.permissionIds?.length) {
-			where.rolePermissions = {
+			where.permissions = {
 				some: {
 					permissionId: {
 						in: input.permissionIds,
@@ -81,21 +91,24 @@ export class RolePrisma implements IRoleRepository {
 				}
 			: undefined
 
-		const [values, total] = await prisma.$transaction([
+		const [values, total]: [
+			PrismaRole[],
+			number,
+		] = await prisma.$transaction([
 			prisma.role.findMany({
+				include: {
+					organizations: {
+						include: {
+							organization: true,
+						},
+					},
+					permissions: true,
+				},
 				where,
 				orderBy,
 				take,
 				skip,
 				cursor: cursorCriteria,
-				include: {
-					roleOrganizations: {
-						include: {
-							organization: true,
-						},
-					},
-					rolePermissions: true,
-				},
 			}),
 			prisma.role.count({
 				where,
@@ -135,7 +148,7 @@ export class RolePrisma implements IRoleRepository {
 		}
 
 		if (input.organizationIds?.length) {
-			where.roleOrganizations = {
+			where.organizations = {
 				some: {
 					organizationId: {
 						in: input.organizationIds,
@@ -145,7 +158,7 @@ export class RolePrisma implements IRoleRepository {
 		}
 
 		if (input.permissionIds?.length) {
-			where.rolePermissions = {
+			where.permissions = {
 				some: {
 					permissionId: {
 						in: input.permissionIds,
@@ -168,34 +181,34 @@ export class RolePrisma implements IRoleRepository {
 					},
 				]
 
-		const values = await prisma.role.findMany({
-			where,
-			orderBy,
+		const values: PrismaRole[] = await prisma.role.findMany({
 			include: {
-				roleOrganizations: {
+				organizations: {
 					include: {
 						organization: true,
 					},
 				},
-				rolePermissions: true,
+				permissions: true,
 			},
+			where,
+			orderBy,
 		})
 
 		return values.map((role) => this.toRoleDomain(role))
 	}
 
 	findById: IRoleRepository['findById'] = async (roleId) => {
-		const role = await prisma.role.findUnique({
-			where: {
-				roleId,
-			},
+		const role: PrismaRole | null = await prisma.role.findUnique({
 			include: {
-				roleOrganizations: {
+				organizations: {
 					include: {
 						organization: true,
 					},
 				},
-				rolePermissions: true,
+				permissions: true,
+			},
+			where: {
+				roleId,
 			},
 		})
 
@@ -216,31 +229,31 @@ export class RolePrisma implements IRoleRepository {
 		tags,
 		...input
 	}) => {
-		const role = await prisma.role.create({
+		const role: PrismaRole = await prisma.role.create({
+			include: {
+				organizations: {
+					include: {
+						organization: true,
+					},
+				},
+				permissions: true,
+			},
 			data: {
 				...input,
-				roleOrganizations: {
+				organizations: {
 					createMany: {
 						data: organizationIds.map((organizationId) => ({
 							organizationId,
 						})),
 					},
 				},
-				rolePermissions: {
+				permissions: {
 					createMany: {
 						data: permissionIds.map((permissionId) => ({
 							permissionId,
 						})),
 					},
 				},
-			},
-			include: {
-				roleOrganizations: {
-					include: {
-						organization: true,
-					},
-				},
-				rolePermissions: true,
 			},
 		})
 
@@ -279,19 +292,19 @@ export class RolePrisma implements IRoleRepository {
 			})
 		}
 
-		const role = await prisma.role.update({
-			where: {
-				roleId,
-			},
-			data: input,
+		const role: PrismaRole = await prisma.role.update({
 			include: {
-				roleOrganizations: {
+				organizations: {
 					include: {
 						organization: true,
 					},
 				},
-				rolePermissions: true,
+				permissions: true,
 			},
+			where: {
+				roleId,
+			},
+			data: input,
 		})
 
 		return this.toRoleDomain(role)
@@ -317,8 +330,8 @@ export class RolePrisma implements IRoleRepository {
 			},
 		})
 
-		const foundIds = roles.map((r) => r.roleId)
-		const missingIds = roleIds.filter((id) => !foundIds.includes(id))
+		const foundIds = roles.map((role) => role.roleId)
+		const missingIds = roleIds.filter((roleId) => !foundIds.includes(roleId))
 
 		if (roles.length !== roleIds.length) {
 			throw new NotFoundException(
@@ -352,18 +365,7 @@ export class RolePrisma implements IRoleRepository {
 			}
 		}
 
-	private toRoleDomain(
-		model: Prisma.RoleGetPayload<{
-			include: {
-				roleOrganizations: {
-					include: {
-						organization: true
-					}
-				}
-				rolePermissions: true
-			}
-		}>,
-	) {
+	private toRoleDomain(model: PrismaRole) {
 		return new RoleDomain(deepMapDatesToISOString(model), this.i18nService)
 	}
 }

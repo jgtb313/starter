@@ -6,6 +6,8 @@ import { type Prisma, prisma } from '@/adapters/database/database.prisma.client'
 import type { IOTPRepository } from '@/ports/database/otp'
 import { type I18nDomainService, I18nDomainSymbol } from '@/domain.i18n.module'
 
+type PrismaOTP = Prisma.OTPGetPayload<{}>
+
 @Injectable()
 export class OTPPrisma implements IOTPRepository {
 	constructor(
@@ -14,7 +16,7 @@ export class OTPPrisma implements IOTPRepository {
 	) {}
 
 	findById: IOTPRepository['findById'] = async (otpId) => {
-		const otp = await prisma.oTP.findUnique({
+		const otp: PrismaOTP | null = await prisma.oTP.findUnique({
 			where: {
 				otpId,
 			},
@@ -35,7 +37,7 @@ export class OTPPrisma implements IOTPRepository {
 		recipient,
 		context,
 	) => {
-		const otp = await prisma.oTP.findFirst({
+		const otp: PrismaOTP | null = await prisma.oTP.findFirst({
 			where: {
 				recipient,
 				context,
@@ -67,7 +69,7 @@ export class OTPPrisma implements IOTPRepository {
 	}
 
 	create: IOTPRepository['create'] = async (input) => {
-		const otp = await prisma.oTP.create({
+		const otp: PrismaOTP = await prisma.oTP.create({
 			data: input,
 		})
 
@@ -75,7 +77,7 @@ export class OTPPrisma implements IOTPRepository {
 	}
 
 	updateById: IOTPRepository['updateById'] = async (otpId, input) => {
-		const otp = await prisma.oTP.update({
+		const otp: PrismaOTP = await prisma.oTP.update({
 			where: {
 				otpId,
 			},
@@ -85,7 +87,7 @@ export class OTPPrisma implements IOTPRepository {
 		return this.toOTPDomain(otp)
 	}
 
-	private toOTPDomain(model: Prisma.OTPGetPayload<{}>) {
+	private toOTPDomain(model: PrismaOTP) {
 		return new OTPDomain(deepMapDatesToISOString(model), this.i18nService)
 	}
 }

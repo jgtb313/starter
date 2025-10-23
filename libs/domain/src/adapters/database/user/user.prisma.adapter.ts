@@ -9,12 +9,14 @@ import { type Prisma, prisma } from '@/adapters/database/database.prisma.client'
 import type { IUserRepository } from '@/ports/database/user'
 import { type I18nDomainService, I18nDomainSymbol } from '@/domain.i18n.module'
 
+type PrismaUser = Prisma.UserGetPayload<{
+	include: {
+		addresses: true
+	}
+}>
+
 @Injectable()
 export class UserPrisma implements IUserRepository {
-	private readonly include: Prisma.UserInclude = {
-		userAddresses: true,
-	}
-
 	constructor(
 		@Inject(I18nDomainSymbol)
 		private readonly i18nService: I18nDomainService,
@@ -79,14 +81,19 @@ export class UserPrisma implements IUserRepository {
 				}
 			: undefined
 
-		const [values, total] = await prisma.$transaction([
+		const [values, total]: [
+			PrismaUser[],
+			number,
+		] = await prisma.$transaction([
 			prisma.user.findMany({
+				include: {
+					addresses: true,
+				},
 				where,
 				orderBy,
 				take,
 				skip,
 				cursor: cursorCriteria,
-				include: this.include,
 			}),
 			prisma.user.count({
 				where,
@@ -151,21 +158,25 @@ export class UserPrisma implements IUserRepository {
 					},
 				]
 
-		const values = await prisma.user.findMany({
+		const values: PrismaUser[] = await prisma.user.findMany({
+			include: {
+				addresses: true,
+			},
 			where,
 			orderBy,
-			include: this.include,
 		})
 
 		return values.map((user) => this.toUserDomain(user))
 	}
 
 	findById: IUserRepository['findById'] = async (userId) => {
-		const user = await prisma.user.findUnique({
+		const user: PrismaUser | null = await prisma.user.findUnique({
+			include: {
+				addresses: true,
+			},
 			where: {
 				userId,
 			},
-			include: this.include,
 		})
 
 		if (!user) {
@@ -188,9 +199,11 @@ export class UserPrisma implements IUserRepository {
 			where.workspaceId = options.workspaceId
 		}
 
-		const user = await prisma.user.findFirst({
+		const user: PrismaUser | null = await prisma.user.findFirst({
+			include: {
+				addresses: true,
+			},
 			where,
-			include: this.include,
 		})
 
 		return user ? this.toUserDomain(user) : null
@@ -209,7 +222,9 @@ export class UserPrisma implements IUserRepository {
 
 		const user = await prisma.user.findFirst({
 			where,
-			include: this.include,
+			include: {
+				addresses: true,
+			},
 		})
 
 		return user ? this.toUserDomain(user) : null
@@ -232,9 +247,11 @@ export class UserPrisma implements IUserRepository {
 			where.email = email
 		}
 
-		const user = await prisma.user.findFirst({
+		const user: PrismaUser | null = await prisma.user.findFirst({
+			include: {
+				addresses: true,
+			},
 			where,
-			include: this.include,
 		})
 
 		return user ? this.toUserDomain(user) : null
@@ -247,10 +264,19 @@ export class UserPrisma implements IUserRepository {
 		...input
 	}) => {
 		const user = await prisma.user.create({
+			include: {
+				addresses: true,
+			},
 			data: {
 				...input,
-				workspaceId,
-				userAddresses: {
+				workspace: workspaceId
+					? {
+							connect: {
+								workspaceId,
+							},
+						}
+					: undefined,
+				addresses: {
 					createMany: {
 						data: addresses.map((address) => ({
 							...address,
@@ -259,7 +285,7 @@ export class UserPrisma implements IUserRepository {
 						})),
 					},
 				},
-				userPermissions: {
+				permissions: {
 					createMany: {
 						data: permissionIds.map((permissionId) => ({
 							permissionId,
@@ -267,7 +293,6 @@ export class UserPrisma implements IUserRepository {
 					},
 				},
 			},
-			include: this.include,
 		})
 
 		return this.toUserDomain(user)
@@ -275,19 +300,27 @@ export class UserPrisma implements IUserRepository {
 
 	updateById: IUserRepository['updateById'] = async (
 		userId,
-		{ workspaceId, ...input },
+		{ workspaceId, addresses = [], ...input },
 	) => {
 		await this.findById(userId)
 
-		const user = await prisma.user.update({
+		const user: PrismaUser = await prisma.user.update({
+			include: {
+				addresses: true,
+			},
 			where: {
 				userId,
 			},
 			data: {
 				...input,
-				workspaceId,
+				workspace: workspaceId
+					? {
+							connect: {
+								workspaceId,
+							},
+						}
+					: undefined,
 			},
-			include: this.include,
 		})
 
 		return this.toUserDomain(user)
@@ -380,7 +413,7 @@ export class UserPrisma implements IUserRepository {
 			include: {
 				role: {
 					include: {
-						rolePermissions: true,
+						permissions: true,
 					},
 				},
 			},
@@ -393,7 +426,7 @@ export class UserPrisma implements IUserRepository {
 				organizationId: null,
 			})),
 			...userOrganizations.flatMap((userOrganization) =>
-				userOrganization.role.rolePermissions.map((rolePermission) => ({
+				userOrganization.role.permissions.map((rolePermission) => ({
 					kind: 'ORGANIZATION',
 					permissionId: rolePermission.permissionId as Permission,
 					organizationId: userOrganization.organizationId,
@@ -496,13 +529,38 @@ export class UserPrisma implements IUserRepository {
 		})
 	}
 
-	private toUserDomain(
-		model: Prisma.UserGetPayload<{
-			include: {
-				userAddresses: true
-			}
-		}>,
-	) {
-		return new UserDomain(deepMapDatesToISOString(model), this.i18nService)
+	private toUserDomain(model: PrismaUser) {
+		const phone =
+			model.phoneISO && model.phoneDDI && model.phoneNumber
+				? {
+						iso: model.phoneISO,
+						ddi: model.phoneDDI,
+						number: model.phoneNumber,
+					}
+				: undefined
+		const document =
+			model.documentType && model.documentNumber
+				? {
+						type: model.documentType,
+						number: model.documentNumber,
+					}
+				: undefined
+		const addresses = model.addresses.map((address) => ({
+			...address,
+			location: {
+				lat: address.lat,
+				lng: address.lng,
+			},
+		}))
+
+		return new UserDomain(
+			deepMapDatesToISOString({
+				...model,
+				phone,
+				document,
+				addresses,
+			}),
+			this.i18nService,
+		)
 	}
 }

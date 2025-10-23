@@ -52,13 +52,10 @@ export const OrganizationSchema = z.object({
 	createdAt: BaseSchema.createdAt,
 	updatedAt: BaseSchema.updatedAt,
 })
+
+export const OrganizationInputSchema = OrganizationSchema.partial({
+	organizationId: true,
+})
+
 export type Organization = z.infer<typeof OrganizationSchema>
-export type OrganizationInput = z.input<typeof OrganizationSchema>
-export type BaseOrganization = BaseSchema<
-	Organization,
-	{
-		optional: [
-			'organizationId',
-		]
-	}
->
+export type OrganizationInput = z.infer<typeof OrganizationInputSchema>

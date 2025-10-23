@@ -48,6 +48,15 @@ export type RecurrenceCreateCustomerOutput = {
 	customerId: string
 }
 
+export type RecurrenceGetUpcomingInvoiceInput = {
+	subscriptionId: string
+}
+export type RecurrenceGetUpcomingInvoiceOutput = {
+	invoiceId: string
+	amount: number
+	dueDate: Date
+	status: 'OPEN'
+}
 type CardPayment = {
 	paymentMethod: 'CARD'
 	cardToken: string
@@ -128,6 +137,10 @@ export interface IRecurrenceAdapter {
 	createCustmer: (
 		input: RecurrenceCreateCustomerInput,
 	) => Promise<RecurrenceCreateCustomerOutput>
+
+	getUpcomingInvoice: (
+		input: RecurrenceGetUpcomingInvoiceInput,
+	) => Promise<RecurrenceGetUpcomingInvoiceOutput>
 
 	createSubscription: (
 		input: RecurrenceCreateSubscriptionInput,

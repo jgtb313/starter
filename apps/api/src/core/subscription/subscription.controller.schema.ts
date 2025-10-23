@@ -1,3 +1,4 @@
+import { PaymentCardTokenSchema, z } from '@starter/schema'
 import {
 	ID,
 	SubscriptionBoletoSchema,
@@ -9,7 +10,6 @@ import {
 	createRequestSchema,
 	type RequestInput,
 } from '@starter/nestjs-server-hoisting'
-import { PaymentCardTokenSchema, z } from '@starter/schema'
 
 export const GetSubscriptionSchema = createRequestSchema({
 	params: z.object({
@@ -108,7 +108,6 @@ export const CancelSubscriptionSchema = createRequestSchema({
 		workspaceId: ID('workspace'),
 		subscriptionId: ID('subscription'),
 	}),
-	output: SubscriptionSchema,
 })
 export type CancelSubscriptionRequest = RequestInput<
 	typeof CancelSubscriptionSchema

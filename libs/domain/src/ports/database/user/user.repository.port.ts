@@ -3,7 +3,7 @@ import type { Pagination, PaginationOutput, Phone, Sort } from '@starter/schema'
 
 import type { Permission } from '@/core/permission/permission.schema'
 import type { UserDomain } from '@/core/user/user.domain'
-import type { BaseUser, User } from '@/core/user/user.schema'
+import type { User, UserInput } from '@/core/user/user.schema'
 
 type FindUserInput = Partial<
 	Pick<User, 'workspaceId' | 'name' | 'email' | 'phone' | 'status'>
@@ -15,7 +15,7 @@ type FindByEmailOptions = Pick<User, 'workspaceId'>
 
 type FindByPhoneOptions = Pick<User, 'workspaceId'>
 
-type CreateUserInput = BaseUser & {
+type CreateUserInput = UserInput & {
 	permissionIds?: Permission[]
 }
 
@@ -57,7 +57,7 @@ export type IUserRepository = {
 		email: string,
 	): Promise<UserDomain | null>
 	create(input: CreateUserInput): Promise<UserDomain>
-	updateById(userId: string, input: Partial<BaseUser>): Promise<UserDomain>
+	updateById(userId: string, input: Partial<UserInput>): Promise<UserDomain>
 	deleteById(userId: string): Promise<void>
 
 	attachOrganization(

@@ -1,24 +1,4 @@
-import type { PickNotNullable, PickNullable } from '@starter/common'
 import { z } from '@starter/schema'
-
-export type BaseSchema<
-	T,
-	Config extends {
-		optional?: (keyof T)[]
-	} = {
-		optional?: []
-	},
-> = {
-	[Key in keyof PickNullable<
-		Omit<T, 'createdAt' | 'updatedAt' | NonNullable<Config['optional']>[number]>
-	>]?: Exclude<T[Key], null> | null
-} & {
-	[Key in keyof PickNotNullable<
-		Omit<T, 'createdAt' | 'updatedAt' | NonNullable<Config['optional']>[number]>
-	>]: T[Key]
-} & {
-	[Key in NonNullable<Config['optional']>[number]]?: T[Key]
-}
 
 export const ID = (resourceName: string) => {
 	return z.uuid().meta({

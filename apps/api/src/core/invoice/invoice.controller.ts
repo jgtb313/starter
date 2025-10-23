@@ -1,4 +1,9 @@
-import { InvoiceSchema, InvoiceService, type Profile } from '@starter/domain'
+import {
+	InvoiceSchema,
+	InvoiceService,
+	type Profile,
+	UpcomingInvoiceSchema,
+} from '@starter/domain'
 import { Controller, Request, Route } from '@starter/nestjs-server-hoisting'
 
 import { Inject, UseGuards } from '@nestjs/common'
@@ -9,6 +14,8 @@ import { AuthGuard } from '@/support/guards/auth-guard'
 import {
 	type GetInvoiceRequest,
 	GetInvoiceSchema,
+	type GetUpcomingInvoiceRequest,
+	GetUpcomingInvoiceSchema,
 	type ListInvoicesRequest,
 	ListInvoicesSchema,
 } from '@/core/invoice/invoice.controller.schema'
@@ -23,6 +30,9 @@ import {
 	schemas: {
 		Invoice: {
 			schema: InvoiceSchema,
+		},
+		UpcomingInvoice: {
+			schema: UpcomingInvoiceSchema,
 		},
 	},
 })
@@ -64,6 +74,34 @@ export class InvoiceController {
 		return this.invoiceService.getPaginatedInvoices({
 			...query,
 			...pagination,
+		})
+	}
+
+	@Route({
+		summary: 'Get Upcoming Invoice',
+
+		description: 'Retrieves the upcoming invoice for a workspace.',
+
+		method: 'GET',
+
+		path: '/upcoming',
+
+		parameters: {
+			params: GetUpcomingInvoiceSchema.params,
+		},
+
+		responses: {
+			200: {
+				schema: GetUpcomingInvoiceSchema.output,
+			},
+		},
+	})
+	getUpcomingInvoice(
+		@AuthenticatedProfile() profile: Profile,
+		@Request() { params }: GetUpcomingInvoiceRequest,
+	) {
+		this.aclService.canPerformActionByPermission(profile, 'invoice:read', {
+			workspaceId: params.workspaceId,
 		})
 	}
 

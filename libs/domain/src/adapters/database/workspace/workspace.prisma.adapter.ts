@@ -8,12 +8,20 @@ import { type Prisma, prisma } from '@/adapters/database/database.prisma.client'
 import type { IWorkspaceRepository } from '@/ports/database/workspace'
 import { type I18nDomainService, I18nDomainSymbol } from '@/domain.i18n.module'
 
+type PrismaWorkspace = Prisma.WorkspaceGetPayload<{
+	include: {
+		plan: {
+			include: {
+				intervals: true
+				features: true
+			}
+		}
+		address: true
+	}
+}>
+
 @Injectable()
 export class WorkspacePrisma implements IWorkspaceRepository {
-	private readonly include: Prisma.WorkspaceInclude = {
-		workspaceAddress: true,
-	}
-
 	constructor(
 		@Inject(I18nDomainSymbol)
 		private readonly i18nService: I18nDomainService,
@@ -60,14 +68,25 @@ export class WorkspacePrisma implements IWorkspaceRepository {
 				}
 			: undefined
 
-		const [values, total] = await prisma.$transaction([
+		const [values, total]: [
+			PrismaWorkspace[],
+			number,
+		] = await prisma.$transaction([
 			prisma.workspace.findMany({
+				include: {
+					plan: {
+						include: {
+							intervals: true,
+							features: true,
+						},
+					},
+					address: true,
+				},
 				where,
 				orderBy,
 				take,
 				skip,
 				cursor: cursorCriteria,
-				include: this.include,
 			}),
 			prisma.workspace.count({
 				where,
@@ -106,21 +125,39 @@ export class WorkspacePrisma implements IWorkspaceRepository {
 			where.status = input.status
 		}
 
-		const values = await prisma.workspace.findMany({
+		const values: PrismaWorkspace[] = await prisma.workspace.findMany({
+			include: {
+				plan: {
+					include: {
+						intervals: true,
+						features: true,
+					},
+				},
+				address: true,
+			},
 			where,
-			include: this.include,
 		})
 
 		return values.map((workspace) => this.toWorkspaceDomain(workspace))
 	}
 
 	findById: IWorkspaceRepository['findById'] = async (workspaceId) => {
-		const workspace = await prisma.workspace.findUnique({
-			where: {
-				workspaceId,
+		const workspace: PrismaWorkspace | null = await prisma.workspace.findUnique(
+			{
+				include: {
+					plan: {
+						include: {
+							intervals: true,
+							features: true,
+						},
+					},
+					address: true,
+				},
+				where: {
+					workspaceId,
+				},
 			},
-			include: this.include,
-		})
+		)
 
 		if (!workspace) {
 			throw new NotFoundException(
@@ -139,7 +176,16 @@ export class WorkspacePrisma implements IWorkspaceRepository {
 		locale,
 		...input
 	}) => {
-		const workspace = await prisma.workspace.create({
+		const workspace: PrismaWorkspace = await prisma.workspace.create({
+			include: {
+				plan: {
+					include: {
+						intervals: true,
+						features: true,
+					},
+				},
+				address: true,
+			},
 			data: {
 				...input,
 				plan: {
@@ -147,7 +193,7 @@ export class WorkspacePrisma implements IWorkspaceRepository {
 						planId,
 					},
 				},
-				workspaceAddress: address
+				address: address
 					? {
 							create: {
 								...address,
@@ -157,7 +203,6 @@ export class WorkspacePrisma implements IWorkspaceRepository {
 						}
 					: undefined,
 			},
-			include: this.include,
 		})
 
 		return this.toWorkspaceDomain(workspace)
@@ -165,9 +210,18 @@ export class WorkspacePrisma implements IWorkspaceRepository {
 
 	updateById: IWorkspaceRepository['updateById'] = async (
 		workspaceId,
-		{ planId, address, locale, ...input },
+		{ plan, planId, address, locale, ...input },
 	) => {
-		const workspace = await prisma.workspace.update({
+		const workspace: PrismaWorkspace = await prisma.workspace.update({
+			include: {
+				plan: {
+					include: {
+						intervals: true,
+						features: true,
+					},
+				},
+				address: true,
+			},
 			where: {
 				workspaceId,
 			},
@@ -175,7 +229,6 @@ export class WorkspacePrisma implements IWorkspaceRepository {
 				...input,
 				planId,
 			},
-			include: this.include,
 		})
 
 		return this.toWorkspaceDomain(workspace)
@@ -228,13 +281,7 @@ export class WorkspacePrisma implements IWorkspaceRepository {
 		})
 	}
 
-	private toWorkspaceDomain(
-		model: Prisma.WorkspaceGetPayload<{
-			include: {
-				workspaceAddress: true
-			}
-		}>,
-	) {
+	private toWorkspaceDomain(model: PrismaWorkspace) {
 		return new WorkspaceDomain(deepMapDatesToISOString(model), this.i18nService)
 	}
 }

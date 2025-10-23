@@ -1,5 +1,6 @@
-import { Injectable } from '@nestjs/common'
 import { uuid } from '@starter/common'
+
+import { Injectable } from '@nestjs/common'
 
 import type { IRecurrenceAdapter } from '@/adapters/recurrence/recurrence.adapter'
 
@@ -22,6 +23,15 @@ export class InMemoryRecurrenceAdapter implements IRecurrenceAdapter {
 	createCustmer: IRecurrenceAdapter['createCustmer'] = async () => {
 		return {
 			customerId: uuid(),
+		}
+	}
+
+	getUpcomingInvoice: IRecurrenceAdapter['getUpcomingInvoice'] = async () => {
+		return {
+			invoiceId: `draft-${uuid()}`,
+			amount: 10000,
+			dueDate: new Date(Date.now() + 3600_000),
+			status: 'OPEN',
 		}
 	}
 

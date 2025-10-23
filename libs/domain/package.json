@@ -13,6 +13,7 @@
 		"test:watch": "vitest --watch --coverage",
 		"test:coverage": "vitest --watch --coverage",
 		"prisma:generate": "prisma generate",
+		"prisma:create": "prisma migrate dev --create-only",
 		"prisma:migrate": "prisma migrate dev",
 		"prisma:reset": "prisma migrate reset",
 		"prisma:studio": "prisma studio",

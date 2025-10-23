@@ -2,7 +2,6 @@ import {
 	type Profile,
 	SubscriptionSchema,
 	SubscriptionService,
-	type User,
 } from '@starter/domain'
 import { Controller, Request, Route } from '@starter/nestjs-server-hoisting'
 
@@ -168,7 +167,7 @@ export class SubscriptionController {
 	})
 	changeSubscriptionPaymentMethod(
 		@AuthenticatedProfile() profile: Profile,
-		@Request() { params }: ChangeSubscriptionPaymentMethodRequest,
+		@Request() { params, body }: ChangeSubscriptionPaymentMethodRequest,
 	) {
 		this.aclService.canPerformActionByPermission(
 			profile,
@@ -180,7 +179,7 @@ export class SubscriptionController {
 
 		return this.subscriptionService.changeSubscriptionPaymentMethod(
 			params.workspaceId,
-			{} as any,
+			body,
 		)
 	}
 
@@ -197,8 +196,8 @@ export class SubscriptionController {
 		},
 
 		responses: {
-			200: {
-				schema: CancelSubscriptionSchema.output,
+			204: {
+				description: 'Subscription cancelled successfully.',
 			},
 		},
 	})

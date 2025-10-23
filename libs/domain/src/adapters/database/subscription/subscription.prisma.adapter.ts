@@ -8,6 +8,12 @@ import { type Prisma, prisma } from '@/adapters/database/database.prisma.client'
 import type { ISubscriptionRepository } from '@/ports/database/subscription'
 import { type I18nDomainService, I18nDomainSymbol } from '@/domain.i18n.module'
 
+type PrismaSubscription = Prisma.SubscriptionGetPayload<{
+	include: {
+		plan: true
+	}
+}>
+
 @Injectable()
 export class SubscriptionPrisma implements ISubscriptionRepository {
 	constructor(
@@ -45,8 +51,14 @@ export class SubscriptionPrisma implements ISubscriptionRepository {
 				}
 			: undefined
 
-		const [values, total] = await prisma.$transaction([
+		const [values, total]: [
+			PrismaSubscription[],
+			number,
+		] = await prisma.$transaction([
 			prisma.subscription.findMany({
+				include: {
+					plan: true,
+				},
 				where,
 				orderBy,
 				take,
@@ -91,7 +103,10 @@ export class SubscriptionPrisma implements ISubscriptionRepository {
 					},
 				]
 
-		const values = await prisma.subscription.findMany({
+		const values: PrismaSubscription[] = await prisma.subscription.findMany({
+			include: {
+				plan: true,
+			},
 			where,
 			orderBy,
 		})
@@ -100,11 +115,15 @@ export class SubscriptionPrisma implements ISubscriptionRepository {
 	}
 
 	findById: ISubscriptionRepository['findById'] = async (subscriptionId) => {
-		const subscription = await prisma.subscription.findUnique({
-			where: {
-				subscriptionId,
-			},
-		})
+		const subscription: PrismaSubscription | null =
+			await prisma.subscription.findUnique({
+				include: {
+					plan: true,
+				},
+				where: {
+					subscriptionId,
+				},
+			})
 
 		if (!subscription) {
 			throw new NotFoundException(
@@ -117,8 +136,11 @@ export class SubscriptionPrisma implements ISubscriptionRepository {
 		return this.toSubscriptionDomain(subscription)
 	}
 
-	create: ISubscriptionRepository['create'] = async (input) => {
-		const subscription = await prisma.subscription.create({
+	create: ISubscriptionRepository['create'] = async ({ plan, ...input }) => {
+		const subscription: PrismaSubscription = await prisma.subscription.create({
+			include: {
+				plan: true,
+			},
 			data: input,
 		})
 
@@ -127,9 +149,12 @@ export class SubscriptionPrisma implements ISubscriptionRepository {
 
 	updateById: ISubscriptionRepository['updateById'] = async (
 		subscriptionId,
-		input,
+		{ plan, ...input },
 	) => {
-		const subscription = await prisma.subscription.update({
+		const subscription: PrismaSubscription = await prisma.subscription.update({
+			include: {
+				plan: true,
+			},
 			where: {
 				subscriptionId,
 			},

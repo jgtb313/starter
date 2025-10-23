@@ -2,10 +2,10 @@ import type { Merge } from '@starter/common'
 import type { Pagination, PaginationOutput, Sort } from '@starter/schema'
 
 import type { RoleDomain } from '@/core/role/role.domain'
-import type { BaseRole } from '@/core/role/role.schema'
+import type { Role, RoleInput } from '@/core/role/role.schema'
 
 type FindRoleInput = Partial<
-	Pick<BaseRole, 'workspaceId' | 'name' | 'tags' | 'status'> & {
+	Pick<Role, 'workspaceId' | 'name' | 'tags' | 'status'> & {
 		organizationIds?: string[]
 		permissionIds?: string[]
 	}
@@ -16,7 +16,7 @@ type RoleSort = Sort<
 >
 
 type CreateRoleInput = Pick<
-	BaseRole,
+	RoleInput,
 	'workspaceId' | 'name' | 'tags' | 'status'
 > & {
 	organizationIds: string[]
@@ -24,7 +24,7 @@ type CreateRoleInput = Pick<
 }
 
 type UpdateRoleInput = Partial<
-	Pick<BaseRole, 'name' | 'tags' | 'status'> & {
+	Pick<RoleInput, 'name' | 'tags' | 'status'> & {
 		organizationIds: string[]
 		permissionIds: string[]
 	}

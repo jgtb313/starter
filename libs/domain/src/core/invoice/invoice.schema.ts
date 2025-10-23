@@ -6,12 +6,17 @@ import {
 } from '@starter/schema'
 
 import { BaseSchema } from '@/support/base-schema'
+import { PlanSchema } from '@/core/plan/plan.schema'
 
 const InvoiceId = BaseSchema.id('invoice')
 
 const WorkspaceId = BaseSchema.id('workspace')
 
 const SubscriptionId = BaseSchema.id('subscription')
+
+const PlanId = BaseSchema.id('plan')
+
+const Plan = PlanSchema
 
 const ExternalId = z.string().min(1)
 
@@ -53,6 +58,8 @@ export const InvoiceCardSchema = z
 		invoiceId: InvoiceId,
 		workspaceId: WorkspaceId,
 		subscriptionId: SubscriptionId,
+		planId: PlanId,
+		plan: Plan,
 		externalId: ExternalId,
 		description: Description,
 		amount: Amount,
@@ -77,6 +84,8 @@ export const InvoicePixSchema = z
 		invoiceId: InvoiceId,
 		workspaceId: WorkspaceId,
 		subscriptionId: SubscriptionId,
+		planId: PlanId,
+		plan: Plan,
 		externalId: ExternalId,
 		description: Description,
 		amount: Amount,
@@ -101,6 +110,8 @@ export const InvoiceBoletoSchema = z
 		invoiceId: InvoiceId,
 		workspaceId: WorkspaceId,
 		subscriptionId: SubscriptionId,
+		planId: PlanId,
+		plan: Plan,
 		externalId: ExternalId,
 		description: Description,
 		amount: Amount,
@@ -125,14 +136,23 @@ export const InvoiceSchema = z.discriminatedUnion('paymentMethod', [
 	InvoicePixSchema,
 	InvoiceBoletoSchema,
 ])
+export const InvoiceInputSchema = z.discriminatedUnion('paymentMethod', [
+	InvoiceCardSchema.partial({
+		invoiceId: true,
+	}).omit({
+		plan: true,
+	}),
+	InvoicePixSchema.partial({
+		invoiceId: true,
+	}).omit({
+		plan: true,
+	}),
+	InvoiceBoletoSchema.partial({
+		invoiceId: true,
+	}).omit({
+		plan: true,
+	}),
+])
 
 export type Invoice = z.infer<typeof InvoiceSchema>
-export type InvoiceInput = z.input<typeof InvoiceSchema>
-export type BaseInvoice = BaseSchema<
-	Invoice,
-	{
-		optional: [
-			'invoiceId',
-		]
-	}
->
+export type InvoiceInput = z.infer<typeof InvoiceInputSchema>

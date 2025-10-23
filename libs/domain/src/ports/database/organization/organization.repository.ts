@@ -3,8 +3,8 @@ import type { Pagination, PaginationOutput } from '@starter/schema'
 
 import type { OrganizationDomain } from '@/core/organization/organization.domain'
 import type {
-	BaseOrganization,
 	Organization,
+	OrganizationInput,
 } from '@/core/organization/organization.schema'
 
 type FindOrganizationInput = Partial<Organization>
@@ -21,10 +21,10 @@ export type IOrganizationRepository = {
 	find(input: Partial<Organization>): Promise<OrganizationDomain[]>
 	findById(organizationId: string): Promise<OrganizationDomain>
 	countByWorkspaceId(workspaceId: string): Promise<number>
-	create(input: BaseOrganization): Promise<OrganizationDomain>
+	create(input: OrganizationInput): Promise<OrganizationDomain>
 	updateById(
 		organizationId: string,
-		input: Partial<Organization>,
+		input: Partial<OrganizationInput>,
 	): Promise<OrganizationDomain>
 	deleteById(organizationId: string): Promise<void>
 

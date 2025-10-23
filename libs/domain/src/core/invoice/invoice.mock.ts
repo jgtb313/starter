@@ -16,6 +16,17 @@ export const makeInvoice = (overrides: InvoiceOverrides): InvoiceInput => {
 	const base: InvoiceInput = {
 		workspaceId: uuid(),
 		subscriptionId: uuid(),
+		planId: uuid(),
+		plan: {
+			planId: uuid(),
+			externalId: uuid(),
+			name: 'Basic',
+			description: 'Basic plan',
+			features: [],
+			intervals: [],
+			createdAt: new Date().toISOString(),
+			updatedAt: new Date().toISOString(),
+		},
 		invoiceId: uuid(),
 		externalId: uuid(),
 		description: 'Invoice Subscription – January / 2025',

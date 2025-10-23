@@ -7,6 +7,8 @@ import type {
 	Phone,
 } from '@starter/schema'
 
+import type { UpcomingInvoice } from '@/core/invoice/invoice-upcoming.schema'
+
 export type RecurrenceIntervalEnum = 'DAY' | 'WEEK' | 'MONTH' | 'YEAR'
 
 export type RecurrencePaymentMethodEnum = 'CARD' | 'PIX' | 'BOLETO'
@@ -47,6 +49,14 @@ export type RecurrenceCreateCustomerInput = {
 export type RecurrenceCreateCustomerOutput = {
 	customerId: string
 }
+
+export type RecurrenceGetUpcomingInvoiceInput = {
+	subscriptionId: string
+}
+export type RecurrenceGetUpcomingInvoiceOutput = Pick<
+	UpcomingInvoice,
+	'invoiceId' | 'amount' | 'dueDate' | 'status'
+>
 
 type CardPayment = {
 	paymentMethod: 'CARD'
@@ -129,6 +139,10 @@ export interface IRecurrence {
 		input: RecurrenceCreateCustomerInput,
 	) => Promise<RecurrenceCreateCustomerOutput>
 
+	getUpcomingInvoice: (
+		input: RecurrenceGetUpcomingInvoiceInput,
+	) => Promise<RecurrenceGetUpcomingInvoiceOutput>
+
 	createSubscription: (
 		input: RecurrenceCreateSubscriptionInput,
 	) => Promise<RecurrenceCreateSubscriptionOutput>
@@ -141,6 +155,4 @@ export interface IRecurrence {
 	cancelSubscription: (
 		input: RecurrenceCancelSubscriptionInput,
 	) => Promise<RecurrenceCancelSubscriptionOutput>
-
-	getUpcomingInvoice: (subscriptionId: string) => Promise<{}>
 }

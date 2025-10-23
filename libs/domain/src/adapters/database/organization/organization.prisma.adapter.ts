@@ -8,6 +8,8 @@ import { type Prisma, prisma } from '@/adapters/database/database.prisma.client'
 import type { IOrganizationRepository } from '@/ports/database/organization'
 import { type I18nDomainService, I18nDomainSymbol } from '@/domain.i18n.module'
 
+type PrismaOrganization = Prisma.OrganizationGetPayload<{}>
+
 @Injectable()
 export class OrganizationPrisma implements IOrganizationRepository {
 	constructor(
@@ -48,7 +50,10 @@ export class OrganizationPrisma implements IOrganizationRepository {
 				}
 			: undefined
 
-		const [values, total] = await prisma.$transaction([
+		const [values, total]: [
+			PrismaOrganization[],
+			number,
+		] = await prisma.$transaction([
 			prisma.organization.findMany({
 				where,
 				take,
@@ -92,7 +97,7 @@ export class OrganizationPrisma implements IOrganizationRepository {
 			where.status = status
 		}
 
-		const values = await prisma.organization.findMany({
+		const values: PrismaOrganization[] = await prisma.organization.findMany({
 			where,
 		})
 
@@ -100,11 +105,12 @@ export class OrganizationPrisma implements IOrganizationRepository {
 	}
 
 	findById: IOrganizationRepository['findById'] = async (organizationId) => {
-		const organization = await prisma.organization.findUnique({
-			where: {
-				organizationId,
-			},
-		})
+		const organization: PrismaOrganization | null =
+			await prisma.organization.findUnique({
+				where: {
+					organizationId,
+				},
+			})
 
 		if (!organization) {
 			throw new NotFoundException(
@@ -131,7 +137,7 @@ export class OrganizationPrisma implements IOrganizationRepository {
 		workspaceId,
 		...input
 	}) => {
-		const organization = await prisma.organization.create({
+		const organization: PrismaOrganization = await prisma.organization.create({
 			data: {
 				...input,
 				workspaceId,
@@ -145,9 +151,7 @@ export class OrganizationPrisma implements IOrganizationRepository {
 		organizationId,
 		{ workspaceId, ...input },
 	) => {
-		await this.findById(organizationId)
-
-		const organization = await prisma.organization.update({
+		const organization: PrismaOrganization = await prisma.organization.update({
 			where: {
 				organizationId,
 			},
@@ -191,7 +195,7 @@ export class OrganizationPrisma implements IOrganizationRepository {
 		}
 	}
 
-	private toOrganizationDomain(model: Prisma.OrganizationGetPayload<{}>) {
+	private toOrganizationDomain(model: PrismaOrganization) {
 		return new OrganizationDomain(
 			deepMapDatesToISOString(model),
 			this.i18nService,

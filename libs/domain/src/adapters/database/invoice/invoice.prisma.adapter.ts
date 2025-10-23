@@ -4,9 +4,16 @@ import { Inject, Injectable, NotFoundException } from '@nestjs/common'
 
 import { deepMapDatesToISOString } from '@/support/utilities'
 import { InvoiceDomain } from '@/core/invoice/invoice.domain'
+import { InvoiceInputSchema } from '@/core/invoice/invoice.schema'
 import { type Prisma, prisma } from '@/adapters/database/database.prisma.client'
 import type { IInvoiceRepository } from '@/ports/database/invoice'
 import { type I18nDomainService, I18nDomainSymbol } from '@/domain.i18n.module'
+
+type PrismaInvoice = Prisma.InvoiceGetPayload<{
+	include: {
+		plan: true
+	}
+}>
 
 @Injectable()
 export class InvoicePrisma implements IInvoiceRepository {
@@ -58,8 +65,14 @@ export class InvoicePrisma implements IInvoiceRepository {
 				}
 			: undefined
 
-		const [values, total] = await prisma.$transaction([
+		const [values, total]: [
+			PrismaInvoice[],
+			number,
+		] = await prisma.$transaction([
 			prisma.invoice.findMany({
+				include: {
+					plan: true,
+				},
 				where,
 				orderBy,
 				take,
@@ -110,7 +123,10 @@ export class InvoicePrisma implements IInvoiceRepository {
 			where.status = status
 		}
 
-		const values = await prisma.invoice.findMany({
+		const values: PrismaInvoice[] = await prisma.invoice.findMany({
+			include: {
+				plan: true,
+			},
 			where,
 			orderBy,
 		})
@@ -119,7 +135,10 @@ export class InvoicePrisma implements IInvoiceRepository {
 	}
 
 	findById: IInvoiceRepository['findById'] = async (invoiceId) => {
-		const invoice = await prisma.invoice.findUnique({
+		const invoice: PrismaInvoice | null = await prisma.invoice.findUnique({
+			include: {
+				plan: true,
+			},
 			where: {
 				invoiceId,
 			},
@@ -137,25 +156,61 @@ export class InvoicePrisma implements IInvoiceRepository {
 	}
 
 	create: IInvoiceRepository['create'] = async (input) => {
-		const invoice = await prisma.invoice.create({
-			data: input,
+		const { workspaceId, subscriptionId, planId, ...parsedInput } =
+			InvoiceInputSchema.parse(input)
+
+		const invoice: PrismaInvoice = await prisma.invoice.create({
+			include: {
+				plan: true,
+			},
+			data: {
+				...parsedInput,
+				workspace: {
+					connect: {
+						workspaceId,
+					},
+				},
+				subscription: {
+					connect: {
+						subscriptionId,
+					},
+				},
+				plan: {
+					connect: {
+						planId,
+					},
+				},
+			},
 		})
 
 		return this.toInvoiceDomain(invoice)
 	}
 
 	updateById: IInvoiceRepository['updateById'] = async (invoiceId, input) => {
-		const invoice = await prisma.invoice.update({
+		const { workspaceId, subscriptionId, planId, ...parsedInput } =
+			InvoiceInputSchema.parse(input)
+
+		const invoice: PrismaInvoice = await prisma.invoice.update({
+			include: {
+				plan: true,
+			},
 			where: {
 				invoiceId,
 			},
-			data: input,
+			data: {
+				...parsedInput,
+				workspace: {
+					connect: {
+						workspaceId,
+					},
+				},
+			},
 		})
 
 		return this.toInvoiceDomain(invoice)
 	}
 
-	private toInvoiceDomain(model: Prisma.InvoiceGetPayload<{}>) {
+	private toInvoiceDomain(model: PrismaInvoice) {
 		return new InvoiceDomain(deepMapDatesToISOString(model), this.i18nService)
 	}
 }

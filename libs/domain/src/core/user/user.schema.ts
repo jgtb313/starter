@@ -16,12 +16,12 @@ const WorkspaceId = BaseSchema.id('workspaceId')
 	.nullish()
 	.transform((value) => value ?? null)
 
-const GoogleProviderId = z
+const GoogleProviderExternalId = z
 	.string()
 	.nullish()
 	.transform((value) => value ?? null)
 
-const FacebookProviderId = z
+const FacebookProviderExternalId = z
 	.string()
 	.nullish()
 	.transform((value) => value ?? null)
@@ -66,8 +66,8 @@ export type UserStatus = z.infer<typeof Status>
 export const UserSchema = z.object({
 	userId: BaseSchema.id('user'),
 	workspaceId: WorkspaceId,
-	googleProviderId: GoogleProviderId,
-	facebookProviderId: FacebookProviderId,
+	googleProviderExternalId: GoogleProviderExternalId,
+	facebookProviderExternalId: FacebookProviderExternalId,
 	name: Name,
 	email: Email,
 	phone: Phone,
@@ -83,13 +83,9 @@ export const UserSchema = z.object({
 	updatedAt: BaseSchema.updatedAt,
 })
 
+export const UserInputSchema = UserSchema.partial({
+	userId: true,
+})
+
 export type User = z.infer<typeof UserSchema>
-export type UserInput = z.input<typeof UserSchema>
-export type BaseUser = BaseSchema<
-	User,
-	{
-		optional: [
-			'userId',
-		]
-	}
->
+export type UserInput = z.infer<typeof UserInputSchema>

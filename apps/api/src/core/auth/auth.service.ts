@@ -121,8 +121,8 @@ export class AuthService {
 			)
 
 			const user = await this.userService.createUser({
-				googleProviderId: null,
-				facebookProviderId: null,
+				googleProviderExternalId: null,
+				facebookProviderExternalId: null,
 				addresses: [],
 				name,
 				email: email ?? `${providerId}@${input.context.toLowerCase()}.com`,
@@ -172,8 +172,8 @@ export class AuthService {
 		}
 
 		const user = await this.userService.createUser({
-			googleProviderId: null,
-			facebookProviderId: null,
+			googleProviderExternalId: null,
+			facebookProviderExternalId: null,
 			addresses: [],
 			permissionIds: [
 				'workspace:manage',

@@ -13,6 +13,7 @@ const en = {
 	workspaceAlreadyActive: 'This workspace is already active.',
 	workspaceAlreadyInactive: 'This workspace is already inactive.',
 	workspaceNotFound: 'Workspace {workspaceId:string} not found.',
+	workspaceHasntSubscription: 'Workspace does not have a subscription.',
 
 	// Organization
 	organizationAlreadyActive: 'This organization is already active.',
@@ -80,6 +81,7 @@ const es: Translations = {
 	workspaceAlreadyActive: 'Este workspace ya está activo.',
 	workspaceAlreadyInactive: 'Este workspace ya está inactivo.',
 	workspaceNotFound: 'El workspace {workspaceId:string} no existe.',
+	workspaceHasntSubscription: 'El workspace no tiene una suscripción.',
 
 	// Organization
 	organizationAlreadyActive: 'Esta organización ya está activa.',
@@ -146,6 +148,7 @@ const ptBR: Translations = {
 	workspaceAlreadyActive: 'Este workspace já está ativo.',
 	workspaceAlreadyInactive: 'Este workspace já está inativo.',
 	workspaceNotFound: 'O workspace {workspaceId:string} não existe.',
+	workspaceHasntSubscription: 'O workspace não tem uma assinatura.',
 
 	// Organization
 	organizationAlreadyActive: 'Esta organização já está ativa.',

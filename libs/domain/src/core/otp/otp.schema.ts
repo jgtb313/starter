@@ -79,13 +79,9 @@ export const OTPSchema = z.object({
 	updatedAt: BaseSchema.updatedAt,
 })
 
+export const OTPInputSchema = OTPSchema.partial({
+	otpId: true,
+})
+
 export type OTP = z.infer<typeof OTPSchema>
-export type OTPInput = z.input<typeof OTPSchema>
-export type BaseOTP = BaseSchema<
-	OTP,
-	{
-		optional: [
-			'otpId',
-		]
-	}
->
+export type OTPInput = z.infer<typeof OTPInputSchema>

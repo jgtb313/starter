@@ -8,8 +8,8 @@ export const makeUser = (overrides: UserOverrides): UserInput => {
 	const base: UserInput = {
 		userId: uuid(),
 		workspaceId: uuid(),
-		googleProviderId: null,
-		facebookProviderId: null,
+		googleProviderExternalId: null,
+		facebookProviderExternalId: null,
 		name: 'John Doe',
 		email: 'john.doe@example.com',
 		phone: null,

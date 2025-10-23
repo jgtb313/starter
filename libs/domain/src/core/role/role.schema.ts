@@ -56,15 +56,13 @@ export const RoleSchema = z.object({
 	createdAt: BaseSchema.createdAt,
 	updatedAt: BaseSchema.updatedAt,
 })
+
+export const RoleInputSchema = RoleSchema.partial({
+	roleId: true,
+}).omit({
+	organizations: true,
+	permissions: true,
+})
+
 export type Role = z.infer<typeof RoleSchema>
-export type RoleInput = z.input<typeof RoleSchema>
-export type BaseRole = BaseSchema<
-	Role,
-	{
-		optional: [
-			'roleId',
-			'organizations',
-			'permissions',
-		]
-	}
->
+export type RoleInput = z.infer<typeof RoleInputSchema>

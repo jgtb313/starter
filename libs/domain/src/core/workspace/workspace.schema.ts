@@ -9,10 +9,22 @@ import {
 } from '@starter/schema'
 
 import { BaseSchema } from '@/support/base-schema'
+import { PlanSchema } from '@/core/plan/plan.schema'
+import { SubscriptionSchema } from '@/core/subscription/subscription.schema'
 
 const WorkspaceId = BaseSchema.id('workspace')
 
 const PlanId = BaseSchema.id('plan')
+
+const Plan = PlanSchema
+
+const SubscriptionId = BaseSchema.id('subscription')
+	.nullish()
+	.transform((value) => value ?? null)
+
+const Subscription = SubscriptionSchema.nullish().transform(
+	(value) => value ?? null,
+)
 
 const RecurrenceExternalId = z
 	.string()
@@ -85,6 +97,9 @@ export type WorkspaceStatus = z.infer<typeof Status>
 export const WorkspaceSchema = z.object({
 	workspaceId: WorkspaceId,
 	planId: PlanId,
+	plan: Plan,
+	subscriptionId: SubscriptionId,
+	subscription: Subscription,
 	recurrenceExternalId: RecurrenceExternalId,
 	name: Name,
 	email: Email,
@@ -99,14 +114,13 @@ export const WorkspaceSchema = z.object({
 	createdAt: BaseSchema.createdAt,
 	updatedAt: BaseSchema.updatedAt,
 })
+
+export const WorkspaceInputSchema = WorkspaceSchema.partial({
+	workspaceId: true,
+}).omit({
+	plan: true,
+	subscription: true,
+})
+
 export type Workspace = z.infer<typeof WorkspaceSchema>
-export type WorkspaceInput = z.input<typeof WorkspaceSchema>
-export type BaseWorkspace = BaseSchema<
-	Workspace,
-	{
-		optional: [
-			'workspaceId',
-			'planId',
-		]
-	}
->
+export type WorkspaceInput = z.infer<typeof WorkspaceInputSchema>

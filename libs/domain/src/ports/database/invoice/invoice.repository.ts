@@ -2,7 +2,7 @@ import type { Merge } from '@starter/common'
 import type { Pagination, PaginationOutput, Sort } from '@starter/schema'
 
 import type { InvoiceDomain } from '@/core/invoice/invoice.domain'
-import type { BaseInvoice, Invoice } from '@/core/invoice/invoice.schema'
+import type { Invoice, InvoiceInput } from '@/core/invoice/invoice.schema'
 
 type FindInvoiceInput = Partial<Pick<Invoice, 'description' | 'status'>>
 
@@ -27,6 +27,9 @@ export type IInvoiceRepository = {
 		>,
 	): Promise<InvoiceDomain[]>
 	findById(invoiceId: string): Promise<InvoiceDomain>
-	create(input: BaseInvoice): Promise<InvoiceDomain>
-	updateById(invoiceId: string, input: Partial<Invoice>): Promise<InvoiceDomain>
+	create(input: InvoiceInput): Promise<InvoiceDomain>
+	updateById(
+		invoiceId: string,
+		input: Partial<InvoiceInput>,
+	): Promise<InvoiceDomain>
 }

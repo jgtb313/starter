@@ -76,6 +76,7 @@ CREATE TABLE "user_permission" (
 CREATE TABLE "workspace" (
     "workspace_id" TEXT NOT NULL,
     "plan_id" TEXT NOT NULL,
+    "subscription_id" TEXT,
     "recurrence_external_id" TEXT,
     "name" TEXT NOT NULL,
     "email" TEXT,
@@ -244,6 +245,7 @@ CREATE TABLE "invoice" (
     "invoice_id" TEXT NOT NULL,
     "workspace_id" TEXT NOT NULL,
     "subscription_id" TEXT NOT NULL,
+    "plan_id" TEXT NOT NULL,
     "external_id" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "payment_method" TEXT NOT NULL,
@@ -341,6 +343,9 @@ ALTER TABLE "invoice" ADD CONSTRAINT "invoice_workspace_id_fkey" FOREIGN KEY ("w
 
 -- AddForeignKey
 ALTER TABLE "invoice" ADD CONSTRAINT "invoice_subscription_id_fkey" FOREIGN KEY ("subscription_id") REFERENCES "subscription"("subscription_id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "invoice" ADD CONSTRAINT "invoice_plan_id_fkey" FOREIGN KEY ("plan_id") REFERENCES "plan"("plan_id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "otp" ADD CONSTRAINT "otp_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("user_id") ON DELETE SET NULL ON UPDATE CASCADE;
