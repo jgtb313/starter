@@ -34,8 +34,6 @@ export class AuthGuard implements CanActivate {
 
 		const [accessToken] = authorization.split(' ').reverse()
 
-		console.log(accessToken)
-
 		if (!accessToken) {
 			throw new UnauthorizedException('Unauthorized.')
 		}
@@ -49,8 +47,6 @@ export class AuthGuard implements CanActivate {
 				userId: string
 			}>(accessToken, secret)
 
-			console.log(decoded)
-
 			if (!decoded) {
 				throw new UnauthorizedException('Unauthorized.')
 			}
@@ -60,7 +56,6 @@ export class AuthGuard implements CanActivate {
 			request.user = profile
 			return true
 		} catch (error) {
-			console.log(error)
 			this.loggerService.error('Error decoding access token.', {
 				error,
 			})

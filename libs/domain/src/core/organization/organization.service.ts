@@ -63,11 +63,6 @@ export class OrganizationService {
 		const organizationCount =
 			await this.organizationRepository.countByWorkspaceId(workspaceId)
 
-		console.log({
-			workspaceId,
-			organizationCount,
-		})
-
 		plan.checkIfCanCreateOrganization(organizationCount)
 
 		return await this.organizationRepository.create({

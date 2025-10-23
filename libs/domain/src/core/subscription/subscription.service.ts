@@ -99,8 +99,8 @@ export class SubscriptionService {
 			...input,
 		})
 
-		const nextBillingDate = new Date()
-		const deadline = new Date()
+		const nextBillingDate = new Date().toISOString()
+		const deadline = new Date().toISOString()
 
 		const subscription = await this.subscriptionRepository.create({
 			...recurrenceSubscription,
@@ -113,9 +113,6 @@ export class SubscriptionService {
 			nextBillingDate,
 			deadline,
 			status: 'TRIAL',
-			canceledAt: null,
-			createdAt: new Date().toISOString(),
-			updatedAt: new Date().toISOString(),
 		})
 
 		await this.workspaceService.updateWorkspace(
@@ -143,7 +140,7 @@ export class SubscriptionService {
 
 		const updatedSubscription = await this.subscriptionRepository.updateById(
 			subscription.state.subscriptionId,
-			subscription.state,
+			{},
 		)
 
 		return updatedSubscription
@@ -165,7 +162,7 @@ export class SubscriptionService {
 
 		const updatedSubscription = await this.subscriptionRepository.updateById(
 			subscription.state.subscriptionId,
-			subscription.state,
+			{},
 		)
 
 		return updatedSubscription
@@ -182,7 +179,7 @@ export class SubscriptionService {
 
 		const updatedSubscription = await this.subscriptionRepository.updateById(
 			subscription.state.subscriptionId,
-			subscription.state,
+			{},
 		)
 
 		return updatedSubscription

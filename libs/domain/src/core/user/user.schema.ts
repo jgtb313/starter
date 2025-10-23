@@ -86,7 +86,11 @@ export const UserSchema = z.object({
 
 export const UserInputSchema = UserSchema.partial({
 	userId: true,
-})
+}).and(
+	z.object({
+		permissionIds: z.array(z.string()).default([]),
+	}),
+)
 
 export type User = z.infer<typeof UserSchema>
 export type UserInput = BaseDomainInput<z.infer<typeof UserInputSchema>>

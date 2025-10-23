@@ -124,6 +124,7 @@ export class AuthService {
 				googleProviderExternalId: null,
 				facebookProviderExternalId: null,
 				addresses: [],
+				permissionIds: [],
 				name,
 				email: email ?? `${providerId}@${input.context.toLowerCase()}.com`,
 				avatar,

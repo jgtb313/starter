@@ -39,7 +39,7 @@ export class WorkspaceService {
 		return this.workspaceRepository.findById(workspaceId)
 	}
 
-	async createWorkspace(userId: string, input: WorkspaceInput) {
+	async createWorkspace(userId: string, input: Omit<WorkspaceInput, 'planId'>) {
 		this.loggerService.info('Attempting to create workspace', {
 			userId,
 			input,

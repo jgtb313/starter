@@ -129,6 +129,7 @@ export class UserController {
 			...params,
 			...body,
 			addresses: [],
+			permissionIds: [],
 			status: 'ACTIVE',
 		})
 	}

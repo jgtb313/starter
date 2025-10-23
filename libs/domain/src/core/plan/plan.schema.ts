@@ -43,7 +43,7 @@ const PlanIntervalSchema = z.object({
 		'MONTH',
 		'YEAR',
 	]),
-	intervalCount: z.number().default(1),
+	intervalCount: z.number(),
 	trialDays: z.number().default(7),
 	status: z
 		.enum([

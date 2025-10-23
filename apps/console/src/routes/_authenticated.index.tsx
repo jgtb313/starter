@@ -11,13 +11,6 @@ export const Route = createFileRoute('/_authenticated/')({
 function RouteComponent() {
 	const i18n = useI18n()
 
-	console.log({
-		PixSchema,
-		z,
-		uuid,
-		deepReplace,
-	})
-
 	return (
 		<div>
 			Index! Current locale: {i18n.locale}

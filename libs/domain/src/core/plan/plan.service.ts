@@ -43,7 +43,12 @@ export class PlanService {
 		return this.planRepository.findDefault()
 	}
 
-	createPlan = async ({ status = 'INACTIVE', ...input }: PlanInput) => {
+	createPlan = async ({
+		intervals = [],
+		features = [],
+		status = 'INACTIVE',
+		...input
+	}: PlanInput) => {
 		this.loggerService.info('Attempting to create plan', {
 			input,
 		})
@@ -53,9 +58,9 @@ export class PlanService {
 		const recurrencePlan = await this.recurrenceService.createPlan({
 			...input,
 			referenceId: planId,
-			amount: input.intervals[0].amount,
-			interval: input.intervals[0].interval,
-			intervalCount: input.intervals[0].intervalCount,
+			amount: intervals[0].amount,
+			interval: intervals[0].interval,
+			intervalCount: intervals[0].intervalCount,
 		})
 
 		this.loggerService.info('Plan created in Recurrence', {

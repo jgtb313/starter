@@ -16,7 +16,7 @@ import { type I18nDomainService, I18nDomainSymbol } from '@/domain.i18n.module'
 @Injectable()
 export class OTPDomain extends BaseDomain<OTP> {
 	constructor(
-		input: OTPInput,
+		input: OTP,
 		@Inject(I18nDomainSymbol)
 		private readonly i18nService: I18nDomainService,
 	) {
