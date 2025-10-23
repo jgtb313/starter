@@ -1,5 +1,6 @@
 import { z } from '@starter/schema'
 
+import type { BaseDomainInput } from '@/support/base-domain'
 import { BaseSchema } from '@/support/base-schema'
 
 const PlanId = BaseSchema.id('plan')
@@ -89,4 +90,4 @@ export const PlanInputSchema = PlanSchema.partial({
 })
 
 export type Plan = z.infer<typeof PlanSchema>
-export type PlanInput = z.infer<typeof PlanInputSchema>
+export type PlanInput = BaseDomainInput<z.input<typeof PlanInputSchema>>

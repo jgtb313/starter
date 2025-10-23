@@ -10,6 +10,7 @@ import {
 	z,
 } from '@starter/schema'
 
+import type { BaseDomainInput } from '@/support/base-domain'
 import { BaseSchema } from '@/support/base-schema'
 
 const WorkspaceId = BaseSchema.id('workspaceId')
@@ -88,4 +89,4 @@ export const UserInputSchema = UserSchema.partial({
 })
 
 export type User = z.infer<typeof UserSchema>
-export type UserInput = z.infer<typeof UserInputSchema>
+export type UserInput = BaseDomainInput<z.infer<typeof UserInputSchema>>

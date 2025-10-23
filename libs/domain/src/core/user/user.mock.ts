@@ -1,11 +1,11 @@
 import { uuid } from '@starter/common'
 
-import type { UserInput } from '@/core/user/user.schema'
+import type { User } from '@/core/user/user.schema'
 
-type UserOverrides = Partial<UserInput>
+type UserOverrides = Partial<User>
 
-export const makeUser = (overrides: UserOverrides): UserInput => {
-	const base: UserInput = {
+export const makeUser = (overrides: UserOverrides): User => {
+	const base: User = {
 		userId: uuid(),
 		workspaceId: uuid(),
 		googleProviderExternalId: null,
@@ -31,4 +31,4 @@ export const makeUser = (overrides: UserOverrides): UserInput => {
 	}
 }
 
-export const userMocks: UserInput[] = []
+export const userMocks: User[] = []

@@ -1,16 +1,13 @@
 import { uuid } from '@starter/common'
 
-import type {
-	Organization,
-	OrganizationInput,
-} from '@/core/organization/organization.schema'
+import type { Organization } from '@/core/organization/organization.schema'
 
-type OrganizationOverrides = Partial<OrganizationInput>
+type OrganizationOverrides = Partial<Organization>
 
 export const makeOrganization = (
 	overrides: OrganizationOverrides,
-): OrganizationInput => {
-	const base: OrganizationInput = {
+): Organization => {
+	const base: Organization = {
 		organizationId: uuid(),
 		workspaceId: uuid(),
 		name: 'Delta Inc',

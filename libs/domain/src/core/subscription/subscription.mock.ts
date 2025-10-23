@@ -4,7 +4,6 @@ import type {
 	Subscription,
 	SubscriptionBoleto,
 	SubscriptionCard,
-	SubscriptionInput,
 	SubscriptionPix,
 } from '@/core/subscription/subscription.schema'
 
@@ -15,8 +14,8 @@ type SubscriptionOverrides =
 
 export const makeSubscription = (
 	overrides: SubscriptionOverrides,
-): SubscriptionInput => {
-	const base: SubscriptionInput = {
+): Subscription => {
+	const base: Subscription = {
 		subscriptionId: uuid(),
 		workspaceId: uuid(),
 		planId: uuid(),
@@ -27,6 +26,9 @@ export const makeSubscription = (
 			description: 'Basic plan',
 			features: [],
 			intervals: [],
+			highlight: false,
+			default: false,
+			status: 'ACTIVE',
 			createdAt: new Date().toISOString(),
 			updatedAt: new Date().toISOString(),
 		},
@@ -61,12 +63,8 @@ export const makeSubscription = (
 				landmark: null,
 			},
 		},
-		nextBillingDate: new Date(
-			new Date().setMonth(new Date().getMonth() + 1),
-		).toISOString(),
-		deadline: new Date(
-			new Date().setDate(new Date().getDate() + 5),
-		).toISOString(),
+		nextBillingDate: new Date(new Date().setMonth(new Date().getMonth() + 1)),
+		deadline: new Date(new Date().setDate(new Date().getDate() + 5)),
 		canceledAt: null,
 		status: 'TRIAL',
 		createdAt: new Date().toISOString(),
@@ -76,7 +74,7 @@ export const makeSubscription = (
 	return {
 		...base,
 		...overrides,
-	} as SubscriptionInput
+	} as Subscription
 }
 
 export const subscriptionMocks: Subscription[] = []

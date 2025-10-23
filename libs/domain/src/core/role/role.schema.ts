@@ -1,5 +1,6 @@
 import { z } from '@starter/schema'
 
+import type { BaseDomainInput } from '@/support/base-domain'
 import { BaseSchema } from '@/support/base-schema'
 import { OrganizationSchema } from '@/core/organization/organization.schema'
 import { PermissionSchema } from '@/core/permission/permission.schema'
@@ -65,4 +66,4 @@ export const RoleInputSchema = RoleSchema.partial({
 })
 
 export type Role = z.infer<typeof RoleSchema>
-export type RoleInput = z.infer<typeof RoleInputSchema>
+export type RoleInput = BaseDomainInput<z.input<typeof RoleInputSchema>>

@@ -5,6 +5,7 @@ import {
 	z,
 } from '@starter/schema'
 
+import type { BaseDomainInput } from '@/support/base-domain'
 import { BaseSchema } from '@/support/base-schema'
 import { PlanSchema } from '@/core/plan/plan.schema'
 
@@ -155,4 +156,4 @@ export const InvoiceInputSchema = z.discriminatedUnion('paymentMethod', [
 ])
 
 export type Invoice = z.infer<typeof InvoiceSchema>
-export type InvoiceInput = z.infer<typeof InvoiceInputSchema>
+export type InvoiceInput = BaseDomainInput<z.input<typeof InvoiceInputSchema>>

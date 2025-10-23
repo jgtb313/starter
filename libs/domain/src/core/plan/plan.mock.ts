@@ -1,13 +1,13 @@
 import { uuid } from '@starter/common'
 
-import type { Plan, PlanInput } from '@/core/plan/plan.schema'
+import type { Plan } from '@/core/plan/plan.schema'
 
-type PlanOverrides = Partial<PlanInput>
+type PlanOverrides = Partial<Plan>
 
-export const makePlan = (overrides: PlanOverrides = {}): PlanInput => {
+export const makePlan = (overrides: PlanOverrides = {}): Plan => {
 	const now = new Date()
 
-	const base: PlanInput = {
+	const base: Plan = {
 		planId: uuid(),
 		externalId: uuid(),
 		name: 'name',
@@ -15,6 +15,7 @@ export const makePlan = (overrides: PlanOverrides = {}): PlanInput => {
 		features: [],
 		intervals: [],
 		highlight: false,
+		default: false,
 		status: 'ACTIVE',
 		deletedAt: null,
 		createdAt: now.toISOString(),

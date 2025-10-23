@@ -135,12 +135,23 @@ export class OrganizationPrisma implements IOrganizationRepository {
 
 	create: IOrganizationRepository['create'] = async ({
 		workspaceId,
+		phone,
+		document,
 		...input
 	}) => {
 		const organization: PrismaOrganization = await prisma.organization.create({
 			data: {
 				...input,
-				workspaceId,
+				workspace: {
+					connect: {
+						workspaceId,
+					},
+				},
+				phoneISO: phone?.iso,
+				phoneDDI: phone?.ddi,
+				phoneNumber: phone?.number,
+				documentType: document?.type,
+				documentNumber: document?.number,
 			},
 		})
 
@@ -149,7 +160,7 @@ export class OrganizationPrisma implements IOrganizationRepository {
 
 	updateById: IOrganizationRepository['updateById'] = async (
 		organizationId,
-		{ workspaceId, ...input },
+		{ workspaceId, phone, document, ...input },
 	) => {
 		const organization: PrismaOrganization = await prisma.organization.update({
 			where: {
@@ -157,7 +168,18 @@ export class OrganizationPrisma implements IOrganizationRepository {
 			},
 			data: {
 				...input,
-				workspaceId,
+				workspace: workspaceId
+					? {
+							connect: {
+								workspaceId,
+							},
+						}
+					: undefined,
+				phoneISO: phone?.iso,
+				phoneDDI: phone?.ddi,
+				phoneNumber: phone?.number,
+				documentType: document?.type,
+				documentNumber: document?.number,
 			},
 		})
 
@@ -195,9 +217,36 @@ export class OrganizationPrisma implements IOrganizationRepository {
 		}
 	}
 
-	private toOrganizationDomain(model: PrismaOrganization) {
+	private toOrganizationDomain({
+		phoneISO,
+		phoneDDI,
+		phoneNumber,
+		documentType,
+		documentNumber,
+		...model
+	}: PrismaOrganization) {
+		const phone =
+			phoneISO && phoneDDI && phoneNumber
+				? {
+						iso: phoneISO,
+						ddi: phoneDDI,
+						number: phoneNumber,
+					}
+				: undefined
+		const document =
+			documentType && documentNumber
+				? {
+						type: documentType,
+						number: documentNumber,
+					}
+				: undefined
+
 		return new OrganizationDomain(
-			deepMapDatesToISOString(model),
+			deepMapDatesToISOString({
+				...model,
+				phone,
+				document,
+			}),
 			this.i18nService,
 		)
 	}

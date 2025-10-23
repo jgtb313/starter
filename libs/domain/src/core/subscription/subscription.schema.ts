@@ -7,6 +7,7 @@ import {
 	z,
 } from '@starter/schema'
 
+import type { BaseDomainInput } from '@/support/base-domain'
 import { BaseSchema } from '@/support/base-schema'
 import { PlanSchema } from '@/core/plan/plan.schema'
 
@@ -136,4 +137,6 @@ export const SubscriptionInputSchema = z.discriminatedUnion('paymentMethod', [
 ])
 
 export type Subscription = z.infer<typeof SubscriptionSchema>
-export type SubscriptionInput = z.infer<typeof SubscriptionInputSchema>
+export type SubscriptionInput = BaseDomainInput<
+	z.input<typeof SubscriptionInputSchema>
+>

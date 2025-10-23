@@ -1,5 +1,6 @@
 import { z } from '@starter/schema'
 
+import type { BaseDomainInput } from '@/support/base-domain'
 import { BaseSchema } from '@/support/base-schema'
 import { OTPContextSchema } from '@/core/otp/otp-context.schema'
 
@@ -84,4 +85,4 @@ export const OTPInputSchema = OTPSchema.partial({
 })
 
 export type OTP = z.infer<typeof OTPSchema>
-export type OTPInput = z.infer<typeof OTPInputSchema>
+export type OTPInput = BaseDomainInput<z.input<typeof OTPInputSchema>>

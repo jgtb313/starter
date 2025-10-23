@@ -204,6 +204,16 @@ export class InvoicePrisma implements IInvoiceRepository {
 						workspaceId,
 					},
 				},
+				subscription: {
+					connect: {
+						subscriptionId,
+					},
+				},
+				plan: {
+					connect: {
+						planId,
+					},
+				},
 			},
 		})
 

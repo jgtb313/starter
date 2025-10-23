@@ -8,6 +8,7 @@ import {
 	z,
 } from '@starter/schema'
 
+import type { BaseDomainInput } from '@/support/base-domain'
 import { BaseSchema } from '@/support/base-schema'
 import { PlanSchema } from '@/core/plan/plan.schema'
 import { SubscriptionSchema } from '@/core/subscription/subscription.schema'
@@ -123,4 +124,6 @@ export const WorkspaceInputSchema = WorkspaceSchema.partial({
 })
 
 export type Workspace = z.infer<typeof WorkspaceSchema>
-export type WorkspaceInput = z.infer<typeof WorkspaceInputSchema>
+export type WorkspaceInput = BaseDomainInput<
+	z.infer<typeof WorkspaceInputSchema>
+>

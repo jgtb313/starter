@@ -1,13 +1,13 @@
 import { addSeconds, uuid } from '@starter/common'
 
-import type { OTPInput } from '@/core/otp/otp.schema'
+import type { OTP } from '@/core/otp/otp.schema'
 
-type OTPOverrides = Partial<OTPInput>
+type OTPOverrides = Partial<OTP>
 
-export const makeOTP = (overrides: OTPOverrides): OTPInput => {
+export const makeOTP = (overrides: OTPOverrides): OTP => {
 	const now = new Date()
 
-	const base: OTPInput = {
+	const base: OTP = {
 		otpId: uuid(),
 		userId: uuid(),
 		channel: 'EMAIL',
@@ -18,7 +18,7 @@ export const makeOTP = (overrides: OTPOverrides): OTPInput => {
 		maxValidationAttempts: 3,
 		maxRequestsPerDay: 5,
 		resendCooldownSeconds: 30,
-		expiresAt: addSeconds(now, 300).toISOString(),
+		expiresAt: addSeconds(now, 300),
 		createdAt: now.toISOString(),
 		updatedAt: now.toISOString(),
 	}
@@ -29,4 +29,4 @@ export const makeOTP = (overrides: OTPOverrides): OTPInput => {
 	}
 }
 
-export const otpMocks: OTPInput[] = []
+export const otpMocks: OTP[] = []

@@ -5,6 +5,7 @@ import {
 	z,
 } from '@starter/schema'
 
+import type { BaseDomainInput } from '@/support/base-domain'
 import { BaseSchema } from '@/support/base-schema'
 
 const OrganizationId = BaseSchema.id('organization')
@@ -31,12 +32,10 @@ const Domain = z
 	.nullish()
 	.transform((value) => value ?? null)
 
-const Status = z
-	.enum([
-		'ACTIVE',
-		'INACTIVE',
-	])
-	.default('ACTIVE')
+const Status = z.enum([
+	'ACTIVE',
+	'INACTIVE',
+])
 
 export const OrganizationSchema = z.object({
 	organizationId: OrganizationId,
@@ -58,4 +57,6 @@ export const OrganizationInputSchema = OrganizationSchema.partial({
 })
 
 export type Organization = z.infer<typeof OrganizationSchema>
-export type OrganizationInput = z.infer<typeof OrganizationInputSchema>
+export type OrganizationInput = BaseDomainInput<
+	z.input<typeof OrganizationInputSchema>
+>

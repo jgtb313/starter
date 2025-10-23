@@ -1,9 +1,9 @@
 import { uuid } from '@starter/common'
 
 import type {
+	Invoice,
 	InvoiceBoleto,
 	InvoiceCard,
-	InvoiceInput,
 	InvoicePix,
 } from '@/core/invoice/invoice.schema'
 
@@ -12,8 +12,8 @@ type InvoiceOverrides =
 	| Partial<InvoicePix>
 	| Partial<InvoiceBoleto>
 
-export const makeInvoice = (overrides: InvoiceOverrides): InvoiceInput => {
-	const base: InvoiceInput = {
+export const makeInvoice = (overrides: InvoiceOverrides): Invoice => {
+	const base = {
 		workspaceId: uuid(),
 		subscriptionId: uuid(),
 		planId: uuid(),
@@ -38,8 +38,8 @@ export const makeInvoice = (overrides: InvoiceOverrides): InvoiceInput => {
 			expirationDate: '12/27',
 		},
 		amount: 10000,
-		dueDate: new Date().toISOString(),
-		issuedAt: new Date().toISOString(),
+		dueDate: new Date(),
+		issuedAt: new Date(),
 		paidAt: null,
 		overdueAt: null,
 		canceledAt: null,
@@ -51,5 +51,7 @@ export const makeInvoice = (overrides: InvoiceOverrides): InvoiceInput => {
 	return {
 		...base,
 		...overrides,
-	} as InvoiceInput
+	} as Invoice
 }
+
+export const invoiceMocks: Invoice[] = []
