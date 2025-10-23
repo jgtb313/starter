@@ -10,7 +10,7 @@ import {
 } from '@/support/workspace-reference'
 import { OrganizationService } from '@/core/organization/organization.service'
 import { PermissionService } from '@/core/permission/permission.service'
-import type { BaseRole } from '@/core/role/role.schema'
+import type { RoleInput } from '@/core/role/role.schema'
 import type { IRoleRepository } from '@/ports/database/role'
 
 export type RoleWorkspaceReference = WithWorkspaceReference<'roleId'>
@@ -52,7 +52,7 @@ export class RoleService {
 		organizationIds,
 		permissionIds,
 		...input
-	}: BaseRole) => {
+	}: RoleInput) => {
 		await this.organizationService.validateOrganizationIds(organizationIds)
 
 		await this.permissionService.validatePermissionIds(permissionIds)
@@ -69,7 +69,7 @@ export class RoleService {
 
 	updateRole = async (
 		reference: RoleWorkspaceReference,
-		{ organizationIds, permissionIds, ...input }: any,
+		{ organizationIds, permissionIds, ...input }: Partial<RoleInput>,
 	) => {
 		const role = await this.getRole(reference)
 

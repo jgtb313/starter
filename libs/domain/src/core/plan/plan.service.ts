@@ -3,7 +3,7 @@ import type { Pagination } from '@starter/schema'
 
 import { Inject, Injectable } from '@nestjs/common'
 
-import type { BasePlan, Plan } from '@/core/plan/plan.schema'
+import type { PlanInput } from '@/core/plan/plan.schema'
 import { LoggerService } from '@/adapters/logger'
 import { RecurrenceService } from '@/adapters/recurrence'
 import type {
@@ -43,7 +43,7 @@ export class PlanService {
 		return this.planRepository.findDefault()
 	}
 
-	createPlan = async ({ status = 'INACTIVE', ...input }: BasePlan) => {
+	createPlan = async ({ status = 'INACTIVE', ...input }: PlanInput) => {
 		this.loggerService.info('Attempting to create plan', {
 			input,
 		})
@@ -76,7 +76,7 @@ export class PlanService {
 		return plan
 	}
 
-	updatePlan = async (planId: string, input: Partial<Plan>) => {
+	updatePlan = async (planId: string, input: Partial<PlanInput>) => {
 		this.loggerService.info('Attempting to update plan', {
 			planId,
 			input,
