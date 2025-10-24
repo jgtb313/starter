@@ -172,7 +172,7 @@ export class WorkspacePrisma implements IWorkspaceRepository {
 	}
 
 	create: IWorkspaceRepository['create'] = async (input) => {
-		const { planId, address, locale, ...data } =
+		const { planId, phone, document, address, locale, ...data } =
 			WorkspaceInputSchema.parse(input)
 
 		const workspace: PrismaWorkspace = await prisma.workspace.create({
@@ -201,6 +201,11 @@ export class WorkspacePrisma implements IWorkspaceRepository {
 							},
 						}
 					: undefined,
+				phoneISO: phone?.iso,
+				phoneDDI: phone?.ddi,
+				phoneNumber: phone?.number,
+				documentType: document?.type,
+				documentNumber: document?.number,
 			},
 		})
 

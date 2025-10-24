@@ -1,6 +1,6 @@
 import { PaymentCardTokenSchema, z } from '@starter/schema'
 import {
-	ID,
+	BaseSchema,
 	SubscriptionBoletoSchema,
 	SubscriptionCardSchema,
 	SubscriptionPixSchema,
@@ -13,8 +13,8 @@ import {
 
 export const GetSubscriptionSchema = createRequestSchema({
 	params: z.object({
-		workspaceId: ID('workspace'),
-		subscriptionId: ID('subscription'),
+		workspaceId: BaseSchema.id('workspace'),
+		subscriptionId: BaseSchema.id('subscription'),
 	}),
 	output: SubscriptionSchema,
 })
@@ -22,7 +22,7 @@ export type GetSubscriptionRequest = RequestInput<typeof GetSubscriptionSchema>
 
 export const CreateSubscriptionSchema = createRequestSchema({
 	params: z.object({
-		workspaceId: ID('workspace'),
+		workspaceId: BaseSchema.id('workspace'),
 	}),
 	body: z.discriminatedUnion('paymentMethod', [
 		SubscriptionCardSchema.pick({
@@ -59,11 +59,11 @@ export type CreateSubscriptionRequest = RequestInput<
 
 export const ChangeSubscriptionPlanSchema = createRequestSchema({
 	params: z.object({
-		workspaceId: ID('workspace'),
-		subscriptionId: ID('subscription'),
+		workspaceId: BaseSchema.id('workspace'),
+		subscriptionId: BaseSchema.id('subscription'),
 	}),
 	body: z.object({
-		planId: ID('plan'),
+		planId: BaseSchema.id('plan'),
 	}),
 	output: SubscriptionSchema,
 })
@@ -73,8 +73,8 @@ export type ChangeSubscriptionPlanRequest = RequestInput<
 
 export const ChangeSubscriptionPaymentMethodSchema = createRequestSchema({
 	params: z.object({
-		workspaceId: ID('workspace'),
-		subscriptionId: ID('subscription'),
+		workspaceId: BaseSchema.id('workspace'),
+		subscriptionId: BaseSchema.id('subscription'),
 	}),
 	body: z.discriminatedUnion('paymentMethod', [
 		SubscriptionCardSchema.pick({
@@ -105,8 +105,8 @@ export type ChangeSubscriptionPaymentMethodRequest = RequestInput<
 
 export const CancelSubscriptionSchema = createRequestSchema({
 	params: z.object({
-		workspaceId: ID('workspace'),
-		subscriptionId: ID('subscription'),
+		workspaceId: BaseSchema.id('workspace'),
+		subscriptionId: BaseSchema.id('subscription'),
 	}),
 })
 export type CancelSubscriptionRequest = RequestInput<

@@ -259,7 +259,7 @@ export class UserPrisma implements IUserRepository {
 	}
 
 	create: IUserRepository['create'] = async (input) => {
-		const { addresses, permissionIds, workspaceId, ...data } =
+		const { addresses, permissionIds, workspaceId, phone, document, ...data } =
 			UserInputSchema.parse(input)
 
 		const user = await prisma.user.create({
@@ -291,6 +291,11 @@ export class UserPrisma implements IUserRepository {
 						})),
 					},
 				},
+				phoneISO: phone?.iso,
+				phoneDDI: phone?.ddi,
+				phoneNumber: phone?.number,
+				documentType: document?.type,
+				documentNumber: document?.number,
 			},
 		})
 
@@ -298,7 +303,7 @@ export class UserPrisma implements IUserRepository {
 	}
 
 	updateById: IUserRepository['updateById'] = async (userId, input) => {
-		const { addresses, permissionIds, workspaceId, ...data } =
+		const { addresses, permissionIds, workspaceId, phone, document, ...data } =
 			UserInputSchema.parse(input)
 
 		const user: PrismaUser = await prisma.user.update({
@@ -335,6 +340,11 @@ export class UserPrisma implements IUserRepository {
 						})),
 					},
 				},
+				phoneISO: phone?.iso,
+				phoneDDI: phone?.ddi,
+				phoneNumber: phone?.number,
+				documentType: document?.type,
+				documentNumber: document?.number,
 			},
 		})
 
