@@ -3,6 +3,7 @@ import type { Pagination, PaginationOutput, Sort } from '@starter/schema'
 
 import type { WorkspaceDomain } from '@/core/workspace/workspace.domain'
 import type {
+	UpdatableWorkspaceInput,
 	Workspace,
 	WorkspaceInput,
 } from '@/core/workspace/workspace.schema'
@@ -28,7 +29,7 @@ export type IWorkspaceRepository = {
 	create(input: WorkspaceInput): Promise<WorkspaceDomain>
 	updateById(
 		workspaceId: string,
-		input: Partial<WorkspaceInput>,
+		input: UpdatableWorkspaceInput,
 	): Promise<WorkspaceDomain>
 	deleteById(workspaceId: string): Promise<void>
 

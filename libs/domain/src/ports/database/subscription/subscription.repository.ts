@@ -5,6 +5,7 @@ import type { SubscriptionDomain } from '@/core/subscription/subscription.domain
 import type {
 	Subscription,
 	SubscriptionInput,
+	UpdatableSubscriptionInput,
 } from '@/core/subscription/subscription.schema'
 
 type FindSubscriptionInput = Partial<
@@ -43,6 +44,6 @@ export type ISubscriptionRepository = {
 	create(input: SubscriptionInput): Promise<SubscriptionDomain>
 	updateById(
 		roleId: string,
-		input: Partial<SubscriptionInput>,
+		input: UpdatableSubscriptionInput,
 	): Promise<SubscriptionDomain>
 }

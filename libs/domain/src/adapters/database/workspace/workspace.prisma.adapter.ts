@@ -4,7 +4,10 @@ import { Inject, Injectable, NotFoundException } from '@nestjs/common'
 
 import { deepMapDatesToISOString } from '@/support/utilities'
 import { WorkspaceDomain } from '@/core/workspace/workspace.domain'
-import { WorkspaceInputSchema } from '@/core/workspace/workspace.schema'
+import {
+	UpdatableWorkspaceInputSchema,
+	WorkspaceInputSchema,
+} from '@/core/workspace/workspace.schema'
 import { type Prisma, prisma } from '@/adapters/database/database.prisma.client'
 import type { IWorkspaceRepository } from '@/ports/database/workspace'
 import { type I18nDomainService, I18nDomainSymbol } from '@/domain.i18n.module'
@@ -216,8 +219,8 @@ export class WorkspacePrisma implements IWorkspaceRepository {
 		workspaceId,
 		input,
 	) => {
-		const { planId, subscriptionId, address, locale, ...data } =
-			WorkspaceInputSchema.parse(input)
+		const { phone, document, locale, ...data } =
+			UpdatableWorkspaceInputSchema.parse(input)
 
 		const workspace: PrismaWorkspace = await prisma.workspace.update({
 			include: {
@@ -234,22 +237,11 @@ export class WorkspacePrisma implements IWorkspaceRepository {
 			},
 			data: {
 				...data,
-				plan: planId
-					? {
-							connect: {
-								planId,
-							},
-						}
-					: undefined,
-				address: address
-					? {
-							create: {
-								...address,
-								lat: address.location.lat,
-								lng: address.location.lng,
-							},
-						}
-					: undefined,
+				phoneISO: phone?.iso,
+				phoneDDI: phone?.ddi,
+				phoneNumber: phone?.number,
+				documentType: document?.type,
+				documentNumber: document?.number,
 			},
 		})
 

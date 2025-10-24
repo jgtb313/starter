@@ -142,7 +142,34 @@ export const SubscriptionInputSchema = z.discriminatedUnion('paymentMethod', [
 	}),
 ])
 
+export const UpdatableSubscriptionInputSchema = z.discriminatedUnion(
+	'paymentMethod',
+	[
+		SubscriptionCardSchema.partial().omit({
+			subscriptionId: true,
+			workspaceId: true,
+			planId: true,
+			plan: true,
+		}),
+		SubscriptionPixSchema.partial().omit({
+			subscriptionId: true,
+			workspaceId: true,
+			planId: true,
+			plan: true,
+		}),
+		SubscriptionBoletoSchema.partial().omit({
+			subscriptionId: true,
+			workspaceId: true,
+			planId: true,
+			plan: true,
+		}),
+	],
+)
+
 export type Subscription = z.infer<typeof SubscriptionSchema>
 export type SubscriptionInput = BaseDomainInput<
 	z.input<typeof SubscriptionInputSchema>
+>
+export type UpdatableSubscriptionInput = BaseDomainInput<
+	z.input<typeof UpdatableSubscriptionInputSchema>
 >

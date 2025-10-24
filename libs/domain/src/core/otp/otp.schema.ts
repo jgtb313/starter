@@ -86,5 +86,13 @@ export const OTPInputSchema = OTPSchema.partial({
 	updatedAt: true,
 })
 
+export const UpdatableOTPInputSchema = OTPSchema.partial().omit({
+	otpId: true,
+	userId: true,
+})
+
 export type OTP = z.infer<typeof OTPSchema>
 export type OTPInput = BaseDomainInput<z.input<typeof OTPInputSchema>>
+export type UpdatableOTPInput = BaseDomainInput<
+	z.input<typeof UpdatableOTPInputSchema>
+>

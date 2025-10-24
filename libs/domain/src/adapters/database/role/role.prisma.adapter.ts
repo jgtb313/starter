@@ -4,7 +4,10 @@ import { Inject, Injectable, NotFoundException } from '@nestjs/common'
 
 import { deepMapDatesToISOString } from '@/support/utilities'
 import { RoleDomain } from '@/core/role/role.domain'
-import { RoleInputSchema } from '@/core/role/role.schema'
+import {
+	RoleInputSchema,
+	UpdatableRoleInputSchema,
+} from '@/core/role/role.schema'
 import { type Prisma, prisma } from '@/adapters/database/database.prisma.client'
 import type { IRoleRepository } from '@/ports/database/role'
 import { type I18nDomainService, I18nDomainSymbol } from '@/domain.i18n.module'
@@ -260,8 +263,7 @@ export class RolePrisma implements IRoleRepository {
 	}
 
 	updateById: IRoleRepository['updateById'] = async (roleId, input) => {
-		const { organizationIds, permissionIds, tags, ...data } =
-			RoleInputSchema.parse(input)
+		const data = UpdatableRoleInputSchema.parse(input)
 
 		const role: PrismaRole = await prisma.role.update({
 			include: {
@@ -275,25 +277,7 @@ export class RolePrisma implements IRoleRepository {
 			where: {
 				roleId,
 			},
-			data: {
-				...data,
-				organizations: {
-					deleteMany: {},
-					createMany: {
-						data: organizationIds.map((organizationId) => ({
-							organizationId,
-						})),
-					},
-				},
-				permissions: {
-					deleteMany: {},
-					createMany: {
-						data: permissionIds.map((permissionId) => ({
-							permissionId,
-						})),
-					},
-				},
-			},
+			data,
 		})
 
 		return this.toRoleDomain(role)

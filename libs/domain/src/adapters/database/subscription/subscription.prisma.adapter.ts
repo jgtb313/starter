@@ -4,7 +4,10 @@ import { Inject, Injectable, NotFoundException } from '@nestjs/common'
 
 import { deepMapDatesToISOString } from '@/support/utilities'
 import { SubscriptionDomain } from '@/core/subscription/subscription.domain'
-import { SubscriptionInputSchema } from '@/core/subscription/subscription.schema'
+import {
+	SubscriptionInputSchema,
+	UpdatableSubscriptionInputSchema,
+} from '@/core/subscription/subscription.schema'
 import { type Prisma, prisma } from '@/adapters/database/database.prisma.client'
 import type { ISubscriptionRepository } from '@/ports/database/subscription'
 import { type I18nDomainService, I18nDomainSymbol } from '@/domain.i18n.module'
@@ -167,8 +170,7 @@ export class SubscriptionPrisma implements ISubscriptionRepository {
 		subscriptionId,
 		input,
 	) => {
-		const { workspaceId, planId, ...data } =
-			SubscriptionInputSchema.parse(input)
+		const data = UpdatableSubscriptionInputSchema.parse(input)
 
 		const subscription: PrismaSubscription = await prisma.subscription.update({
 			include: {
@@ -177,21 +179,7 @@ export class SubscriptionPrisma implements ISubscriptionRepository {
 			where: {
 				subscriptionId,
 			},
-			data: {
-				...data,
-				workspace: {
-					connect: {
-						workspaceId,
-					},
-				},
-				plan: workspaceId
-					? {
-							connect: {
-								planId,
-							},
-						}
-					: undefined,
-			},
+			data,
 		})
 
 		return this.toSubscriptionDomain(subscription)

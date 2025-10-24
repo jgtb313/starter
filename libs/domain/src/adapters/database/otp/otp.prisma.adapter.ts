@@ -2,7 +2,7 @@ import { Inject, Injectable, NotFoundException } from '@nestjs/common'
 
 import { deepMapDatesToISOString } from '@/support/utilities'
 import { OTPDomain } from '@/core/otp/otp.domain'
-import { OTPInputSchema } from '@/core/otp/otp.schema'
+import { OTPInputSchema, UpdatableOTPInputSchema } from '@/core/otp/otp.schema'
 import { type Prisma, prisma } from '@/adapters/database/database.prisma.client'
 import type { IOTPRepository } from '@/ports/database/otp'
 import { type I18nDomainService, I18nDomainSymbol } from '@/domain.i18n.module'
@@ -89,22 +89,13 @@ export class OTPPrisma implements IOTPRepository {
 	}
 
 	updateById: IOTPRepository['updateById'] = async (otpId, input) => {
-		const { userId, ...data } = OTPInputSchema.parse(input)
+		const data = UpdatableOTPInputSchema.parse(input)
 
 		const otp: PrismaOTP = await prisma.oTP.update({
 			where: {
 				otpId,
 			},
-			data: {
-				...data,
-				user: userId
-					? {
-							connect: {
-								userId,
-							},
-						}
-					: undefined,
-			},
+			data,
 		})
 
 		return this.toOTPDomain(otp)

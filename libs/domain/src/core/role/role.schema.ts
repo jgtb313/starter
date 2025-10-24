@@ -67,5 +67,17 @@ export const RoleInputSchema = RoleSchema.partial({
 	permissions: true,
 })
 
+export const UpdatableRoleInputSchema = RoleSchema.partial().omit({
+	roleId: true,
+	workspaceId: true,
+	organizationIds: true,
+	organizations: true,
+	permissionIds: true,
+	permissions: true,
+})
+
 export type Role = z.infer<typeof RoleSchema>
 export type RoleInput = BaseDomainInput<z.input<typeof RoleInputSchema>>
+export type UpdatableRoleInput = BaseDomainInput<
+	z.input<typeof UpdatableRoleInputSchema>
+>

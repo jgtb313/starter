@@ -5,7 +5,10 @@ import { Inject, Injectable, NotFoundException } from '@nestjs/common'
 import { deepMapDatesToISOString } from '@/support/utilities'
 import type { Permission } from '@/core/permission'
 import { UserDomain } from '@/core/user/user.domain'
-import { UserInputSchema } from '@/core/user/user.schema'
+import {
+	UpdatableUserInputSchema,
+	UserInputSchema,
+} from '@/core/user/user.schema'
 import { type Prisma, prisma } from '@/adapters/database/database.prisma.client'
 import type { IUserRepository } from '@/ports/database/user'
 import { type I18nDomainService, I18nDomainSymbol } from '@/domain.i18n.module'
@@ -303,8 +306,7 @@ export class UserPrisma implements IUserRepository {
 	}
 
 	updateById: IUserRepository['updateById'] = async (userId, input) => {
-		const { addresses, permissionIds, workspaceId, phone, document, ...data } =
-			UserInputSchema.parse(input)
+		const { phone, document, ...data } = UpdatableUserInputSchema.parse(input)
 
 		const user: PrismaUser = await prisma.user.update({
 			include: {
@@ -315,31 +317,6 @@ export class UserPrisma implements IUserRepository {
 			},
 			data: {
 				...data,
-				workspace: workspaceId
-					? {
-							connect: {
-								workspaceId,
-							},
-						}
-					: undefined,
-				addresses: {
-					deleteMany: {},
-					createMany: {
-						data: addresses.map((address) => ({
-							...address,
-							lat: address.location.lat,
-							lng: address.location.lng,
-						})),
-					},
-				},
-				permissions: {
-					deleteMany: {},
-					createMany: {
-						data: permissionIds.map((permissionId) => ({
-							permissionId,
-						})),
-					},
-				},
 				phoneISO: phone?.iso,
 				phoneDDI: phone?.ddi,
 				phoneNumber: phone?.number,

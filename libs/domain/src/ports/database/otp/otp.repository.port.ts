@@ -1,5 +1,5 @@
 import type { OTPDomain } from '@/core/otp/otp.domain'
-import type { OTP, OTPInput } from '@/core/otp/otp.schema'
+import type { OTP, OTPInput, UpdatableOTPInput } from '@/core/otp/otp.schema'
 
 export type IOTPRepository = {
 	findById(otpId: string): Promise<OTPDomain>
@@ -12,5 +12,5 @@ export type IOTPRepository = {
 		context: OTP['context'],
 	): Promise<number>
 	create(input: OTPInput): Promise<OTPDomain>
-	updateById(otpId: string, input: Partial<OTPInput>): Promise<OTPDomain>
+	updateById(otpId: string, input: UpdatableOTPInput): Promise<OTPDomain>
 }

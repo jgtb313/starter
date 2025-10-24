@@ -94,5 +94,14 @@ export const UserInputSchema = UserSchema.partial({
 	}),
 )
 
+export const UpdatableUserInputSchema = UserSchema.partial().omit({
+	userId: true,
+	workspaceId: true,
+	addresses: true,
+})
+
 export type User = z.infer<typeof UserSchema>
 export type UserInput = BaseDomainInput<z.infer<typeof UserInputSchema>>
+export type UpdatableUserInput = BaseDomainInput<
+	z.infer<typeof UpdatableUserInputSchema>
+>

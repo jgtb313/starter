@@ -2,7 +2,11 @@ import type { Merge } from '@starter/common'
 import type { Pagination, PaginationOutput, Sort } from '@starter/schema'
 
 import type { RoleDomain } from '@/core/role/role.domain'
-import type { Role, RoleInput } from '@/core/role/role.schema'
+import type {
+	Role,
+	RoleInput,
+	UpdatableRoleInput,
+} from '@/core/role/role.schema'
 
 type FindRoleInput = Partial<
 	Pick<Role, 'workspaceId' | 'name' | 'tags' | 'status'> & {
@@ -23,12 +27,7 @@ type CreateRoleInput = Pick<
 	permissionIds: string[]
 }
 
-type UpdateRoleInput = Partial<
-	Pick<RoleInput, 'name' | 'tags' | 'status'> & {
-		organizationIds: string[]
-		permissionIds: string[]
-	}
->
+type UpdateRoleInput = UpdatableRoleInput
 
 export type IRoleRepository = {
 	findPaginated(

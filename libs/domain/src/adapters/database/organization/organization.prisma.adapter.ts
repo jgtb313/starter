@@ -4,7 +4,10 @@ import { Inject, Injectable, NotFoundException } from '@nestjs/common'
 
 import { deepMapDatesToISOString } from '@/support/utilities'
 import { OrganizationDomain } from '@/core/organization/organization.domain'
-import { OrganizationInputSchema } from '@/core/organization/organization.schema'
+import {
+	OrganizationInputSchema,
+	UpdatableOrganizationInputSchema,
+} from '@/core/organization/organization.schema'
 import { type Prisma, prisma } from '@/adapters/database/database.prisma.client'
 import type { IOrganizationRepository } from '@/ports/database/organization'
 import { type I18nDomainService, I18nDomainSymbol } from '@/domain.i18n.module'
@@ -157,9 +160,12 @@ export class OrganizationPrisma implements IOrganizationRepository {
 		return this.toOrganizationDomain(organization)
 	}
 
-	updateById: IOrganizationRepository['updateById'] = async (input) => {
-		const { organizationId, workspaceId, phone, document, ...data } =
-			OrganizationInputSchema.parse(input)
+	updateById: IOrganizationRepository['updateById'] = async (
+		organizationId,
+		input,
+	) => {
+		const { phone, document, ...data } =
+			UpdatableOrganizationInputSchema.parse(input)
 
 		const organization: PrismaOrganization = await prisma.organization.update({
 			where: {
@@ -167,13 +173,6 @@ export class OrganizationPrisma implements IOrganizationRepository {
 			},
 			data: {
 				...data,
-				workspace: workspaceId
-					? {
-							connect: {
-								workspaceId,
-							},
-						}
-					: undefined,
 				phoneISO: phone?.iso,
 				phoneDDI: phone?.ddi,
 				phoneNumber: phone?.number,

@@ -4,7 +4,10 @@ import { Inject, Injectable, NotFoundException } from '@nestjs/common'
 
 import { deepMapDatesToISOString } from '@/support/utilities'
 import { InvoiceDomain } from '@/core/invoice/invoice.domain'
-import { InvoiceInputSchema } from '@/core/invoice/invoice.schema'
+import {
+	InvoiceInputSchema,
+	UpdatableInvoiceInputSchema,
+} from '@/core/invoice/invoice.schema'
 import { type Prisma, prisma } from '@/adapters/database/database.prisma.client'
 import type { IInvoiceRepository } from '@/ports/database/invoice'
 import { type I18nDomainService, I18nDomainSymbol } from '@/domain.i18n.module'
@@ -187,8 +190,7 @@ export class InvoicePrisma implements IInvoiceRepository {
 	}
 
 	updateById: IInvoiceRepository['updateById'] = async (invoiceId, input) => {
-		const { workspaceId, subscriptionId, planId, ...data } =
-			InvoiceInputSchema.parse(input)
+		const data = UpdatableInvoiceInputSchema.parse(input)
 
 		const invoice: PrismaInvoice = await prisma.invoice.update({
 			include: {
@@ -197,24 +199,7 @@ export class InvoicePrisma implements IInvoiceRepository {
 			where: {
 				invoiceId,
 			},
-			data: {
-				...data,
-				workspace: {
-					connect: {
-						workspaceId,
-					},
-				},
-				subscription: {
-					connect: {
-						subscriptionId,
-					},
-				},
-				plan: {
-					connect: {
-						planId,
-					},
-				},
-			},
+			data,
 		})
 
 		return this.toInvoiceDomain(invoice)

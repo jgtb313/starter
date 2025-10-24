@@ -125,7 +125,19 @@ export const WorkspaceInputSchema = WorkspaceSchema.partial({
 	subscription: true,
 })
 
+export const UpdatableWorkspaceInputSchema = WorkspaceSchema.partial().omit({
+	workspaceId: true,
+	planId: true,
+	plan: true,
+	subscriptionId: true,
+	subscription: true,
+	address: true,
+})
+
 export type Workspace = z.infer<typeof WorkspaceSchema>
 export type WorkspaceInput = BaseDomainInput<
 	z.infer<typeof WorkspaceInputSchema>
+>
+export type UpdatableWorkspaceInput = BaseDomainInput<
+	z.infer<typeof UpdatableWorkspaceInputSchema>
 >

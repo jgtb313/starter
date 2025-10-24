@@ -91,5 +91,14 @@ export const PlanInputSchema = PlanSchema.partial({
 	updatedAt: true,
 })
 
+export const UpdatablePlanInputSchema = PlanSchema.partial().omit({
+	planId: true,
+	features: true,
+	intervals: true,
+})
+
 export type Plan = z.infer<typeof PlanSchema>
 export type PlanInput = BaseDomainInput<z.input<typeof PlanInputSchema>>
+export type UpdatablePlanInput = BaseDomainInput<
+	z.input<typeof UpdatablePlanInputSchema>
+>

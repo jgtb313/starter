@@ -5,6 +5,7 @@ import type { OrganizationDomain } from '@/core/organization/organization.domain
 import type {
 	Organization,
 	OrganizationInput,
+	UpdatableOrganizationInput,
 } from '@/core/organization/organization.schema'
 
 type FindOrganizationInput = Partial<Organization>
@@ -24,7 +25,7 @@ export type IOrganizationRepository = {
 	create(input: OrganizationInput): Promise<OrganizationDomain>
 	updateById(
 		organizationId: string,
-		input: Partial<OrganizationInput>,
+		input: UpdatableOrganizationInput,
 	): Promise<OrganizationDomain>
 	deleteById(organizationId: string): Promise<void>
 

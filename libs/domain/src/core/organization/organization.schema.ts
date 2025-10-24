@@ -58,7 +58,16 @@ export const OrganizationInputSchema = OrganizationSchema.partial({
 	updatedAt: true,
 })
 
+export const UpdatableOrganizationInputSchema =
+	OrganizationSchema.partial().omit({
+		organizationId: true,
+		workspaceId: true,
+	})
+
 export type Organization = z.infer<typeof OrganizationSchema>
 export type OrganizationInput = BaseDomainInput<
 	z.input<typeof OrganizationInputSchema>
+>
+export type UpdatableOrganizationInput = BaseDomainInput<
+	z.input<typeof UpdatableOrganizationInputSchema>
 >

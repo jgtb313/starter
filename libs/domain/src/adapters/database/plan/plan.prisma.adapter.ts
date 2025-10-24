@@ -4,7 +4,10 @@ import { Inject, Injectable, NotFoundException } from '@nestjs/common'
 
 import { deepMapDatesToISOString } from '@/support/utilities'
 import { PlanDomain } from '@/core/plan/plan.domain'
-import { PlanInputSchema } from '@/core/plan/plan.schema'
+import {
+	PlanInputSchema,
+	UpdatablePlanInputSchema,
+} from '@/core/plan/plan.schema'
 import { type Prisma, prisma } from '@/adapters/database/database.prisma.client'
 import type { IPlanRepository } from '@/ports/database/plan'
 import { type I18nDomainService, I18nDomainSymbol } from '@/domain.i18n.module'
@@ -213,7 +216,7 @@ export class PlanPrisma implements IPlanRepository {
 	}
 
 	updateById: IPlanRepository['updateById'] = async (planId, input) => {
-		const { intervals, features, ...data } = PlanInputSchema.parse(input)
+		const data = UpdatablePlanInputSchema.parse(input)
 
 		const plan: PrismaPlan = await prisma.plan.update({
 			include: {
@@ -223,19 +226,7 @@ export class PlanPrisma implements IPlanRepository {
 			where: {
 				planId,
 			},
-			data: {
-				...data,
-				intervals: {
-					createMany: {
-						data: intervals ?? [],
-					},
-				},
-				features: {
-					createMany: {
-						data: features ?? [],
-					},
-				},
-			},
+			data,
 		})
 
 		return this.toPlanDomain(plan)

@@ -160,6 +160,35 @@ export const InvoiceInputSchema = z.discriminatedUnion('paymentMethod', [
 		plan: true,
 	}),
 ])
+export const UpdatableInvoiceInputSchema = z.discriminatedUnion(
+	'paymentMethod',
+	[
+		InvoiceCardSchema.partial().omit({
+			invoiceId: true,
+			workspaceId: true,
+			subscriptionId: true,
+			planId: true,
+			plan: true,
+		}),
+		InvoicePixSchema.partial().omit({
+			invoiceId: true,
+			workspaceId: true,
+			subscriptionId: true,
+			planId: true,
+			plan: true,
+		}),
+		InvoiceBoletoSchema.partial().omit({
+			invoiceId: true,
+			workspaceId: true,
+			subscriptionId: true,
+			planId: true,
+			plan: true,
+		}),
+	],
+)
 
 export type Invoice = z.infer<typeof InvoiceSchema>
 export type InvoiceInput = BaseDomainInput<z.input<typeof InvoiceInputSchema>>
+export type UpdatableInvoiceInput = BaseDomainInput<
+	z.input<typeof UpdatableInvoiceInputSchema>
+>
