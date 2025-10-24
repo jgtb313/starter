@@ -86,6 +86,8 @@ export const UserSchema = z.object({
 
 export const UserInputSchema = UserSchema.partial({
 	userId: true,
+	createdAt: true,
+	updatedAt: true,
 }).and(
 	z.object({
 		permissionIds: z.array(z.string()).default([]),

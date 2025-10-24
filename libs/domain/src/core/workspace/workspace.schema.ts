@@ -118,6 +118,8 @@ export const WorkspaceSchema = z.object({
 
 export const WorkspaceInputSchema = WorkspaceSchema.partial({
 	workspaceId: true,
+	createdAt: true,
+	updatedAt: true,
 }).omit({
 	plan: true,
 	subscription: true,

@@ -54,6 +54,8 @@ export const OrganizationSchema = z.object({
 
 export const OrganizationInputSchema = OrganizationSchema.partial({
 	organizationId: true,
+	createdAt: true,
+	updatedAt: true,
 })
 
 export type Organization = z.infer<typeof OrganizationSchema>

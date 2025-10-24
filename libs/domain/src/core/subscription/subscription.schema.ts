@@ -121,16 +121,22 @@ export const SubscriptionSchema = z.discriminatedUnion('paymentMethod', [
 export const SubscriptionInputSchema = z.discriminatedUnion('paymentMethod', [
 	SubscriptionCardSchema.partial({
 		subscriptionId: true,
+		createdAt: true,
+		updatedAt: true,
 	}).omit({
 		plan: true,
 	}),
 	SubscriptionPixSchema.partial({
 		subscriptionId: true,
+		createdAt: true,
+		updatedAt: true,
 	}).omit({
 		plan: true,
 	}),
 	SubscriptionBoletoSchema.partial({
 		subscriptionId: true,
+		createdAt: true,
+		updatedAt: true,
 	}).omit({
 		plan: true,
 	}),

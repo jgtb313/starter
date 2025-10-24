@@ -60,6 +60,8 @@ export const RoleSchema = z.object({
 
 export const RoleInputSchema = RoleSchema.partial({
 	roleId: true,
+	createdAt: true,
+	updatedAt: true,
 }).omit({
 	organizations: true,
 	permissions: true,

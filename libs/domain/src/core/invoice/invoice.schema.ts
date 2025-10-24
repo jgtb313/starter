@@ -140,16 +140,22 @@ export const InvoiceSchema = z.discriminatedUnion('paymentMethod', [
 export const InvoiceInputSchema = z.discriminatedUnion('paymentMethod', [
 	InvoiceCardSchema.partial({
 		invoiceId: true,
+		createdAt: true,
+		updatedAt: true,
 	}).omit({
 		plan: true,
 	}),
 	InvoicePixSchema.partial({
 		invoiceId: true,
+		createdAt: true,
+		updatedAt: true,
 	}).omit({
 		plan: true,
 	}),
 	InvoiceBoletoSchema.partial({
 		invoiceId: true,
+		createdAt: true,
+		updatedAt: true,
 	}).omit({
 		plan: true,
 	}),

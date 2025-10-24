@@ -87,6 +87,8 @@ export const PlanSchema = z.object({
 
 export const PlanInputSchema = PlanSchema.partial({
 	planId: true,
+	createdAt: true,
+	updatedAt: true,
 })
 
 export type Plan = z.infer<typeof PlanSchema>
