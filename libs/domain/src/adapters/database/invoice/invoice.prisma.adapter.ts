@@ -71,7 +71,7 @@ export class InvoicePrisma implements IInvoiceRepository {
 		const [values, total]: [
 			PrismaInvoice[],
 			number,
-		] = await prisma.$transaction([
+		] = await Promise.all([
 			prisma.invoice.findMany({
 				include: {
 					plan: true,
@@ -94,7 +94,7 @@ export class InvoicePrisma implements IInvoiceRepository {
 		return {
 			values: values.map((invoice) => this.toInvoiceDomain(invoice)),
 			meta: {
-				...paginate,
+				limit: paginate.limit,
 				total,
 				nextCursor,
 			},

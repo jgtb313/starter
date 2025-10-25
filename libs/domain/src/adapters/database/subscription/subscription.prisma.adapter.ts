@@ -25,20 +25,27 @@ export class SubscriptionPrisma implements ISubscriptionRepository {
 		private readonly i18nService: I18nDomainService,
 	) {}
 
-	findPaginated: ISubscriptionRepository['findPaginated'] = async (input) => {
+	findPaginated: ISubscriptionRepository['findPaginated'] = async ({
+		cursor,
+		limit,
+		sort,
+		...input
+	}) => {
+		const { workspaceId, planId, status } = input
+
 		const paginate = PaginationSchemaTransform.parse({
-			cursor: input.cursor,
-			limit: input.limit,
+			cursor,
+			limit,
 		})
 
 		const where: Prisma.SubscriptionWhereInput = {}
 
-		if (input.status) {
-			where.status = input.status
+		if (status) {
+			where.status = status
 		}
 
-		const orderBy: Prisma.SubscriptionOrderByWithRelationInput[] = input.sort
-			? Object.entries(input.sort).map(([key, value]) => ({
+		const orderBy: Prisma.SubscriptionOrderByWithRelationInput[] = sort
+			? Object.entries(sort).map(([key, value]) => ({
 					[key]: value,
 				}))
 			: [

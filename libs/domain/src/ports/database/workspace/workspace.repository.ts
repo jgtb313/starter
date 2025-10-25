@@ -9,7 +9,7 @@ import type {
 } from '@/core/workspace/workspace.schema'
 
 type FindWorkspaceInput = Partial<
-	Pick<Workspace, 'workspaceId' | 'name' | 'status'>
+	Pick<Workspace, 'name' | 'status' | 'createdAt'>
 >
 
 type WorkspaceSort = Sort<'name' | 'status' | 'createdAt'>

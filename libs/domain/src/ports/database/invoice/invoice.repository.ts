@@ -8,16 +8,18 @@ import type {
 	UpdatableInvoiceInput,
 } from '@/core/invoice/invoice.schema'
 
-type FindInvoiceInput = Partial<Pick<Invoice, 'description' | 'status'>>
+type FindInvoiceInput = Partial<
+	Pick<Invoice, 'description' | 'status' | 'createdAt'>
+>
 
-type RoleSort = Sort<'description' | 'status' | 'createdAt'>
+type InvoiceSort = Sort<'description' | 'status' | 'createdAt'>
 
 export type IInvoiceRepository = {
 	findPaginated(
 		input: Merge<
 			[
 				FindInvoiceInput,
-				RoleSort,
+				InvoiceSort,
 				Pagination,
 			]
 		>,
@@ -26,7 +28,7 @@ export type IInvoiceRepository = {
 		input: Merge<
 			[
 				FindInvoiceInput,
-				RoleSort,
+				InvoiceSort,
 			]
 		>,
 	): Promise<InvoiceDomain[]>

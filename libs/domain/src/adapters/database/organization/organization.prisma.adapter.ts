@@ -57,7 +57,7 @@ export class OrganizationPrisma implements IOrganizationRepository {
 		const [values, total]: [
 			PrismaOrganization[],
 			number,
-		] = await prisma.$transaction([
+		] = await Promise.all([
 			prisma.organization.findMany({
 				where,
 				take,
@@ -78,14 +78,14 @@ export class OrganizationPrisma implements IOrganizationRepository {
 				this.toOrganizationDomain(organization),
 			),
 			meta: {
-				...paginate,
+				limit: paginate.limit,
 				total,
 				nextCursor,
 			},
 		}
 	}
 
-	find: IOrganizationRepository['find'] = async (input) => {
+	find: IOrganizationRepository['find'] = async ({ ...input }) => {
 		const { name, status } = input
 
 		const where: Prisma.OrganizationWhereInput = {}

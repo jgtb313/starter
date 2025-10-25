@@ -26,34 +26,22 @@ export class PlanPrisma implements IPlanRepository {
 		private readonly i18nService: I18nDomainService,
 	) {}
 
-	findPaginated: IPlanRepository['findPaginated'] = async (input) => {
+	findPaginated: IPlanRepository['findPaginated'] = async ({
+		cursor,
+		limit,
+		sort,
+		...input
+	}) => {
+		const { name, description, status } = input
+
 		const paginate = PaginationSchemaTransform.parse({
-			cursor: input.cursor,
-			limit: input.limit,
+			cursor,
+			limit,
 		})
 
 		const where: Prisma.PlanWhereInput = {}
-
-		if (input.name) {
-			where.name = {
-				contains: input.name,
-				mode: 'insensitive',
-			}
-		}
-
-		if (input.description) {
-			where.description = {
-				contains: input.description,
-				mode: 'insensitive',
-			}
-		}
-
-		if (input.status) {
-			where.status = input.status
-		}
-
-		const orderBy: Prisma.PlanOrderByWithRelationInput[] = input.sort
-			? Object.entries(input.sort).map(([key, value]) => ({
+		const orderBy: Prisma.PlanOrderByWithRelationInput[] = sort
+			? Object.entries(sort).map(([key, value]) => ({
 					[key]: value,
 				}))
 			: [
@@ -61,6 +49,24 @@ export class PlanPrisma implements IPlanRepository {
 						createdAt: 'desc',
 					},
 				]
+
+		if (name) {
+			where.name = {
+				contains: name,
+				mode: 'insensitive',
+			}
+		}
+
+		if (description) {
+			where.description = {
+				contains: description,
+				mode: 'insensitive',
+			}
+		}
+
+		if (status) {
+			where.status = status
+		}
 
 		const take = paginate.limit
 		const skip = paginate.cursor ? 1 : 0
@@ -73,7 +79,7 @@ export class PlanPrisma implements IPlanRepository {
 		const [values, total]: [
 			PrismaPlan[],
 			number,
-		] = await prisma.$transaction([
+		] = await Promise.all([
 			prisma.plan.findMany({
 				include: {
 					intervals: true,
@@ -95,36 +101,19 @@ export class PlanPrisma implements IPlanRepository {
 		return {
 			values: values.map((plan) => this.toPlanDomain(plan)),
 			meta: {
-				...paginate,
+				limit: paginate.limit,
 				total,
 				nextCursor,
 			},
 		}
 	}
 
-	find: IPlanRepository['find'] = async (input) => {
+	find: IPlanRepository['find'] = async ({ sort, ...input }) => {
+		const { name, description, status } = input
+
 		const where: Prisma.PlanWhereInput = {}
-
-		if (input.name) {
-			where.name = {
-				contains: input.name,
-				mode: 'insensitive',
-			}
-		}
-
-		if (input.description) {
-			where.description = {
-				contains: input.description,
-				mode: 'insensitive',
-			}
-		}
-
-		if (input.status) {
-			where.status = input.status
-		}
-
-		const orderBy: Prisma.PlanOrderByWithRelationInput[] = input.sort
-			? Object.entries(input.sort).map(([key, value]) => ({
+		const orderBy: Prisma.PlanOrderByWithRelationInput[] = sort
+			? Object.entries(sort).map(([key, value]) => ({
 					[key]: value,
 				}))
 			: [
@@ -132,6 +121,24 @@ export class PlanPrisma implements IPlanRepository {
 						createdAt: 'desc',
 					},
 				]
+
+		if (name) {
+			where.name = {
+				contains: name,
+				mode: 'insensitive',
+			}
+		}
+
+		if (description) {
+			where.description = {
+				contains: description,
+				mode: 'insensitive',
+			}
+		}
+
+		if (status) {
+			where.status = status
+		}
 
 		const values: PrismaPlan[] = await prisma.plan.findMany({
 			include: {

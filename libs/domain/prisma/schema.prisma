@@ -174,7 +174,7 @@ model Role {
   roleId      String    @id @default(uuid()) @map("role_id")
   workspaceId String    @map("workspace_id")
   name        String
-  tags        String?
+  tags        String[]
   status      String
   deletedAt   DateTime? @map("deleted_at")
   createdAt   DateTime  @default(now()) @map("created_at")
@@ -226,8 +226,8 @@ model Plan {
   updatedAt   DateTime  @updatedAt @map("updated_at")
 
   subscriptions Subscription[]
-  intervals PlanInterval[]
-  features  PlanFeature[]
+  intervals     PlanInterval[]
+  features      PlanFeature[]
   workspaces    Workspace[]
   Invoice       Invoice[]
 

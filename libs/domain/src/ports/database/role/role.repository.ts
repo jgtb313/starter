@@ -8,26 +8,31 @@ import type {
 	UpdatableRoleInput,
 } from '@/core/role/role.schema'
 
-type FindRoleInput = Partial<
-	Pick<Role, 'workspaceId' | 'name' | 'tags' | 'status'> & {
-		organizationIds?: string[]
-		permissionIds?: string[]
-	}
+export type FindRoleInput = Partial<
+	Pick<
+		Role,
+		| 'workspaceId'
+		| 'organizationIds'
+		| 'permissionIds'
+		| 'name'
+		| 'tags'
+		| 'status'
+	>
 >
 
-type RoleSort = Sort<
+export type RoleSort = Sort<
 	'name' | 'organizationName' | 'permissionName' | 'status' | 'createdAt'
 >
 
 type CreateRoleInput = Pick<
 	RoleInput,
-	'workspaceId' | 'name' | 'tags' | 'status'
-> & {
-	organizationIds: string[]
-	permissionIds: string[]
-}
-
-type UpdateRoleInput = UpdatableRoleInput
+	| 'workspaceId'
+	| 'organizationIds'
+	| 'permissionIds'
+	| 'name'
+	| 'tags'
+	| 'status'
+>
 
 export type IRoleRepository = {
 	findPaginated(
@@ -49,7 +54,7 @@ export type IRoleRepository = {
 	): Promise<RoleDomain[]>
 	findById(roleId: string): Promise<RoleDomain>
 	create(input: CreateRoleInput): Promise<RoleDomain>
-	updateById(roleId: string, input: UpdateRoleInput): Promise<RoleDomain>
+	updateById(roleId: string, input: UpdatableRoleInput): Promise<RoleDomain>
 	deleteById(roleId: string): Promise<void>
 
 	validateIds(roleIds: string[]): Promise<void>

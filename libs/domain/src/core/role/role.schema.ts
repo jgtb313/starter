@@ -31,10 +31,7 @@ const Permissions = z.array(PermissionSchema).default([])
 
 const Name = z.string().min(1)
 
-const Tags = z
-	.array(z.string())
-	.nullish()
-	.transform((value) => value ?? null)
+const Tags = z.array(z.string()).default([])
 
 const Status = z
 	.enum([

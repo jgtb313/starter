@@ -9,7 +9,11 @@ import {
 	UpdatableRoleInputSchema,
 } from '@/core/role/role.schema'
 import { type Prisma, prisma } from '@/adapters/database/database.prisma.client'
-import type { IRoleRepository } from '@/ports/database/role'
+import type {
+	FindRoleInput,
+	IRoleRepository,
+	RoleSort,
+} from '@/ports/database/role/role.repository'
 import { type I18nDomainService, I18nDomainSymbol } from '@/domain.i18n.module'
 
 type PrismaRole = Prisma.RoleGetPayload<{
@@ -29,63 +33,21 @@ export class RolePrisma implements IRoleRepository {
 		private readonly i18nService: I18nDomainService,
 	) {}
 
-	findPaginated: IRoleRepository['findPaginated'] = async (input) => {
+	findPaginated: IRoleRepository['findPaginated'] = async ({
+		cursor,
+		limit,
+		sort,
+		...input
+	}) => {
 		const paginate = PaginationSchemaTransform.parse({
-			cursor: input.cursor,
-			limit: input.limit,
+			cursor,
+			limit,
 		})
 
-		const where: Prisma.RoleWhereInput = {}
-		const orderBy: Prisma.RoleOrderByWithRelationInput[] = input.sort
-			? Object.entries(input.sort).map(([key, value]) => ({
-					[key]: value,
-				}))
-			: [
-					{
-						createdAt: 'desc',
-					},
-				]
-
-		if (input.workspaceId) {
-			where.workspaceId = input.workspaceId
-		}
-
-		if (input.name) {
-			where.name = {
-				contains: input.name,
-				mode: 'insensitive',
-			}
-		}
-
-		if (input.tags?.length) {
-			where.tags = {
-				// hasSome: input.tags,
-			}
-		}
-
-		if (input.organizationIds?.length) {
-			where.organizations = {
-				some: {
-					organizationId: {
-						in: input.organizationIds,
-					},
-				},
-			}
-		}
-
-		if (input.permissionIds?.length) {
-			where.permissions = {
-				some: {
-					permissionId: {
-						in: input.permissionIds,
-					},
-				},
-			}
-		}
-
-		if (input.status) {
-			where.status = input.status
-		}
+		const where = this.parseWhere(input)
+		const orderBy = this.parseOrderBy({
+			sort,
+		})
 
 		const take = paginate.limit
 		const skip = paginate.cursor ? 1 : 0
@@ -98,7 +60,7 @@ export class RolePrisma implements IRoleRepository {
 		const [values, total]: [
 			PrismaRole[],
 			number,
-		] = await prisma.$transaction([
+		] = await Promise.all([
 			prisma.role.findMany({
 				include: {
 					organizations: {
@@ -124,66 +86,18 @@ export class RolePrisma implements IRoleRepository {
 		return {
 			values: values.map((role) => this.toRoleDomain(role)),
 			meta: {
-				...paginate,
+				limit: paginate.limit,
 				total,
 				nextCursor,
 			},
 		}
 	}
 
-	find: IRoleRepository['find'] = async (input) => {
-		const where: Prisma.RoleWhereInput = {}
-
-		if (input.workspaceId) {
-			where.workspaceId = input.workspaceId
-		}
-
-		if (input.name) {
-			where.name = {
-				contains: input.name,
-				mode: 'insensitive',
-			}
-		}
-
-		if (input.tags?.length) {
-			where.tags = {
-				// hasSome: input.tags,
-			}
-		}
-
-		if (input.organizationIds?.length) {
-			where.organizations = {
-				some: {
-					organizationId: {
-						in: input.organizationIds,
-					},
-				},
-			}
-		}
-
-		if (input.permissionIds?.length) {
-			where.permissions = {
-				some: {
-					permissionId: {
-						in: input.permissionIds,
-					},
-				},
-			}
-		}
-
-		if (input.status) {
-			where.status = input.status
-		}
-
-		const orderBy: Prisma.RoleOrderByWithRelationInput[] = input.sort
-			? Object.entries(input.sort).map(([key, value]) => ({
-					[key]: value,
-				}))
-			: [
-					{
-						createdAt: 'desc',
-					},
-				]
+	find: IRoleRepository['find'] = async ({ sort, ...input }) => {
+		const where = this.parseWhere(input)
+		const orderBy = this.parseOrderBy({
+			sort,
+		})
 
 		const values: PrismaRole[] = await prisma.role.findMany({
 			include: {
@@ -228,7 +142,7 @@ export class RolePrisma implements IRoleRepository {
 	}
 
 	create: IRoleRepository['create'] = async (input) => {
-		const { organizationIds, permissionIds, tags, ...data } =
+		const { organizationIds, permissionIds, ...data } =
 			RoleInputSchema.parse(input)
 
 		const role: PrismaRole = await prisma.role.create({
@@ -337,6 +251,93 @@ export class RolePrisma implements IRoleRepository {
 				)
 			}
 		}
+
+	private parseWhere({
+		workspaceId,
+		organizationIds,
+		permissionIds,
+		name,
+		tags,
+		status,
+	}: FindRoleInput): Prisma.RoleWhereInput {
+		const where: Prisma.RoleWhereInput = {}
+
+		if (workspaceId) {
+			where.workspaceId = workspaceId
+		}
+
+		if (organizationIds?.length) {
+			where.organizations = {
+				some: {
+					organizationId: {
+						in: organizationIds,
+					},
+				},
+			}
+		}
+
+		if (permissionIds?.length) {
+			where.permissions = {
+				some: {
+					permissionId: {
+						in: permissionIds,
+					},
+				},
+			}
+		}
+
+		if (name) {
+			where.name = {
+				contains: name,
+				mode: 'insensitive',
+			}
+		}
+
+		if (tags?.length) {
+			where.tags = {
+				hasSome: tags,
+			}
+		}
+
+		if (status) {
+			where.status = status
+		}
+
+		return where
+	}
+
+	private parseOrderBy({
+		sort,
+	}: RoleSort): Prisma.RoleOrderByWithRelationInput[] {
+		if (!sort) {
+			return []
+		}
+
+		const keyMap: Record<string, Prisma.RoleOrderByWithRelationInput> = {
+			organizationName: {
+				organizations: {
+					_count: 'desc',
+				},
+			},
+			permissionName: {
+				permissions: {
+					_count: 'desc',
+				},
+			},
+		}
+
+		return Object.entries(sort).map(([key, value]) => {
+			const mappedKey = keyMap[key as keyof typeof keyMap]
+
+			if (mappedKey) {
+				return mappedKey
+			}
+
+			return {
+				[key]: value,
+			}
+		})
+	}
 
 	private toRoleDomain(model: PrismaRole) {
 		return new RoleDomain(deepMapDatesToISOString(model), this.i18nService)
