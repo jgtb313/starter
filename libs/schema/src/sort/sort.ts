@@ -10,7 +10,6 @@ export const SortSchema = (allowedFields: string[]) =>
 		.union([
 			z.string().trim(),
 			z.null(),
-			z.undefined(),
 		])
 		.transform((value) => (value === '' || value == null ? undefined : value))
 		.refine((value) => value === undefined || value.includes(':'), {
@@ -60,6 +59,10 @@ export const SortSchema = (allowedFields: string[]) =>
 			return {
 				[field]: SortEnum[order as keyof typeof SortEnum],
 			}
+		})
+		.meta({
+			description: `Sort the results by the given field and order. Allowed fields: ${allowedFields.join(', ')}`,
+			example: 'name:asc,status:desc',
 		})
 
 export type Sort<K extends string> = {

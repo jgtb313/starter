@@ -234,7 +234,7 @@ export class OrganizationPrisma implements IOrganizationRepository {
 		}
 
 		return Object.entries(sort).map(([key, value]) => ({
-			[key]: value,
+			[key]: value.toLowerCase(),
 		}))
 	}
 

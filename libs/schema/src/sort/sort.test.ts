@@ -10,7 +10,6 @@ describe('SortSchema', () => {
 		])
 
 		expect(schema.parse(null)).toEqual({})
-		expect(schema.parse(undefined)).toEqual({})
 		expect(schema.parse('')).toEqual({})
 	})
 

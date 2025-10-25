@@ -1,6 +1,7 @@
 import {
 	BasePaginationSchemaOutput,
 	PaginationSchema,
+	SortSchema,
 	TranslationsSchema,
 	z,
 } from '@starter/schema'
@@ -33,6 +34,11 @@ export const ListOrganizationsSchema = createRequestSchema({
 							example: 'Acme',
 						},
 					),
+					sort: SortSchema([
+						'name',
+						'status',
+						'createdAt',
+					]),
 				})
 				.partial(),
 		)
