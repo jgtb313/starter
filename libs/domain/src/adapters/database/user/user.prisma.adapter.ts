@@ -1,6 +1,7 @@
 import { PaginationSchemaTransform } from '@starter/schema'
 
 import { Inject, Injectable, NotFoundException } from '@nestjs/common'
+import { Decimal } from '@prisma/client/runtime/library'
 
 import { deepMapDatesToISOString } from '@/support/utilities'
 import type { Permission } from '@/core/permission'
@@ -485,7 +486,9 @@ export class UserPrisma implements IUserRepository {
 		phone,
 		status,
 	}: FindUserInput): Prisma.UserWhereInput {
-		const where: Prisma.UserWhereInput = {}
+		const where: Prisma.UserWhereInput = {
+			deletedAt: null,
+		}
 
 		if (workspaceId) {
 			where.workspaceId = workspaceId
@@ -555,13 +558,18 @@ export class UserPrisma implements IUserRepository {
 						number: model.documentNumber,
 					}
 				: undefined
-		const addresses = model.addresses.map((address) => ({
-			...address,
-			location: {
-				lat: address.lat,
-				lng: address.lng,
-			},
-		}))
+		const addresses = model.addresses.map((address) => {
+			const lat = new Decimal(address.lat.toString())
+			const lng = new Decimal(address.lng.toString())
+
+			return {
+				...address,
+				location: {
+					lat,
+					lng,
+				},
+			}
+		})
 
 		return new UserDomain(
 			deepMapDatesToISOString({

@@ -207,7 +207,9 @@ export class PlanPrisma implements IPlanRepository {
 		description,
 		status,
 	}: FindPlanInput): Prisma.PlanWhereInput {
-		const where: Prisma.PlanWhereInput = {}
+		const where: Prisma.PlanWhereInput = {
+			deletedAt: null,
+		}
 
 		if (name) {
 			where.name = {

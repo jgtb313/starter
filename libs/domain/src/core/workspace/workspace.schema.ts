@@ -42,7 +42,8 @@ const Document = DocumentExplicitSchema.nullish().transform(
 	(value) => value ?? null,
 )
 
-const Address = BusinessAddressSchema.nullish().transform(
+export const WorskapceAddressSchema = BusinessAddressSchema
+const Address = WorskapceAddressSchema.nullish().transform(
 	(value) => value ?? null,
 )
 

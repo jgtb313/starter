@@ -1,5 +1,5 @@
 import { z } from '@starter/schema'
-import { WorkspaceSchema } from '@starter/domain'
+import { WorkspaceSchema, WorskapceAddressSchema } from '@starter/domain'
 import {
 	createRequestSchema,
 	type RequestInput,
@@ -32,3 +32,25 @@ export const UpdateWorkspaceSchema = createRequestSchema({
 	output: WorkspaceSchema,
 })
 export type UpdateWorkspaceRequest = RequestInput<typeof UpdateWorkspaceSchema>
+
+export const DefineWorkspaceAddressSchema = createRequestSchema({
+	params: WorkspaceSchema.pick({
+		workspaceId: true,
+	}),
+	body: WorskapceAddressSchema.omit({
+		location: true,
+	}),
+	output: WorkspaceSchema,
+})
+export type DefineWorkspaceAddressRequest = RequestInput<
+	typeof DefineWorkspaceAddressSchema
+>
+
+export const DeleteWorkspaceAddressSchema = createRequestSchema({
+	params: WorkspaceSchema.pick({
+		workspaceId: true,
+	}),
+})
+export type DeleteWorkspaceAddressRequest = RequestInput<
+	typeof DeleteWorkspaceAddressSchema
+>

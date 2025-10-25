@@ -206,7 +206,9 @@ export class OrganizationPrisma implements IOrganizationRepository {
 		name,
 		status,
 	}: FindOrganizationInput): Prisma.OrganizationWhereInput {
-		const where: Prisma.OrganizationWhereInput = {}
+		const where: Prisma.OrganizationWhereInput = {
+			deletedAt: null,
+		}
 
 		if (name) {
 			where.name = {

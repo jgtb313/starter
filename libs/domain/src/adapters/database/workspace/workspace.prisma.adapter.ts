@@ -1,6 +1,7 @@
 import { PaginationSchemaTransform } from '@starter/schema'
 
 import { Inject, Injectable, NotFoundException } from '@nestjs/common'
+import { Decimal } from '@prisma/client/runtime/library'
 
 import { deepMapDatesToISOString } from '@/support/utilities'
 import { WorkspaceDomain } from '@/core/workspace/workspace.domain'
@@ -240,7 +241,7 @@ export class WorkspacePrisma implements IWorkspaceRepository {
 
 	upsertAddress: IWorkspaceRepository['upsertAddress'] = async (
 		workspaceId,
-		input,
+		{ location, ...input },
 	) => {
 		await prisma.workspaceAddress.upsert({
 			where: {
@@ -248,13 +249,13 @@ export class WorkspacePrisma implements IWorkspaceRepository {
 			},
 			update: {
 				...input,
-				lat: input.location.lat,
-				lng: input.location.lng,
+				lat: location.lat,
+				lng: location.lng,
 			},
 			create: {
 				...input,
-				lat: input.location.lat,
-				lng: input.location.lng,
+				lat: location.lat,
+				lng: location.lng,
 				workspace: {
 					connect: {
 						workspaceId,
@@ -279,7 +280,9 @@ export class WorkspacePrisma implements IWorkspaceRepository {
 		status,
 		createdAt,
 	}: FindWorkspaceInput): Prisma.WorkspaceWhereInput {
-		const where: Prisma.WorkspaceWhereInput = {}
+		const where: Prisma.WorkspaceWhereInput = {
+			deletedAt: null,
+		}
 
 		if (name) {
 			where.name = {
@@ -315,7 +318,56 @@ export class WorkspacePrisma implements IWorkspaceRepository {
 		}))
 	}
 
-	private toWorkspaceDomain(model: PrismaWorkspace) {
-		return new WorkspaceDomain(deepMapDatesToISOString(model), this.i18nService)
+	private toWorkspaceDomain({
+		phoneDDI,
+		documentNumber,
+		documentType,
+		phoneISO,
+		phoneNumber,
+		address: prismaAddress,
+		...model
+	}: PrismaWorkspace) {
+		const phone =
+			phoneISO && phoneDDI && phoneNumber
+				? {
+						iso: phoneISO,
+						ddi: phoneDDI,
+						number: phoneNumber,
+					}
+				: undefined
+		const document =
+			documentType && documentNumber
+				? {
+						type: documentType,
+						number: documentNumber,
+					}
+				: undefined
+
+		const lat = prismaAddress?.lat
+			? new Decimal(prismaAddress.lat.toString())
+			: undefined
+		const lng = prismaAddress?.lng
+			? new Decimal(prismaAddress.lng.toString())
+			: undefined
+
+		const address = prismaAddress
+			? {
+					...prismaAddress,
+					location: {
+						lat,
+						lng,
+					},
+				}
+			: undefined
+
+		return new WorkspaceDomain(
+			deepMapDatesToISOString({
+				...model,
+				phone,
+				document,
+				address,
+			}),
+			this.i18nService,
+		)
 	}
 }

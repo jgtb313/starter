@@ -110,6 +110,53 @@ export const UpdateUserSchema = createRequestSchema({
 })
 export type UpdateUserRequest = RequestInput<typeof UpdateUserSchema>
 
+export const CreateUserAddressSchema = createRequestSchema({
+	params: UserSchema.pick({
+		userId: true,
+	}).and(
+		z.object({
+			workspaceId: BaseSchema.id('workspace'),
+		}),
+	),
+	body: z.object({}),
+})
+export type CreateUserAddressRequest = RequestInput<
+	typeof CreateUserAddressSchema
+>
+
+export const UpdateUserAddressSchema = createRequestSchema({
+	params: z
+		.object({
+			userId: BaseSchema.id('user'),
+			addressId: BaseSchema.id('userAddress'),
+		})
+		.and(
+			z.object({
+				workspaceId: BaseSchema.id('workspace'),
+			}),
+		),
+	body: z.object({}),
+})
+export type UpdateUserAddressRequest = RequestInput<
+	typeof UpdateUserAddressSchema
+>
+
+export const DeleteUserAddressSchema = createRequestSchema({
+	params: z
+		.object({
+			userId: BaseSchema.id('user'),
+			addressId: BaseSchema.id('userAddress'),
+		})
+		.and(
+			z.object({
+				workspaceId: BaseSchema.id('workspace'),
+			}),
+		),
+})
+export type DeleteUserAddressRequest = RequestInput<
+	typeof DeleteUserAddressSchema
+>
+
 export const DeleteUserSchema = createRequestSchema({
 	params: UserSchema.pick({
 		userId: true,

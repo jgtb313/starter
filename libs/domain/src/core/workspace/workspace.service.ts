@@ -97,8 +97,8 @@ export class WorkspaceService {
 		return updatedWorkspace
 	}
 
-	async attachWorkspaceAddress(workspaceId: string, address: BaseAddress) {
-		this.loggerService.info('Attempting to attach workspace address', {
+	async defineWorkspaceAddress(workspaceId: string, address: BaseAddress) {
+		this.loggerService.info('Attempting to define workspace address', {
 			workspaceId,
 			address,
 		})
@@ -110,8 +110,8 @@ export class WorkspaceService {
 		const businessAddress: BusinessAddress = {
 			...address,
 			location: {
-				lat: '0',
-				lng: '0',
+				lat: '34.052235',
+				lng: '-118.243683',
 			},
 		}
 
@@ -120,7 +120,7 @@ export class WorkspaceService {
 			businessAddress,
 		)
 
-		this.loggerService.info('Workspace address defined', workspace.state)
+		this.loggerService.info('Workspace address defined', businessAddress)
 
 		return workspace
 	}

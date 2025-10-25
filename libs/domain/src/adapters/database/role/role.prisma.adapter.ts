@@ -282,7 +282,9 @@ export class RolePrisma implements IRoleRepository {
 		tags,
 		status,
 	}: FindRoleInput): Prisma.RoleWhereInput {
-		const where: Prisma.RoleWhereInput = {}
+		const where: Prisma.RoleWhereInput = {
+			deletedAt: null,
+		}
 
 		if (workspaceId) {
 			where.workspaceId = workspaceId

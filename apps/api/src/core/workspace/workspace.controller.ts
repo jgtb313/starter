@@ -15,6 +15,10 @@ import { AuthGuard } from '@/support/guards/auth-guard'
 import {
 	type CreateWorkspaceRequest,
 	CreateWorkspaceSchema,
+	type DefineWorkspaceAddressRequest,
+	DefineWorkspaceAddressSchema,
+	type DeleteWorkspaceAddressRequest,
+	DeleteWorkspaceAddressSchema,
 	type GetWorkspaceRequest,
 	GetWorkspaceSchema,
 	type UpdateWorkspaceRequest,
@@ -143,5 +147,71 @@ export class WorkspaceController {
 		)
 
 		return workspace.toJSON()
+	}
+
+	@Route({
+		summary: 'Define Workspace Address',
+
+		description: 'Defines the address for a workspace.',
+
+		method: 'POST',
+
+		path: '/:workspaceId/address',
+
+		parameters: {
+			params: DefineWorkspaceAddressSchema.params,
+			body: DefineWorkspaceAddressSchema.body,
+		},
+
+		responses: {
+			200: {
+				schema: DefineWorkspaceAddressSchema.output,
+			},
+		},
+	})
+	async defineWorkspaceAddress(
+		@AuthenticatedProfile() profile: Profile,
+		@Request() { params, body }: DefineWorkspaceAddressRequest,
+	) {
+		this.aclService.canPerformActionByPermission(profile, 'workspace:read', {
+			workspaceId: params.workspaceId,
+		})
+
+		const workspace = await this.workspaceService.defineWorkspaceAddress(
+			params.workspaceId,
+			body,
+		)
+
+		return workspace.toJSON()
+	}
+
+	@Route({
+		summary: 'Delete Workspace Address',
+
+		description: 'Deletes the address for a workspace.',
+
+		method: 'DELETE',
+
+		path: '/:workspaceId/address',
+
+		parameters: {
+			params: DeleteWorkspaceAddressSchema.params,
+		},
+
+		responses: {
+			204: {
+				description: 'Workspace address has been successfully deleted.',
+			},
+		},
+	})
+	async deleteWorkspaceAddress(
+		@AuthenticatedProfile() profile: Profile,
+		@Request() { params }: DeleteWorkspaceAddressRequest,
+	) {
+		this.aclService.canPerformActionByPermission(profile, 'workspace:read', {
+			workspaceId: params.workspaceId,
+		})
+
+		await this.workspaceService.deleteWorkspaceAddress(params.workspaceId)
 	}
 }
