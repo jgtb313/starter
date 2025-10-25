@@ -30,7 +30,43 @@ export type UpdateWorkspaceHeaderParams = {
     "Accept-Language"?: UpdateWorkspaceHeaderParamsAcceptLanguageEnum;
 };
 
-export type DocumentTypeEnum43 = "INDIVIDUAL" | "COMPANY";
+export type IntervalsIntervalEnum42 = "DAY" | "WEEK" | "MONTH" | "YEAR";
+
+export type IntervalsStatusEnum42 = "ACTIVE" | "INACTIVE";
+
+export type PlanStatusEnum40 = "ACTIVE" | "INACTIVE";
+
+export type IntervalsIntervalEnum43 = "DAY" | "WEEK" | "MONTH" | "YEAR";
+
+export type IntervalsStatusEnum43 = "ACTIVE" | "INACTIVE";
+
+export type PlanStatusEnum41 = "ACTIVE" | "INACTIVE";
+
+export type DocumentTypeEnum51 = "INDIVIDUAL" | "COMPANY";
+
+export type SubscriptionStatusEnum10 = "TRIAL" | "ACTIVE" | "OVERDUE" | "CANCELED";
+
+export type IntervalsIntervalEnum44 = "DAY" | "WEEK" | "MONTH" | "YEAR";
+
+export type IntervalsStatusEnum44 = "ACTIVE" | "INACTIVE";
+
+export type PlanStatusEnum42 = "ACTIVE" | "INACTIVE";
+
+export type DocumentTypeEnum52 = "INDIVIDUAL" | "COMPANY";
+
+export type SubscriptionStatusEnum11 = "TRIAL" | "ACTIVE" | "OVERDUE" | "CANCELED";
+
+export type IntervalsIntervalEnum45 = "DAY" | "WEEK" | "MONTH" | "YEAR";
+
+export type IntervalsStatusEnum45 = "ACTIVE" | "INACTIVE";
+
+export type PlanStatusEnum43 = "ACTIVE" | "INACTIVE";
+
+export type DocumentTypeEnum53 = "INDIVIDUAL" | "COMPANY";
+
+export type SubscriptionStatusEnum12 = "TRIAL" | "ACTIVE" | "OVERDUE" | "CANCELED";
+
+export type DocumentTypeEnum54 = "INDIVIDUAL" | "COMPANY";
 
 export type LocaleDefaultLocaleEnum3 = "en" | "es" | "pt-BR";
 
@@ -47,6 +83,944 @@ export type UpdateWorkspace200 = {
      * @type string, uuid
     */
     workspaceId: string;
+    /**
+     * @description Unique identifier for plan
+     * @type string, uuid
+    */
+    planId: string;
+    /**
+     * @type object
+    */
+    plan: {
+        /**
+         * @description Unique identifier for plan
+         * @type string, uuid
+        */
+        planId: string;
+        /**
+         * @type string
+        */
+        externalId: string;
+        /**
+         * @type string
+        */
+        name: string;
+        /**
+         * @type string
+        */
+        description: string;
+        /**
+         * @type array | undefined
+        */
+        features?: {
+            /**
+             * @description Unique identifier for planFeature
+             * @type string, uuid
+            */
+            planFeatureId: string;
+            /**
+             * @type string
+            */
+            description: string;
+            /**
+             * @type string
+            */
+            feature: string;
+            /**
+             * @type object
+            */
+            props: {
+                /**
+                 * @type number
+                */
+                maxOrganizations: number;
+            };
+            /**
+             * @type string, date-time
+            */
+            createdAt: string;
+            /**
+             * @type string, date-time
+            */
+            updatedAt: string;
+        }[];
+        /**
+         * @type array | undefined
+        */
+        intervals?: {
+            /**
+             * @description Unique identifier for planInterval
+             * @type string, uuid
+            */
+            planIntervalId: string;
+            /**
+             * @type string
+            */
+            externalId: string;
+            /**
+             * @minLength 0
+             * @type number
+            */
+            amount: number;
+            /**
+             * @type string
+            */
+            interval: IntervalsIntervalEnum42;
+            /**
+             * @type number
+            */
+            intervalCount: number;
+            /**
+             * @default 7
+             * @type number | undefined
+            */
+            trialDays?: number;
+            /**
+             * @default "ACTIVE"
+             * @type string | undefined
+            */
+            status?: IntervalsStatusEnum42;
+            /**
+             * @type string, date-time
+            */
+            createdAt: string;
+            /**
+             * @type string, date-time
+            */
+            updatedAt: string;
+        }[];
+        /**
+         * @default false
+         * @type boolean | undefined
+        */
+        highlight?: boolean;
+        /**
+         * @default false
+         * @type boolean | undefined
+        */
+        default?: boolean;
+        /**
+         * @default "ACTIVE"
+         * @type string | undefined
+        */
+        status?: PlanStatusEnum40;
+        deletedAt?: (string | null);
+        /**
+         * @type string, date-time
+        */
+        createdAt: string;
+        /**
+         * @type string, date-time
+        */
+        updatedAt: string;
+    };
+    subscriptionId?: (string | null);
+    subscription?: (({
+        /**
+         * @description Unique identifier for subscription
+         * @type string, uuid
+        */
+        subscriptionId: string;
+        /**
+         * @description Unique identifier for workspace
+         * @type string, uuid
+        */
+        workspaceId: string;
+        /**
+         * @description Unique identifier for plan
+         * @type string, uuid
+        */
+        planId: string;
+        /**
+         * @type object
+        */
+        plan: {
+            /**
+             * @description Unique identifier for plan
+             * @type string, uuid
+            */
+            planId: string;
+            /**
+             * @type string
+            */
+            externalId: string;
+            /**
+             * @type string
+            */
+            name: string;
+            /**
+             * @type string
+            */
+            description: string;
+            /**
+             * @type array | undefined
+            */
+            features?: {
+                /**
+                 * @description Unique identifier for planFeature
+                 * @type string, uuid
+                */
+                planFeatureId: string;
+                /**
+                 * @type string
+                */
+                description: string;
+                /**
+                 * @type string
+                */
+                feature: string;
+                /**
+                 * @type object
+                */
+                props: {
+                    /**
+                     * @type number
+                    */
+                    maxOrganizations: number;
+                };
+                /**
+                 * @type string, date-time
+                */
+                createdAt: string;
+                /**
+                 * @type string, date-time
+                */
+                updatedAt: string;
+            }[];
+            /**
+             * @type array | undefined
+            */
+            intervals?: {
+                /**
+                 * @description Unique identifier for planInterval
+                 * @type string, uuid
+                */
+                planIntervalId: string;
+                /**
+                 * @type string
+                */
+                externalId: string;
+                /**
+                 * @minLength 0
+                 * @type number
+                */
+                amount: number;
+                /**
+                 * @type string
+                */
+                interval: IntervalsIntervalEnum43;
+                /**
+                 * @type number
+                */
+                intervalCount: number;
+                /**
+                 * @default 7
+                 * @type number | undefined
+                */
+                trialDays?: number;
+                /**
+                 * @default "ACTIVE"
+                 * @type string | undefined
+                */
+                status?: IntervalsStatusEnum43;
+                /**
+                 * @type string, date-time
+                */
+                createdAt: string;
+                /**
+                 * @type string, date-time
+                */
+                updatedAt: string;
+            }[];
+            /**
+             * @default false
+             * @type boolean | undefined
+            */
+            highlight?: boolean;
+            /**
+             * @default false
+             * @type boolean | undefined
+            */
+            default?: boolean;
+            /**
+             * @default "ACTIVE"
+             * @type string | undefined
+            */
+            status?: PlanStatusEnum41;
+            deletedAt?: (string | null);
+            /**
+             * @type string, date-time
+            */
+            createdAt: string;
+            /**
+             * @type string, date-time
+            */
+            updatedAt: string;
+        };
+        /**
+         * @type string
+        */
+        externalId: string;
+        /**
+         * @type string
+        */
+        paymentMethod: string;
+        /**
+         * @type object
+        */
+        card: {
+            /**
+             * @description Token representing a securely stored payment card, typically returned by a payment provider.
+             * @type string
+            */
+            token: string;
+            /**
+             * @description Masked card number for secure display.
+             * @type string
+            */
+            number: string;
+            /**
+             * @description Name of the cardholder as printed on the card.
+             * @type string
+            */
+            holderName: string;
+            /**
+             * @description Card expiration date in MM/YY format.
+             * @type string
+            */
+            expirationDate: string;
+        };
+        /**
+         * @type object
+        */
+        payer: {
+            /**
+             * @type string
+            */
+            name: string;
+            /**
+             * @type string, email
+            */
+            email: string;
+            /**
+             * @type object
+            */
+            phone: {
+                /**
+                 * @description The ISO 3166-1 country code.
+                 * @type string
+                */
+                iso: string;
+                /**
+                 * @description The international dialing code for the country, prefixed by the plus sign (+).
+                 * @type string
+                */
+                ddi: string;
+                /**
+                 * @type string
+                */
+                number: string;
+            };
+            /**
+             * @type object
+            */
+            document: {
+                /**
+                 * @type string
+                */
+                number: string;
+                /**
+                 * @type string
+                */
+                type: DocumentTypeEnum51;
+            };
+            /**
+             * @type object
+            */
+            address: {
+                /**
+                 * @description Two-letter state code following the ISO 3166-2 standard for country subdivisions.
+                 * @type string
+                */
+                state: string;
+                /**
+                 * @description City name.
+                 * @type string
+                */
+                city: string;
+                /**
+                 * @description ZIP or postal code, containing digits only.
+                 * @type string
+                */
+                zipCode: string;
+                /**
+                 * @description Neighborhood or district name.
+                 * @type string
+                */
+                neighborhood: string;
+                /**
+                 * @description Street name.
+                 * @type string
+                */
+                street: string;
+                /**
+                 * @description Street number.
+                 * @type string
+                */
+                number: string;
+                /**
+                 * @description Additional address details (optional).
+                */
+                complement?: (string | null);
+                /**
+                 * @description Nearby reference point (optional).
+                */
+                landmark?: (string | null);
+            };
+        };
+        /**
+         * @type string, date-time
+        */
+        nextBillingDate: string;
+        /**
+         * @type string, date-time
+        */
+        deadline: string;
+        canceledAt?: (string | null);
+        /**
+         * @default "TRIAL"
+         * @type string | undefined
+        */
+        status?: SubscriptionStatusEnum10;
+        /**
+         * @type string, date-time
+        */
+        createdAt: string;
+        /**
+         * @type string, date-time
+        */
+        updatedAt: string;
+    } | {
+        /**
+         * @description Unique identifier for subscription
+         * @type string, uuid
+        */
+        subscriptionId: string;
+        /**
+         * @description Unique identifier for workspace
+         * @type string, uuid
+        */
+        workspaceId: string;
+        /**
+         * @description Unique identifier for plan
+         * @type string, uuid
+        */
+        planId: string;
+        /**
+         * @type object
+        */
+        plan: {
+            /**
+             * @description Unique identifier for plan
+             * @type string, uuid
+            */
+            planId: string;
+            /**
+             * @type string
+            */
+            externalId: string;
+            /**
+             * @type string
+            */
+            name: string;
+            /**
+             * @type string
+            */
+            description: string;
+            /**
+             * @type array | undefined
+            */
+            features?: {
+                /**
+                 * @description Unique identifier for planFeature
+                 * @type string, uuid
+                */
+                planFeatureId: string;
+                /**
+                 * @type string
+                */
+                description: string;
+                /**
+                 * @type string
+                */
+                feature: string;
+                /**
+                 * @type object
+                */
+                props: {
+                    /**
+                     * @type number
+                    */
+                    maxOrganizations: number;
+                };
+                /**
+                 * @type string, date-time
+                */
+                createdAt: string;
+                /**
+                 * @type string, date-time
+                */
+                updatedAt: string;
+            }[];
+            /**
+             * @type array | undefined
+            */
+            intervals?: {
+                /**
+                 * @description Unique identifier for planInterval
+                 * @type string, uuid
+                */
+                planIntervalId: string;
+                /**
+                 * @type string
+                */
+                externalId: string;
+                /**
+                 * @minLength 0
+                 * @type number
+                */
+                amount: number;
+                /**
+                 * @type string
+                */
+                interval: IntervalsIntervalEnum44;
+                /**
+                 * @type number
+                */
+                intervalCount: number;
+                /**
+                 * @default 7
+                 * @type number | undefined
+                */
+                trialDays?: number;
+                /**
+                 * @default "ACTIVE"
+                 * @type string | undefined
+                */
+                status?: IntervalsStatusEnum44;
+                /**
+                 * @type string, date-time
+                */
+                createdAt: string;
+                /**
+                 * @type string, date-time
+                */
+                updatedAt: string;
+            }[];
+            /**
+             * @default false
+             * @type boolean | undefined
+            */
+            highlight?: boolean;
+            /**
+             * @default false
+             * @type boolean | undefined
+            */
+            default?: boolean;
+            /**
+             * @default "ACTIVE"
+             * @type string | undefined
+            */
+            status?: PlanStatusEnum42;
+            deletedAt?: (string | null);
+            /**
+             * @type string, date-time
+            */
+            createdAt: string;
+            /**
+             * @type string, date-time
+            */
+            updatedAt: string;
+        };
+        /**
+         * @type string
+        */
+        externalId: string;
+        /**
+         * @type string
+        */
+        paymentMethod: string;
+        /**
+         * @type object
+        */
+        payer: {
+            /**
+             * @type string
+            */
+            name: string;
+            /**
+             * @type string, email
+            */
+            email: string;
+            /**
+             * @type object
+            */
+            phone: {
+                /**
+                 * @description The ISO 3166-1 country code.
+                 * @type string
+                */
+                iso: string;
+                /**
+                 * @description The international dialing code for the country, prefixed by the plus sign (+).
+                 * @type string
+                */
+                ddi: string;
+                /**
+                 * @type string
+                */
+                number: string;
+            };
+            /**
+             * @type object
+            */
+            document: {
+                /**
+                 * @type string
+                */
+                number: string;
+                /**
+                 * @type string
+                */
+                type: DocumentTypeEnum52;
+            };
+            /**
+             * @type object
+            */
+            address: {
+                /**
+                 * @description Two-letter state code following the ISO 3166-2 standard for country subdivisions.
+                 * @type string
+                */
+                state: string;
+                /**
+                 * @description City name.
+                 * @type string
+                */
+                city: string;
+                /**
+                 * @description ZIP or postal code, containing digits only.
+                 * @type string
+                */
+                zipCode: string;
+                /**
+                 * @description Neighborhood or district name.
+                 * @type string
+                */
+                neighborhood: string;
+                /**
+                 * @description Street name.
+                 * @type string
+                */
+                street: string;
+                /**
+                 * @description Street number.
+                 * @type string
+                */
+                number: string;
+                /**
+                 * @description Additional address details (optional).
+                */
+                complement?: (string | null);
+                /**
+                 * @description Nearby reference point (optional).
+                */
+                landmark?: (string | null);
+            };
+        };
+        /**
+         * @type string, date-time
+        */
+        nextBillingDate: string;
+        /**
+         * @type string, date-time
+        */
+        deadline: string;
+        canceledAt?: (string | null);
+        /**
+         * @default "TRIAL"
+         * @type string | undefined
+        */
+        status?: SubscriptionStatusEnum11;
+        /**
+         * @type string, date-time
+        */
+        createdAt: string;
+        /**
+         * @type string, date-time
+        */
+        updatedAt: string;
+    } | {
+        /**
+         * @description Unique identifier for subscription
+         * @type string, uuid
+        */
+        subscriptionId: string;
+        /**
+         * @description Unique identifier for workspace
+         * @type string, uuid
+        */
+        workspaceId: string;
+        /**
+         * @description Unique identifier for plan
+         * @type string, uuid
+        */
+        planId: string;
+        /**
+         * @type object
+        */
+        plan: {
+            /**
+             * @description Unique identifier for plan
+             * @type string, uuid
+            */
+            planId: string;
+            /**
+             * @type string
+            */
+            externalId: string;
+            /**
+             * @type string
+            */
+            name: string;
+            /**
+             * @type string
+            */
+            description: string;
+            /**
+             * @type array | undefined
+            */
+            features?: {
+                /**
+                 * @description Unique identifier for planFeature
+                 * @type string, uuid
+                */
+                planFeatureId: string;
+                /**
+                 * @type string
+                */
+                description: string;
+                /**
+                 * @type string
+                */
+                feature: string;
+                /**
+                 * @type object
+                */
+                props: {
+                    /**
+                     * @type number
+                    */
+                    maxOrganizations: number;
+                };
+                /**
+                 * @type string, date-time
+                */
+                createdAt: string;
+                /**
+                 * @type string, date-time
+                */
+                updatedAt: string;
+            }[];
+            /**
+             * @type array | undefined
+            */
+            intervals?: {
+                /**
+                 * @description Unique identifier for planInterval
+                 * @type string, uuid
+                */
+                planIntervalId: string;
+                /**
+                 * @type string
+                */
+                externalId: string;
+                /**
+                 * @minLength 0
+                 * @type number
+                */
+                amount: number;
+                /**
+                 * @type string
+                */
+                interval: IntervalsIntervalEnum45;
+                /**
+                 * @type number
+                */
+                intervalCount: number;
+                /**
+                 * @default 7
+                 * @type number | undefined
+                */
+                trialDays?: number;
+                /**
+                 * @default "ACTIVE"
+                 * @type string | undefined
+                */
+                status?: IntervalsStatusEnum45;
+                /**
+                 * @type string, date-time
+                */
+                createdAt: string;
+                /**
+                 * @type string, date-time
+                */
+                updatedAt: string;
+            }[];
+            /**
+             * @default false
+             * @type boolean | undefined
+            */
+            highlight?: boolean;
+            /**
+             * @default false
+             * @type boolean | undefined
+            */
+            default?: boolean;
+            /**
+             * @default "ACTIVE"
+             * @type string | undefined
+            */
+            status?: PlanStatusEnum43;
+            deletedAt?: (string | null);
+            /**
+             * @type string, date-time
+            */
+            createdAt: string;
+            /**
+             * @type string, date-time
+            */
+            updatedAt: string;
+        };
+        /**
+         * @type string
+        */
+        externalId: string;
+        /**
+         * @type string
+        */
+        paymentMethod: string;
+        /**
+         * @type object
+        */
+        payer: {
+            /**
+             * @type string
+            */
+            name: string;
+            /**
+             * @type string, email
+            */
+            email: string;
+            /**
+             * @type object
+            */
+            phone: {
+                /**
+                 * @description The ISO 3166-1 country code.
+                 * @type string
+                */
+                iso: string;
+                /**
+                 * @description The international dialing code for the country, prefixed by the plus sign (+).
+                 * @type string
+                */
+                ddi: string;
+                /**
+                 * @type string
+                */
+                number: string;
+            };
+            /**
+             * @type object
+            */
+            document: {
+                /**
+                 * @type string
+                */
+                number: string;
+                /**
+                 * @type string
+                */
+                type: DocumentTypeEnum53;
+            };
+            /**
+             * @type object
+            */
+            address: {
+                /**
+                 * @description Two-letter state code following the ISO 3166-2 standard for country subdivisions.
+                 * @type string
+                */
+                state: string;
+                /**
+                 * @description City name.
+                 * @type string
+                */
+                city: string;
+                /**
+                 * @description ZIP or postal code, containing digits only.
+                 * @type string
+                */
+                zipCode: string;
+                /**
+                 * @description Neighborhood or district name.
+                 * @type string
+                */
+                neighborhood: string;
+                /**
+                 * @description Street name.
+                 * @type string
+                */
+                street: string;
+                /**
+                 * @description Street number.
+                 * @type string
+                */
+                number: string;
+                /**
+                 * @description Additional address details (optional).
+                */
+                complement?: (string | null);
+                /**
+                 * @description Nearby reference point (optional).
+                */
+                landmark?: (string | null);
+            };
+        };
+        /**
+         * @type string, date-time
+        */
+        nextBillingDate: string;
+        /**
+         * @type string, date-time
+        */
+        deadline: string;
+        canceledAt?: (string | null);
+        /**
+         * @default "TRIAL"
+         * @type string | undefined
+        */
+        status?: SubscriptionStatusEnum12;
+        /**
+         * @type string, date-time
+        */
+        createdAt: string;
+        /**
+         * @type string, date-time
+        */
+        updatedAt: string;
+    }) | null);
     recurrenceExternalId?: (string | null);
     /**
      * @type string
@@ -77,7 +1051,7 @@ export type UpdateWorkspace200 = {
         /**
          * @type string
         */
-        type: DocumentTypeEnum43;
+        type: DocumentTypeEnum54;
     } | null);
     address?: ({
         /**

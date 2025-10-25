@@ -235,10 +235,6 @@ export class UserPrisma implements IUserRepository {
 	}
 
 	updateById: IUserRepository['updateById'] = async (userId, input) => {
-		console.log({
-			input,
-		})
-
 		const { workspaceId, phone, document, ...data } =
 			UpdatableUserInputSchema.parse(input)
 

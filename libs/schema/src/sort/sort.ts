@@ -19,7 +19,7 @@ export const SortSchema = (allowedFields: string[]) =>
 			},
 			{
 				params: {
-					code: 'sort.invalid_format',
+					code: 'sortInvalidFormat',
 				},
 			},
 		)
@@ -36,7 +36,7 @@ export const SortSchema = (allowedFields: string[]) =>
 			},
 			{
 				params: {
-					code: 'sort.invalid_field',
+					code: 'sortInvalidField',
 					expected: allowedFields.join(', '),
 				},
 			},
@@ -57,7 +57,7 @@ export const SortSchema = (allowedFields: string[]) =>
 			},
 			{
 				params: {
-					code: 'sort.invalid_order',
+					code: 'sortInvalidOrder',
 					expected: allowedFields.join(', '),
 				},
 			},

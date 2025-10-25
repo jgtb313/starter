@@ -4,7 +4,7 @@
 */
 
 
-export type DocumentTypeEnum6 = "INDIVIDUAL" | "COMPANY";
+export type DocumentTypeEnum8 = "INDIVIDUAL" | "COMPANY";
 
 export type UserLocalePreferenceEnum = "en" | "es" | "pt-BR";
 
@@ -17,8 +17,8 @@ export type User = {
     */
     userId: string;
     workspaceId?: (string | null);
-    googleProviderId?: (string | null);
-    facebookProviderId?: (string | null);
+    googleProviderExternalId?: (string | null);
+    facebookProviderExternalId?: (string | null);
     /**
      * @type string
     */
@@ -52,7 +52,7 @@ export type User = {
         /**
          * @type string
         */
-        type: DocumentTypeEnum6;
+        type: DocumentTypeEnum8;
     } | null);
     /**
      * @type array | undefined

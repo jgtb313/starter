@@ -13,7 +13,7 @@ export const DocumentSchema = z
 	.min(1)
 	.refine(isCPFOrCNPJ, {
 		params: {
-			code: 'document.invalid',
+			code: 'documentInvalid',
 		},
 	})
 	.transform(clearSpecialChars)
@@ -36,7 +36,7 @@ export const DocumentExplicitSchema = z
 				'number',
 			],
 			params: {
-				code: 'document.type_mismatch',
+				code: 'documentTypeMismatch',
 			},
 		},
 	)
@@ -56,7 +56,7 @@ export const DocumentCNPJSchema = z
 				'number',
 			],
 			params: {
-				code: 'document.invalid_cnpj',
+				code: 'documentInvalidCnpj',
 			},
 		},
 	)
@@ -76,7 +76,7 @@ export const DocumentCPFSchema = z
 				'number',
 			],
 			params: {
-				code: 'document.invalid_cpf',
+				code: 'documentInvalidCpf',
 			},
 		},
 	)

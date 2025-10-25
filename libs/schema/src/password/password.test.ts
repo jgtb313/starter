@@ -55,32 +55,32 @@ describe('PasswordSchema', () => {
 		[
 			'shorter than 8 characters',
 			'Ab1!',
-			'password.minLength',
+			'passwordMinLength',
 		],
 		[
 			'longer than 64 characters',
 			`A1!${'a'.repeat(62)}`,
-			'password.maxLength',
+			'passwordMaxLength',
 		],
 		[
 			'without lowercase letters',
 			'PASSWORD123!',
-			'password.minLowercase',
+			'passwordMinLowercase',
 		],
 		[
 			'without uppercase letters',
 			'password123!',
-			'password.minUppercase',
+			'passwordMinUppercase',
 		],
 		[
 			'without numbers',
 			'Password!',
-			'password.minNumbers',
+			'passwordMinNumbers',
 		],
 		[
 			'without special characters',
 			'Password123',
-			'password.minSymbols',
+			'passwordMinSymbols',
 		],
 	])('returns correct params.code when password is %s', (_, input, code) => {
 		const result = PasswordSchema.safeParse(input)

@@ -144,10 +144,6 @@ export class OrganizationController {
 			},
 		)
 
-		console.log({
-			body,
-		})
-
 		const organization = await this.organizationService.createOrganization({
 			...body,
 			workspaceId: params.workspaceId,

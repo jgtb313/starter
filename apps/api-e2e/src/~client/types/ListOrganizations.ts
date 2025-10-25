@@ -33,6 +33,10 @@ export type ListOrganizationsQueryParams = {
      * @type string | undefined
     */
     filter?: string;
+    /**
+     * @description Sort the results by the given field and order.
+    */
+    sort?: (string | null);
     cursor?: (string | null);
     /**
      * @type number | undefined
@@ -50,7 +54,7 @@ export type ListOrganizationsHeaderParams = {
     "Accept-Language"?: ListOrganizationsHeaderParamsAcceptLanguageEnum;
 };
 
-export type DocumentTypeEnum8 = "INDIVIDUAL" | "COMPANY";
+export type DocumentTypeEnum15 = "INDIVIDUAL" | "COMPANY";
 
 export type ValuesStatusEnum4 = "ACTIVE" | "INACTIVE";
 
@@ -101,15 +105,15 @@ export type ListOrganizations200 = {
             /**
              * @type string
             */
-            type: DocumentTypeEnum8;
+            type: DocumentTypeEnum15;
         } | null);
         logo?: (string | null);
         domain?: (string | null);
         /**
-         * @default "ACTIVE"
-         * @type string | undefined
+         * @type string
         */
-        status?: ValuesStatusEnum4;
+        status: ValuesStatusEnum4;
+        deletedAt?: (string | null);
         /**
          * @type string, date-time
         */

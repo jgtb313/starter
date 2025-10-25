@@ -29,7 +29,7 @@ export const BirthdaySchema = z.preprocess(
 		])
 		.refine(isValidDate, {
 			params: {
-				code: 'date.invalid',
+				code: 'dateInvalid',
 			},
 		})
 		.refine(
@@ -38,7 +38,7 @@ export const BirthdaySchema = z.preprocess(
 			},
 			{
 				params: {
-					code: 'birthday.invalid_range',
+					code: 'birthdayInvalidRange',
 				},
 			},
 		)
@@ -63,7 +63,7 @@ export const BirthdayOptionalSchema = z.preprocess(
 		.nullish()
 		.refine((value) => (value ? isValidDate(value) : true), {
 			params: {
-				code: 'date.invalid',
+				code: 'dateInvalid',
 			},
 		})
 		.refine(
@@ -71,7 +71,7 @@ export const BirthdayOptionalSchema = z.preprocess(
 				value ? isAfter(parseLocalDate(value), new Date(1900, 0, 0)) : true,
 			{
 				params: {
-					code: 'birthday.invalid_range',
+					code: 'birthdayInvalidRange',
 				},
 			},
 		)

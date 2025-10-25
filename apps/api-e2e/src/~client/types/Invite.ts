@@ -4,7 +4,19 @@
 */
 
 
-export type InviteStatusEnum = "PENDING" | "ACCEPTED" | "CANCELLED";
+export type DocumentTypeEnum = "INDIVIDUAL" | "COMPANY";
+
+export type OrganizationStatusEnum = "ACTIVE" | "INACTIVE";
+
+export type RolePermissionIdsEnum = "user:create" | "user:read" | "user:update" | "user:delete" | "workspace:manage" | "workspace:create" | "workspace:read" | "workspace:update" | "workspace:delete" | "organization:manage" | "organization:create" | "organization:read" | "organization:update" | "organization:delete" | "role:create" | "role:read" | "role:update" | "role:delete" | "invoice:read" | "subscription:create" | "subscription:read" | "subscription:update:plan" | "subscription:update:payment-method" | "subscription:delete";
+
+export type PermissionsPermissionIdEnum = "user:create" | "user:read" | "user:update" | "user:delete" | "workspace:manage" | "workspace:create" | "workspace:read" | "workspace:update" | "workspace:delete" | "organization:manage" | "organization:create" | "organization:read" | "organization:update" | "organization:delete" | "role:create" | "role:read" | "role:update" | "role:delete" | "invoice:read" | "subscription:create" | "subscription:read" | "subscription:update:plan" | "subscription:update:payment-method" | "subscription:delete";
+
+export type PermissionsSubjectEnum = "user" | "workspace" | "organization" | "role" | "invoice" | "subscription";
+
+export type RoleStatusEnum = "ACTIVE" | "INACTIVE";
+
+export type InviteStatusEnum = "PENDING" | "ACCEPTED" | "EXPIRED" | "CANCELLED";
 
 export type Invite = {
     /**
@@ -35,18 +47,161 @@ export type Invite = {
         */
         organizationId: string;
         /**
+         * @type object
+        */
+        organization: {
+            /**
+             * @description Unique identifier for organization
+             * @type string, uuid
+            */
+            organizationId: string;
+            /**
+             * @description Unique identifier for workspace
+             * @type string, uuid
+            */
+            workspaceId: string;
+            /**
+             * @type string
+            */
+            name: string;
+            email?: (string | null);
+            phone?: ({
+                /**
+                 * @description The ISO 3166-1 country code.
+                 * @type string
+                */
+                iso: string;
+                /**
+                 * @description The international dialing code for the country, prefixed by the plus sign (+).
+                 * @type string
+                */
+                ddi: string;
+                /**
+                 * @type string
+                */
+                number: string;
+            } | null);
+            document?: ({
+                /**
+                 * @type string
+                */
+                number: string;
+                /**
+                 * @type string
+                */
+                type: DocumentTypeEnum;
+            } | null);
+            logo?: (string | null);
+            domain?: (string | null);
+            /**
+             * @type string
+            */
+            status: OrganizationStatusEnum;
+            deletedAt?: (string | null);
+            /**
+             * @type string, date-time
+            */
+            createdAt: string;
+            /**
+             * @type string, date-time
+            */
+            updatedAt: string;
+        };
+        /**
          * @type array
         */
         roleIds: string[];
+        /**
+         * @type array
+        */
+        role: {
+            /**
+             * @description Unique identifier for role
+             * @type string, uuid
+            */
+            roleId: string;
+            /**
+             * @description Unique identifier for workspace
+             * @type string, uuid
+            */
+            workspaceId: string;
+            /**
+             * @description The IDs of the organizations to assign to the role
+             * @type array
+            */
+            organizationIds: string[];
+            /**
+             * @description The IDs of the permissions to assign to the role
+             * @type array
+            */
+            permissionIds: RolePermissionIdsEnum[];
+            /**
+             * @type array | undefined
+            */
+            permissions?: {
+                /**
+                 * @type string
+                */
+                permissionId: PermissionsPermissionIdEnum;
+                /**
+                 * @type string
+                */
+                subject: PermissionsSubjectEnum;
+                /**
+                 * @description Depends on the subject. Common values include: read, write, update, delete.
+                 * @type string
+                */
+                action: string;
+                /**
+                 * @description Human-readable name of the permission.
+                 * @type string
+                */
+                title: string;
+                /**
+                 * @description Detailed explanation of what the permission allows within the system.
+                 * @type string
+                */
+                description: string;
+            }[];
+            /**
+             * @type string
+            */
+            name: string;
+            /**
+             * @type array | undefined
+            */
+            tags?: string[];
+            /**
+             * @default "ACTIVE"
+             * @type string | undefined
+            */
+            status?: RoleStatusEnum;
+            deletedAt?: (string | null);
+            /**
+             * @type string, date-time
+            */
+            createdAt: string;
+            /**
+             * @type string, date-time
+            */
+            updatedAt: string;
+        }[];
     }[];
     /**
+     * @description Token used to accept the invite
      * @type string
     */
     token: string;
     /**
-     * @type string
+     * @description Date and time when the invite expires
+     * @type string, date-time
     */
-    status: InviteStatusEnum;
+    expiresAt: string;
+    /**
+     * @default "PENDING"
+     * @type string | undefined
+    */
+    status?: InviteStatusEnum;
     /**
      * @type string, date-time
     */

@@ -49,6 +49,10 @@ export const operations = {
     "path": "/v1/workspaces/:workspaceId/invoices",
     "method": "get"
   },
+  "getUpcomingInvoice": {
+    "path": "/v1/workspaces/:workspaceId/invoices/upcoming",
+    "method": "get"
+  },
   "getInvoice": {
     "path": "/v1/workspaces/:workspaceId/invoices/:invoiceId",
     "method": "get"
@@ -188,6 +192,10 @@ export const operations = {
   "updateUser": {
     "path": "/v1/workspaces/:workspaceId/users/:userId",
     "method": "patch"
+  },
+  "deleteUser": {
+    "path": "/v1/workspaces/:workspaceId/users/:userId",
+    "method": "delete"
   },
   "getWorkspace": {
     "path": "/v1/workspaces/:workspaceId",

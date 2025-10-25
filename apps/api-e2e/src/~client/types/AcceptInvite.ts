@@ -134,6 +134,10 @@ export type AcceptInvite500 = {
 
 export type AcceptInviteMutationRequest = {
     /**
+     * @type string
+    */
+    name: string;
+    /**
      * @description A strong password.
      * @type string
     */

@@ -30,9 +30,9 @@ export type GetPlanHeaderParams = {
     "Accept-Language"?: GetPlanHeaderParamsAcceptLanguageEnum;
 };
 
-export type IntervalsIntervalEnum3 = "DAY" | "WEEK" | "MONTH" | "YEAR";
+export type IntervalsIntervalEnum25 = "DAY" | "WEEK" | "MONTH" | "YEAR";
 
-export type IntervalsStatusEnum3 = "ACTIVE" | "INACTIVE";
+export type IntervalsStatusEnum25 = "ACTIVE" | "INACTIVE";
 
 export type GetPlan200StatusEnum = "ACTIVE" | "INACTIVE";
 
@@ -113,12 +113,11 @@ export type GetPlan200 = {
         /**
          * @type string
         */
-        interval: IntervalsIntervalEnum3;
+        interval: IntervalsIntervalEnum25;
         /**
-         * @default 1
-         * @type number | undefined
+         * @type number
         */
-        intervalCount?: number;
+        intervalCount: number;
         /**
          * @default 7
          * @type number | undefined
@@ -128,7 +127,7 @@ export type GetPlan200 = {
          * @default "ACTIVE"
          * @type string | undefined
         */
-        status?: IntervalsStatusEnum3;
+        status?: IntervalsStatusEnum25;
         /**
          * @type string, date-time
         */
@@ -143,6 +142,11 @@ export type GetPlan200 = {
      * @type boolean | undefined
     */
     highlight?: boolean;
+    /**
+     * @default false
+     * @type boolean | undefined
+    */
+    default?: boolean;
     /**
      * @default "ACTIVE"
      * @type string | undefined

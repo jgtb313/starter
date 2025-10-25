@@ -30,9 +30,15 @@ export type CreateRoleHeaderParams = {
     "Accept-Language"?: CreateRoleHeaderParamsAcceptLanguageEnum;
 };
 
-export type DocumentTypeEnum17 = "INDIVIDUAL" | "COMPANY";
+export type DocumentTypeEnum25 = "INDIVIDUAL" | "COMPANY";
 
 export type OrganizationsStatusEnum3 = "ACTIVE" | "INACTIVE";
+
+export type CreateRole201PermissionIdsEnum = "user:create" | "user:read" | "user:update" | "user:delete" | "workspace:manage" | "workspace:create" | "workspace:read" | "workspace:update" | "workspace:delete" | "organization:manage" | "organization:create" | "organization:read" | "organization:update" | "organization:delete" | "role:create" | "role:read" | "role:update" | "role:delete" | "invoice:read" | "subscription:create" | "subscription:read" | "subscription:update:plan" | "subscription:update:payment-method" | "subscription:delete";
+
+export type PermissionsPermissionIdEnum6 = "user:create" | "user:read" | "user:update" | "user:delete" | "workspace:manage" | "workspace:create" | "workspace:read" | "workspace:update" | "workspace:delete" | "organization:manage" | "organization:create" | "organization:read" | "organization:update" | "organization:delete" | "role:create" | "role:read" | "role:update" | "role:delete" | "invoice:read" | "subscription:create" | "subscription:read" | "subscription:update:plan" | "subscription:update:payment-method" | "subscription:delete";
+
+export type PermissionsSubjectEnum6 = "user" | "workspace" | "organization" | "role" | "invoice" | "subscription";
 
 export type CreateRole201StatusEnum = "ACTIVE" | "INACTIVE";
 
@@ -50,6 +56,11 @@ export type CreateRole201 = {
      * @type string, uuid
     */
     workspaceId: string;
+    /**
+     * @description The IDs of the organizations to assign to the role
+     * @type array
+    */
+    organizationIds: string[];
     /**
      * @type array | undefined
     */
@@ -93,15 +104,15 @@ export type CreateRole201 = {
             /**
              * @type string
             */
-            type: DocumentTypeEnum17;
+            type: DocumentTypeEnum25;
         } | null);
         logo?: (string | null);
         domain?: (string | null);
         /**
-         * @default "ACTIVE"
-         * @type string | undefined
+         * @type string
         */
-        status?: OrganizationsStatusEnum3;
+        status: OrganizationsStatusEnum3;
+        deletedAt?: (string | null);
         /**
          * @type string, date-time
         */
@@ -111,41 +122,47 @@ export type CreateRole201 = {
         */
         updatedAt: string;
     }[];
+    /**
+     * @description The IDs of the permissions to assign to the role
+     * @type array
+    */
+    permissionIds: CreateRole201PermissionIdsEnum[];
     /**
      * @type array | undefined
     */
     permissions?: {
         /**
-         * @description Unique identifier for permission
-         * @type string, uuid
+         * @type string
         */
-        permissionId: string;
+        permissionId: PermissionsPermissionIdEnum6;
         /**
+         * @type string
+        */
+        subject: PermissionsSubjectEnum6;
+        /**
+         * @description Depends on the subject. Common values include: read, write, update, delete.
          * @type string
         */
         action: string;
         /**
+         * @description Human-readable name of the permission.
          * @type string
         */
-        name: string;
+        title: string;
         /**
+         * @description Detailed explanation of what the permission allows within the system.
          * @type string
         */
         description: string;
-        /**
-         * @type string, date-time
-        */
-        createdAt: string;
-        /**
-         * @type string, date-time
-        */
-        updatedAt: string;
     }[];
     /**
      * @type string
     */
     name: string;
-    tags?: (string[] | null);
+    /**
+     * @type array | undefined
+    */
+    tags?: string[];
     /**
      * @default "ACTIVE"
      * @type string | undefined
@@ -206,19 +223,27 @@ export type CreateRole500 = {
     };
 };
 
-export type CreateRoleMutationRequestStatusEnum = "ACTIVE" | "INACTIVE";
+export type CreateRoleMutationRequestPermissionIdsEnum = "user:create" | "user:read" | "user:update" | "user:delete" | "workspace:manage" | "workspace:create" | "workspace:read" | "workspace:update" | "workspace:delete" | "organization:manage" | "organization:create" | "organization:read" | "organization:update" | "organization:delete" | "role:create" | "role:read" | "role:update" | "role:delete" | "invoice:read" | "subscription:create" | "subscription:read" | "subscription:update:plan" | "subscription:update:payment-method" | "subscription:delete";
 
 export type CreateRoleMutationRequest = {
     /**
      * @type string
     */
     name: string;
-    tags?: (string[] | null);
     /**
-     * @default "ACTIVE"
-     * @type string | undefined
+     * @description The IDs of the organizations to assign to the role
+     * @type array
     */
-    status?: CreateRoleMutationRequestStatusEnum;
+    organizationIds: string[];
+    /**
+     * @description The IDs of the permissions to assign to the role
+     * @type array
+    */
+    permissionIds: CreateRoleMutationRequestPermissionIdsEnum[];
+    /**
+     * @type array | undefined
+    */
+    tags?: string[];
 };
 
 export type CreateRoleMutationResponse = CreateRole201;

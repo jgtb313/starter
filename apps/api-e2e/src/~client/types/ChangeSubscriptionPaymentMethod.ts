@@ -35,15 +35,33 @@ export type ChangeSubscriptionPaymentMethodHeaderParams = {
     "Accept-Language"?: ChangeSubscriptionPaymentMethodHeaderParamsAcceptLanguageEnum;
 };
 
-export type DocumentTypeEnum35 = "INDIVIDUAL" | "COMPANY";
+export type IntervalsIntervalEnum35 = "DAY" | "WEEK" | "MONTH" | "YEAR";
+
+export type IntervalsStatusEnum35 = "ACTIVE" | "INACTIVE";
+
+export type PlanStatusEnum33 = "ACTIVE" | "INACTIVE";
+
+export type DocumentTypeEnum40 = "INDIVIDUAL" | "COMPANY";
 
 export type ChangeSubscriptionPaymentMethod200StatusEnum = "TRIAL" | "ACTIVE" | "OVERDUE" | "CANCELED";
 
-export type DocumentTypeEnum36 = "INDIVIDUAL" | "COMPANY";
+export type IntervalsIntervalEnum36 = "DAY" | "WEEK" | "MONTH" | "YEAR";
+
+export type IntervalsStatusEnum36 = "ACTIVE" | "INACTIVE";
+
+export type PlanStatusEnum34 = "ACTIVE" | "INACTIVE";
+
+export type DocumentTypeEnum41 = "INDIVIDUAL" | "COMPANY";
 
 export type ChangeSubscriptionPaymentMethod200StatusEnum2 = "TRIAL" | "ACTIVE" | "OVERDUE" | "CANCELED";
 
-export type DocumentTypeEnum37 = "INDIVIDUAL" | "COMPANY";
+export type IntervalsIntervalEnum37 = "DAY" | "WEEK" | "MONTH" | "YEAR";
+
+export type IntervalsStatusEnum37 = "ACTIVE" | "INACTIVE";
+
+export type PlanStatusEnum35 = "ACTIVE" | "INACTIVE";
+
+export type DocumentTypeEnum42 = "INDIVIDUAL" | "COMPANY";
 
 export type ChangeSubscriptionPaymentMethod200StatusEnum3 = "TRIAL" | "ACTIVE" | "OVERDUE" | "CANCELED";
 
@@ -66,6 +84,132 @@ export type ChangeSubscriptionPaymentMethod200 = ({
      * @type string, uuid
     */
     planId: string;
+    /**
+     * @type object
+    */
+    plan: {
+        /**
+         * @description Unique identifier for plan
+         * @type string, uuid
+        */
+        planId: string;
+        /**
+         * @type string
+        */
+        externalId: string;
+        /**
+         * @type string
+        */
+        name: string;
+        /**
+         * @type string
+        */
+        description: string;
+        /**
+         * @type array | undefined
+        */
+        features?: {
+            /**
+             * @description Unique identifier for planFeature
+             * @type string, uuid
+            */
+            planFeatureId: string;
+            /**
+             * @type string
+            */
+            description: string;
+            /**
+             * @type string
+            */
+            feature: string;
+            /**
+             * @type object
+            */
+            props: {
+                /**
+                 * @type number
+                */
+                maxOrganizations: number;
+            };
+            /**
+             * @type string, date-time
+            */
+            createdAt: string;
+            /**
+             * @type string, date-time
+            */
+            updatedAt: string;
+        }[];
+        /**
+         * @type array | undefined
+        */
+        intervals?: {
+            /**
+             * @description Unique identifier for planInterval
+             * @type string, uuid
+            */
+            planIntervalId: string;
+            /**
+             * @type string
+            */
+            externalId: string;
+            /**
+             * @minLength 0
+             * @type number
+            */
+            amount: number;
+            /**
+             * @type string
+            */
+            interval: IntervalsIntervalEnum35;
+            /**
+             * @type number
+            */
+            intervalCount: number;
+            /**
+             * @default 7
+             * @type number | undefined
+            */
+            trialDays?: number;
+            /**
+             * @default "ACTIVE"
+             * @type string | undefined
+            */
+            status?: IntervalsStatusEnum35;
+            /**
+             * @type string, date-time
+            */
+            createdAt: string;
+            /**
+             * @type string, date-time
+            */
+            updatedAt: string;
+        }[];
+        /**
+         * @default false
+         * @type boolean | undefined
+        */
+        highlight?: boolean;
+        /**
+         * @default false
+         * @type boolean | undefined
+        */
+        default?: boolean;
+        /**
+         * @default "ACTIVE"
+         * @type string | undefined
+        */
+        status?: PlanStatusEnum33;
+        deletedAt?: (string | null);
+        /**
+         * @type string, date-time
+        */
+        createdAt: string;
+        /**
+         * @type string, date-time
+        */
+        updatedAt: string;
+    };
     /**
      * @type string
     */
@@ -141,7 +285,7 @@ export type ChangeSubscriptionPaymentMethod200 = ({
             /**
              * @type string
             */
-            type: DocumentTypeEnum35;
+            type: DocumentTypeEnum40;
         };
         /**
          * @type object
@@ -226,6 +370,132 @@ export type ChangeSubscriptionPaymentMethod200 = ({
     */
     planId: string;
     /**
+     * @type object
+    */
+    plan: {
+        /**
+         * @description Unique identifier for plan
+         * @type string, uuid
+        */
+        planId: string;
+        /**
+         * @type string
+        */
+        externalId: string;
+        /**
+         * @type string
+        */
+        name: string;
+        /**
+         * @type string
+        */
+        description: string;
+        /**
+         * @type array | undefined
+        */
+        features?: {
+            /**
+             * @description Unique identifier for planFeature
+             * @type string, uuid
+            */
+            planFeatureId: string;
+            /**
+             * @type string
+            */
+            description: string;
+            /**
+             * @type string
+            */
+            feature: string;
+            /**
+             * @type object
+            */
+            props: {
+                /**
+                 * @type number
+                */
+                maxOrganizations: number;
+            };
+            /**
+             * @type string, date-time
+            */
+            createdAt: string;
+            /**
+             * @type string, date-time
+            */
+            updatedAt: string;
+        }[];
+        /**
+         * @type array | undefined
+        */
+        intervals?: {
+            /**
+             * @description Unique identifier for planInterval
+             * @type string, uuid
+            */
+            planIntervalId: string;
+            /**
+             * @type string
+            */
+            externalId: string;
+            /**
+             * @minLength 0
+             * @type number
+            */
+            amount: number;
+            /**
+             * @type string
+            */
+            interval: IntervalsIntervalEnum36;
+            /**
+             * @type number
+            */
+            intervalCount: number;
+            /**
+             * @default 7
+             * @type number | undefined
+            */
+            trialDays?: number;
+            /**
+             * @default "ACTIVE"
+             * @type string | undefined
+            */
+            status?: IntervalsStatusEnum36;
+            /**
+             * @type string, date-time
+            */
+            createdAt: string;
+            /**
+             * @type string, date-time
+            */
+            updatedAt: string;
+        }[];
+        /**
+         * @default false
+         * @type boolean | undefined
+        */
+        highlight?: boolean;
+        /**
+         * @default false
+         * @type boolean | undefined
+        */
+        default?: boolean;
+        /**
+         * @default "ACTIVE"
+         * @type string | undefined
+        */
+        status?: PlanStatusEnum34;
+        deletedAt?: (string | null);
+        /**
+         * @type string, date-time
+        */
+        createdAt: string;
+        /**
+         * @type string, date-time
+        */
+        updatedAt: string;
+    };
+    /**
      * @type string
     */
     externalId: string;
@@ -275,7 +545,7 @@ export type ChangeSubscriptionPaymentMethod200 = ({
             /**
              * @type string
             */
-            type: DocumentTypeEnum36;
+            type: DocumentTypeEnum41;
         };
         /**
          * @type object
@@ -360,6 +630,132 @@ export type ChangeSubscriptionPaymentMethod200 = ({
     */
     planId: string;
     /**
+     * @type object
+    */
+    plan: {
+        /**
+         * @description Unique identifier for plan
+         * @type string, uuid
+        */
+        planId: string;
+        /**
+         * @type string
+        */
+        externalId: string;
+        /**
+         * @type string
+        */
+        name: string;
+        /**
+         * @type string
+        */
+        description: string;
+        /**
+         * @type array | undefined
+        */
+        features?: {
+            /**
+             * @description Unique identifier for planFeature
+             * @type string, uuid
+            */
+            planFeatureId: string;
+            /**
+             * @type string
+            */
+            description: string;
+            /**
+             * @type string
+            */
+            feature: string;
+            /**
+             * @type object
+            */
+            props: {
+                /**
+                 * @type number
+                */
+                maxOrganizations: number;
+            };
+            /**
+             * @type string, date-time
+            */
+            createdAt: string;
+            /**
+             * @type string, date-time
+            */
+            updatedAt: string;
+        }[];
+        /**
+         * @type array | undefined
+        */
+        intervals?: {
+            /**
+             * @description Unique identifier for planInterval
+             * @type string, uuid
+            */
+            planIntervalId: string;
+            /**
+             * @type string
+            */
+            externalId: string;
+            /**
+             * @minLength 0
+             * @type number
+            */
+            amount: number;
+            /**
+             * @type string
+            */
+            interval: IntervalsIntervalEnum37;
+            /**
+             * @type number
+            */
+            intervalCount: number;
+            /**
+             * @default 7
+             * @type number | undefined
+            */
+            trialDays?: number;
+            /**
+             * @default "ACTIVE"
+             * @type string | undefined
+            */
+            status?: IntervalsStatusEnum37;
+            /**
+             * @type string, date-time
+            */
+            createdAt: string;
+            /**
+             * @type string, date-time
+            */
+            updatedAt: string;
+        }[];
+        /**
+         * @default false
+         * @type boolean | undefined
+        */
+        highlight?: boolean;
+        /**
+         * @default false
+         * @type boolean | undefined
+        */
+        default?: boolean;
+        /**
+         * @default "ACTIVE"
+         * @type string | undefined
+        */
+        status?: PlanStatusEnum35;
+        deletedAt?: (string | null);
+        /**
+         * @type string, date-time
+        */
+        createdAt: string;
+        /**
+         * @type string, date-time
+        */
+        updatedAt: string;
+    };
+    /**
      * @type string
     */
     externalId: string;
@@ -409,7 +805,7 @@ export type ChangeSubscriptionPaymentMethod200 = ({
             /**
              * @type string
             */
-            type: DocumentTypeEnum37;
+            type: DocumentTypeEnum42;
         };
         /**
          * @type object

@@ -25,7 +25,7 @@ describe('TranslationsSchema', () => {
 		expect(result.success).toBe(false)
 		expect(result.error?.issues[0]).toMatchObject({
 			params: {
-				code: 'translations.invalid_locale',
+				code: 'translationsInvalidLocale',
 			},
 		})
 	})

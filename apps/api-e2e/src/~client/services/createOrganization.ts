@@ -17,7 +17,7 @@ function getCreateOrganizationUrl({ workspaceId }: { workspaceId: CreateOrganiza
  * @summary Create Organization
  * {@link /v1/workspaces/:workspaceId/organizations}
  */
-export async function createOrganization({ workspaceId }: { workspaceId: CreateOrganizationPathParams["workspaceId"] }, data?: CreateOrganizationMutationRequest, params?: CreateOrganizationQueryParams, headers?: CreateOrganizationHeaderParams, config: Partial<RequestConfig<CreateOrganizationMutationRequest>> & { client?: typeof fetch } = {}) {
+export async function createOrganization({ workspaceId }: { workspaceId: CreateOrganizationPathParams["workspaceId"] }, data: CreateOrganizationMutationRequest, params?: CreateOrganizationQueryParams, headers?: CreateOrganizationHeaderParams, config: Partial<RequestConfig<CreateOrganizationMutationRequest>> & { client?: typeof fetch } = {}) {
   const { client: request = fetch, ...requestConfig } = config  
   
   const requestData = data  

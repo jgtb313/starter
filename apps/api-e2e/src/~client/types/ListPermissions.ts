@@ -22,7 +22,7 @@ export type ListPermissionsHeaderParams = {
     "Accept-Language"?: ListPermissionsHeaderParamsAcceptLanguageEnum;
 };
 
-export type ListPermissions200KeyEnum = "user:create" | "user:read" | "user:update" | "user:delete" | "workspace:manage" | "workspace:create" | "workspace:read" | "workspace:update" | "workspace:delete" | "organization:manage" | "organization:create" | "organization:read" | "organization:update" | "organization:delete" | "role:create" | "role:read" | "role:update" | "role:delete" | "invoice:read" | "subscription:create" | "subscription:read" | "subscription:update:plan" | "subscription:update:payment-method" | "subscription:delete";
+export type ListPermissions200PermissionIdEnum = "user:create" | "user:read" | "user:update" | "user:delete" | "workspace:manage" | "workspace:create" | "workspace:read" | "workspace:update" | "workspace:delete" | "organization:manage" | "organization:create" | "organization:read" | "organization:update" | "organization:delete" | "role:create" | "role:read" | "role:update" | "role:delete" | "invoice:read" | "subscription:create" | "subscription:read" | "subscription:update:plan" | "subscription:update:payment-method" | "subscription:delete";
 
 export type ListPermissions200SubjectEnum = "user" | "workspace" | "organization" | "role" | "invoice" | "subscription";
 
@@ -33,7 +33,7 @@ export type ListPermissions200 = {
     /**
      * @type string
     */
-    key: ListPermissions200KeyEnum;
+    permissionId: ListPermissions200PermissionIdEnum;
     /**
      * @type string
     */

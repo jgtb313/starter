@@ -4,9 +4,9 @@
 */
 
 
-export type DocumentTypeEnum = "INDIVIDUAL" | "COMPANY";
+export type DocumentTypeEnum2 = "INDIVIDUAL" | "COMPANY";
 
-export type OrganizationStatusEnum = "ACTIVE" | "INACTIVE";
+export type OrganizationStatusEnum2 = "ACTIVE" | "INACTIVE";
 
 export type Organization = {
     /**
@@ -48,15 +48,15 @@ export type Organization = {
         /**
          * @type string
         */
-        type: DocumentTypeEnum;
+        type: DocumentTypeEnum2;
     } | null);
     logo?: (string | null);
     domain?: (string | null);
     /**
-     * @default "ACTIVE"
-     * @type string | undefined
+     * @type string
     */
-    status?: OrganizationStatusEnum;
+    status: OrganizationStatusEnum2;
+    deletedAt?: (string | null);
     /**
      * @type string, date-time
     */

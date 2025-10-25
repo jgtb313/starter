@@ -4,47 +4,75 @@
 */
 
 
-export type IntervalsIntervalEnum8 = "DAY" | "WEEK" | "MONTH" | "YEAR";
-
-export type IntervalsStatusEnum8 = "ACTIVE" | "INACTIVE";
-
-export type PlanStatusEnum8 = "ACTIVE" | "INACTIVE";
-
-export type DocumentTypeEnum5 = "INDIVIDUAL" | "COMPANY";
-
-export type SubscriptionStatusEnum = "TRIAL" | "ACTIVE" | "OVERDUE" | "CANCELED";
-
-export type IntervalsIntervalEnum9 = "DAY" | "WEEK" | "MONTH" | "YEAR";
-
-export type IntervalsStatusEnum9 = "ACTIVE" | "INACTIVE";
-
-export type PlanStatusEnum9 = "ACTIVE" | "INACTIVE";
-
-export type DocumentTypeEnum6 = "INDIVIDUAL" | "COMPANY";
-
-export type SubscriptionStatusEnum2 = "TRIAL" | "ACTIVE" | "OVERDUE" | "CANCELED";
-
-export type IntervalsIntervalEnum10 = "DAY" | "WEEK" | "MONTH" | "YEAR";
-
-export type IntervalsStatusEnum10 = "ACTIVE" | "INACTIVE";
-
-export type PlanStatusEnum10 = "ACTIVE" | "INACTIVE";
-
-export type DocumentTypeEnum7 = "INDIVIDUAL" | "COMPANY";
-
-export type SubscriptionStatusEnum3 = "TRIAL" | "ACTIVE" | "OVERDUE" | "CANCELED";
-
-export type Subscription = ({
-    /**
-     * @description Unique identifier for subscription
-     * @type string, uuid
-    */
-    subscriptionId: string;
+export type GetUpcomingInvoicePathParams = {
     /**
      * @description Unique identifier for workspace
      * @type string, uuid
     */
     workspaceId: string;
+};
+
+export type GetUpcomingInvoiceQueryParams = {
+    /**
+     * @description Comma-separated list of fields to return in the response.
+     * @type string | undefined
+    */
+    fields?: string;
+};
+
+export type GetUpcomingInvoiceHeaderParamsAcceptLanguageEnum = "en" | "es" | "pt-BR";
+
+export type GetUpcomingInvoiceHeaderParams = {
+    /**
+     * @description Specifies the preferred language to be used in the response.
+     * @type string | undefined
+    */
+    "Accept-Language"?: GetUpcomingInvoiceHeaderParamsAcceptLanguageEnum;
+};
+
+export type IntervalsIntervalEnum18 = "DAY" | "WEEK" | "MONTH" | "YEAR";
+
+export type IntervalsStatusEnum18 = "ACTIVE" | "INACTIVE";
+
+export type PlanStatusEnum18 = "ACTIVE" | "INACTIVE";
+
+export type GetUpcomingInvoice200StatusEnum = "OPEN";
+
+export type IntervalsIntervalEnum19 = "DAY" | "WEEK" | "MONTH" | "YEAR";
+
+export type IntervalsStatusEnum19 = "ACTIVE" | "INACTIVE";
+
+export type PlanStatusEnum19 = "ACTIVE" | "INACTIVE";
+
+export type GetUpcomingInvoice200StatusEnum2 = "OPEN";
+
+export type IntervalsIntervalEnum20 = "DAY" | "WEEK" | "MONTH" | "YEAR";
+
+export type IntervalsStatusEnum20 = "ACTIVE" | "INACTIVE";
+
+export type PlanStatusEnum20 = "ACTIVE" | "INACTIVE";
+
+export type GetUpcomingInvoice200StatusEnum3 = "OPEN";
+
+/**
+ * @description OK
+*/
+export type GetUpcomingInvoice200 = ({
+    /**
+     * @description Temporary identifier for an upcoming invoice that has not yet been generated.
+     * @type string
+    */
+    invoiceId: string;
+    /**
+     * @description Unique identifier for workspace
+     * @type string, uuid
+    */
+    workspaceId: string;
+    /**
+     * @description Unique identifier for subscription
+     * @type string, uuid
+    */
+    subscriptionId: string;
     /**
      * @description Unique identifier for plan
      * @type string, uuid
@@ -127,7 +155,7 @@ export type Subscription = ({
             /**
              * @type string
             */
-            interval: IntervalsIntervalEnum8;
+            interval: IntervalsIntervalEnum18;
             /**
              * @type number
             */
@@ -141,7 +169,7 @@ export type Subscription = ({
              * @default "ACTIVE"
              * @type string | undefined
             */
-            status?: IntervalsStatusEnum8;
+            status?: IntervalsStatusEnum18;
             /**
              * @type string, date-time
             */
@@ -165,7 +193,7 @@ export type Subscription = ({
          * @default "ACTIVE"
          * @type string | undefined
         */
-        status?: PlanStatusEnum8;
+        status?: PlanStatusEnum18;
         deletedAt?: (string | null);
         /**
          * @type string, date-time
@@ -177,9 +205,9 @@ export type Subscription = ({
         updatedAt: string;
     };
     /**
-     * @type string
+     * @type number
     */
-    externalId: string;
+    amount: number;
     /**
      * @type string
     */
@@ -210,126 +238,30 @@ export type Subscription = ({
         expirationDate: string;
     };
     /**
-     * @type object
-    */
-    payer: {
-        /**
-         * @type string
-        */
-        name: string;
-        /**
-         * @type string, email
-        */
-        email: string;
-        /**
-         * @type object
-        */
-        phone: {
-            /**
-             * @description The ISO 3166-1 country code.
-             * @type string
-            */
-            iso: string;
-            /**
-             * @description The international dialing code for the country, prefixed by the plus sign (+).
-             * @type string
-            */
-            ddi: string;
-            /**
-             * @type string
-            */
-            number: string;
-        };
-        /**
-         * @type object
-        */
-        document: {
-            /**
-             * @type string
-            */
-            number: string;
-            /**
-             * @type string
-            */
-            type: DocumentTypeEnum5;
-        };
-        /**
-         * @type object
-        */
-        address: {
-            /**
-             * @description Two-letter state code following the ISO 3166-2 standard for country subdivisions.
-             * @type string
-            */
-            state: string;
-            /**
-             * @description City name.
-             * @type string
-            */
-            city: string;
-            /**
-             * @description ZIP or postal code, containing digits only.
-             * @type string
-            */
-            zipCode: string;
-            /**
-             * @description Neighborhood or district name.
-             * @type string
-            */
-            neighborhood: string;
-            /**
-             * @description Street name.
-             * @type string
-            */
-            street: string;
-            /**
-             * @description Street number.
-             * @type string
-            */
-            number: string;
-            /**
-             * @description Additional address details (optional).
-            */
-            complement?: (string | null);
-            /**
-             * @description Nearby reference point (optional).
-            */
-            landmark?: (string | null);
-        };
-    };
-    /**
      * @type string, date-time
     */
-    nextBillingDate: string;
+    dueDate: string;
     /**
-     * @type string, date-time
-    */
-    deadline: string;
-    canceledAt?: (string | null);
-    /**
-     * @default "TRIAL"
+     * @default "OPEN"
      * @type string | undefined
     */
-    status?: SubscriptionStatusEnum;
-    /**
-     * @type string, date-time
-    */
-    createdAt: string;
-    /**
-     * @type string, date-time
-    */
-    updatedAt: string;
+    status?: GetUpcomingInvoice200StatusEnum;
 } | {
     /**
-     * @description Unique identifier for subscription
-     * @type string, uuid
+     * @description Temporary identifier for an upcoming invoice that has not yet been generated.
+     * @type string
     */
-    subscriptionId: string;
+    invoiceId: string;
     /**
      * @description Unique identifier for workspace
      * @type string, uuid
     */
     workspaceId: string;
+    /**
+     * @description Unique identifier for subscription
+     * @type string, uuid
+    */
+    subscriptionId: string;
     /**
      * @description Unique identifier for plan
      * @type string, uuid
@@ -412,7 +344,7 @@ export type Subscription = ({
             /**
              * @type string
             */
-            interval: IntervalsIntervalEnum9;
+            interval: IntervalsIntervalEnum19;
             /**
              * @type number
             */
@@ -426,7 +358,7 @@ export type Subscription = ({
              * @default "ACTIVE"
              * @type string | undefined
             */
-            status?: IntervalsStatusEnum9;
+            status?: IntervalsStatusEnum19;
             /**
              * @type string, date-time
             */
@@ -450,7 +382,7 @@ export type Subscription = ({
          * @default "ACTIVE"
          * @type string | undefined
         */
-        status?: PlanStatusEnum9;
+        status?: PlanStatusEnum19;
         deletedAt?: (string | null);
         /**
          * @type string, date-time
@@ -462,134 +394,38 @@ export type Subscription = ({
         updatedAt: string;
     };
     /**
-     * @type string
+     * @type number
     */
-    externalId: string;
+    amount: number;
     /**
      * @type string
     */
     paymentMethod: string;
     /**
-     * @type object
-    */
-    payer: {
-        /**
-         * @type string
-        */
-        name: string;
-        /**
-         * @type string, email
-        */
-        email: string;
-        /**
-         * @type object
-        */
-        phone: {
-            /**
-             * @description The ISO 3166-1 country code.
-             * @type string
-            */
-            iso: string;
-            /**
-             * @description The international dialing code for the country, prefixed by the plus sign (+).
-             * @type string
-            */
-            ddi: string;
-            /**
-             * @type string
-            */
-            number: string;
-        };
-        /**
-         * @type object
-        */
-        document: {
-            /**
-             * @type string
-            */
-            number: string;
-            /**
-             * @type string
-            */
-            type: DocumentTypeEnum6;
-        };
-        /**
-         * @type object
-        */
-        address: {
-            /**
-             * @description Two-letter state code following the ISO 3166-2 standard for country subdivisions.
-             * @type string
-            */
-            state: string;
-            /**
-             * @description City name.
-             * @type string
-            */
-            city: string;
-            /**
-             * @description ZIP or postal code, containing digits only.
-             * @type string
-            */
-            zipCode: string;
-            /**
-             * @description Neighborhood or district name.
-             * @type string
-            */
-            neighborhood: string;
-            /**
-             * @description Street name.
-             * @type string
-            */
-            street: string;
-            /**
-             * @description Street number.
-             * @type string
-            */
-            number: string;
-            /**
-             * @description Additional address details (optional).
-            */
-            complement?: (string | null);
-            /**
-             * @description Nearby reference point (optional).
-            */
-            landmark?: (string | null);
-        };
-    };
-    /**
      * @type string, date-time
     */
-    nextBillingDate: string;
+    dueDate: string;
     /**
-     * @type string, date-time
-    */
-    deadline: string;
-    canceledAt?: (string | null);
-    /**
-     * @default "TRIAL"
+     * @default "OPEN"
      * @type string | undefined
     */
-    status?: SubscriptionStatusEnum2;
-    /**
-     * @type string, date-time
-    */
-    createdAt: string;
-    /**
-     * @type string, date-time
-    */
-    updatedAt: string;
+    status?: GetUpcomingInvoice200StatusEnum2;
 } | {
     /**
-     * @description Unique identifier for subscription
-     * @type string, uuid
+     * @description Temporary identifier for an upcoming invoice that has not yet been generated.
+     * @type string
     */
-    subscriptionId: string;
+    invoiceId: string;
     /**
      * @description Unique identifier for workspace
      * @type string, uuid
     */
     workspaceId: string;
+    /**
+     * @description Unique identifier for subscription
+     * @type string, uuid
+    */
+    subscriptionId: string;
     /**
      * @description Unique identifier for plan
      * @type string, uuid
@@ -672,7 +508,7 @@ export type Subscription = ({
             /**
              * @type string
             */
-            interval: IntervalsIntervalEnum10;
+            interval: IntervalsIntervalEnum20;
             /**
              * @type number
             */
@@ -686,7 +522,7 @@ export type Subscription = ({
              * @default "ACTIVE"
              * @type string | undefined
             */
-            status?: IntervalsStatusEnum10;
+            status?: IntervalsStatusEnum20;
             /**
              * @type string, date-time
             */
@@ -710,7 +546,7 @@ export type Subscription = ({
          * @default "ACTIVE"
          * @type string | undefined
         */
-        status?: PlanStatusEnum10;
+        status?: PlanStatusEnum20;
         deletedAt?: (string | null);
         /**
          * @type string, date-time
@@ -722,121 +558,74 @@ export type Subscription = ({
         updatedAt: string;
     };
     /**
-     * @type string
+     * @type number
     */
-    externalId: string;
+    amount: number;
     /**
      * @type string
     */
     paymentMethod: string;
     /**
-     * @type object
-    */
-    payer: {
-        /**
-         * @type string
-        */
-        name: string;
-        /**
-         * @type string, email
-        */
-        email: string;
-        /**
-         * @type object
-        */
-        phone: {
-            /**
-             * @description The ISO 3166-1 country code.
-             * @type string
-            */
-            iso: string;
-            /**
-             * @description The international dialing code for the country, prefixed by the plus sign (+).
-             * @type string
-            */
-            ddi: string;
-            /**
-             * @type string
-            */
-            number: string;
-        };
-        /**
-         * @type object
-        */
-        document: {
-            /**
-             * @type string
-            */
-            number: string;
-            /**
-             * @type string
-            */
-            type: DocumentTypeEnum7;
-        };
-        /**
-         * @type object
-        */
-        address: {
-            /**
-             * @description Two-letter state code following the ISO 3166-2 standard for country subdivisions.
-             * @type string
-            */
-            state: string;
-            /**
-             * @description City name.
-             * @type string
-            */
-            city: string;
-            /**
-             * @description ZIP or postal code, containing digits only.
-             * @type string
-            */
-            zipCode: string;
-            /**
-             * @description Neighborhood or district name.
-             * @type string
-            */
-            neighborhood: string;
-            /**
-             * @description Street name.
-             * @type string
-            */
-            street: string;
-            /**
-             * @description Street number.
-             * @type string
-            */
-            number: string;
-            /**
-             * @description Additional address details (optional).
-            */
-            complement?: (string | null);
-            /**
-             * @description Nearby reference point (optional).
-            */
-            landmark?: (string | null);
-        };
-    };
-    /**
      * @type string, date-time
     */
-    nextBillingDate: string;
+    dueDate: string;
     /**
-     * @type string, date-time
-    */
-    deadline: string;
-    canceledAt?: (string | null);
-    /**
-     * @default "TRIAL"
+     * @default "OPEN"
      * @type string | undefined
     */
-    status?: SubscriptionStatusEnum3;
-    /**
-     * @type string, date-time
-    */
-    createdAt: string;
-    /**
-     * @type string, date-time
-    */
-    updatedAt: string;
+    status?: GetUpcomingInvoice200StatusEnum3;
 });
+
+/**
+ * @description Bad Request
+*/
+export type GetUpcomingInvoice400 = {
+    /**
+     * @type number
+    */
+    statusCode: number;
+    /**
+     * @type string
+    */
+    error: string;
+    /**
+     * @type array
+    */
+    issues: {
+        [key: string]: string;
+    }[];
+};
+
+/**
+ * @description Internal Server
+*/
+export type GetUpcomingInvoice500 = {
+    /**
+     * @type number
+    */
+    statusCode: number;
+    /**
+     * @type string
+    */
+    error: string;
+    /**
+     * @type string
+    */
+    message: string;
+    /**
+     * @type object | undefined
+    */
+    metadata?: {
+        [key: string]: string;
+    };
+};
+
+export type GetUpcomingInvoiceQueryResponse = GetUpcomingInvoice200;
+
+export type GetUpcomingInvoiceQuery = {
+    Response: GetUpcomingInvoice200;
+    PathParams: GetUpcomingInvoicePathParams;
+    QueryParams: GetUpcomingInvoiceQueryParams;
+    HeaderParams: GetUpcomingInvoiceHeaderParams;
+    Errors: GetUpcomingInvoice400 | GetUpcomingInvoice500;
+};

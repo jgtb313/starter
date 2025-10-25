@@ -50,7 +50,7 @@ export type ListUsersHeaderParams = {
     "Accept-Language"?: ListUsersHeaderParamsAcceptLanguageEnum;
 };
 
-export type DocumentTypeEnum38 = "INDIVIDUAL" | "COMPANY";
+export type DocumentTypeEnum43 = "INDIVIDUAL" | "COMPANY";
 
 export type ValuesLocalePreferenceEnum = "en" | "es" | "pt-BR";
 
@@ -70,8 +70,8 @@ export type ListUsers200 = {
         */
         userId: string;
         workspaceId?: (string | null);
-        googleProviderId?: (string | null);
-        facebookProviderId?: (string | null);
+        googleProviderExternalId?: (string | null);
+        facebookProviderExternalId?: (string | null);
         /**
          * @type string
         */
@@ -105,7 +105,7 @@ export type ListUsers200 = {
             /**
              * @type string
             */
-            type: DocumentTypeEnum38;
+            type: DocumentTypeEnum43;
         } | null);
         /**
          * @type array | undefined

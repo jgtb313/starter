@@ -313,23 +313,15 @@ const getCustomMessage = (issue: unknown, locale: Locale) => {
 
 	const i18n = createI18n(i18nDictCache, locale)
 
-	const handler = code.split('.').reduce((obj: any, key) => obj?.[key], i18n)
+	const handler = i18n[code as keyof typeof i18n] as
+		| ((params: Record<string, unknown>) => string)
+		| undefined
 
-	console.log(handler)
-
-	const customMessage = i18n['sort.invalid_order']({
-		expected: 'name, age',
-	})
-
-	console.log({
-		customMessage,
-	})
-
-	if (customMessage) {
-		return customMessage
+	if (!handler) {
+		return
 	}
 
-	return
+	return handler(params ?? {})
 }
 
 export const zodI18nResolver =
@@ -350,9 +342,19 @@ export const zodI18nResolver =
 		}
 	}
 
-export const extendI18nDict = (extra: any) => {
+export const extendI18nDict = (extra: I18nDict) => {
 	i18nDictCache = {
-		...i18nDictCache,
-		...extra,
+		en: {
+			...i18nDictCache.en,
+			...extra.en,
+		},
+		es: {
+			...i18nDictCache.es,
+			...extra.es,
+		},
+		'pt-BR': {
+			...i18nDictCache['pt-BR'],
+			...extra['pt-BR'],
+		},
 	}
 }

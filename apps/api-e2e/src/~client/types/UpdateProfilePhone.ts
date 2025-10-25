@@ -22,7 +22,9 @@ export type UpdateProfilePhoneHeaderParams = {
     "Accept-Language"?: UpdateProfilePhoneHeaderParamsAcceptLanguageEnum;
 };
 
-export type DocumentTypeEnum15 = "INDIVIDUAL" | "COMPANY";
+export type ScopesKindEnum5 = "WORKSPACE" | "ORGANIZATION";
+
+export type DocumentTypeEnum23 = "INDIVIDUAL" | "COMPANY";
 
 export type UpdateProfilePhone200LocalePreferenceEnum = "en" | "es" | "pt-BR";
 
@@ -38,8 +40,20 @@ export type UpdateProfilePhone200 = {
     */
     userId: string;
     workspaceId?: (string | null);
-    googleProviderId?: (string | null);
-    facebookProviderId?: (string | null);
+    /**
+     * @type array
+    */
+    scopes: {
+        /**
+         * @type string
+        */
+        kind: ScopesKindEnum5;
+        organizationId?: (string | null);
+        /**
+         * @type array
+        */
+        permissions: string[];
+    }[];
     /**
      * @type string
     */
@@ -73,77 +87,8 @@ export type UpdateProfilePhone200 = {
         /**
          * @type string
         */
-        type: DocumentTypeEnum15;
+        type: DocumentTypeEnum23;
     } | null);
-    /**
-     * @type array | undefined
-    */
-    addresses?: {
-        /**
-         * @description Label used to identify the address (e.g., Home, Office).
-         * @type string
-        */
-        title: string;
-        /**
-         * @description Two-letter state code following the ISO 3166-2 standard for country subdivisions.
-         * @type string
-        */
-        state: string;
-        /**
-         * @description City name.
-         * @type string
-        */
-        city: string;
-        /**
-         * @description ZIP or postal code, containing digits only.
-         * @type string
-        */
-        zipCode: string;
-        /**
-         * @description Neighborhood or district name.
-         * @type string
-        */
-        neighborhood: string;
-        /**
-         * @description Street name.
-         * @type string
-        */
-        street: string;
-        /**
-         * @description Street number.
-         * @type string
-        */
-        number: string;
-        /**
-         * @type object
-        */
-        location: {
-            /**
-             * @description Latitude coordinate.
-             * @type string
-            */
-            lat: string;
-            /**
-             * @description Longitude coordinate.
-             * @type string
-            */
-            lng: string;
-        };
-        /**
-         * @description Additional address details (optional).
-        */
-        complement?: (string | null);
-        /**
-         * @description Nearby reference point (optional).
-        */
-        landmark?: (string | null);
-        /**
-         * @description Indicates if this is the primary address.
-         * @default false
-         * @type boolean | undefined
-        */
-        main?: boolean;
-    }[];
     avatar?: (string | null);
     localePreference?: (UpdateProfilePhone200LocalePreferenceEnum | null);
     /**
@@ -151,15 +96,6 @@ export type UpdateProfilePhone200 = {
      * @type string | undefined
     */
     status?: UpdateProfilePhone200StatusEnum;
-    deletedAt?: (string | null);
-    /**
-     * @type string, date-time
-    */
-    createdAt: string;
-    /**
-     * @type string, date-time
-    */
-    updatedAt: string;
 };
 
 /**

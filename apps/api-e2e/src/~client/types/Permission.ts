@@ -4,30 +4,32 @@
 */
 
 
+export type PermissionPermissionIdEnum = "user:create" | "user:read" | "user:update" | "user:delete" | "workspace:manage" | "workspace:create" | "workspace:read" | "workspace:update" | "workspace:delete" | "organization:manage" | "organization:create" | "organization:read" | "organization:update" | "organization:delete" | "role:create" | "role:read" | "role:update" | "role:delete" | "invoice:read" | "subscription:create" | "subscription:read" | "subscription:update:plan" | "subscription:update:payment-method" | "subscription:delete";
+
+export type PermissionSubjectEnum = "user" | "workspace" | "organization" | "role" | "invoice" | "subscription";
+
 export type Permission = {
     /**
-     * @description Unique identifier for permission
-     * @type string, uuid
+     * @type string
     */
-    permissionId: string;
+    permissionId: PermissionPermissionIdEnum;
     /**
+     * @type string
+    */
+    subject: PermissionSubjectEnum;
+    /**
+     * @description Depends on the subject. Common values include: read, write, update, delete.
      * @type string
     */
     action: string;
     /**
+     * @description Human-readable name of the permission.
      * @type string
     */
-    name: string;
+    title: string;
     /**
+     * @description Detailed explanation of what the permission allows within the system.
      * @type string
     */
     description: string;
-    /**
-     * @type string, date-time
-    */
-    createdAt: string;
-    /**
-     * @type string, date-time
-    */
-    updatedAt: string;
 };

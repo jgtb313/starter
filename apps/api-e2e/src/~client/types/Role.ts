@@ -4,11 +4,17 @@
 */
 
 
-export type DocumentTypeEnum2 = "INDIVIDUAL" | "COMPANY";
+export type DocumentTypeEnum4 = "INDIVIDUAL" | "COMPANY";
 
 export type OrganizationsStatusEnum = "ACTIVE" | "INACTIVE";
 
-export type RoleStatusEnum = "ACTIVE" | "INACTIVE";
+export type RolePermissionIdsEnum2 = "user:create" | "user:read" | "user:update" | "user:delete" | "workspace:manage" | "workspace:create" | "workspace:read" | "workspace:update" | "workspace:delete" | "organization:manage" | "organization:create" | "organization:read" | "organization:update" | "organization:delete" | "role:create" | "role:read" | "role:update" | "role:delete" | "invoice:read" | "subscription:create" | "subscription:read" | "subscription:update:plan" | "subscription:update:payment-method" | "subscription:delete";
+
+export type PermissionsPermissionIdEnum2 = "user:create" | "user:read" | "user:update" | "user:delete" | "workspace:manage" | "workspace:create" | "workspace:read" | "workspace:update" | "workspace:delete" | "organization:manage" | "organization:create" | "organization:read" | "organization:update" | "organization:delete" | "role:create" | "role:read" | "role:update" | "role:delete" | "invoice:read" | "subscription:create" | "subscription:read" | "subscription:update:plan" | "subscription:update:payment-method" | "subscription:delete";
+
+export type PermissionsSubjectEnum2 = "user" | "workspace" | "organization" | "role" | "invoice" | "subscription";
+
+export type RoleStatusEnum2 = "ACTIVE" | "INACTIVE";
 
 export type Role = {
     /**
@@ -21,6 +27,11 @@ export type Role = {
      * @type string, uuid
     */
     workspaceId: string;
+    /**
+     * @description The IDs of the organizations to assign to the role
+     * @type array
+    */
+    organizationIds: string[];
     /**
      * @type array | undefined
     */
@@ -64,15 +75,15 @@ export type Role = {
             /**
              * @type string
             */
-            type: DocumentTypeEnum2;
+            type: DocumentTypeEnum4;
         } | null);
         logo?: (string | null);
         domain?: (string | null);
         /**
-         * @default "ACTIVE"
-         * @type string | undefined
+         * @type string
         */
-        status?: OrganizationsStatusEnum;
+        status: OrganizationsStatusEnum;
+        deletedAt?: (string | null);
         /**
          * @type string, date-time
         */
@@ -82,46 +93,52 @@ export type Role = {
         */
         updatedAt: string;
     }[];
+    /**
+     * @description The IDs of the permissions to assign to the role
+     * @type array
+    */
+    permissionIds: RolePermissionIdsEnum2[];
     /**
      * @type array | undefined
     */
     permissions?: {
         /**
-         * @description Unique identifier for permission
-         * @type string, uuid
+         * @type string
         */
-        permissionId: string;
+        permissionId: PermissionsPermissionIdEnum2;
         /**
+         * @type string
+        */
+        subject: PermissionsSubjectEnum2;
+        /**
+         * @description Depends on the subject. Common values include: read, write, update, delete.
          * @type string
         */
         action: string;
         /**
+         * @description Human-readable name of the permission.
          * @type string
         */
-        name: string;
+        title: string;
         /**
+         * @description Detailed explanation of what the permission allows within the system.
          * @type string
         */
         description: string;
-        /**
-         * @type string, date-time
-        */
-        createdAt: string;
-        /**
-         * @type string, date-time
-        */
-        updatedAt: string;
     }[];
     /**
      * @type string
     */
     name: string;
-    tags?: (string[] | null);
+    /**
+     * @type array | undefined
+    */
+    tags?: string[];
     /**
      * @default "ACTIVE"
      * @type string | undefined
     */
-    status?: RoleStatusEnum;
+    status?: RoleStatusEnum2;
     deletedAt?: (string | null);
     /**
      * @type string, date-time

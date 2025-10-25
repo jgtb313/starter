@@ -4,11 +4,11 @@
 */
 
 
-export type IntervalsIntervalEnum = "DAY" | "WEEK" | "MONTH" | "YEAR";
+export type IntervalsIntervalEnum7 = "DAY" | "WEEK" | "MONTH" | "YEAR";
 
-export type IntervalsStatusEnum = "ACTIVE" | "INACTIVE";
+export type IntervalsStatusEnum7 = "ACTIVE" | "INACTIVE";
 
-export type PlanStatusEnum = "ACTIVE" | "INACTIVE";
+export type PlanStatusEnum7 = "ACTIVE" | "INACTIVE";
 
 export type Plan = {
     /**
@@ -84,12 +84,11 @@ export type Plan = {
         /**
          * @type string
         */
-        interval: IntervalsIntervalEnum;
+        interval: IntervalsIntervalEnum7;
         /**
-         * @default 1
-         * @type number | undefined
+         * @type number
         */
-        intervalCount?: number;
+        intervalCount: number;
         /**
          * @default 7
          * @type number | undefined
@@ -99,7 +98,7 @@ export type Plan = {
          * @default "ACTIVE"
          * @type string | undefined
         */
-        status?: IntervalsStatusEnum;
+        status?: IntervalsStatusEnum7;
         /**
          * @type string, date-time
         */
@@ -115,10 +114,15 @@ export type Plan = {
     */
     highlight?: boolean;
     /**
+     * @default false
+     * @type boolean | undefined
+    */
+    default?: boolean;
+    /**
      * @default "ACTIVE"
      * @type string | undefined
     */
-    status?: PlanStatusEnum;
+    status?: PlanStatusEnum7;
     deletedAt?: (string | null);
     /**
      * @type string, date-time

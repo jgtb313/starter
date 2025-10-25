@@ -35,7 +35,7 @@ export type UpdateOrganizationHeaderParams = {
     "Accept-Language"?: UpdateOrganizationHeaderParamsAcceptLanguageEnum;
 };
 
-export type DocumentTypeEnum11 = "INDIVIDUAL" | "COMPANY";
+export type DocumentTypeEnum18 = "INDIVIDUAL" | "COMPANY";
 
 export type UpdateOrganization200StatusEnum = "ACTIVE" | "INACTIVE";
 
@@ -82,15 +82,15 @@ export type UpdateOrganization200 = {
         /**
          * @type string
         */
-        type: DocumentTypeEnum11;
+        type: DocumentTypeEnum18;
     } | null);
     logo?: (string | null);
     domain?: (string | null);
     /**
-     * @default "ACTIVE"
-     * @type string | undefined
+     * @type string
     */
-    status?: UpdateOrganization200StatusEnum;
+    status: UpdateOrganization200StatusEnum;
+    deletedAt?: (string | null);
     /**
      * @type string, date-time
     */
@@ -153,7 +153,6 @@ export type UpdateOrganizationMutationRequest = {
     */
     name?: string;
     /**
-     * @default "ACTIVE"
      * @type string | undefined
     */
     status?: UpdateOrganizationMutationRequestStatusEnum;

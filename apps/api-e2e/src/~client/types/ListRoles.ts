@@ -50,9 +50,15 @@ export type ListRolesHeaderParams = {
     "Accept-Language"?: ListRolesHeaderParamsAcceptLanguageEnum;
 };
 
-export type DocumentTypeEnum16 = "INDIVIDUAL" | "COMPANY";
+export type DocumentTypeEnum24 = "INDIVIDUAL" | "COMPANY";
 
 export type OrganizationsStatusEnum2 = "ACTIVE" | "INACTIVE";
+
+export type ValuesPermissionIdsEnum = "user:create" | "user:read" | "user:update" | "user:delete" | "workspace:manage" | "workspace:create" | "workspace:read" | "workspace:update" | "workspace:delete" | "organization:manage" | "organization:create" | "organization:read" | "organization:update" | "organization:delete" | "role:create" | "role:read" | "role:update" | "role:delete" | "invoice:read" | "subscription:create" | "subscription:read" | "subscription:update:plan" | "subscription:update:payment-method" | "subscription:delete";
+
+export type PermissionsPermissionIdEnum5 = "user:create" | "user:read" | "user:update" | "user:delete" | "workspace:manage" | "workspace:create" | "workspace:read" | "workspace:update" | "workspace:delete" | "organization:manage" | "organization:create" | "organization:read" | "organization:update" | "organization:delete" | "role:create" | "role:read" | "role:update" | "role:delete" | "invoice:read" | "subscription:create" | "subscription:read" | "subscription:update:plan" | "subscription:update:payment-method" | "subscription:delete";
+
+export type PermissionsSubjectEnum5 = "user" | "workspace" | "organization" | "role" | "invoice" | "subscription";
 
 export type ValuesStatusEnum6 = "ACTIVE" | "INACTIVE";
 
@@ -74,6 +80,11 @@ export type ListRoles200 = {
          * @type string, uuid
         */
         workspaceId: string;
+        /**
+         * @description The IDs of the organizations to assign to the role
+         * @type array
+        */
+        organizationIds: string[];
         /**
          * @type array | undefined
         */
@@ -117,15 +128,15 @@ export type ListRoles200 = {
                 /**
                  * @type string
                 */
-                type: DocumentTypeEnum16;
+                type: DocumentTypeEnum24;
             } | null);
             logo?: (string | null);
             domain?: (string | null);
             /**
-             * @default "ACTIVE"
-             * @type string | undefined
+             * @type string
             */
-            status?: OrganizationsStatusEnum2;
+            status: OrganizationsStatusEnum2;
+            deletedAt?: (string | null);
             /**
              * @type string, date-time
             */
@@ -135,41 +146,47 @@ export type ListRoles200 = {
             */
             updatedAt: string;
         }[];
+        /**
+         * @description The IDs of the permissions to assign to the role
+         * @type array
+        */
+        permissionIds: ValuesPermissionIdsEnum[];
         /**
          * @type array | undefined
         */
         permissions?: {
             /**
-             * @description Unique identifier for permission
-             * @type string, uuid
+             * @type string
             */
-            permissionId: string;
+            permissionId: PermissionsPermissionIdEnum5;
             /**
+             * @type string
+            */
+            subject: PermissionsSubjectEnum5;
+            /**
+             * @description Depends on the subject. Common values include: read, write, update, delete.
              * @type string
             */
             action: string;
             /**
+             * @description Human-readable name of the permission.
              * @type string
             */
-            name: string;
+            title: string;
             /**
+             * @description Detailed explanation of what the permission allows within the system.
              * @type string
             */
             description: string;
-            /**
-             * @type string, date-time
-            */
-            createdAt: string;
-            /**
-             * @type string, date-time
-            */
-            updatedAt: string;
         }[];
         /**
          * @type string
         */
         name: string;
-        tags?: (string[] | null);
+        /**
+         * @type array | undefined
+        */
+        tags?: string[];
         /**
          * @default "ACTIVE"
          * @type string | undefined

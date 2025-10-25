@@ -30,15 +30,33 @@ export type CreateSubscriptionHeaderParams = {
     "Accept-Language"?: CreateSubscriptionHeaderParamsAcceptLanguageEnum;
 };
 
-export type DocumentTypeEnum26 = "INDIVIDUAL" | "COMPANY";
+export type IntervalsIntervalEnum29 = "DAY" | "WEEK" | "MONTH" | "YEAR";
+
+export type IntervalsStatusEnum29 = "ACTIVE" | "INACTIVE";
+
+export type PlanStatusEnum27 = "ACTIVE" | "INACTIVE";
+
+export type DocumentTypeEnum31 = "INDIVIDUAL" | "COMPANY";
 
 export type CreateSubscription200StatusEnum = "TRIAL" | "ACTIVE" | "OVERDUE" | "CANCELED";
 
-export type DocumentTypeEnum27 = "INDIVIDUAL" | "COMPANY";
+export type IntervalsIntervalEnum30 = "DAY" | "WEEK" | "MONTH" | "YEAR";
+
+export type IntervalsStatusEnum30 = "ACTIVE" | "INACTIVE";
+
+export type PlanStatusEnum28 = "ACTIVE" | "INACTIVE";
+
+export type DocumentTypeEnum32 = "INDIVIDUAL" | "COMPANY";
 
 export type CreateSubscription200StatusEnum2 = "TRIAL" | "ACTIVE" | "OVERDUE" | "CANCELED";
 
-export type DocumentTypeEnum28 = "INDIVIDUAL" | "COMPANY";
+export type IntervalsIntervalEnum31 = "DAY" | "WEEK" | "MONTH" | "YEAR";
+
+export type IntervalsStatusEnum31 = "ACTIVE" | "INACTIVE";
+
+export type PlanStatusEnum29 = "ACTIVE" | "INACTIVE";
+
+export type DocumentTypeEnum33 = "INDIVIDUAL" | "COMPANY";
 
 export type CreateSubscription200StatusEnum3 = "TRIAL" | "ACTIVE" | "OVERDUE" | "CANCELED";
 
@@ -61,6 +79,132 @@ export type CreateSubscription200 = ({
      * @type string, uuid
     */
     planId: string;
+    /**
+     * @type object
+    */
+    plan: {
+        /**
+         * @description Unique identifier for plan
+         * @type string, uuid
+        */
+        planId: string;
+        /**
+         * @type string
+        */
+        externalId: string;
+        /**
+         * @type string
+        */
+        name: string;
+        /**
+         * @type string
+        */
+        description: string;
+        /**
+         * @type array | undefined
+        */
+        features?: {
+            /**
+             * @description Unique identifier for planFeature
+             * @type string, uuid
+            */
+            planFeatureId: string;
+            /**
+             * @type string
+            */
+            description: string;
+            /**
+             * @type string
+            */
+            feature: string;
+            /**
+             * @type object
+            */
+            props: {
+                /**
+                 * @type number
+                */
+                maxOrganizations: number;
+            };
+            /**
+             * @type string, date-time
+            */
+            createdAt: string;
+            /**
+             * @type string, date-time
+            */
+            updatedAt: string;
+        }[];
+        /**
+         * @type array | undefined
+        */
+        intervals?: {
+            /**
+             * @description Unique identifier for planInterval
+             * @type string, uuid
+            */
+            planIntervalId: string;
+            /**
+             * @type string
+            */
+            externalId: string;
+            /**
+             * @minLength 0
+             * @type number
+            */
+            amount: number;
+            /**
+             * @type string
+            */
+            interval: IntervalsIntervalEnum29;
+            /**
+             * @type number
+            */
+            intervalCount: number;
+            /**
+             * @default 7
+             * @type number | undefined
+            */
+            trialDays?: number;
+            /**
+             * @default "ACTIVE"
+             * @type string | undefined
+            */
+            status?: IntervalsStatusEnum29;
+            /**
+             * @type string, date-time
+            */
+            createdAt: string;
+            /**
+             * @type string, date-time
+            */
+            updatedAt: string;
+        }[];
+        /**
+         * @default false
+         * @type boolean | undefined
+        */
+        highlight?: boolean;
+        /**
+         * @default false
+         * @type boolean | undefined
+        */
+        default?: boolean;
+        /**
+         * @default "ACTIVE"
+         * @type string | undefined
+        */
+        status?: PlanStatusEnum27;
+        deletedAt?: (string | null);
+        /**
+         * @type string, date-time
+        */
+        createdAt: string;
+        /**
+         * @type string, date-time
+        */
+        updatedAt: string;
+    };
     /**
      * @type string
     */
@@ -136,7 +280,7 @@ export type CreateSubscription200 = ({
             /**
              * @type string
             */
-            type: DocumentTypeEnum26;
+            type: DocumentTypeEnum31;
         };
         /**
          * @type object
@@ -221,6 +365,132 @@ export type CreateSubscription200 = ({
     */
     planId: string;
     /**
+     * @type object
+    */
+    plan: {
+        /**
+         * @description Unique identifier for plan
+         * @type string, uuid
+        */
+        planId: string;
+        /**
+         * @type string
+        */
+        externalId: string;
+        /**
+         * @type string
+        */
+        name: string;
+        /**
+         * @type string
+        */
+        description: string;
+        /**
+         * @type array | undefined
+        */
+        features?: {
+            /**
+             * @description Unique identifier for planFeature
+             * @type string, uuid
+            */
+            planFeatureId: string;
+            /**
+             * @type string
+            */
+            description: string;
+            /**
+             * @type string
+            */
+            feature: string;
+            /**
+             * @type object
+            */
+            props: {
+                /**
+                 * @type number
+                */
+                maxOrganizations: number;
+            };
+            /**
+             * @type string, date-time
+            */
+            createdAt: string;
+            /**
+             * @type string, date-time
+            */
+            updatedAt: string;
+        }[];
+        /**
+         * @type array | undefined
+        */
+        intervals?: {
+            /**
+             * @description Unique identifier for planInterval
+             * @type string, uuid
+            */
+            planIntervalId: string;
+            /**
+             * @type string
+            */
+            externalId: string;
+            /**
+             * @minLength 0
+             * @type number
+            */
+            amount: number;
+            /**
+             * @type string
+            */
+            interval: IntervalsIntervalEnum30;
+            /**
+             * @type number
+            */
+            intervalCount: number;
+            /**
+             * @default 7
+             * @type number | undefined
+            */
+            trialDays?: number;
+            /**
+             * @default "ACTIVE"
+             * @type string | undefined
+            */
+            status?: IntervalsStatusEnum30;
+            /**
+             * @type string, date-time
+            */
+            createdAt: string;
+            /**
+             * @type string, date-time
+            */
+            updatedAt: string;
+        }[];
+        /**
+         * @default false
+         * @type boolean | undefined
+        */
+        highlight?: boolean;
+        /**
+         * @default false
+         * @type boolean | undefined
+        */
+        default?: boolean;
+        /**
+         * @default "ACTIVE"
+         * @type string | undefined
+        */
+        status?: PlanStatusEnum28;
+        deletedAt?: (string | null);
+        /**
+         * @type string, date-time
+        */
+        createdAt: string;
+        /**
+         * @type string, date-time
+        */
+        updatedAt: string;
+    };
+    /**
      * @type string
     */
     externalId: string;
@@ -270,7 +540,7 @@ export type CreateSubscription200 = ({
             /**
              * @type string
             */
-            type: DocumentTypeEnum27;
+            type: DocumentTypeEnum32;
         };
         /**
          * @type object
@@ -355,6 +625,132 @@ export type CreateSubscription200 = ({
     */
     planId: string;
     /**
+     * @type object
+    */
+    plan: {
+        /**
+         * @description Unique identifier for plan
+         * @type string, uuid
+        */
+        planId: string;
+        /**
+         * @type string
+        */
+        externalId: string;
+        /**
+         * @type string
+        */
+        name: string;
+        /**
+         * @type string
+        */
+        description: string;
+        /**
+         * @type array | undefined
+        */
+        features?: {
+            /**
+             * @description Unique identifier for planFeature
+             * @type string, uuid
+            */
+            planFeatureId: string;
+            /**
+             * @type string
+            */
+            description: string;
+            /**
+             * @type string
+            */
+            feature: string;
+            /**
+             * @type object
+            */
+            props: {
+                /**
+                 * @type number
+                */
+                maxOrganizations: number;
+            };
+            /**
+             * @type string, date-time
+            */
+            createdAt: string;
+            /**
+             * @type string, date-time
+            */
+            updatedAt: string;
+        }[];
+        /**
+         * @type array | undefined
+        */
+        intervals?: {
+            /**
+             * @description Unique identifier for planInterval
+             * @type string, uuid
+            */
+            planIntervalId: string;
+            /**
+             * @type string
+            */
+            externalId: string;
+            /**
+             * @minLength 0
+             * @type number
+            */
+            amount: number;
+            /**
+             * @type string
+            */
+            interval: IntervalsIntervalEnum31;
+            /**
+             * @type number
+            */
+            intervalCount: number;
+            /**
+             * @default 7
+             * @type number | undefined
+            */
+            trialDays?: number;
+            /**
+             * @default "ACTIVE"
+             * @type string | undefined
+            */
+            status?: IntervalsStatusEnum31;
+            /**
+             * @type string, date-time
+            */
+            createdAt: string;
+            /**
+             * @type string, date-time
+            */
+            updatedAt: string;
+        }[];
+        /**
+         * @default false
+         * @type boolean | undefined
+        */
+        highlight?: boolean;
+        /**
+         * @default false
+         * @type boolean | undefined
+        */
+        default?: boolean;
+        /**
+         * @default "ACTIVE"
+         * @type string | undefined
+        */
+        status?: PlanStatusEnum29;
+        deletedAt?: (string | null);
+        /**
+         * @type string, date-time
+        */
+        createdAt: string;
+        /**
+         * @type string, date-time
+        */
+        updatedAt: string;
+    };
+    /**
      * @type string
     */
     externalId: string;
@@ -404,7 +800,7 @@ export type CreateSubscription200 = ({
             /**
              * @type string
             */
-            type: DocumentTypeEnum28;
+            type: DocumentTypeEnum33;
         };
         /**
          * @type object
@@ -518,11 +914,11 @@ export type CreateSubscription500 = {
     };
 };
 
-export type DocumentTypeEnum29 = "INDIVIDUAL" | "COMPANY";
+export type DocumentTypeEnum34 = "INDIVIDUAL" | "COMPANY";
 
-export type DocumentTypeEnum30 = "INDIVIDUAL" | "COMPANY";
+export type DocumentTypeEnum35 = "INDIVIDUAL" | "COMPANY";
 
-export type DocumentTypeEnum31 = "INDIVIDUAL" | "COMPANY";
+export type DocumentTypeEnum36 = "INDIVIDUAL" | "COMPANY";
 
 export type CreateSubscriptionMutationRequest = ({
     /**
@@ -572,7 +968,7 @@ export type CreateSubscriptionMutationRequest = ({
             /**
              * @type string
             */
-            type: DocumentTypeEnum29;
+            type: DocumentTypeEnum34;
         };
         /**
          * @type object
@@ -675,7 +1071,7 @@ export type CreateSubscriptionMutationRequest = ({
             /**
              * @type string
             */
-            type: DocumentTypeEnum30;
+            type: DocumentTypeEnum35;
         };
         /**
          * @type object
@@ -773,7 +1169,7 @@ export type CreateSubscriptionMutationRequest = ({
             /**
              * @type string
             */
-            type: DocumentTypeEnum31;
+            type: DocumentTypeEnum36;
         };
         /**
          * @type object

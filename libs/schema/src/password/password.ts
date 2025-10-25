@@ -4,32 +4,32 @@ export const PasswordSchema = z
 	.string()
 	.refine((password) => password.length >= 8, {
 		params: {
-			code: 'password.minLength',
+			code: 'passwordMinLength',
 		},
 	})
 	.refine((password) => password.length <= 64, {
 		params: {
-			code: 'password.maxLength',
+			code: 'passwordMaxLength',
 		},
 	})
 	.refine((password) => /[a-z]/.test(password), {
 		params: {
-			code: 'password.minLowercase',
+			code: 'passwordMinLowercase',
 		},
 	})
 	.refine((password) => /[A-Z]/.test(password), {
 		params: {
-			code: 'password.minUppercase',
+			code: 'passwordMinUppercase',
 		},
 	})
 	.refine((password) => /[0-9]/.test(password), {
 		params: {
-			code: 'password.minNumbers',
+			code: 'passwordMinNumbers',
 		},
 	})
 	.refine((password) => /[^a-zA-Z0-9]/.test(password), {
 		params: {
-			code: 'password.minSymbols',
+			code: 'passwordMinSymbols',
 		},
 	})
 	.trim()

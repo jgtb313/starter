@@ -12,7 +12,7 @@ export const TranslationsSchema = z
 		},
 		{
 			params: {
-				code: 'translations.invalid_locale',
+				code: 'translationsInvalidLocale',
 			},
 		},
 	)

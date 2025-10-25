@@ -35,7 +35,7 @@ export type GetOrganizationHeaderParams = {
     "Accept-Language"?: GetOrganizationHeaderParamsAcceptLanguageEnum;
 };
 
-export type DocumentTypeEnum10 = "INDIVIDUAL" | "COMPANY";
+export type DocumentTypeEnum17 = "INDIVIDUAL" | "COMPANY";
 
 export type GetOrganization200StatusEnum = "ACTIVE" | "INACTIVE";
 
@@ -82,15 +82,15 @@ export type GetOrganization200 = {
         /**
          * @type string
         */
-        type: DocumentTypeEnum10;
+        type: DocumentTypeEnum17;
     } | null);
     logo?: (string | null);
     domain?: (string | null);
     /**
-     * @default "ACTIVE"
-     * @type string | undefined
+     * @type string
     */
-    status?: GetOrganization200StatusEnum;
+    status: GetOrganization200StatusEnum;
+    deletedAt?: (string | null);
     /**
      * @type string, date-time
     */

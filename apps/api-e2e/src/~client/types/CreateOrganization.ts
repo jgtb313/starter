@@ -30,7 +30,7 @@ export type CreateOrganizationHeaderParams = {
     "Accept-Language"?: CreateOrganizationHeaderParamsAcceptLanguageEnum;
 };
 
-export type DocumentTypeEnum9 = "INDIVIDUAL" | "COMPANY";
+export type DocumentTypeEnum16 = "INDIVIDUAL" | "COMPANY";
 
 export type CreateOrganization201StatusEnum = "ACTIVE" | "INACTIVE";
 
@@ -77,15 +77,15 @@ export type CreateOrganization201 = {
         /**
          * @type string
         */
-        type: DocumentTypeEnum9;
+        type: DocumentTypeEnum16;
     } | null);
     logo?: (string | null);
     domain?: (string | null);
     /**
-     * @default "ACTIVE"
-     * @type string | undefined
+     * @type string
     */
-    status?: CreateOrganization201StatusEnum;
+    status: CreateOrganization201StatusEnum;
+    deletedAt?: (string | null);
     /**
      * @type string, date-time
     */
@@ -144,16 +144,13 @@ export type CreateOrganizationMutationRequestStatusEnum = "ACTIVE" | "INACTIVE";
 
 export type CreateOrganizationMutationRequest = {
     /**
-     * @default "ACTIVE"
-     * @type string | undefined
+     * @type string
     */
-    status?: CreateOrganizationMutationRequestStatusEnum;
+    name: string;
     /**
-     * @type object
+     * @type string
     */
-    name: {
-        [key: string]: string;
-    };
+    status: CreateOrganizationMutationRequestStatusEnum;
 };
 
 export type CreateOrganizationMutationResponse = CreateOrganization201;

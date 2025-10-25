@@ -35,9 +35,15 @@ export type GetRoleHeaderParams = {
     "Accept-Language"?: GetRoleHeaderParamsAcceptLanguageEnum;
 };
 
-export type DocumentTypeEnum18 = "INDIVIDUAL" | "COMPANY";
+export type DocumentTypeEnum26 = "INDIVIDUAL" | "COMPANY";
 
 export type OrganizationsStatusEnum4 = "ACTIVE" | "INACTIVE";
+
+export type GetRole200PermissionIdsEnum = "user:create" | "user:read" | "user:update" | "user:delete" | "workspace:manage" | "workspace:create" | "workspace:read" | "workspace:update" | "workspace:delete" | "organization:manage" | "organization:create" | "organization:read" | "organization:update" | "organization:delete" | "role:create" | "role:read" | "role:update" | "role:delete" | "invoice:read" | "subscription:create" | "subscription:read" | "subscription:update:plan" | "subscription:update:payment-method" | "subscription:delete";
+
+export type PermissionsPermissionIdEnum7 = "user:create" | "user:read" | "user:update" | "user:delete" | "workspace:manage" | "workspace:create" | "workspace:read" | "workspace:update" | "workspace:delete" | "organization:manage" | "organization:create" | "organization:read" | "organization:update" | "organization:delete" | "role:create" | "role:read" | "role:update" | "role:delete" | "invoice:read" | "subscription:create" | "subscription:read" | "subscription:update:plan" | "subscription:update:payment-method" | "subscription:delete";
+
+export type PermissionsSubjectEnum7 = "user" | "workspace" | "organization" | "role" | "invoice" | "subscription";
 
 export type GetRole200StatusEnum = "ACTIVE" | "INACTIVE";
 
@@ -55,6 +61,11 @@ export type GetRole200 = {
      * @type string, uuid
     */
     workspaceId: string;
+    /**
+     * @description The IDs of the organizations to assign to the role
+     * @type array
+    */
+    organizationIds: string[];
     /**
      * @type array | undefined
     */
@@ -98,15 +109,15 @@ export type GetRole200 = {
             /**
              * @type string
             */
-            type: DocumentTypeEnum18;
+            type: DocumentTypeEnum26;
         } | null);
         logo?: (string | null);
         domain?: (string | null);
         /**
-         * @default "ACTIVE"
-         * @type string | undefined
+         * @type string
         */
-        status?: OrganizationsStatusEnum4;
+        status: OrganizationsStatusEnum4;
+        deletedAt?: (string | null);
         /**
          * @type string, date-time
         */
@@ -116,41 +127,47 @@ export type GetRole200 = {
         */
         updatedAt: string;
     }[];
+    /**
+     * @description The IDs of the permissions to assign to the role
+     * @type array
+    */
+    permissionIds: GetRole200PermissionIdsEnum[];
     /**
      * @type array | undefined
     */
     permissions?: {
         /**
-         * @description Unique identifier for permission
-         * @type string, uuid
+         * @type string
         */
-        permissionId: string;
+        permissionId: PermissionsPermissionIdEnum7;
         /**
+         * @type string
+        */
+        subject: PermissionsSubjectEnum7;
+        /**
+         * @description Depends on the subject. Common values include: read, write, update, delete.
          * @type string
         */
         action: string;
         /**
+         * @description Human-readable name of the permission.
          * @type string
         */
-        name: string;
+        title: string;
         /**
+         * @description Detailed explanation of what the permission allows within the system.
          * @type string
         */
         description: string;
-        /**
-         * @type string, date-time
-        */
-        createdAt: string;
-        /**
-         * @type string, date-time
-        */
-        updatedAt: string;
     }[];
     /**
      * @type string
     */
     name: string;
-    tags?: (string[] | null);
+    /**
+     * @type array | undefined
+    */
+    tags?: string[];
     /**
      * @default "ACTIVE"
      * @type string | undefined

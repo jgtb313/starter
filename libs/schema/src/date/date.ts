@@ -7,7 +7,7 @@ export const DateSchema = z
 	.or(z.iso.datetime().transform((value) => new Date(value)))
 	.refine(isValidDate, {
 		params: {
-			code: 'date.invalid',
+			code: 'dateInvalid',
 		},
 	})
 	.transform((value) => getDate(value))
@@ -18,7 +18,7 @@ export const DateOptionalSchema = z
 	.nullish()
 	.refine((value) => (value ? isValidDate(value) : true), {
 		params: {
-			code: 'date.invalid',
+			code: 'dateInvalid',
 		},
 	})
 	.transform((value) => {

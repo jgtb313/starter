@@ -27,9 +27,9 @@ export type ListPlansHeaderParams = {
     "Accept-Language"?: ListPlansHeaderParamsAcceptLanguageEnum;
 };
 
-export type IntervalsIntervalEnum2 = "DAY" | "WEEK" | "MONTH" | "YEAR";
+export type IntervalsIntervalEnum24 = "DAY" | "WEEK" | "MONTH" | "YEAR";
 
-export type IntervalsStatusEnum2 = "ACTIVE" | "INACTIVE";
+export type IntervalsStatusEnum24 = "ACTIVE" | "INACTIVE";
 
 export type ValuesStatusEnum5 = "ACTIVE" | "INACTIVE";
 
@@ -114,12 +114,11 @@ export type ListPlans200 = {
             /**
              * @type string
             */
-            interval: IntervalsIntervalEnum2;
+            interval: IntervalsIntervalEnum24;
             /**
-             * @default 1
-             * @type number | undefined
+             * @type number
             */
-            intervalCount?: number;
+            intervalCount: number;
             /**
              * @default 7
              * @type number | undefined
@@ -129,7 +128,7 @@ export type ListPlans200 = {
              * @default "ACTIVE"
              * @type string | undefined
             */
-            status?: IntervalsStatusEnum2;
+            status?: IntervalsStatusEnum24;
             /**
              * @type string, date-time
             */
@@ -144,6 +143,11 @@ export type ListPlans200 = {
          * @type boolean | undefined
         */
         highlight?: boolean;
+        /**
+         * @default false
+         * @type boolean | undefined
+        */
+        default?: boolean;
         /**
          * @default "ACTIVE"
          * @type string | undefined

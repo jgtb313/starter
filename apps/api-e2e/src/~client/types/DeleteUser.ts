@@ -4,20 +4,20 @@
 */
 
 
-export type CancelSubscriptionPathParams = {
+export type DeleteUserPathParams = {
+    /**
+     * @description Unique identifier for user
+     * @type string, uuid
+    */
+    userId: string;
     /**
      * @description Unique identifier for workspace
      * @type string, uuid
     */
     workspaceId: string;
-    /**
-     * @description Unique identifier for subscription
-     * @type string, uuid
-    */
-    subscriptionId: string;
 };
 
-export type CancelSubscriptionQueryParams = {
+export type DeleteUserQueryParams = {
     /**
      * @description Comma-separated list of fields to return in the response.
      * @type string | undefined
@@ -25,25 +25,25 @@ export type CancelSubscriptionQueryParams = {
     fields?: string;
 };
 
-export type CancelSubscriptionHeaderParamsAcceptLanguageEnum = "en" | "es" | "pt-BR";
+export type DeleteUserHeaderParamsAcceptLanguageEnum = "en" | "es" | "pt-BR";
 
-export type CancelSubscriptionHeaderParams = {
+export type DeleteUserHeaderParams = {
     /**
      * @description Specifies the preferred language to be used in the response.
      * @type string | undefined
     */
-    "Accept-Language"?: CancelSubscriptionHeaderParamsAcceptLanguageEnum;
+    "Accept-Language"?: DeleteUserHeaderParamsAcceptLanguageEnum;
 };
 
 /**
- * @description Subscription cancelled successfully.
+ * @description User has been successfully deleted.
 */
-export type CancelSubscription204 = any;
+export type DeleteUser204 = any;
 
 /**
  * @description Bad Request
 */
-export type CancelSubscription400 = {
+export type DeleteUser400 = {
     /**
      * @type number
     */
@@ -63,7 +63,7 @@ export type CancelSubscription400 = {
 /**
  * @description Internal Server
 */
-export type CancelSubscription500 = {
+export type DeleteUser500 = {
     /**
      * @type number
     */
@@ -84,12 +84,12 @@ export type CancelSubscription500 = {
     };
 };
 
-export type CancelSubscriptionMutationResponse = CancelSubscription204;
+export type DeleteUserMutationResponse = DeleteUser204;
 
-export type CancelSubscriptionMutation = {
-    Response: CancelSubscription204;
-    PathParams: CancelSubscriptionPathParams;
-    QueryParams: CancelSubscriptionQueryParams;
-    HeaderParams: CancelSubscriptionHeaderParams;
-    Errors: CancelSubscription400 | CancelSubscription500;
+export type DeleteUserMutation = {
+    Response: DeleteUser204;
+    PathParams: DeleteUserPathParams;
+    QueryParams: DeleteUserQueryParams;
+    HeaderParams: DeleteUserHeaderParams;
+    Errors: DeleteUser400 | DeleteUser500;
 };

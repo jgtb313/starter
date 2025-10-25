@@ -35,7 +35,7 @@ export type UpdateUserHeaderParams = {
     "Accept-Language"?: UpdateUserHeaderParamsAcceptLanguageEnum;
 };
 
-export type DocumentTypeEnum41 = "INDIVIDUAL" | "COMPANY";
+export type DocumentTypeEnum46 = "INDIVIDUAL" | "COMPANY";
 
 export type UpdateUser200LocalePreferenceEnum = "en" | "es" | "pt-BR";
 
@@ -51,8 +51,8 @@ export type UpdateUser200 = {
     */
     userId: string;
     workspaceId?: (string | null);
-    googleProviderId?: (string | null);
-    facebookProviderId?: (string | null);
+    googleProviderExternalId?: (string | null);
+    facebookProviderExternalId?: (string | null);
     /**
      * @type string
     */
@@ -86,7 +86,7 @@ export type UpdateUser200 = {
         /**
          * @type string
         */
-        type: DocumentTypeEnum41;
+        type: DocumentTypeEnum46;
     } | null);
     /**
      * @type array | undefined

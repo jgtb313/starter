@@ -35,7 +35,7 @@ export type GetUserHeaderParams = {
     "Accept-Language"?: GetUserHeaderParamsAcceptLanguageEnum;
 };
 
-export type DocumentTypeEnum40 = "INDIVIDUAL" | "COMPANY";
+export type DocumentTypeEnum45 = "INDIVIDUAL" | "COMPANY";
 
 export type GetUser200LocalePreferenceEnum = "en" | "es" | "pt-BR";
 
@@ -51,8 +51,8 @@ export type GetUser200 = {
     */
     userId: string;
     workspaceId?: (string | null);
-    googleProviderId?: (string | null);
-    facebookProviderId?: (string | null);
+    googleProviderExternalId?: (string | null);
+    facebookProviderExternalId?: (string | null);
     /**
      * @type string
     */
@@ -86,7 +86,7 @@ export type GetUser200 = {
         /**
          * @type string
         */
-        type: DocumentTypeEnum40;
+        type: DocumentTypeEnum45;
     } | null);
     /**
      * @type array | undefined

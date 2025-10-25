@@ -17,7 +17,7 @@ const ExpirationDate = z.string().refine(
 	},
 	{
 		params: {
-			code: 'payment_card.invalid_expiration_date',
+			code: 'paymentCardInvalidExpirationDate',
 		},
 	},
 )
@@ -91,7 +91,7 @@ export const PaymentCardSchema = z
 	})
 	.refine(({ number, cvv }) => isPaymentCardCVVValid(number, cvv), {
 		params: {
-			code: 'payment_card.invalid_cvv',
+			code: 'paymentCardInvalidCvv',
 		},
 		path: [
 			'cvv',
