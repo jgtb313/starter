@@ -177,7 +177,11 @@ export class RolePrisma implements IRoleRepository {
 	}
 
 	updateById: IRoleRepository['updateById'] = async (roleId, input) => {
-		const data = UpdatableRoleInputSchema.parse(input)
+		const {
+			organizationIds = [],
+			permissionIds = [],
+			...data
+		} = UpdatableRoleInputSchema.parse(input)
 
 		const role: PrismaRole = await prisma.role.update({
 			include: {
@@ -191,7 +195,25 @@ export class RolePrisma implements IRoleRepository {
 			where: {
 				roleId,
 			},
-			data,
+			data: {
+				...data,
+				organizations: {
+					createMany: {
+						data: organizationIds.map((organizationId) => ({
+							organizationId,
+						})),
+						skipDuplicates: true,
+					},
+				},
+				permissions: {
+					createMany: {
+						data: permissionIds.map((permissionId) => ({
+							permissionId,
+						})),
+						skipDuplicates: true,
+					},
+				},
+			},
 		})
 
 		return this.toRoleDomain(role)

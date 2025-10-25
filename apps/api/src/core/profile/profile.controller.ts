@@ -87,11 +87,13 @@ export class ProfileController {
 			},
 		},
 	})
-	updateProfile(
+	async updateProfile(
 		@AuthenticatedProfile() profile: Profile,
 		@Request() { body }: UpdateProfileRequest,
 	) {
-		return this.userService.updateUser(profile.userId, body)
+		const user = await this.userService.updateUser(profile.userId, body)
+
+		return this.profileService.getProfile(user.state.userId)
 	}
 
 	@Route({
@@ -147,9 +149,11 @@ export class ProfileController {
 			recipient,
 		})
 
-		return this.userService.updateUser(profile.userId, {
+		const user = await this.userService.updateUser(profile.userId, {
 			email: body.email,
 		})
+
+		return this.profileService.getProfile(user.state.userId)
 	}
 
 	@Route({
@@ -205,9 +209,11 @@ export class ProfileController {
 			recipient,
 		})
 
-		return this.userService.updateUser(profile.userId, {
+		const user = await this.userService.updateUser(profile.userId, {
 			phone: body.phone,
 		})
+
+		return this.profileService.getProfile(user.state.userId)
 	}
 
 	@Route({
@@ -260,7 +266,7 @@ export class ProfileController {
 			},
 		},
 	})
-	deactivateProfile(@AuthenticatedProfile() profile: Profile) {
-		return this.userService.deleteUser(profile.userId)
+	async deactivateProfile(@AuthenticatedProfile() profile: Profile) {
+		await this.userService.deleteUser(profile.userId)
 	}
 }

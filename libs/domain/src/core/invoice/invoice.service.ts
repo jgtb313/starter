@@ -8,7 +8,10 @@ import {
 	createWorkspaceReference,
 	type WithWorkspaceReference,
 } from '@/support/workspace-reference'
-import type { InvoiceInput } from '@/core/invoice/invoice.schema'
+import type {
+	InvoiceInput,
+	UpdatableInvoiceInput,
+} from '@/core/invoice/invoice.schema'
 import type { UpcomingInvoice } from '@/core/invoice/invoice-upcoming.schema'
 import { PlanService } from '@/core/plan/plan.service'
 import { SubscriptionService } from '@/core/subscription/subscription.service'
@@ -143,7 +146,7 @@ export class InvoiceService {
 
 	async updateInvoice(
 		reference: InvoiceWorkspaceReference,
-		input: Partial<InvoiceInput>,
+		input: UpdatableInvoiceInput,
 	) {
 		const invoice = await this.getInvoice(reference)
 

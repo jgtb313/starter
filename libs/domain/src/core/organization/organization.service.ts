@@ -8,7 +8,10 @@ import {
 	createWorkspaceReference,
 	type WithWorkspaceReference,
 } from '@/support/workspace-reference'
-import type { OrganizationInput } from '@/core/organization/organization.schema'
+import type {
+	OrganizationInput,
+	UpdatableOrganizationInput,
+} from '@/core/organization/organization.schema'
 import { PlanService } from '@/core/plan/plan.service'
 import { WorkspaceService } from '@/core/workspace/workspace.service'
 import type { IOrganizationRepository } from '@/ports/database/organization'
@@ -73,7 +76,7 @@ export class OrganizationService {
 
 	async updateOrganization(
 		reference: OrganizationWorkspaceReference,
-		input: Partial<OrganizationInput>,
+		input: UpdatableOrganizationInput,
 	) {
 		const organization = await this.getOrganization(reference)
 

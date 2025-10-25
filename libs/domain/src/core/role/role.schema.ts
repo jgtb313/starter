@@ -67,9 +67,7 @@ export const RoleInputSchema = RoleSchema.partial({
 export const UpdatableRoleInputSchema = RoleSchema.partial().omit({
 	roleId: true,
 	workspaceId: true,
-	organizationIds: true,
 	organizations: true,
-	permissionIds: true,
 	permissions: true,
 })
 

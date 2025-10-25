@@ -3,7 +3,7 @@ import type { Pagination } from '@starter/schema'
 
 import { Inject, Injectable } from '@nestjs/common'
 
-import type { PlanInput } from '@/core/plan/plan.schema'
+import type { PlanInput, UpdatablePlanInput } from '@/core/plan/plan.schema'
 import { LoggerService } from '@/adapters/logger'
 import { RecurrenceService } from '@/adapters/recurrence'
 import type {
@@ -81,7 +81,7 @@ export class PlanService {
 		return plan
 	}
 
-	updatePlan = async (planId: string, input: Partial<PlanInput>) => {
+	updatePlan = async (planId: string, input: UpdatablePlanInput) => {
 		this.loggerService.info('Attempting to update plan', {
 			planId,
 			input,

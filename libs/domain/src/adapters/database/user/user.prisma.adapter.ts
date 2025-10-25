@@ -235,7 +235,12 @@ export class UserPrisma implements IUserRepository {
 	}
 
 	updateById: IUserRepository['updateById'] = async (userId, input) => {
-		const { phone, document, ...data } = UpdatableUserInputSchema.parse(input)
+		console.log({
+			input,
+		})
+
+		const { workspaceId, phone, document, ...data } =
+			UpdatableUserInputSchema.parse(input)
 
 		const user: PrismaUser = await prisma.user.update({
 			include: {
@@ -246,6 +251,13 @@ export class UserPrisma implements IUserRepository {
 			},
 			data: {
 				...data,
+				workspace: workspaceId
+					? {
+							connect: {
+								workspaceId,
+							},
+						}
+					: undefined,
 				phoneISO: phone?.iso,
 				phoneDDI: phone?.ddi,
 				phoneNumber: phone?.number,

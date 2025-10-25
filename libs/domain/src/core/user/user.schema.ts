@@ -96,7 +96,6 @@ export const UserInputSchema = UserSchema.partial({
 
 export const UpdatableUserInputSchema = UserSchema.partial().omit({
 	userId: true,
-	workspaceId: true,
 	addresses: true,
 })
 

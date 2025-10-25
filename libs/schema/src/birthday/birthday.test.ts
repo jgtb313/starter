@@ -20,6 +20,16 @@ describe('Birthday', () => {
 			const input = 'not-a-date'
 			expect(() => BirthdaySchema.parse(input)).toThrow()
 		})
+
+		it('should validate a date string with time', () => {
+			const input = '1993-03-30T15:00:00.000Z'
+			expect(() => BirthdaySchema.parse(input)).not.toThrow()
+		})
+
+		it('should validate a Date object', () => {
+			const input = new Date('1993-03-30T15:00:00.000Z')
+			expect(() => BirthdaySchema.parse(input)).not.toThrow()
+		})
 	})
 
 	describe('BirthdayOptionalSchema', () => {

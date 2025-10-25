@@ -13,7 +13,7 @@ import {
 	type WithWorkspaceReference,
 } from '@/support/workspace-reference'
 import { PermissionService } from '@/core/permission/permission.service'
-import type { User, UserInput } from '@/core/user/user.schema'
+import type { UpdatableUserInput, User } from '@/core/user/user.schema'
 import type { CreateUserInput } from '@/core/user/user.service.types'
 import type { WorkspaceDomain } from '@/core/workspace/workspace.domain'
 import { WorkspaceService } from '@/core/workspace/workspace.service'
@@ -132,7 +132,7 @@ export class UserService {
 
 	async updateUser(
 		reference: UserWorkspaceReference,
-		input: Partial<UserInput>,
+		input: UpdatableUserInput,
 	) {
 		const user = await this.getUser(reference)
 
