@@ -7,24 +7,32 @@ export const SortEnum = {
 
 export const SortSchema = (allowedFields: string[]) =>
 	z
-		.union([
-			z.string().trim(),
-			z.null(),
-		])
-		.transform((value) => (value === '' || value == null ? undefined : value))
-		.refine((value) => value === undefined || value.includes(':'), {
-			params: {
-				code: 'sort.invalid_format',
-			},
-		})
+		.string()
+		.nullish()
 		.refine(
 			(value) => {
-				if (value === undefined) {
+				if (!value) {
 					return true
 				}
 
-				const [field] = value.split(':')
-				return allowedFields.includes(field)
+				return value.includes(':')
+			},
+			{
+				params: {
+					code: 'sort.invalid_format',
+				},
+			},
+		)
+		.refine(
+			(value) => {
+				if (!value) {
+					return true
+				}
+
+				return value.split(',').every((fieldValue) => {
+					const [field] = fieldValue.split(':')
+					return allowedFields.includes(field)
+				})
 			},
 			{
 				params: {
@@ -34,35 +42,42 @@ export const SortSchema = (allowedFields: string[]) =>
 		)
 		.refine(
 			(value) => {
-				if (value === undefined) {
+				if (!value) {
 					return true
 				}
 
-				const [, order] = value.split(':')
-				return [
-					'asc',
-					'desc',
-				].includes(order)
+				return value.split(',').every((fieldValue) => {
+					const [, order] = fieldValue.split(':')
+					return [
+						'asc',
+						'desc',
+					].includes(order)
+				})
 			},
 			{
 				params: {
-					code: 'sort.invalid_order',
+					code: 'sort.invalid_fields',
 				},
 			},
 		)
 		.transform((value) => {
-			if (value === undefined) {
+			if (!value) {
 				return {}
 			}
 
-			const [field, order] = value.split(':')
-			return {
-				[field]: SortEnum[order as keyof typeof SortEnum],
-			}
+			const fields = value.split(',').map((fieldValue) => {
+				const [field, order] = fieldValue.split(':')
+				return [
+					field,
+					SortEnum[order as keyof typeof SortEnum],
+				]
+			})
+
+			return Object.fromEntries(fields)
 		})
 		.meta({
-			description: `Sort the results by the given field and order. Allowed fields: ${allowedFields.join(', ')}`,
-			example: 'name:asc,status:desc',
+			description: `Sort the results by the given field and order.`,
+			examples: 'field:asc,otherField:desc',
 		})
 
 export type Sort<K extends string> = {

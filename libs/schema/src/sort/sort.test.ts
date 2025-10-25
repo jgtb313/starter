@@ -10,6 +10,7 @@ describe('SortSchema', () => {
 		])
 
 		expect(schema.parse(null)).toEqual({})
+		expect(schema.parse(undefined)).toEqual({})
 		expect(schema.parse('')).toEqual({})
 	})
 
@@ -29,6 +30,17 @@ describe('SortSchema', () => {
 			'email',
 		])
 		expect(schema.parse('email:desc')).toEqual({
+			email: SortEnum.desc,
+		})
+	})
+
+	it('should parse a valid sort with multiple fields', () => {
+		const schema = SortSchema([
+			'name',
+			'email',
+		])
+		expect(schema.parse('name:asc,email:desc')).toEqual({
+			name: SortEnum.asc,
 			email: SortEnum.desc,
 		})
 	})

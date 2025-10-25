@@ -156,22 +156,28 @@ export const zodSchemaToJSONSchema = (zodType: z.ZodType): any => {
 
 const getMergedProperties = (jsonSchema: z.core.JSONSchema.ObjectSchema) => {
 	if (jsonSchema.properties) {
-		return Object.entries(jsonSchema.properties).map(([name, props]) => ({
-			...JSON.parse(JSON.stringify(props)),
-			name,
-			required: jsonSchema?.required?.includes(name),
-		}))
+		return Object.entries(jsonSchema.properties).map(([name, props]) => {
+			const parsedProps = JSON.parse(JSON.stringify(props))
+			return {
+				...parsedProps,
+				name,
+				required: jsonSchema?.required?.includes(name),
+				examples: jsonSchema.examples,
+			}
+		})
 	}
 
 	if (jsonSchema.allOf) {
 		return jsonSchema.allOf.flatMap((schema) =>
 			Object.entries(schema.properties ?? {}).map(([name, props]) => {
-				const required = (get(schema, 'required') ?? []) as string[]
+				const parsedProps = JSON.parse(JSON.stringify(props))
+				const required = schema.required ?? []
 
 				return {
-					...JSON.parse(JSON.stringify(props)),
+					...parsedProps,
 					name,
 					required: required.includes(name),
+					examples: schema.examples,
 				}
 			}),
 		)
