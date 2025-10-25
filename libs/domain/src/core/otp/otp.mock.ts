@@ -19,8 +19,8 @@ export const makeOTP = (overrides: OTPOverrides): OTP => {
 		maxRequestsPerDay: 5,
 		resendCooldownSeconds: 30,
 		expiresAt: addSeconds(now, 300),
-		createdAt: now.toISOString(),
-		updatedAt: now.toISOString(),
+		createdAt: now,
+		updatedAt: now,
 	}
 
 	return {

@@ -310,7 +310,11 @@ export class RolePrisma implements IRoleRepository {
 		sort,
 	}: RoleSort): Prisma.RoleOrderByWithRelationInput[] {
 		if (!sort) {
-			return []
+			return [
+				{
+					createdAt: 'desc',
+				},
+			]
 		}
 
 		const keyMap: Record<string, Prisma.RoleOrderByWithRelationInput> = {

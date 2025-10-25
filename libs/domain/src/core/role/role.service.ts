@@ -83,8 +83,6 @@ export class RoleService {
 
 		return this.roleRepository.updateById(role.state.roleId, {
 			...input,
-			organizationIds,
-			permissionIds,
 		})
 	}
 

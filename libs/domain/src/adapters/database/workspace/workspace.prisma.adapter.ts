@@ -277,6 +277,7 @@ export class WorkspacePrisma implements IWorkspaceRepository {
 	private parseWhere({
 		name,
 		status,
+		createdAt,
 	}: FindWorkspaceInput): Prisma.WorkspaceWhereInput {
 		const where: Prisma.WorkspaceWhereInput = {}
 
@@ -289,6 +290,10 @@ export class WorkspacePrisma implements IWorkspaceRepository {
 
 		if (status) {
 			where.status = status
+		}
+
+		if (createdAt) {
+			where.createdAt = createdAt
 		}
 
 		return where

@@ -18,8 +18,9 @@ export const makeWorkspace = (overrides: WorkspaceOverrides): Workspace => {
 			highlight: false,
 			default: false,
 			status: 'ACTIVE',
-			createdAt: new Date().toISOString(),
-			updatedAt: new Date().toISOString(),
+			deletedAt: null,
+			createdAt: new Date(),
+			updatedAt: new Date(),
 		},
 		subscriptionId: null,
 		subscription: null,
@@ -34,8 +35,8 @@ export const makeWorkspace = (overrides: WorkspaceOverrides): Workspace => {
 		locale: null,
 		trialEndsAt: null,
 		status: 'TRIAL',
-		createdAt: new Date().toISOString(),
-		updatedAt: new Date().toISOString(),
+		createdAt: new Date(),
+		updatedAt: new Date(),
 	}
 
 	return {

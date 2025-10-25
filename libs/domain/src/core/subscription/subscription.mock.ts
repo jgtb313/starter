@@ -29,8 +29,9 @@ export const makeSubscription = (
 			highlight: false,
 			default: false,
 			status: 'ACTIVE',
-			createdAt: new Date().toISOString(),
-			updatedAt: new Date().toISOString(),
+			deletedAt: null,
+			createdAt: new Date(),
+			updatedAt: new Date(),
 		},
 		externalId: uuid(),
 		paymentMethod: 'CARD',
@@ -67,8 +68,8 @@ export const makeSubscription = (
 		deadline: new Date(new Date().setDate(new Date().getDate() + 5)),
 		canceledAt: null,
 		status: 'TRIAL',
-		createdAt: new Date().toISOString(),
-		updatedAt: new Date().toISOString(),
+		createdAt: new Date(),
+		updatedAt: new Date(),
 	}
 
 	return {

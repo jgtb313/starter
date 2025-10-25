@@ -17,8 +17,9 @@ export const makeOrganization = (
 		logo: null,
 		domain: null,
 		status: 'ACTIVE',
-		createdAt: new Date().toISOString(),
-		updatedAt: new Date().toISOString(),
+		deletedAt: null,
+		createdAt: new Date(),
+		updatedAt: new Date(),
 	}
 
 	return {

@@ -16,8 +16,8 @@ export const makeRole = (overrides: RoleOverrides): Role => {
 		tags: [],
 		deletedAt: null,
 		status: 'ACTIVE',
-		createdAt: new Date().toISOString(),
-		updatedAt: new Date().toISOString(),
+		createdAt: new Date(),
+		updatedAt: new Date(),
 	}
 
 	return {

@@ -173,9 +173,29 @@ export class SubscriptionPrisma implements ISubscriptionRepository {
 	}
 
 	private parseWhere({
+		workspaceId,
+		planId,
+		externalId,
+		paymentMethod,
 		status,
 	}: FindSubscriptionInput): Prisma.SubscriptionWhereInput {
 		const where: Prisma.SubscriptionWhereInput = {}
+
+		if (workspaceId) {
+			where.workspaceId = workspaceId
+		}
+
+		if (planId) {
+			where.planId = planId
+		}
+
+		if (externalId) {
+			where.externalId = externalId
+		}
+
+		if (paymentMethod) {
+			where.paymentMethod = paymentMethod
+		}
 
 		if (status) {
 			where.status = status

@@ -18,8 +18,8 @@ export const makePlan = (overrides: PlanOverrides = {}): Plan => {
 		default: false,
 		status: 'ACTIVE',
 		deletedAt: null,
-		createdAt: now.toISOString(),
-		updatedAt: now.toISOString(),
+		createdAt: now,
+		updatedAt: now,
 	}
 
 	return {

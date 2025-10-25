@@ -21,8 +21,8 @@ export const makeUser = (overrides: UserOverrides): User => {
 		password: 'Abcd1234!',
 		status: 'ONBOARDING',
 		deletedAt: null,
-		createdAt: new Date().toISOString(),
-		updatedAt: new Date().toISOString(),
+		createdAt: new Date(),
+		updatedAt: new Date(),
 	}
 
 	return {
