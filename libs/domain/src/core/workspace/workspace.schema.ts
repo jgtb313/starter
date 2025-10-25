@@ -72,7 +72,7 @@ const Locale = z
 		},
 		{
 			params: {
-				code: 'workspace.invalid_default_locale',
+				code: 'workspaceInvalidDefaultLocale',
 			},
 			path: [
 				'defaultLocale',

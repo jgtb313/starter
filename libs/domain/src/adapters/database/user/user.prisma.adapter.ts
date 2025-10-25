@@ -235,7 +235,7 @@ export class UserPrisma implements IUserRepository {
 	}
 
 	updateById: IUserRepository['updateById'] = async (userId, input) => {
-		const { workspaceId, phone, document, ...data } =
+		const { workspaceId, permissionIds, phone, document, ...data } =
 			UpdatableUserInputSchema.parse(input)
 
 		const user: PrismaUser = await prisma.user.update({
@@ -251,6 +251,16 @@ export class UserPrisma implements IUserRepository {
 					? {
 							connect: {
 								workspaceId,
+							},
+						}
+					: undefined,
+				permissions: permissionIds
+					? {
+							deleteMany: {},
+							createMany: {
+								data: permissionIds.map((permissionId) => ({
+									permissionId,
+								})),
 							},
 						}
 					: undefined,

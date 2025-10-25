@@ -176,9 +176,7 @@ export class AuthService {
 			googleProviderExternalId: null,
 			facebookProviderExternalId: null,
 			addresses: [],
-			permissionIds: [
-				'workspace:manage',
-			],
+			permissionIds: [],
 			name,
 			email,
 			password,

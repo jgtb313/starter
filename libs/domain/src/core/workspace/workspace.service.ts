@@ -61,6 +61,9 @@ export class WorkspaceService {
 
 		await this.userService.updateUser(user.state.userId, {
 			workspaceId: workspace.state.workspaceId,
+			permissionIds: [
+				'workspace:manage',
+			],
 		})
 
 		this.publisherService.publish('WORKSPACE_CREATED', {
