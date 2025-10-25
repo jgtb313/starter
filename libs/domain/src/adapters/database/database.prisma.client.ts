@@ -1,6 +1,6 @@
 import { type Prisma, PrismaClient } from '@prisma/client'
 
-import { deepMapDatesToISOString } from '@/support/utilities'
+// import { deepMapDatesToISOString } from '@/support/utilities'
 
 const prisma = new PrismaClient().$extends({
 	query: {
@@ -8,7 +8,9 @@ const prisma = new PrismaClient().$extends({
 			async $allOperations({ args, query }) {
 				const result = await query(args)
 
-				return deepMapDatesToISOString(result)
+				// return deepMapDatesToISOString(result)
+
+				return result
 			},
 		},
 	},

@@ -1,7 +1,6 @@
 import { PaginationSchemaTransform } from '@starter/schema'
 
 import { Inject, Injectable, NotFoundException } from '@nestjs/common'
-import { Decimal } from '@prisma/client/runtime/library'
 
 import { deepMapDatesToISOString } from '@/support/utilities'
 import { WorkspaceDomain } from '@/core/workspace/workspace.domain'
@@ -263,6 +262,8 @@ export class WorkspacePrisma implements IWorkspaceRepository {
 				},
 			},
 		})
+
+		return this.findById(workspaceId)
 	}
 
 	deleteAddress: IWorkspaceRepository['deleteAddress'] = async (
@@ -343,12 +344,8 @@ export class WorkspacePrisma implements IWorkspaceRepository {
 					}
 				: undefined
 
-		const lat = prismaAddress?.lat
-			? new Decimal(prismaAddress.lat.toString())
-			: undefined
-		const lng = prismaAddress?.lng
-			? new Decimal(prismaAddress.lng.toString())
-			: undefined
+		const lat = prismaAddress?.lat ? prismaAddress.lat.toString() : undefined
+		const lng = prismaAddress?.lng ? prismaAddress.lng.toString() : undefined
 
 		const address = prismaAddress
 			? {

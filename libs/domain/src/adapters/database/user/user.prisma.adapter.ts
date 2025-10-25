@@ -1,7 +1,6 @@
 import { PaginationSchemaTransform } from '@starter/schema'
 
 import { Inject, Injectable, NotFoundException } from '@nestjs/common'
-import { Decimal } from '@prisma/client/runtime/library'
 
 import { deepMapDatesToISOString } from '@/support/utilities'
 import type { Permission } from '@/core/permission'
@@ -559,8 +558,8 @@ export class UserPrisma implements IUserRepository {
 					}
 				: undefined
 		const addresses = model.addresses.map((address) => {
-			const lat = new Decimal(address.lat.toString())
-			const lng = new Decimal(address.lng.toString())
+			const lat = address.lat.toString()
+			const lng = address.lng.toString()
 
 			return {
 				...address,

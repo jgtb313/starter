@@ -43,6 +43,6 @@ export type IWorkspaceRepository = {
 	upsertAddress(
 		workspaceId: string,
 		input: Required<Workspace['address']>,
-	): Promise<void>
+	): Promise<WorkspaceDomain>
 	deleteAddress(workspaceId: string): Promise<void>
 }

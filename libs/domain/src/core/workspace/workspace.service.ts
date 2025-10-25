@@ -115,14 +115,14 @@ export class WorkspaceService {
 			},
 		}
 
-		await this.workspaceRepository.upsertAddress(
+		const updatedWorkspace = await this.workspaceRepository.upsertAddress(
 			workspace.state.workspaceId,
 			businessAddress,
 		)
 
 		this.loggerService.info('Workspace address defined', businessAddress)
 
-		return workspace
+		return updatedWorkspace
 	}
 
 	async deleteWorkspaceAddress(workspaceId: string) {
