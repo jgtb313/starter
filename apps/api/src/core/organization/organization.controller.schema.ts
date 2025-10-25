@@ -2,7 +2,6 @@ import {
 	BasePaginationSchemaOutput,
 	PaginationSchema,
 	SortSchema,
-	TranslationsSchema,
 	z,
 } from '@starter/schema'
 import { OrganizationSchema } from '@starter/domain'

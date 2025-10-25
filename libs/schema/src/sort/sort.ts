@@ -8,7 +8,7 @@ export const SortEnum = {
 export const SortSchema = (allowedFields: string[]) =>
 	z
 		.string()
-		.nullish()
+		.optional()
 		.refine(
 			(value) => {
 				if (!value) {
@@ -78,8 +78,8 @@ export const SortSchema = (allowedFields: string[]) =>
 			return Object.fromEntries(fields)
 		})
 		.meta({
-			description: `Sort the results by the given field and order.`,
-			examples: 'field:asc,otherField:desc',
+			description: 'Sort the results by the given field and order.',
+			example: 'field:asc,otherField:desc',
 		})
 
 export type Sort<K extends string> = {

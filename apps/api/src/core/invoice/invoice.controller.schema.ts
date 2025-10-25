@@ -17,7 +17,7 @@ export const ListInvoicesSchema = createRequestSchema({
 	params: z.object({
 		workspaceId: BaseSchema.id('workspace'),
 	}),
-	query: PaginationSchema,
+	query: z.object({}).partial().and(PaginationSchema),
 	output: BasePaginationSchemaOutput.and(
 		z.object({
 			values: z.array(InvoiceSchema),

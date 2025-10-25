@@ -9,7 +9,6 @@ describe('SortSchema', () => {
 			'email',
 		])
 
-		expect(schema.parse(null)).toEqual({})
 		expect(schema.parse(undefined)).toEqual({})
 		expect(schema.parse('')).toEqual({})
 	})

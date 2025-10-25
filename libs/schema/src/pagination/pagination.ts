@@ -1,8 +1,20 @@
 import { z } from '@/zod'
 
 export const PaginationSchema = z.object({
-	cursor: z.string().nullish(),
-	limit: z.coerce.number().optional(),
+	cursor: z
+		.string()
+		.meta({
+			description: 'The cursor to paginate the results by.',
+			example: '96738ebc-7da1-48e2-8685-705c7b9268cb',
+		})
+		.optional(),
+	limit: z.coerce
+		.number()
+		.meta({
+			description: 'The limit of results to return.',
+			example: 10,
+		})
+		.optional(),
 })
 
 export const PaginationSchemaTransform = PaginationSchema.transform(
