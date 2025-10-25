@@ -1,7 +1,5 @@
-import type { I18nDict } from '@starter/i18n'
-
 const en = {
-	'password.minLength': 'Password must be at least 8 characters long',
+	passwordMinLength: 'Password must be at least 8 characters long',
 	'password.maxLength': 'Password must be at most 64 characters long',
 	'password.minLowercase':
 		'Password must contain at least one lowercase letter',
@@ -21,14 +19,19 @@ const en = {
 	'document.invalid_cpf': 'Invalid CPF',
 	'sort.invalid_format':
 		'Invalid sort format (expected "field:asc" or "field:desc")',
-	'sort.invalid_field': 'Invalid sort field',
-	'sort.invalid_order': 'Invalid sort order (must be "asc" or "desc")',
+	'sort.invalid_field':
+		'Invalid sort field, expected one of: {expected:string}',
+	'sort.invalid_order':
+		'Invalid sort order, expected one of: {expected:string}',
 	'translations.invalid_locale': `Invalid locale must be one of en, es, pt-BR`,
+} as const
+
+type Translations = {
+	[K in keyof typeof en]: string
 }
-type Translations = typeof en
 
 const es: Translations = {
-	'password.minLength': 'La contraseña debe tener al menos 8 caracteres',
+	passwordMinLength: 'La contraseña debe tener al menos 8 caracteres',
 	'password.maxLength': 'La contraseña debe tener a lo sumo 64 caracteres',
 	'password.minLowercase':
 		'La contraseña debe contener al menos una letra minúscula',
@@ -49,14 +52,15 @@ const es: Translations = {
 	'document.invalid_cpf': 'CPF inválido',
 	'sort.invalid_format':
 		'Formato de ordenación inválido (esperado "field:asc" o "field:desc")',
-	'sort.invalid_field': 'Campo de ordenación inválido',
+	'sort.invalid_field':
+		'Campo de ordenación inválido, esperado uno de: {expected:string}',
 	'sort.invalid_order':
-		'Orden de ordenación inválido (debe ser "asc" o "desc")',
+		'Orden de ordenación inválido, esperado uno de: {expected:string}',
 	'translations.invalid_locale': `Locale inválido debe ser uno de en, es, pt-BR`,
 }
 
 const ptBR: Translations = {
-	'password.minLength': 'A senha deve ter pelo menos 8 caracteres',
+	passwordMinLength: 'A senha deve ter pelo menos 8 caracteres',
 	'password.maxLength': 'A senha deve ter no máximo 64 caracteres',
 	'password.minLowercase': 'A senha deve ter pelo menos uma letra minúscula',
 	'password.minUppercase': 'A senha deve ter pelo menos uma letra maiúscula',
@@ -74,13 +78,14 @@ const ptBR: Translations = {
 	'document.invalid_cpf': 'CPF inválido',
 	'sort.invalid_format':
 		'Formato de ordenação inválido (esperado "field:asc" ou "field:desc")',
-	'sort.invalid_field': 'Campo de ordenação inválido',
+	'sort.invalid_field':
+		'Campo de ordenação inválido, esperado um dos seguintes: {expected:string}',
 	'sort.invalid_order':
-		'Ordem de ordenação inválida (deve ser "asc" ou "desc")',
+		'Ordem de ordenação inválida, esperado um dos seguintes: {expected:string}',
 	'translations.invalid_locale': `Locale inválido deve ser um dos seguintes en, es, pt-BR`,
 }
 
-export const i18nDict: I18nDict = {
+export const i18nDict = {
 	en,
 	es,
 	'pt-BR': ptBR,

@@ -1,5 +1,6 @@
 import { get } from '@starter/common'
-import type { I18nDict } from '@starter/i18n'
+import { createI18n, type I18nDict } from '@starter/i18n'
+
 import type { z } from 'zod'
 
 import { i18nDict } from '@/~i18n/schema.i18n'
@@ -298,18 +299,31 @@ const ptBR: z.core.$ZodErrorMap = (issue) => {
 	}
 }
 
-let i18nDictCache: I18nDict = i18nDict
+let i18nDictCache = i18nDict
 
 const getCustomMessage = (issue: unknown, locale: Locale) => {
-	const localeData = i18nDictCache[locale]
-
-	const code = get(issue, 'params.code') ?? get(issue, 'code')
+	const code = (get(issue, 'params.code') ?? get(issue, 'code')) as
+		| string
+		| undefined
+	const params = get(issue, 'params') as Record<string, unknown> | undefined
 
 	if (!code) {
 		return
 	}
 
-	const customMessage = get(localeData, code)
+	const i18n = createI18n(i18nDictCache, locale)
+
+	const handler = code.split('.').reduce((obj: any, key) => obj?.[key], i18n)
+
+	console.log(handler)
+
+	const customMessage = i18n['sort.invalid_order']({
+		expected: 'name, age',
+	})
+
+	console.log({
+		customMessage,
+	})
 
 	if (customMessage) {
 		return customMessage
@@ -336,7 +350,7 @@ export const zodI18nResolver =
 		}
 	}
 
-export const extendI18nDict = (extra: I18nDict) => {
+export const extendI18nDict = (extra: any) => {
 	i18nDictCache = {
 		...i18nDictCache,
 		...extra,
