@@ -9,11 +9,11 @@ import type {
 	UserInput,
 } from '@/core/user/user.schema'
 
-type FindUserInput = Partial<
+export type FindUserInput = Partial<
 	Pick<User, 'workspaceId' | 'name' | 'email' | 'phone' | 'status'>
 >
 
-type UserSort = Sort<'name' | 'status' | 'createdAt'>
+export type UserSort = Sort<'name' | 'status' | 'createdAt'>
 
 type FindByEmailOptions = Pick<User, 'workspaceId'>
 

@@ -10,7 +10,11 @@ import {
 	UserInputSchema,
 } from '@/core/user/user.schema'
 import { type Prisma, prisma } from '@/adapters/database/database.prisma.client'
-import type { IUserRepository } from '@/ports/database/user'
+import type {
+	FindUserInput,
+	IUserRepository,
+	UserSort,
+} from '@/ports/database/user/user.repository.port'
 import { type I18nDomainService, I18nDomainSymbol } from '@/domain.i18n.module'
 
 type PrismaUser = Prisma.UserGetPayload<{
@@ -26,56 +30,21 @@ export class UserPrisma implements IUserRepository {
 		private readonly i18nService: I18nDomainService,
 	) {}
 
-	findPaginated: IUserRepository['findPaginated'] = async (input) => {
+	findPaginated: IUserRepository['findPaginated'] = async ({
+		cursor,
+		limit,
+		sort,
+		...input
+	}) => {
 		const paginate = PaginationSchemaTransform.parse({
-			cursor: input.cursor,
-			limit: input.limit,
+			cursor,
+			limit,
 		})
 
-		const where: Prisma.UserWhereInput = {}
-
-		if (input.workspaceId) {
-			where.workspaceId = input.workspaceId
-		}
-
-		if (input.name) {
-			where.name = {
-				contains: input.name,
-				mode: 'insensitive',
-			}
-		}
-
-		if (input.email) {
-			where.email = input.email
-		}
-
-		if (input.phone) {
-			where.AND = [
-				{
-					phoneISO: input.phone.iso,
-				},
-				{
-					phoneDDI: input.phone.ddi,
-				},
-				{
-					phoneNumber: input.phone.number,
-				},
-			]
-		}
-
-		if (input.status) {
-			where.status = input.status
-		}
-
-		const orderBy: Prisma.UserOrderByWithRelationInput[] = input.sort
-			? Object.entries(input.sort).map(([key, value]) => ({
-					[key]: value,
-				}))
-			: [
-					{
-						createdAt: 'desc',
-					},
-				]
+		const where = this.parseWhere(input)
+		const orderBy = this.parseOrderBy({
+			sort,
+		})
 
 		const take = paginate.limit
 		const skip = paginate.cursor ? 1 : 0
@@ -88,7 +57,7 @@ export class UserPrisma implements IUserRepository {
 		const [values, total]: [
 			PrismaUser[],
 			number,
-		] = await prisma.$transaction([
+		] = await Promise.all([
 			prisma.user.findMany({
 				include: {
 					addresses: true,
@@ -109,58 +78,18 @@ export class UserPrisma implements IUserRepository {
 		return {
 			values: values.map((user) => this.toUserDomain(user)),
 			meta: {
-				...paginate,
+				limit: paginate.limit,
 				total,
 				nextCursor,
 			},
 		}
 	}
 
-	find: IUserRepository['find'] = async (input) => {
-		const where: Prisma.UserWhereInput = {}
-
-		if (input.workspaceId) {
-			where.workspaceId = input.workspaceId
-		}
-
-		if (input.name) {
-			where.name = {
-				contains: input.name,
-				mode: 'insensitive',
-			}
-		}
-
-		if (input.email) {
-			where.email = input.email
-		}
-
-		if (input.phone) {
-			where.AND = [
-				{
-					phoneISO: input.phone.iso,
-				},
-				{
-					phoneDDI: input.phone.ddi,
-				},
-				{
-					phoneNumber: input.phone.number,
-				},
-			]
-		}
-
-		if (input.status) {
-			where.status = input.status
-		}
-
-		const orderBy: Prisma.UserOrderByWithRelationInput[] = input.sort
-			? Object.entries(input.sort).map(([key, value]) => ({
-					[key]: value,
-				}))
-			: [
-					{
-						createdAt: 'desc',
-					},
-				]
+	find: IUserRepository['find'] = async ({ sort, ...input }) => {
+		const where = this.parseWhere(input)
+		const orderBy = this.parseOrderBy({
+			sort,
+		})
 
 		const values: PrismaUser[] = await prisma.user.findMany({
 			include: {
@@ -529,6 +458,67 @@ export class UserPrisma implements IUserRepository {
 				userId,
 			},
 		})
+	}
+
+	private parseWhere({
+		workspaceId,
+		name,
+		email,
+		phone,
+		status,
+	}: FindUserInput): Prisma.UserWhereInput {
+		const where: Prisma.UserWhereInput = {}
+
+		if (workspaceId) {
+			where.workspaceId = workspaceId
+		}
+
+		if (name) {
+			where.name = {
+				contains: name,
+				mode: 'insensitive',
+			}
+		}
+
+		if (email) {
+			where.email = email
+		}
+
+		if (phone) {
+			where.AND = [
+				{
+					phoneISO: phone.iso,
+				},
+				{
+					phoneDDI: phone.ddi,
+				},
+				{
+					phoneNumber: phone.number,
+				},
+			]
+		}
+
+		if (status) {
+			where.status = status
+		}
+
+		return where
+	}
+
+	private parseOrderBy({
+		sort,
+	}: UserSort): Prisma.UserOrderByWithRelationInput[] {
+		if (!sort) {
+			return [
+				{
+					createdAt: 'desc',
+				},
+			]
+		}
+
+		return Object.entries(sort).map(([key, value]) => ({
+			[key]: value,
+		}))
 	}
 
 	private toUserDomain(model: PrismaUser) {

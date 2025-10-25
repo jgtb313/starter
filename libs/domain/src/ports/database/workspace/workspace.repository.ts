@@ -8,23 +8,30 @@ import type {
 	WorkspaceInput,
 } from '@/core/workspace/workspace.schema'
 
-type FindWorkspaceInput = Partial<
+export type FindWorkspaceInput = Partial<
 	Pick<Workspace, 'name' | 'status' | 'createdAt'>
 >
 
-type WorkspaceSort = Sort<'name' | 'status' | 'createdAt'>
+export type WorkspaceSort = Sort<'name' | 'status' | 'createdAt'>
 
 export type IWorkspaceRepository = {
 	findPaginated(
 		input: Merge<
 			[
 				FindWorkspaceInput,
-				Pagination,
 				WorkspaceSort,
+				Pagination,
 			]
 		>,
 	): Promise<PaginationOutput<WorkspaceDomain>>
-	find(input: FindWorkspaceInput): Promise<WorkspaceDomain[]>
+	find(
+		input: Merge<
+			[
+				FindWorkspaceInput,
+				WorkspaceSort,
+			]
+		>,
+	): Promise<WorkspaceDomain[]>
 	findById(workspaceId: string): Promise<WorkspaceDomain>
 	create(input: WorkspaceInput): Promise<WorkspaceDomain>
 	updateById(

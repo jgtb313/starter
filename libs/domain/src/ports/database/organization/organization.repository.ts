@@ -8,11 +8,11 @@ import type {
 	UpdatableOrganizationInput,
 } from '@/core/organization/organization.schema'
 
-type FindOrganizationInput = Partial<
+export type FindOrganizationInput = Partial<
 	Pick<Organization, 'name' | 'status' | 'createdAt'>
 >
 
-type OrganizationSort = Sort<'name' | 'status' | 'createdAt'>
+export type OrganizationSort = Sort<'name' | 'status' | 'createdAt'>
 
 export type IOrganizationRepository = {
 	findPaginated(

@@ -8,11 +8,11 @@ import type {
 	UpdatableInvoiceInput,
 } from '@/core/invoice/invoice.schema'
 
-type FindInvoiceInput = Partial<
+export type FindInvoiceInput = Partial<
 	Pick<Invoice, 'description' | 'status' | 'createdAt'>
 >
 
-type InvoiceSort = Sort<'description' | 'status' | 'createdAt'>
+export type InvoiceSort = Sort<'description' | 'status' | 'createdAt'>
 
 export type IInvoiceRepository = {
 	findPaginated(

@@ -9,7 +9,11 @@ import {
 	UpdatableSubscriptionInputSchema,
 } from '@/core/subscription/subscription.schema'
 import { type Prisma, prisma } from '@/adapters/database/database.prisma.client'
-import type { ISubscriptionRepository } from '@/ports/database/subscription'
+import type {
+	FindSubscriptionInput,
+	ISubscriptionRepository,
+	SubscriptionSort,
+} from '@/ports/database/subscription/subscription.repository'
 import { type I18nDomainService, I18nDomainSymbol } from '@/domain.i18n.module'
 
 type PrismaSubscription = Prisma.SubscriptionGetPayload<{
@@ -31,28 +35,15 @@ export class SubscriptionPrisma implements ISubscriptionRepository {
 		sort,
 		...input
 	}) => {
-		const { workspaceId, planId, status } = input
-
 		const paginate = PaginationSchemaTransform.parse({
 			cursor,
 			limit,
 		})
 
-		const where: Prisma.SubscriptionWhereInput = {}
-
-		if (status) {
-			where.status = status
-		}
-
-		const orderBy: Prisma.SubscriptionOrderByWithRelationInput[] = sort
-			? Object.entries(sort).map(([key, value]) => ({
-					[key]: value,
-				}))
-			: [
-					{
-						createdAt: 'desc',
-					},
-				]
+		const where = this.parseWhere(input)
+		const orderBy = this.parseOrderBy({
+			sort,
+		})
 
 		const take = paginate.limit
 		const skip = paginate.cursor ? 1 : 0
@@ -65,7 +56,7 @@ export class SubscriptionPrisma implements ISubscriptionRepository {
 		const [values, total]: [
 			PrismaSubscription[],
 			number,
-		] = await prisma.$transaction([
+		] = await Promise.all([
 			prisma.subscription.findMany({
 				include: {
 					plan: true,
@@ -90,29 +81,18 @@ export class SubscriptionPrisma implements ISubscriptionRepository {
 				this.toSubscriptionDomain(subscription),
 			),
 			meta: {
-				...paginate,
+				limit: paginate.limit,
 				total,
 				nextCursor,
 			},
 		}
 	}
 
-	find: ISubscriptionRepository['find'] = async (input) => {
-		const where: Prisma.SubscriptionWhereInput = {}
-
-		if (input.status) {
-			where.status = input.status
-		}
-
-		const orderBy: Prisma.SubscriptionOrderByWithRelationInput[] = input.sort
-			? Object.entries(input.sort).map(([key, value]) => ({
-					[key]: value,
-				}))
-			: [
-					{
-						createdAt: 'desc',
-					},
-				]
+	find: ISubscriptionRepository['find'] = async ({ sort, ...input }) => {
+		const where = this.parseWhere(input)
+		const orderBy = this.parseOrderBy({
+			sort,
+		})
 
 		const values: PrismaSubscription[] = await prisma.subscription.findMany({
 			include: {
@@ -190,6 +170,34 @@ export class SubscriptionPrisma implements ISubscriptionRepository {
 		})
 
 		return this.toSubscriptionDomain(subscription)
+	}
+
+	private parseWhere({
+		status,
+	}: FindSubscriptionInput): Prisma.SubscriptionWhereInput {
+		const where: Prisma.SubscriptionWhereInput = {}
+
+		if (status) {
+			where.status = status
+		}
+
+		return where
+	}
+
+	private parseOrderBy({
+		sort,
+	}: SubscriptionSort): Prisma.SubscriptionOrderByWithRelationInput[] {
+		if (!sort) {
+			return [
+				{
+					createdAt: 'desc',
+				},
+			]
+		}
+
+		return Object.entries(sort).map(([key, value]) => ({
+			[key]: value,
+		}))
 	}
 
 	private toSubscriptionDomain(model: Prisma.SubscriptionGetPayload<{}>) {

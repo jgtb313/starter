@@ -9,7 +9,11 @@ import {
 	UpdatablePlanInputSchema,
 } from '@/core/plan/plan.schema'
 import { type Prisma, prisma } from '@/adapters/database/database.prisma.client'
-import type { IPlanRepository } from '@/ports/database/plan'
+import type {
+	FindPlanInput,
+	IPlanRepository,
+	PlanSort,
+} from '@/ports/database/plan/plan.repository'
 import { type I18nDomainService, I18nDomainSymbol } from '@/domain.i18n.module'
 
 type PrismaPlan = Prisma.PlanGetPayload<{
@@ -32,41 +36,15 @@ export class PlanPrisma implements IPlanRepository {
 		sort,
 		...input
 	}) => {
-		const { name, description, status } = input
-
 		const paginate = PaginationSchemaTransform.parse({
 			cursor,
 			limit,
 		})
 
-		const where: Prisma.PlanWhereInput = {}
-		const orderBy: Prisma.PlanOrderByWithRelationInput[] = sort
-			? Object.entries(sort).map(([key, value]) => ({
-					[key]: value,
-				}))
-			: [
-					{
-						createdAt: 'desc',
-					},
-				]
-
-		if (name) {
-			where.name = {
-				contains: name,
-				mode: 'insensitive',
-			}
-		}
-
-		if (description) {
-			where.description = {
-				contains: description,
-				mode: 'insensitive',
-			}
-		}
-
-		if (status) {
-			where.status = status
-		}
+		const where = this.parseWhere(input)
+		const orderBy = this.parseOrderBy({
+			sort,
+		})
 
 		const take = paginate.limit
 		const skip = paginate.cursor ? 1 : 0
@@ -109,36 +87,10 @@ export class PlanPrisma implements IPlanRepository {
 	}
 
 	find: IPlanRepository['find'] = async ({ sort, ...input }) => {
-		const { name, description, status } = input
-
-		const where: Prisma.PlanWhereInput = {}
-		const orderBy: Prisma.PlanOrderByWithRelationInput[] = sort
-			? Object.entries(sort).map(([key, value]) => ({
-					[key]: value,
-				}))
-			: [
-					{
-						createdAt: 'desc',
-					},
-				]
-
-		if (name) {
-			where.name = {
-				contains: name,
-				mode: 'insensitive',
-			}
-		}
-
-		if (description) {
-			where.description = {
-				contains: description,
-				mode: 'insensitive',
-			}
-		}
-
-		if (status) {
-			where.status = status
-		}
+		const where = this.parseWhere(input)
+		const orderBy = this.parseOrderBy({
+			sort,
+		})
 
 		const values: PrismaPlan[] = await prisma.plan.findMany({
 			include: {
@@ -248,6 +200,50 @@ export class PlanPrisma implements IPlanRepository {
 				deletedAt: new Date(),
 			},
 		})
+	}
+
+	private parseWhere({
+		name,
+		description,
+		status,
+	}: FindPlanInput): Prisma.PlanWhereInput {
+		const where: Prisma.PlanWhereInput = {}
+
+		if (name) {
+			where.name = {
+				contains: name,
+				mode: 'insensitive',
+			}
+		}
+
+		if (description) {
+			where.description = {
+				contains: description,
+				mode: 'insensitive',
+			}
+		}
+
+		if (status) {
+			where.status = status
+		}
+
+		return where
+	}
+
+	private parseOrderBy({
+		sort,
+	}: PlanSort): Prisma.PlanOrderByWithRelationInput[] {
+		if (!sort) {
+			return [
+				{
+					createdAt: 'desc',
+				},
+			]
+		}
+
+		return Object.entries(sort).map(([key, value]) => ({
+			[key]: value,
+		}))
 	}
 
 	private toPlanDomain(model: PrismaPlan) {

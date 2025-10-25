@@ -8,7 +8,7 @@ import type {
 	UpdatableSubscriptionInput,
 } from '@/core/subscription/subscription.schema'
 
-type FindSubscriptionInput = Partial<
+export type FindSubscriptionInput = Partial<
 	Pick<
 		Subscription,
 		| 'workspaceId'
@@ -20,7 +20,7 @@ type FindSubscriptionInput = Partial<
 	>
 >
 
-type SubscriptionSort = Sort<'status' | 'createdAt'>
+export type SubscriptionSort = Sort<'status' | 'createdAt'>
 
 export type ISubscriptionRepository = {
 	findPaginated(

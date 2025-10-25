@@ -9,7 +9,11 @@ import {
 	WorkspaceInputSchema,
 } from '@/core/workspace/workspace.schema'
 import { type Prisma, prisma } from '@/adapters/database/database.prisma.client'
-import type { IWorkspaceRepository } from '@/ports/database/workspace'
+import type {
+	FindWorkspaceInput,
+	IWorkspaceRepository,
+	WorkspaceSort,
+} from '@/ports/database/workspace/workspace.repository'
 import { type I18nDomainService, I18nDomainSymbol } from '@/domain.i18n.module'
 
 type PrismaWorkspace = Prisma.WorkspaceGetPayload<{
@@ -31,38 +35,21 @@ export class WorkspacePrisma implements IWorkspaceRepository {
 		private readonly i18nService: I18nDomainService,
 	) {}
 
-	findPaginated: IWorkspaceRepository['findPaginated'] = async (input) => {
+	findPaginated: IWorkspaceRepository['findPaginated'] = async ({
+		cursor,
+		limit,
+		sort,
+		...input
+	}) => {
 		const paginate = PaginationSchemaTransform.parse({
-			cursor: input.cursor,
-			limit: input.limit,
+			cursor,
+			limit,
 		})
 
-		const where: Prisma.WorkspaceWhereInput = {}
-
-		if (input.workspaceId) {
-			where.workspaceId = input.workspaceId
-		}
-
-		if (input.name) {
-			where.name = {
-				contains: input.name,
-				mode: 'insensitive',
-			}
-		}
-
-		if (input.status) {
-			where.status = input.status
-		}
-
-		const orderBy: Prisma.WorkspaceOrderByWithRelationInput[] = input.sort
-			? Object.entries(input.sort).map(([key, value]) => ({
-					[key]: value,
-				}))
-			: [
-					{
-						createdAt: 'desc',
-					},
-				]
+		const where = this.parseWhere(input)
+		const orderBy = this.parseOrderBy({
+			sort,
+		})
 
 		const take = paginate.limit
 		const skip = paginate.cursor ? 1 : 0
@@ -75,7 +62,7 @@ export class WorkspacePrisma implements IWorkspaceRepository {
 		const [values, total]: [
 			PrismaWorkspace[],
 			number,
-		] = await prisma.$transaction([
+		] = await Promise.all([
 			prisma.workspace.findMany({
 				include: {
 					plan: {
@@ -104,7 +91,7 @@ export class WorkspacePrisma implements IWorkspaceRepository {
 		return {
 			values: values.map((workspace) => this.toWorkspaceDomain(workspace)),
 			meta: {
-				...paginate,
+				limit: paginate.limit,
 				total,
 				nextCursor,
 			},
@@ -112,22 +99,11 @@ export class WorkspacePrisma implements IWorkspaceRepository {
 	}
 
 	find: IWorkspaceRepository['find'] = async (input) => {
-		const where: Prisma.WorkspaceWhereInput = {}
-
-		if (input.workspaceId) {
-			where.workspaceId = input.workspaceId
-		}
-
-		if (input.name) {
-			where.name = {
-				contains: input.name,
-				mode: 'insensitive',
-			}
-		}
-
-		if (input.status) {
-			where.status = input.status
-		}
+		const { sort, ...rest } = input
+		const where = this.parseWhere(rest)
+		const orderBy = this.parseOrderBy({
+			sort,
+		})
 
 		const values: PrismaWorkspace[] = await prisma.workspace.findMany({
 			include: {
@@ -140,6 +116,7 @@ export class WorkspacePrisma implements IWorkspaceRepository {
 				address: true,
 			},
 			where,
+			orderBy,
 		})
 
 		return values.map((workspace) => this.toWorkspaceDomain(workspace))
@@ -209,6 +186,7 @@ export class WorkspacePrisma implements IWorkspaceRepository {
 				phoneNumber: phone?.number,
 				documentType: document?.type,
 				documentNumber: document?.number,
+				locale: locale ? JSON.stringify(locale) : undefined,
 			},
 		})
 
@@ -242,6 +220,7 @@ export class WorkspacePrisma implements IWorkspaceRepository {
 				phoneNumber: phone?.number,
 				documentType: document?.type,
 				documentNumber: document?.number,
+				locale: locale ? JSON.stringify(locale) : undefined,
 			},
 		})
 
@@ -293,6 +272,42 @@ export class WorkspacePrisma implements IWorkspaceRepository {
 				workspaceId,
 			},
 		})
+	}
+
+	private parseWhere({
+		name,
+		status,
+	}: FindWorkspaceInput): Prisma.WorkspaceWhereInput {
+		const where: Prisma.WorkspaceWhereInput = {}
+
+		if (name) {
+			where.name = {
+				contains: name,
+				mode: 'insensitive',
+			}
+		}
+
+		if (status) {
+			where.status = status
+		}
+
+		return where
+	}
+
+	private parseOrderBy({
+		sort,
+	}: WorkspaceSort): Prisma.WorkspaceOrderByWithRelationInput[] {
+		if (!sort) {
+			return [
+				{
+					createdAt: 'desc',
+				},
+			]
+		}
+
+		return Object.entries(sort).map(([key, value]) => ({
+			[key]: value,
+		}))
 	}
 
 	private toWorkspaceDomain(model: PrismaWorkspace) {

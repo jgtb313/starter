@@ -9,7 +9,11 @@ import {
 	UpdatableInvoiceInputSchema,
 } from '@/core/invoice/invoice.schema'
 import { type Prisma, prisma } from '@/adapters/database/database.prisma.client'
-import type { IInvoiceRepository } from '@/ports/database/invoice'
+import type {
+	FindInvoiceInput,
+	IInvoiceRepository,
+	InvoiceSort,
+} from '@/ports/database/invoice/invoice.repository'
 import { type I18nDomainService, I18nDomainSymbol } from '@/domain.i18n.module'
 
 type PrismaInvoice = Prisma.InvoiceGetPayload<{
@@ -31,34 +35,15 @@ export class InvoicePrisma implements IInvoiceRepository {
 		sort,
 		...input
 	}) => {
-		const { description, status } = input
-
 		const paginate = PaginationSchemaTransform.parse({
 			cursor,
 			limit,
 		})
 
-		const where: Prisma.InvoiceWhereInput = {}
-		const orderBy: Prisma.InvoiceOrderByWithRelationInput[] = sort
-			? Object.entries(sort).map(([key, value]) => ({
-					[key]: value,
-				}))
-			: [
-					{
-						createdAt: 'desc',
-					},
-				]
-
-		if (description) {
-			where.description = {
-				contains: description,
-				mode: 'insensitive',
-			}
-		}
-
-		if (status) {
-			where.status = status
-		}
+		const where = this.parseWhere(input)
+		const orderBy = this.parseOrderBy({
+			sort,
+		})
 
 		const take = paginate.limit
 		const skip = paginate.cursor ? 1 : 0
@@ -102,29 +87,10 @@ export class InvoicePrisma implements IInvoiceRepository {
 	}
 
 	find: IInvoiceRepository['find'] = async ({ sort, ...input }) => {
-		const { description, status } = input
-
-		const where: Prisma.InvoiceWhereInput = {}
-		const orderBy: Prisma.InvoiceOrderByWithRelationInput[] = sort
-			? Object.entries(sort).map(([key, value]) => ({
-					[key]: value,
-				}))
-			: [
-					{
-						createdAt: 'desc',
-					},
-				]
-
-		if (description) {
-			where.description = {
-				contains: description,
-				mode: 'insensitive',
-			}
-		}
-
-		if (status) {
-			where.status = status
-		}
+		const where = this.parseWhere(input)
+		const orderBy = this.parseOrderBy({
+			sort,
+		})
 
 		const values: PrismaInvoice[] = await prisma.invoice.findMany({
 			include: {
@@ -203,6 +169,42 @@ export class InvoicePrisma implements IInvoiceRepository {
 		})
 
 		return this.toInvoiceDomain(invoice)
+	}
+
+	private parseWhere({
+		description,
+		status,
+	}: FindInvoiceInput): Prisma.InvoiceWhereInput {
+		const where: Prisma.InvoiceWhereInput = {}
+
+		if (description) {
+			where.description = {
+				contains: description,
+				mode: 'insensitive',
+			}
+		}
+
+		if (status) {
+			where.status = status
+		}
+
+		return where
+	}
+
+	private parseOrderBy({
+		sort,
+	}: InvoiceSort): Prisma.InvoiceOrderByWithRelationInput[] {
+		if (!sort) {
+			return [
+				{
+					createdAt: 'desc',
+				},
+			]
+		}
+
+		return Object.entries(sort).map(([key, value]) => ({
+			[key]: value,
+		}))
 	}
 
 	private toInvoiceDomain(model: PrismaInvoice) {

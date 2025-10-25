@@ -12,7 +12,7 @@ export type FindPlanInput = Partial<
 	Pick<Plan, 'name' | 'description' | 'status'>
 >
 
-export type PlanSort = Sort<'name' | 'description' | 'status'>
+export type PlanSort = Sort<'name' | 'description' | 'status' | 'createdAt'>
 
 export type IPlanRepository = {
 	findPaginated(

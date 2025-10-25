@@ -9,7 +9,11 @@ import {
 	UpdatableOrganizationInputSchema,
 } from '@/core/organization/organization.schema'
 import { type Prisma, prisma } from '@/adapters/database/database.prisma.client'
-import type { IOrganizationRepository } from '@/ports/database/organization'
+import type {
+	FindOrganizationInput,
+	IOrganizationRepository,
+	OrganizationSort,
+} from '@/ports/database/organization/organization.repository'
 import { type I18nDomainService, I18nDomainSymbol } from '@/domain.i18n.module'
 
 type PrismaOrganization = Prisma.OrganizationGetPayload<{}>
@@ -24,27 +28,18 @@ export class OrganizationPrisma implements IOrganizationRepository {
 	findPaginated: IOrganizationRepository['findPaginated'] = async ({
 		cursor,
 		limit,
+		sort,
 		...input
 	}) => {
-		const { name, status } = input
-
 		const paginate = PaginationSchemaTransform.parse({
 			cursor,
 			limit,
 		})
 
-		const where: Prisma.OrganizationWhereInput = {}
-
-		if (name) {
-			where.name = {
-				contains: name,
-				mode: 'insensitive',
-			}
-		}
-
-		if (status) {
-			where.status = status
-		}
+		const where = this.parseWhere(input)
+		const orderBy = this.parseOrderBy({
+			sort,
+		})
 
 		const take = paginate.limit
 		const skip = paginate.cursor ? 1 : 0
@@ -60,6 +55,7 @@ export class OrganizationPrisma implements IOrganizationRepository {
 		] = await Promise.all([
 			prisma.organization.findMany({
 				where,
+				orderBy,
 				take,
 				skip,
 				cursor: cursorCriteria,
@@ -85,24 +81,15 @@ export class OrganizationPrisma implements IOrganizationRepository {
 		}
 	}
 
-	find: IOrganizationRepository['find'] = async ({ ...input }) => {
-		const { name, status } = input
-
-		const where: Prisma.OrganizationWhereInput = {}
-
-		if (name) {
-			where.name = {
-				contains: name,
-				mode: 'insensitive',
-			}
-		}
-
-		if (status) {
-			where.status = status
-		}
+	find: IOrganizationRepository['find'] = async ({ sort, ...input }) => {
+		const where = this.parseWhere(input)
+		const orderBy = this.parseOrderBy({
+			sort,
+		})
 
 		const values: PrismaOrganization[] = await prisma.organization.findMany({
 			where,
+			orderBy,
 		})
 
 		return values.map((organization) => this.toOrganizationDomain(organization))
@@ -213,6 +200,42 @@ export class OrganizationPrisma implements IOrganizationRepository {
 				`The following organizationIds were not found: ${organizationIds.join(', ')}`,
 			)
 		}
+	}
+
+	private parseWhere({
+		name,
+		status,
+	}: FindOrganizationInput): Prisma.OrganizationWhereInput {
+		const where: Prisma.OrganizationWhereInput = {}
+
+		if (name) {
+			where.name = {
+				contains: name,
+				mode: 'insensitive',
+			}
+		}
+
+		if (status) {
+			where.status = status
+		}
+
+		return where
+	}
+
+	private parseOrderBy({
+		sort,
+	}: OrganizationSort): Prisma.OrganizationOrderByWithRelationInput[] {
+		if (!sort) {
+			return [
+				{
+					createdAt: 'desc',
+				},
+			]
+		}
+
+		return Object.entries(sort).map(([key, value]) => ({
+			[key]: value,
+		}))
 	}
 
 	private toOrganizationDomain({
