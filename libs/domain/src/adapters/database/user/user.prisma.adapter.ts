@@ -60,7 +60,14 @@ export class UserPrisma implements IUserRepository {
 		] = await Promise.all([
 			prisma.user.findMany({
 				include: {
-					addresses: true,
+					addresses: {
+						where: {
+							deletedAt: null,
+						},
+						orderBy: {
+							createdAt: 'desc',
+						},
+					},
 				},
 				where,
 				orderBy,
@@ -93,7 +100,14 @@ export class UserPrisma implements IUserRepository {
 
 		const values: PrismaUser[] = await prisma.user.findMany({
 			include: {
-				addresses: true,
+				addresses: {
+					where: {
+						deletedAt: null,
+					},
+					orderBy: {
+						createdAt: 'desc',
+					},
+				},
 			},
 			where,
 			orderBy,
@@ -438,12 +452,14 @@ export class UserPrisma implements IUserRepository {
 	}
 
 	createAddress: IUserRepository['createAddress'] = async (userId, input) => {
+		const { location, ...data } = input
+
 		await prisma.userAddress.create({
 			data: {
-				...input,
 				userId,
-				lat: input.location.lat,
-				lng: input.location.lng,
+				...data,
+				lat: location.lat,
+				lng: location.lng,
 			},
 		})
 	}
@@ -453,15 +469,17 @@ export class UserPrisma implements IUserRepository {
 		addressId,
 		input,
 	) => {
+		const { location, ...data } = input
+
 		await prisma.userAddress.update({
 			where: {
 				userAddressId: addressId,
 				userId,
 			},
 			data: {
-				...input,
-				lat: input.location.lat,
-				lng: input.location.lng,
+				...data,
+				lat: location.lat,
+				lng: location.lng,
 			},
 		})
 	}
@@ -470,10 +488,13 @@ export class UserPrisma implements IUserRepository {
 		userId,
 		addressId,
 	) => {
-		await prisma.userAddress.delete({
+		await prisma.userAddress.update({
 			where: {
 				userAddressId: addressId,
 				userId,
+			},
+			data: {
+				deletedAt: new Date(),
 			},
 		})
 	}

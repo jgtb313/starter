@@ -7,14 +7,22 @@ import { ACLService } from '@/support/access-control'
 import { AuthenticatedProfile } from '@/support/decorators'
 
 import {
-	type CreateUserRequest,
-	CreateUserSchema,
-	type DeleteUserRequest,
-	DeleteUserSchema,
+	type ActivateUserRequest,
+	ActivateUserSchema,
+	type CreateUserAddressRequest,
+	CreateUserAddressSchema,
+	type DeactivateUserRequest,
+	DeactivateUserSchema,
+	type DefineUserScopesRequest,
+	DefineUserScopesSchema,
+	type DeleteUserAddressRequest,
+	DeleteUserAddressSchema,
 	type GetUserRequest,
 	GetUserSchema,
 	type ListUsersRequest,
 	ListUsersSchema,
+	type UpdateUserAddressRequest,
+	UpdateUserAddressSchema,
 	type UpdateUserRequest,
 	UpdateUserSchema,
 } from './user.controller.schema'
@@ -100,41 +108,6 @@ export class UserController {
 	}
 
 	@Route({
-		summary: 'Create User',
-
-		description: 'Creates a new user.',
-
-		method: 'POST',
-
-		parameters: {
-			params: CreateUserSchema.params,
-			body: CreateUserSchema.body,
-		},
-
-		responses: {
-			201: {
-				schema: CreateUserSchema.output,
-			},
-		},
-	})
-	createUser(
-		@AuthenticatedProfile() profile: Profile,
-		@Request() { params, body }: CreateUserRequest,
-	) {
-		this.aclService.canPerformActionByPermission(profile, 'user:create', {
-			workspaceId: params.workspaceId,
-		})
-
-		return this.userService.createUser({
-			...params,
-			...body,
-			addresses: [],
-			permissionIds: [],
-			status: 'ACTIVE',
-		})
-	}
-
-	@Route({
 		summary: 'Update User',
 
 		description: 'Updates an existing user by their ID.',
@@ -168,35 +141,173 @@ export class UserController {
 	}
 
 	@Route({
-		summary: 'Delete User',
+		summary: 'Define User Scopes',
 
-		description: 'Deletes a user by their ID.',
+		description: 'Defines the scopes for a user.',
+
+		method: 'POST',
+
+		path: '/:userId/scopes',
+
+		parameters: {
+			params: DefineUserScopesSchema.params,
+			body: DefineUserScopesSchema.body,
+		},
+
+		responses: {
+			200: {
+				schema: DefineUserScopesSchema.output,
+			},
+		},
+	})
+	defineUserScopes(
+		@AuthenticatedProfile() profile: Profile,
+		@Request() { params, body }: DefineUserScopesRequest,
+	) {
+		this.aclService.canPerformActionByPermission(profile, 'user:update', {
+			workspaceId: params.workspaceId,
+		})
+	}
+
+	@Route({
+		summary: 'Create User Address',
+
+		description: 'Creates a new user address.',
+
+		method: 'POST',
+
+		path: '/:userId/addresses',
+
+		parameters: {
+			params: CreateUserAddressSchema.params,
+			body: CreateUserAddressSchema.body,
+		},
+
+		responses: {
+			200: {
+				schema: CreateUserAddressSchema.output,
+			},
+		},
+	})
+	createUserAddress(
+		@AuthenticatedProfile() profile: Profile,
+		@Request() { params, body }: CreateUserAddressRequest,
+	) {
+		this.aclService.canPerformActionByPermission(profile, 'user:update', {
+			workspaceId: params.workspaceId,
+		})
+	}
+
+	@Route({
+		summary: 'Update User Address',
+
+		description: 'Updates a user address by their ID.',
+
+		method: 'PATCH',
+
+		path: '/:userId/addresses/:addressId',
+
+		parameters: {
+			params: UpdateUserAddressSchema.params,
+			body: UpdateUserAddressSchema.body,
+		},
+
+		responses: {
+			200: {
+				schema: UpdateUserAddressSchema.output,
+			},
+		},
+	})
+	updateUserAddress(
+		@AuthenticatedProfile() profile: Profile,
+		@Request() { params, body }: UpdateUserAddressRequest,
+	) {
+		this.aclService.canPerformActionByPermission(profile, 'user:update', {
+			workspaceId: params.workspaceId,
+		})
+	}
+
+	@Route({
+		summary: 'Delete User Address',
+
+		description: 'Deletes a user address by their ID.',
 
 		method: 'DELETE',
 
-		path: '/:userId',
+		path: '/:userId/addresses/:addressId',
 
 		parameters: {
-			params: DeleteUserSchema.params,
+			params: DeleteUserAddressSchema.params,
 		},
 
 		responses: {
 			204: {
-				description: 'User has been successfully deleted.',
+				description: 'User address has been successfully deleted.',
 			},
 		},
 	})
-	deleteUser(
+	deleteUserAddress(
 		@AuthenticatedProfile() profile: Profile,
-		@Request() { params }: DeleteUserRequest,
+		@Request() { params }: DeleteUserAddressRequest,
 	) {
-		this.aclService.canPerformActionByPermission(profile, 'user:delete', {
+		this.aclService.canPerformActionByPermission(profile, 'user:update', {
 			workspaceId: params.workspaceId,
 		})
+	}
 
-		return this.userService.deleteUser({
+	@Route({
+		summary: 'Activate User',
+
+		description: 'Activates a user by their ID.',
+
+		method: 'POST',
+
+		path: '/:userId/activate',
+
+		parameters: {
+			params: ActivateUserSchema.params,
+		},
+
+		responses: {
+			200: {
+				schema: ActivateUserSchema.output,
+			},
+		},
+	})
+	activateUser(
+		@AuthenticatedProfile() profile: Profile,
+		@Request() { params }: ActivateUserRequest,
+	) {
+		this.aclService.canPerformActionByPermission(profile, 'user:update', {
 			workspaceId: params.workspaceId,
-			userId: params.userId,
+		})
+	}
+
+	@Route({
+		summary: 'Deactivate User',
+
+		description: 'Deactivates a user by their ID.',
+
+		method: 'POST',
+
+		path: '/:userId/deactivate',
+
+		parameters: {
+			params: DeactivateUserSchema.params,
+		},
+
+		responses: {
+			200: {
+				schema: DeactivateUserSchema.output,
+			},
+		},
+	})
+	deactivateUser(
+		@AuthenticatedProfile() profile: Profile,
+		@Request() { params }: DeactivateUserRequest,
+	) {
+		this.aclService.canPerformActionByPermission(profile, 'user:update', {
+			workspaceId: params.workspaceId,
 		})
 	}
 }

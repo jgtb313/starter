@@ -42,7 +42,8 @@ const Document = DocumentExplicitSchema.nullish().transform(
 	(value) => value ?? null,
 )
 
-const Addresses = z.array(CustomerAddressSchema).default([])
+export const UserAddressSchema = CustomerAddressSchema
+const Addresses = z.array(UserAddressSchema).default([])
 
 const Avatar = z
 	.string()
