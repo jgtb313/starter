@@ -27,8 +27,6 @@ const PermissionIds = z.array(PermissionSchema.shape.permissionId).meta({
 	],
 })
 
-const Permissions = z.array(PermissionSchema).default([])
-
 const Name = z.string().min(1)
 
 const Tags = z.array(z.string()).default([])
@@ -46,7 +44,6 @@ export const RoleSchema = z.object({
 	organizationIds: OrganizationIds,
 	organizations: Organization,
 	permissionIds: PermissionIds,
-	permissions: Permissions,
 	name: Name,
 	tags: Tags,
 	status: Status,
@@ -61,14 +58,12 @@ export const RoleInputSchema = RoleSchema.partial({
 	updatedAt: true,
 }).omit({
 	organizations: true,
-	permissions: true,
 })
 
 export const UpdatableRoleInputSchema = RoleSchema.partial().omit({
 	roleId: true,
 	workspaceId: true,
 	organizations: true,
-	permissions: true,
 })
 
 export type Role = z.infer<typeof RoleSchema>

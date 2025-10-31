@@ -362,6 +362,7 @@ export class UserPrisma implements IUserRepository {
 		const userPermissions = await prisma.userPermission.findMany({
 			where: {
 				userId,
+				deletedAt: null,
 			},
 			select: {
 				permissionId: true,
@@ -372,8 +373,10 @@ export class UserPrisma implements IUserRepository {
 		const userOrganizations = await prisma.userOrganization.findMany({
 			where: {
 				userId,
+				deletedAt: null,
 			},
 			include: {
+				organization: true,
 				role: {
 					include: {
 						permissions: true,
@@ -386,13 +389,21 @@ export class UserPrisma implements IUserRepository {
 			...userPermissions.map((userPermission) => ({
 				kind: 'WORKSPACE',
 				permissionId: userPermission.permissionId as Permission,
-				organizationId: null,
+				organization: null,
+				role: null,
 			})),
 			...userOrganizations.flatMap((userOrganization) =>
 				userOrganization.role.permissions.map((rolePermission) => ({
 					kind: 'ORGANIZATION',
+					organization: {
+						organizationId: userOrganization.organizationId,
+						name: userOrganization.organization.name,
+					},
+					role: {
+						roleId: userOrganization.role.roleId,
+						name: userOrganization.role.name,
+					},
 					permissionId: rolePermission.permissionId as Permission,
-					organizationId: userOrganization.organizationId,
 				})),
 			),
 		]
@@ -449,6 +460,38 @@ export class UserPrisma implements IUserRepository {
 				},
 			},
 		})
+	}
+
+	findAddresses: IUserRepository['findAddresses'] = async (userId) => {
+		const addresses = await prisma.userAddress.findMany({
+			where: {
+				userId,
+			},
+		})
+
+		return addresses.map((address) => this.toUserAddressDomain(address))
+	}
+
+	findAddressById: IUserRepository['findAddressById'] = async (
+		userId,
+		addressId,
+	) => {
+		const address = await prisma.userAddress.findUnique({
+			where: {
+				userAddressId: addressId,
+				userId,
+			},
+		})
+
+		if (!address) {
+			throw new NotFoundException(
+				this.i18nService.current.userAddressNotFound({
+					addressId,
+				}),
+			)
+		}
+
+		return this.findById(address.userId)
 	}
 
 	createAddress: IUserRepository['createAddress'] = async (userId, input) => {
@@ -584,10 +627,14 @@ export class UserPrisma implements IUserRepository {
 
 			return {
 				...address,
+				addressId: address.userAddressId,
 				location: {
 					lat,
 					lng,
 				},
+				deleteAt: address.deletedAt,
+				createdAt: address.createdAt,
+				updatedAt: address.updatedAt,
 			}
 		})
 
@@ -601,4 +648,6 @@ export class UserPrisma implements IUserRepository {
 			this.i18nService,
 		)
 	}
+
+	private toUserAddressDomain(model: Prisma.UserAddressGetPayload<{}>) {}
 }

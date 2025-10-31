@@ -508,6 +508,9 @@ importers:
       '@elastic/ecs-pino-format':
         specifier: ^1.5.0
         version: 1.5.0
+      '@myfunc/prisma-transactional':
+        specifier: ^0.3.0
+        version: 0.3.0(@prisma/client@6.17.1(prisma@6.17.1(magicast@0.3.5)(typescript@5.4.2))(typescript@5.4.2))(nestjs-cls@4.5.0(@nestjs/common@11.1.6(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))
       '@nestjs/common':
         specifier: ^11.0.1
         version: 11.1.6(reflect-metadata@0.2.2)(rxjs@7.8.2)
@@ -2705,6 +2708,12 @@ packages:
 
   '@microsoft/tsdoc@0.15.1':
     resolution: {integrity: sha512-4aErSrCR/On/e5G2hDP0wjooqDdauzEbIq8hIkIe5pXV0rtWJZvdCEKL0ykZxex+IxIwBp0eGeV48hQN07dXtw==}
+
+  '@myfunc/prisma-transactional@0.3.0':
+    resolution: {integrity: sha512-0eF7+073M+PgyE6IiAVDrhhITbZlmgSPjMrZ05kHCp4EHCmiNdBBsHLZ4qWVQ4gGvIZmVNF3buGSwaEJZeySSw==}
+    peerDependencies:
+      '@prisma/client': '>=5.0.0'
+      nestjs-cls: ^4.3.0
 
   '@napi-rs/nice-android-arm-eabi@1.1.1':
     resolution: {integrity: sha512-kjirL3N6TnRPv5iuHw36wnucNqXAO46dzK9oPb0wj076R5Xm8PfUVA9nAFB5ZNMmfJQJVKACAPd/Z2KYMppthw==}
@@ -6960,6 +6969,15 @@ packages:
 
   neo-async@2.6.2:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
+
+  nestjs-cls@4.5.0:
+    resolution: {integrity: sha512-oi3GNCc5pnsnVI5WJKMDwmg4NP+JyEw+edlwgepyUba5+RGGtJzpbVaaxXGW1iPbDuQde3/fA8Jdjq9j88BVcQ==}
+    engines: {node: '>=16'}
+    peerDependencies:
+      '@nestjs/common': '> 7.0.0 < 11'
+      '@nestjs/core': '> 7.0.0 < 11'
+      reflect-metadata: '*'
+      rxjs: '>= 7'
 
   nestjs-zod@4.3.1:
     resolution: {integrity: sha512-gl10NOf/AhWt4HLcnMI1J0WUlBCKyteJBftD6SwNyX71/vzAorr5MJQWiDJoPPkou9QL2CRHHBtyjr55o7++Xw==}
@@ -11828,6 +11846,11 @@ snapshots:
       resolve: 1.22.10
 
   '@microsoft/tsdoc@0.15.1': {}
+
+  '@myfunc/prisma-transactional@0.3.0(@prisma/client@6.17.1(prisma@6.17.1(magicast@0.3.5)(typescript@5.4.2))(typescript@5.4.2))(nestjs-cls@4.5.0(@nestjs/common@11.1.6(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.6)(reflect-metadata@0.2.2)(rxjs@7.8.2))':
+    dependencies:
+      '@prisma/client': 6.17.1(prisma@6.17.1(magicast@0.3.5)(typescript@5.4.2))(typescript@5.4.2)
+      nestjs-cls: 4.5.0(@nestjs/common@11.1.6(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)
 
   '@napi-rs/nice-android-arm-eabi@1.1.1':
     optional: true
@@ -16869,6 +16892,13 @@ snapshots:
   negotiator@1.0.0: {}
 
   neo-async@2.6.2: {}
+
+  nestjs-cls@4.5.0(@nestjs/common@11.1.6(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.6)(reflect-metadata@0.2.2)(rxjs@7.8.2):
+    dependencies:
+      '@nestjs/common': 11.1.6(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs/core': 11.1.6(@nestjs/common@11.1.6(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/platform-express@11.1.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      reflect-metadata: 0.2.2
+      rxjs: 7.8.2
 
   nestjs-zod@4.3.1(@nestjs/common@11.1.6(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.6)(@nestjs/swagger@11.2.0(@nestjs/common@11.1.6(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.6)(reflect-metadata@0.2.2))(zod@4.1.1):
     dependencies:

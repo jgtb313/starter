@@ -16,8 +16,8 @@ export class ProfileService {
 		const permissions = await this.userRepository.findPermissions(userId)
 
 		const scopes: Profile['scopes'] = permissions.reduce<Profile['scopes']>(
-			(result, { permissionId, organizationId }) => {
-				const kind: Profile['scopes'][number]['kind'] = organizationId
+			(result, { permissionId, organization, role }) => {
+				const kind: Profile['scopes'][number]['kind'] = organization
 					? 'ORGANIZATION'
 					: 'WORKSPACE'
 
@@ -25,26 +25,34 @@ export class ProfileService {
 					kind === 'WORKSPACE'
 						? scope.kind === 'WORKSPACE'
 						: scope.kind === 'ORGANIZATION' &&
-							scope.organizationId === organizationId,
+							scope.organization?.organizationId ===
+								organization?.organizationId,
 				)
 
 				if (existing) {
-					if (!existing.permissions.includes(permissionId)) {
-						existing.permissions.push(permissionId)
+					if (!existing.permissionIds.includes(permissionId)) {
+						existing.permissionIds.push(permissionId)
 					}
 				} else {
 					result.push(
 						kind === 'WORKSPACE'
 							? {
 									kind,
-									permissions: [
+									permissionIds: [
 										permissionId,
 									],
 								}
 							: {
 									kind,
-									organizationId: organizationId!,
-									permissions: [
+									organization: {
+										organizationId: organization?.organizationId!,
+										name: organization?.name!,
+									},
+									role: {
+										roleId: role?.roleId!,
+										name: role?.name!,
+									},
+									permissionIds: [
 										permissionId,
 									],
 								},

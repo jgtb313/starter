@@ -6,11 +6,14 @@ import { WorkspaceServiceModule } from '@/core/workspace/workspace.service.modul
 import { UserRepositoryModule } from '@/adapters/database/user/user.repository.module'
 import { EncryptModule } from '@/adapters/encrypt'
 
+import { OrganizationServiceModule } from '../organization/organization.service.module'
+
 @Module({
 	imports: [
 		UserRepositoryModule,
 		EncryptModule,
 		forwardRef(() => WorkspaceServiceModule),
+		forwardRef(() => OrganizationServiceModule),
 		forwardRef(() => PermissionServiceModule),
 	],
 	providers: [

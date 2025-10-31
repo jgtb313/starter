@@ -1,8 +1,11 @@
+import { patchPrismaTx } from '@myfunc/prisma-transactional'
 import { type Prisma, PrismaClient } from '@prisma/client'
 
 // import { deepMapDatesToISOString } from '@/support/utilities'
 
-const prisma = new PrismaClient().$extends({
+const prismaClient = new PrismaClient()
+
+const prisma = patchPrismaTx(prismaClient).$extends({
 	query: {
 		$allModels: {
 			async $allOperations({ args, query }) {

@@ -42,7 +42,13 @@ const Document = DocumentExplicitSchema.nullish().transform(
 	(value) => value ?? null,
 )
 
-export const UserAddressSchema = CustomerAddressSchema
+export const UserAddressSchema = z.object({
+	addressId: BaseSchema.id('address'),
+	...CustomerAddressSchema.shape,
+	deleteAt: BaseSchema.deletedAt,
+	createdAt: BaseSchema.createdAt,
+	updatedAt: BaseSchema.updatedAt,
+})
 const Addresses = z.array(UserAddressSchema).default([])
 
 const Avatar = z
@@ -107,6 +113,21 @@ export const UpdatableUserInputSchema = UserSchema.partial()
 			})
 			.partial(),
 	)
+
+export const UserAddressInputSchema = UserAddressSchema.omit({
+	addressId: true,
+	deleteAt: true,
+	createdAt: true,
+	updatedAt: true,
+})
+
+export type UserAddress = z.infer<typeof UserAddressSchema>
+export type UserAddressInput = BaseDomainInput<
+	z.infer<typeof UserAddressInputSchema>
+>
+export type UpdatableUserAddressInput = BaseDomainInput<
+	z.infer<typeof UserAddressInputSchema>
+>
 
 export type User = z.infer<typeof UserSchema>
 export type UserInput = BaseDomainInput<z.infer<typeof UserInputSchema>>

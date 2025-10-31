@@ -20,7 +20,7 @@ export class ACLService {
 	private defineAbilities(
 		user: Profile,
 		options: {
-			organizationId?: Profile['scopes'][number]['organizationId']
+			organizationId?: string
 		},
 	) {
 		const { can, build } = new AbilityBuilder(Ability)
@@ -29,11 +29,11 @@ export class ACLService {
 			(options.organizationId
 				? user.scopes.find(
 						(scope) =>
-							scope.organizationId === options.organizationId ||
+							scope.organization?.organizationId === options.organizationId ||
 							scope.kind === 'WORKSPACE',
-					)?.permissions
+					)?.permissionIds
 				: user.scopes.find((scope) => scope.kind === 'WORKSPACE')
-						?.permissions) ?? []
+						?.permissionIds) ?? []
 
 		const condition: MongoQuery<AnyObject> = {
 			workspaceId: user.workspaceId,

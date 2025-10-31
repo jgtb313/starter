@@ -1,11 +1,16 @@
 import type { Merge } from '@starter/common'
 import type { Pagination, PaginationOutput, Phone, Sort } from '@starter/schema'
 
+import type { Organization } from '@/core/organization/organization.schema'
 import type { Permission } from '@/core/permission/permission.schema'
+import type { Role } from '@/core/role/role.schema'
 import type { UserDomain } from '@/core/user/user.domain'
 import type {
+	UpdatableUserAddressInput,
 	UpdatableUserInput,
 	User,
+	UserAddress,
+	UserAddressInput,
 	UserInput,
 } from '@/core/user/user.schema'
 
@@ -23,8 +28,9 @@ type CreateUserInput = UserInput & {
 	permissionIds?: Permission[]
 }
 
-type PermissionOutput = {
-	organizationId: string | null
+type ScopesOutput = {
+	organization: Pick<Organization, 'organizationId' | 'name'> | null
+	role: Pick<Role, 'roleId' | 'name'> | null
 	permissionId: Permission
 }
 
@@ -64,6 +70,7 @@ export type IUserRepository = {
 	updateById(userId: string, input: UpdatableUserInput): Promise<UserDomain>
 	deleteById(userId: string): Promise<void>
 
+	findOrganizations(userId: string): Promise<[]>
 	attachOrganization(
 		userId: string,
 		organizationId: string,
@@ -82,7 +89,7 @@ export type IUserRepository = {
 		organizationIds: string[],
 	): Promise<void>
 
-	findPermissions(userId: string): Promise<PermissionOutput[]>
+	findScopes(userId: string): Promise<ScopesOutput[]>
 	attachPermission(
 		userId: string,
 		permissionId: Permission,
@@ -92,7 +99,7 @@ export type IUserRepository = {
 		userId: string,
 		input: {
 			permissionId: Permission
-			organizationId: string
+			organizationId?: string
 		}[],
 	): Promise<void>
 	detachPermission(userId: string, permissionId: Permission): Promise<void>
@@ -101,11 +108,13 @@ export type IUserRepository = {
 		permissionIds: Permission[],
 	): Promise<void>
 
-	createAddress(userId: string, input: User['addresses'][number]): Promise<void>
+	findAddresses(userId: string): Promise<UserAddress[]>
+	findAddressById(userId: string, addressId: string): Promise<UserAddress>
+	createAddress(userId: string, input: UserAddressInput): Promise<UserAddress>
 	updateAddressById(
 		userId: string,
 		addressId: string,
-		input: User['addresses'][number],
-	): Promise<void>
+		input: UpdatableUserAddressInput,
+	): Promise<UserAddress>
 	deleteAddressById(userId: string, addressId: string): Promise<void>
 }

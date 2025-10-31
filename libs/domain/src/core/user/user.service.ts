@@ -1,4 +1,4 @@
-import type { Merge } from '@starter/common'
+import type { Merge, Required } from '@starter/common'
 import {
 	AclForbiddenException,
 	BadRequestException,
@@ -12,11 +12,21 @@ import {
 	createWorkspaceReference,
 	type WithWorkspaceReference,
 } from '@/support/workspace-reference'
+import { OrganizationService } from '@/core/organization/organization.service'
 import { PermissionService } from '@/core/permission/permission.service'
-import type { UpdatableUserInput, User } from '@/core/user/user.schema'
-import type { CreateUserInput } from '@/core/user/user.service.types'
+import type {
+	UpdatableUserAddressInput,
+	UpdatableUserInput,
+	User,
+	UserAddressInput,
+} from '@/core/user/user.schema'
+import type {
+	CreateUserInput,
+	DefineUserScopesInput,
+} from '@/core/user/user.service.types'
 import type { WorkspaceDomain } from '@/core/workspace/workspace.domain'
 import { WorkspaceService } from '@/core/workspace/workspace.service'
+import { Transaction } from '@/adapters/database'
 import { EncryptService } from '@/adapters/encrypt'
 import type { IUserRepository } from '@/ports/database/user'
 
@@ -30,6 +40,8 @@ export class UserService {
 		private readonly userRepository: IUserRepository,
 		@Inject(forwardRef(() => WorkspaceService))
 		private readonly workspaceService: WorkspaceService,
+		@Inject(forwardRef(() => OrganizationService))
+		private readonly organizationService: OrganizationService,
 		@Inject(forwardRef(() => PermissionService))
 		private readonly permissionService: PermissionService,
 		@Inject(EncryptService)
@@ -149,6 +161,106 @@ export class UserService {
 		await this.userRepository.updateById(user.state.userId, {
 			password: newPassword,
 		})
+	}
+
+	@Transaction()
+	async defineUserScopes(
+		reference: UserWorkspaceReference,
+		{ organizations, permissions }: DefineUserScopesInput,
+	) {
+		const user = await this.getUser(reference)
+
+		if (!user.state.workspaceId) {
+			throw new BadRequestException('User is not associated with a workspace')
+		}
+
+		if (organizations) {
+			await this.organizationService.validateOrganizationIds(
+				user.state.workspaceId,
+				organizations.map(({ organizationId }) => organizationId),
+			)
+
+			await this.userRepository.attachManyOrganizations(
+				user.state.userId,
+				organizations,
+			)
+		}
+
+		if (permissions) {
+			const permissionIds = permissions.map(({ permissionId }) => permissionId)
+
+			this.permissionService.validatePermissionIds(permissionIds)
+
+			const organizationIds = permissions
+				.map(({ organizationId }) => organizationId)
+				.filter(Boolean) as string[]
+
+			if (organizationIds.length) {
+				await this.organizationService.validateOrganizationIds(
+					user.state.workspaceId,
+					organizationIds,
+				)
+			}
+
+			await this.userRepository.attachManyPermissions(
+				user.state.userId,
+				permissions,
+			)
+		}
+
+		return this.getUser(user.state.userId)
+	}
+
+	async createUserAddress(
+		reference: UserWorkspaceReference,
+		input: Omit<UserAddressInput, 'location'>,
+	) {
+		const user = await this.getUser(reference)
+
+		// TODO: get the location from the address
+
+		const location = {
+			lat: '34.052235',
+			lng: '-118.243683',
+		}
+
+		await this.userRepository.createAddress(user.state.userId, {
+			...input,
+			location,
+		})
+
+		return this.getUser(user.state.userId)
+	}
+
+	async updateUserAddress(
+		reference: UserWorkspaceReference,
+		addressId: string,
+		input: Omit<UpdatableUserAddressInput, 'location'>,
+	) {
+		const user = await this.getUser(reference)
+
+		// TODO: get the location from the address
+
+		const location = {
+			lat: '34.052235',
+			lng: '-118.243683',
+		}
+
+		await this.userRepository.updateAddressById(user.state.userId, addressId, {
+			...input,
+			location,
+		})
+
+		return this.getUser(user.state.userId)
+	}
+
+	async deleteUserAddress(
+		reference: UserWorkspaceReference,
+		addressId: string,
+	) {
+		const user = await this.getUser(reference)
+
+		await this.userRepository.deleteAddressById(user.state.userId, addressId)
 	}
 
 	async activateUser(reference: UserWorkspaceReference) {

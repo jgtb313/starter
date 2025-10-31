@@ -11,6 +11,7 @@ import {
 import { OrganizationService } from '@/core/organization/organization.service'
 import { PermissionService } from '@/core/permission/permission.service'
 import type { RoleInput, UpdatableRoleInput } from '@/core/role/role.schema'
+import { WorkspaceService } from '@/core/workspace/workspace.service'
 import type { IRoleRepository } from '@/ports/database/role'
 
 export type RoleWorkspaceReference = WithWorkspaceReference<'roleId'>
@@ -20,6 +21,8 @@ export const getRoleWorkspaceReference = createWorkspaceReference('roleId')
 export class RoleService {
 	constructor(
 		@Inject('ROLE_REPOSITORY') private readonly roleRepository: IRoleRepository,
+		@Inject(forwardRef(() => WorkspaceService))
+		private readonly workspaceService: WorkspaceService,
 		@Inject(forwardRef(() => OrganizationService))
 		private readonly organizationService: OrganizationService,
 		@Inject(forwardRef(() => PermissionService))
@@ -49,16 +52,23 @@ export class RoleService {
 	}
 
 	createRole = async ({
+		workspaceId,
 		organizationIds,
 		permissionIds,
 		...input
 	}: RoleInput) => {
-		await this.organizationService.validateOrganizationIds(organizationIds)
+		const workspace = await this.workspaceService.getWorkspace(workspaceId)
+
+		await this.organizationService.validateOrganizationIds(
+			workspace.state.workspaceId,
+			organizationIds,
+		)
 
 		await this.permissionService.validatePermissionIds(permissionIds)
 
 		const role = await this.roleRepository.create({
 			...input,
+			workspaceId: workspace.state.workspaceId,
 			organizationIds,
 			permissionIds,
 			status: 'ACTIVE',
@@ -74,7 +84,10 @@ export class RoleService {
 		const role = await this.getRole(reference)
 
 		if (organizationIds) {
-			await this.organizationService.validateOrganizationIds(organizationIds)
+			await this.organizationService.validateOrganizationIds(
+				role.state.workspaceId,
+				organizationIds,
+			)
 		}
 
 		if (permissionIds) {

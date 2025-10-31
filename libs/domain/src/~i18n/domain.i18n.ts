@@ -7,6 +7,7 @@ const en = {
 	userAlreadyActive: 'This user is already active.',
 	userAlreadyInactive: 'This user is already inactive.',
 	userNotFound: 'User {userId:string} not found.',
+	userAddressNotFound: 'User address {addressId:string} not found.',
 
 	// Workspace
 	workspaceAlreadyTrial: 'This workspace is already in trial.',
@@ -19,6 +20,8 @@ const en = {
 	organizationAlreadyActive: 'This organization is already active.',
 	organizationAlreadyInactive: 'This organization is already inactive.',
 	organizationNotFound: 'Organization {organizationId:string} not found.',
+	organizationIdsNotFound:
+		'The following organizationIds were not found: {organizationIds:string[]}.',
 
 	// Plan
 	planAlreadyActive: 'This plan is already active.',
@@ -75,6 +78,7 @@ const es: Translations = {
 	userAlreadyActive: 'Este usuario ya está activo.',
 	userAlreadyInactive: 'Este usuario ya está inactivo.',
 	userNotFound: 'El usuario {userId:string} no existe.',
+	userAddressNotFound: 'La dirección de usuario {addressId:string} no existe.',
 
 	// Workspace
 	workspaceAlreadyTrial: 'Este workspace ya está en período de prueba.',
@@ -87,6 +91,8 @@ const es: Translations = {
 	organizationAlreadyActive: 'Esta organización ya está activa.',
 	organizationAlreadyInactive: 'Esta organización ya está inactiva.',
 	organizationNotFound: 'La organización {organizationId:string} no existe.',
+	organizationIdsNotFound:
+		'Las siguientes organizaciones no existen: {organizationIds:string[]}.',
 
 	// Plan
 	planAlreadyActive: 'Este plan ya está activo.',
@@ -142,6 +148,7 @@ const ptBR: Translations = {
 	userAlreadyActive: 'Este usuário já está ativo.',
 	userAlreadyInactive: 'Este usuário já está inativo.',
 	userNotFound: 'O usuário {userId:string} não existe.',
+	userAddressNotFound: 'O endereço de usuário {addressId:string} não existe.',
 
 	// Workspace
 	workspaceAlreadyTrial: 'Este workspace já está em período de teste.',
@@ -154,6 +161,8 @@ const ptBR: Translations = {
 	organizationAlreadyActive: 'Esta organização já está ativa.',
 	organizationAlreadyInactive: 'Esta organização já está inativa.',
 	organizationNotFound: 'A organização {organizationId:string} não existe.',
+	organizationIdsNotFound:
+		'As seguintes organizações não existem: {organizationIds:string[]}.',
 
 	// Plan
 	planAlreadyActive: 'Este plano já está ativo.',

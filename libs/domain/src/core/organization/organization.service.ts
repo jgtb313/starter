@@ -116,7 +116,10 @@ export class OrganizationService {
 		)
 	}
 
-	async validateOrganizationIds(organizationIds: string[]) {
-		await this.organizationRepository.validateIds(organizationIds)
+	async validateOrganizationIds(
+		workspaceId: string,
+		organizationIds: string[],
+	) {
+		await this.organizationRepository.validateIds(workspaceId, organizationIds)
 	}
 }

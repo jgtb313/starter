@@ -1,7 +1,8 @@
 import { z } from '@starter/schema'
 
-import { BaseSchema } from '@/support/base-schema'
+import { OrganizationSchema } from '@/core/organization/organization.schema'
 import { PermissionsSchema } from '@/core/permission/permission.schema'
+import { RoleSchema } from '@/core/role/role.schema'
 import { UserSchema } from '@/core/user/user.schema'
 
 const ScopesSchema = z.array(
@@ -10,8 +11,15 @@ const ScopesSchema = z.array(
 			'WORKSPACE',
 			'ORGANIZATION',
 		]),
-		organizationId: BaseSchema.id('organization').nullish(),
-		permissions: PermissionsSchema,
+		organization: OrganizationSchema.pick({
+			organizationId: true,
+			name: true,
+		}).optional(),
+		role: RoleSchema.pick({
+			roleId: true,
+			name: true,
+		}).optional(),
+		permissionIds: PermissionsSchema,
 	}),
 )
 

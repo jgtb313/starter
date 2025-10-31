@@ -111,7 +111,11 @@ export const CreateUserAddressSchema = createRequestSchema({
 		}),
 	),
 	body: UserAddressSchema.omit({
+		addressId: true,
 		location: true,
+		deleteAt: true,
+		createdAt: true,
+		updatedAt: true,
 	}),
 	output: UserSchema,
 })
@@ -131,8 +135,12 @@ export const UpdateUserAddressSchema = createRequestSchema({
 			}),
 		),
 	body: UserAddressSchema.omit({
+		addressId: true,
 		location: true,
-	}).partial(),
+		deleteAt: true,
+		createdAt: true,
+		updatedAt: true,
+	}),
 	output: UserSchema,
 })
 export type UpdateUserAddressRequest = RequestInput<

@@ -1,9 +1,4 @@
-import {
-	type Profile,
-	RoleSchema,
-	RoleService,
-	UserService,
-} from '@starter/domain'
+import { type Profile, RoleSchema, RoleService } from '@starter/domain'
 import { Controller, Request, Route } from '@starter/nestjs-server-hoisting'
 
 import { Inject, UseGuards } from '@nestjs/common'
@@ -43,8 +38,6 @@ export class RoleController {
 	constructor(
 		@Inject(ACLService)
 		private readonly aclService: ACLService,
-		@Inject(UserService)
-		private readonly userService: UserService,
 		@Inject(RoleService)
 		private readonly roleService: RoleService,
 	) {}
@@ -52,7 +45,7 @@ export class RoleController {
 	@Route({
 		summary: 'List Roles',
 
-		description: 'Retrieves a list of roles.',
+		description: `Retrieves a list of roles. \n\nThis endpoint is protected by the \`role:read\` permission.`,
 
 		method: 'GET',
 
@@ -67,7 +60,7 @@ export class RoleController {
 			},
 		},
 	})
-	listRoles(
+	async listRoles(
 		@AuthenticatedProfile() profile: Profile,
 		@Request() { params, query }: ListRolesRequest,
 	) {
@@ -75,9 +68,14 @@ export class RoleController {
 			workspaceId: params.workspaceId,
 		})
 
-		return this.roleService.getPaginatedRoles({
+		const response = await this.roleService.getPaginatedRoles({
 			...query,
 		})
+
+		return {
+			...response,
+			values: response.values.map((role) => role.toJSON()),
+		}
 	}
 
 	@Route({
@@ -99,7 +97,7 @@ export class RoleController {
 			},
 		},
 	})
-	getRole(
+	async getRole(
 		@AuthenticatedProfile() profile: Profile,
 		@Request() { params }: GetRoleRequest,
 	) {
@@ -107,7 +105,9 @@ export class RoleController {
 			workspaceId: params.workspaceId,
 		})
 
-		return this.roleService.getRole(params)
+		const role = await this.roleService.getRole(params)
+
+		return role.toJSON()
 	}
 
 	@Route({
@@ -128,7 +128,7 @@ export class RoleController {
 			},
 		},
 	})
-	createRole(
+	async createRole(
 		@AuthenticatedProfile() profile: Profile,
 		@Request() { params, body }: CreateRoleRequest,
 	) {
@@ -136,13 +136,12 @@ export class RoleController {
 			workspaceId: params.workspaceId,
 		})
 
-		return this.roleService.createRole({
+		const role = await this.roleService.createRole({
 			...body,
 			workspaceId: params.workspaceId,
-			organizationIds: body.organizationIds,
-			permissionIds: body.permissionIds,
-			status: 'ACTIVE',
 		})
+
+		return role.toJSON()
 	}
 
 	@Route({
@@ -165,7 +164,7 @@ export class RoleController {
 			},
 		},
 	})
-	updateRole(
+	async updateRole(
 		@AuthenticatedProfile() profile: Profile,
 		@Request() { params, body }: UpdateRoleRequest,
 	) {
@@ -173,9 +172,11 @@ export class RoleController {
 			workspaceId: params.workspaceId,
 		})
 
-		return this.roleService.updateRole(params, {
+		const role = await this.roleService.updateRole(params, {
 			...body,
 		})
+
+		return role.toJSON()
 	}
 
 	@Route({

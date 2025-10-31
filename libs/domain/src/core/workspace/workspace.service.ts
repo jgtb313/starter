@@ -9,6 +9,7 @@ import type {
 	UpdatableWorkspaceInput,
 	WorkspaceInput,
 } from '@/core/workspace/workspace.schema'
+import { Transaction } from '@/adapters/database'
 import { LoggerService } from '@/adapters/logger'
 import { PublisherService } from '@/adapters/publisher/publisher.service'
 import type { IWorkspaceRepository } from '@/ports/database/workspace'
@@ -42,6 +43,7 @@ export class WorkspaceService {
 		return this.workspaceRepository.findById(workspaceId)
 	}
 
+	@Transaction()
 	async createWorkspace(userId: string, input: Omit<WorkspaceInput, 'planId'>) {
 		this.loggerService.info('Attempting to create workspace', {
 			userId,

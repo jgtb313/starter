@@ -23,6 +23,7 @@ type PrismaRole = Prisma.RoleGetPayload<{
 				organization: true
 			}
 		}
+		permissions: true
 	}
 }>
 
@@ -142,7 +143,7 @@ export class RolePrisma implements IRoleRepository {
 	}
 
 	create: IRoleRepository['create'] = async (input) => {
-		const { organizationIds, permissionIds, ...data } =
+		const { organizationIds, permissionIds, tags, ...data } =
 			RoleInputSchema.parse(input)
 
 		const role: PrismaRole = await prisma.role.create({
@@ -156,6 +157,7 @@ export class RolePrisma implements IRoleRepository {
 			},
 			data: {
 				...data,
+				tags,
 				organizations: {
 					createMany: {
 						data: organizationIds.map((organizationId) => ({
@@ -177,6 +179,7 @@ export class RolePrisma implements IRoleRepository {
 	}
 
 	updateById: IRoleRepository['updateById'] = async (roleId, input) => {
+		console.log(JSON.stringify(input, null, 2))
 		const {
 			organizationIds = [],
 			permissionIds = [],
@@ -198,23 +201,25 @@ export class RolePrisma implements IRoleRepository {
 			data: {
 				...data,
 				organizations: {
+					deleteMany: organizationIds.length ? {} : undefined,
 					createMany: {
 						data: organizationIds.map((organizationId) => ({
 							organizationId,
 						})),
-						skipDuplicates: true,
 					},
 				},
 				permissions: {
+					deleteMany: permissionIds.length ? {} : undefined,
 					createMany: {
 						data: permissionIds.map((permissionId) => ({
 							permissionId,
 						})),
-						skipDuplicates: true,
 					},
 				},
 			},
 		})
+
+		console.log(JSON.stringify(role, null, 2))
 
 		return this.toRoleDomain(role)
 	}
@@ -367,7 +372,29 @@ export class RolePrisma implements IRoleRepository {
 		})
 	}
 
-	private toRoleDomain(model: PrismaRole) {
-		return new RoleDomain(deepMapDatesToISOString(model), this.i18nService)
+	private toRoleDomain({
+		organizations: prismaOrganizations,
+		permissions: prismaPermissions,
+		...model
+	}: PrismaRole) {
+		const organizationIds = prismaOrganizations.map(
+			(roleOrganization) => roleOrganization.organizationId,
+		)
+		const organizations = prismaOrganizations.map(
+			(roleOrganization) => roleOrganization.organization,
+		)
+		const permissionIds = prismaPermissions.map(
+			(rolePermission) => rolePermission.permissionId,
+		)
+
+		return new RoleDomain(
+			deepMapDatesToISOString({
+				...model,
+				organizationIds,
+				organizations,
+				permissionIds,
+			}),
+			this.i18nService,
+		)
 	}
 }

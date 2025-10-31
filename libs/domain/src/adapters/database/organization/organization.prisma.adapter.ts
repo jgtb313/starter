@@ -117,10 +117,12 @@ export class OrganizationPrisma implements IOrganizationRepository {
 	countByWorkspaceId: IOrganizationRepository['countByWorkspaceId'] = async (
 		workspaceId,
 	) => {
+		const where = this.parseWhere({
+			workspaceId,
+		})
+
 		return prisma.organization.count({
-			where: {
-				workspaceId,
-			},
+			where,
 		})
 	}
 
@@ -185,29 +187,44 @@ export class OrganizationPrisma implements IOrganizationRepository {
 	}
 
 	validateIds: IOrganizationRepository['validateIds'] = async (
+		workspaceId,
 		organizationIds,
 	) => {
-		const count = await prisma.organization.count({
+		const organizations = await prisma.organization.findMany({
 			where: {
+				workspaceId,
 				organizationId: {
 					in: organizationIds,
 				},
 			},
 		})
 
-		if (count !== organizationIds.length) {
+		const foundIds = organizations.map(
+			(organization) => organization.organizationId,
+		)
+		const missingIds = organizationIds.filter((id) => !foundIds.includes(id))
+
+		if (missingIds.length) {
 			throw new NotFoundException(
-				`The following organizationIds were not found: ${organizationIds.join(', ')}`,
+				this.i18nService.current.organizationIdsNotFound({
+					organizationIds: missingIds.join(', '),
+				}),
 			)
 		}
 	}
 
 	private parseWhere({
+		workspaceId,
 		name,
 		status,
+		createdAt,
 	}: FindOrganizationInput): Prisma.OrganizationWhereInput {
 		const where: Prisma.OrganizationWhereInput = {
 			deletedAt: null,
+		}
+
+		if (workspaceId) {
+			where.workspaceId = workspaceId
 		}
 
 		if (name) {
@@ -219,6 +236,12 @@ export class OrganizationPrisma implements IOrganizationRepository {
 
 		if (status) {
 			where.status = status
+		}
+
+		if (createdAt) {
+			where.createdAt = {
+				gte: createdAt,
+			}
 		}
 
 		return where

@@ -11,7 +11,6 @@ export const makeRole = (overrides: RoleOverrides): Role => {
 		organizationIds: [],
 		organizations: [],
 		permissionIds: [],
-		permissions: [],
 		name: 'Manager',
 		tags: [],
 		deletedAt: null,

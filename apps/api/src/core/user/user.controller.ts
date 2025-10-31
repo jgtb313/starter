@@ -1,10 +1,11 @@
 import { type Profile, UserSchema, UserService } from '@starter/domain'
 import { Controller, Request, Route } from '@starter/nestjs-server-hoisting'
 
-import { Inject } from '@nestjs/common'
+import { Inject, UseGuards } from '@nestjs/common'
 
 import { ACLService } from '@/support/access-control'
 import { AuthenticatedProfile } from '@/support/decorators'
+import { AuthGuard } from '@/support/guards/auth-guard'
 
 import {
 	type ActivateUserRequest,
@@ -40,6 +41,7 @@ import {
 		},
 	},
 })
+@UseGuards(AuthGuard)
 export class UserController {
 	constructor(
 		@Inject(ACLService)
@@ -66,7 +68,7 @@ export class UserController {
 			},
 		},
 	})
-	listUsers(
+	async listUsers(
 		@AuthenticatedProfile() profile: Profile,
 		@Request() { params, query }: ListUsersRequest,
 	) {
@@ -74,7 +76,14 @@ export class UserController {
 			workspaceId: params.workspaceId,
 		})
 
-		return this.userService.getPaginatedUsers({})
+		const response = await this.userService.getPaginatedUsers({
+			...query,
+		})
+
+		return {
+			...response,
+			values: response.values.map((user) => user.toJSON()),
+		}
 	}
 
 	@Route({
@@ -167,6 +176,8 @@ export class UserController {
 		this.aclService.canPerformActionByPermission(profile, 'user:update', {
 			workspaceId: params.workspaceId,
 		})
+
+		return this.userService.defineUserScopes(params, body)
 	}
 
 	@Route({
@@ -189,13 +200,17 @@ export class UserController {
 			},
 		},
 	})
-	createUserAddress(
+	async createUserAddress(
 		@AuthenticatedProfile() profile: Profile,
 		@Request() { params, body }: CreateUserAddressRequest,
 	) {
 		this.aclService.canPerformActionByPermission(profile, 'user:update', {
 			workspaceId: params.workspaceId,
 		})
+
+		const user = await this.userService.createUserAddress(params, body)
+
+		return user.toJSON()
 	}
 
 	@Route({
@@ -218,13 +233,21 @@ export class UserController {
 			},
 		},
 	})
-	updateUserAddress(
+	async updateUserAddress(
 		@AuthenticatedProfile() profile: Profile,
 		@Request() { params, body }: UpdateUserAddressRequest,
 	) {
 		this.aclService.canPerformActionByPermission(profile, 'user:update', {
 			workspaceId: params.workspaceId,
 		})
+
+		const userAddress = await this.userService.updateUserAddress(
+			params,
+			params.addressId,
+			body,
+		)
+
+		return userAddress.toJSON()
 	}
 
 	@Route({
@@ -246,13 +269,15 @@ export class UserController {
 			},
 		},
 	})
-	deleteUserAddress(
+	async deleteUserAddress(
 		@AuthenticatedProfile() profile: Profile,
 		@Request() { params }: DeleteUserAddressRequest,
 	) {
 		this.aclService.canPerformActionByPermission(profile, 'user:update', {
 			workspaceId: params.workspaceId,
 		})
+
+		await this.userService.deleteUserAddress(params, params.addressId)
 	}
 
 	@Route({

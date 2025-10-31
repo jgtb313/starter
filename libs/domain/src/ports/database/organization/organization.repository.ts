@@ -9,7 +9,7 @@ import type {
 } from '@/core/organization/organization.schema'
 
 export type FindOrganizationInput = Partial<
-	Pick<Organization, 'name' | 'status' | 'createdAt'>
+	Pick<Organization, 'workspaceId' | 'name' | 'status' | 'createdAt'>
 >
 
 export type OrganizationSort = Sort<'name' | 'status' | 'createdAt'>
@@ -41,5 +41,5 @@ export type IOrganizationRepository = {
 	): Promise<OrganizationDomain>
 	deleteById(organizationId: string): Promise<void>
 
-	validateIds(organizationId: string[]): Promise<void>
+	validateIds(workspaceId: string, organizationId: string[]): Promise<void>
 }
