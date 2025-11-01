@@ -59,6 +59,8 @@ const client = async <TData, TError = unknown, TVariables = unknown>(
 		headers: config.headers as AxiosHeaders,
 	}
 
+	console.log({} as TError)
+
 	const response: AxiosResponse<TData> = await api(axiosConfig)
 
 	return {

@@ -1,7 +1,3 @@
-import { deepReplace, uuid } from '@starter/common'
-import { PixSchema, z } from '@starter/schema'
-import { useI18n } from '@starter/react-i18n'
-
 import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_authenticated/')({
@@ -9,11 +5,11 @@ export const Route = createFileRoute('/_authenticated/')({
 })
 
 function RouteComponent() {
-	const i18n = useI18n()
+	// const i18n = useI18n()
 
 	return (
 		<div>
-			Index! Current locale: {i18n.locale}
+			{/* Index! Current locale: {i18n.locale}
 			<br />
 			{i18n.t.hello({
 				name: 'John',
@@ -26,23 +22,23 @@ function RouteComponent() {
 			})}
 			<br />
 			<button
-				type='button'
 				onClick={() => i18n.setLocale('en')}
+				type="button"
 			>
 				EN
 			</button>
 			<button
-				type='button'
 				onClick={() => i18n.setLocale('es')}
+				type="button"
 			>
 				ES
 			</button>
 			<button
-				type='button'
 				onClick={() => i18n.setLocale('pt-BR')}
+				type="button"
 			>
 				PT-BR
-			</button>
+			</button> */}
 		</div>
 	)
 }

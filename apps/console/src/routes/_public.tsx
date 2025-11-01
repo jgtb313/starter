@@ -14,7 +14,6 @@ function RouteComponent() {
 				justifyContent: 'center',
 			}}
 		>
-			Public!
 			<Outlet />
 		</div>
 	)

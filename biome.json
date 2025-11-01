@@ -36,7 +36,8 @@
 							":BLANK_LINE:"
 						]
 					}
-				}
+				},
+				"useSortedAttributes": "on"
 			}
 		}
 	},
@@ -62,7 +63,7 @@
 			},
 			"recommended": true,
 			"correctness": {
-				"noUnusedVariables": "warn",
+				"noUnusedVariables": "off",
 				"noUnusedImports": "off",
 				"useExhaustiveDependencies": "off",
 				"noEmptyPattern": "off"
@@ -94,7 +95,7 @@
 		"jsxRuntime": "transparent",
 		"formatter": {
 			"quoteStyle": "single",
-			"jsxQuoteStyle": "single",
+			"jsxQuoteStyle": "double",
 			"trailingCommas": "all",
 			"semicolons": "asNeeded",
 			"arrowParentheses": "always",

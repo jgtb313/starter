@@ -9,7 +9,7 @@ export default defineConfig(() => {
 	return {
 		root: '.',
 		input: {
-			path: 'https://gist.githubusercontent.com/jgtb313/3477cb69f7a5f1cbfad6602b21ba7621/raw/49d3e041c6a4092f0381dcb811f4886e2da0dd36/openapi.json',
+			path: 'http://localhost:4000/openapi',
 		},
 		output: {
 			path: './src/~client',
