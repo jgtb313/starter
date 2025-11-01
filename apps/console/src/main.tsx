@@ -3,6 +3,7 @@ import { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
 
 import '@starter/ui/index.css'
+import './index.css'
 
 import { reportWebVitals } from '@/report-web-vitals'
 import { routeTree } from '@/routeTree.gen'
@@ -26,6 +27,8 @@ const rootElement = document.getElementById('app')
 
 if (rootElement && !rootElement.innerHTML) {
 	const root = ReactDOM.createRoot(rootElement)
+	document.documentElement.classList.add('dark')
+
 	root.render(
 		<StrictMode>
 			<RouterProvider router={router} />
