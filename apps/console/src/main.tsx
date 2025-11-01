@@ -5,10 +5,13 @@ import ReactDOM from 'react-dom/client'
 import './index.css'
 import '@starter/ui/index.css'
 
+import { I18nProvider } from '@starter/react-i18n'
 import { UIProvider } from '@starter/ui'
 
 import { reportWebVitals } from '@/report-web-vitals'
 import { routeTree } from '@/routeTree.gen'
+
+import { i18nDict } from '~/i18n'
 
 const router = createRouter({
 	routeTree,
@@ -32,13 +35,18 @@ if (rootElement && !rootElement.innerHTML) {
 
 	root.render(
 		<StrictMode>
-			{/* <UIProvider
-				colorScheme={{
-					defaultColorScheme: 'system',
-				}}
-			> */}
-			<RouterProvider router={router} />
-			{/* </UIProvider> */}
+			<I18nProvider
+				defaultLocale="en"
+				dict={i18nDict}
+			>
+				<UIProvider
+					colorScheme={{
+						defaultColorScheme: 'dark',
+					}}
+				>
+					<RouterProvider router={router} />
+				</UIProvider>
+			</I18nProvider>
 		</StrictMode>,
 	)
 }

@@ -1,28 +1,28 @@
-// import type { I18nDict } from '@starter/i18n'
+import type { I18nDict } from '@starter/i18n'
 
 const en = {
-	hello: 'Hello {name:string} your age is {age:number}',
+	signIn: 'Sign In',
 } as const
 type Translations = {
 	[K in keyof typeof en]: string
 }
 
 const es: Translations = {
-	hello: 'Hola {name:string}',
+	signIn: 'Iniciar sesión',
 }
 
 const ptBR: Translations = {
-	hello: 'Olá {name:string}',
+	signIn: 'Iniciar sessão',
 }
 
-// export const i18nDict: I18nDict = {
-// 	en,
-// 	es,
-// 	'pt-BR': ptBR,
-// }
+export const i18nDict: I18nDict = {
+	en,
+	es,
+	'pt-BR': ptBR,
+}
 
-// export type I18nConsole = {
-// 	en: typeof en
-// 	es: typeof es
-// 	'pt-BR': typeof ptBR
-// }
+export type I18nConsole = {
+	en: typeof en
+	es: typeof es
+	'pt-BR': typeof ptBR
+}

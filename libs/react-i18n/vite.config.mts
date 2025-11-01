@@ -6,9 +6,7 @@ import dts from 'vite-plugin-dts'
 
 import pkg from './package.json'
 
-const deps = [
-	...Object.keys(pkg.dependencies),
-]
+const deps = Object.keys(pkg.dependencies || {})
 
 export default defineConfig({
 	plugins: [
@@ -19,10 +17,9 @@ export default defineConfig({
 			insertTypesEntry: true,
 		}),
 	],
-
 	build: {
 		lib: {
-			entry: 'src/index.ts',
+			entry: path.resolve(__dirname, 'src/index.ts'),
 			name: 'react-i18n',
 			formats: [
 				'es',
@@ -32,34 +29,33 @@ export default defineConfig({
 		emptyOutDir: false,
 		sourcemap: false,
 		rollupOptions: {
-			external: deps,
+			external: [
+				...deps,
+				'react',
+				'react-dom',
+			],
 			output: {
 				exports: 'named',
 				globals: {
-					...deps.reduce(
-						(globals, dep) => ({
-							...globals,
-							[dep]: dep,
-						}),
-						{},
-					),
-					'react-dom': 'ReactDom',
+					react: 'React',
+					'react-dom': 'ReactDOM',
 				},
 			},
 		},
 	},
-
-	optimizeDeps: {
-		include: deps,
-	},
-
 	resolve: {
+		alias: {
+			'@': path.resolve(__dirname, 'src'),
+		},
 		dedupe: [
 			'react',
 			'react-dom',
 		],
-		alias: {
-			'@': path.resolve(__dirname, 'src'),
-		},
+	},
+	optimizeDeps: {
+		exclude: [
+			'react',
+			'react-dom',
+		],
 	},
 })

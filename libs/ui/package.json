@@ -26,8 +26,8 @@
 		"type-check": "tsc --project tsconfig.json --pretty --noEmit"
 	},
 	"peerDependencies": {
-		"react": "19.0.0",
-		"react-dom": "19.0.0"
+		"react": "19.2.0",
+		"react-dom": "19.2.0"
 	},
 	"dependencies": {
 		"@radix-ui/react-accordion": "^1.2.2",
@@ -76,8 +76,8 @@
 		"@tailwindcss/postcss": "^4.1.16",
 		"@tailwindcss/vite": "^4.1.16",
 		"@types/node": "^22.17.2",
-		"@types/react": "^19.0.8",
-		"@types/react-dom": "^19.0.3",
+		"@types/react": "^19.2.0",
+		"@types/react-dom": "^19.2.0",
 		"@vitejs/plugin-react": "^4.3.4",
 		"postcss": "^8.4.49",
 		"storybook": "^8.5.0",

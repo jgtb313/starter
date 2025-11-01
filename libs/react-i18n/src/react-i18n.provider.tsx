@@ -8,10 +8,12 @@ import type { I18nProviderProps } from '@/react-i18n.provider.types'
 
 export const I18nProvider = ({
 	dict,
-	locale = 'en',
+	defaultLocale = 'en',
 	children,
 }: PropsWithChildren<I18nProviderProps>) => {
-	const [internalLocale, setInternalLocale] = useState<Locale>(locale)
+	const [internalLocale, setInternalLocale] = useState<Locale>(
+		(localStorage.getItem('locale') as Locale) ?? defaultLocale,
+	)
 	const i18n = useMemo(
 		() => createI18n(dict, internalLocale),
 		[
@@ -21,6 +23,7 @@ export const I18nProvider = ({
 	)
 
 	const changeLocale = (locale: Locale) => {
+		localStorage.setItem('locale', locale)
 		setInternalLocale(locale)
 	}
 

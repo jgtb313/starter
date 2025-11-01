@@ -1,3 +1,4 @@
+import { useI18n } from '@starter/react-i18n'
 import { Button, Card, Flex, Separator } from '@starter/ui'
 
 import { createFileRoute, Link } from '@tanstack/react-router'
@@ -11,6 +12,8 @@ export const Route = createFileRoute('/_public/sign-in')({
 })
 
 function RouteComponent() {
+	const i18n = useI18n()
+
 	return (
 		<Flex
 			align="center"
@@ -34,7 +37,9 @@ function RouteComponent() {
 							direction="col"
 							gap="1"
 						>
-							<Card.Title className="text-center text-2xl">Sign In</Card.Title>
+							<Card.Title className="text-center text-2xl">
+								{i18n.t.signIn()}
+							</Card.Title>
 							<Card.Description className="text-center">
 								Enter your email and password to sign in to your account
 							</Card.Description>

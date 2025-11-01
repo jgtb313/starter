@@ -3,6 +3,7 @@ import type { I18nDict } from '@starter/i18n'
 import { createContext, useContext } from 'react'
 
 import type { I18nContextProps } from '@/react-i18n.context.types'
+
 export const I18nContext = createContext<I18nContextProps<I18nDict> | null>(
 	null,
 )

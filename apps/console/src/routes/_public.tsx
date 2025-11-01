@@ -1,3 +1,6 @@
+import { I18nSwitcher } from '@starter/react-i18n'
+import { ColorSchemeSwitcher, Flex, Layout } from '@starter/ui'
+
 import { createFileRoute, Outlet } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_public')({
@@ -6,15 +9,19 @@ export const Route = createFileRoute('/_public')({
 
 function RouteComponent() {
 	return (
-		<div
-			style={{
-				display: 'flex',
-				flexDirection: 'column',
-				alignItems: 'center',
-				justifyContent: 'center',
-			}}
-		>
-			<Outlet />
-		</div>
+		<Layout>
+			<Flex
+				align="center"
+				className="absolute top-4 right-4"
+				gap="3"
+			>
+				<I18nSwitcher />
+				<ColorSchemeSwitcher />
+			</Flex>
+
+			<Layout.Content centered>
+				<Outlet />
+			</Layout.Content>
+		</Layout>
 	)
 }
