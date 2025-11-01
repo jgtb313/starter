@@ -1,4 +1,6 @@
-export type FormProps = {}
+export type FormProps = {
+	onSubmit?: React.ComponentProps<'form'>['onSubmit']
+}
 
 export type FormItemProps = {
 	className?: string

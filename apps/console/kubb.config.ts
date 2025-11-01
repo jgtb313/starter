@@ -50,7 +50,7 @@ export default defineConfig(() => {
 					path: './services',
 					barrelType: 'named',
 				},
-				baseURL: 'http://localhost:4000/',
+				baseURL: 'http://localhost:4000',
 				parser: 'client',
 				paramsType: 'inline',
 				pathParamsType: 'object',
@@ -67,7 +67,7 @@ export default defineConfig(() => {
 				paramsType: 'inline',
 				pathParamsType: 'object',
 				client: {
-					baseURL: 'http://localhost:4000/',
+					baseURL: 'http://localhost:4000',
 					dataReturnType: 'full',
 					importPath: '../../../kubb.client',
 				},

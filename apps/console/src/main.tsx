@@ -8,14 +8,20 @@ import '@starter/ui/index.css'
 import { I18nProvider } from '@starter/react-i18n'
 import { UIProvider } from '@starter/ui'
 
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+
 import { reportWebVitals } from '@/report-web-vitals'
 import { routeTree } from '@/routeTree.gen'
 
 import { i18nDict } from '~/i18n'
 
+const queryClient = new QueryClient()
+
 const router = createRouter({
 	routeTree,
-	context: {},
+	context: {
+		queryClient,
+	},
 	defaultPreload: 'intent',
 	scrollRestoration: true,
 	defaultStructuralSharing: true,
@@ -35,18 +41,20 @@ if (rootElement && !rootElement.innerHTML) {
 
 	root.render(
 		<StrictMode>
-			<I18nProvider
-				defaultLocale="en"
-				dict={i18nDict}
-			>
-				<UIProvider
-					colorScheme={{
-						defaultColorScheme: 'dark',
-					}}
+			<QueryClientProvider client={queryClient}>
+				<I18nProvider
+					defaultLocale="en"
+					dict={i18nDict}
 				>
-					<RouterProvider router={router} />
-				</UIProvider>
-			</I18nProvider>
+					<UIProvider
+						colorScheme={{
+							defaultColorScheme: 'dark',
+						}}
+					>
+						<RouterProvider router={router} />
+					</UIProvider>
+				</I18nProvider>
+			</QueryClientProvider>
 		</StrictMode>,
 	)
 }

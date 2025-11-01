@@ -33,7 +33,7 @@ export type ResponseErrorConfig<TError = unknown> = {
 }
 
 const api = axios.create({
-	baseURL: 'http://localhost:4000/',
+	baseURL: 'http://localhost:4000',
 })
 
 api.interceptors.request.use((config) => {

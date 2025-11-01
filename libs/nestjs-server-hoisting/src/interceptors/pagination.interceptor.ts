@@ -1,10 +1,11 @@
+import { type Pagination, PaginationSchemaTransform } from '@starter/schema'
+
 import {
 	type CallHandler,
 	type ExecutionContext,
 	Injectable,
 	type NestInterceptor,
 } from '@nestjs/common'
-import { type Pagination, PaginationSchemaTransform } from '@starter/schema'
 import type { Request } from 'express'
 import type { Observable } from 'rxjs'
 
@@ -22,7 +23,10 @@ export class PaginationInterceptor implements NestInterceptor {
 		try {
 			const pagination = PaginationSchemaTransform.parse(request.query)
 
-			request.pagination = pagination
+			request.pagination = {
+				cursor: pagination.cursor ?? undefined,
+				limit: pagination.limit ?? 10,
+			}
 		} catch (error) {}
 
 		return next.handle()
