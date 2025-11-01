@@ -2,8 +2,10 @@ import { createRouter, RouterProvider } from '@tanstack/react-router'
 import { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
 
-import '@starter/ui/index.css'
 import './index.css'
+import '@starter/ui/index.css'
+
+import { UIProvider } from '@starter/ui'
 
 import { reportWebVitals } from '@/report-web-vitals'
 import { routeTree } from '@/routeTree.gen'
@@ -27,11 +29,16 @@ const rootElement = document.getElementById('app')
 
 if (rootElement && !rootElement.innerHTML) {
 	const root = ReactDOM.createRoot(rootElement)
-	document.documentElement.classList.add('dark')
 
 	root.render(
 		<StrictMode>
+			{/* <UIProvider
+				colorScheme={{
+					defaultColorScheme: 'system',
+				}}
+			> */}
 			<RouterProvider router={router} />
+			{/* </UIProvider> */}
 		</StrictMode>,
 	)
 }

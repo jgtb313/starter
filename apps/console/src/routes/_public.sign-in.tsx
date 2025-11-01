@@ -14,7 +14,7 @@ function RouteComponent() {
 	return (
 		<Flex
 			align="center"
-			className="min-h-screen w-full bg-muted/40 p-4"
+			className="min-h-screen w-full max-w-[500px] bg-muted/40 p-4"
 			justify="center"
 		>
 			<Flex
@@ -43,6 +43,7 @@ function RouteComponent() {
 
 					<Card.Content>
 						<SignInForm />
+
 						<Flex
 							className="relative my-4"
 							direction="col"

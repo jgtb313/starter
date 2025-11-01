@@ -1,2 +1,5 @@
 export * from './react-i18n.context'
+export * from './react-i18n.context.types'
 export * from './react-i18n.provider'
+export * from './react-i18n.provider.types'
+export * from './react-i18n.switcher'

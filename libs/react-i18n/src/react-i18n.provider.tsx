@@ -1,14 +1,10 @@
 import type { Locale } from '@starter/schema'
-import { createI18n, type I18nDict } from '@starter/i18n'
+import { createI18n } from '@starter/i18n'
 
 import { type PropsWithChildren, useMemo, useState } from 'react'
 
 import { I18nContext } from '@/react-i18n.context'
-
-type I18nProviderProps = {
-	dict: I18nDict
-	locale?: Locale
-}
+import type { I18nProviderProps } from '@/react-i18n.provider.types'
 
 export const I18nProvider = ({
 	dict,
@@ -24,7 +20,7 @@ export const I18nProvider = ({
 		],
 	)
 
-	const setLocale = (locale: Locale) => {
+	const changeLocale = (locale: Locale) => {
 		setInternalLocale(locale)
 	}
 
@@ -33,7 +29,7 @@ export const I18nProvider = ({
 			value={{
 				t: i18n,
 				locale: internalLocale,
-				setLocale,
+				changeLocale,
 			}}
 		>
 			{children}

@@ -16,16 +16,16 @@
 	},
 	"dependencies": {
 		"@starter/schema": "workspace:*",
-		"@starter/i18n": "workspace:*",
-		"@swc/core": "^1.2.165",
+		"@starter/i18n": "workspace:*"
+	},
+	"devDependencies": {
+		"@swc/core": "1.2.165",
+		"@vitejs/plugin-react": "4.3.4",
+		"@types/react": "19.0.8",
+		"@types/react-dom": "19.0.3",
 		"typescript": "5.4.2",
 		"vite": "6.0.5",
 		"vite-plugin-dts": "4.4.0"
-	},
-	"devDependencies": {
-		"@vitejs/plugin-react": "^4.3.4",
-		"@types/react": "^19.0.8",
-		"@types/react-dom": "^19.0.3"
 	},
 	"main": "dist/react-i18n.cjs",
 	"module": "dist/react-i18n.js",
@@ -39,5 +39,8 @@
 	"typings": "dist/index.d.ts",
 	"files": [
 		"dist"
-	]
+	],
+	"publishConfig": {
+		"access": "public"
+	}
 }

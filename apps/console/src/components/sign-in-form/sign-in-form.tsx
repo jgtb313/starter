@@ -1,41 +1,26 @@
-import { Button, Flex, Input, Label } from '@starter/ui'
+import { Button, Flex, Form, Input } from '@starter/ui'
 
 import type { SignInFormProps } from '@/components/sign-in-form/sign-in-form.types'
 
 export const SignInForm = ({}: SignInFormProps) => {
 	return (
-		<form>
+		<Form>
 			<Flex
 				direction="col"
 				gap="4"
 			>
-				<Flex
-					direction="col"
-					gap="2"
-				>
-					<Label>Email</Label>
+				<Form.Item label="Email">
 					<Input
 						placeholder="Email"
-						required
 						type="email"
 					/>
-				</Flex>
-				<Flex
-					direction="col"
-					gap="2"
-				>
-					<Flex
-						align="center"
-						justify="between"
-					>
-						<Label>Password</Label>
-					</Flex>
+				</Form.Item>
+				<Form.Item label="Password">
 					<Input
 						placeholder="Password"
-						required
 						type="password"
 					/>
-				</Flex>
+				</Form.Item>
 				<Button
 					className="w-full"
 					type="submit"
@@ -43,6 +28,6 @@ export const SignInForm = ({}: SignInFormProps) => {
 					Sign In
 				</Button>
 			</Flex>
-		</form>
+		</Form>
 	)
 }

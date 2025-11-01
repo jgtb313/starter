@@ -10,8 +10,11 @@
 		"build:watch": "vite build --watch",
 		"type-check": "tsc --project tsconfig.json --pretty --noEmit"
 	},
+	"peerDependencies": {
+		"react": "19.0.0",
+		"react-dom": "19.0.0"
+	},
 	"dependencies": {
-		"@mantinex/mantine-logo": "^1.1.0",
 		"@swc/core": "^1.2.165",
 		"typescript": "5.4.2",
 		"vite": "6.0.5",
