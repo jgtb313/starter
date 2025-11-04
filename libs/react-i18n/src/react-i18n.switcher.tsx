@@ -1,5 +1,5 @@
 import type { Locale } from '@starter/schema'
-import { Select } from '@starter/ui'
+import { NativeSelect } from '@starter/ui'
 
 import { useI18n } from './react-i18n.context'
 
@@ -31,23 +31,18 @@ export const I18nSwitcher = ({}: I18nSwitcherProps) => {
 	]
 
 	return (
-		<Select
-			onValueChange={(value) => changeLocale(value as Locale)}
+		<NativeSelect
 			value={locale}
+			onChange={(e) => changeLocale(e.target.value as Locale)}
 		>
-			<Select.Trigger className="w-[200px]">
-				<Select.Value placeholder="Select language" />
-			</Select.Trigger>
-			<Select.Content>
-				{languages.map((lang) => (
-					<Select.Item
-						key={lang.value}
-						value={lang.value}
-					>
-						{lang.flag} {lang.label}
-					</Select.Item>
-				))}
-			</Select.Content>
-		</Select>
+			{languages.map((lang) => (
+				<NativeSelect.Option
+					key={lang.value}
+					value={lang.value}
+				>
+					{lang.flag} {lang.label}
+				</NativeSelect.Option>
+			))}
+		</NativeSelect>
 	)
 }

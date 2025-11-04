@@ -3,7 +3,7 @@ import { Button, Flex, Form, Input } from '@starter/ui'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Controller, useForm } from 'react-hook-form'
 
-import { useSignIn } from '@/~client/hooks'
+import { useSignIn } from '@/~client/hooks/useSignIn'
 import { signInMutationRequestSchema } from '@/~client/schemas/signInSchema'
 import type { SignInMutationRequest } from '@/~client/types'
 import type { SignInFormProps } from '@/components/sign-in-form/sign-in-form.types'
@@ -40,10 +40,9 @@ export const SignInForm = ({}: SignInFormProps) => {
 				direction="col"
 				gap="4"
 			>
-				<Form.Item
-					error={form.formState.errors.email?.message}
-					label="Email"
-				>
+				<Form.Field>
+					<Form.FieldLabel>Email</Form.FieldLabel>
+
 					<Controller
 						control={form.control}
 						name="email"
@@ -55,11 +54,12 @@ export const SignInForm = ({}: SignInFormProps) => {
 							/>
 						)}
 					/>
-				</Form.Item>
-				<Form.Item
-					error={form.formState.errors.password?.message}
-					label="Password"
-				>
+
+					<Form.FieldError error={form.formState.errors.email?.message} />
+				</Form.Field>
+				<Form.Field>
+					<Form.FieldLabel>Password</Form.FieldLabel>
+
 					<Controller
 						control={form.control}
 						name="password"
@@ -71,7 +71,9 @@ export const SignInForm = ({}: SignInFormProps) => {
 							/>
 						)}
 					/>
-				</Form.Item>
+
+					<Form.FieldError error={form.formState.errors.password?.message} />
+				</Form.Field>
 				<Button
 					className="w-full"
 					type="submit"
