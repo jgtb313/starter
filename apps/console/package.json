@@ -3,7 +3,6 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"predev": "pnpm generate",
 		"dev": "vite --port 3000",
 		"build": "vite build && tsc",
 		"serve": "vite preview",

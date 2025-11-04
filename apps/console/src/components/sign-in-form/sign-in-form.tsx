@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Controller, useForm } from 'react-hook-form'
 
 import { useSignIn } from '@/~client/hooks'
-import { signInMutationRequestSchema } from '@/~client/schemas'
+import { signInMutationRequestSchema } from '@/~client/schemas/signInSchema'
 import type { SignInMutationRequest } from '@/~client/types'
 import type { SignInFormProps } from '@/components/sign-in-form/sign-in-form.types'
 
@@ -18,7 +18,7 @@ export const SignInForm = ({}: SignInFormProps) => {
 		resolver: zodResolver(signInMutationRequestSchema),
 	})
 
-	const onSubmit = (data: SignInMutationRequest) => {
+	const onSubmit = (data: { email: string; password: string }) => {
 		signIn(
 			{
 				data,

@@ -1,8 +1,9 @@
+import { Brand } from '@starter/config'
 import { useI18n } from '@starter/react-i18n'
 import { Button, Card, Flex, Separator } from '@starter/ui'
 
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { FaKey, FaReact } from 'react-icons/fa'
+import { FaKey } from 'react-icons/fa'
 
 import { SignInForm } from '@/components/sign-in-form/sign-in-form'
 import { SocialSignOnForm } from '@/components/social-sign-on-form/social-sign-on-form'
@@ -29,7 +30,7 @@ function RouteComponent() {
 					align="center"
 					justify="center"
 				>
-					<FaReact className="h-16 w-16 text-primary" />
+					<Brand className="h-16 w-16 text-primary" />
 				</Flex>
 				<Card>
 					<Card.Header>

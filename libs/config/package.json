@@ -21,7 +21,10 @@
 		"vite-plugin-dts": "4.4.0"
 	},
 	"devDependencies": {
-		"@vitejs/plugin-react": "^4.3.4"
+		"@vitejs/plugin-react": "^4.3.4",
+		"@types/react": "^19.2.0",
+		"@types/react-dom": "^19.2.0",
+		"@types/node": "^22.17.2"
 	},
 	"main": "dist/config.cjs",
 	"module": "dist/config.js",

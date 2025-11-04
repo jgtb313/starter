@@ -107,5 +107,14 @@
 		"parser": {
 			"unsafeParameterDecoratorsEnabled": true
 		}
+	},
+	"css": {
+		"linter": {
+			"rules": {
+				"style": {
+					"noUnknownAtRules": "off"
+				}
+			}
+		}
 	}
 }

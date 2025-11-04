@@ -58,15 +58,6 @@ describe('PaginationSchemaTransform', () => {
 })
 
 describe('BasePaginationSchemaOutput', () => {
-	it('should have default values for meta', () => {
-		const result = BasePaginationSchemaOutput.parse({
-			values: [],
-		})
-
-		expect(result.meta.nextCursor).toBeNull()
-		expect(result.meta.limit).toBeDefined()
-	})
-
 	it('should allow custom values for meta', () => {
 		const result = BasePaginationSchemaOutput.parse({
 			values: [],

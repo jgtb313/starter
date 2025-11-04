@@ -1,5 +1,7 @@
 export type ButtonProps = {
 	className?: string
+  type?: 'button' | 'submit' | 'reset'
+  size?: 'default' | 'sm' | 'lg' | 'icon'
 	variant?:
 		| 'default'
 		| 'destructive'
@@ -7,11 +9,6 @@ export type ButtonProps = {
 		| 'secondary'
 		| 'ghost'
 		| 'link'
-	size?: 'default' | 'sm' | 'lg' | 'icon'
-	children?: React.ReactNode
 	disabled?: boolean
-	type?: 'button' | 'submit' | 'reset'
-	onClick?: () => void
-	onFocus?: () => void
-	onBlur?: () => void
+	onClick?: React.MouseEventHandler<HTMLButtonElement>
 }

@@ -31,18 +31,14 @@ export const PaginationSchemaTransform = PaginationSchema.transform(
 )
 
 const PaginationMeta = z.object({
-	nextCursor: z.string().nullable().default(null),
+	nextCursor: z.string().nullable(),
 	limit: z.number().default(0),
 	total: z.number().default(0),
 })
 
 export const BasePaginationSchemaOutput = z.object({
 	values: z.array(z.unknown()).default([]),
-	meta: PaginationMeta.default({
-		nextCursor: null,
-		limit: 0,
-		total: 0,
-	}),
+	meta: PaginationMeta,
 })
 
 export type Pagination = Partial<z.infer<typeof PaginationSchema>>

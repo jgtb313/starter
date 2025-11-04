@@ -1,31 +1,26 @@
-import * as React from 'react'
+import { forwardRef ,type PropsWithChildren } from 'react'
 
 import type { ButtonProps } from '@/components/button/button.types'
 import { Button as ShadcnButton } from '@/shadcn/button'
 
-export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+export const Button = forwardRef<HTMLButtonElement, PropsWithChildren<ButtonProps>>(
 	(
 		{
-			variant,
-			size,
-			children,
-			disabled,
-			type = 'button',
-			onClick,
-			onFocus,
-			onBlur,
 			className,
+			size = 'default',
+			type = 'button',
+			variant = 'default',
+			disabled = false,
+			onClick,
+			children,
 		},
 		ref,
 	) => {
-		const [] = React.useState()
 		return (
 			<ShadcnButton
 				className={className}
 				disabled={disabled}
-				onBlur={onBlur}
 				onClick={onClick}
-				onFocus={onFocus}
 				ref={ref}
 				size={size}
 				type={type}
@@ -36,5 +31,3 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 		)
 	},
 )
-
-Button.displayName = 'Button'
