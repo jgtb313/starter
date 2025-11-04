@@ -13,10 +13,10 @@ function RouteComponent() {
 			<Flex
 				align="center"
 				className="absolute top-4 right-4"
-				gap="3"
+				gap="4"
 			>
 				<I18nSwitcher />
-				<ColorSchemeSwitcher />
+				<ColorSchemeSwitcher mode="button" />
 			</Flex>
 
 			<Layout.Content centered>

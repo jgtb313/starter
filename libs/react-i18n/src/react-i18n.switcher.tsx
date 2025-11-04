@@ -3,44 +3,53 @@ import { NativeSelect } from '@starter/ui'
 
 import { useI18n } from './react-i18n.context'
 
-type I18nSwitcherProps = {}
+type I18nSwitcherProps = {
+	onLocaleChange?: (locale: Locale) => void
+}
 
-export const I18nSwitcher = ({}: I18nSwitcherProps) => {
+type I18nSwitcherOption = {
+	value: Locale
+	label: string
+	flag: string
+}
+
+const options: I18nSwitcherOption[] = [
+	{
+		value: 'en',
+		label: 'English',
+		flag: '🇺🇸',
+	},
+	{
+		value: 'es',
+		label: 'Español',
+		flag: '🇪🇸',
+	},
+	{
+		value: 'pt-BR',
+		label: 'Português (Brasil)',
+		flag: '🇧🇷',
+	},
+]
+
+export const I18nSwitcher = ({ onLocaleChange }: I18nSwitcherProps) => {
 	const { locale, changeLocale } = useI18n()
 
-	const languages: {
-		value: Locale
-		label: string
-		flag: string
-	}[] = [
-		{
-			value: 'en',
-			label: 'English',
-			flag: '🇺🇸',
-		},
-		{
-			value: 'es',
-			label: 'Español',
-			flag: '🇪🇸',
-		},
-		{
-			value: 'pt-BR',
-			label: 'Português (Brasil)',
-			flag: '🇧🇷',
-		},
-	]
+	const handleLocaleChange = (locale: Locale) => {
+		changeLocale(locale)
+		onLocaleChange?.(locale)
+	}
 
 	return (
 		<NativeSelect
-			onChange={(e) => changeLocale(e.target.value as Locale)}
+			onChange={(e) => handleLocaleChange(e.target.value as Locale)}
 			value={locale}
 		>
-			{languages.map((lang) => (
+			{options.map((option) => (
 				<NativeSelect.Option
-					key={lang.value}
-					value={lang.value}
+					key={option.value}
+					value={option.value}
 				>
-					{lang.flag} {lang.label}
+					{option.flag} {option.label}
 				</NativeSelect.Option>
 			))}
 		</NativeSelect>

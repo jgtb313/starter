@@ -7,6 +7,7 @@ import type { SocialSignOnFormProps } from '@/components/social-sign-on-form/soc
 export const SocialSignOnForm = ({}: SocialSignOnFormProps) => {
 	return (
 		<Flex
+			className="w-full"
 			direction="col"
 			gap="3"
 		>
@@ -24,7 +25,7 @@ export const SocialSignOnForm = ({}: SocialSignOnFormProps) => {
 				variant="outline"
 			>
 				<FaFacebook className="h-4 w-4" />
-				Continue with GitHub
+				Continue with Facebook
 			</Button>
 		</Flex>
 	)

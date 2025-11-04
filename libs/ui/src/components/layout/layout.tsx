@@ -3,7 +3,7 @@ import type { PropsWithChildren } from 'react'
 
 import type { LayoutContentProps, LayoutRootProps } from './layout.types'
 
-const layoutRootVariants = cva('flex flex-col', {
+const layoutRootVariants = cva('flex flex-col min-h-screen', {
 	variants: {
 		centered: {
 			true: 'items-center justify-center',

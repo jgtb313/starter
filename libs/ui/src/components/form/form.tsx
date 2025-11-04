@@ -1,28 +1,28 @@
 import { forwardRef, type PropsWithChildren } from 'react'
 
 import type {
-	FormProps,
-	FormFieldProps,
-	FormFieldLabelProps,
+	FormFieldContentProps,
 	FormFieldDescriptionProps,
 	FormFieldErrorProps,
 	FormFieldGroupProps,
+	FormFieldLabelProps,
 	FormFieldLegendProps,
+	FormFieldProps,
 	FormFieldSeparatorProps,
 	FormFieldSetProps,
-	FormFieldContentProps,
 	FormFieldTitleProps,
+	FormProps,
 } from '@/components/form/form.types'
 import {
 	Field as ShadcnField,
-	FieldLabel as ShadcnFieldLabel,
+	FieldContent as ShadcnFieldContent,
 	FieldDescription as ShadcnFieldDescription,
 	FieldError as ShadcnFieldError,
 	FieldGroup as ShadcnFieldGroup,
+	FieldLabel as ShadcnFieldLabel,
 	FieldLegend as ShadcnFieldLegend,
 	FieldSeparator as ShadcnFieldSeparator,
 	FieldSet as ShadcnFieldSet,
-	FieldContent as ShadcnFieldContent,
 	FieldTitle as ShadcnFieldTitle,
 } from '@/shadcn/field'
 
@@ -41,31 +41,34 @@ const WrappedForm = forwardRef<HTMLFormElement, PropsWithChildren<FormProps>>(
 const WrappedFormField = forwardRef<
 	HTMLDivElement,
 	PropsWithChildren<FormFieldProps>
->(({ className, orientation = 'vertical' }, ref) => (
+>(({ className, orientation = 'vertical', ...props }, ref) => (
 	<ShadcnField
 		className={className}
 		orientation={orientation}
 		ref={ref}
+		{...props}
 	/>
 ))
 
 const WrappedFormFieldLabel = forwardRef<
 	HTMLLabelElement,
 	PropsWithChildren<FormFieldLabelProps>
->(({ className }, ref) => (
+>(({ className, ...props }, ref) => (
 	<ShadcnFieldLabel
 		className={className}
 		ref={ref}
+		{...props}
 	/>
 ))
 
 const WrappedFormFieldDescription = forwardRef<
 	HTMLParagraphElement,
 	PropsWithChildren<FormFieldDescriptionProps>
->(({ className, children }, ref) => (
+>(({ className, children, ...props }, ref) => (
 	<ShadcnFieldDescription
 		className={className}
 		ref={ref}
+		{...props}
 	>
 		{children}
 	</ShadcnFieldDescription>
@@ -74,7 +77,7 @@ const WrappedFormFieldDescription = forwardRef<
 const WrappedFormFieldError = forwardRef<
 	HTMLDivElement,
 	PropsWithChildren<FormFieldErrorProps>
->(({ className, error }, ref) => (
+>(({ className, error, ...props }, ref) => (
 	<ShadcnFieldError
 		className={className}
 		errors={
@@ -87,16 +90,18 @@ const WrappedFormFieldError = forwardRef<
 				: undefined
 		}
 		ref={ref}
+		{...props}
 	/>
 ))
 
 const WrappedFormFieldGroup = forwardRef<
 	HTMLDivElement,
 	PropsWithChildren<FormFieldGroupProps>
->(({ className, children }, ref) => (
+>(({ className, children, ...props }, ref) => (
 	<ShadcnFieldGroup
 		className={className}
 		ref={ref}
+		{...props}
 	>
 		{children}
 	</ShadcnFieldGroup>
@@ -105,11 +110,12 @@ const WrappedFormFieldGroup = forwardRef<
 const WrappedFormFieldLegend = forwardRef<
 	HTMLLegendElement,
 	PropsWithChildren<FormFieldLegendProps>
->(({ className, variant = 'legend', children }, ref) => (
+>(({ className, variant = 'legend', children, ...props }, ref) => (
 	<ShadcnFieldLegend
 		className={className}
-		variant={variant}
 		ref={ref}
+		variant={variant}
+		{...props}
 	>
 		{children}
 	</ShadcnFieldLegend>
@@ -118,10 +124,11 @@ const WrappedFormFieldLegend = forwardRef<
 const WrappedFormFieldSeparator = forwardRef<
 	HTMLDivElement,
 	PropsWithChildren<FormFieldSeparatorProps>
->(({ className, children }, ref) => (
+>(({ className, children, ...props }, ref) => (
 	<ShadcnFieldSeparator
 		className={className}
 		ref={ref}
+		{...props}
 	>
 		{children}
 	</ShadcnFieldSeparator>
@@ -130,10 +137,11 @@ const WrappedFormFieldSeparator = forwardRef<
 const WrappedFormFieldSet = forwardRef<
 	HTMLFieldSetElement,
 	PropsWithChildren<FormFieldSetProps>
->(({ className, children }, ref) => (
+>(({ className, children, ...props }, ref) => (
 	<ShadcnFieldSet
 		className={className}
 		ref={ref}
+		{...props}
 	>
 		{children}
 	</ShadcnFieldSet>
@@ -142,10 +150,11 @@ const WrappedFormFieldSet = forwardRef<
 const WrappedFormFieldContent = forwardRef<
 	HTMLDivElement,
 	PropsWithChildren<FormFieldContentProps>
->(({ className, children }, ref) => (
+>(({ className, children, ...props }, ref) => (
 	<ShadcnFieldContent
 		className={className}
 		ref={ref}
+		{...props}
 	>
 		{children}
 	</ShadcnFieldContent>
@@ -154,10 +163,11 @@ const WrappedFormFieldContent = forwardRef<
 const WrappedFormFieldTitle = forwardRef<
 	HTMLDivElement,
 	PropsWithChildren<FormFieldTitleProps>
->(({ className, children }, ref) => (
+>(({ className, children, ...props }, ref) => (
 	<ShadcnFieldTitle
 		className={className}
 		ref={ref}
+		{...props}
 	>
 		{children}
 	</ShadcnFieldTitle>

@@ -1,8 +1,15 @@
+import { Moon, Sun } from 'lucide-react'
+
 import { useColorScheme } from '@/components/color-scheme/color-scheme.context'
 import type { ColorScheme } from '@/components/color-scheme/color-scheme.context.types'
 import { NativeSelect } from '@/components/native-select/native-select'
+import { Button } from '@/shadcn/button'
 
-export const ColorSchemeSwitcher = () => {
+type ColorSchemeSwitcherProps = {
+	mode: 'select' | 'button'
+}
+
+const ColorSchemeSwitcherSelect = () => {
 	const { colorScheme, changeColorScheme } = useColorScheme()
 
 	const options: {
@@ -38,4 +45,34 @@ export const ColorSchemeSwitcher = () => {
 			))}
 		</NativeSelect>
 	)
+}
+
+const ColorSchemeSwitcherButton = () => {
+	const { colorScheme, changeColorScheme } = useColorScheme()
+
+	return (
+		<Button
+			onClick={() =>
+				changeColorScheme(colorScheme === 'light' ? 'dark' : 'light')
+			}
+			size="icon"
+			variant="outline"
+		>
+			{colorScheme === 'light' ? (
+				<Sun className="h-[1.2rem] w-[1.2rem]" />
+			) : (
+				<Moon className="h-[1.2rem] w-[1.2rem]" />
+			)}
+		</Button>
+	)
+}
+
+export const ColorSchemeSwitcher = ({
+	mode = 'select',
+}: ColorSchemeSwitcherProps) => {
+	if (mode === 'select') {
+		return <ColorSchemeSwitcherSelect />
+	}
+
+	return <ColorSchemeSwitcherButton />
 }

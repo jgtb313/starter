@@ -1,8 +1,9 @@
+import { cva } from 'class-variance-authority'
 import { forwardRef, type PropsWithChildren } from 'react'
 
-import type { FlexProps } from '@/components/flex/flex.types'
-import { cva } from 'class-variance-authority'
 import { cn } from '@/support/utils'
+
+import type { FlexProps } from '@/components/flex/flex.types'
 
 const flexVariants = cva('flex', {
 	variants: {
@@ -45,22 +46,10 @@ const flexVariants = cva('flex', {
 })
 
 export const Flex = forwardRef<HTMLDivElement, PropsWithChildren<FlexProps>>(
-	(
-		{
-			className,
-			direction = 'row',
-			justify = 'start',
-			align = 'start',
-			gap = '0',
-			children,
-		},
-		ref,
-	) => {
+	({ className, direction = 'row', children, ...props }, ref) => {
 		const classes = flexVariants({
 			direction,
-			justify,
-			align,
-			gap,
+			...props,
 		})
 
 		return (

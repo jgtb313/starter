@@ -12,19 +12,15 @@ export const Route = createFileRoute('/_public/forgot-password')({
 function RouteComponent() {
 	return (
 		<Flex
-			align="center"
-			className="min-h-screen w-full bg-muted/40 p-4"
+			className="w-full max-w-[500px]"
 			justify="center"
 		>
 			<Flex
-				className="w-full max-w-md"
+				className="w-full"
 				direction="col"
 				gap="6"
 			>
-				<Flex
-					align="center"
-					justify="center"
-				>
+				<Flex justify="center">
 					<FaReact className="h-16 w-16 text-primary" />
 				</Flex>
 				<Card>
@@ -54,7 +50,6 @@ function RouteComponent() {
 							justify="center"
 						>
 							<p className="text-center text-muted-foreground text-sm">
-								Already have an account?{' '}
 								<Link
 									className="text-primary underline-offset-4 hover:underline"
 									to="/sign-in"

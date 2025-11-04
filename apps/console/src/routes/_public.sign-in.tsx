@@ -18,21 +18,18 @@ function RouteComponent() {
 	return (
 		<Flex
 			align="center"
-			className="min-h-screen w-full max-w-[500px] bg-muted/40 p-4"
+			className="w-full max-w-[500px]"
 			justify="center"
 		>
 			<Flex
-				className="w-full max-w-md"
+				className="w-full"
 				direction="col"
 				gap="6"
 			>
-				<Flex
-					align="center"
-					justify="center"
-				>
+				<Flex justify="center">
 					<Brand className="h-16 w-16 text-primary" />
 				</Flex>
-				<Card>
+				<Card className="w-full">
 					<Card.Header>
 						<Flex
 							direction="col"
@@ -41,6 +38,7 @@ function RouteComponent() {
 							<Card.Title className="text-center text-2xl">
 								{i18n.t.signIn()}
 							</Card.Title>
+
 							<Card.Description className="text-center">
 								Enter your email and password to sign in to your account
 							</Card.Description>
@@ -51,24 +49,18 @@ function RouteComponent() {
 						<SignInForm />
 
 						<Flex
-							className="relative my-4"
-							direction="col"
+							align="center"
+							className="w-full py-4"
 						>
-							<Flex
-								align="center"
-								className="absolute inset-0"
-							>
-								<Separator />
-							</Flex>
-							<Flex
-								className="relative text-xs uppercase"
-								justify="center"
-							>
-								<span className="bg-card px-2 text-muted-foreground">
-									Or continue with
-								</span>
-							</Flex>
+							<Separator className="flex-1" />
+
+							<span className="px-3 text-muted-foreground text-sm">
+								Or continue with
+							</span>
+
+							<Separator className="flex-1" />
 						</Flex>
+
 						<Flex
 							direction="col"
 							gap="3"
@@ -88,6 +80,7 @@ function RouteComponent() {
 
 					<Card.Footer>
 						<Flex
+							align="center"
 							className="w-full"
 							direction="col"
 							gap="2"

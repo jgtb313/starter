@@ -12,19 +12,15 @@ export const Route = createFileRoute('/_public/sign-up')({
 function RouteComponent() {
 	return (
 		<Flex
-			align="center"
-			className="min-h-screen w-full bg-muted/40 p-4"
+			className="w-full max-w-[500px]"
 			justify="center"
 		>
 			<Flex
-				className="w-full max-w-md"
+				className="w-full"
 				direction="col"
 				gap="6"
 			>
-				<Flex
-					align="center"
-					justify="center"
-				>
+				<Flex justify="center">
 					<div className="h-16 w-16 text-primary">
 						<FaReact className="h-16 w-16" />
 					</div>
