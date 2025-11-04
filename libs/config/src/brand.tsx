@@ -12,8 +12,8 @@ const ReactLogo = () => {
 			<path
 				d="M12 2L2 22h20L12 2Z"
 				stroke="currentColor"
-				stroke-linejoin="round"
-				stroke-width="2"
+				strokeLinejoin="round"
+				strokeWidth="2"
 			/>
 		</svg>
 	)

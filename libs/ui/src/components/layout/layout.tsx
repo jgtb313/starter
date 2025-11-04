@@ -3,7 +3,7 @@ import type { PropsWithChildren } from 'react'
 
 import type { LayoutContentProps, LayoutRootProps } from './layout.types'
 
-const classes = cva('flex flex-col items-center justify-center', {
+const layoutRootVariants = cva('flex flex-col', {
 	variants: {
 		centered: {
 			true: 'items-center justify-center',
@@ -16,18 +16,14 @@ const LayoutRoot = ({ children }: PropsWithChildren<LayoutRootProps>) => {
 }
 
 const LayoutContent = ({
-	children,
 	centered,
+	children,
 }: PropsWithChildren<LayoutContentProps>) => {
-	return (
-		<div
-			className={classes({
-				centered,
-			})}
-		>
-			{children}
-		</div>
-	)
+	const classes = layoutRootVariants({
+		centered,
+	})
+
+	return <div className={classes}>{children}</div>
 }
 
 export const Layout = Object.assign(LayoutRoot, {

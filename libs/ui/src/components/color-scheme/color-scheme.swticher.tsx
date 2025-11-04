@@ -25,8 +25,8 @@ export const ColorSchemeSwitcher = () => {
 
 	return (
 		<NativeSelect
-			value={colorScheme}
 			onChange={(e) => changeColorScheme(e.target.value as ColorScheme)}
+			value={colorScheme}
 		>
 			{options.map((opt) => (
 				<NativeSelect.Option

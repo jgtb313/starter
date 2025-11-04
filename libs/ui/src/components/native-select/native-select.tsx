@@ -1,27 +1,28 @@
 import { forwardRef, type PropsWithChildren } from 'react'
 
 import type {
-	NativeSelectProps,
-	NativeSelectOptionProps,
 	NativeSelectOptGroupProps,
+	NativeSelectOptionProps,
+	NativeSelectProps,
 } from '@/components/native-select/native-select.types'
 import {
 	NativeSelect as ShadcnNativeSelect,
-	NativeSelectOption as ShadcnNativeSelectOption,
 	NativeSelectOptGroup as ShadcnNativeSelectOptGroup,
+	NativeSelectOption as ShadcnNativeSelectOption,
 } from '@/shadcn/native-select'
 
 const WrappedNativeSelect = forwardRef<
 	HTMLSelectElement,
 	PropsWithChildren<NativeSelectProps>
->(({ className, value, disabled = false, onChange }, ref) => {
+>(({ className, value, disabled = false, onChange, ...props }, ref) => {
 	return (
 		<ShadcnNativeSelect
 			className={className}
-			value={value}
 			disabled={disabled}
 			onChange={onChange}
 			ref={ref}
+			value={value}
+			{...props}
 		/>
 	)
 })
@@ -31,9 +32,9 @@ const WrappedNativeSelectOption = forwardRef<
 	PropsWithChildren<NativeSelectOptionProps>
 >(({ value, disabled = false, children }, ref) => (
 	<ShadcnNativeSelectOption
-		value={value}
 		disabled={disabled}
 		ref={ref}
+		value={value}
 	>
 		{children}
 	</ShadcnNativeSelectOption>
