@@ -1,8 +1,11 @@
+import { useI18n } from '@starter/react-i18n'
 import { Button, Flex, Input, Label } from '@starter/ui'
 
 import type { SignUpFormProps } from '@/components/sign-up-form/sign-up-form.types'
 
 export const SignUpForm = ({}: SignUpFormProps) => {
+	const i18n = useI18n()
+
 	return (
 		<form>
 			<Flex
@@ -13,9 +16,9 @@ export const SignUpForm = ({}: SignUpFormProps) => {
 					direction="col"
 					gap="2"
 				>
-					<Label>Name</Label>
+					<Label>{i18n.t.name()}</Label>
 					<Input
-						placeholder="Name"
+						placeholder={i18n.t.name()}
 						required
 						type="text"
 					/>
@@ -25,9 +28,9 @@ export const SignUpForm = ({}: SignUpFormProps) => {
 					direction="col"
 					gap="2"
 				>
-					<Label>Email</Label>
+					<Label>{i18n.t.email()}</Label>
 					<Input
-						placeholder="Email"
+						placeholder={i18n.t.email()}
 						required
 						type="email"
 					/>
@@ -41,7 +44,7 @@ export const SignUpForm = ({}: SignUpFormProps) => {
 						align="center"
 						justify="between"
 					>
-						<Label>Password</Label>
+						<Label>{i18n.t.password()}</Label>
 					</Flex>
 					<Input
 						placeholder="Password"
@@ -54,7 +57,7 @@ export const SignUpForm = ({}: SignUpFormProps) => {
 					className="w-full"
 					type="submit"
 				>
-					Sign Up
+					{i18n.t.signUp()}
 				</Button>
 			</Flex>
 		</form>

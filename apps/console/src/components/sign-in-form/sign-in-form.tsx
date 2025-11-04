@@ -1,3 +1,4 @@
+import { useI18n } from '@starter/react-i18n'
 import { Button, Flex, Form, Input } from '@starter/ui'
 
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -10,6 +11,7 @@ import type { SignInFormProps } from '@/components/sign-in-form/sign-in-form.typ
 
 export const SignInForm = ({}: SignInFormProps) => {
 	const { mutate: signIn } = useSignIn()
+	const i18n = useI18n()
 	const form = useForm<SignInMutationRequest>({
 		defaultValues: {
 			email: '',
@@ -41,7 +43,7 @@ export const SignInForm = ({}: SignInFormProps) => {
 				gap="4"
 			>
 				<Form.Field>
-					<Form.FieldLabel>Email</Form.FieldLabel>
+					<Form.FieldLabel>{i18n.t.email()}</Form.FieldLabel>
 
 					<Controller
 						control={form.control}
@@ -49,7 +51,7 @@ export const SignInForm = ({}: SignInFormProps) => {
 						render={({ field }) => (
 							<Input
 								{...field}
-								placeholder="Email"
+								placeholder={i18n.t.email()}
 								type="email"
 							/>
 						)}
@@ -58,7 +60,7 @@ export const SignInForm = ({}: SignInFormProps) => {
 					<Form.FieldError error={form.formState.errors.email?.message} />
 				</Form.Field>
 				<Form.Field>
-					<Form.FieldLabel>Password</Form.FieldLabel>
+					<Form.FieldLabel>{i18n.t.password()}</Form.FieldLabel>
 
 					<Controller
 						control={form.control}
@@ -66,7 +68,7 @@ export const SignInForm = ({}: SignInFormProps) => {
 						render={({ field }) => (
 							<Input
 								{...field}
-								placeholder="Password"
+								placeholder={i18n.t.password()}
 								type="password"
 							/>
 						)}
@@ -78,7 +80,7 @@ export const SignInForm = ({}: SignInFormProps) => {
 					className="w-full"
 					type="submit"
 				>
-					Sign In
+					{i18n.t.signIn()}
 				</Button>
 			</Flex>
 		</Form>

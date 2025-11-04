@@ -1,3 +1,4 @@
+import { useI18n } from '@starter/react-i18n'
 import { Card, Flex } from '@starter/ui'
 
 import { createFileRoute, Link } from '@tanstack/react-router'
@@ -10,6 +11,8 @@ export const Route = createFileRoute('/_public/forgot-password')({
 })
 
 function RouteComponent() {
+	const i18n = useI18n()
+
 	return (
 		<Flex
 			className="w-full max-w-[500px]"
@@ -30,10 +33,10 @@ function RouteComponent() {
 							gap="1"
 						>
 							<Card.Title className="text-center text-2xl">
-								Forgot Password
+								{i18n.t.forgotPassword()}
 							</Card.Title>
 							<Card.Description className="text-center">
-								Enter your email to reset your password
+								{i18n.t.enterEmailToReset()}
 							</Card.Description>
 						</Flex>
 					</Card.Header>
@@ -54,7 +57,7 @@ function RouteComponent() {
 									className="text-primary underline-offset-4 hover:underline"
 									to="/sign-in"
 								>
-									Sign in
+									{i18n.t.signIn()}
 								</Link>
 							</p>
 						</Flex>

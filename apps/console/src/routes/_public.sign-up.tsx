@@ -1,3 +1,4 @@
+import { useI18n } from '@starter/react-i18n'
 import { Card, Flex } from '@starter/ui'
 
 import { createFileRoute, Link } from '@tanstack/react-router'
@@ -10,6 +11,7 @@ export const Route = createFileRoute('/_public/sign-up')({
 })
 
 function RouteComponent() {
+	const i18n = useI18n()
 	return (
 		<Flex
 			className="w-full max-w-[500px]"
@@ -31,9 +33,11 @@ function RouteComponent() {
 							direction="col"
 							gap="1"
 						>
-							<Card.Title className="text-center text-2xl">Sign Up</Card.Title>
+							<Card.Title className="text-center text-2xl">
+								{i18n.t.signUp()}
+							</Card.Title>
 							<Card.Description className="text-center">
-								Enter your email and password to sign up to your account
+								{i18n.t.enterEmailPasswordToSignUp()}
 							</Card.Description>
 						</Flex>
 					</Card.Header>
@@ -46,12 +50,12 @@ function RouteComponent() {
 							justify="center"
 						>
 							<p className="text-center text-muted-foreground text-sm">
-								Already have an account?{' '}
+								{i18n.t.alreadyHaveAccount()}{' '}
 								<Link
 									className="text-primary underline-offset-4 hover:underline"
 									to="/sign-in"
 								>
-									Sign in
+									{i18n.t.signIn()}
 								</Link>
 							</p>
 						</Flex>

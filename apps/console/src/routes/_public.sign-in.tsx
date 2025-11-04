@@ -40,7 +40,7 @@ function RouteComponent() {
 							</Card.Title>
 
 							<Card.Description className="text-center">
-								Enter your email and password to sign in to your account
+								{i18n.t.enterEmailPasswordToSignIn()}
 							</Card.Description>
 						</Flex>
 					</Card.Header>
@@ -55,7 +55,7 @@ function RouteComponent() {
 							<Separator className="flex-1" />
 
 							<span className="px-3 text-muted-foreground text-sm">
-								Or continue with
+								{i18n.t.orContinueWith()}
 							</span>
 
 							<Separator className="flex-1" />
@@ -73,7 +73,7 @@ function RouteComponent() {
 								variant="outline"
 							>
 								<FaKey className="h-4 w-4" />
-								Sign in with a passkey
+								{i18n.t.signInWithPasskey()}
 							</Button>
 						</Flex>
 					</Card.Content>
@@ -87,12 +87,12 @@ function RouteComponent() {
 							justify="center"
 						>
 							<p className="text-center text-muted-foreground text-sm">
-								Don't have an account?{' '}
+								{i18n.t.dontHaveAccount()}{' '}
 								<Link
 									className="text-primary underline-offset-4 hover:underline"
 									to="/sign-up"
 								>
-									Sign up
+									{i18n.t.signUp()}
 								</Link>
 							</p>
 							<p className="text-center text-muted-foreground text-sm">
@@ -100,7 +100,7 @@ function RouteComponent() {
 									className="text-primary underline-offset-4 hover:underline"
 									to="/forgot-password"
 								>
-									Forgot password
+									{i18n.t.forgotPasswordLink()}
 								</Link>
 							</p>
 						</Flex>
