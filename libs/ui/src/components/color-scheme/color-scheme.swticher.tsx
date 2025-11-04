@@ -30,12 +30,12 @@ export const ColorSchemeSwitcher = () => {
 		>
 			{options.map((opt) => (
 				<NativeSelect.Option
-						key={opt.value}
-						value={opt.value}
-					>
-						{opt.label}
-					</NativeSelect.Option>
-				))}
+					key={opt.value}
+					value={opt.value}
+				>
+					{opt.label}
+				</NativeSelect.Option>
+			))}
 		</NativeSelect>
 	)
 }

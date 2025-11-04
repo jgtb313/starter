@@ -23,16 +23,16 @@ export const Welcome = ({
 			})}
 		>
 			<Section>
-				<Text className='mt-[20px] text-center'>
+				<Text className="mt-[20px] text-center">
 					{i18n.custom(locale).welcomeDescription({
 						appName: config.name,
 						userName,
 					})}
 				</Text>
 
-				<Section className='mx-auto my-[30px] w-[280px]'>
+				<Section className="mx-auto my-[30px] w-[280px]">
 					<Button
-						className='block cursor-pointer rounded-md p-4 text-center font-bold text-[16px] text-white no-underline'
+						className="block cursor-pointer rounded-md p-4 text-center font-bold text-[16px] text-white no-underline"
 						style={{
 							backgroundColor: config.theme.palette.primary,
 						}}
@@ -42,7 +42,7 @@ export const Welcome = ({
 					</Button>
 				</Section>
 
-				<Text className='mt-[20px] text-center text-[14px] text-neutral-500'>
+				<Text className="mt-[20px] text-center text-[14px] text-neutral-500">
 					<span
 						dangerouslySetInnerHTML={{
 							__html: i18n.custom(locale).welcomeThanks({

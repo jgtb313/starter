@@ -1,27 +1,27 @@
 export type CardProps = {
-  className?: string
+	className?: string
 }
 
 export type CardHeaderProps = {
-  className?: string
+	className?: string
 }
 
 export type CardTitleProps = {
-  className?: string
+	className?: string
 }
 
 export type CardDescriptionProps = {
-  className?: string
+	className?: string
 }
 
 export type CardActionProps = {
-  className?: string
+	className?: string
 }
 
 export type CardContentProps = {
-  className?: string
+	className?: string
 }
 
 export type CardFooterProps = {
-  className?: string
+	className?: string
 }

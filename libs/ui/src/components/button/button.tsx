@@ -1,9 +1,12 @@
-import { forwardRef ,type PropsWithChildren } from 'react'
+import { forwardRef, type PropsWithChildren } from 'react'
 
 import type { ButtonProps } from '@/components/button/button.types'
 import { Button as ShadcnButton } from '@/shadcn/button'
 
-export const Button = forwardRef<HTMLButtonElement, PropsWithChildren<ButtonProps>>(
+export const Button = forwardRef<
+	HTMLButtonElement,
+	PropsWithChildren<ButtonProps>
+>(
 	(
 		{
 			className,

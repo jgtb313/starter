@@ -18,17 +18,17 @@ export const SendOTP = ({
 	return (
 		<Layout title={i18n.custom(locale).sendOTPTitle()}>
 			<Section>
-				<Text className='text-center'>
+				<Text className="text-center">
 					{i18n.custom(locale).sendOTPDescription()}
 				</Text>
 
-				<Section className='mx-auto my-[30px] w-[240px] rounded-[4px] bg-neutral-100'>
-					<Text className='mx-auto w-full py-[8px] text-center font-bold text-[24px] text-black leading-[30px] tracking-[6px]'>
+				<Section className="mx-auto my-[30px] w-[240px] rounded-[4px] bg-neutral-100">
+					<Text className="mx-auto w-full py-[8px] text-center font-bold text-[24px] text-black leading-[30px] tracking-[6px]">
 						{code}
 					</Text>
 				</Section>
 
-				<Text className='text-center'>
+				<Text className="text-center">
 					<span
 						dangerouslySetInnerHTML={{
 							__html: i18n.custom(locale).sendOTPCodeValidity({

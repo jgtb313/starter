@@ -39,33 +39,33 @@ export const Layout = ({
 			<Head />
 
 			<Tailwind>
-				<Body className='mx-auto my-auto bg-white px-2 font-sans'>
-					<Container className='mx-auto my-[40px] max-w-[465px] rounded border border-gray-300 border-solid p-[20px]'>
+				<Body className="mx-auto my-auto bg-white px-2 font-sans">
+					<Container className="mx-auto my-[40px] max-w-[465px] rounded border border-gray-300 border-solid p-[20px]">
 						<Img
-							className='mx-auto block'
+							className="mx-auto block"
 							src={config.logo.light}
-							alt='Logo'
+							alt="Logo"
 						/>
 
-						<Heading className='mx-0 my-[30px] p-0 text-center font-normal text-[24px] text-black'>
+						<Heading className="mx-0 my-[30px] p-0 text-center font-normal text-[24px] text-black">
 							{title}
 						</Heading>
 
 						{children}
 
-						<Hr className='mx-0 my-[26px] w-full border border-gray-300 border-solid' />
+						<Hr className="mx-0 my-[26px] w-full border border-gray-300 border-solid" />
 
 						<Section>
 							<Row
 								width={90}
-								align='center'
+								align="center"
 							>
 								{config.social.facebook && (
-									<Column className='pr-[8px]'>
+									<Column className="pr-[8px]">
 										<Link href={config.social.facebook}>
 											<Img
-												src='https://i.imgur.com/ess1JW0.png'
-												alt='Facebook'
+												src="https://i.imgur.com/ess1JW0.png"
+												alt="Facebook"
 												width={30}
 												height={30}
 											/>
@@ -74,11 +74,11 @@ export const Layout = ({
 								)}
 
 								{config.social.twitter && (
-									<Column className='pr-[8px]'>
+									<Column className="pr-[8px]">
 										<Link href={config.social.twitter}>
 											<Img
-												src='https://i.imgur.com/DsoTAYE.png'
-												alt='Twitter'
+												src="https://i.imgur.com/DsoTAYE.png"
+												alt="Twitter"
 												width={30}
 												height={30}
 											/>
@@ -87,11 +87,11 @@ export const Layout = ({
 								)}
 
 								{config.social.instagram && (
-									<Column className='pr-[8px]'>
+									<Column className="pr-[8px]">
 										<Link href={config.social.instagram}>
 											<Img
-												src='https://i.imgur.com/A46ahq8.png'
-												alt='Instagram'
+												src="https://i.imgur.com/A46ahq8.png"
+												alt="Instagram"
 												width={30}
 												height={30}
 											/>
@@ -101,14 +101,14 @@ export const Layout = ({
 							</Row>
 
 							<Row>
-								<Text className='mt-4 mb-2 text-center text-gray-500 text-xs leading-[18px]'>
+								<Text className="mt-4 mb-2 text-center text-gray-500 text-xs leading-[18px]">
 									{i18n.custom(locale).copyright({
 										year: new Date().getFullYear(),
 										appName: config.name,
 									})}
 								</Text>
 
-								<Text className='m-0 text-center text-gray-500 text-xs leading-[18px]'>
+								<Text className="m-0 text-center text-gray-500 text-xs leading-[18px]">
 									{config.address}
 								</Text>
 							</Row>

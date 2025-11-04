@@ -1,17 +1,17 @@
 export type InputOTPProps = {
-  className?: string
-  maxLength?: number
+	className?: string
+	maxLength?: number
 }
 
 export type InputOTPGroupProps = {
-  className?: string
+	className?: string
 }
 
 export type InputOTPSlotProps = {
-  className?: string
-  index: number
+	className?: string
+	index: number
 }
 
 export type InputOTPSeparatorProps = {
-  className?: string
+	className?: string
 }

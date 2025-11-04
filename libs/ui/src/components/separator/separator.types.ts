@@ -1,5 +1,5 @@
 export type SeparatorProps = {
-  className?: string
-  orientation?: 'horizontal' | 'vertical'
-  decorative?: boolean
+	className?: string
+	orientation?: 'horizontal' | 'vertical'
+	decorative?: boolean
 }

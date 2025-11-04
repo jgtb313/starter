@@ -17,153 +17,153 @@ import { Route as PublicSignInRouteImport } from './routes/_public.sign-in'
 import { Route as PublicForgotPasswordRouteImport } from './routes/_public.forgot-password'
 
 const PublicRoute = PublicRouteImport.update({
-  id: '/_public',
-  getParentRoute: () => rootRouteImport,
+	id: '/_public',
+	getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedRoute = AuthenticatedRouteImport.update({
-  id: '/_authenticated',
-  getParentRoute: () => rootRouteImport,
+	id: '/_authenticated',
+	getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AuthenticatedRoute,
+	id: '/',
+	path: '/',
+	getParentRoute: () => AuthenticatedRoute,
 } as any)
 const PublicSignUpRoute = PublicSignUpRouteImport.update({
-  id: '/sign-up',
-  path: '/sign-up',
-  getParentRoute: () => PublicRoute,
+	id: '/sign-up',
+	path: '/sign-up',
+	getParentRoute: () => PublicRoute,
 } as any)
 const PublicSignInRoute = PublicSignInRouteImport.update({
-  id: '/sign-in',
-  path: '/sign-in',
-  getParentRoute: () => PublicRoute,
+	id: '/sign-in',
+	path: '/sign-in',
+	getParentRoute: () => PublicRoute,
 } as any)
 const PublicForgotPasswordRoute = PublicForgotPasswordRouteImport.update({
-  id: '/forgot-password',
-  path: '/forgot-password',
-  getParentRoute: () => PublicRoute,
+	id: '/forgot-password',
+	path: '/forgot-password',
+	getParentRoute: () => PublicRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/forgot-password': typeof PublicForgotPasswordRoute
-  '/sign-in': typeof PublicSignInRoute
-  '/sign-up': typeof PublicSignUpRoute
-  '/': typeof AuthenticatedIndexRoute
+	'/forgot-password': typeof PublicForgotPasswordRoute
+	'/sign-in': typeof PublicSignInRoute
+	'/sign-up': typeof PublicSignUpRoute
+	'/': typeof AuthenticatedIndexRoute
 }
 export interface FileRoutesByTo {
-  '/forgot-password': typeof PublicForgotPasswordRoute
-  '/sign-in': typeof PublicSignInRoute
-  '/sign-up': typeof PublicSignUpRoute
-  '/': typeof AuthenticatedIndexRoute
+	'/forgot-password': typeof PublicForgotPasswordRoute
+	'/sign-in': typeof PublicSignInRoute
+	'/sign-up': typeof PublicSignUpRoute
+	'/': typeof AuthenticatedIndexRoute
 }
 export interface FileRoutesById {
-  __root__: typeof rootRouteImport
-  '/_authenticated': typeof AuthenticatedRouteWithChildren
-  '/_public': typeof PublicRouteWithChildren
-  '/_public/forgot-password': typeof PublicForgotPasswordRoute
-  '/_public/sign-in': typeof PublicSignInRoute
-  '/_public/sign-up': typeof PublicSignUpRoute
-  '/_authenticated/': typeof AuthenticatedIndexRoute
+	__root__: typeof rootRouteImport
+	'/_authenticated': typeof AuthenticatedRouteWithChildren
+	'/_public': typeof PublicRouteWithChildren
+	'/_public/forgot-password': typeof PublicForgotPasswordRoute
+	'/_public/sign-in': typeof PublicSignInRoute
+	'/_public/sign-up': typeof PublicSignUpRoute
+	'/_authenticated/': typeof AuthenticatedIndexRoute
 }
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/forgot-password' | '/sign-in' | '/sign-up' | '/'
-  fileRoutesByTo: FileRoutesByTo
-  to: '/forgot-password' | '/sign-in' | '/sign-up' | '/'
-  id:
-    | '__root__'
-    | '/_authenticated'
-    | '/_public'
-    | '/_public/forgot-password'
-    | '/_public/sign-in'
-    | '/_public/sign-up'
-    | '/_authenticated/'
-  fileRoutesById: FileRoutesById
+	fileRoutesByFullPath: FileRoutesByFullPath
+	fullPaths: '/forgot-password' | '/sign-in' | '/sign-up' | '/'
+	fileRoutesByTo: FileRoutesByTo
+	to: '/forgot-password' | '/sign-in' | '/sign-up' | '/'
+	id:
+		| '__root__'
+		| '/_authenticated'
+		| '/_public'
+		| '/_public/forgot-password'
+		| '/_public/sign-in'
+		| '/_public/sign-up'
+		| '/_authenticated/'
+	fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
-  PublicRoute: typeof PublicRouteWithChildren
+	AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
+	PublicRoute: typeof PublicRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
-  interface FileRoutesByPath {
-    '/_public': {
-      id: '/_public'
-      path: ''
-      fullPath: ''
-      preLoaderRoute: typeof PublicRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated': {
-      id: '/_authenticated'
-      path: ''
-      fullPath: ''
-      preLoaderRoute: typeof AuthenticatedRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/': {
-      id: '/_authenticated/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof AuthenticatedIndexRouteImport
-      parentRoute: typeof AuthenticatedRoute
-    }
-    '/_public/sign-up': {
-      id: '/_public/sign-up'
-      path: '/sign-up'
-      fullPath: '/sign-up'
-      preLoaderRoute: typeof PublicSignUpRouteImport
-      parentRoute: typeof PublicRoute
-    }
-    '/_public/sign-in': {
-      id: '/_public/sign-in'
-      path: '/sign-in'
-      fullPath: '/sign-in'
-      preLoaderRoute: typeof PublicSignInRouteImport
-      parentRoute: typeof PublicRoute
-    }
-    '/_public/forgot-password': {
-      id: '/_public/forgot-password'
-      path: '/forgot-password'
-      fullPath: '/forgot-password'
-      preLoaderRoute: typeof PublicForgotPasswordRouteImport
-      parentRoute: typeof PublicRoute
-    }
-  }
+	interface FileRoutesByPath {
+		'/_public': {
+			id: '/_public'
+			path: ''
+			fullPath: ''
+			preLoaderRoute: typeof PublicRouteImport
+			parentRoute: typeof rootRouteImport
+		}
+		'/_authenticated': {
+			id: '/_authenticated'
+			path: ''
+			fullPath: ''
+			preLoaderRoute: typeof AuthenticatedRouteImport
+			parentRoute: typeof rootRouteImport
+		}
+		'/_authenticated/': {
+			id: '/_authenticated/'
+			path: '/'
+			fullPath: '/'
+			preLoaderRoute: typeof AuthenticatedIndexRouteImport
+			parentRoute: typeof AuthenticatedRoute
+		}
+		'/_public/sign-up': {
+			id: '/_public/sign-up'
+			path: '/sign-up'
+			fullPath: '/sign-up'
+			preLoaderRoute: typeof PublicSignUpRouteImport
+			parentRoute: typeof PublicRoute
+		}
+		'/_public/sign-in': {
+			id: '/_public/sign-in'
+			path: '/sign-in'
+			fullPath: '/sign-in'
+			preLoaderRoute: typeof PublicSignInRouteImport
+			parentRoute: typeof PublicRoute
+		}
+		'/_public/forgot-password': {
+			id: '/_public/forgot-password'
+			path: '/forgot-password'
+			fullPath: '/forgot-password'
+			preLoaderRoute: typeof PublicForgotPasswordRouteImport
+			parentRoute: typeof PublicRoute
+		}
+	}
 }
 
 interface AuthenticatedRouteChildren {
-  AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
+	AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
-  AuthenticatedIndexRoute: AuthenticatedIndexRoute,
+	AuthenticatedIndexRoute: AuthenticatedIndexRoute,
 }
 
 const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
-  AuthenticatedRouteChildren,
+	AuthenticatedRouteChildren,
 )
 
 interface PublicRouteChildren {
-  PublicForgotPasswordRoute: typeof PublicForgotPasswordRoute
-  PublicSignInRoute: typeof PublicSignInRoute
-  PublicSignUpRoute: typeof PublicSignUpRoute
+	PublicForgotPasswordRoute: typeof PublicForgotPasswordRoute
+	PublicSignInRoute: typeof PublicSignInRoute
+	PublicSignUpRoute: typeof PublicSignUpRoute
 }
 
 const PublicRouteChildren: PublicRouteChildren = {
-  PublicForgotPasswordRoute: PublicForgotPasswordRoute,
-  PublicSignInRoute: PublicSignInRoute,
-  PublicSignUpRoute: PublicSignUpRoute,
+	PublicForgotPasswordRoute: PublicForgotPasswordRoute,
+	PublicSignInRoute: PublicSignInRoute,
+	PublicSignUpRoute: PublicSignUpRoute,
 }
 
 const PublicRouteWithChildren =
-  PublicRoute._addFileChildren(PublicRouteChildren)
+	PublicRoute._addFileChildren(PublicRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
-  AuthenticatedRoute: AuthenticatedRouteWithChildren,
-  PublicRoute: PublicRouteWithChildren,
+	AuthenticatedRoute: AuthenticatedRouteWithChildren,
+	PublicRoute: PublicRouteWithChildren,
 }
 export const routeTree = rootRouteImport
-  ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>()
+	._addFileChildren(rootRouteChildren)
+	._addFileTypes<FileRouteTypes>()

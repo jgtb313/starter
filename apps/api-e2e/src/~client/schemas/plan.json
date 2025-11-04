@@ -1,1 +1,114 @@
-{"$schema":"https://json-schema.org/draft/2020-12/schema","type":"object","properties":{"planId":{"description":"Unique identifier for plan","example":"96738ebc-7da1-48e2-8685-705c7b9268cb","type":"string","format":"uuid"},"externalId":{"type":"string"},"name":{"type":"string"},"description":{"type":"string"},"features":{"type":"array","items":{"anyOf":[{"type":"object","properties":{"planFeatureId":{"description":"Unique identifier for planFeature","example":"96738ebc-7da1-48e2-8685-705c7b9268cb","type":"string","format":"uuid"},"description":{"type":"string"},"feature":{"type":"string","const":"ORGANIZATION_COUNT"},"props":{"type":"object","properties":{"maxOrganizations":{"type":"number","exclusiveMinimum":0}},"required":["maxOrganizations"]},"createdAt":{"type":"string","format":"date-time"},"updatedAt":{"type":"string","format":"date-time"}},"required":["planFeatureId","description","feature","props","createdAt","updatedAt"]}]}},"intervals":{"type":"array","items":{"type":"object","properties":{"planIntervalId":{"description":"Unique identifier for planInterval","example":"96738ebc-7da1-48e2-8685-705c7b9268cb","type":"string","format":"uuid"},"externalId":{"type":"string"},"amount":{"type":"number","minimum":0},"interval":{"type":"string","enum":["DAY","WEEK","MONTH","YEAR"]},"intervalCount":{"type":"number"},"trialDays":{"default":7,"type":"number"},"status":{"default":"ACTIVE","type":"string","enum":["ACTIVE","INACTIVE"]},"createdAt":{"type":"string","format":"date-time"},"updatedAt":{"type":"string","format":"date-time"}},"required":["planIntervalId","externalId","amount","interval","intervalCount","createdAt","updatedAt"]}},"highlight":{"default":false,"type":"boolean"},"default":{"default":false,"type":"boolean"},"status":{"default":"ACTIVE","type":"string","enum":["ACTIVE","INACTIVE"]},"deletedAt":{"anyOf":[{"type":"string","format":"date-time"},{"type":"null"}]},"createdAt":{"type":"string","format":"date-time"},"updatedAt":{"type":"string","format":"date-time"}},"required":["planId","externalId","name","description","createdAt","updatedAt"],"x-readme-ref-name":"Plan"}
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"type": "object",
+	"properties": {
+		"planId": {
+			"description": "Unique identifier for plan",
+			"example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
+			"type": "string",
+			"format": "uuid"
+		},
+		"externalId": { "type": "string" },
+		"name": { "type": "string" },
+		"description": { "type": "string" },
+		"features": {
+			"type": "array",
+			"items": {
+				"anyOf": [
+					{
+						"type": "object",
+						"properties": {
+							"planFeatureId": {
+								"description": "Unique identifier for planFeature",
+								"example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
+								"type": "string",
+								"format": "uuid"
+							},
+							"description": { "type": "string" },
+							"feature": { "type": "string", "const": "ORGANIZATION_COUNT" },
+							"props": {
+								"type": "object",
+								"properties": {
+									"maxOrganizations": {
+										"type": "number",
+										"exclusiveMinimum": 0
+									}
+								},
+								"required": ["maxOrganizations"]
+							},
+							"createdAt": { "type": "string", "format": "date-time" },
+							"updatedAt": { "type": "string", "format": "date-time" }
+						},
+						"required": [
+							"planFeatureId",
+							"description",
+							"feature",
+							"props",
+							"createdAt",
+							"updatedAt"
+						]
+					}
+				]
+			}
+		},
+		"intervals": {
+			"type": "array",
+			"items": {
+				"type": "object",
+				"properties": {
+					"planIntervalId": {
+						"description": "Unique identifier for planInterval",
+						"example": "96738ebc-7da1-48e2-8685-705c7b9268cb",
+						"type": "string",
+						"format": "uuid"
+					},
+					"externalId": { "type": "string" },
+					"amount": { "type": "number", "minimum": 0 },
+					"interval": {
+						"type": "string",
+						"enum": ["DAY", "WEEK", "MONTH", "YEAR"]
+					},
+					"intervalCount": { "type": "number" },
+					"trialDays": { "default": 7, "type": "number" },
+					"status": {
+						"default": "ACTIVE",
+						"type": "string",
+						"enum": ["ACTIVE", "INACTIVE"]
+					},
+					"createdAt": { "type": "string", "format": "date-time" },
+					"updatedAt": { "type": "string", "format": "date-time" }
+				},
+				"required": [
+					"planIntervalId",
+					"externalId",
+					"amount",
+					"interval",
+					"intervalCount",
+					"createdAt",
+					"updatedAt"
+				]
+			}
+		},
+		"highlight": { "default": false, "type": "boolean" },
+		"default": { "default": false, "type": "boolean" },
+		"status": {
+			"default": "ACTIVE",
+			"type": "string",
+			"enum": ["ACTIVE", "INACTIVE"]
+		},
+		"deletedAt": {
+			"anyOf": [{ "type": "string", "format": "date-time" }, { "type": "null" }]
+		},
+		"createdAt": { "type": "string", "format": "date-time" },
+		"updatedAt": { "type": "string", "format": "date-time" }
+	},
+	"required": [
+		"planId",
+		"externalId",
+		"name",
+		"description",
+		"createdAt",
+		"updatedAt"
+	],
+	"x-readme-ref-name": "Plan"
+}

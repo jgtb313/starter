@@ -5,10 +5,9 @@
 		"baseUrl": ".",
 		"paths": {
 			"@/*": ["./src/*"],
-			"~/client/*": ["./src/~client/*"],
+			"~/client/*": ["./src/~client/*"]
 		}
 	},
 	"include": ["src/**/*", "vitest.config.ts"],
 	"exclude": ["node_modules", "dist"]
 }
-

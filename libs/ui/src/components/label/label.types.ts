@@ -1,8 +1,4 @@
 export type LabelProps = {
-  className?: string
-  htmlFor?: string
+	className?: string
+	htmlFor?: string
 }
-
-
-
-

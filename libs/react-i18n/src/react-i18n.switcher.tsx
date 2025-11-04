@@ -32,8 +32,8 @@ export const I18nSwitcher = ({}: I18nSwitcherProps) => {
 
 	return (
 		<NativeSelect
-			value={locale}
 			onChange={(e) => changeLocale(e.target.value as Locale)}
+			value={locale}
 		>
 			{languages.map((lang) => (
 				<NativeSelect.Option

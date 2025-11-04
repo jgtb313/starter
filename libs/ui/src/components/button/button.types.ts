@@ -1,7 +1,7 @@
 export type ButtonProps = {
 	className?: string
-  type?: 'button' | 'submit' | 'reset'
-  size?: 'default' | 'sm' | 'lg' | 'icon'
+	type?: 'button' | 'submit' | 'reset'
+	size?: 'default' | 'sm' | 'lg' | 'icon'
 	variant?:
 		| 'default'
 		| 'destructive'
