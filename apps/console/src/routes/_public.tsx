@@ -15,8 +15,8 @@ function RouteComponent() {
 				className="absolute top-4 right-4"
 				gap="4"
 			>
-				<I18nSwitcher />
 				<ColorSchemeSwitcher mode="button" />
+				<I18nSwitcher />
 			</Flex>
 
 			<Layout.Content centered>

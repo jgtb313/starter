@@ -1,10 +1,11 @@
 import { useI18n } from '@starter/react-i18n'
-import { Card, Flex } from '@starter/ui'
+import { Card, Flex, Separator } from '@starter/ui'
 
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { FaReact } from 'react-icons/fa'
 
 import { SignUpForm } from '@/components/sign-up-form/sign-up-form'
+import { SocialSignOnForm } from '@/components/social-sign-on-form/social-sign-on-form'
 
 export const Route = createFileRoute('/_public/sign-up')({
 	component: RouteComponent,
@@ -27,6 +28,7 @@ function RouteComponent() {
 						<FaReact className="h-16 w-16" />
 					</div>
 				</Flex>
+
 				<Card>
 					<Card.Header>
 						<Flex
@@ -41,9 +43,26 @@ function RouteComponent() {
 							</Card.Description>
 						</Flex>
 					</Card.Header>
+
 					<Card.Content>
 						<SignUpForm />
+
+						<Flex
+							align="center"
+							className="w-full py-4"
+						>
+							<Separator className="flex-1" />
+
+							<span className="px-3 text-muted-foreground text-sm">
+								{i18n.t.orContinueWith()}
+							</span>
+
+							<Separator className="flex-1" />
+						</Flex>
+
+						<SocialSignOnForm />
 					</Card.Content>
+
 					<Card.Footer>
 						<Flex
 							className="w-full"

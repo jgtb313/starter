@@ -19,7 +19,6 @@ export const SignUpForm = ({}: SignUpFormProps) => {
 					<Label>{i18n.t.name()}</Label>
 					<Input
 						placeholder={i18n.t.name()}
-						required
 						type="text"
 					/>
 				</Flex>
@@ -31,7 +30,6 @@ export const SignUpForm = ({}: SignUpFormProps) => {
 					<Label>{i18n.t.email()}</Label>
 					<Input
 						placeholder={i18n.t.email()}
-						required
 						type="email"
 					/>
 				</Flex>
@@ -48,7 +46,6 @@ export const SignUpForm = ({}: SignUpFormProps) => {
 					</Flex>
 					<Input
 						placeholder="Password"
-						required
 						type="password"
 					/>
 				</Flex>

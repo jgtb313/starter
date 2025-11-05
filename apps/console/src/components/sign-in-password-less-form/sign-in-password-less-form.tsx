@@ -15,7 +15,6 @@ export const SignInPasswordLessForm = ({}: SignInPasswordLessFormProps) => {
 				<Label>{i18n.t.email()}</Label>
 				<Input
 					placeholder={i18n.t.email()}
-					required
 					type="email"
 				/>
 			</Flex>
