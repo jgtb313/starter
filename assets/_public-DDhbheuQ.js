@@ -1,0 +1,1 @@
+import{j as t,r as e,Z as s,X as n,b as r,O as o}from"./index-Bjoj64U-.js";function x(){return t.jsxs(e,{children:[t.jsxs(s,{align:"center",className:"absolute top-4 right-4",gap:"4",children:[t.jsx(n,{mode:"button"}),t.jsx(r,{})]}),t.jsx(e.Content,{centered:!0,children:t.jsx(o,{})})]})}export{x as component};
