@@ -32,7 +32,7 @@
     "@starter/emails-marketing": "*",
     "@starter/shared": "*",
     "dotenv": "10.0.0",
-    "fastify": "^4.24.3",
+    "fastify": "^5.7.4",
     "module-alias": "2.2.2",
     "openapi-sampler": "^1.5.1",
     "plop": "^4.0.1"
@@ -46,7 +46,7 @@
     "nodemon": "2.0.14",
     "ts-node": "^10.9.2",
     "typescript": "5.0.4",
-    "vite": "^3.2.3",
+    "vite": "^7.3.1",
     "vite-plugin-dts": "3.9.1",
     "vite-tsconfig-paths": "^4.2.1",
     "vitest": "^2.1.3"

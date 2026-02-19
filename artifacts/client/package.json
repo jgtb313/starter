@@ -15,10 +15,10 @@
     "@starter/schema": "*",
     "@starter/shared": "*",
     "@swc/core": "^1.2.165",
-    "axios": "0.27.2",
+    "axios": "0.30.3",
     "plop": "^4.0.1",
     "typescript": "5.0.4",
-    "vite": "^5.3.3",
+    "vite": "^7.3.1",
     "vite-plugin-dts": "^3.9.1"
   },
   "main": "dist/client.umd.js",

@@ -15,8 +15,8 @@
   "dependencies": {
     "@greatsumini/react-facebook-login": "^3.3.3",
     "@react-oauth/google": "^0.12.1",
-    "@remix-run/node": "^2.8.1",
-    "@remix-run/react": "^2.8.1",
+    "@remix-run/node": "^2.17.2",
+    "@remix-run/react": "^2.17.4",
     "@remix-run/serve": "^2.8.1",
     "@starter/client": "*",
     "@starter/config": "*",
@@ -43,7 +43,7 @@
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
     "typescript": "5.0.4",
-    "vite": "^5.1.0",
+    "vite": "^5.4.21",
     "vite-tsconfig-paths": "^4.2.1"
   },
   "engines": {
